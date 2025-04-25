@@ -21,7 +21,7 @@ const timelineData = [
   {
     year: '2025',
     title: 'The Future',
-    description: 'We're setting a new standard for practice management. Join us in building a future where technology empowers exceptional patient care.',
+    description: "We're setting a new standard for practice management. Join us in building a future where technology empowers exceptional patient care.",
   },
 ];
 
