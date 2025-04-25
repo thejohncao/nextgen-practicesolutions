@@ -1,9 +1,9 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Check, ArrowRight } from "lucide-react";
 import { Link } from 'react-router-dom';
 import AgentAvatar from './AgentAvatar';
+import EmailCollectionForm from './EmailCollectionForm';
 
 const plans = [
   {
@@ -170,10 +170,10 @@ const PricingSection = () => {
                 )}
               </div>
 
-              {/* Agent Avatars */}
-              <div className="mt-4 flex -space-x-4">
+              {/* Agent Avatars - Updated spacing */}
+              <div className="mt-4 flex flex-wrap gap-3 md:gap-4">
                 {plan.agents.map((agent, i) => (
-                  <div key={i} className="relative" style={{ zIndex: plan.agents.length - i }}>
+                  <div key={i} className="relative">
                     <AgentAvatar
                       name={agent.name}
                       role={agent.role}
@@ -209,9 +209,11 @@ const PricingSection = () => {
         </div>
         
         <div className="text-center mt-10">
-          <Button size="lg" className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white" asChild>
-            <Link to="/demo">Book a Demo to Find Your Fit</Link>
-          </Button>
+          <EmailCollectionForm 
+            buttonText="Book a Demo to Find Your Fit"
+            placeholder="Enter your work email"
+            className="max-w-md mx-auto"
+          />
         </div>
       </div>
     </section>
