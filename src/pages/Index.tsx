@@ -20,20 +20,22 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-nextgen-dark text-white">
       <Navbar />
-      <HeroSection />
-      <AITeamSection />
-      <PatientJourneySection />
-      <IntegrationsSection />
-      <ROISection />
-      <FooterCTA />
-      <PricingSection />
-      <SupportAndBenefits />
-      <SuccessGuarantee />
-      <FounderSection />
-      <ResourcesSection />
-      <TestimonialsSection />
-      <FAQSection />
-      <Footer />
+      <div className="pt-16"> {/* Add padding to account for fixed navbar */}
+        <HeroSection />
+        <AITeamSection />
+        <PatientJourneySection />
+        <IntegrationsSection />
+        <ROISection />
+        <FooterCTA />
+        <PricingSection />
+        <SupportAndBenefits />
+        <SuccessGuarantee />
+        <FounderSection />
+        <ResourcesSection />
+        <TestimonialsSection />
+        <FAQSection />
+        <Footer />
+      </div>
     </div>
   );
 };
