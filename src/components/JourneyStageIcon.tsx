@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Activity, CalendarDays, ChartLine } from 'lucide-react';
+import { Users, CalendarDays, Heart } from 'lucide-react';
 
 interface JourneyStageIconProps {
   stageName: string;
@@ -13,22 +13,21 @@ const JourneyStageIcon = ({ stageName, color, size = 24, className = "" }: Journ
   const getIcon = () => {
     switch (stageName.toLowerCase()) {
       case "attract & engage":
-        return <Activity size={size} className={`text-${color}-500`} />;
+        return <Users size={size} className="text-purple-400" />;
       case "activate & onboard":
-        return <CalendarDays size={size} className={`text-${color}-500`} />;
+        return <CalendarDays size={size} className="text-purple-400" />;
       case "convert & retain":
-        return <ChartLine size={size} className={`text-${color}-500`} />;
+        return <Heart size={size} className="text-purple-400" />;
       default:
-        return <Activity size={size} className={`text-${color}-500`} />;
+        return <Users size={size} className="text-purple-400" />;
     }
   };
 
   return (
-    <div className={`rounded-full p-2 bg-white/5 backdrop-blur-sm border border-white/10 animate-pulse-glow ${className}`}>
+    <div className={`rounded-full p-2 bg-white/5 backdrop-blur-sm border border-purple-400/20 ${className}`}>
       {getIcon()}
     </div>
   );
 };
 
 export default JourneyStageIcon;
-

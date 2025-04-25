@@ -41,9 +41,10 @@ const AgentCard = ({ agent, isActive, onMouseEnter, onMouseLeave, onClick }: Age
         
         <div className="space-y-3 flex-1">
           <div>
-            <h3 className="text-lg font-semibold text-white mb-2 text-center sm:text-left">
-              {agent.name}, {agent.title}
+            <h3 className="text-xl font-bold text-white mb-1 text-center sm:text-left">
+              {agent.name}
             </h3>
+            <p className="text-sm text-white/80 mb-3 text-center sm:text-left">{agent.title}</p>
             <p className="text-base sm:text-lg text-white/70 italic mb-2 text-center sm:text-left">{agent.quote}</p>
           </div>
           
