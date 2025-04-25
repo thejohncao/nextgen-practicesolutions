@@ -1,6 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
 import { ArrowRight } from "lucide-react";
-import AgentAvatar from './AgentAvatar';
 import JourneyStageIcon from './JourneyStageIcon';
 import { agents } from '@/data/agents';
 
@@ -35,7 +35,6 @@ const stages = [
 ];
 
 const PatientJourneySection = () => {
-  const [activeAgent, setActiveAgent] = useState<string | null>(null);
   const [visibleItems, setVisibleItems] = useState<boolean[]>([false, false, false]);
 
   useEffect(() => {
@@ -61,11 +60,6 @@ const PatientJourneySection = () => {
 
     return () => observer.disconnect();
   }, []);
-
-  const getAgentAvatar = (agentName: string) => {
-    const agent = agents.find(a => a.name === agentName);
-    return agent ? agent.color : "purple";
-  };
 
   return (
     <section id="patient-journey" className="section-padding py-20 bg-gradient-to-b from-nextgen-dark to-nextgen-dark/95">
@@ -107,17 +101,13 @@ const PatientJourneySection = () => {
                   </div>
                 </div>
                 
-                <div 
-                  className={`glass-card h-full p-6 md:pt-14 ${stage.bgColor} backdrop-blur-xl transform transition-all duration-300 hover:scale-[1.02] hover:shadow-glow`}
-                  onMouseEnter={() => setActiveAgent(stage.agent)}
-                  onMouseLeave={() => setActiveAgent(null)}
-                >
+                <div className={`glass-card h-full p-6 md:pt-14 ${stage.bgColor} backdrop-blur-xl transform transition-all duration-300 hover:scale-[1.02] hover:shadow-glow`}>
                   <div className="absolute top-4 right-4">
                     <JourneyStageIcon 
                       stageName={stage.name} 
                       color={stage.color} 
                       className="animate-pulse-slow"
-                      size={20}
+                      size={32}  // Increased icon size
                     />
                   </div>
                   
@@ -130,22 +120,14 @@ const PatientJourneySection = () => {
                   
                   <h3 className="hidden md:block text-xl font-heading font-semibold text-gradient mb-2">{stage.name}</h3>
                   
-                  <div className="inline-block px-3 py-1 rounded-full bg-white/5 border border-white/10 text-sm text-white/70 mb-4 transition-all duration-300 hover:bg-white/10">
+                  <div className="inline-block px-3 py-1 rounded-full bg-white/5 border border-white/10 text-sm text-white/70 mb-4">
                     <div className="flex items-center gap-2">
                       <span>Managed by</span>
-                      <span className={`text-${stage.color}-400 font-medium ${activeAgent === stage.agent ? 'animate-pulse' : ''}`}>{stage.agent}</span>
+                      <span className={`text-${stage.color}-400 font-medium`}>{stage.agent}</span>
                     </div>
                   </div>
                   
-                  <div className={`transition-all duration-500 ${
-                    activeAgent === stage.agent ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-                  } absolute -top-12 right-4 z-10`}>
-                    <AgentAvatar 
-                      name={stage.agent} 
-                      role={`AI ${stage.name} Specialist`}
-                      color={getAgentAvatar(stage.agent)}
-                    />
-                  </div>
+                  {/* Removed the agent avatar hover effect */}
                   
                   <div className="mb-4">
                     <h4 className="text-sm text-white/60 mb-1">Key Activities:</h4>

@@ -41,7 +41,7 @@ const AgentCard = ({ agent, isActive, onMouseEnter, onMouseLeave, onClick }: Age
         
         <div className="space-y-3 flex-1">
           <div>
-            <h3 className={`text-lg font-semibold bg-gradient-to-r ${getGradientClass(agent.color)} bg-clip-text text-transparent mb-2 text-center sm:text-left`}>
+            <h3 className="text-lg font-semibold text-white mb-2 text-center sm:text-left">
               {agent.title}
             </h3>
             <p className="text-base sm:text-lg text-white/70 italic mb-2 text-center sm:text-left">{agent.quote}</p>
