@@ -1,12 +1,20 @@
+
 import React from 'react';
 import { Shield, Star, BadgeCheck } from "lucide-react";
 import EmailCollectionForm from './EmailCollectionForm';
 import QuantumGrid from './effects/QuantumGrid';
+import { SplashCursor } from './ui/splash-cursor';
 
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24">
-      {/* Quantum Grid Background */}
+      {/* Background effects */}
+      <SplashCursor 
+        className="opacity-40"
+        backColor={{ r: 0.1, g: 0.1, b: 0.15 }}
+        splatRadius={0.3}
+        curl={5}
+      />
       <QuantumGrid />
       
       {/* Background effects */}
