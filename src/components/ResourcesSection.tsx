@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { FileText, Check, Calculator, Shield } from "lucide-react";
 
@@ -27,6 +27,27 @@ const resources = [
 ];
 
 const ResourcesSection = () => {
+  const [isVisible, setIsVisible] = React.useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    const section = document.getElementById('resources');
+    if (section) observer.observe(section);
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section id="resources" className="section-padding py-20">
       <div className="container mx-auto">
@@ -50,7 +71,15 @@ const ResourcesSection = () => {
           {resources.map((resource, index) => {
             const Icon = resource.icon;
             return (
-              <div key={index} className="glass-card rounded-xl p-6 flex flex-col">
+              <div 
+                key={index} 
+                className={`glass-card rounded-xl p-6 flex flex-col transition-all duration-700 transform ${
+                  isVisible 
+                    ? 'opacity-100 translate-y-0' 
+                    : 'opacity-0 translate-y-20'
+                }`}
+                style={{ transitionDelay: `${index * 200}ms` }}
+              >
                 <div className={`rounded-lg p-4 bg-gradient-to-br ${resource.bgColor} self-start mb-4`}>
                   <Icon className="h-6 w-6 text-white" />
                 </div>

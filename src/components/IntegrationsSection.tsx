@@ -1,8 +1,28 @@
-
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Calendar, Mail, MessageSquare, BookOpen, Check, Shield } from "lucide-react";
 
 const IntegrationsSection = () => {
+  const [isVisible, setIsVisible] = React.useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    const section = document.getElementById('integrations');
+    if (section) observer.observe(section);
+
+    return () => observer.disconnect();
+  }, []);
+
   const integrations = [
     "GoHighLevel", "Google Calendar", "Meta Ads", "Typeform", 
     "Slack", "Cherry", "Stripe", "Loom", "Podium", "Notion"
@@ -18,7 +38,9 @@ const IntegrationsSection = () => {
   return (
     <section id="integrations" className="section-padding py-20 bg-gradient-to-b from-nextgen-dark/95 to-nextgen-dark">
       <div className="container mx-auto">
-        <div className="text-center max-w-3xl mx-auto mb-6">
+        <div className={`text-center max-w-3xl mx-auto mb-6 transition-all duration-700 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}>
           <div className="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full bg-white/5 border border-white/10">
             <Shield className="h-4 w-4 text-nextgen-purple" />
             <span className="text-sm font-medium text-white/80">Trusted by Practices</span>
@@ -37,12 +59,19 @@ const IntegrationsSection = () => {
           </p>
         </div>
         
-        <div className="glass-card p-8 mb-12 rounded-xl">
+        <div className={`glass-card p-8 mb-12 rounded-xl transition-all duration-700 ${
+          isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+        }`}>
           <div className="flex flex-wrap justify-center gap-6 mb-8">
             {integrations.map((integration, index) => (
               <div 
                 key={index} 
-                className="px-4 py-2 bg-white/5 rounded-md text-white/70 text-sm"
+                className={`px-4 py-2 bg-white/5 rounded-md text-white/70 text-sm transition-all duration-700`}
+                style={{ 
+                  transitionDelay: `${index * 50}ms`,
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? 'translateY(0)' : 'translateY(20px)'
+                }}
               >
                 {integration}
               </div>
