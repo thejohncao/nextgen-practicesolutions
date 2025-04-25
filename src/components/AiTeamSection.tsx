@@ -1,17 +1,25 @@
 
 import React, { useState } from 'react';
-import { Users } from "lucide-react";
-import { useIsMobile } from '@/hooks/use-mobile';
+import { Users, ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import { agents } from '@/data/agents';
-import { Agent } from '@/types/agent';
 import AgentCard from './AgentCard';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { 
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious
+} from "@/components/ui/carousel";
 
 const AITeamSection = () => {
-  const [activeAgent, setActiveAgent] = useState<Agent | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
   const isMobile = useIsMobile();
 
   return (
-    <section id="ai-team" className="section-padding py-12 sm:py-20">
+    <section id="ai-team" className="section-padding py-12 sm:py-20 overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-16">
           <div className="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full bg-white/5 border border-white/10">
@@ -24,27 +32,60 @@ const AITeamSection = () => {
           </h2>
           
           <p className="text-base sm:text-lg text-white/70 px-4">
-            Each agent leads a department in your practice—working 24/7 to automate your operations, convert more cases, and retain loyal patients.
+            Your practice just hired four world-class experts — and they never take a day off. 
+            Each AI agent is trained to run a core part of your operations: scheduling, lead generation, 
+            case acceptance, and staff training.
           </p>
         </div>
-        
-        <div className="text-center mb-8">
-          <p className="text-white/60 text-sm animate-pulse">
-            {isMobile ? "Tap" : "Hover"} on each team member to learn more about their role
-          </p>
+
+        {/* Carousel */}
+        <div className="mb-12">
+          <Carousel 
+            className="w-full max-w-5xl mx-auto"
+            opts={{
+              align: "center",
+              loop: true,
+            }}
+          >
+            <CarouselContent>
+              {agents.map((agent, index) => (
+                <CarouselItem key={agent.name} className={isMobile ? "basis-full" : "basis-1/2"}>
+                  <div className="p-2">
+                    <AgentCard 
+                      agent={agent} 
+                      isActive={activeIndex === index}
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <div className="flex items-center justify-center gap-2 mt-6">
+              <CarouselPrevious className="relative static left-0 right-0 translate-y-0 mx-2" />
+              {/* Dots for slide position */}
+              <div className="flex gap-2">
+                {agents.map((_, index) => (
+                  <button
+                    key={index}
+                    className={`w-2 h-2 rounded-full transition-all ${
+                      activeIndex === index 
+                        ? "bg-white w-4" 
+                        : "bg-white/30 hover:bg-white/50"
+                    }`}
+                    onClick={() => setActiveIndex(index)}
+                  />
+                ))}
+              </div>
+              <CarouselNext className="relative static left-0 right-0 translate-y-0 mx-2" />
+            </div>
+          </Carousel>
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
-          {agents.map((agent, index) => (
-            <AgentCard
-              key={agent.name}
-              agent={agent}
-              isActive={activeAgent?.name === agent.name}
-              onMouseEnter={() => !isMobile && setActiveAgent(agent)}
-              onMouseLeave={() => !isMobile && setActiveAgent(null)}
-              onClick={() => isMobile && setActiveAgent(activeAgent?.name === agent.name ? null : agent)}
-            />
-          ))}
+
+        {/* CTA after carousel */}
+        <div className="text-center mt-8">
+          <p className="text-lg text-white/90 mb-4">Want to see each agent in action?</p>
+          <Button asChild variant="outline" className="bg-white/5 hover:bg-white/10 border-white/20">
+            <Link to="/features">Explore Full Features →</Link>
+          </Button>
         </div>
       </div>
     </section>
@@ -52,4 +93,3 @@ const AITeamSection = () => {
 };
 
 export default AITeamSection;
-

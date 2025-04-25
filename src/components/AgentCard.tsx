@@ -1,92 +1,74 @@
 
 import React from 'react';
 import { TooltipProvider, Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import AgentAvatar from './AgentAvatar';
+import { Button } from "@/components/ui/button";
 import { Agent } from '@/types/agent';
+import AgentAvatar from './AgentAvatar';
+import { Check } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface AgentCardProps {
   agent: Agent;
   isActive: boolean;
-  onMouseEnter: () => void;
-  onMouseLeave: () => void;
-  onClick: () => void;
 }
 
-const AgentCard = ({ agent, isActive, onMouseEnter, onMouseLeave, onClick }: AgentCardProps) => {
+const AgentCard = ({ agent, isActive }: AgentCardProps) => {
   const getGradientClass = (color: string) => {
     switch (color) {
+      case 'red': return 'from-red-500 to-red-600';
+      case 'green': return 'from-green-500 to-green-600';
       case 'blue': return 'from-blue-500 to-blue-600';
-      case 'teal': return 'from-teal-500 to-teal-600';
       case 'purple': return 'from-purple-500 to-purple-600';
-      case 'gold': return 'from-amber-500 to-amber-600';
       default: return 'from-purple-500 to-purple-600';
     }
   };
 
   return (
     <div 
-      className={`glass-card rounded-xl p-4 sm:p-6 transition-all duration-300 hover:shadow-glow bg-gradient-to-br ${getGradientClass(agent.color)}/10 animate-fade-in`}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      onClick={onClick}
+      className={`glass-card rounded-xl p-4 sm:p-6 transition-all duration-300 hover:shadow-glow bg-gradient-to-br ${getGradientClass(agent.color)}/10 animate-fade-in h-full`}
     >
-      <div className="flex flex-col sm:flex-row sm:items-start gap-4">
-        <div className="flex-shrink-0 mx-auto sm:mx-0">
-          <AgentAvatar 
-            name={agent.name}
-            role={agent.title}
-            color={agent.color}
-          />
-        </div>
-        
-        <div className="space-y-3 flex-1">
-          <div>
-            <h3 className="text-xl font-bold text-white mb-1 text-center sm:text-left">
-              {agent.name}
-            </h3>
-            <p className="text-sm text-white/80 mb-3 text-center sm:text-left">{agent.title}</p>
-            <p className="text-base sm:text-lg text-white/70 italic mb-2 text-center sm:text-left">{agent.quote}</p>
+      <div className="flex flex-col gap-4 h-full">
+        {/* Avatar and header */}
+        <div className="flex items-center gap-4">
+          <div className="flex-shrink-0">
+            <AgentAvatar 
+              name={agent.name}
+              role={agent.title}
+              color={agent.color}
+            />
           </div>
           
-          <div className={`overflow-hidden transition-all duration-300 ${
-            isActive ? 'max-h-[500px] opacity-100 transform translate-y-0' : 'max-h-0 opacity-0 transform translate-y-4'
-          }`}>
-            <div className="pt-4 space-y-4">
-              <div>
-                <h5 className="text-sm font-medium text-white/80 mb-2">Key Activities:</h5>
-                <ul className="grid grid-cols-2 gap-2">
-                  {agent.activities.map((activity, i) => (
-                    <li key={i} className="flex items-center text-white/70 text-xs sm:text-sm">
-                      <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-br ${getGradientClass(agent.color)} mr-2`}></div>
-                      {activity}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              
-              <div>
-                <h5 className="text-sm font-medium text-white/80 mb-2">Tools:</h5>
-                <div className="flex flex-wrap gap-2">
-                  {agent.tools.map((tool, i) => (
-                    <TooltipProvider key={i}>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <div className={`flex items-center gap-1 px-2 py-1 bg-gradient-to-r ${getGradientClass(agent.color)}/5 rounded-md border border-[${getGradientClass(agent.color)}]/10`}>
-                            <tool.icon className="h-3 w-3 sm:h-4 sm:w-4 text-white/60" />
-                            <span className="text-xs text-white/60">{tool.name}</span>
-                          </div>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>{tool.name} – {tool.description}</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  ))}
-                </div>
-              </div>
-            </div>
+          <div>
+            <h3 className="text-2xl font-bold text-white">
+              {agent.name}
+            </h3>
+            <p className="text-sm text-white/80">{agent.title}</p>
           </div>
         </div>
+        
+        {/* Tagline */}
+        <p className="text-lg text-white/90 font-medium">{agent.tagline}</p>
+        
+        {/* Features */}
+        <div className="space-y-3 flex-1">
+          <ul className="space-y-2">
+            {agent.features.slice(0, 5).map((feature, i) => (
+              <li key={i} className="flex items-start gap-2 text-white/80 text-sm">
+                <Check className={`h-4 w-4 mt-1 flex-shrink-0 text-${agent.color}-500`} />
+                <span>{feature}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        
+        {/* See Full Features button */}
+        <Button
+          variant="outline"
+          className={`w-full mt-auto border-${agent.color}-500/20 hover:bg-${agent.color}-500/20`}
+          asChild
+        >
+          <Link to="/features">See Full Features</Link>
+        </Button>
       </div>
     </div>
   );
