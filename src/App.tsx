@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound";
 import Watch from "./pages/Watch";
 import Story from "./pages/Story";
 import Join from "./pages/Join";
+import Features from "./pages/Features";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/watch" element={<Watch />} />
           <Route path="/story" element={<Story />} />
           <Route path="/join" element={<Join />} />
+          <Route path="/features" element={<Features />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

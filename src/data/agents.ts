@@ -64,7 +64,7 @@ export const agents: Agent[] = [
     tagline: "Your treatment closer. Devon tracks cases and drives action.",
     quote: "I help patients convert with confidence and retain with purpose—so you're not just closing more treatment, you're building lifelong loyalty.",
     icon: MessageSquare,
-    color: "purple",
+    color: "blue",
     description: "Your AI engagement specialist for patient conversion and retention.",
     activities: [
       "Treatment Planning",
