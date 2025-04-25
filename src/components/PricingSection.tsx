@@ -1,7 +1,6 @@
+
 import React, { useState } from 'react';
-import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
-import { Link } from 'react-router-dom';
+import { ArrowRight, Check } from "lucide-react";
 import AgentAvatar from './AgentAvatar';
 import EmailCollectionForm from './EmailCollectionForm';
 
@@ -132,64 +131,65 @@ const PricingSection = () => {
                 <p className="text-sm text-white/70 mb-2">{plan.description}</p>
                 <p className="text-sm text-white/90 mb-4">{plan.subheader}</p>
               
-              <div className="flex items-baseline mt-2">
-                <span className="text-3xl font-bold text-white">
-                  {isAnnual ? plan.yearlyPrice : plan.price}
-                  {isAnnual && plan.price !== "Custom" ? 
-                    <span className="text-sm text-white/60">/year</span> : 
-                    <span className="text-sm text-white/60">/month</span>
-                  }
-                </span>
+                <div className="flex items-baseline mt-2">
+                  <span className="text-3xl font-bold text-white">
+                    {isAnnual ? plan.yearlyPrice : plan.price}
+                    {isAnnual && plan.price !== "Custom" ? 
+                      <span className="text-sm text-white/60">/year</span> : 
+                      <span className="text-sm text-white/60">/month</span>
+                    }
+                  </span>
+                </div>
+                
+                {isAnnual && plan.price !== "Custom" && (
+                  <p className="text-xs text-nextgen-purple mt-1">(2 months free)</p>
+                )}
+                
+                {/* Agent Avatars */}
+                <div className="mt-6 flex -space-x-4">
+                  {plan.agents.map((agent, i) => (
+                    <div key={i} className="relative" style={{ zIndex: plan.agents.length - i }}>
+                      <AgentAvatar
+                        name={agent.name}
+                        role=""
+                        color={agent.color}
+                      />
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="mt-3 inline-block px-3 py-1 rounded-full bg-white/5 border border-white/10 text-sm text-white/70">
+                  {plan.includes}
+                </div>
               </div>
               
-              {isAnnual && plan.price !== "Custom" && (
-                <p className="text-xs text-nextgen-purple mt-1">(2 months free)</p>
-              )}
-              
-              {/* Agent Avatars */}
-              <div className="mt-6 flex -space-x-4">
-                {plan.agents.map((agent, i) => (
-                  <div key={i} className="relative" style={{ zIndex: plan.agents.length - i }}>
-                    <AgentAvatar
-                      name={agent.name}
-                      role=""
-                      color={agent.color}
-                    />
-                  </div>
+              <ul className="space-y-3 mb-6 flex-grow">
+                {plan.features.map((feature, i) => (
+                  <li key={i} className="flex items-start">
+                    <Check className="h-5 w-5 text-nextgen-purple mr-2 flex-shrink-0" />
+                    <span className="text-white/80 text-sm">{feature}</span>
+                  </li>
                 ))}
-              </div>
+              </ul>
               
-              <div className="mt-3 inline-block px-3 py-1 rounded-full bg-white/5 border border-white/10 text-sm text-white/70">
-                {plan.includes}
+              <div className="mt-6">
+                <EmailCollectionForm 
+                  buttonText={`Get Started with ${plan.name}`}
+                  placeholder="Enter your work email"
+                  className="glass-card"
+                />
               </div>
             </div>
-            
-            <ul className="space-y-3 mb-6 flex-grow">
-              {plan.features.map((feature, i) => (
-                <li key={i} className="flex items-start">
-                  <Check className="h-5 w-5 text-nextgen-purple mr-2 flex-shrink-0" />
-                  <span className="text-white/80 text-sm">{feature}</span>
-                </li>
-              ))}
-            </ul>
-            
-            <div className="mt-6">
-              <EmailCollectionForm 
-                buttonText={`Get Started with ${plan.name}`}
-                placeholder="Enter your work email"
-                className="glass-card"
-              />
-            </div>
-          </div>
-        ))}
-      </div>
-      
-      <div className="text-center mt-10">
-        <EmailCollectionForm 
-          buttonText="Book a Demo to Find Your Fit"
-          placeholder="Enter your work email"
-          className="max-w-md mx-auto"
-        />
+          ))}
+        </div>
+        
+        <div className="text-center mt-10">
+          <EmailCollectionForm 
+            buttonText="Book a Demo to Find Your Fit"
+            placeholder="Enter your work email"
+            className="max-w-md mx-auto"
+          />
+        </div>
       </div>
     </section>
   );
