@@ -7,34 +7,38 @@ import { Link } from 'react-router-dom';
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24">
-      {/* Quantum-inspired background effects */}
+      {/* Enhanced quantum-inspired background effects */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-nextgen-purple/5 blur-3xl rounded-full animate-pulse-slow"></div>
-        <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-nextgen-blue/5 blur-3xl rounded-full animate-pulse-slow" style={{animationDelay: '1.5s'}}></div>
+        {/* Animated gradient orbs */}
+        <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-nextgen-purple/10 blur-[100px] rounded-full animate-pulse-slow"></div>
+        <div className="absolute bottom-[-10%] left-[-5%] w-[40%] h-[40%] bg-nextgen-blue/10 blur-[100px] rounded-full animate-pulse-slow" style={{animationDelay: '1.5s'}}></div>
         
-        {/* Grid pattern overlay */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]"></div>
+        {/* Enhanced quantum grid pattern */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:2rem_2rem]"></div>
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:6rem_6rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]"></div>
+        </div>
       </div>
       
       <div className="container mx-auto px-4 py-20 text-center relative">
         <div className="max-w-4xl mx-auto">
-          {/* Floating trust badges */}
-          <div className="flex justify-center gap-4 mb-8 animate-fade-in">
-            <div className="glass-card px-4 py-2 rounded-full flex items-center gap-2">
+          {/* Enhanced floating trust badges with glass effect */}
+          <div className="flex flex-wrap justify-center gap-4 mb-8">
+            <div className="glass-card px-4 py-2 rounded-full flex items-center gap-2 backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)] hover:bg-white/10 transition-all duration-300 animate-fade-in">
               <Shield className="h-4 w-4 text-nextgen-purple" />
               <span className="text-sm text-white/70">HIPAA Compliant</span>
             </div>
-            <div className="glass-card px-4 py-2 rounded-full flex items-center gap-2">
+            <div className="glass-card px-4 py-2 rounded-full flex items-center gap-2 backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)] hover:bg-white/10 transition-all duration-300 animate-fade-in" style={{animationDelay: '100ms'}}>
               <Star className="h-4 w-4 text-nextgen-purple" />
               <span className="text-sm text-white/70">Top Rated</span>
             </div>
-            <div className="glass-card px-4 py-2 rounded-full flex items-center gap-2">
+            <div className="glass-card px-4 py-2 rounded-full flex items-center gap-2 backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)] hover:bg-white/10 transition-all duration-300 animate-fade-in" style={{animationDelay: '200ms'}}>
               <BadgeCheck className="h-4 w-4 text-nextgen-purple" />
               <span className="text-sm text-white/70">SOC 2 Certified</span>
             </div>
           </div>
 
-          <div className="inline-block px-3 py-1 rounded-full bg-white/5 border border-white/10 text-sm mb-6 animate-fade-in" style={{animationDelay: '200ms'}}>
+          <div className="inline-block px-3 py-1 rounded-full backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)] text-sm mb-6 animate-fade-in hover:bg-white/10 transition-all duration-300" style={{animationDelay: '300ms'}}>
             <span className="text-gradient-primary font-medium">Industry First</span>
           </div>
           
@@ -42,14 +46,14 @@ const HeroSection = () => {
             The World's First AI Team for Dental Practices
           </h1>
           
-          <p className="text-lg md:text-xl text-white/70 mb-8 max-w-2xl mx-auto animate-fade-in" style={{animationDelay: '600ms'}}>
+          <p className="text-lg md:text-xl text-white/70 mb-8 max-w-2xl mx-auto animate-fade-in backdrop-blur-sm rounded-xl p-4" style={{animationDelay: '500ms'}}>
             Transform your dental practice with our AI-powered platform. Automate routine tasks, enhance patient care, and drive unprecedented growth.
           </p>
           
-          <div className="flex flex-wrap gap-4 justify-center animate-fade-in" style={{animationDelay: '800ms'}}>
+          <div className="flex flex-wrap gap-4 justify-center animate-fade-in" style={{animationDelay: '600ms'}}>
             <Button 
               size="lg"
-              className="bg-nextgen-purple hover:bg-nextgen-purple/90 transition-all duration-300 hover:scale-105"
+              className="glass-card bg-nextgen-purple/90 hover:bg-nextgen-purple transition-all duration-300 hover:scale-105 shadow-[0_8px_16px_-4px_rgba(155,135,245,0.3)]"
               asChild
             >
               <Link to="/demo">
