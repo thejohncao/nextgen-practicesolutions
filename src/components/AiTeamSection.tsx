@@ -20,7 +20,7 @@ const AITeamSection = () => {
           </div>
           
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
-            Miles, Practice Management | Giselle, Practice Growth | Devon, Practice Development | Ava, Practice Academy
+            Meet Your AI Team
           </h2>
           
           <p className="text-base sm:text-lg text-white/70 px-4">
@@ -52,3 +52,4 @@ const AITeamSection = () => {
 };
 
 export default AITeamSection;
+
