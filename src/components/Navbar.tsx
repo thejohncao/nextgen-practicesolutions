@@ -9,6 +9,7 @@ const Navbar = () => {
     <header className="fixed top-0 left-0 w-full z-50 bg-nextgen-dark/80 backdrop-blur-md border-b border-white/10">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
+          {/* Logo */}
           <div className="flex items-center">
             <Link to="/" className="text-white">
               <div className="flex flex-col">
@@ -20,6 +21,7 @@ const Navbar = () => {
           
           <NavigationMenu className="hidden lg:flex">
             <NavigationMenuList>
+              {/* Solutions Dropdown */}
               <NavigationMenuItem>
                 <NavigationMenuTrigger className="text-white/80 hover:text-white transition-colors bg-transparent hover:bg-white/5">
                   Solutions
@@ -42,42 +44,53 @@ const Navbar = () => {
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
+              {/* Academy */}
               <NavigationMenuItem>
-                <Link to="/integrations" className="text-sm text-white/80 hover:text-white transition-colors px-4 py-2">
-                  Integrations
+                <Link to="/academy" className="text-sm text-white/80 hover:text-white transition-colors px-4 py-2">
+                  Academy
                 </Link>
               </NavigationMenuItem>
 
+              {/* Free Resources */}
               <NavigationMenuItem>
                 <NavigationMenuTrigger className="text-white/80 hover:text-white transition-colors bg-transparent hover:bg-white/5">
-                  Resources
+                  Free Resources
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="bg-nextgen-dark/95 backdrop-blur-xl border border-white/10">
                   <div className="grid gap-3 p-4 w-[400px]">
-                    <Link to="/academy" className="block p-3 hover:bg-white/5 rounded-lg group">
-                      <div className="text-sm font-medium text-white mb-1">Academy</div>
-                      <div className="text-sm text-white/60">World-class training for your dental team</div>
+                    <Link to="/resources/playbook" className="block p-3 hover:bg-white/5 rounded-lg group">
+                      <div className="text-sm font-medium text-white mb-1">AI Practice Playbook</div>
+                      <div className="text-sm text-white/60">Download proven strategies and templates</div>
                     </Link>
-                    <Link to="/story" className="block p-3 hover:bg-white/5 rounded-lg group">
-                      <div className="text-sm font-medium text-white mb-1">Our Story</div>
-                      <div className="text-sm text-white/60">Learn about our mission and vision</div>
+                    <Link to="/resources/audit" className="block p-3 hover:bg-white/5 rounded-lg group">
+                      <div className="text-sm font-medium text-white mb-1">Practice Audit Quiz</div>
+                      <div className="text-sm text-white/60">Get your personalized growth plan</div>
                     </Link>
-                    <Link to="/features" className="block p-3 hover:bg-white/5 rounded-lg group">
-                      <div className="text-sm font-medium text-white mb-1">Features</div>
-                      <div className="text-sm text-white/60">Explore our platform capabilities</div>
+                    <Link to="/resources/roi" className="block p-3 hover:bg-white/5 rounded-lg group">
+                      <div className="text-sm font-medium text-white mb-1">ROI Calculator</div>
+                      <div className="text-sm text-white/60">Estimate your practice's potential</div>
                     </Link>
                   </div>
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
+              {/* Pricing */}
               <NavigationMenuItem>
                 <Link to="/pricing" className="text-sm text-white/80 hover:text-white transition-colors px-4 py-2">
                   Pricing
                 </Link>
               </NavigationMenuItem>
+
+              {/* About */}
+              <NavigationMenuItem>
+                <Link to="/story" className="text-sm text-white/80 hover:text-white transition-colors px-4 py-2">
+                  About
+                </Link>
+              </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
           
+          {/* CTA Buttons */}
           <div className="flex items-center space-x-3">
             <Button variant="ghost" className="text-sm hidden sm:flex hover:bg-white/5">
               Login
