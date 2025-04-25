@@ -11,7 +11,7 @@ const Integrations = () => {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   
   return (
-    <div className="min-h-screen bg-white text-nextgen-dark">
+    <div className="min-h-screen bg-nextgen-dark text-white">
       <Navbar />
       <div className="pt-20">
         <IntegrationsHero />

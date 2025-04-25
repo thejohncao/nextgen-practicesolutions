@@ -16,23 +16,22 @@ const IntegrationsGrid = ({ activeFilter, setActiveFilter }: IntegrationsGridPro
     : integrations;
 
   return (
-    <section id="integrations-grid" className="py-16 px-6 md:px-8 lg:px-12 bg-white">
+    <section id="integrations-grid" className="py-16 px-6 md:px-8 lg:px-12">
       <div className="container mx-auto max-w-7xl">
         <div className="mb-12 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-nextgen-dark">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gradient">
             All Integrations
           </h2>
-          <p className="text-lg text-gray-700 mb-8 max-w-3xl mx-auto">
+          <p className="text-lg text-white/70 mb-8 max-w-3xl mx-auto">
             Connect your practice with these powerful tools and services to 
             enhance productivity and automate workflows.
           </p>
           
-          {/* Category Filter */}
           <div className="flex flex-wrap justify-center gap-3 mb-8">
             <Button
               variant={activeFilter === null ? "default" : "outline"}
               onClick={() => setActiveFilter(null)}
-              className="rounded-full"
+              className="rounded-full bg-white/10 text-white hover:bg-white/20 border-white/10"
             >
               All
             </Button>
@@ -41,7 +40,11 @@ const IntegrationsGrid = ({ activeFilter, setActiveFilter }: IntegrationsGridPro
                 key={index}
                 variant={activeFilter === category ? "default" : "outline"}
                 onClick={() => setActiveFilter(category)}
-                className="rounded-full"
+                className={`rounded-full ${
+                  activeFilter === category 
+                    ? 'bg-nextgen-purple text-white hover:bg-nextgen-purple/90' 
+                    : 'bg-white/10 text-white hover:bg-white/20 border-white/10'
+                }`}
               >
                 {category}
               </Button>

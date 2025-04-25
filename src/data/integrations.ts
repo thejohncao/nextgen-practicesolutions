@@ -1,4 +1,3 @@
-
 import { Integration } from '@/types/integrations';
 
 // Categories for filtering
@@ -16,63 +15,63 @@ export const featuredIntegrations: Integration[] = [
   {
     name: "GoHighLevel",
     description: "All-in-one marketing platform and CRM for healthcare practices.",
-    logoUrl: "https://assets.website-files.com/61ed56a72e28d0985e1baa91/61f229148578251250194bb1_GoHighLevel-Icon.svg",
+    logoUrl: "/images/integrations/gohighlevel.svg",
     categories: ["CRM & Patient Management", "Communications"],
     learnMoreUrl: "#",
   },
   {
     name: "Zapier",
     description: "Connect apps, automate workflows, and move data.",
-    logoUrl: "https://cdn.zapier.com/zapier/images/logos/zapier-logo.svg",
+    logoUrl: "/images/integrations/zapier.svg",
     categories: ["AI & Automations"],
     learnMoreUrl: "#",
   },
   {
     name: "OpenAI",
     description: "Advanced AI models for natural language processing.",
-    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg",
+    logoUrl: "/images/integrations/openai.svg",
     categories: ["AI & Automations"],
     learnMoreUrl: "#",
   },
   {
     name: "Stripe",
     description: "Online payment processing for internet businesses.",
-    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg",
+    logoUrl: "/images/integrations/stripe.svg",
     categories: ["Billing & Payments"],
     learnMoreUrl: "#",
   },
   {
     name: "Proceed Finance",
     description: "Patient financing solutions for healthcare providers.",
-    logoUrl: "https://www.proceedfinance.com/wp-content/uploads/2021/01/proceed-finance-logo.svg",
+    logoUrl: "/images/integrations/proceed.svg",
     categories: ["Billing & Payments"],
     learnMoreUrl: "#",
   },
   {
     name: "Firebase",
     description: "App development platform that helps you build apps.",
-    logoUrl: "https://www.vectorlogo.zone/logos/firebase/firebase-icon.svg",
+    logoUrl: "/images/integrations/firebase.svg",
     categories: ["AI & Automations"],
     learnMoreUrl: "#",
   },
   {
     name: "Twilio",
     description: "Communications APIs for SMS, voice, and video.",
-    logoUrl: "https://www.vectorlogo.zone/logos/twilio/twilio-icon.svg",
+    logoUrl: "/images/integrations/twilio.svg",
     categories: ["Communications"],
     learnMoreUrl: "#",
   },
   {
     name: "Monday.com",
     description: "Work OS that powers teams to run processes and workflows.",
-    logoUrl: "https://dapulse-res.cloudinary.com/image/upload/f_auto,q_auto/remote_mondaycom_static/img/monday-logo-x2.png",
+    logoUrl: "/images/integrations/monday.svg",
     categories: ["Team Collaboration"],
     learnMoreUrl: "#",
   },
   {
     name: "Notion",
     description: "All-in-one workspace for notes, tasks, wikis, and databases.",
-    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png",
+    logoUrl: "/images/integrations/notion.svg",
     categories: ["Team Collaboration"],
     learnMoreUrl: "#",
   }

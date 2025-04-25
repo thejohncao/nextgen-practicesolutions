@@ -1,14 +1,17 @@
-
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import IntegrationsHeader from './integrations/IntegrationsHeader';
 import IntegrationsList from './integrations/IntegrationsList';
 import ComplianceSection from './integrations/ComplianceSection';
 import { Button } from './ui/button';
 import { ArrowRight } from 'lucide-react';
+import { Dialog, DialogContent } from './ui/dialog';
+import IntegrationsGrid from './integrations/IntegrationsGrid';
 
 const IntegrationsSection = () => {
-  const [isVisible, setIsVisible] = React.useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [activeFilter, setActiveFilter] = useState<string | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -53,14 +56,21 @@ const IntegrationsSection = () => {
           <ComplianceSection complianceChecklist={complianceChecklist} />
           
           <div className="flex justify-center mt-8">
-            <Link to="/integrations">
-              <Button className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white">
-                Explore All Integrations <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
+            <Button 
+              className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white"
+              onClick={() => setDialogOpen(true)}
+            >
+              Explore All Integrations <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
           </div>
         </div>
       </div>
+
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent className="max-w-7xl h-[90vh] overflow-y-auto bg-nextgen-dark/95 border-white/10">
+          <IntegrationsGrid activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
