@@ -3,7 +3,7 @@ import React from 'react';
 import SupportTable from './SupportTable';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import { Link } from 'react-router-dom';
+import EmailCollectionDialog from './EmailCollectionDialog';
 
 const SupportAndBenefits = () => {
   return (
@@ -28,11 +28,11 @@ const SupportAndBenefits = () => {
         </div>
 
         <div className="text-center">
-          <Button size="lg" className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white" asChild>
-            <Link to="/demo">
-              Let's Build Your AI Practice <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
+          <EmailCollectionDialog
+            triggerText="Let's Build Your AI Practice"
+            buttonSize="lg"
+            buttonClassName="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white"
+          />
         </div>
       </div>
     </section>
