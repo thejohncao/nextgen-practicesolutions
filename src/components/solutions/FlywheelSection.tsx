@@ -34,7 +34,7 @@ const stages = [
   {
     label: "Engage",
     description: "Appointment prep, consultation support, nurturing sequences.",
-    color: "bg-blue-500",
+    color: "bg-blue-500", 
     rotation: 60
   },
   {
