@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Shield, Heart, RocketLaunch, HandHeart } from "lucide-react";
+import { Shield, Heart, Rocket, HandHeart } from "lucide-react";
 
 const guaranteePoints = [
   {
@@ -16,7 +16,7 @@ const guaranteePoints = [
   {
     title: "Proven ROI",
     description: "Every campaign, every treatment closed, every reactivation—we track and show you the impact.",
-    icon: RocketLaunch,
+    icon: Rocket,
   },
   {
     title: "Scalable Playbooks",
