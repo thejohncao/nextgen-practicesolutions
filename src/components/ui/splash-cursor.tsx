@@ -20,6 +20,39 @@ interface SplashCursorProps {
   className?: string;
 }
 
+interface PointerPrototype {
+  id: number;
+  texcoordX: number;
+  texcoordY: number;
+  prevTexcoordX: number;
+  prevTexcoordY: number;
+  deltaX: number;
+  deltaY: number;
+  down: boolean;
+  moved: boolean;
+  color: number[];
+}
+
+interface FBO {
+  texture: WebGLTexture | null;
+  fbo: WebGLFramebuffer | null;
+  width: number;
+  height: number;
+  texelSizeX: number;
+  texelSizeY: number;
+  attach: (id: number) => number;
+}
+
+interface DoubleFBO {
+  width: number;
+  height: number;
+  texelSizeX: number;
+  texelSizeY: number;
+  read: FBO;
+  write: FBO;
+  swap: () => void;
+}
+
 const SplashCursor = forwardRef<HTMLCanvasElement, SplashCursorProps>(
   (
     {
@@ -47,17 +80,37 @@ const SplashCursor = forwardRef<HTMLCanvasElement, SplashCursorProps>(
       const canvas = canvasRef.current;
       if (!canvas) return;
 
-      function pointerPrototype() {
-        this.id = -1;
-        this.texcoordX = 0;
-        this.texcoordY = 0;
-        this.prevTexcoordX = 0;
-        this.prevTexcoordY = 0;
-        this.deltaX = 0;
-        this.deltaY = 0;
-        this.down = false;
-        this.moved = false;
-        this.color = [0, 0, 0];
+      // Initialize variables at the beginning to avoid reference errors
+      let pointers: PointerPrototype[] = [];
+      let dye: DoubleFBO | null = null;
+      let velocity: DoubleFBO | null = null;
+      let divergence: FBO | null = null;
+      let curl: FBO | null = null;
+      let pressure: DoubleFBO | null = null;
+      let copyProgram: any;
+      let clearProgram: any;
+      let splatProgram: any;
+      let advectionProgram: any;
+      let divergenceProgram: any;
+      let curlProgram: any;
+      let vorticityProgram: any;
+      let pressureProgram: any;
+      let gradienSubtractProgram: any;
+      let displayMaterial: any;
+
+      function pointerPrototype(): PointerPrototype {
+        return {
+          id: -1,
+          texcoordX: 0,
+          texcoordY: 0,
+          prevTexcoordX: 0,
+          prevTexcoordY: 0,
+          deltaX: 0,
+          deltaY: 0,
+          down: false,
+          moved: false,
+          color: [0, 0, 0]
+        };
       }
 
       let config = {
@@ -78,12 +131,7 @@ const SplashCursor = forwardRef<HTMLCanvasElement, SplashCursorProps>(
         TRANSPARENT,
       };
 
-      let pointers = [new pointerPrototype()];
-      let dye: any;
-      let velocity: any;
-      let divergence: any;
-      let curl: any;
-      let pressure: any;
+      pointers = [pointerPrototype()];
       
       const { gl, ext } = getWebGLContext(canvas);
       
@@ -103,45 +151,54 @@ const SplashCursor = forwardRef<HTMLCanvasElement, SplashCursorProps>(
         let gl = canvas.getContext("webgl2", params) as WebGL2RenderingContext | null;
         const isWebGL2 = !!gl;
         if (!isWebGL2)
-          gl =
-            (canvas.getContext("webgl", params) ||
+          gl = (canvas.getContext("webgl", params) ||
             canvas.getContext("experimental-webgl", params)) as WebGLRenderingContext | null;
             
         if (!gl) throw new Error("WebGL not supported");
         
         let halfFloat;
         let supportLinearFiltering;
-        if (isWebGL2) {
-          gl.getExtension("EXT_color_buffer_float");
-          supportLinearFiltering = gl.getExtension("OES_texture_float_linear");
-        } else {
-          halfFloat = gl.getExtension("OES_texture_half_float");
-          supportLinearFiltering = gl.getExtension(
-            "OES_texture_half_float_linear"
-          );
-        }
-        gl.clearColor(0.0, 0.0, 0.0, 1.0);
-        const halfFloatTexType = isWebGL2
-          ? gl.HALF_FLOAT
-          : halfFloat?.HALF_FLOAT_OES;
         let formatRGBA;
         let formatRG;
         let formatR;
+        let halfFloatTexType;
 
         if (isWebGL2) {
+          gl.getExtension("EXT_color_buffer_float");
+          supportLinearFiltering = gl.getExtension("OES_texture_float_linear");
+          halfFloatTexType = gl.HALF_FLOAT;
+          
+          // Use WebGL2 constants directly
           formatRGBA = getSupportedFormat(
             gl,
-            gl.RGBA16F,
+            gl.RGBA16F || 0x881A, // RGBA16F constant if not available
             gl.RGBA,
             halfFloatTexType as number
           );
-          formatRG = getSupportedFormat(gl, gl.RG16F, gl.RG, halfFloatTexType as number);
-          formatR = getSupportedFormat(gl, gl.R16F, gl.RED, halfFloatTexType as number);
+          formatRG = getSupportedFormat(
+            gl,
+            gl.RG16F || 0x822F, // RG16F constant if not available
+            gl.RG || 0x8227, // RG constant if not available
+            halfFloatTexType as number
+          );
+          formatR = getSupportedFormat(
+            gl,
+            gl.R16F || 0x822D, // R16F constant if not available
+            gl.RED || 0x1903, // RED constant if not available
+            halfFloatTexType as number
+          );
         } else {
+          halfFloat = gl.getExtension("OES_texture_half_float");
+          supportLinearFiltering = gl.getExtension("OES_texture_half_float_linear");
+          halfFloatTexType = halfFloat?.HALF_FLOAT_OES;
+          
+          // Use WebGLRenderingContext constants for WebGL 1
           formatRGBA = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType as number);
           formatRG = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType as number);
           formatR = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType as number);
         }
+
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
         return {
           gl,
@@ -157,14 +214,14 @@ const SplashCursor = forwardRef<HTMLCanvasElement, SplashCursorProps>(
 
       function getSupportedFormat(gl: WebGLRenderingContext | WebGL2RenderingContext, internalFormat: number, format: number, type: number) {
         if (!supportRenderTextureFormat(gl, internalFormat, format, type)) {
-          switch (internalFormat) {
-            case gl.R16F:
-              return getSupportedFormat(gl, gl.RG16F, gl.RG, type);
-            case gl.RG16F:
-              return getSupportedFormat(gl, gl.RGBA16F, gl.RGBA, type);
-            default:
-              return null;
+          // Fallback to other formats
+          if (internalFormat === (gl as WebGL2RenderingContext).R16F || internalFormat === 0x822D) {
+            return getSupportedFormat(gl, (gl as WebGL2RenderingContext).RG16F || 0x822F, (gl as WebGL2RenderingContext).RG || 0x8227, type);
           }
+          if (internalFormat === (gl as WebGL2RenderingContext).RG16F || internalFormat === 0x822F) {
+            return getSupportedFormat(gl, (gl as WebGL2RenderingContext).RGBA16F || 0x881A, gl.RGBA, type);
+          }
+          return null;
         }
         return {
           internalFormat,
@@ -273,8 +330,8 @@ const SplashCursor = forwardRef<HTMLCanvasElement, SplashCursorProps>(
         return program;
       }
 
-      function getUniforms(program: WebGLProgram): any[] {
-        let uniforms: any[] = [];
+      function getUniforms(program: WebGLProgram): Record<string, WebGLUniformLocation | null> {
+        let uniforms: Record<string, WebGLUniformLocation | null> = {};
         let uniformCount = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);
         for (let i = 0; i < uniformCount; i++) {
           let uniformName = gl.getActiveUniform(program, i)!.name;
@@ -641,7 +698,7 @@ const SplashCursor = forwardRef<HTMLCanvasElement, SplashCursorProps>(
           return { width: min, height: max };
       }
 
-      function createFBO(w: number, h: number, internalFormat: number, format: any, type: number, param: number) {
+      function createFBO(w: number, h: number, internalFormat: number, format: any, type: number, param: number): FBO {
         gl.activeTexture(gl.TEXTURE0);
         let texture = gl.createTexture();
         gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -675,7 +732,7 @@ const SplashCursor = forwardRef<HTMLCanvasElement, SplashCursorProps>(
         };
       }
       
-      function createDoubleFBO(w: number, h: number, internalFormat: number, format: any, type: number, param: number) {
+      function createDoubleFBO(w: number, h: number, internalFormat: number, format: any, type: number, param: number): DoubleFBO {
         let fbo1 = createFBO(w, h, internalFormat, format, type, param);
         let fbo2 = createFBO(w, h, internalFormat, format, type, param);
         
@@ -704,7 +761,7 @@ const SplashCursor = forwardRef<HTMLCanvasElement, SplashCursorProps>(
         }
       }
       
-      function resizeFBO(target: any, w: number, h: number, internalFormat: number, format: any, type: number, param: number) {
+      function resizeFBO(target: FBO, w: number, h: number, internalFormat: number, format: any, type: number, param: number): FBO {
         let newFBO = createFBO(w, h, internalFormat, format, type, param);
         clearProgram.bind();
         gl.uniform1i(clearProgram.uniforms.uTexture, target.attach(0));
@@ -713,7 +770,7 @@ const SplashCursor = forwardRef<HTMLCanvasElement, SplashCursorProps>(
         return newFBO;
       }
       
-      function resizeDoubleFBO(target: any, w: number, h: number, internalFormat: number, format: any, type: number, param: number) {
+      function resizeDoubleFBO(target: DoubleFBO, w: number, h: number, internalFormat: number, format: any, type: number, param: number): DoubleFBO {
         if (target.width === w && target.height === h) return target;
         target.read = resizeFBO(target.read, w, h, internalFormat, format, type, param);
         target.write = createFBO(w, h, internalFormat, format, type, param);
@@ -724,19 +781,19 @@ const SplashCursor = forwardRef<HTMLCanvasElement, SplashCursorProps>(
         return target;
       }
 
-      const copyProgram = new Program(baseVertexShader, copyShader);
-      const clearProgram = new Program(baseVertexShader, clearShader);
-      const splatProgram = new Program(baseVertexShader, splatShader);
-      const advectionProgram = new Program(baseVertexShader, advectionShader);
-      const divergenceProgram = new Program(baseVertexShader, divergenceShader);
-      const curlProgram = new Program(baseVertexShader, curlShader);
-      const vorticityProgram = new Program(baseVertexShader, vorticityShader);
-      const pressureProgram = new Program(baseVertexShader, pressureShader);
-      const gradienSubtractProgram = new Program(
+      copyProgram = new Program(baseVertexShader, copyShader);
+      clearProgram = new Program(baseVertexShader, clearShader);
+      splatProgram = new Program(baseVertexShader, splatShader);
+      advectionProgram = new Program(baseVertexShader, advectionShader);
+      divergenceProgram = new Program(baseVertexShader, divergenceShader);
+      curlProgram = new Program(baseVertexShader, curlShader);
+      vorticityProgram = new Program(baseVertexShader, vorticityShader);
+      pressureProgram = new Program(baseVertexShader, pressureShader);
+      gradienSubtractProgram = new Program(
         baseVertexShader,
         gradientSubtractShader
       );
-      const displayMaterial = new Material(baseVertexShader, displayShaderSource);
+      displayMaterial = new Material(baseVertexShader, displayShaderSource);
 
       function initFramebuffers() {
         let simRes = getResolution(config.SIM_RESOLUTION);
@@ -833,7 +890,7 @@ const SplashCursor = forwardRef<HTMLCanvasElement, SplashCursorProps>(
         gl.uniform2f(displayMaterial.uniforms.texelSize, 1.0 / w, 1.0 / h);
         gl.uniform1i(displayMaterial.uniforms.uTexture, dye.read.attach(0));
         
-        blit();
+        blit(null, true);
         
         requestAnimationFrame(update);
       }
@@ -881,7 +938,7 @@ const SplashCursor = forwardRef<HTMLCanvasElement, SplashCursorProps>(
         const touches = e.targetTouches;
         for (let i = 0; i < touches.length; i++) {
           if (i >= pointers.length)
-            pointers.push(new pointerPrototype());
+            pointers.push(pointerPrototype());
           
           pointers[i].id = touches[i].identifier;
           pointers[i].down = true;
