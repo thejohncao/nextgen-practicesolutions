@@ -20,8 +20,8 @@ const HeroSection = () => {
             
             <div>
               <p className="text-lg text-white/70 mb-2">AI Built for Dental. Designed to Run Your Practice.</p>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-heading font-bold leading-tight text-gradient">
-                The Future of Your Practice Starts Here.
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-bold leading-tight text-gradient">
+                The World's First AI Team for Dental Practices
               </h1>
             </div>
             

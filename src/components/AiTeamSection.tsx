@@ -5,6 +5,7 @@ import {
   Users
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useIsMobile } from '@/hooks/use-mobile';
 import AgentAvatar from './AgentAvatar';
 
 type Tool = {
@@ -109,6 +110,7 @@ const agents: Agent[] = [
 
 const AITeamSection = () => {
   const [activeAgent, setActiveAgent] = useState<Agent | null>(null);
+  const isMobile = useIsMobile();
 
   const getGradientClass = (color: string) => {
     switch (color) {
@@ -121,34 +123,35 @@ const AITeamSection = () => {
   };
 
   return (
-    <section id="ai-team" className="section-padding py-20">
-      <div className="container mx-auto">
-        <div className="text-center max-w-3xl mx-auto mb-16">
+    <section id="ai-team" className="section-padding py-12 sm:py-20">
+      <div className="container mx-auto px-4">
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-16">
           <div className="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full bg-white/5 border border-white/10">
             <Users className="h-4 w-4 text-nextgen-purple" />
             <span className="text-sm font-medium text-white/80">AI Team</span>
           </div>
           
-          <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
             Meet Your AI Team
           </h2>
           
-          <p className="text-lg text-white/70">
+          <p className="text-base sm:text-lg text-white/70 px-4">
             Each agent leads a department in your practice—working 24/7 to automate your operations, convert more cases, and retain loyal patients.
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
           {agents.map((agent, index) => (
             <div 
               key={agent.name}
-              className={`glass-card rounded-xl p-6 transition-all duration-300 hover:shadow-glow bg-gradient-to-br ${getGradientClass(agent.color)} animate-fade-in`}
+              className={`glass-card rounded-xl p-4 sm:p-6 transition-all duration-300 hover:shadow-glow bg-gradient-to-br ${getGradientClass(agent.color)} animate-fade-in`}
               style={{ animationDelay: `${index * 200}ms` }}
-              onMouseEnter={() => setActiveAgent(agent)}
-              onMouseLeave={() => setActiveAgent(null)}
+              onMouseEnter={() => !isMobile && setActiveAgent(agent)}
+              onMouseLeave={() => !isMobile && setActiveAgent(null)}
+              onClick={() => isMobile && setActiveAgent(activeAgent?.name === agent.name ? null : agent)}
             >
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0">
+              <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+                <div className="flex-shrink-0 mx-auto sm:mx-0">
                   <AgentAvatar 
                     name={agent.name}
                     role={agent.title}
@@ -158,18 +161,18 @@ const AITeamSection = () => {
                 
                 <div className="space-y-3 flex-1">
                   <div>
-                    <p className="text-white/70 italic mb-2">{agent.quote}</p>
+                    <p className="text-base sm:text-lg text-white/70 italic mb-2 text-center sm:text-left">{agent.quote}</p>
                   </div>
                   
                   <div className={`overflow-hidden transition-all duration-300 ${
-                    activeAgent?.name === agent.name ? 'max-h-80 opacity-100 transform translate-y-0' : 'max-h-0 opacity-0 transform translate-y-4'
+                    activeAgent?.name === agent.name ? 'max-h-[500px] opacity-100 transform translate-y-0' : 'max-h-0 opacity-0 transform translate-y-4'
                   }`}>
                     <div className="pt-4 space-y-4">
                       <div>
                         <h5 className="text-sm font-medium text-white/80 mb-2">Key Activities:</h5>
                         <ul className="grid grid-cols-2 gap-2">
                           {agent.activities.map((activity, i) => (
-                            <li key={i} className="flex items-center text-white/70 text-sm">
+                            <li key={i} className="flex items-center text-white/70 text-xs sm:text-sm">
                               <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-br ${getGradientClass(agent.color)} mr-2`}></div>
                               {activity}
                             </li>
@@ -185,7 +188,7 @@ const AITeamSection = () => {
                               <Tooltip>
                                 <TooltipTrigger asChild>
                                   <div className="flex items-center gap-1 px-2 py-1 bg-white/5 rounded-md">
-                                    <tool.icon className="h-4 w-4 text-white/60" />
+                                    <tool.icon className="h-3 w-3 sm:h-4 sm:w-4 text-white/60" />
                                     <span className="text-xs text-white/60">{tool.name}</span>
                                   </div>
                                 </TooltipTrigger>
