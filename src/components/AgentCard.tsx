@@ -15,17 +15,17 @@ interface AgentCardProps {
 const AgentCard = ({ agent, isActive, onMouseEnter, onMouseLeave, onClick }: AgentCardProps) => {
   const getGradientClass = (color: string) => {
     switch (color) {
-      case 'blue': return 'from-blue-500/20 to-blue-600/10 border-blue-500/30';
-      case 'teal': return 'from-teal-500/20 to-teal-600/10 border-teal-500/30';
-      case 'purple': return 'from-nextgen-purple/20 to-nextgen-purple/10 border-nextgen-purple/30';
-      case 'gold': return 'from-amber-500/20 to-amber-600/10 border-amber-500/30';
-      default: return 'from-nextgen-purple/20 to-nextgen-purple/10 border-nextgen-purple/30';
+      case 'blue': return 'from-blue-500 to-blue-600';
+      case 'teal': return 'from-teal-500 to-teal-600';
+      case 'purple': return 'from-purple-500 to-purple-600';
+      case 'gold': return 'from-amber-500 to-amber-600';
+      default: return 'from-purple-500 to-purple-600';
     }
   };
 
   return (
     <div 
-      className={`glass-card rounded-xl p-4 sm:p-6 transition-all duration-300 hover:shadow-glow bg-gradient-to-br ${getGradientClass(agent.color)} animate-fade-in`}
+      className={`glass-card rounded-xl p-4 sm:p-6 transition-all duration-300 hover:shadow-glow bg-gradient-to-br ${getGradientClass(agent.color)}/10 animate-fade-in`}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onClick={onClick}
@@ -41,6 +41,9 @@ const AgentCard = ({ agent, isActive, onMouseEnter, onMouseLeave, onClick }: Age
         
         <div className="space-y-3 flex-1">
           <div>
+            <h3 className={`text-lg font-semibold bg-gradient-to-r ${getGradientClass(agent.color)} bg-clip-text text-transparent mb-2 text-center sm:text-left`}>
+              {agent.title}
+            </h3>
             <p className="text-base sm:text-lg text-white/70 italic mb-2 text-center sm:text-left">{agent.quote}</p>
           </div>
           
@@ -67,7 +70,7 @@ const AgentCard = ({ agent, isActive, onMouseEnter, onMouseLeave, onClick }: Age
                     <TooltipProvider key={i}>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <div className="flex items-center gap-1 px-2 py-1 bg-white/5 rounded-md">
+                          <div className={`flex items-center gap-1 px-2 py-1 bg-gradient-to-r ${getGradientClass(agent.color)}/5 rounded-md border border-[${getGradientClass(agent.color)}]/10`}>
                             <tool.icon className="h-3 w-3 sm:h-4 sm:w-4 text-white/60" />
                             <span className="text-xs text-white/60">{tool.name}</span>
                           </div>
