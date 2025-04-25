@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { Check, ArrowRight } from "lucide-react";
+import { Check, ArrowRight, Shield } from "lucide-react";
 import { Link } from 'react-router-dom';
 import AgentAvatar from './AgentAvatar';
 import EmailCollectionForm from './EmailCollectionForm';
 import EmailCollectionDialog from './EmailCollectionDialog';
-import Shield from 'lucide-react';
 
 const plans = [
   {
