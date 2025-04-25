@@ -13,13 +13,13 @@ const JourneyStageIcon = ({ stageName, color, size = 24, className = "" }: Journ
   const getIcon = () => {
     switch (stageName.toLowerCase()) {
       case "attract & engage":
-        return <Activity size={size} className="text-white" />;
+        return <Activity size={size} className={`text-${color}-500`} />;
       case "activate & onboard":
-        return <CalendarDays size={size} className="text-white" />;
+        return <CalendarDays size={size} className={`text-${color}-500`} />;
       case "convert & retain":
-        return <ChartLine size={size} className="text-white" />;
+        return <ChartLine size={size} className={`text-${color}-500`} />;
       default:
-        return <Activity size={size} className="text-white" />;
+        return <Activity size={size} className={`text-${color}-500`} />;
     }
   };
 
@@ -31,3 +31,4 @@ const JourneyStageIcon = ({ stageName, color, size = 24, className = "" }: Journ
 };
 
 export default JourneyStageIcon;
+

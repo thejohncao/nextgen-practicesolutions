@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Users } from "lucide-react";
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -51,3 +52,4 @@ const AITeamSection = () => {
 };
 
 export default AITeamSection;
+
