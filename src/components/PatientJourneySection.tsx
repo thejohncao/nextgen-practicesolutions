@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ArrowRight } from "lucide-react";
 
@@ -7,37 +6,34 @@ const stages = [
     name: "Attract & Engage",
     agent: "Giselle",
     color: "from-green-500 to-green-600",
-    actions: [
-      "Generate online leads",
-      "Manage social media",
-      "Run targeted ads",
-      "Increase website traffic",
-      "Boost online reviews"
-    ]
+    activities: [
+      "Ads & Smile Quizzes",
+      "Lead Follow-Up & Campaigns",
+      "Referral Invites"
+    ],
+    tools: "Meta, Typeform, GHL"
   },
   {
     name: "Activate & Onboard",
     agent: "Miles",
     color: "from-blue-500 to-blue-600",
-    actions: [
-      "Schedule appointments",
-      "Send reminders",
-      "Verify insurance",
-      "Complete paperwork",
-      "Welcome new patients"
-    ]
+    activities: [
+      "Digital Forms",
+      "Scheduling & Check-In",
+      "Admin Coordination"
+    ],
+    tools: "GHL Forms, Slack, Google Calendar"
   },
   {
     name: "Convert & Retain",
     agent: "Devon",
     color: "from-purple-500 to-purple-600",
-    actions: [
-      "Follow-up on treatment",
-      "Send educational content",
-      "Reactivate dormant patients",
-      "Build long-term relationships",
-      "Generate referrals"
-    ]
+    activities: [
+      "Treatment Planning & Acceptance",
+      "Post-Treatment Follow-Up",
+      "Reputation Management"
+    ],
+    tools: "Loom, Cherry, Podium"
   }
 ];
 
@@ -90,10 +86,10 @@ const PatientJourneySection = () => {
                   </div>
                   
                   <ul className="space-y-2">
-                    {stage.actions.map((action, i) => (
+                    {stage.activities.map((activity, i) => (
                       <li key={i} className="flex items-center text-white/70 text-sm">
                         <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-br ${stage.color} mr-2`}></div>
-                        {action}
+                        {activity}
                       </li>
                     ))}
                   </ul>

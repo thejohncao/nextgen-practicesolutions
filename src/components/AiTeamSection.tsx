@@ -1,6 +1,16 @@
 
 import React, { useState } from 'react';
-import { Users, Calendar, Mail, MessageSquare, Shield, ChartBar } from "lucide-react";
+import { 
+  Calendar, Mail, MessageSquare, BookOpen,
+  Slack, GoogleCalendar, Meta, Type,
+  Loom, Cherry, Stripe, Podium,
+  Notion, Airtable, GoogleDrive
+} from "lucide-react";
+
+type Tool = {
+  name: string;
+  icon: React.ElementType;
+};
 
 type Agent = {
   name: string;
@@ -9,50 +19,90 @@ type Agent = {
   icon: React.ElementType;
   description: string;
   activities: string[];
-  tools: string[];
+  tools: Tool[];
   color: string;
 };
 
 const agents: Agent[] = [
   {
     name: "Miles",
-    title: "Front Office AI",
-    quote: "I handle scheduling, reminders, and administrative work",
+    title: "Head of Practice Management",
+    quote: "I activate your systems and onboard every patient with ease—so nothing slips through the cracks, and your team never starts the day in chaos.",
     icon: Calendar,
     color: "from-blue-500 to-blue-600",
-    description: "Your AI front desk assistant who manages scheduling, reminders, and administrative tasks.",
-    activities: ["Appointment scheduling", "Patient reminders", "Insurance verification"],
-    tools: ["Digital scheduling", "SMS system", "Insurance database"]
+    description: "Your AI practice management specialist who ensures smooth operations.",
+    activities: [
+      "Scheduling",
+      "Intake Forms",
+      "Admin Handoffs",
+      "Real-Time Alerts"
+    ],
+    tools: [
+      { name: "GoHighLevel", icon: Calendar },
+      { name: "Google Calendar", icon: GoogleCalendar },
+      { name: "Slack", icon: Slack },
+      { name: "Jotform", icon: Type }
+    ]
   },
   {
     name: "Giselle",
-    title: "Marketing AI",
-    quote: "I bring new patients and grow your practice",
+    title: "Head of Practice Growth",
+    quote: "I attract the right patients and keep them engaged—from the moment they find you, to the moment they book.",
     icon: Mail,
     color: "from-green-500 to-green-600",
-    description: "Your AI marketing specialist who attracts new patients and grows your practice.",
-    activities: ["Lead generation", "Review management", "Social media", "SEO"],
-    tools: ["Social media suite", "Review platform", "Email marketing"]
+    description: "Your AI marketing specialist focused on practice growth.",
+    activities: [
+      "Ad Funnels",
+      "Lead Follow-Up",
+      "Campaigns",
+      "Referrals"
+    ],
+    tools: [
+      { name: "Meta Ads", icon: Meta },
+      { name: "Google Ads", icon: Mail },
+      { name: "Typeform", icon: Type },
+      { name: "GHL", icon: Calendar }
+    ]
   },
   {
     name: "Devon",
-    title: "Patient Engagement AI",
-    quote: "I nurture relationships and build patient trust",
+    title: "Head of Practice Development",
+    quote: "I help patients convert with confidence and retain with purpose—so you're not just closing more treatment, you're building lifelong loyalty.",
     icon: MessageSquare,
     color: "from-purple-500 to-purple-600",
-    description: "Your AI engagement specialist who nurtures relationships and builds patient trust.",
-    activities: ["Follow-up sequences", "Educational content", "Birthday messages"],
-    tools: ["CRM system", "Content library", "Automated sequences"]
+    description: "Your AI engagement specialist for patient conversion and retention.",
+    activities: [
+      "Treatment Planning",
+      "Objection Handling",
+      "Financing",
+      "Recall"
+    ],
+    tools: [
+      { name: "Loom", icon: Loom },
+      { name: "Cherry", icon: Cherry },
+      { name: "Stripe", icon: Stripe },
+      { name: "Podium", icon: Podium }
+    ]
   },
   {
     name: "Ava",
-    title: "Operations AI",
-    quote: "I analyze your practice data to optimize performance",
-    icon: ChartBar,
+    title: "Head of Practice Academy",
+    quote: "I train your team and optimize your systems to deliver consistent, high-performance care.",
+    icon: BookOpen,
     color: "from-amber-500 to-amber-600",
-    description: "Your AI analyst who processes practice data to optimize business performance.",
-    activities: ["Performance tracking", "Revenue analysis", "Operational insights"],
-    tools: ["Analytics platform", "Financial dashboard", "Forecasting tools"]
+    description: "Your AI analyst for team training and system optimization.",
+    activities: [
+      "SOPs",
+      "Sales Scripting",
+      "KPI Coaching",
+      "Team Onboarding"
+    ],
+    tools: [
+      { name: "Notion", icon: Notion },
+      { name: "Airtable", icon: Airtable },
+      { name: "GHL Academy", icon: BookOpen },
+      { name: "Google Drive", icon: GoogleDrive }
+    ]
   }
 ];
 
@@ -79,7 +129,7 @@ const AITeamSection = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-          {agents.map((agent, index) => {
+          {agents.map((agent) => {
             const Icon = agent.icon;
             return (
               <div 
@@ -94,25 +144,25 @@ const AITeamSection = () => {
                   </div>
                   
                   <div className="space-y-2">
-                    <h3 className="text-xl font-heading font-semibold text-white flex items-center">
+                    <h4 className="text-xl font-heading font-semibold text-white flex items-center gap-2">
                       {agent.name}
-                      <span className="ml-2 px-2 py-0.5 text-xs rounded-full bg-white/10 text-white/60">
+                      <span className="px-2 py-0.5 text-xs rounded-full bg-white/10 text-white/60">
                         {agent.title}
                       </span>
-                    </h3>
+                    </h4>
                     
-                    <p className="text-white/70">{agent.quote}</p>
+                    <p className="text-white/70 italic">{agent.quote}</p>
                     
-                    <div className={`overflow-hidden transition-all duration-300 ${activeAgent?.name === agent.name ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0'}`}>
+                    <div className={`overflow-hidden transition-all duration-300 ${
+                      activeAgent?.name === agent.name ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0'
+                    }`}>
                       <div className="pt-4 space-y-4">
-                        <p className="text-sm text-white/70">{agent.description}</p>
-                        
                         <div>
-                          <h4 className="text-sm font-medium text-white/80 mb-1">Key Activities:</h4>
-                          <ul className="text-sm text-white/60 grid grid-cols-2 gap-1">
+                          <h5 className="text-sm font-medium text-white/80 mb-2">Key Activities:</h5>
+                          <ul className="grid grid-cols-2 gap-2">
                             {agent.activities.map((activity, i) => (
-                              <li key={i} className="flex items-center">
-                                <div className="w-1 h-1 bg-nextgen-purple rounded-full mr-2"></div>
+                              <li key={i} className="flex items-center text-white/70 text-sm">
+                                <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-br ${agent.color} mr-2`}></div>
                                 {activity}
                               </li>
                             ))}
@@ -120,34 +170,23 @@ const AITeamSection = () => {
                         </div>
                         
                         <div>
-                          <h4 className="text-sm font-medium text-white/80 mb-1">Tools Used:</h4>
+                          <h5 className="text-sm font-medium text-white/80 mb-2">Tools:</h5>
                           <div className="flex flex-wrap gap-2">
                             {agent.tools.map((tool, i) => (
-                              <span key={i} className="px-2 py-1 bg-white/5 text-white/60 text-xs rounded-md">
-                                {tool}
-                              </span>
+                              <div key={i} className="flex items-center gap-1 px-2 py-1 bg-white/5 rounded-md">
+                                <tool.icon className="h-4 w-4 text-white/60" />
+                                <span className="text-xs text-white/60">{tool.name}</span>
+                              </div>
                             ))}
                           </div>
                         </div>
                       </div>
-                    </div>
-                    
-                    <div className={`text-xs text-nextgen-purple ${activeAgent?.name === agent.name ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}>
-                      Click to explore more
                     </div>
                   </div>
                 </div>
               </div>
             );
           })}
-        </div>
-
-        <div className="mt-14 text-center">
-          <div className="inline-block glass-card px-6 py-3 rounded-full">
-            <p className="text-sm text-white/60">
-              <span className="text-nextgen-purple font-medium">All four AI agents</span> are included in our Elite and Blaze plans
-            </p>
-          </div>
         </div>
       </div>
     </section>

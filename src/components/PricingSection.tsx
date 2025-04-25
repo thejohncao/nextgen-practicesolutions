@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Check, ArrowRight } from "lucide-react";
 
@@ -67,6 +66,14 @@ const plans = [
 ];
 
 const PricingSection = () => {
+  const [isAnnual, setIsAnnual] = useState(false);
+  
+  const getPrice = (monthlyPrice: string) => {
+    if (monthlyPrice === "Custom") return "Custom";
+    const price = parseInt(monthlyPrice.replace("$", "").replace(",", ""));
+    return isAnnual ? `$${(price * 10).toLocaleString()}/year` : `$${price.toLocaleString()}/month`;
+  };
+
   return (
     <section id="pricing" className="section-padding py-20 bg-gradient-to-b from-nextgen-dark/95 to-nextgen-dark">
       <div className="container mx-auto">
@@ -79,6 +86,25 @@ const PricingSection = () => {
             Select the plan that fits your practice's needs and unlock the power of AI automation.
             All plans include a 30-day satisfaction guarantee.
           </p>
+          
+          <div className="mt-6 inline-flex items-center gap-4 glass-card p-2 rounded-full">
+            <button 
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                !isAnnual ? 'bg-nextgen-purple text-white' : 'text-white/60 hover:text-white'
+              }`}
+              onClick={() => setIsAnnual(false)}
+            >
+              Monthly
+            </button>
+            <button 
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                isAnnual ? 'bg-nextgen-purple text-white' : 'text-white/60 hover:text-white'
+              }`}
+              onClick={() => setIsAnnual(true)}
+            >
+              Annual (Save 2 Months)
+            </button>
+          </div>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -98,8 +124,7 @@ const PricingSection = () => {
               <div className="mb-4">
                 <h3 className="text-2xl font-heading font-semibold text-white mb-1">{plan.name}</h3>
                 <div className="flex items-baseline mt-2">
-                  <span className="text-3xl font-bold text-white">{plan.price}</span>
-                  {plan.price !== "Custom" && <span className="text-white/60 ml-1">/month</span>}
+                  <span className="text-3xl font-bold text-white">{getPrice(plan.price)}</span>
                 </div>
                 <p className="mt-2 text-sm text-white/70">{plan.description}</p>
               </div>
@@ -116,7 +141,7 @@ const PricingSection = () => {
               <Button 
                 className={`w-full mt-4 bg-gradient-to-r ${plan.color} text-white hover:opacity-90`}
               >
-                Get Started <ArrowRight className="ml-2 h-4 w-4" />
+                Book Demo <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
           ))}
