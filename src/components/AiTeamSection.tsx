@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 import { 
   Calendar, Mail, MessageSquare, BookOpen,
-  users, Calendar as GoogleCalendar, MessageCircle as Slack, Type,
-  Calendar as MetaIcon, Mail as GoogleAds, Type as TypeformIcon,
+  Users, Calendar as GoogleCalendar, MessageCircle as Slack, Type,
+  Facebook as MetaIcon, Mail as GoogleAds, Type as TypeformIcon,
   MessageSquare as LoomIcon, Calendar as CherryIcon, MessageCircle as StripeIcon, MessageSquare as PodiumIcon,
   BookOpen as NotionIcon, Calendar as AirtableIcon, Calendar as GoogleDriveIcon
 } from "lucide-react";
@@ -59,9 +59,9 @@ const agents: Agent[] = [
       "Referrals"
     ],
     tools: [
-      { name: "Meta Ads", icon: Meta },
-      { name: "Google Ads", icon: Mail },
-      { name: "Typeform", icon: Type },
+      { name: "Meta Ads", icon: MetaIcon },
+      { name: "Google Ads", icon: GoogleAds },
+      { name: "Typeform", icon: TypeformIcon },
       { name: "GHL", icon: Calendar }
     ]
   },
@@ -79,10 +79,10 @@ const agents: Agent[] = [
       "Recall"
     ],
     tools: [
-      { name: "Loom", icon: Loom },
-      { name: "Cherry", icon: Cherry },
-      { name: "Stripe", icon: Stripe },
-      { name: "Podium", icon: Podium }
+      { name: "Loom", icon: LoomIcon },
+      { name: "Cherry", icon: CherryIcon },
+      { name: "Stripe", icon: StripeIcon },
+      { name: "Podium", icon: PodiumIcon }
     ]
   },
   {
@@ -99,10 +99,10 @@ const agents: Agent[] = [
       "Team Onboarding"
     ],
     tools: [
-      { name: "Notion", icon: Notion },
-      { name: "Airtable", icon: Airtable },
+      { name: "Notion", icon: NotionIcon },
+      { name: "Airtable", icon: AirtableIcon },
       { name: "GHL Academy", icon: BookOpen },
-      { name: "Google Drive", icon: GoogleDrive }
+      { name: "Google Drive", icon: GoogleDriveIcon }
     ]
   }
 ];
@@ -115,7 +115,7 @@ const AITeamSection = () => {
       <div className="container mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full bg-white/5 border border-white/10">
-            <users className="h-4 w-4 text-nextgen-purple" />
+            <Users className="h-4 w-4 text-nextgen-purple" />
             <span className="text-sm font-medium text-white/80">AI Team</span>
           </div>
           
