@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Navbar from '../components/Navbar';
 import HeroSection from '../components/HeroSection';
@@ -22,15 +21,15 @@ const Index = () => {
       <HeroSection />
       <AITeamSection />
       <PatientJourneySection />
+      <IntegrationsSection />
       <ROISection />
+      <ResourcesSection />
       <TestimonialsSection />
       <PricingSection />
       <SupportAndBenefits />
-      <IntegrationsSection />
-      <FounderSection />
-      <ResourcesSection />
-      <FAQSection />
       <FooterCTA />
+      <FounderSection />
+      <FAQSection />
       <Footer />
     </div>
   );
