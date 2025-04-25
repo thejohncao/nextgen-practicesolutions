@@ -85,8 +85,8 @@ const PricingSection = () => {
           <p className="text-lg text-white/70 mb-8">
             Each package unlocks a new department, led by its own AI-powered agent.
           </p>
-          
-          <div className="mt-6 inline-flex items-center gap-4 glass-card p-2 rounded-full">
+
+          <div className="mt-6 inline-flex items-center gap-4 glass-card p-2 rounded-full animate-fade-in">
             <button 
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                 !isAnnual ? 'bg-nextgen-purple text-white' : 'text-white/60 hover:text-white'
@@ -107,12 +107,16 @@ const PricingSection = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {plans.map((plan) => (
+          {plans.map((plan, index) => (
             <div 
-              key={plan.name} 
-              className={`glass-card rounded-xl p-6 relative flex flex-col ${
-                plan.popular ? 'ring-2 ring-nextgen-purple' : ''
-              }`}
+              key={plan.name}
+              className={`glass-card rounded-xl p-6 relative flex flex-col animate-fade-in
+                ${plan.popular ? 'ring-2 ring-nextgen-purple' : ''}
+                ${isAnnual ? 'transform translate-x-0' : ''}`}
+              style={{ 
+                animationDelay: `${index * 200}ms`,
+                transition: 'transform 0.3s ease-in-out'
+              }}
             >
               {plan.popular && (
                 <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-nextgen-purple text-white text-xs font-medium px-3 py-1 rounded-full">
@@ -142,6 +146,18 @@ const PricingSection = () => {
               >
                 Book Demo <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
+
+              {/* Testimonial Quote (third plan only) */}
+              {index === 2 && (
+                <div className="mt-4 p-4 bg-white/5 rounded-lg text-sm animate-fade-in">
+                  <p className="text-white/80 italic">
+                    "NextGen helped us follow up with every lead, close more Invisalign cases, and reactivate patients we hadn't seen in a year."
+                  </p>
+                  <p className="text-xs text-white/60 mt-2">
+                    — Kayla T., Treatment Coordinator
+                  </p>
+                </div>
+              )}
             </div>
           ))}
         </div>

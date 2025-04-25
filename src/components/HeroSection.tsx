@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
@@ -11,7 +10,7 @@ const HeroSection = () => {
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-6">
-          <div className="lg:w-1/2 space-y-6 animate-fade-in">
+          <div className="lg:w-1/2 space-y-6">
             <div className="inline-block px-3 py-1 rounded-full bg-white/5 border border-white/10 text-sm">
               <span className="text-gradient-primary font-semibold">Industry First</span>
             </div>
@@ -41,6 +40,16 @@ const HeroSection = () => {
                 <Play className="mr-2 h-4 w-4" /> See How It Works
               </Button>
             </div>
+
+            {/* Testimonial Quote */}
+            <div className="glass-card p-6 mt-8 animate-fade-in" style={{ animationDelay: '600ms' }}>
+              <p className="text-white/90 italic">
+                "Within 30 days of installing NextGen, our no-shows dropped by half—and we didn't even change our staff."
+              </p>
+              <p className="text-sm text-white/60 mt-2">
+                — Dr. Rachel S., Cosmetic Dentist, Irvine, CA
+              </p>
+            </div>
             
             <div className="flex items-center gap-4 pt-6">
               <div className="flex -space-x-2">
@@ -54,7 +63,7 @@ const HeroSection = () => {
             </div>
           </div>
           
-          <div className="lg:w-1/2 mt-10 lg:mt-0 animate-fade-in-right delay-300">
+          <div className="lg:w-1/2 mt-10 lg:mt-0">
             <div className="relative">
               <div className="glass-card p-6 rounded-2xl animate-pulse-glow">
                 <div className="aspect-video bg-gradient-to-br from-nextgen-dark via-nextgen-dark to-nextgen-dark/80 rounded-lg overflow-hidden">

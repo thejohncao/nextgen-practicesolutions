@@ -128,12 +128,13 @@ const AITeamSection = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-          {agents.map((agent) => {
+          {agents.map((agent, index) => {
             const Icon = agent.icon;
             return (
               <div 
                 key={agent.name}
-                className="glass-card rounded-xl p-6 transition-all duration-300 hover:bg-white/10 hover:shadow-lg hover:shadow-nextgen-purple/10 cursor-pointer group"
+                className="glass-card rounded-xl p-6 transition-all duration-300 hover:bg-white/10 hover:shadow-lg hover:shadow-nextgen-purple/10 cursor-pointer group animate-fade-in"
+                style={{ animationDelay: `${index * 200}ms` }}
                 onMouseEnter={() => setActiveAgent(agent)}
                 onMouseLeave={() => setActiveAgent(null)}
               >
@@ -183,6 +184,17 @@ const AITeamSection = () => {
                     </div>
                   </div>
                 </div>
+                
+                {index === 1 && (
+                  <div className="mt-6 p-4 bg-white/5 rounded-lg animate-fade-in">
+                    <p className="text-sm text-white/80 italic">
+                      "We doubled our case acceptance rate and saved $8,000/month in admin overhead. It's like hiring 3 full-time people—without payroll."
+                    </p>
+                    <p className="text-xs text-white/60 mt-2">
+                      — Dr. Kevin M., Practice Owner
+                    </p>
+                  </div>
+                )}
               </div>
             );
           })}
