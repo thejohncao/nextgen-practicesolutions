@@ -7,6 +7,7 @@ import PatientJourneySection from '../components/PatientJourneySection';
 import ROISection from '../components/ROISection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import PricingSection from '../components/PricingSection';
+import SupportAndBenefits from '../components/SupportAndBenefits';
 import IntegrationsSection from '../components/IntegrationsSection';
 import FounderSection from '../components/FounderSection';
 import ResourcesSection from '../components/ResourcesSection';
@@ -24,6 +25,7 @@ const Index = () => {
       <ROISection />
       <TestimonialsSection />
       <PricingSection />
+      <SupportAndBenefits />
       <IntegrationsSection />
       <FounderSection />
       <ResourcesSection />
