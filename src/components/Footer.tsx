@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { MessageSquare, Mail, Shield } from "lucide-react";
 import { Link } from 'react-router-dom';
@@ -46,6 +47,7 @@ const Footer = () => {
           <div>
             <h3 className="text-white font-medium mb-4">Resources</h3>
             <ul className="space-y-2 text-sm">
+              <li><Link to="/academy" className="text-white/60 hover:text-white transition-colors">Academy</Link></li>
               <li><Link to="/story" className="text-white/60 hover:text-white transition-colors">Our Story</Link></li>
               <li><a href="#resources" className="text-white/60 hover:text-white transition-colors">Practice Playbook</a></li>
               <li><a href="#support" className="text-white/60 hover:text-white transition-colors">Support & Benefits</a></li>

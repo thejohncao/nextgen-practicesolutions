@@ -11,6 +11,7 @@ import Story from "./pages/Story";
 import Join from "./pages/Join";
 import Features from "./pages/Features";
 import Integrations from "./pages/Integrations";
+import Academy from "./pages/Academy";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => (
           <Route path="/join" element={<Join />} />
           <Route path="/features" element={<Features />} />
           <Route path="/integrations" element={<Integrations />} />
+          <Route path="/academy" element={<Academy />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

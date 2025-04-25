@@ -54,10 +54,10 @@ const Navbar = () => {
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="bg-nextgen-dark/95 backdrop-blur-xl border border-white/10">
                   <div className="grid gap-3 p-4 w-[400px]">
-                    <a href="#resources" className="block p-3 hover:bg-white/5 rounded-lg group">
-                      <div className="text-sm font-medium text-white mb-1">Practice Playbook</div>
-                      <div className="text-sm text-white/60">Strategies for practice growth</div>
-                    </a>
+                    <Link to="/academy" className="block p-3 hover:bg-white/5 rounded-lg group">
+                      <div className="text-sm font-medium text-white mb-1">Academy</div>
+                      <div className="text-sm text-white/60">World-class training for your dental team</div>
+                    </Link>
                     <Link to="/story" className="block p-3 hover:bg-white/5 rounded-lg group">
                       <div className="text-sm font-medium text-white mb-1">Our Story</div>
                       <div className="text-sm text-white/60">Learn about our mission and vision</div>
