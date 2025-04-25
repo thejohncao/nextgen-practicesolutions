@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Check, ArrowRight, Shield } from "lucide-react";
@@ -26,8 +27,8 @@ const plans = [
       { name: "Miles", role: "Practice Management", color: "red" }
     ],
     popular: false,
-    color: "from-blue-500 to-blue-600",
-    buttonClass: "bg-gradient-to-r from-blue-500 to-blue-600 hover:opacity-90 text-white"
+    color: "from-red-500 to-red-600", // Changed from blue to red
+    buttonClass: "bg-gradient-to-r from-red-500 to-red-600 hover:opacity-90 text-white"
   },
   {
     name: "Ignite",
@@ -49,8 +50,8 @@ const plans = [
       { name: "Giselle", role: "Growth", color: "green" }
     ],
     popular: true,
-    color: "from-teal-500 to-teal-600",
-    buttonClass: "bg-gradient-to-r from-teal-500 to-teal-600 hover:opacity-90 text-white"
+    color: "from-green-500 to-green-600", // Changed from teal to green
+    buttonClass: "bg-gradient-to-r from-green-500 to-green-600 hover:opacity-90 text-white"
   },
   {
     name: "Blaze",
@@ -70,11 +71,11 @@ const plans = [
     agents: [
       { name: "Miles", role: "Practice Management", color: "red" },
       { name: "Giselle", role: "Growth", color: "green" },
-      { name: "Devon", role: "Development", color: "purple" }
+      { name: "Devon", role: "Development", color: "blue" }
     ],
     popular: false,
-    color: "from-purple-500 to-purple-600",
-    buttonClass: "bg-gradient-to-r from-purple-500 to-purple-600 hover:opacity-90 text-white"
+    color: "from-blue-500 to-blue-600", // Changed from purple to blue
+    buttonClass: "bg-gradient-to-r from-blue-500 to-blue-600 hover:opacity-90 text-white"
   },
   {
     name: "Nova",
@@ -94,11 +95,11 @@ const plans = [
     agents: [
       { name: "Miles", role: "Practice Management", color: "red" },
       { name: "Giselle", role: "Growth", color: "green" },
-      { name: "Devon", role: "Development", color: "purple" },
+      { name: "Devon", role: "Development", color: "blue" },
       { name: "Alma", role: "Academy", color: "gold" }
     ],
     popular: false,
-    color: "from-amber-500 to-amber-600",
+    color: "from-amber-500 to-amber-600", // Kept as gold for Alma
     buttonClass: "bg-gradient-to-r from-amber-500 to-amber-600 hover:opacity-90 text-white"
   }
 ];
