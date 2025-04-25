@@ -15,19 +15,17 @@ interface AgentCardProps {
 const AgentCard = ({ agent, isActive, onMouseEnter, onMouseLeave, onClick }: AgentCardProps) => {
   const getGradientClass = (color: string) => {
     switch (color) {
-      case 'blue': return 'from-blue-500/10 to-blue-600/5';
-      case 'teal': return 'from-teal-500/10 to-teal-600/5';
-      case 'purple': return 'from-nextgen-purple/10 to-nextgen-purple/5';
-      case 'gold': return 'from-amber-500/10 to-amber-600/5';
-      default: return 'from-nextgen-purple/10 to-nextgen-purple/5';
+      case 'blue': return 'from-blue-500/20 to-blue-600/10 border-blue-500/30';
+      case 'teal': return 'from-teal-500/20 to-teal-600/10 border-teal-500/30';
+      case 'purple': return 'from-nextgen-purple/20 to-nextgen-purple/10 border-nextgen-purple/30';
+      case 'gold': return 'from-amber-500/20 to-amber-600/10 border-amber-500/30';
+      default: return 'from-nextgen-purple/20 to-nextgen-purple/10 border-nextgen-purple/30';
     }
   };
 
   return (
     <div 
-      className={`backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-4 sm:p-6 
-        transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] 
-        bg-gradient-to-br ${getGradientClass(agent.color)} animate-fade-in`}
+      className={`glass-card rounded-xl p-4 sm:p-6 transition-all duration-300 hover:shadow-glow bg-gradient-to-br ${getGradientClass(agent.color)} animate-fade-in`}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onClick={onClick}
@@ -69,7 +67,7 @@ const AgentCard = ({ agent, isActive, onMouseEnter, onMouseLeave, onClick }: Age
                     <TooltipProvider key={i}>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <div className="flex items-center gap-1 px-2 py-1 backdrop-blur-md bg-white/5 rounded-md border border-white/5">
+                          <div className="flex items-center gap-1 px-2 py-1 bg-white/5 rounded-md">
                             <tool.icon className="h-3 w-3 sm:h-4 sm:w-4 text-white/60" />
                             <span className="text-xs text-white/60">{tool.name}</span>
                           </div>
