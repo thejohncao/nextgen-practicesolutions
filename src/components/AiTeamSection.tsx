@@ -2,12 +2,10 @@
 import React, { useState } from 'react';
 import { 
   Calendar, Mail, MessageSquare, BookOpen,
-  Users, Calendar as GoogleCalendar, MessageCircle as Slack, Type,
-  Facebook as MetaIcon, Mail as GoogleAds, Type as TypeformIcon,
-  MessageSquare as LoomIcon, Calendar as CherryIcon, MessageCircle as StripeIcon, MessageSquare as PodiumIcon,
-  BookOpen as NotionIcon, Calendar as AirtableIcon, Calendar as GoogleDriveIcon
+  Users
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import AgentAvatar from './AgentAvatar';
 
 type Tool = {
   name: string;
@@ -32,7 +30,7 @@ const agents: Agent[] = [
     title: "Head of Practice Management",
     quote: "I activate your systems and onboard every patient with ease—so nothing slips through the cracks, and your team never starts the day in chaos.",
     icon: Calendar,
-    color: "from-blue-500 to-blue-600",
+    color: "blue",
     description: "Your AI practice management specialist who ensures smooth operations.",
     activities: [
       "Scheduling",
@@ -42,9 +40,9 @@ const agents: Agent[] = [
     ],
     tools: [
       { name: "GoHighLevel", icon: Calendar, description: "CRM Automation" },
-      { name: "Google Calendar", icon: GoogleCalendar, description: "Appointment Scheduling" },
-      { name: "Slack", icon: Slack, description: "Internal Notifications" },
-      { name: "Jotform", icon: Type, description: "Digital Form Creation" }
+      { name: "Google Calendar", icon: Calendar, description: "Appointment Scheduling" },
+      { name: "Slack", icon: MessageSquare, description: "Internal Notifications" },
+      { name: "Jotform", icon: Mail, description: "Digital Form Creation" }
     ]
   },
   {
@@ -52,7 +50,7 @@ const agents: Agent[] = [
     title: "Head of Practice Growth",
     quote: "I attract the right patients and keep them engaged—from the moment they find you, to the moment they book.",
     icon: Mail,
-    color: "from-green-500 to-green-600",
+    color: "teal",
     description: "Your AI marketing specialist focused on practice growth.",
     activities: [
       "Ad Funnels",
@@ -61,9 +59,9 @@ const agents: Agent[] = [
       "Referrals"
     ],
     tools: [
-      { name: "Meta Ads", icon: MetaIcon, description: "Social Media Advertising" },
-      { name: "Google Ads", icon: GoogleAds, description: "Search Advertising" },
-      { name: "Typeform", icon: TypeformIcon, description: "Interactive Forms" },
+      { name: "Meta Ads", icon: Mail, description: "Social Media Advertising" },
+      { name: "Google Ads", icon: Mail, description: "Search Advertising" },
+      { name: "Typeform", icon: Mail, description: "Interactive Forms" },
       { name: "GHL", icon: Calendar, description: "Marketing Automation" }
     ]
   },
@@ -72,7 +70,7 @@ const agents: Agent[] = [
     title: "Head of Practice Development",
     quote: "I help patients convert with confidence and retain with purpose—so you're not just closing more treatment, you're building lifelong loyalty.",
     icon: MessageSquare,
-    color: "from-purple-500 to-purple-600",
+    color: "purple",
     description: "Your AI engagement specialist for patient conversion and retention.",
     activities: [
       "Treatment Planning",
@@ -81,10 +79,10 @@ const agents: Agent[] = [
       "Recall"
     ],
     tools: [
-      { name: "Loom", icon: LoomIcon, description: "Video Messaging" },
-      { name: "Cherry", icon: CherryIcon, description: "Patient Financing" },
-      { name: "Stripe", icon: StripeIcon, description: "Payment Processing" },
-      { name: "Podium", icon: PodiumIcon, description: "Review Management" }
+      { name: "Loom", icon: MessageSquare, description: "Video Messaging" },
+      { name: "Cherry", icon: Calendar, description: "Patient Financing" },
+      { name: "Stripe", icon: MessageSquare, description: "Payment Processing" },
+      { name: "Podium", icon: MessageSquare, description: "Review Management" }
     ]
   },
   {
@@ -92,7 +90,7 @@ const agents: Agent[] = [
     title: "Head of Practice Academy",
     quote: "I train your team and optimize your systems to deliver consistent, high-performance care.",
     icon: BookOpen,
-    color: "from-amber-500 to-amber-600",
+    color: "gold",
     description: "Your AI analyst for team training and system optimization.",
     activities: [
       "SOPs",
@@ -101,16 +99,26 @@ const agents: Agent[] = [
       "Team Onboarding"
     ],
     tools: [
-      { name: "Notion", icon: NotionIcon, description: "Knowledge Management" },
-      { name: "Airtable", icon: AirtableIcon, description: "Process Management" },
+      { name: "Notion", icon: BookOpen, description: "Knowledge Management" },
+      { name: "Airtable", icon: Calendar, description: "Process Management" },
       { name: "GHL Academy", icon: BookOpen, description: "Training Platform" },
-      { name: "Google Drive", icon: GoogleDriveIcon, description: "Document Storage" }
+      { name: "Google Drive", icon: Calendar, description: "Document Storage" }
     ]
   }
 ];
 
 const AITeamSection = () => {
   const [activeAgent, setActiveAgent] = useState<Agent | null>(null);
+
+  const getGradientClass = (color: string) => {
+    switch (color) {
+      case 'blue': return 'from-blue-500/20 to-blue-600/10 border-blue-500/30';
+      case 'teal': return 'from-teal-500/20 to-teal-600/10 border-teal-500/30';
+      case 'purple': return 'from-nextgen-purple/20 to-nextgen-purple/10 border-nextgen-purple/30';
+      case 'gold': return 'from-amber-500/20 to-amber-600/10 border-amber-500/30';
+      default: return 'from-nextgen-purple/20 to-nextgen-purple/10 border-nextgen-purple/30';
+    }
+  };
 
   return (
     <section id="ai-team" className="section-padding py-20">
@@ -131,75 +139,70 @@ const AITeamSection = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-          {agents.map((agent, index) => {
-            const Icon = agent.icon;
-            return (
-              <div 
-                key={agent.name}
-                className="glass-card rounded-xl p-6 transition-all duration-300 hover:bg-white/10 hover:shadow-lg hover:shadow-nextgen-purple/10 cursor-pointer group animate-fade-in"
-                style={{ animationDelay: `${index * 200}ms` }}
-                onMouseEnter={() => setActiveAgent(agent)}
-                onMouseLeave={() => setActiveAgent(null)}
-              >
-                <div className="flex items-start gap-4">
-                  <div className={`rounded-lg p-3 bg-gradient-to-br ${agent.color} flex-shrink-0 animate-pulse-slow`} 
-                    style={{ animationDuration: '1s' }}>
-                    <Icon className="h-6 w-6 text-white" />
+          {agents.map((agent, index) => (
+            <div 
+              key={agent.name}
+              className={`glass-card rounded-xl p-6 transition-all duration-300 hover:shadow-glow bg-gradient-to-br ${getGradientClass(agent.color)} animate-fade-in`}
+              style={{ animationDelay: `${index * 200}ms` }}
+              onMouseEnter={() => setActiveAgent(agent)}
+              onMouseLeave={() => setActiveAgent(null)}
+            >
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0">
+                  <AgentAvatar 
+                    name={agent.name}
+                    role={agent.title}
+                    color={agent.color}
+                  />
+                </div>
+                
+                <div className="space-y-3 flex-1">
+                  <div>
+                    <p className="text-white/70 italic mb-2">{agent.quote}</p>
                   </div>
                   
-                  <div className="space-y-2">
-                    <h4 className="text-xl font-heading font-semibold text-white flex items-center gap-2">
-                      {agent.name}
-                      <span className="px-2 py-0.5 text-xs rounded-full bg-white/10 text-white/60">
-                        {agent.title}
-                      </span>
-                    </h4>
-                    
-                    <p className="text-white/70 italic">{agent.quote}</p>
-                    
-                    <div className={`overflow-hidden transition-all duration-300 ${
-                      activeAgent?.name === agent.name ? 'max-h-80 opacity-100 transform translate-y-0' : 'max-h-0 opacity-0 transform translate-y-4'
-                    }`}>
-                      <div className="pt-4 space-y-4">
-                        <div>
-                          <h5 className="text-sm font-medium text-white/80 mb-2">Key Activities:</h5>
-                          <ul className="grid grid-cols-2 gap-2">
-                            {agent.activities.map((activity, i) => (
-                              <li key={i} className="flex items-center text-white/70 text-sm">
-                                <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-br ${agent.color} mr-2`}></div>
-                                {activity}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        
-                        <div>
-                          <h5 className="text-sm font-medium text-white/80 mb-2">Tools:</h5>
-                          <div className="flex flex-wrap gap-2">
-                            {agent.tools.map((tool, i) => (
-                              <TooltipProvider key={i}>
-                                <Tooltip>
-                                  <TooltipTrigger asChild>
-                                    <div className="flex items-center gap-1 px-2 py-1 bg-white/5 rounded-md">
-                                      <tool.icon className="h-4 w-4 text-white/60" />
-                                      <span className="text-xs text-white/60">{tool.name}</span>
-                                    </div>
-                                  </TooltipTrigger>
-                                  <TooltipContent>
-                                    <p>{tool.name} – {tool.description}</p>
-                                  </TooltipContent>
-                                </Tooltip>
-                              </TooltipProvider>
-                            ))}
-                          </div>
+                  <div className={`overflow-hidden transition-all duration-300 ${
+                    activeAgent?.name === agent.name ? 'max-h-80 opacity-100 transform translate-y-0' : 'max-h-0 opacity-0 transform translate-y-4'
+                  }`}>
+                    <div className="pt-4 space-y-4">
+                      <div>
+                        <h5 className="text-sm font-medium text-white/80 mb-2">Key Activities:</h5>
+                        <ul className="grid grid-cols-2 gap-2">
+                          {agent.activities.map((activity, i) => (
+                            <li key={i} className="flex items-center text-white/70 text-sm">
+                              <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-br ${getGradientClass(agent.color)} mr-2`}></div>
+                              {activity}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      
+                      <div>
+                        <h5 className="text-sm font-medium text-white/80 mb-2">Tools:</h5>
+                        <div className="flex flex-wrap gap-2">
+                          {agent.tools.map((tool, i) => (
+                            <TooltipProvider key={i}>
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <div className="flex items-center gap-1 px-2 py-1 bg-white/5 rounded-md">
+                                    <tool.icon className="h-4 w-4 text-white/60" />
+                                    <span className="text-xs text-white/60">{tool.name}</span>
+                                  </div>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  <p>{tool.name} – {tool.description}</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+                          ))}
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
       </div>
     </section>
