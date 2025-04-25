@@ -26,7 +26,8 @@ const plans = [
       { name: "Miles", role: "Practice Management", color: "blue" }
     ],
     popular: false,
-    color: "from-blue-500 to-blue-600"
+    color: "from-blue-500 to-blue-600",
+    buttonClass: "bg-gradient-to-r from-blue-500 to-blue-600 hover:opacity-90 text-white"
   },
   {
     name: "Ignite",
@@ -48,7 +49,8 @@ const plans = [
       { name: "Giselle", role: "Growth", color: "teal" }
     ],
     popular: true,
-    color: "from-purple-500 to-purple-600"
+    color: "from-teal-500 to-teal-600",
+    buttonClass: "bg-gradient-to-r from-teal-500 to-teal-600 hover:opacity-90 text-white"
   },
   {
     name: "Blaze",
@@ -71,10 +73,11 @@ const plans = [
       { name: "Devon", role: "Development", color: "purple" }
     ],
     popular: false,
-    color: "from-amber-500 to-amber-600"
+    color: "from-purple-500 to-purple-600",
+    buttonClass: "bg-gradient-to-r from-purple-500 to-purple-600 hover:opacity-90 text-white"
   },
   {
-    name: "Elite",
+    name: "Nova",
     subheader: "For visionary practices: fully customized AI systems, enterprise automation, and hands-on executive strategy.",
     price: "Custom",
     yearlyPrice: "Custom",
@@ -95,7 +98,8 @@ const plans = [
       { name: "Ava", role: "Academy", color: "gold" }
     ],
     popular: false,
-    color: "from-green-500 to-green-600"
+    color: "from-amber-500 to-amber-600",
+    buttonClass: "bg-gradient-to-r from-amber-500 to-amber-600 hover:opacity-90 text-white"
   }
 ];
 
@@ -160,7 +164,9 @@ const PricingSection = () => {
               )}
               
               <div className="mb-4">
-                <h3 className="text-2xl font-heading font-semibold text-white mb-1">{plan.name}</h3>
+                <h3 className={`text-2xl font-heading font-semibold bg-gradient-to-r ${plan.color} bg-clip-text text-transparent mb-1`}>
+                  {plan.name}
+                </h3>
                 <p className="text-sm text-white/70 mb-2">{plan.description}</p>
                 <p className="text-sm text-white/90 mb-4">{plan.subheader}</p>
                 <div className="flex items-baseline mt-2">
@@ -205,7 +211,7 @@ const PricingSection = () => {
               
               <EmailCollectionDialog
                 triggerText={`Get Started with ${plan.name}`}
-                buttonClassName="w-full bg-gradient-to-r from-nextgen-purple to-nextgen-blue hover:opacity-90 text-white"
+                buttonClassName={plan.buttonClass}
               />
             </div>
           ))}
