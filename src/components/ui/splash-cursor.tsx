@@ -1,3 +1,4 @@
+
 "use client";
 import * as React from "react";
 import { cn } from "@/lib/utils";
@@ -267,8 +268,7 @@ const SplashCursor = React.forwardRef<HTMLCanvasElement, SplashCursorProps>(
         if (!keywords) return source;
         let keywordsString = "";
         keywords.forEach((keyword) => {
-          keywordsString += "#define " + keyword + "
-";
+          keywordsString += "#define " + keyword + "\n";
         });
         return keywordsString + source;
       }
@@ -923,3 +923,157 @@ const SplashCursor = React.forwardRef<HTMLCanvasElement, SplashCursorProps>(
       function updatePointer(pointer, e) {
         let rect = canvas.getBoundingClientRect();
         pointer.prevTexcoordX = pointer.texcoordX;
+        pointer.prevTexcoordY = pointer.texcoordY;
+        pointer.texcoordX = (e.clientX - rect.left) / canvas.width;
+        pointer.texcoordY = 1.0 - (e.clientY - rect.top) / canvas.height;
+        pointer.deltaX = correctDeltaX(pointer.texcoordX - pointer.prevTexcoordX);
+        pointer.deltaY = correctDeltaY(pointer.texcoordY - pointer.prevTexcoordY);
+        pointer.moved = Math.abs(pointer.deltaX) > 0 || Math.abs(pointer.deltaY) > 0;
+      }
+
+      function correctDeltaX(delta) {
+        let aspectRatio = canvas.width / canvas.height;
+        if (aspectRatio < 1) delta *= aspectRatio;
+        return delta;
+      }
+
+      function correctDeltaY(delta) {
+        let aspectRatio = canvas.width / canvas.height;
+        if (aspectRatio > 1) delta /= aspectRatio;
+        return delta;
+      }
+
+      function splat(x, y, dx, dy, color) {
+        splatProgram.bind();
+        gl.uniform1i(splatProgram.uniforms.uTarget, velocity.read.attach(0));
+        gl.uniform1f(splatProgram.uniforms.aspectRatio, canvas.width / canvas.height);
+        gl.uniform2f(splatProgram.uniforms.point, x, y);
+        gl.uniform3f(splatProgram.uniforms.color, dx, dy, 0.0);
+        gl.uniform1f(splatProgram.uniforms.radius, config.SPLAT_RADIUS / 100.0);
+        blit(velocity.write);
+        velocity.swap();
+
+        gl.uniform1i(splatProgram.uniforms.uTarget, dye.read.attach(0));
+        gl.uniform3f(splatProgram.uniforms.color, color.r, color.g, color.b);
+        blit(dye.write);
+        dye.swap();
+      }
+
+      function multipleSplats(amount) {
+        for (let i = 0; i < amount; i++) {
+          const color = generateColor();
+          color.r *= 10.0;
+          color.g *= 10.0;
+          color.b *= 10.0;
+          const x = Math.random();
+          const y = Math.random();
+          const dx = 1000 * (Math.random() - 0.5);
+          const dy = 1000 * (Math.random() - 0.5);
+          splat(x, y, dx, dy, color);
+        }
+      }
+
+      multipleSplats(parseInt(Math.random() * 20) + 5);
+
+      let lastUpdateTime = Date.now();
+
+      function update() {
+        const dt = Math.min((Date.now() - lastUpdateTime) / 1000, 0.016);
+        lastUpdateTime = Date.now();
+
+        gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
+
+        if (pointers[0].moved) {
+          pointers[0].moved = false;
+          splat(
+            pointers[0].texcoordX,
+            pointers[0].texcoordY,
+            pointers[0].deltaX * 10,
+            pointers[0].deltaY * 10,
+            pointers[0].color
+          );
+        }
+
+        advectionProgram.bind();
+        gl.uniform2f(advectionProgram.uniforms.texelSize, velocity.texelSizeX, velocity.texelSizeY);
+        gl.uniform1i(advectionProgram.uniforms.uVelocity, velocity.read.attach(0));
+        gl.uniform1i(advectionProgram.uniforms.uSource, velocity.read.attach(0));
+        gl.uniform1f(advectionProgram.uniforms.dt, dt);
+        gl.uniform1f(advectionProgram.uniforms.dissipation, config.VELOCITY_DISSIPATION);
+        blit(velocity.write);
+        velocity.swap();
+
+        gl.uniform2f(advectionProgram.uniforms.texelSize, dye.texelSizeX, dye.texelSizeY);
+        gl.uniform1i(advectionProgram.uniforms.uVelocity, velocity.read.attach(0));
+        gl.uniform1i(advectionProgram.uniforms.uSource, dye.read.attach(1));
+        gl.uniform1f(advectionProgram.uniforms.dissipation, config.DENSITY_DISSIPATION);
+        blit(dye.write);
+        dye.swap();
+
+        curlProgram.bind();
+        gl.uniform2f(curlProgram.uniforms.texelSize, velocity.texelSizeX, velocity.texelSizeY);
+        gl.uniform1i(curlProgram.uniforms.uVelocity, velocity.read.attach(0));
+        blit(curl);
+
+        vorticityProgram.bind();
+        gl.uniform2f(vorticityProgram.uniforms.texelSize, velocity.texelSizeX, velocity.texelSizeY);
+        gl.uniform1i(vorticityProgram.uniforms.uVelocity, velocity.read.attach(0));
+        gl.uniform1i(vorticityProgram.uniforms.uCurl, curl.attach(1));
+        gl.uniform1f(vorticityProgram.uniforms.curl, config.CURL);
+        gl.uniform1f(vorticityProgram.uniforms.dt, dt);
+        blit(velocity.write);
+        velocity.swap();
+
+        divergenceProgram.bind();
+        gl.uniform2f(divergenceProgram.uniforms.texelSize, velocity.texelSizeX, velocity.texelSizeY);
+        gl.uniform1i(divergenceProgram.uniforms.uVelocity, velocity.read.attach(0));
+        blit(divergence);
+
+        clearProgram.bind();
+        gl.uniform1i(clearProgram.uniforms.uTexture, pressure.read.attach(0));
+        gl.uniform1f(clearProgram.uniforms.value, config.PRESSURE);
+        blit(pressure.write);
+        pressure.swap();
+
+        pressureProgram.bind();
+        gl.uniform2f(pressureProgram.uniforms.texelSize, velocity.texelSizeX, velocity.texelSizeY);
+        gl.uniform1i(pressureProgram.uniforms.uDivergence, divergence.attach(0));
+        for (let i = 0; i < config.PRESSURE_ITERATIONS; i++) {
+          gl.uniform1i(pressureProgram.uniforms.uPressure, pressure.read.attach(1));
+          blit(pressure.write);
+          pressure.swap();
+        }
+
+        gradienSubtractProgram.bind();
+        gl.uniform2f(gradienSubtractProgram.uniforms.texelSize, velocity.texelSizeX, velocity.texelSizeY);
+        gl.uniform1i(gradienSubtractProgram.uniforms.uPressure, pressure.read.attach(0));
+        gl.uniform1i(gradienSubtractProgram.uniforms.uVelocity, velocity.read.attach(1));
+        blit(velocity.write);
+        velocity.swap();
+
+        gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
+        displayMaterial.bind();
+        gl.uniform1i(displayMaterial.uniforms.uTexture, dye.read.attach(0));
+        blit(null);
+
+        requestAnimationFrame(update);
+      }
+
+      canvas.width = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
+      update();
+    }, [curl, splatRadius, pressure, pressureIterations, simResolution, dyeResolution, captureResolution, densityDissipation, velocityDissipation, shading, colorUpdateSpeed, backColor, transparent]);
+
+    return (
+      <canvas 
+        ref={finalRef}
+        className={cn("w-full h-full absolute inset-0 -z-10", className)}
+        {...props}
+      />
+    );
+  }
+);
+
+SplashCursor.displayName = "SplashCursor";
+
+export { SplashCursor };
