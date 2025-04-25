@@ -1,8 +1,7 @@
 
 import React from 'react';
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Shield, Star, BadgeCheck } from "lucide-react";
-import { Link } from 'react-router-dom';
+import { Shield, Star, BadgeCheck } from "lucide-react";
+import EmailCollectionForm from './EmailCollectionForm';
 
 const HeroSection = () => {
   return (
@@ -50,16 +49,11 @@ const HeroSection = () => {
             Transform your dental practice with our AI-powered platform. Automate routine tasks, enhance patient care, and drive unprecedented growth.
           </p>
           
-          <div className="flex flex-wrap gap-4 justify-center animate-fade-in" style={{animationDelay: '600ms'}}>
-            <Button 
-              size="lg"
-              className="glass-card bg-nextgen-purple/90 hover:bg-nextgen-purple transition-all duration-300 hover:scale-105 shadow-[0_8px_16px_-4px_rgba(155,135,245,0.3)]"
-              asChild
-            >
-              <Link to="/demo">
-                Book a Demo <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
+          <div className="max-w-md mx-auto animate-fade-in" style={{animationDelay: '600ms'}}>
+            <EmailCollectionForm 
+              buttonText="Get Started" 
+              placeholder="Enter your work email"
+            />
           </div>
         </div>
       </div>

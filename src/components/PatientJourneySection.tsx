@@ -1,12 +1,15 @@
 
-import React from 'react';
-import { ArrowRight, Calendar, MessageSquare, Facebook } from "lucide-react";
+import React, { useState, useEffect } from 'react';
+import { ArrowRight } from "lucide-react";
+import AgentAvatar from './AgentAvatar';
+import JourneyStageIcon from './JourneyStageIcon';
+import { agents } from '@/data/agents';
 
 const stages = [
   {
     name: "Attract & Engage",
     agent: "Giselle",
-    color: "from-green-500 to-green-600",
+    color: "green",
     bgColor: "bg-green-500/5",
     activities: ["Ads", "Quizzes", "Lead Follow-up", "Referrals"],
     tools: ["Meta", "Typeform", "GHL"],
@@ -15,7 +18,7 @@ const stages = [
   {
     name: "Activate & Onboard",
     agent: "Miles",
-    color: "from-blue-500 to-blue-600",
+    color: "blue",
     bgColor: "bg-blue-500/5",
     activities: ["Intake Forms", "Check-in", "Admin Handoff"],
     tools: ["GHL Forms", "Slack", "Google Calendar"],
@@ -24,7 +27,7 @@ const stages = [
   {
     name: "Convert & Retain",
     agent: "Devon",
-    color: "from-purple-500 to-purple-600",
+    color: "purple",
     bgColor: "bg-purple-500/5",
     activities: ["Treatment Planning", "Financing", "Recall"],
     tools: ["Loom", "Cherry", "Podium", "Stripe"],
@@ -33,6 +36,39 @@ const stages = [
 ];
 
 const PatientJourneySection = () => {
+  const [activeAgent, setActiveAgent] = useState<string | null>(null);
+  const [visibleItems, setVisibleItems] = useState<boolean[]>([false, false, false]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Show stages with staggered timing
+            setTimeout(() => {
+              setVisibleItems([true, false, false]);
+              setTimeout(() => setVisibleItems([true, true, false]), 300);
+              setTimeout(() => setVisibleItems([true, true, true]), 600);
+            }, 300);
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    const section = document.getElementById('patient-journey');
+    if (section) observer.observe(section);
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Helper function to get the agent avatar for a stage
+  const getAgentAvatar = (agentName: string) => {
+    const agent = agents.find(a => a.name === agentName);
+    return agent ? agent.color : "purple";
+  };
+
   return (
     <section id="patient-journey" className="section-padding py-20 bg-gradient-to-b from-nextgen-dark to-nextgen-dark/95">
       <div className="container mx-auto">
@@ -52,26 +88,45 @@ const PatientJourneySection = () => {
         </div>
         
         <div className="relative mt-20">
-          {/* Connector Line */}
-          <div className="hidden md:block absolute top-20 left-0 w-full h-0.5 bg-gradient-to-r from-green-500 via-blue-500 to-purple-500"></div>
+          {/* Animated Connector Line */}
+          <div className="hidden md:block absolute top-20 left-0 w-full h-0.5 bg-gradient-animate rounded-full overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 animate-flow"></div>
+          </div>
           
           <div className="grid md:grid-cols-3 gap-10">
             {stages.map((stage, index) => (
               <div 
                 key={stage.name} 
-                className="relative animate-fade-in-up"
-                style={{ animationDelay: `${index * 300}ms` }}
+                className={`relative transition-all duration-700 transform ${
+                  visibleItems[index] 
+                    ? 'opacity-100 translate-y-0' 
+                    : 'opacity-0 translate-y-10'
+                }`}
+                style={{ transitionDelay: `${index * 200}ms` }}
               >
                 {/* Stage Indicator */}
                 <div className="hidden md:flex absolute -top-20 left-1/2 transform -translate-x-1/2">
-                  <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${stage.color} flex items-center justify-center`}>
+                  <div className={`w-10 h-10 rounded-full bg-gradient-to-br from-${stage.color}-500 to-${stage.color}-600 flex items-center justify-center shadow-glow`}>
                     <span className="text-white font-bold">{index + 1}</span>
                   </div>
                 </div>
                 
-                <div className={`glass-card h-full p-6 md:pt-14 ${stage.bgColor} backdrop-blur-xl`}>
+                <div 
+                  className={`glass-card h-full p-6 md:pt-14 ${stage.bgColor} backdrop-blur-xl transform transition-all duration-300 hover:scale-[1.02] hover:shadow-glow`}
+                  onMouseEnter={() => setActiveAgent(stage.agent)}
+                  onMouseLeave={() => setActiveAgent(null)}
+                >
+                  <div className="absolute top-4 right-4">
+                    <JourneyStageIcon 
+                      stageName={stage.name} 
+                      color={stage.color} 
+                      className="animate-pulse-slow"
+                      size={20}
+                    />
+                  </div>
+                  
                   <div className="md:hidden flex items-center mb-4">
-                    <div className={`w-8 h-8 rounded-full bg-gradient-to-br ${stage.color} flex items-center justify-center mr-3`}>
+                    <div className={`w-8 h-8 rounded-full bg-gradient-to-br from-${stage.color}-500 to-${stage.color}-600 flex items-center justify-center mr-3`}>
                       <span className="text-white font-bold">{index + 1}</span>
                     </div>
                     <h3 className="text-xl font-heading font-semibold text-gradient">{stage.name}</h3>
@@ -79,16 +134,30 @@ const PatientJourneySection = () => {
                   
                   <h3 className="hidden md:block text-xl font-heading font-semibold text-gradient mb-2">{stage.name}</h3>
                   
-                  <div className="inline-block px-3 py-1 rounded-full bg-white/5 border border-white/10 text-sm text-white/70 mb-4">
-                    Managed by <span className="text-white font-medium">{stage.agent}</span>
+                  <div className="inline-block px-3 py-1 rounded-full bg-white/5 border border-white/10 text-sm text-white/70 mb-4 transition-all duration-300 hover:bg-white/10">
+                    <div className="flex items-center gap-2">
+                      <span>Managed by</span>
+                      <span className={`text-${stage.color}-400 font-medium ${activeAgent === stage.agent ? 'animate-pulse' : ''}`}>{stage.agent}</span>
+                    </div>
+                  </div>
+                  
+                  {/* Agent Avatar - Shows when hovered */}
+                  <div className={`transition-all duration-500 ${
+                    activeAgent === stage.agent ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+                  } absolute -top-12 right-4 z-10`}>
+                    <AgentAvatar 
+                      name={stage.agent} 
+                      role={`AI ${stage.name} Specialist`}
+                      color={getAgentAvatar(stage.agent)}
+                    />
                   </div>
                   
                   <div className="mb-4">
                     <h4 className="text-sm text-white/60 mb-1">Key Activities:</h4>
                     <ul className="space-y-1">
                       {stage.activities.map((activity, i) => (
-                        <li key={i} className="flex items-center text-white/80 text-sm">
-                          <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-br ${stage.color} mr-2`}></div>
+                        <li key={i} className="flex items-center text-white/80 text-sm group">
+                          <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-br from-${stage.color}-500 to-${stage.color}-400 mr-2 transition-all duration-300 group-hover:scale-150`}></div>
                           {activity}
                         </li>
                       ))}
@@ -99,7 +168,10 @@ const PatientJourneySection = () => {
                     <h4 className="text-sm text-white/60 mb-1">Tools Used:</h4>
                     <div className="flex flex-wrap gap-2">
                       {stage.tools.map((tool, i) => (
-                        <span key={i} className="text-xs px-2 py-1 bg-white/5 rounded-md text-white/70">
+                        <span 
+                          key={i} 
+                          className={`text-xs px-2 py-1 bg-white/5 rounded-md text-white/70 transition-all duration-300 hover:bg-${stage.color}-500/10 hover:text-white cursor-default`}
+                        >
                           {tool}
                         </span>
                       ))}

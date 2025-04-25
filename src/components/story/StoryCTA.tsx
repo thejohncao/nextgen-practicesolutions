@@ -1,8 +1,7 @@
 
 import React from 'react';
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Play } from "lucide-react";
 import { Link } from 'react-router-dom';
+import EmailCollectionForm from '../EmailCollectionForm';
 
 const StoryCTA = () => {
   return (
@@ -17,27 +16,20 @@ const StoryCTA = () => {
             Everything we built started with solving real problems. Let us help you solve yours.
           </p>
           
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Button 
-              size="lg" 
-              className="bg-nextgen-purple hover:bg-nextgen-purple/90"
-              asChild
+          <div className="max-w-md mx-auto mb-8">
+            <EmailCollectionForm 
+              buttonText="Join the Movement" 
+              placeholder="Enter your email"
+            />
+          </div>
+          
+          <div className="mt-6">
+            <Link 
+              to="/watch" 
+              className="text-white/70 underline hover:text-white transition-colors text-sm"
             >
-              <Link to="/demo">
-                Book Your Demo <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-            
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="border-white/20 hover:bg-white/5"
-              asChild
-            >
-              <Link to="/watch">
-                <Play className="mr-2 h-4 w-4" /> See the System in Action
-              </Link>
-            </Button>
+              See the system in action first
+            </Link>
           </div>
         </div>
       </div>
