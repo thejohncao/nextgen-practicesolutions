@@ -3,6 +3,7 @@ import { Shield, Star, BadgeCheck } from "lucide-react";
 import EmailCollectionForm from './EmailCollectionForm';
 import QuantumGrid from './effects/QuantumGrid';
 import SplashCursor from './ui/splash-cursor';
+import SpliteText from './ui/splite-text';
 
 const HeroSection = () => {
   return (
@@ -71,8 +72,10 @@ const HeroSection = () => {
           <span className="text-gradient-primary font-medium">Industry First</span>
         </div>
         
-        <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-bold leading-tight bg-gradient-to-br from-nextgen-purple via-nextgen-purple/90 to-nextgen-blue bg-clip-text text-transparent mb-6 animate-fade-in" style={{animationDelay: '400ms'}}>
-          The World's First AI Team for Dental Practices
+        <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-bold leading-tight mb-6 animate-fade-in" style={{animationDelay: '400ms'}}>
+          <SpliteText as="span" className="bg-gradient-to-br from-nextgen-purple via-nextgen-purple/90 to-nextgen-blue bg-clip-text">
+            The World's First AI Team for Dental Practices
+          </SpliteText>
         </h1>
         
         <p className="text-lg md:text-xl text-white/70 mb-8 max-w-2xl mx-auto animate-fade-in backdrop-blur-sm rounded-xl p-4" style={{animationDelay: '500ms'}}>
