@@ -4,6 +4,7 @@ import { Check, ArrowRight } from "lucide-react";
 import { Link } from 'react-router-dom';
 import AgentAvatar from './AgentAvatar';
 import EmailCollectionForm from './EmailCollectionForm';
+import EmailCollectionDialog from './EmailCollectionDialog';
 
 const plans = [
   {
@@ -102,9 +103,15 @@ const PricingSection = () => {
   const [isAnnual, setIsAnnual] = useState(false);
 
   return (
-    <section id="pricing" className="section-padding py-20 bg-gradient-to-b from-nextgen-dark/95 to-nextgen-dark">
+    <section id="pricing" className="section-padding py-20 relative overflow-hidden">
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-nextgen-purple/10 blur-[100px] rounded-full animate-pulse-slow"></div>
+        <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-[#E87C7C]/10 blur-[100px] rounded-full animate-pulse-slow" style={{animationDelay: '1s'}}></div>
+        <div className="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-[#7CE8D5]/5 blur-[100px] rounded-full animate-pulse-slow" style={{animationDelay: '2s'}}></div>
+      </div>
+
       <div className="container mx-auto">
-        <div className="text-center max-w-3xl mx-auto mb-12">
+        <div className="text-center max-w-3xl mx-auto mb-12 relative">
           <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
             Choose Your Package. Unlock Your AI Team.
           </h2>
@@ -113,7 +120,7 @@ const PricingSection = () => {
             Each package unlocks a new department, led by its own AI-powered agent.
           </p>
 
-          <div className="mt-6 inline-flex items-center gap-4 glass-card p-2 rounded-full animate-fade-in">
+          <div className="mt-6 inline-flex items-center gap-4 glass-card p-2 rounded-full animate-fade-in backdrop-blur-xl">
             <button 
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                 !isAnnual ? 'bg-nextgen-purple text-white' : 'text-white/60 hover:text-white'
@@ -137,7 +144,8 @@ const PricingSection = () => {
           {plans.map((plan, index) => (
             <div 
               key={plan.name}
-              className={`glass-card rounded-xl p-6 relative flex flex-col animate-fade-in
+              className={`glass-card rounded-xl p-6 relative flex flex-col animate-fade-in backdrop-blur-xl
+                hover:shadow-[0_0_50px_rgba(155,135,245,0.1)] transition-all duration-500
                 ${plan.popular ? 'ring-2 ring-nextgen-purple' : ''}
                 ${isAnnual ? 'transform translate-x-0' : ''}`}
               style={{ 
@@ -170,7 +178,6 @@ const PricingSection = () => {
                 )}
               </div>
 
-              {/* Agent Avatars - Updated spacing */}
               <div className="mt-4 flex flex-wrap gap-3 md:gap-4">
                 {plan.agents.map((agent, i) => (
                   <div key={i} className="relative">
@@ -196,23 +203,19 @@ const PricingSection = () => {
                 ))}
               </ul>
               
-              <Button 
-                className={`w-full mt-4 bg-gradient-to-r ${plan.color} text-white hover:opacity-90`}
-                asChild
-              >
-                <Link to="/demo">
-                  Book Demo <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
+              <EmailCollectionDialog
+                triggerText={`Get Started with ${plan.name}`}
+                buttonClassName="w-full bg-gradient-to-r from-nextgen-purple to-nextgen-blue hover:opacity-90 text-white"
+              />
             </div>
           ))}
         </div>
         
         <div className="text-center mt-10">
-          <EmailCollectionForm 
-            buttonText="Book a Demo to Find Your Fit"
-            placeholder="Enter your work email"
-            className="max-w-md mx-auto"
+          <EmailCollectionDialog
+            triggerText="Book a Demo to Find Your Fit"
+            buttonSize="lg"
+            buttonClassName="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white"
           />
         </div>
       </div>
