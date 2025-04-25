@@ -3,6 +3,7 @@ import { GraduationCap, ArrowRight, Video, Book, Download, Check, User } from 'l
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import EmailCollectionDialog from './EmailCollectionDialog';
+import AuroraBackground from './effects/AuroraBackground';
 
 const FeatureCard = ({ icon: Icon, title, description }) => (
   <div className="flex items-start gap-3 group">
@@ -49,13 +50,12 @@ const AcademyOverviewSection = () => {
   ];
 
   return (
-    <section className="py-24 relative overflow-hidden">
-      {/* Background effects */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-nextgen-purple/10 blur-[100px] rounded-full animate-pulse-slow"></div>
-        <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-[#E87C7C]/10 blur-[100px] rounded-full animate-pulse-slow" style={{animationDelay: '1s'}}></div>
-      </div>
-
+    <AuroraBackground 
+      className="py-24 relative overflow-hidden" 
+      baseColor="bg-nextgen-purple"
+      highlightColor="bg-[#E87C7C]"
+      intensity="low"
+    >
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center">
           {/* Section Badge */}
@@ -108,7 +108,7 @@ const AcademyOverviewSection = () => {
           </div>
         </div>
       </div>
-    </section>
+    </AuroraBackground>
   );
 };
 

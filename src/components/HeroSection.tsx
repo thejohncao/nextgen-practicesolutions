@@ -1,15 +1,12 @@
 import React from 'react';
 import { Shield, Star, BadgeCheck } from "lucide-react";
 import EmailCollectionForm from './EmailCollectionForm';
-import QuantumGrid from './effects/QuantumGrid';
+import AuroraBackground from './effects/AuroraBackground';
 import SplashCursor from './ui/splash-cursor';
 
 const HeroSection = () => {
   return (
-    <section className="relative flex items-center justify-center pt-24 pb-20">
-      {/* Quantum Grid Background */}
-      <QuantumGrid />
-      
+    <AuroraBackground className="relative flex items-center justify-center pt-24 pb-20">
       {/* Splash Cursor Effect */}
       <SplashCursor 
         SPLAT_RADIUS={0.2}
@@ -24,7 +21,7 @@ const HeroSection = () => {
         COLOR_UPDATE_SPEED={10}
       />
       
-      {/* Background effects */}
+      {/* Background video */}
       <div className="absolute inset-0 -z-20">
         <video
           autoPlay
@@ -37,19 +34,6 @@ const HeroSection = () => {
         </video>
       </div>
 
-      {/* Enhanced quantum-inspired background effects */}
-      <div className="absolute inset-0 -z-10">
-        {/* Animated gradient orbs */}
-        <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-nextgen-purple/10 blur-[100px] rounded-full animate-pulse-slow"></div>
-        <div className="absolute bottom-[-10%] left-[-5%] w-[40%] h-[40%] bg-nextgen-blue/10 blur-[100px] rounded-full animate-pulse-slow" style={{animationDelay: '1.5s'}}></div>
-        
-        {/* Enhanced quantum grid pattern */}
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:2rem_2rem]"></div>
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:6rem_6rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]"></div>
-        </div>
-      </div>
-      
       <div className="container mx-auto px-4 py-20 text-center relative">
         {/* Enhanced floating trust badges with glass effect */}
         <div className="flex flex-wrap justify-center gap-4 mb-8">
@@ -86,7 +70,7 @@ const HeroSection = () => {
           />
         </div>
       </div>
-    </section>
+    </AuroraBackground>
   );
 };
 
