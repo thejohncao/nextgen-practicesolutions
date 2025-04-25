@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { MessageSquare, Mail, Shield } from "lucide-react";
 
@@ -8,9 +7,10 @@ const Footer = () => {
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
           <div className="col-span-2">
-            <h2 className="text-white font-heading font-bold text-2xl mb-4">
-              NextGen<span className="text-nextgen-purple">PS</span>
-            </h2>
+            <div className="flex flex-col">
+              <h2 className="text-white font-heading font-bold text-2xl">NextGen</h2>
+              <span className="text-nextgen-purple text-sm -mt-1">Practice Solutions</span>
+            </div>
             <p className="text-white/60 text-sm max-w-xs">
               The world's first AI-powered operating system for dental practices, 
               built to help providers run smarter and scale faster.

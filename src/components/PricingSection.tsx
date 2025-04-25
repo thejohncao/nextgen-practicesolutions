@@ -189,14 +189,19 @@ const PricingSection = () => {
                 )}
               </div>
 
-              <div className="mt-4 flex flex-wrap gap-3 md:gap-4">
+              <div className="mt-4 space-y-2">
                 {plan.agents.map((agent, i) => (
-                  <div key={i} className="relative">
-                    <AgentAvatar
-                      name={agent.name}
-                      role={agent.role}
-                      color={agent.color}
-                    />
+                  <div key={i} className="flex items-center gap-3">
+                    <div className="flex-shrink-0" style={{ transform: 'scale(0.8)' }}>
+                      <AgentAvatar
+                        name={agent.name}
+                        role={agent.role}
+                        color={agent.color}
+                      />
+                    </div>
+                    <div className="text-sm text-white/70">
+                      {agent.name} ({agent.role})
+                    </div>
                   </div>
                 ))}
               </div>

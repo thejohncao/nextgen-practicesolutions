@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { FileText, Check, Calculator } from "lucide-react";
+import { FileText, Check, Calculator, Shield } from "lucide-react";
 
 const resources = [
   {
@@ -32,6 +31,11 @@ const ResourcesSection = () => {
     <section id="resources" className="section-padding py-20">
       <div className="container mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full bg-white/5 border border-white/10">
+            <Shield className="h-4 w-4 text-nextgen-purple" />
+            <span className="text-sm font-medium text-white/80">Built for Growth</span>
+          </div>
+
           <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
             Free Resources
           </h2>

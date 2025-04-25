@@ -1,8 +1,7 @@
-
 import React, { useRef } from 'react';
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useIsMobile } from '@/hooks/use-mobile';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Shield } from 'lucide-react';
 
 const testimonials = [
   {
@@ -45,6 +44,11 @@ const TestimonialsSection = () => {
     <section id="testimonials" className="section-padding py-20">
       <div className="container mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full bg-white/5 border border-white/10">
+            <Shield className="h-4 w-4 text-nextgen-purple" />
+            <span className="text-sm font-medium text-white/80">Practice Success</span>
+          </div>
+
           <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
             What Practice Owners Are Saying
           </h2>
@@ -116,7 +120,6 @@ const TestimonialsSection = () => {
                   — {testimonial.author}, {testimonial.title}
                 </p>
                 
-                {/* Decorative elements */}
                 <div className="absolute -top-10 -right-10 w-20 h-20 bg-nextgen-purple/5 rounded-full blur-xl"></div>
               </div>
             ))}
