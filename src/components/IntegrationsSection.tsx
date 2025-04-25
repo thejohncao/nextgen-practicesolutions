@@ -1,8 +1,11 @@
 
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import IntegrationsHeader from './integrations/IntegrationsHeader';
 import IntegrationsList from './integrations/IntegrationsList';
 import ComplianceSection from './integrations/ComplianceSection';
+import { Button } from './ui/button';
+import { ArrowRight } from 'lucide-react';
 
 const IntegrationsSection = () => {
   const [isVisible, setIsVisible] = React.useState(false);
@@ -48,6 +51,14 @@ const IntegrationsSection = () => {
         }`}>
           <IntegrationsList integrations={integrations} isVisible={isVisible} />
           <ComplianceSection complianceChecklist={complianceChecklist} />
+          
+          <div className="flex justify-center mt-8">
+            <Link to="/integrations">
+              <Button className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white">
+                Explore All Integrations <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </section>

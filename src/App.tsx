@@ -10,6 +10,7 @@ import Watch from "./pages/Watch";
 import Story from "./pages/Story";
 import Join from "./pages/Join";
 import Features from "./pages/Features";
+import Integrations from "./pages/Integrations";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ const App = () => (
           <Route path="/story" element={<Story />} />
           <Route path="/join" element={<Join />} />
           <Route path="/features" element={<Features />} />
+          <Route path="/integrations" element={<Integrations />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
