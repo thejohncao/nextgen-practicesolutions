@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar';
 import SolutionsHero from '../components/solutions/SolutionsHero';
 import SolutionsPillars from '../components/solutions/SolutionsPillars';
 import SolutionsPackages from '../components/solutions/SolutionsPackages';
+import FlywheelSection from '../components/solutions/FlywheelSection';
 import FooterCTA from '../components/FooterCTA';
 import Footer from '../components/Footer';
 
@@ -14,6 +15,7 @@ const Solutions = () => {
       <SolutionsHero />
       <SolutionsPillars />
       <SolutionsPackages />
+      <FlywheelSection />
       <FooterCTA />
       <Footer />
     </div>
