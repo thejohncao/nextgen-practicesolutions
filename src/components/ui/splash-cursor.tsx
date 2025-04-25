@@ -1,4 +1,17 @@
+
 import React, { useEffect, useRef } from 'react';
+
+// Define interfaces for our custom WebGL objects
+interface FBO {
+  texture: WebGLTexture | null;
+  fbo: WebGLFramebuffer | null;
+}
+
+interface DoubleFBO {
+  read: FBO;
+  write: FBO;
+  swap: () => void;
+}
 
 interface PointerPrototype {
   id: number;
@@ -52,16 +65,12 @@ const SplashCursor: React.FC<SplashCursorProps> = ({
     }
 
     let texelSizeX: number, texelSizeY: number;
-    let density: WebGLTexture,
-        velocity: WebGLTexture,
-        divergence: WebGLTexture,
-        curl: WebGLTexture,
-        pressure: WebGLTexture;
-    let densityFBO: WebGLFramebuffer,
-        velocityFBO: WebGLFramebuffer,
-        divergenceFBO: WebGLFramebuffer,
-        curlFBO: WebGLFramebuffer,
-        pressureFBO: WebGLFramebuffer;
+    let density: DoubleFBO,
+        velocity: DoubleFBO,
+        divergence: FBO,
+        curl: FBO,
+        pressure: DoubleFBO;
+
     let clearProgram: WebGLProgram,
         splatProgram: WebGLProgram,
         advectionProgram: WebGLProgram,
@@ -71,39 +80,7 @@ const SplashCursor: React.FC<SplashCursorProps> = ({
         gradientSubtractProgram: WebGLProgram;
     let quadBuffer: WebGLBuffer;
 
-    function initializeFramebuffers() {
-      density = createDoubleBuffer(gl.RGBA16F, gl.RGBA, gl.HALF_FLOAT);
-      velocity = createDoubleBuffer(gl.RGBA16F, gl.RGBA, gl.HALF_FLOAT);
-
-      divergence = createFBO(gl.RGBA16F, gl.RGBA, gl.HALF_FLOAT);
-      curl = createFBO(gl.RGBA16F, gl.RGBA, gl.HALF_FLOAT);
-      pressure = createDoubleBuffer(gl.RGBA16F, gl.RGBA, gl.HALF_FLOAT);
-
-      densityFBO = density.read.fbo;
-      velocityFBO = velocity.read.fbo;
-      divergenceFBO = divergence.fbo;
-      curlFBO = curl.fbo;
-      pressureFBO = pressure.read.fbo;
-    }
-
-    function createDoubleBuffer(format: number, type: number, filter: number) {
-      let fbo1 = createFBO(format, type, filter);
-      let fbo2 = createFBO(format, type, filter);
-
-      return {
-        read: fbo1,
-        write: fbo2,
-        swap: () => {
-          let temp = fbo1;
-          fbo1 = fbo2;
-          fbo2 = temp;
-          this.read = fbo1;
-          this.write = fbo2;
-        },
-      };
-    }
-
-    function createFBO(format: number, type: number, filter: number) {
+    function createFBO(format: number, type: number, filter: number): FBO {
       gl.getExtension('EXT_color_buffer_float');
 
       let texture = gl.createTexture();
@@ -137,9 +114,35 @@ const SplashCursor: React.FC<SplashCursorProps> = ({
       gl.bindTexture(gl.TEXTURE_2D, null);
 
       return {
-        texture: texture,
-        fbo: fbo,
+        texture,
+        fbo,
       };
+    }
+
+    function createDoubleBuffer(format: number, type: number, filter: number): DoubleFBO {
+      let fbo1 = createFBO(format, type, filter);
+      let fbo2 = createFBO(format, type, filter);
+
+      const doubleFBO: DoubleFBO = {
+        read: fbo1,
+        write: fbo2,
+        swap: function() {
+          let temp = this.read;
+          this.read = this.write;
+          this.write = temp;
+        }
+      };
+
+      return doubleFBO;
+    }
+
+    function initializeFramebuffers() {
+      density = createDoubleBuffer(gl.RGBA16F, gl.RGBA, gl.LINEAR);
+      velocity = createDoubleBuffer(gl.RGBA16F, gl.RGBA, gl.LINEAR);
+
+      divergence = createFBO(gl.RGBA16F, gl.RGBA, gl.LINEAR);
+      curl = createFBO(gl.RGBA16F, gl.RGBA, gl.LINEAR);
+      pressure = createDoubleBuffer(gl.RGBA16F, gl.RGBA, gl.LINEAR);
     }
 
     function compileShader(type: number, source: string) {
@@ -250,7 +253,7 @@ const SplashCursor: React.FC<SplashCursorProps> = ({
         uniform float u_dt;
         uniform float u_dissipation;
         void main() {
-            vec2 coord = v_texCoord - u_dt * u_velocity * u_texelSize;
+            vec2 coord = v_texCoord - u_dt * texture2D(u_velocity, v_texCoord).xy * u_texelSize;
             gl_FragColor = u_dissipation * texture2D(u_density, coord);
         }
       `;
@@ -284,7 +287,7 @@ const SplashCursor: React.FC<SplashCursorProps> = ({
             float R = texture2D(u_velocity, v_texCoord + vec2(u_texelSize.x, 0.0)).y;
             float B = texture2D(u_velocity, v_texCoord - vec2(0.0, u_texelSize.y)).x;
             float T = texture2D(u_velocity, v_texCoord + vec2(0.0, u_texelSize.y)).x;
-            float curl = 0.5 * (T - B - R + L);
+            float curl = 0.5 * (R - L - T + B);
             gl_FragColor = vec4(curl, 0.0, 0.0, 1.0);
         }
       `;
@@ -294,14 +297,16 @@ const SplashCursor: React.FC<SplashCursorProps> = ({
         precision highp float;
         precision mediump sampler2D;
         varying highp vec2 v_texCoord;
+        uniform sampler2D u_pressure;
         uniform sampler2D u_divergence;
         uniform vec2 u_texelSize;
         void main() {
-            float L = texture2D(u_divergence, v_texCoord - vec2(u_texelSize.x, 0.0)).x;
-            float R = texture2D(u_divergence, v_texCoord + vec2(u_texelSize.x, 0.0)).x;
-            float B = texture2D(u_divergence, v_texCoord - vec2(0.0, u_texelSize.y)).x;
-            float T = texture2D(u_divergence, v_texCoord + vec2(0.0, u_texelSize.y)).x;
-            float pressure = 0.25 * (L + R + B + T);
+            float L = texture2D(u_pressure, v_texCoord - vec2(u_texelSize.x, 0.0)).x;
+            float R = texture2D(u_pressure, v_texCoord + vec2(u_texelSize.x, 0.0)).x;
+            float B = texture2D(u_pressure, v_texCoord - vec2(0.0, u_texelSize.y)).x;
+            float T = texture2D(u_pressure, v_texCoord + vec2(0.0, u_texelSize.y)).x;
+            float div = texture2D(u_divergence, v_texCoord).x;
+            float pressure = (L + R + B + T - div) * 0.25;
             gl_FragColor = vec4(pressure, 0.0, 0.0, 1.0);
         }
       `;
@@ -314,14 +319,14 @@ const SplashCursor: React.FC<SplashCursorProps> = ({
         uniform sampler2D u_pressure;
         uniform sampler2D u_velocity;
         uniform vec2 u_texelSize;
-        uniform float u_dt;
         void main() {
             float L = texture2D(u_pressure, v_texCoord - vec2(u_texelSize.x, 0.0)).x;
             float R = texture2D(u_pressure, v_texCoord + vec2(u_texelSize.x, 0.0)).x;
             float B = texture2D(u_pressure, v_texCoord - vec2(0.0, u_texelSize.y)).x;
             float T = texture2D(u_pressure, v_texCoord + vec2(0.0, u_texelSize.y)).x;
             vec2 velocity = texture2D(u_velocity, v_texCoord).xy;
-            velocity -= vec2(R - L, T - B);
+            velocity.x -= (R - L) * 0.5;
+            velocity.y -= (T - B) * 0.5;
             gl_FragColor = vec4(velocity, 0.0, 1.0);
         }
       `;
@@ -344,15 +349,17 @@ const SplashCursor: React.FC<SplashCursorProps> = ({
       gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
     }
 
-    function pointerPrototype() {
-      this.id = -1;
-      this.x = 0;
-      this.y = 0;
-      this.dx = 0;
-      this.dy = 0;
-      this.down = false;
-      this.moved = false;
-      this.color = [30, 0, 300];
+    function createPointerPrototype(): PointerPrototype {
+      return {
+        id: -1,
+        x: 0,
+        y: 0,
+        dx: 0,
+        dy: 0,
+        down: false,
+        moved: false,
+        color: [30, 0, 300],
+      };
     }
 
     function correctColor(color: { r: number; g: number; b: number }) {
@@ -374,7 +381,7 @@ const SplashCursor: React.FC<SplashCursorProps> = ({
     initShaders();
     initQuad();
 
-    pointers.push(new (pointerPrototype as any)());
+    pointers.push(createPointerPrototype());
 
     const updatePointerDownData = (pointer: PointerPrototype, id: number, posX: number, posY: number) => {
       pointer.id = id;
@@ -516,7 +523,7 @@ const SplashCursor: React.FC<SplashCursorProps> = ({
       }
 
       // Curl
-      gl.bindFramebuffer(gl.FRAMEBUFFER, curlFBO);
+      gl.bindFramebuffer(gl.FRAMEBUFFER, curl.fbo);
       gl.useProgram(curlProgram);
       gl.uniform1i(gl.getUniformLocation(curlProgram, 'u_velocity'), 0);
       gl.uniform2f(gl.getUniformLocation(curlProgram, 'u_texelSize'), texelSizeX, texelSizeY);
@@ -525,7 +532,7 @@ const SplashCursor: React.FC<SplashCursorProps> = ({
       gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
 
       // Divergence
-      gl.bindFramebuffer(gl.FRAMEBUFFER, divergenceFBO);
+      gl.bindFramebuffer(gl.FRAMEBUFFER, divergence.fbo);
       gl.useProgram(divergenceProgram);
       gl.uniform1i(gl.getUniformLocation(divergenceProgram, 'u_velocity'), 0);
       gl.uniform2f(gl.getUniformLocation(divergenceProgram, 'u_texelSize'), texelSizeX, texelSizeY);
@@ -537,9 +544,12 @@ const SplashCursor: React.FC<SplashCursorProps> = ({
       for (let i = 0; i < PRESSURE_ITERATIONS; i++) {
         gl.bindFramebuffer(gl.FRAMEBUFFER, pressure.write.fbo);
         gl.useProgram(pressureProgram);
-        gl.uniform1i(gl.getUniformLocation(pressureProgram, 'u_divergence'), 0);
+        gl.uniform1i(gl.getUniformLocation(pressureProgram, 'u_pressure'), 0);
+        gl.uniform1i(gl.getUniformLocation(pressureProgram, 'u_divergence'), 1);
         gl.uniform2f(gl.getUniformLocation(pressureProgram, 'u_texelSize'), texelSizeX, texelSizeY);
         gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, pressure.read.texture);
+        gl.activeTexture(gl.TEXTURE1);
         gl.bindTexture(gl.TEXTURE_2D, divergence.texture);
         gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
         pressure.swap();
@@ -551,7 +561,6 @@ const SplashCursor: React.FC<SplashCursorProps> = ({
       gl.uniform1i(gl.getUniformLocation(gradientSubtractProgram, 'u_pressure'), 0);
       gl.uniform1i(gl.getUniformLocation(gradientSubtractProgram, 'u_velocity'), 1);
       gl.uniform2f(gl.getUniformLocation(gradientSubtractProgram, 'u_texelSize'), texelSizeX, texelSizeY);
-      gl.uniform1f(gl.getUniformLocation(gradientSubtractProgram, 'u_dt'), dt);
       gl.activeTexture(gl.TEXTURE0);
       gl.bindTexture(gl.TEXTURE_2D, pressure.read.texture);
       gl.activeTexture(gl.TEXTURE1);
@@ -592,8 +601,9 @@ const SplashCursor: React.FC<SplashCursorProps> = ({
 
     // Attach data to quad
     gl.bindBuffer(gl.ARRAY_BUFFER, quadBuffer);
-    gl.vertexAttribPointer(gl.getAttribLocation(clearProgram, 'a_position'), 2, gl.FLOAT, false, 0, 0);
-    gl.enableVertexAttribArray(gl.getAttribLocation(clearProgram, 'a_position'));
+    const positionAttrib = gl.getAttribLocation(clearProgram, 'a_position');
+    gl.vertexAttribPointer(positionAttrib, 2, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(positionAttrib);
 
     // Start
     clear(TRANSPARENT ? 0 : 1);
@@ -601,26 +611,36 @@ const SplashCursor: React.FC<SplashCursorProps> = ({
 
     // Cleanup
     return () => {
-      gl.deleteTexture(density.read.texture);
-      gl.deleteTexture(density.write.texture);
-      gl.deleteFramebuffer(density.read.fbo);
-      gl.deleteFramebuffer(density.write.fbo);
+      if (density && density.read && density.write) {
+        gl.deleteTexture(density.read.texture);
+        gl.deleteTexture(density.write.texture);
+        gl.deleteFramebuffer(density.read.fbo);
+        gl.deleteFramebuffer(density.write.fbo);
+      }
 
-      gl.deleteTexture(velocity.read.texture);
-      gl.deleteTexture(velocity.write.texture);
-      gl.deleteFramebuffer(velocity.read.fbo);
-      gl.deleteFramebuffer(velocity.write.fbo);
+      if (velocity && velocity.read && velocity.write) {
+        gl.deleteTexture(velocity.read.texture);
+        gl.deleteTexture(velocity.write.texture);
+        gl.deleteFramebuffer(velocity.read.fbo);
+        gl.deleteFramebuffer(velocity.write.fbo);
+      }
 
-      gl.deleteTexture(divergence.texture);
-      gl.deleteFramebuffer(divergence.fbo);
+      if (divergence) {
+        gl.deleteTexture(divergence.texture);
+        gl.deleteFramebuffer(divergence.fbo);
+      }
 
-      gl.deleteTexture(curl.texture);
-      gl.deleteFramebuffer(curl.fbo);
+      if (curl) {
+        gl.deleteTexture(curl.texture);
+        gl.deleteFramebuffer(curl.fbo);
+      }
 
-      gl.deleteTexture(pressure.read.texture);
-      gl.deleteTexture(pressure.write.texture);
-      gl.deleteFramebuffer(pressure.read.fbo);
-      gl.deleteFramebuffer(pressure.write.fbo);
+      if (pressure && pressure.read && pressure.write) {
+        gl.deleteTexture(pressure.read.texture);
+        gl.deleteTexture(pressure.write.texture);
+        gl.deleteFramebuffer(pressure.read.fbo);
+        gl.deleteFramebuffer(pressure.write.fbo);
+      }
 
       gl.deleteProgram(clearProgram);
       gl.deleteProgram(splatProgram);
