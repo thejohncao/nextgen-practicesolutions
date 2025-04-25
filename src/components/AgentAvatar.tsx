@@ -27,6 +27,7 @@ const AgentAvatar = ({ name, role, color = 'purple' }: AgentAvatarProps) => {
       case 'green': return 'from-green-500 to-green-600';
       case 'blue': return 'from-blue-500 to-blue-600';
       case 'purple': return 'from-purple-500 to-purple-600';
+      case 'gold': return 'from-amber-500 to-amber-600';
       default: return 'from-purple-500 to-purple-600';
     }
   };

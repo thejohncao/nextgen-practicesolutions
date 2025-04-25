@@ -23,7 +23,7 @@ const plans = [
       "HIPAA compliance"
     ],
     agents: [
-      { name: "Miles", role: "Practice Management", color: "from-blue-500 to-blue-600" }
+      { name: "Miles", role: "Practice Management", color: "red" }
     ],
     popular: false,
     color: "from-blue-500 to-blue-600",
@@ -45,8 +45,8 @@ const plans = [
       "Advanced analytics"
     ],
     agents: [
-      { name: "Miles", role: "Practice Management", color: "from-blue-500 to-blue-600" },
-      { name: "Giselle", role: "Growth", color: "from-teal-500 to-teal-600" }
+      { name: "Miles", role: "Practice Management", color: "red" },
+      { name: "Giselle", role: "Growth", color: "green" }
     ],
     popular: true,
     color: "from-teal-500 to-teal-600",
@@ -68,9 +68,9 @@ const plans = [
       "Monthly strategy calls"
     ],
     agents: [
-      { name: "Miles", role: "Practice Management", color: "from-blue-500 to-blue-600" },
-      { name: "Giselle", role: "Growth", color: "from-teal-500 to-teal-600" },
-      { name: "Devon", role: "Development", color: "from-purple-500 to-purple-600" }
+      { name: "Miles", role: "Practice Management", color: "red" },
+      { name: "Giselle", role: "Growth", color: "green" },
+      { name: "Devon", role: "Development", color: "purple" }
     ],
     popular: false,
     color: "from-purple-500 to-purple-600",
@@ -92,10 +92,10 @@ const plans = [
       "Quarterly business reviews"
     ],
     agents: [
-      { name: "Miles", role: "Practice Management", color: "from-blue-500 to-blue-600" },
-      { name: "Giselle", role: "Growth", color: "from-teal-500 to-teal-600" },
-      { name: "Devon", role: "Development", color: "from-purple-500 to-purple-600" },
-      { name: "Ava", role: "Academy", color: "from-amber-500 to-amber-600" }
+      { name: "Miles", role: "Practice Management", color: "red" },
+      { name: "Giselle", role: "Growth", color: "green" },
+      { name: "Devon", role: "Development", color: "purple" },
+      { name: "Alma", role: "Academy", color: "gold" }
     ],
     popular: false,
     color: "from-amber-500 to-amber-600",

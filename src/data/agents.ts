@@ -1,4 +1,3 @@
-
 import { Calendar, Mail, MessageSquare, BookOpen } from "lucide-react";
 import { Agent } from "@/types/agent";
 
@@ -65,7 +64,7 @@ export const agents: Agent[] = [
     tagline: "Your treatment closer. Devon tracks cases and drives action.",
     quote: "I help patients convert with confidence and retain with purpose—so you're not just closing more treatment, you're building lifelong loyalty.",
     icon: MessageSquare,
-    color: "blue",
+    color: "purple",
     description: "Your AI engagement specialist for patient conversion and retention.",
     activities: [
       "Treatment Planning",
@@ -94,7 +93,7 @@ export const agents: Agent[] = [
     tagline: "Your training director. Alma equips your team for success.",
     quote: "I train your team and optimize your systems to deliver consistent, high-performance care.",
     icon: BookOpen,
-    color: "purple",
+    color: "gold",
     description: "Your AI analyst for team training and system optimization.",
     activities: [
       "SOPs",
