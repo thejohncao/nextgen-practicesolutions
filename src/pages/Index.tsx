@@ -5,7 +5,10 @@ import HeroSection from '../components/HeroSection';
 import AITeamSection from '../components/AiTeamSection';
 import PatientJourneySection from '../components/PatientJourneySection';
 import ROISection from '../components/ROISection';
+import TestimonialsSection from '../components/TestimonialsSection';
 import PricingSection from '../components/PricingSection';
+import IntegrationsSection from '../components/IntegrationsSection';
+import FounderSection from '../components/FounderSection';
 import ResourcesSection from '../components/ResourcesSection';
 import FAQSection from '../components/FAQSection';
 import FooterCTA from '../components/FooterCTA';
@@ -19,7 +22,10 @@ const Index = () => {
       <AITeamSection />
       <PatientJourneySection />
       <ROISection />
+      <TestimonialsSection />
       <PricingSection />
+      <IntegrationsSection />
+      <FounderSection />
       <ResourcesSection />
       <FAQSection />
       <FooterCTA />

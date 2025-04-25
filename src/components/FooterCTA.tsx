@@ -18,16 +18,15 @@ const FooterCTA = () => {
             </h2>
             
             <p className="text-lg text-white/70 mb-10 max-w-2xl mx-auto">
-              Join hundreds of forward-thinking dental practices using NextGen AI to transform operations, 
-              increase revenue, and deliver exceptional patient experiences.
+              Try NextGen risk-free and experience the difference in 30 days.
             </p>
             
             <div className="flex flex-wrap justify-center gap-4">
               <Button size="lg" className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white">
-                Join the Movement <ArrowRight className="ml-2 h-4 w-4" />
+                Book a Demo <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
               <Button size="lg" variant="outline" className="border-white/20 hover:bg-white/5">
-                Get Started Now
+                Join the Movement
               </Button>
             </div>
             
@@ -46,6 +45,16 @@ const FooterCTA = () => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      
+      {/* Sticky Mobile CTA */}
+      <div className="fixed bottom-0 left-0 w-full md:hidden bg-nextgen-dark/90 backdrop-blur-lg border-t border-white/10 z-50">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="text-sm text-white/80">Run Your Practice Smarter</div>
+          <Button size="sm" className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white text-xs">
+            Book a Demo
+          </Button>
         </div>
       </div>
     </section>

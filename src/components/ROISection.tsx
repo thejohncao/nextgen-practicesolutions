@@ -4,40 +4,28 @@ import { TrendingUp, Check } from "lucide-react";
 
 const comparisonData = [
   {
+    metric: "Admin Staff Needed",
+    traditional: "3–5 FTE",
+    nextgen: "0–2 with AI",
+    improvement: "-60%"
+  },
+  {
     metric: "Treatment Acceptance Rate",
-    traditional: "40%",
-    nextgen: "80%+",
+    traditional: "~40%",
+    nextgen: "70–80%+",
     improvement: "+100%"
   },
   {
     metric: "No-Show Rate",
-    traditional: "25%",
+    traditional: "25–30%",
     nextgen: "<10%",
     improvement: "-60%"
   },
   {
-    metric: "New Patient Acquisition",
-    traditional: "15/month",
-    nextgen: "30+/month",
-    improvement: "+100%"
-  },
-  {
-    metric: "Staff Hours on Admin Tasks",
-    traditional: "60+ hrs/week",
-    nextgen: "15 hrs/week",
-    improvement: "-75%"
-  },
-  {
-    metric: "Patient Communication",
-    traditional: "Manual Follow-up",
-    nextgen: "Automated",
-    improvement: "24/7"
-  },
-  {
-    metric: "Monthly Operating Cost",
-    traditional: "$15,000+",
-    nextgen: "From $999",
-    improvement: "-93%"
+    metric: "Annual Revenue Growth",
+    traditional: "3–5%",
+    nextgen: "15–30%+",
+    improvement: "+500%"
   }
 ];
 
@@ -52,13 +40,8 @@ const ROISection = () => {
           </div>
           
           <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
-            The NextGen Advantage
+            The Results Speak for Themselves
           </h2>
-          
-          <p className="text-lg text-white/70">
-            See how practices using NextGen AI compare to traditional dental practices
-            across key performance metrics.
-          </p>
         </div>
         
         <div className="glass-card p-6 md:p-8 rounded-xl overflow-hidden">

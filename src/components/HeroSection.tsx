@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
@@ -16,11 +17,16 @@ const HeroSection = () => {
             </div>
             
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-heading font-bold leading-tight text-gradient">
-              The World's First AI Team for Dental Practices
+              The Future of Your Practice Starts Here.
             </h1>
             
             <p className="text-lg sm:text-xl text-white/70 max-w-lg">
-              The world's first AI team designed to run your practice—so you can focus on care, not chaos.
+              NextGen Practice Solutions is the world's first AI-powered operating system for dental practices. 
+              One system. Four agents. Zero chaos.
+            </p>
+            
+            <p className="text-lg text-white/70 max-w-lg">
+              Your 24/7 growth team—to double case acceptance, save $100K+ per year, and scale your practice without hiring more staff.
             </p>
             
             <div className="flex flex-wrap gap-4 pt-4">
@@ -37,7 +43,7 @@ const HeroSection = () => {
                 className="border-white/20 hover:bg-white/5 animate-fade-in"
                 style={{ animationDelay: '400ms' }}
               >
-                <Play className="mr-2 h-4 w-4" /> See How It Works
+                <Play className="mr-2 h-4 w-4" /> See It In Action
               </Button>
             </div>
 
@@ -47,7 +53,7 @@ const HeroSection = () => {
                 "Within 30 days of installing NextGen, our no-shows dropped by half—and we didn't even change our staff."
               </p>
               <p className="text-sm text-white/60 mt-2">
-                — Dr. Rachel S., Cosmetic Dentist, Irvine, CA
+                — Dr. Rachel S., Cosmetic Dentist
               </p>
             </div>
             

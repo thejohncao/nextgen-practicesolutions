@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Check, ArrowRight } from "lucide-react";
@@ -6,9 +7,11 @@ const plans = [
   {
     name: "Spark",
     price: "$999",
+    yearlyPrice: "$9,990",
     description: "Perfect for solo practices just getting started with AI",
+    includes: "Miles (Mgmt)",
     features: [
-      "1 AI Agent (Miles)",
+      "Practice management automation",
       "Automated scheduling",
       "Patient reminders",
       "Basic reporting",
@@ -21,14 +24,16 @@ const plans = [
   {
     name: "Ignite",
     price: "$1,999",
+    yearlyPrice: "$19,990",
     description: "Great for growing practices ready to scale operations",
+    includes: "+ Giselle (Growth)",
     features: [
-      "2 AI Agents (Miles + Giselle)",
       "Everything in Spark",
       "Marketing automation",
       "Social media management",
       "Lead generation tools",
-      "Priority support"
+      "Priority support",
+      "Advanced analytics"
     ],
     popular: true,
     color: "from-purple-500 to-purple-600"
@@ -36,14 +41,16 @@ const plans = [
   {
     name: "Blaze",
     price: "$2,999",
+    yearlyPrice: "$29,990",
     description: "For established practices wanting complete automation",
+    includes: "+ Devon (Development)",
     features: [
-      "3 AI Agents (Miles + Giselle + Devon)",
       "Everything in Ignite",
       "Patient engagement suite",
       "Treatment follow-up automation",
       "Advanced analytics",
-      "Dedicated success manager"
+      "Dedicated success manager",
+      "Monthly strategy calls"
     ],
     popular: false,
     color: "from-amber-500 to-amber-600"
@@ -51,14 +58,16 @@ const plans = [
   {
     name: "Elite",
     price: "Custom",
+    yearlyPrice: "Custom",
     description: "Full enterprise solution for multi-location practices",
+    includes: "+ Ava (Academy)",
     features: [
-      "All 4 AI Agents",
       "Everything in Blaze",
-      "Operations & analytics (Ava)",
+      "Operations & analytics",
       "Multi-location management",
       "Custom integrations",
-      "White-glove onboarding"
+      "White-glove onboarding",
+      "Quarterly business reviews"
     ],
     popular: false,
     color: "from-green-500 to-green-600"
@@ -67,19 +76,13 @@ const plans = [
 
 const PricingSection = () => {
   const [isAnnual, setIsAnnual] = useState(false);
-  
-  const getPrice = (monthlyPrice: string) => {
-    if (monthlyPrice === "Custom") return "Custom";
-    const price = parseInt(monthlyPrice.replace("$", "").replace(",", ""));
-    return isAnnual ? `$${(price * 10).toLocaleString()}/year` : `$${price.toLocaleString()}/month`;
-  };
 
   return (
     <section id="pricing" className="section-padding py-20 bg-gradient-to-b from-nextgen-dark/95 to-nextgen-dark">
       <div className="container mx-auto">
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div className="text-center max-w-3xl mx-auto mb-12">
           <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
-            Choose Your Package
+            Choose Your Package. Unlock Your AI Team.
           </h2>
           
           <p className="text-lg text-white/70 mb-8">
@@ -127,9 +130,17 @@ const PricingSection = () => {
               <div className="mb-4">
                 <h3 className="text-2xl font-heading font-semibold text-white mb-1">{plan.name}</h3>
                 <div className="flex items-baseline mt-2">
-                  <span className="text-3xl font-bold text-white">{getPrice(plan.price)}</span>
+                  <span className="text-3xl font-bold text-white">
+                    {isAnnual ? plan.yearlyPrice : plan.price}
+                    {isAnnual && plan.price !== "Custom" ? <span className="text-sm text-white/60">/year</span> : <span className="text-sm text-white/60">/month</span>}
+                  </span>
                 </div>
-                <p className="mt-2 text-sm text-white/70">{plan.description}</p>
+                {isAnnual && plan.price !== "Custom" && (
+                  <p className="text-xs text-nextgen-purple mt-1">(2 months free)</p>
+                )}
+                <div className="mt-3 inline-block px-3 py-1 rounded-full bg-white/5 border border-white/10 text-sm text-white/70">
+                  {plan.includes}
+                </div>
               </div>
               
               <ul className="space-y-3 mb-6 flex-grow">
@@ -146,29 +157,14 @@ const PricingSection = () => {
               >
                 Book Demo <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
-
-              {/* Testimonial Quote (third plan only) */}
-              {index === 2 && (
-                <div className="mt-4 p-4 bg-white/5 rounded-lg text-sm animate-fade-in">
-                  <p className="text-white/80 italic">
-                    "NextGen helped us follow up with every lead, close more Invisalign cases, and reactivate patients we hadn't seen in a year."
-                  </p>
-                  <p className="text-xs text-white/60 mt-2">
-                    — Kayla T., Treatment Coordinator
-                  </p>
-                </div>
-              )}
             </div>
           ))}
         </div>
         
-        <div className="mt-12 text-center">
-          <p className="text-sm text-white/60 max-w-2xl mx-auto">
-            All plans include a 14-day free trial. Cancel anytime. Need a custom solution?
-            <a href="#" className="text-nextgen-purple hover:text-nextgen-purple/80 ml-1">
-              Contact our sales team
-            </a>.
-          </p>
+        <div className="text-center mt-10">
+          <Button size="lg" className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white">
+            Book a Demo to Find Your Fit
+          </Button>
         </div>
       </div>
     </section>

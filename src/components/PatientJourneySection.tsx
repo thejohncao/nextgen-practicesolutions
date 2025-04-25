@@ -1,39 +1,31 @@
+
 import React from 'react';
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Calendar, MessageSquare, Facebook } from "lucide-react";
 
 const stages = [
   {
     name: "Attract & Engage",
     agent: "Giselle",
     color: "from-green-500 to-green-600",
-    activities: [
-      "Ads & Smile Quizzes",
-      "Lead Follow-Up & Campaigns",
-      "Referral Invites"
-    ],
-    tools: "Meta, Typeform, GHL"
+    activities: ["Ads", "Quizzes", "Lead Follow-up", "Referrals"],
+    tools: ["Meta", "Typeform", "GHL"],
+    solves: "Low lead conversion"
   },
   {
     name: "Activate & Onboard",
     agent: "Miles",
     color: "from-blue-500 to-blue-600",
-    activities: [
-      "Digital Forms",
-      "Scheduling & Check-In",
-      "Admin Coordination"
-    ],
-    tools: "GHL Forms, Slack, Google Calendar"
+    activities: ["Intake Forms", "Check-in", "Admin Handoff"],
+    tools: ["GHL Forms", "Slack", "Google Calendar"],
+    solves: "Front desk inefficiency"
   },
   {
     name: "Convert & Retain",
     agent: "Devon",
     color: "from-purple-500 to-purple-600",
-    activities: [
-      "Treatment Planning & Acceptance",
-      "Post-Treatment Follow-Up",
-      "Reputation Management"
-    ],
-    tools: "Loom, Cherry, Podium"
+    activities: ["Treatment Planning", "Financing", "Recall"],
+    tools: ["Loom", "Cherry", "Podium", "Stripe"],
+    solves: "Lost revenue, poor retention"
   }
 ];
 
@@ -88,14 +80,33 @@ const PatientJourneySection = () => {
                     Managed by <span className="text-white font-medium">{stage.agent}</span>
                   </div>
                   
-                  <ul className="space-y-2">
-                    {stage.activities.map((activity, i) => (
-                      <li key={i} className="flex items-center text-white/70 text-sm">
-                        <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-br ${stage.color} mr-2`}></div>
-                        {activity}
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="mb-4">
+                    <h4 className="text-sm text-white/60 mb-1">Key Activities:</h4>
+                    <ul className="space-y-1">
+                      {stage.activities.map((activity, i) => (
+                        <li key={i} className="flex items-center text-white/80 text-sm">
+                          <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-br ${stage.color} mr-2`}></div>
+                          {activity}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  
+                  <div className="mb-4">
+                    <h4 className="text-sm text-white/60 mb-1">Tools Used:</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {stage.tools.map((tool, i) => (
+                        <span key={i} className="text-xs px-2 py-1 bg-white/5 rounded-md text-white/70">
+                          {tool}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h4 className="text-sm text-white/60 mb-1">What It Solves:</h4>
+                    <p className="text-sm text-white/80">{stage.solves}</p>
+                  </div>
                 </div>
               </div>
             ))}
