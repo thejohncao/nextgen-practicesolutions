@@ -14,18 +14,21 @@ interface EmailCollectionDialogProps {
   triggerText: string;
   buttonClassName?: string;
   buttonSize?: "default" | "sm" | "lg" | "icon";
+  buttonVariant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
 }
 
 const EmailCollectionDialog = ({ 
   triggerText,
   buttonClassName,
-  buttonSize = "default"
+  buttonSize = "default",
+  buttonVariant = "default"
 }: EmailCollectionDialogProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button 
           size={buttonSize}
+          variant={buttonVariant}
           className={buttonClassName}
         >
           {triggerText}
