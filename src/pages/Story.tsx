@@ -1,11 +1,19 @@
 
 import React from 'react';
+import StoryHero from '@/components/story/StoryHero';
+import TimelineSection from '@/components/story/TimelineSection';
+import VisionSection from '@/components/story/VisionSection';
+import StoryCTA from '@/components/story/StoryCTA';
+import Navbar from '@/components/Navbar';
 
 const Story = () => {
   return (
-    <div className="min-h-screen bg-nextgen-dark text-white p-8">
-      <h1 className="text-4xl font-heading font-bold mb-6">Our Story</h1>
-      <p className="text-lg text-white/70">Learn how we built NextGen Practice Solutions.</p>
+    <div className="min-h-screen bg-nextgen-dark text-white">
+      <Navbar />
+      <StoryHero />
+      <TimelineSection />
+      <VisionSection />
+      <StoryCTA />
     </div>
   );
 };
