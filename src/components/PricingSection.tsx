@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import AgentAvatar from './AgentAvatar';
 import EmailCollectionForm from './EmailCollectionForm';
 import EmailCollectionDialog from './EmailCollectionDialog';
+import Shield from 'lucide-react';
 
 const plans = [
   {
@@ -116,6 +117,11 @@ const PricingSection = () => {
 
       <div className="container mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-12 relative">
+          <div className="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full bg-white/5 border border-white/10">
+            <Shield className="h-4 w-4 text-nextgen-purple" />
+            <span className="text-sm font-medium text-white/80">Transparent Pricing</span>
+          </div>
+
           <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
             Choose Your Package. Unlock Your AI Team.
           </h2>

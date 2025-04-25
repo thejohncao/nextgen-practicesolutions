@@ -1,6 +1,12 @@
-
 import React from 'react';
 import { TrendingUp, Check } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const comparisonData = [
   {
@@ -44,7 +50,7 @@ const ROISection = () => {
           </h2>
         </div>
         
-        <div className="glass-card p-6 md:p-8 rounded-xl overflow-hidden">
+        <div className="hidden md:block glass-card p-6 md:p-8 rounded-xl overflow-hidden">
           <div className="grid grid-cols-3 gap-4 mb-6 text-sm md:text-base">
             <div className="col-span-1 font-medium text-white/80">Metric</div>
             <div className="text-center font-medium text-white/80">
@@ -98,6 +104,42 @@ const ROISection = () => {
               </div>
             ))}
           </div>
+        </div>
+        
+        <div className="md:hidden">
+          <Carousel className="w-full">
+            <CarouselContent>
+              {comparisonData.map((item, index) => (
+                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                  <div className="glass-card p-6 rounded-xl space-y-4">
+                    <div className="flex items-center text-white mb-4">
+                      <Check className="h-4 w-4 text-nextgen-purple mr-2 flex-shrink-0" />
+                      <span className="font-medium">{item.metric}</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <div className="text-sm text-white/60 mb-2">Traditional</div>
+                        <div className="px-3 py-2 rounded-md bg-white/5 text-white/70">
+                          {item.traditional}
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-sm text-white/60 mb-2">With NextGen</div>
+                        <div className="px-3 py-2 rounded-md bg-nextgen-purple/20 text-nextgen-purple">
+                          {item.nextgen}
+                          <span className="ml-2 text-xs bg-white/10 px-1.5 py-0.5 rounded-full text-white/80">
+                            {item.improvement}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden" />
+            <CarouselNext className="hidden" />
+          </Carousel>
         </div>
         
         <div className="mt-10 text-center">

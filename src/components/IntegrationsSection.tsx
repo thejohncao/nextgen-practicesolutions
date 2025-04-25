@@ -19,6 +19,11 @@ const IntegrationsSection = () => {
     <section id="integrations" className="section-padding py-20 bg-gradient-to-b from-nextgen-dark/95 to-nextgen-dark">
       <div className="container mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-6">
+          <div className="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full bg-white/5 border border-white/10">
+            <Shield className="h-4 w-4 text-nextgen-purple" />
+            <span className="text-sm font-medium text-white/80">Trusted by Practices</span>
+          </div>
+          
           <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
             Built for Healthcare. Trusted by Practices.
           </h2>

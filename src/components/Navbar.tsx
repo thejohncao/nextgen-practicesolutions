@@ -8,8 +8,11 @@ const Navbar = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center">
-            <a href="#" className="text-white font-heading font-bold text-xl">
-              NextGen<span className="text-nextgen-purple">PS</span>
+            <a href="#" className="text-white">
+              <div className="flex flex-col">
+                <span className="font-heading font-bold text-xl">NextGen</span>
+                <span className="text-nextgen-purple text-sm -mt-1">Practice Solutions</span>
+              </div>
             </a>
           </div>
           
