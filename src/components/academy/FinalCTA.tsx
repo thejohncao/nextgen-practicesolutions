@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import EmailCollectionDialog from '../EmailCollectionDialog';
@@ -17,12 +16,11 @@ const FinalCTA = () => {
           </p>
           
           <div className="flex flex-col md:flex-row items-center justify-center gap-4">
-            <Button 
-              size="lg" 
-              className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white px-8 py-6 text-lg rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 w-full md:w-auto"
-            >
-              Enroll Today
-            </Button>
+            <EmailCollectionDialog
+              triggerText="Get Instant Access"
+              buttonSize="lg"
+              buttonClassName="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white px-8 py-6 text-lg rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 w-full md:w-auto"
+            />
             
             <EmailCollectionDialog
               triggerText="Book a Discovery Call"
@@ -34,7 +32,6 @@ const FinalCTA = () => {
         </div>
       </div>
       
-      {/* Background elements */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-0 right-1/4 w-[400px] h-[400px] bg-nextgen-blue/10 blur-[100px] rounded-full animate-pulse-slow"></div>
       </div>

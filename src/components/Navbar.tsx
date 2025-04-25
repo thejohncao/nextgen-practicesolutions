@@ -73,9 +73,12 @@ const Navbar = () => {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <TubelightNavLink to="/pricing">
+                <a 
+                  href="/#pricing" 
+                  className="relative px-4 py-2 text-sm text-white/80 transition-colors hover:text-white group"
+                >
                   Pricing
-                </TubelightNavLink>
+                </a>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
