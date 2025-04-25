@@ -4,8 +4,9 @@ import { TooltipProvider, Tooltip, TooltipContent, TooltipTrigger } from "@/comp
 import { Button } from "@/components/ui/button";
 import { Agent } from '@/types/agent';
 import AgentAvatar from './AgentAvatar';
-import { Check } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Check, X } from 'lucide-react';
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import FeatureCarousel from './features/FeatureCarousel';
 
 interface AgentCardProps {
   agent: Agent;
@@ -18,7 +19,7 @@ const AgentCard = ({ agent, isActive }: AgentCardProps) => {
       case 'red': return 'from-red-500 to-red-600';
       case 'green': return 'from-green-500 to-green-600';
       case 'blue': return 'from-blue-500 to-blue-600';
-      case 'purple': return 'from-purple-500 to-purple-600';
+      case 'gold': return 'from-amber-500 to-amber-600';
       default: return 'from-purple-500 to-purple-600';
     }
   };
@@ -61,17 +62,30 @@ const AgentCard = ({ agent, isActive }: AgentCardProps) => {
           </ul>
         </div>
         
-        {/* See Full Features button */}
-        <Button
-          variant="outline"
-          className={`w-full mt-auto border-${agent.color}-500/20 hover:bg-${agent.color}-500/20`}
-          asChild
-        >
-          <Link to="/features">See Full Features</Link>
-        </Button>
+        {/* Features Dialog */}
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button
+              variant="outline"
+              className={`w-full mt-auto border-${agent.color}-500/20 hover:bg-${agent.color}-500/20`}
+            >
+              See Full Features
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-4xl h-[80vh] overflow-y-auto">
+            <div className="relative">
+              <FeatureCarousel initialSlide={getAgentIndex(agent.name)} />
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
+};
+
+const getAgentIndex = (name: string): number => {
+  const agentOrder = ['Miles', 'Giselle', 'Devon', 'Alma'];
+  return agentOrder.indexOf(name);
 };
 
 export default AgentCard;

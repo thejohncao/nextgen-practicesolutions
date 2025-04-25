@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Check, Minus } from "lucide-react";
 import {
@@ -56,15 +55,26 @@ const features = [
 ];
 
 const SupportTable = () => {
+  const getPackageColor = (column: number): string => {
+    switch (column) {
+      case 1: return 'text-red-500'; // Spark (Miles - Red)
+      case 2: return 'text-green-500'; // Ignite (Giselle - Green)
+      case 3: return 'text-blue-500'; // Blaze (Devon - Blue)
+      case 4: return 'text-amber-500'; // Nova (Alma - Gold)
+      default: return 'text-white';
+    }
+  };
+
   return (
     <div className="w-full overflow-auto">
       <Table className="w-full">
         <TableHeader>
           <TableRow className="hover:bg-transparent">
             <TableHead className="w-[300px]">Feature</TableHead>
-            <TableHead>Spark</TableHead>
-            <TableHead>Ignite</TableHead>
-            <TableHead>Blaze</TableHead>
+            <TableHead className={getPackageColor(1)}>Spark</TableHead>
+            <TableHead className={getPackageColor(2)}>Ignite</TableHead>
+            <TableHead className={getPackageColor(3)}>Blaze</TableHead>
+            <TableHead className={getPackageColor(4)}>Nova</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -74,12 +84,12 @@ const SupportTable = () => {
               <TableCell>
                 {typeof feature.spark === 'boolean' ? (
                   feature.spark ? (
-                    <Check className="h-4 w-4 text-green-500" />
+                    <Check className="h-4 w-4 text-red-500" />
                   ) : (
                     <Minus className="h-4 w-4 text-white/20" />
                   )
                 ) : (
-                  feature.spark
+                  <span className="text-red-500">{feature.spark}</span>
                 )}
               </TableCell>
               <TableCell>
@@ -90,18 +100,29 @@ const SupportTable = () => {
                     <Minus className="h-4 w-4 text-white/20" />
                   )
                 ) : (
-                  feature.ignite
+                  <span className="text-green-500">{feature.ignite}</span>
                 )}
               </TableCell>
               <TableCell>
                 {typeof feature.blaze === 'boolean' ? (
                   feature.blaze ? (
-                    <Check className="h-4 w-4 text-green-500" />
+                    <Check className="h-4 w-4 text-blue-500" />
                   ) : (
                     <Minus className="h-4 w-4 text-white/20" />
                   )
                 ) : (
-                  feature.blaze
+                  <span className="text-blue-500">{feature.blaze}</span>
+                )}
+              </TableCell>
+              <TableCell>
+                {typeof feature.nova === 'boolean' ? (
+                  feature.nova ? (
+                    <Check className="h-4 w-4 text-amber-500" />
+                  ) : (
+                    <Minus className="h-4 w-4 text-white/20" />
+                  )
+                ) : (
+                  <span className="text-amber-500">{feature.nova}</span>
                 )}
               </TableCell>
             </TableRow>
