@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Check, Minus } from "lucide-react";
 import {
@@ -15,42 +16,49 @@ const features = [
     spark: true,
     ignite: true,
     blaze: true,
+    nova: true
   },
   {
     name: "Agent Activation Call",
     spark: "1x Setup Call",
     ignite: "Bi-weekly Office Hours",
     blaze: "Dedicated Success Manager",
+    nova: "24/7 Priority Support"
   },
   {
     name: "Success Dashboard Access",
     spark: "Basic KPIs",
     ignite: "Lead Tracking + Reports",
     blaze: "Full Custom Performance Dashboard",
+    nova: "Enterprise Analytics Suite"
   },
   {
     name: "Support Channels",
     spark: "Email",
     ignite: "Email + Slack",
     blaze: "Slack + Text Concierge",
+    nova: "White Glove Service"
   },
   {
     name: "Campaign Launch Templates",
     spark: "Starter Kit",
     ignite: "Full Funnel Flows",
     blaze: "Done-for-You Campaigns",
+    nova: "Custom Strategy Design"
   },
   {
     name: "System Optimization Calls",
     spark: "Monthly Check-in",
     ignite: "Bi-weekly Growth Calls",
     blaze: "Weekly Deep Dives + ROI Audits",
+    nova: "Daily Strategy Sessions"
   },
   {
     name: "On-Site Training",
     spark: false,
     ignite: "Optional Add-on",
     blaze: "Included (1x per year)",
+    nova: "Unlimited Access"
   },
 ];
 

@@ -1,10 +1,9 @@
-
 import React from 'react';
 import { TooltipProvider, Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { Agent } from '@/types/agent';
 import AgentAvatar from './AgentAvatar';
-import { Check, X } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import FeatureCarousel from './features/FeatureCarousel';
 
@@ -74,18 +73,13 @@ const AgentCard = ({ agent, isActive }: AgentCardProps) => {
           </DialogTrigger>
           <DialogContent className="max-w-4xl h-[80vh] overflow-y-auto">
             <div className="relative">
-              <FeatureCarousel initialSlide={getAgentIndex(agent.name)} />
+              <FeatureCarousel agent={agent.name} />
             </div>
           </DialogContent>
         </Dialog>
       </div>
     </div>
   );
-};
-
-const getAgentIndex = (name: string): number => {
-  const agentOrder = ['Miles', 'Giselle', 'Devon', 'Alma'];
-  return agentOrder.indexOf(name);
 };
 
 export default AgentCard;
