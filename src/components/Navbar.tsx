@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from "@/components/ui/button";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
 import { Link } from "react-router-dom";
+import TubelightNavLink from './TubelightNavLink';
 
 const Navbar = () => {
   return (
@@ -20,9 +21,9 @@ const Navbar = () => {
           <NavigationMenu className="hidden lg:flex">
             <NavigationMenuList className="space-x-1">
               <NavigationMenuItem>
-                <Link to="/" className="text-sm text-white/80 hover:text-white transition-colors px-4 py-2">
+                <TubelightNavLink to="/">
                   Home
-                </Link>
+                </TubelightNavLink>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
@@ -48,27 +49,27 @@ const Navbar = () => {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <Link to="/academy" className="text-sm text-white/80 hover:text-white transition-colors px-4 py-2">
+                <TubelightNavLink to="/academy">
                   Academy
-                </Link>
+                </TubelightNavLink>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <Link to="/resources" className="text-sm text-white/80 hover:text-white transition-colors px-4 py-2">
+                <TubelightNavLink to="/resources">
                   Free Resources
-                </Link>
+                </TubelightNavLink>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <Link to="/pricing" className="text-sm text-white/80 hover:text-white transition-colors px-4 py-2">
+                <TubelightNavLink to="/pricing">
                   Pricing
-                </Link>
+                </TubelightNavLink>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <Link to="/story" className="text-sm text-white/80 hover:text-white transition-colors px-4 py-2">
+                <TubelightNavLink to="/story">
                   About
-                </Link>
+                </TubelightNavLink>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
