@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Navbar from '../components/Navbar';
 import HeroSection from '../components/HeroSection';
@@ -7,6 +8,7 @@ import ROISection from '../components/ROISection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import PricingSection from '../components/PricingSection';
 import SupportAndBenefits from '../components/SupportAndBenefits';
+import SuccessGuarantee from '../components/SuccessGuarantee';
 import IntegrationsSection from '../components/IntegrationsSection';
 import FounderSection from '../components/FounderSection';
 import ResourcesSection from '../components/ResourcesSection';
@@ -23,12 +25,13 @@ const Index = () => {
       <PatientJourneySection />
       <IntegrationsSection />
       <ROISection />
-      <ResourcesSection />
-      <TestimonialsSection />
       <PricingSection />
       <SupportAndBenefits />
+      <SuccessGuarantee />
       <FooterCTA />
       <FounderSection />
+      <ResourcesSection />
+      <TestimonialsSection />
       <FAQSection />
       <Footer />
     </div>

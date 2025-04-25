@@ -1,7 +1,6 @@
 
 import React from 'react';
 import SupportTable from './SupportTable';
-import SuccessGuarantee from './SuccessGuarantee';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { Link } from 'react-router-dom';
@@ -10,7 +9,6 @@ const SupportAndBenefits = () => {
   return (
     <section className="section-padding py-20">
       <div className="container mx-auto space-y-20">
-        {/* Support & Optimization Section */}
         <div className="space-y-12">
           <div className="text-center">
             <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
@@ -29,10 +27,6 @@ const SupportAndBenefits = () => {
           </div>
         </div>
 
-        {/* Success Guarantee Section */}
-        <SuccessGuarantee />
-
-        {/* CTA Button */}
         <div className="text-center">
           <Button size="lg" className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white" asChild>
             <Link to="/demo">
