@@ -26,18 +26,18 @@ const Navbar = () => {
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="bg-nextgen-dark/95 backdrop-blur-xl border border-white/10">
                   <div className="grid gap-3 p-4 w-[400px]">
-                    <a href="#ai-team" className="block p-3 hover:bg-white/5 rounded-lg group">
-                      <div className="text-sm font-medium text-white mb-1">AI Team</div>
-                      <div className="text-sm text-white/60">Meet your AI-powered practice management team</div>
-                    </a>
-                    <a href="#patient-journey" className="block p-3 hover:bg-white/5 rounded-lg group">
-                      <div className="text-sm font-medium text-white mb-1">Patient Journey</div>
-                      <div className="text-sm text-white/60">Transform patient experience end-to-end</div>
-                    </a>
-                    <a href="#roi" className="block p-3 hover:bg-white/5 rounded-lg group">
-                      <div className="text-sm font-medium text-white mb-1">ROI Calculator</div>
-                      <div className="text-sm text-white/60">See your practice's potential growth</div>
-                    </a>
+                    <Link to="/solutions" className="block p-3 hover:bg-white/5 rounded-lg group">
+                      <div className="text-sm font-medium text-white mb-1">Practice Management</div>
+                      <div className="text-sm text-white/60">Run smoother with AI automation</div>
+                    </Link>
+                    <Link to="/solutions" className="block p-3 hover:bg-white/5 rounded-lg group">
+                      <div className="text-sm font-medium text-white mb-1">Practice Growth</div>
+                      <div className="text-sm text-white/60">Scale your patient acquisition</div>
+                    </Link>
+                    <Link to="/solutions" className="block p-3 hover:bg-white/5 rounded-lg group">
+                      <div className="text-sm font-medium text-white mb-1">Practice Development</div>
+                      <div className="text-sm text-white/60">Train and develop your team</div>
+                    </Link>
                   </div>
                 </NavigationMenuContent>
               </NavigationMenuItem>
@@ -62,10 +62,10 @@ const Navbar = () => {
                       <div className="text-sm font-medium text-white mb-1">Our Story</div>
                       <div className="text-sm text-white/60">Learn about our mission and vision</div>
                     </Link>
-                    <a href="#support" className="block p-3 hover:bg-white/5 rounded-lg group">
-                      <div className="text-sm font-medium text-white mb-1">Support</div>
-                      <div className="text-sm text-white/60">Get help from our team</div>
-                    </a>
+                    <Link to="/features" className="block p-3 hover:bg-white/5 rounded-lg group">
+                      <div className="text-sm font-medium text-white mb-1">Features</div>
+                      <div className="text-sm text-white/60">Explore our platform capabilities</div>
+                    </Link>
                   </div>
                 </NavigationMenuContent>
               </NavigationMenuItem>
