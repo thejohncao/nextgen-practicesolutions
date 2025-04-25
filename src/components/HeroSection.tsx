@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Shield, Star, BadgeCheck } from "lucide-react";
 import EmailCollectionForm from './EmailCollectionForm';
@@ -7,7 +6,7 @@ import SplashCursor from './ui/splash-cursor';
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24">
+    <section className="relative flex items-center justify-center pt-24 pb-20">
       {/* Quantum Grid Background */}
       <QuantumGrid />
       
