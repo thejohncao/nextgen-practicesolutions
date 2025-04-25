@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Circle } from 'lucide-react';
 
 const timelineData = [
   {
