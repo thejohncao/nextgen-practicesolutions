@@ -1,14 +1,17 @@
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { Check, ArrowRight, Calendar, Mail, MessageSquare, BookOpen } from "lucide-react";
+import { Check, ArrowRight } from "lucide-react";
 import { Link } from 'react-router-dom';
+import AgentAvatar from './AgentAvatar';
 
 const plans = [
   {
     name: "Spark",
+    subheader: "Build your base: streamlined operations, smart scheduling, and AI-powered front desk support.",
     price: "$999",
     yearlyPrice: "$9,990",
-    description: "Perfect for solo practices just getting started with AI",
+    description: "Foundation Package",
     includes: "Miles (Mgmt)",
     features: [
       "Practice management automation",
@@ -19,16 +22,17 @@ const plans = [
       "HIPAA compliance"
     ],
     agents: [
-      { name: "Miles", icon: Calendar, color: "from-blue-500 to-blue-600" }
+      { name: "Miles", role: "Practice Management", color: "blue" }
     ],
     popular: false,
     color: "from-blue-500 to-blue-600"
   },
   {
     name: "Ignite",
+    subheader: "Fuel your momentum: lead generation, AI follow-up, and fully automated campaign workflows.",
     price: "$1,999",
     yearlyPrice: "$19,990",
-    description: "Great for growing practices ready to scale operations",
+    description: "Growth Package",
     includes: "+ Giselle (Growth)",
     features: [
       "Everything in Spark",
@@ -39,17 +43,18 @@ const plans = [
       "Advanced analytics"
     ],
     agents: [
-      { name: "Miles", icon: Calendar, color: "from-blue-500 to-blue-600" },
-      { name: "Giselle", icon: Mail, color: "from-green-500 to-green-600" }
+      { name: "Miles", role: "Practice Management", color: "blue" },
+      { name: "Giselle", role: "Growth", color: "teal" }
     ],
     popular: true,
     color: "from-purple-500 to-purple-600"
   },
   {
     name: "Blaze",
+    subheader: "Scale with confidence: treatment close systems, reactivation flows, and your dream team fully trained and deployed.",
     price: "$2,999",
     yearlyPrice: "$29,990",
-    description: "For established practices wanting complete automation",
+    description: "Multiply Package",
     includes: "+ Devon (Development)",
     features: [
       "Everything in Ignite",
@@ -60,18 +65,19 @@ const plans = [
       "Monthly strategy calls"
     ],
     agents: [
-      { name: "Miles", icon: Calendar, color: "from-blue-500 to-blue-600" },
-      { name: "Giselle", icon: Mail, color: "from-green-500 to-green-600" },
-      { name: "Devon", icon: MessageSquare, color: "from-purple-500 to-purple-600" }
+      { name: "Miles", role: "Practice Management", color: "blue" },
+      { name: "Giselle", role: "Growth", color: "teal" },
+      { name: "Devon", role: "Development", color: "purple" }
     ],
     popular: false,
     color: "from-amber-500 to-amber-600"
   },
   {
     name: "Elite",
+    subheader: "For visionary practices: fully customized AI systems, enterprise automation, and hands-on executive strategy.",
     price: "Custom",
     yearlyPrice: "Custom",
-    description: "Full enterprise solution for multi-location practices",
+    description: "Custom Package",
     includes: "+ Ava (Academy)",
     features: [
       "Everything in Blaze",
@@ -82,10 +88,10 @@ const plans = [
       "Quarterly business reviews"
     ],
     agents: [
-      { name: "Miles", icon: Calendar, color: "from-blue-500 to-blue-600" },
-      { name: "Giselle", icon: Mail, color: "from-green-500 to-green-600" },
-      { name: "Devon", icon: MessageSquare, color: "from-purple-500 to-purple-600" },
-      { name: "Ava", icon: BookOpen, color: "from-amber-500 to-amber-600" }
+      { name: "Miles", role: "Practice Management", color: "blue" },
+      { name: "Giselle", role: "Growth", color: "teal" },
+      { name: "Devon", role: "Development", color: "purple" },
+      { name: "Ava", role: "Academy", color: "gold" }
     ],
     popular: false,
     color: "from-green-500 to-green-600"
@@ -147,38 +153,41 @@ const PricingSection = () => {
               
               <div className="mb-4">
                 <h3 className="text-2xl font-heading font-semibold text-white mb-1">{plan.name}</h3>
+                <p className="text-sm text-white/70 mb-2">{plan.description}</p>
+                <p className="text-sm text-white/90 mb-4">{plan.subheader}</p>
                 <div className="flex items-baseline mt-2">
                   <span className="text-3xl font-bold text-white">
                     {isAnnual ? plan.yearlyPrice : plan.price}
-                    {isAnnual && plan.price !== "Custom" ? <span className="text-sm text-white/60">/year</span> : <span className="text-sm text-white/60">/month</span>}
+                    {plan.price !== "Custom" && (
+                      <span className="text-sm text-white/60">
+                        {isAnnual ? '/year' : '/month'}
+                      </span>
+                    )}
                   </span>
                 </div>
                 {isAnnual && plan.price !== "Custom" && (
                   <p className="text-xs text-nextgen-purple mt-1">(2 months free)</p>
                 )}
-                
-                {/* Agent Icons */}
-                <div className="mt-4 flex gap-2">
-                  {plan.agents.map((agent, i) => {
-                    const AgentIcon = agent.icon;
-                    return (
-                      <div 
-                        key={i} 
-                        className={`w-8 h-8 rounded-full bg-gradient-to-br ${agent.color} flex items-center justify-center`} 
-                        title={agent.name}
-                      >
-                        <AgentIcon className="h-4 w-4 text-white" />
-                      </div>
-                    );
-                  })}
-                </div>
-                
-                <div className="mt-3 inline-block px-3 py-1 rounded-full bg-white/5 border border-white/10 text-sm text-white/70">
-                  {plan.includes}
-                </div>
+              </div>
+
+              {/* Agent Avatars */}
+              <div className="mt-4 flex -space-x-4">
+                {plan.agents.map((agent, i) => (
+                  <div key={i} className="relative" style={{ zIndex: plan.agents.length - i }}>
+                    <AgentAvatar
+                      name={agent.name}
+                      role={agent.role}
+                      color={agent.color}
+                    />
+                  </div>
+                ))}
               </div>
               
-              <ul className="space-y-3 mb-6 flex-grow">
+              <div className="mt-3 inline-block px-3 py-1 rounded-full bg-white/5 border border-white/10 text-sm text-white/70">
+                {plan.includes}
+              </div>
+              
+              <ul className="space-y-3 my-6 flex-grow">
                 {plan.features.map((feature, i) => (
                   <li key={i} className="flex items-start">
                     <Check className="h-5 w-5 text-nextgen-purple mr-2 flex-shrink-0" />
