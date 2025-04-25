@@ -193,15 +193,23 @@ const SplashCursor = React.forwardRef<HTMLCanvasElement, SplashCursorProps>(
         return status === gl.FRAMEBUFFER_COMPLETE;
       }
 
+      // Define classes with proper TypeScript interfaces
       class Material {
-        constructor(vertexShader, fragmentShaderSource) {
+        vertexShader: any;
+        fragmentShaderSource: string;
+        programs: any[];
+        activeProgram: any;
+        uniforms: any[];
+
+        constructor(vertexShader: any, fragmentShaderSource: string) {
           this.vertexShader = vertexShader;
           this.fragmentShaderSource = fragmentShaderSource;
           this.programs = [];
           this.activeProgram = null;
           this.uniforms = [];
         }
-        setKeywords(keywords) {
+        
+        setKeywords(keywords: string[]) {
           let hash = 0;
           for (let i = 0; i < keywords.length; i++) hash += hashCode(keywords[i]);
           let program = this.programs[hash];
@@ -218,23 +226,28 @@ const SplashCursor = React.forwardRef<HTMLCanvasElement, SplashCursorProps>(
           this.uniforms = getUniforms(program);
           this.activeProgram = program;
         }
+        
         bind() {
           gl.useProgram(this.activeProgram);
         }
       }
 
       class Program {
-        constructor(vertexShader, fragmentShader) {
+        uniforms: Record<string, any>;
+        program: any;
+        
+        constructor(vertexShader: any, fragmentShader: any) {
           this.uniforms = {};
           this.program = createProgram(vertexShader, fragmentShader);
           this.uniforms = getUniforms(this.program);
         }
+        
         bind() {
           gl.useProgram(this.program);
         }
       }
 
-      function createProgram(vertexShader, fragmentShader) {
+      function createProgram(vertexShader: any, fragmentShader: any) {
         let program = gl.createProgram();
         gl.attachShader(program, vertexShader);
         gl.attachShader(program, fragmentShader);
@@ -244,7 +257,7 @@ const SplashCursor = React.forwardRef<HTMLCanvasElement, SplashCursorProps>(
         return program;
       }
 
-      function getUniforms(program) {
+      function getUniforms(program: any) {
         let uniforms = [];
         let uniformCount = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);
         for (let i = 0; i < uniformCount; i++) {
@@ -254,7 +267,7 @@ const SplashCursor = React.forwardRef<HTMLCanvasElement, SplashCursorProps>(
         return uniforms;
       }
 
-      function compileShader(type, source, keywords) {
+      function compileShader(type: any, source: string, keywords?: string[]) {
         source = addKeywords(source, keywords);
         const shader = gl.createShader(type);
         gl.shaderSource(shader, source);
@@ -264,13 +277,23 @@ const SplashCursor = React.forwardRef<HTMLCanvasElement, SplashCursorProps>(
         return shader;
       }
 
-      function addKeywords(source, keywords) {
+      function addKeywords(source: string, keywords?: string[]) {
         if (!keywords) return source;
         let keywordsString = "";
         keywords.forEach((keyword) => {
           keywordsString += "#define " + keyword + "\n";
         });
         return keywordsString + source;
+      }
+
+      function hashCode(s: string) {
+        if (s.length === 0) return 0;
+        let hash = 0;
+        for (let i = 0; i < s.length; i++) {
+          hash = (hash << 5) - hash + s.charCodeAt(i);
+          hash |= 0; // Convert to 32bit integer
+        }
+        return hash;
       }
 
       const baseVertexShader = compileShader(
@@ -599,6 +622,7 @@ const SplashCursor = React.forwardRef<HTMLCanvasElement, SplashCursorProps>(
         };
       })();
 
+      // These variables need to be declared before they're used in the dependency array
       let dye, velocity, divergence, curl, pressure;
 
       const copyProgram = new Program(baseVertexShader, copyShader);
@@ -812,16 +836,6 @@ const SplashCursor = React.forwardRef<HTMLCanvasElement, SplashCursorProps>(
       initFramebuffers();
 
       let lastColorChange = Date.now();
-
-      function hashCode(s) {
-        if (s.length == 0) return 0;
-        let hash = 0;
-        for (let i = 0; i < s.length; i++) {
-          hash = (hash << 5) - hash + s.charCodeAt(i);
-          hash = hash & hash; // Convert to 32bit integer
-        }
-        return hash;
-      }
 
       function generateColor() {
         let c = HSVtoRGB(Math.random(), 1.0, 1.0);
@@ -1062,7 +1076,7 @@ const SplashCursor = React.forwardRef<HTMLCanvasElement, SplashCursorProps>(
       canvas.width = canvas.clientWidth;
       canvas.height = canvas.clientHeight;
       update();
-    }, [curl, splatRadius, pressure, pressureIterations, simResolution, dyeResolution, captureResolution, densityDissipation, velocityDissipation, shading, colorUpdateSpeed, backColor, transparent]);
+    }, [simResolution, dyeResolution, captureResolution, densityDissipation, velocityDissipation, pressure, pressureIterations, curl, splatRadius, splatForce, shading, colorUpdateSpeed, backColor, transparent]);
 
     return (
       <canvas 
