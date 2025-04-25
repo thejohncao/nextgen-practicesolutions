@@ -21,14 +21,23 @@ const HeroSection = () => {
             </h1>
             
             <p className="text-lg sm:text-xl text-white/70 max-w-lg">
-              Built to run your front office, marketing, and case follow-up—without hiring more staff.
+              The world's first AI team designed to run your practice—so you can focus on care, not chaos.
             </p>
             
             <div className="flex flex-wrap gap-4 pt-4">
-              <Button size="lg" className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white">
+              <Button 
+                size="lg" 
+                className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white animate-fade-in"
+                style={{ animationDelay: '200ms' }}
+              >
                 Book a Demo <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
-              <Button size="lg" variant="outline" className="border-white/20 hover:bg-white/5">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-white/20 hover:bg-white/5 animate-fade-in"
+                style={{ animationDelay: '400ms' }}
+              >
                 <Play className="mr-2 h-4 w-4" /> See How It Works
               </Button>
             </div>

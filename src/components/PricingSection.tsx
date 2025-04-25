@@ -79,12 +79,11 @@ const PricingSection = () => {
       <div className="container mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
-            Choose Your AI Team
+            Choose Your Package
           </h2>
           
-          <p className="text-lg text-white/70">
-            Select the plan that fits your practice's needs and unlock the power of AI automation.
-            All plans include a 30-day satisfaction guarantee.
+          <p className="text-lg text-white/70 mb-8">
+            Each package unlocks a new department, led by its own AI-powered agent.
           </p>
           
           <div className="mt-6 inline-flex items-center gap-4 glass-card p-2 rounded-full">

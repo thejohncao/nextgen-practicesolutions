@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   Calendar, Mail, MessageSquare, BookOpen,
@@ -120,12 +119,11 @@ const AITeamSection = () => {
           </div>
           
           <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
-            Meet Your New AI Team Members
+            Meet Your AI Team
           </h2>
           
           <p className="text-lg text-white/70">
-            Our AI agents work together to handle critical aspects of your practice operations,
-            freeing your staff to focus on what matters most.
+            Each agent leads a department in your practice—working 24/7 to automate your operations, convert more cases, and retain loyal patients.
           </p>
         </div>
         
@@ -135,7 +133,7 @@ const AITeamSection = () => {
             return (
               <div 
                 key={agent.name}
-                className="glass-card rounded-xl p-6 transition-all duration-300 hover:bg-white/10 cursor-pointer group"
+                className="glass-card rounded-xl p-6 transition-all duration-300 hover:bg-white/10 hover:shadow-lg hover:shadow-nextgen-purple/10 cursor-pointer group"
                 onMouseEnter={() => setActiveAgent(agent)}
                 onMouseLeave={() => setActiveAgent(null)}
               >
@@ -155,7 +153,7 @@ const AITeamSection = () => {
                     <p className="text-white/70 italic">{agent.quote}</p>
                     
                     <div className={`overflow-hidden transition-all duration-300 ${
-                      activeAgent?.name === agent.name ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0'
+                      activeAgent?.name === agent.name ? 'max-h-80 opacity-100 transform translate-y-0' : 'max-h-0 opacity-0 transform translate-y-4'
                     }`}>
                       <div className="pt-4 space-y-4">
                         <div>

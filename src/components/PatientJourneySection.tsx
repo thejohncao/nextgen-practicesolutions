@@ -48,11 +48,11 @@ const PatientJourneySection = () => {
           </div>
           
           <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
-            The Complete Patient Journey
+            How the System Works
           </h2>
           
           <p className="text-lg text-white/70">
-            From first click to lifelong care—your AI agents handle it all.
+            From first click to lifelong care—your AI team manages every stage of the patient lifecycle.
           </p>
         </div>
         
@@ -62,7 +62,11 @@ const PatientJourneySection = () => {
           
           <div className="grid md:grid-cols-3 gap-10">
             {stages.map((stage, index) => (
-              <div key={stage.name} className="relative">
+              <div 
+                key={stage.name} 
+                className="relative animate-fade-in-right"
+                style={{ animationDelay: `${index * 200}ms` }}
+              >
                 {/* Stage Indicator */}
                 <div className="hidden md:flex absolute -top-20 left-1/2 transform -translate-x-1/2">
                   <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${stage.color} flex items-center justify-center`}>
