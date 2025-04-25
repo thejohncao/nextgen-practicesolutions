@@ -5,13 +5,13 @@ import HeroSection from '../components/HeroSection';
 import AITeamSection from '../components/AiTeamSection';
 import PatientJourneySection from '../components/PatientJourneySection';
 import ROISection from '../components/ROISection';
-import TestimonialsSection from '../components/TestimonialsSection';
 import PricingSection from '../components/PricingSection';
 import SupportAndBenefits from '../components/SupportAndBenefits';
 import SuccessGuarantee from '../components/SuccessGuarantee';
 import IntegrationsSection from '../components/IntegrationsSection';
 import FounderSection from '../components/FounderSection';
 import ResourcesSection from '../components/ResourcesSection';
+import TestimonialsSection from '../components/TestimonialsSection';
 import FAQSection from '../components/FAQSection';
 import FooterCTA from '../components/FooterCTA';
 import Footer from '../components/Footer';
@@ -25,10 +25,10 @@ const Index = () => {
       <PatientJourneySection />
       <IntegrationsSection />
       <ROISection />
+      <FooterCTA />
       <PricingSection />
       <SupportAndBenefits />
       <SuccessGuarantee />
-      <FooterCTA />
       <FounderSection />
       <ResourcesSection />
       <TestimonialsSection />
