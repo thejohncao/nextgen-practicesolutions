@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Users } from "lucide-react";
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -19,7 +20,7 @@ const AITeamSection = () => {
           </div>
           
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
-            Meet Your AI Team
+            Miles, Practice Management | Giselle, Practice Growth | Devon, Practice Development | Ava, Practice Academy
           </h2>
           
           <p className="text-base sm:text-lg text-white/70 px-4">
