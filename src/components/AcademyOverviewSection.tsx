@@ -3,6 +3,7 @@ import { GraduationCap, ArrowRight, Video, Book, Download, Check, User } from 'l
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import EmailCollectionDialog from './EmailCollectionDialog';
+import SplashCursor from './ui/splash-cursor';
 
 const FeatureCard = ({ icon: Icon, title, description }) => (
   <div className="flex items-start gap-3 group">
@@ -50,6 +51,20 @@ const AcademyOverviewSection = () => {
 
   return (
     <section className="py-24 relative overflow-hidden">
+      {/* Splash Cursor Effect */}
+      <SplashCursor 
+        SPLAT_RADIUS={0.15}
+        SPLAT_FORCE={5000}
+        DENSITY_DISSIPATION={2.8}
+        VELOCITY_DISSIPATION={2.2}
+        PRESSURE={0.15}
+        PRESSURE_ITERATIONS={20}
+        CURL={3}
+        TRANSPARENT={true}
+        BACK_COLOR={{ r: 0.1, g: 0, b: 0.3 }}
+        COLOR_UPDATE_SPEED={8}
+      />
+
       {/* Background effects */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-nextgen-purple/10 blur-[100px] rounded-full animate-pulse-slow"></div>
