@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { ArrowRight } from "lucide-react";
 import AgentAvatar from './AgentAvatar';
@@ -63,7 +62,6 @@ const PatientJourneySection = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Helper function to get the agent avatar for a stage
   const getAgentAvatar = (agentName: string) => {
     const agent = agents.find(a => a.name === agentName);
     return agent ? agent.color : "purple";
@@ -88,7 +86,6 @@ const PatientJourneySection = () => {
         </div>
         
         <div className="relative mt-20">
-          {/* Animated Connector Line */}
           <div className="hidden md:block absolute top-20 left-0 w-full h-0.5 bg-gradient-animate rounded-full overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 animate-flow"></div>
           </div>
@@ -104,7 +101,6 @@ const PatientJourneySection = () => {
                 }`}
                 style={{ transitionDelay: `${index * 200}ms` }}
               >
-                {/* Stage Indicator */}
                 <div className="hidden md:flex absolute -top-20 left-1/2 transform -translate-x-1/2">
                   <div className={`w-10 h-10 rounded-full bg-gradient-to-br from-${stage.color}-500 to-${stage.color}-600 flex items-center justify-center shadow-glow`}>
                     <span className="text-white font-bold">{index + 1}</span>
@@ -112,7 +108,9 @@ const PatientJourneySection = () => {
                 </div>
                 
                 <div 
-                  className={`glass-card h-full p-6 md:pt-14 ${stage.bgColor} backdrop-blur-xl transform transition-all duration-300 hover:scale-[1.02] hover:shadow-glow`}
+                  className={`glass-card h-full p-6 md:pt-14 ${stage.bgColor} backdrop-blur-xl 
+                    transform transition-all duration-300 hover:scale-[1.02] hover:shadow-glow 
+                    border border-white/10 hover:border-${stage.color}-500/30`}
                   onMouseEnter={() => setActiveAgent(stage.agent)}
                   onMouseLeave={() => setActiveAgent(null)}
                 >
@@ -141,10 +139,13 @@ const PatientJourneySection = () => {
                     </div>
                   </div>
                   
-                  {/* Agent Avatar - Shows when hovered */}
-                  <div className={`transition-all duration-500 ${
-                    activeAgent === stage.agent ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-                  } absolute -top-12 right-4 z-10`}>
+                  <div 
+                    className={`transition-all duration-500 ${
+                      activeAgent === stage.agent 
+                        ? 'opacity-100 scale-100' 
+                        : 'opacity-0 scale-95 pointer-events-none'
+                    } absolute -top-12 right-4 z-10`}
+                  >
                     <AgentAvatar 
                       name={stage.agent} 
                       role={`AI ${stage.name} Specialist`}
