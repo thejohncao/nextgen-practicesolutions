@@ -1,7 +1,7 @@
-
 import React, { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { Link } from 'react-router-dom';
 
 const FooterCTA = () => {
   const [showMobileCTA, setShowMobileCTA] = useState(false);
@@ -41,11 +41,13 @@ const FooterCTA = () => {
             </p>
             
             <div className="flex flex-wrap justify-center gap-4">
-              <Button size="lg" className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white">
-                Book a Demo <ArrowRight className="ml-2 h-4 w-4" />
+              <Button size="lg" className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white" asChild>
+                <Link to="/demo">
+                  Book a Demo <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
               </Button>
-              <Button size="lg" variant="outline" className="border-white/20 hover:bg-white/5">
-                Join the Movement
+              <Button size="lg" variant="outline" className="border-white/20 hover:bg-white/5" asChild>
+                <Link to="/join">Join the Movement</Link>
               </Button>
             </div>
             
@@ -76,8 +78,8 @@ const FooterCTA = () => {
         <div className="fixed bottom-0 left-0 w-full md:hidden bg-nextgen-dark/90 backdrop-blur-lg border-t border-white/10 z-50 animate-fade-in">
           <div className="container mx-auto px-4 py-3 flex items-center justify-between">
             <div className="text-sm text-white/80">Run Your Practice Smarter</div>
-            <Button size="sm" className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white text-xs">
-              Book a Demo
+            <Button size="sm" className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white text-xs" asChild>
+              <Link to="/demo">Book a Demo</Link>
             </Button>
           </div>
         </div>

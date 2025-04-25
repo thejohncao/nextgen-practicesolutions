@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
+import { Link } from 'react-router-dom';
 
 const FounderSection = () => {
   return (
@@ -37,8 +38,8 @@ const FounderSection = () => {
               </div>
               
               <div className="mt-6">
-                <Button variant="outline" className="border-white/20 hover:bg-white/5">
-                  Learn How We Built It
+                <Button variant="outline" className="border-white/20 hover:bg-white/5" asChild>
+                  <Link to="/story">Learn How We Built It</Link>
                 </Button>
               </div>
             </div>

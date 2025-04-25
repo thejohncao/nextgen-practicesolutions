@@ -1,7 +1,7 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Check, ArrowRight, Calendar, Mail, MessageSquare, BookOpen } from "lucide-react";
+import { Link } from 'react-router-dom';
 
 const plans = [
   {
@@ -189,16 +189,19 @@ const PricingSection = () => {
               
               <Button 
                 className={`w-full mt-4 bg-gradient-to-r ${plan.color} text-white hover:opacity-90`}
+                asChild
               >
-                Book Demo <ArrowRight className="ml-2 h-4 w-4" />
+                <Link to="/demo">
+                  Book Demo <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
               </Button>
             </div>
           ))}
         </div>
         
         <div className="text-center mt-10">
-          <Button size="lg" className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white">
-            Book a Demo to Find Your Fit
+          <Button size="lg" className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white" asChild>
+            <Link to="/demo">Book a Demo to Find Your Fit</Link>
           </Button>
         </div>
       </div>

@@ -2,6 +2,7 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
+import { Link } from 'react-router-dom';
 
 const HeroSection = () => {
   return (
@@ -38,16 +39,22 @@ const HeroSection = () => {
                 size="lg" 
                 className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white animate-fade-in"
                 style={{ animationDelay: '200ms' }}
+                asChild
               >
-                Book a Demo <ArrowRight className="ml-2 h-4 w-4" />
+                <Link to="/demo">
+                  Book a Demo <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
               </Button>
               <Button 
                 size="lg" 
                 variant="outline" 
                 className="border-white/20 hover:bg-white/5 animate-fade-in"
                 style={{ animationDelay: '400ms' }}
+                asChild
               >
-                <Play className="mr-2 h-4 w-4" /> See It In Action
+                <Link to="/watch">
+                  <Play className="mr-2 h-4 w-4" /> See It In Action
+                </Link>
               </Button>
             </div>
 
