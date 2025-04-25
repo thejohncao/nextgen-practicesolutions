@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { ArrowRight } from "lucide-react";
 import AgentAvatar from './AgentAvatar';
@@ -44,12 +43,12 @@ const PatientJourneySection = () => {
       (entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            // Show stages with staggered timing
+            // Show stages with left to right timing
             setTimeout(() => {
               setVisibleItems([true, false, false]);
-              setTimeout(() => setVisibleItems([true, true, false]), 300);
-              setTimeout(() => setVisibleItems([true, true, true]), 600);
-            }, 300);
+              setTimeout(() => setVisibleItems([true, true, false]), 400);
+              setTimeout(() => setVisibleItems([true, true, true]), 800);
+            }, 200);
             observer.disconnect();
           }
         });
@@ -63,7 +62,6 @@ const PatientJourneySection = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Helper function to get the agent avatar for a stage
   const getAgentAvatar = (agentName: string) => {
     const agent = agents.find(a => a.name === agentName);
     return agent ? agent.color : "purple";
@@ -88,7 +86,6 @@ const PatientJourneySection = () => {
         </div>
         
         <div className="relative mt-20">
-          {/* Animated Connector Line */}
           <div className="hidden md:block absolute top-20 left-0 w-full h-0.5 bg-gradient-animate rounded-full overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 animate-flow"></div>
           </div>
@@ -99,12 +96,11 @@ const PatientJourneySection = () => {
                 key={stage.name} 
                 className={`relative transition-all duration-700 transform ${
                   visibleItems[index] 
-                    ? 'opacity-100 translate-y-0' 
-                    : 'opacity-0 translate-y-10'
+                    ? 'opacity-100 translate-x-0' 
+                    : 'opacity-0 translate-x-20'
                 }`}
                 style={{ transitionDelay: `${index * 200}ms` }}
               >
-                {/* Stage Indicator */}
                 <div className="hidden md:flex absolute -top-20 left-1/2 transform -translate-x-1/2">
                   <div className={`w-10 h-10 rounded-full bg-gradient-to-br from-${stage.color}-500 to-${stage.color}-600 flex items-center justify-center shadow-glow`}>
                     <span className="text-white font-bold">{index + 1}</span>
@@ -141,7 +137,6 @@ const PatientJourneySection = () => {
                     </div>
                   </div>
                   
-                  {/* Agent Avatar - Shows when hovered */}
                   <div className={`transition-all duration-500 ${
                     activeAgent === stage.agent ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
                   } absolute -top-12 right-4 z-10`}>

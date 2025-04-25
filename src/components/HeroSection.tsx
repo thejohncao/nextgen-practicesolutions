@@ -6,6 +6,19 @@ import EmailCollectionForm from './EmailCollectionForm';
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24">
+      {/* Video Background */}
+      <div className="absolute inset-0 -z-20">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover opacity-10"
+        >
+          <source src="https://assets.codepen.io/3364143/7btrrd.mp4" type="video/mp4" />
+        </video>
+      </div>
+
       {/* Enhanced quantum-inspired background effects */}
       <div className="absolute inset-0 -z-10">
         {/* Animated gradient orbs */}

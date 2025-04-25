@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Users } from "lucide-react";
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -25,6 +24,12 @@ const AITeamSection = () => {
           
           <p className="text-base sm:text-lg text-white/70 px-4">
             Each agent leads a department in your practice—working 24/7 to automate your operations, convert more cases, and retain loyal patients.
+          </p>
+        </div>
+        
+        <div className="text-center mb-8">
+          <p className="text-white/60 text-sm animate-pulse">
+            {isMobile ? "Tap" : "Hover"} on each team member to learn more about their role
           </p>
         </div>
         
