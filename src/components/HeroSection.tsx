@@ -6,8 +6,9 @@ import { ArrowRight, Play } from "lucide-react";
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center pt-16 pb-20 overflow-hidden">
-      {/* Background gradient effect */}
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-nextgen-purple/5 blur-3xl rounded-full -z-10"></div>
+      {/* Animated background gradient effect */}
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-nextgen-purple/5 blur-3xl rounded-full -z-10 animate-pulse-slow"></div>
+      <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-nextgen-blue/5 blur-3xl rounded-full -z-10 animate-pulse-slow" style={{animationDelay: '1.5s'}}></div>
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-6">
@@ -16,9 +17,12 @@ const HeroSection = () => {
               <span className="text-gradient-primary font-semibold">Industry First</span>
             </div>
             
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-heading font-bold leading-tight text-gradient">
-              The Future of Your Practice Starts Here.
-            </h1>
+            <div>
+              <p className="text-lg text-white/70 mb-2">AI Built for Dental. Designed to Run Your Practice.</p>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-heading font-bold leading-tight text-gradient">
+                The Future of Your Practice Starts Here.
+              </h1>
+            </div>
             
             <p className="text-lg sm:text-xl text-white/70 max-w-lg">
               NextGen Practice Solutions is the world's first AI-powered operating system for dental practices. 

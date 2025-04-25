@@ -1,6 +1,8 @@
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useIsMobile } from '@/hooks/use-mobile';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const testimonials = [
   {
@@ -24,6 +26,21 @@ const testimonials = [
 ];
 
 const TestimonialsSection = () => {
+  const isMobile = useIsMobile();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -300, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+    }
+  };
+
   return (
     <section id="testimonials" className="section-padding py-20">
       <div className="container mx-auto">
@@ -33,34 +50,78 @@ const TestimonialsSection = () => {
           </h2>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {testimonials.map((testimonial, index) => (
+        {isMobile ? (
+          <div className="relative">
             <div 
-              key={index} 
-              className="glass-card p-6 rounded-xl relative overflow-hidden animate-fade-in"
-              style={{ animationDelay: `${index * 200}ms` }}
+              ref={scrollContainerRef}
+              className="flex overflow-x-auto scrollbar-none gap-4 pb-6 snap-x snap-mandatory"
             >
-              <div className="mb-4">
-                <Avatar className="h-12 w-12 bg-gradient-to-br from-nextgen-purple to-nextgen-blue">
-                  <AvatarFallback className="text-white font-medium">
-                    {testimonial.initials}
-                  </AvatarFallback>
-                </Avatar>
-              </div>
-              
-              <p className="text-white/90 italic mb-4">
-                "{testimonial.quote}"
-              </p>
-              
-              <p className="text-sm text-white/70">
-                — {testimonial.author}, {testimonial.title}
-              </p>
-              
-              {/* Decorative elements */}
-              <div className="absolute -top-10 -right-10 w-20 h-20 bg-nextgen-purple/5 rounded-full blur-xl"></div>
+              {testimonials.map((testimonial, index) => (
+                <div 
+                  key={index} 
+                  className="glass-card p-6 rounded-xl min-w-[80vw] snap-center flex flex-col"
+                >
+                  <div className="mb-4">
+                    <Avatar className="h-12 w-12 bg-gradient-to-br from-nextgen-purple to-nextgen-blue">
+                      <AvatarFallback className="text-white font-medium">
+                        {testimonial.initials}
+                      </AvatarFallback>
+                    </Avatar>
+                  </div>
+                  
+                  <p className="text-white/90 italic mb-4 flex-grow">
+                    "{testimonial.quote}"
+                  </p>
+                  
+                  <p className="text-sm text-white/70">
+                    — {testimonial.author}, {testimonial.title}
+                  </p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+            <button 
+              onClick={scrollLeft} 
+              className="absolute top-1/2 left-0 transform -translate-y-1/2 -translate-x-1/2 bg-nextgen-dark/80 rounded-full p-2 text-white/70"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button 
+              onClick={scrollRight} 
+              className="absolute top-1/2 right-0 transform -translate-y-1/2 translate-x-1/2 bg-nextgen-dark/80 rounded-full p-2 text-white/70"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {testimonials.map((testimonial, index) => (
+              <div 
+                key={index} 
+                className="glass-card p-6 rounded-xl relative overflow-hidden animate-fade-in"
+                style={{ animationDelay: `${index * 200}ms` }}
+              >
+                <div className="mb-4">
+                  <Avatar className="h-12 w-12 bg-gradient-to-br from-nextgen-purple to-nextgen-blue">
+                    <AvatarFallback className="text-white font-medium">
+                      {testimonial.initials}
+                    </AvatarFallback>
+                  </Avatar>
+                </div>
+                
+                <p className="text-white/90 italic mb-4">
+                  "{testimonial.quote}"
+                </p>
+                
+                <p className="text-sm text-white/70">
+                  — {testimonial.author}, {testimonial.title}
+                </p>
+                
+                {/* Decorative elements */}
+                <div className="absolute -top-10 -right-10 w-20 h-20 bg-nextgen-purple/5 rounded-full blur-xl"></div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { Check, ArrowRight } from "lucide-react";
+import { Check, ArrowRight, Calendar, Mail, MessageSquare, BookOpen } from "lucide-react";
 
 const plans = [
   {
@@ -17,6 +17,9 @@ const plans = [
       "Basic reporting",
       "Email support",
       "HIPAA compliance"
+    ],
+    agents: [
+      { name: "Miles", icon: Calendar, color: "from-blue-500 to-blue-600" }
     ],
     popular: false,
     color: "from-blue-500 to-blue-600"
@@ -35,6 +38,10 @@ const plans = [
       "Priority support",
       "Advanced analytics"
     ],
+    agents: [
+      { name: "Miles", icon: Calendar, color: "from-blue-500 to-blue-600" },
+      { name: "Giselle", icon: Mail, color: "from-green-500 to-green-600" }
+    ],
     popular: true,
     color: "from-purple-500 to-purple-600"
   },
@@ -52,6 +59,11 @@ const plans = [
       "Dedicated success manager",
       "Monthly strategy calls"
     ],
+    agents: [
+      { name: "Miles", icon: Calendar, color: "from-blue-500 to-blue-600" },
+      { name: "Giselle", icon: Mail, color: "from-green-500 to-green-600" },
+      { name: "Devon", icon: MessageSquare, color: "from-purple-500 to-purple-600" }
+    ],
     popular: false,
     color: "from-amber-500 to-amber-600"
   },
@@ -68,6 +80,12 @@ const plans = [
       "Custom integrations",
       "White-glove onboarding",
       "Quarterly business reviews"
+    ],
+    agents: [
+      { name: "Miles", icon: Calendar, color: "from-blue-500 to-blue-600" },
+      { name: "Giselle", icon: Mail, color: "from-green-500 to-green-600" },
+      { name: "Devon", icon: MessageSquare, color: "from-purple-500 to-purple-600" },
+      { name: "Ava", icon: BookOpen, color: "from-amber-500 to-amber-600" }
     ],
     popular: false,
     color: "from-green-500 to-green-600"
@@ -138,6 +156,23 @@ const PricingSection = () => {
                 {isAnnual && plan.price !== "Custom" && (
                   <p className="text-xs text-nextgen-purple mt-1">(2 months free)</p>
                 )}
+                
+                {/* Agent Icons */}
+                <div className="mt-4 flex gap-2">
+                  {plan.agents.map((agent, i) => {
+                    const AgentIcon = agent.icon;
+                    return (
+                      <div 
+                        key={i} 
+                        className={`w-8 h-8 rounded-full bg-gradient-to-br ${agent.color} flex items-center justify-center`} 
+                        title={agent.name}
+                      >
+                        <AgentIcon className="h-4 w-4 text-white" />
+                      </div>
+                    );
+                  })}
+                </div>
+                
                 <div className="mt-3 inline-block px-3 py-1 rounded-full bg-white/5 border border-white/10 text-sm text-white/70">
                   {plan.includes}
                 </div>

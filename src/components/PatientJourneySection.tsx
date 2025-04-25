@@ -7,6 +7,7 @@ const stages = [
     name: "Attract & Engage",
     agent: "Giselle",
     color: "from-green-500 to-green-600",
+    bgColor: "bg-green-500/5",
     activities: ["Ads", "Quizzes", "Lead Follow-up", "Referrals"],
     tools: ["Meta", "Typeform", "GHL"],
     solves: "Low lead conversion"
@@ -15,6 +16,7 @@ const stages = [
     name: "Activate & Onboard",
     agent: "Miles",
     color: "from-blue-500 to-blue-600",
+    bgColor: "bg-blue-500/5",
     activities: ["Intake Forms", "Check-in", "Admin Handoff"],
     tools: ["GHL Forms", "Slack", "Google Calendar"],
     solves: "Front desk inefficiency"
@@ -23,6 +25,7 @@ const stages = [
     name: "Convert & Retain",
     agent: "Devon",
     color: "from-purple-500 to-purple-600",
+    bgColor: "bg-purple-500/5",
     activities: ["Treatment Planning", "Financing", "Recall"],
     tools: ["Loom", "Cherry", "Podium", "Stripe"],
     solves: "Lost revenue, poor retention"
@@ -56,8 +59,8 @@ const PatientJourneySection = () => {
             {stages.map((stage, index) => (
               <div 
                 key={stage.name} 
-                className="relative animate-fade-in-right"
-                style={{ animationDelay: `${index * 200}ms` }}
+                className="relative animate-fade-in-up"
+                style={{ animationDelay: `${index * 300}ms` }}
               >
                 {/* Stage Indicator */}
                 <div className="hidden md:flex absolute -top-20 left-1/2 transform -translate-x-1/2">
@@ -66,7 +69,7 @@ const PatientJourneySection = () => {
                   </div>
                 </div>
                 
-                <div className="glass-card h-full p-6 md:pt-14">
+                <div className={`glass-card h-full p-6 md:pt-14 ${stage.bgColor} backdrop-blur-xl`}>
                   <div className="md:hidden flex items-center mb-4">
                     <div className={`w-8 h-8 rounded-full bg-gradient-to-br ${stage.color} flex items-center justify-center mr-3`}>
                       <span className="text-white font-bold">{index + 1}</span>

@@ -1,9 +1,28 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
 const FooterCTA = () => {
+  const [showMobileCTA, setShowMobileCTA] = useState(false);
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      // Show mobile CTA after user scrolls past 500px
+      if (window.scrollY > 500) {
+        setShowMobileCTA(true);
+      } else {
+        setShowMobileCTA(false);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <section className="section-padding py-20">
       <div className="container mx-auto">
@@ -30,6 +49,10 @@ const FooterCTA = () => {
               </Button>
             </div>
             
+            <p className="text-sm text-white/60 mt-6">
+              Join the practices already transforming patient care with AI.
+            </p>
+            
             <div className="mt-8 flex flex-wrap justify-center gap-6 items-center">
               <div className="flex items-center gap-1 text-white/60 text-sm">
                 <div className="w-3 h-3 rounded-full bg-green-500"></div>
@@ -49,14 +72,16 @@ const FooterCTA = () => {
       </div>
       
       {/* Sticky Mobile CTA */}
-      <div className="fixed bottom-0 left-0 w-full md:hidden bg-nextgen-dark/90 backdrop-blur-lg border-t border-white/10 z-50">
-        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="text-sm text-white/80">Run Your Practice Smarter</div>
-          <Button size="sm" className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white text-xs">
-            Book a Demo
-          </Button>
+      {showMobileCTA && (
+        <div className="fixed bottom-0 left-0 w-full md:hidden bg-nextgen-dark/90 backdrop-blur-lg border-t border-white/10 z-50 animate-fade-in">
+          <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div className="text-sm text-white/80">Run Your Practice Smarter</div>
+            <Button size="sm" className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white text-xs">
+              Book a Demo
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
     </section>
   );
 };

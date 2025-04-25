@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { 
   Calendar, Mail, MessageSquare, BookOpen,
@@ -6,10 +7,12 @@ import {
   MessageSquare as LoomIcon, Calendar as CherryIcon, MessageCircle as StripeIcon, MessageSquare as PodiumIcon,
   BookOpen as NotionIcon, Calendar as AirtableIcon, Calendar as GoogleDriveIcon
 } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 type Tool = {
   name: string;
   icon: React.ElementType;
+  description?: string;
 };
 
 type Agent = {
@@ -38,10 +41,10 @@ const agents: Agent[] = [
       "Real-Time Alerts"
     ],
     tools: [
-      { name: "GoHighLevel", icon: Calendar },
-      { name: "Google Calendar", icon: GoogleCalendar },
-      { name: "Slack", icon: Slack },
-      { name: "Jotform", icon: Type }
+      { name: "GoHighLevel", icon: Calendar, description: "CRM Automation" },
+      { name: "Google Calendar", icon: GoogleCalendar, description: "Appointment Scheduling" },
+      { name: "Slack", icon: Slack, description: "Internal Notifications" },
+      { name: "Jotform", icon: Type, description: "Digital Form Creation" }
     ]
   },
   {
@@ -58,10 +61,10 @@ const agents: Agent[] = [
       "Referrals"
     ],
     tools: [
-      { name: "Meta Ads", icon: MetaIcon },
-      { name: "Google Ads", icon: GoogleAds },
-      { name: "Typeform", icon: TypeformIcon },
-      { name: "GHL", icon: Calendar }
+      { name: "Meta Ads", icon: MetaIcon, description: "Social Media Advertising" },
+      { name: "Google Ads", icon: GoogleAds, description: "Search Advertising" },
+      { name: "Typeform", icon: TypeformIcon, description: "Interactive Forms" },
+      { name: "GHL", icon: Calendar, description: "Marketing Automation" }
     ]
   },
   {
@@ -78,10 +81,10 @@ const agents: Agent[] = [
       "Recall"
     ],
     tools: [
-      { name: "Loom", icon: LoomIcon },
-      { name: "Cherry", icon: CherryIcon },
-      { name: "Stripe", icon: StripeIcon },
-      { name: "Podium", icon: PodiumIcon }
+      { name: "Loom", icon: LoomIcon, description: "Video Messaging" },
+      { name: "Cherry", icon: CherryIcon, description: "Patient Financing" },
+      { name: "Stripe", icon: StripeIcon, description: "Payment Processing" },
+      { name: "Podium", icon: PodiumIcon, description: "Review Management" }
     ]
   },
   {
@@ -98,10 +101,10 @@ const agents: Agent[] = [
       "Team Onboarding"
     ],
     tools: [
-      { name: "Notion", icon: NotionIcon },
-      { name: "Airtable", icon: AirtableIcon },
-      { name: "GHL Academy", icon: BookOpen },
-      { name: "Google Drive", icon: GoogleDriveIcon }
+      { name: "Notion", icon: NotionIcon, description: "Knowledge Management" },
+      { name: "Airtable", icon: AirtableIcon, description: "Process Management" },
+      { name: "GHL Academy", icon: BookOpen, description: "Training Platform" },
+      { name: "Google Drive", icon: GoogleDriveIcon, description: "Document Storage" }
     ]
   }
 ];
@@ -139,7 +142,8 @@ const AITeamSection = () => {
                 onMouseLeave={() => setActiveAgent(null)}
               >
                 <div className="flex items-start gap-4">
-                  <div className={`rounded-lg p-3 bg-gradient-to-br ${agent.color} flex-shrink-0`}>
+                  <div className={`rounded-lg p-3 bg-gradient-to-br ${agent.color} flex-shrink-0 animate-pulse-slow`} 
+                    style={{ animationDuration: '1s' }}>
                     <Icon className="h-6 w-6 text-white" />
                   </div>
                   
@@ -173,10 +177,19 @@ const AITeamSection = () => {
                           <h5 className="text-sm font-medium text-white/80 mb-2">Tools:</h5>
                           <div className="flex flex-wrap gap-2">
                             {agent.tools.map((tool, i) => (
-                              <div key={i} className="flex items-center gap-1 px-2 py-1 bg-white/5 rounded-md">
-                                <tool.icon className="h-4 w-4 text-white/60" />
-                                <span className="text-xs text-white/60">{tool.name}</span>
-                              </div>
+                              <TooltipProvider key={i}>
+                                <Tooltip>
+                                  <TooltipTrigger asChild>
+                                    <div className="flex items-center gap-1 px-2 py-1 bg-white/5 rounded-md">
+                                      <tool.icon className="h-4 w-4 text-white/60" />
+                                      <span className="text-xs text-white/60">{tool.name}</span>
+                                    </div>
+                                  </TooltipTrigger>
+                                  <TooltipContent>
+                                    <p>{tool.name} – {tool.description}</p>
+                                  </TooltipContent>
+                                </Tooltip>
+                              </TooltipProvider>
                             ))}
                           </div>
                         </div>
@@ -184,17 +197,6 @@ const AITeamSection = () => {
                     </div>
                   </div>
                 </div>
-                
-                {index === 1 && (
-                  <div className="mt-6 p-4 bg-white/5 rounded-lg animate-fade-in">
-                    <p className="text-sm text-white/80 italic">
-                      "We doubled our case acceptance rate and saved $8,000/month in admin overhead. It's like hiring 3 full-time people—without payroll."
-                    </p>
-                    <p className="text-xs text-white/60 mt-2">
-                      — Dr. Kevin M., Practice Owner
-                    </p>
-                  </div>
-                )}
               </div>
             );
           })}
