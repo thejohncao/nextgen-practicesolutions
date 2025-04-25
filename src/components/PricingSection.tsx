@@ -23,7 +23,7 @@ const plans = [
       "HIPAA compliance"
     ],
     agents: [
-      { name: "Miles", role: "Practice Management", color: "blue" }
+      { name: "Miles", role: "Practice Management", color: "from-blue-500 to-blue-600" }
     ],
     popular: false,
     color: "from-blue-500 to-blue-600",
@@ -45,8 +45,8 @@ const plans = [
       "Advanced analytics"
     ],
     agents: [
-      { name: "Miles", role: "Practice Management", color: "blue" },
-      { name: "Giselle", role: "Growth", color: "teal" }
+      { name: "Miles", role: "Practice Management", color: "from-blue-500 to-blue-600" },
+      { name: "Giselle", role: "Growth", color: "from-teal-500 to-teal-600" }
     ],
     popular: true,
     color: "from-teal-500 to-teal-600",
@@ -68,9 +68,9 @@ const plans = [
       "Monthly strategy calls"
     ],
     agents: [
-      { name: "Miles", role: "Practice Management", color: "blue" },
-      { name: "Giselle", role: "Growth", color: "teal" },
-      { name: "Devon", role: "Development", color: "purple" }
+      { name: "Miles", role: "Practice Management", color: "from-blue-500 to-blue-600" },
+      { name: "Giselle", role: "Growth", color: "from-teal-500 to-teal-600" },
+      { name: "Devon", role: "Development", color: "from-purple-500 to-purple-600" }
     ],
     popular: false,
     color: "from-purple-500 to-purple-600",
@@ -92,10 +92,10 @@ const plans = [
       "Quarterly business reviews"
     ],
     agents: [
-      { name: "Miles", role: "Practice Management", color: "blue" },
-      { name: "Giselle", role: "Growth", color: "teal" },
-      { name: "Devon", role: "Development", color: "purple" },
-      { name: "Ava", role: "Academy", color: "gold" }
+      { name: "Miles", role: "Practice Management", color: "from-blue-500 to-blue-600" },
+      { name: "Giselle", role: "Growth", color: "from-teal-500 to-teal-600" },
+      { name: "Devon", role: "Development", color: "from-purple-500 to-purple-600" },
+      { name: "Ava", role: "Academy", color: "from-amber-500 to-amber-600" }
     ],
     popular: false,
     color: "from-amber-500 to-amber-600",
@@ -189,19 +189,14 @@ const PricingSection = () => {
                 )}
               </div>
 
-              <div className="mt-4 space-y-2">
+              <div className="mt-4 flex flex-wrap gap-2">
                 {plan.agents.map((agent, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <div className="flex-shrink-0" style={{ transform: 'scale(0.8)' }}>
-                      <AgentAvatar
-                        name={agent.name}
-                        role={agent.role}
-                        color={agent.color}
-                      />
-                    </div>
-                    <div className="text-sm text-white/70">
-                      {agent.name} ({agent.role})
-                    </div>
+                  <div key={i} className="flex-shrink-0" style={{ transform: 'scale(0.7)' }}>
+                    <AgentAvatar
+                      name={agent.name}
+                      role={agent.role}
+                      color={agent.color}
+                    />
                   </div>
                 ))}
               </div>
