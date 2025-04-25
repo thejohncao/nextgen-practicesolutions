@@ -52,8 +52,7 @@ const PatientJourneySection = () => {
           </h2>
           
           <p className="text-lg text-white/70">
-            Our AI team manages every stage of the patient lifecycle, creating a seamless experience
-            that converts inquiries into lifelong patients.
+            From first click to lifelong care—your AI agents handle it all.
           </p>
         </div>
         

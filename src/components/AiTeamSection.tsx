@@ -2,9 +2,10 @@
 import React, { useState } from 'react';
 import { 
   Calendar, Mail, MessageSquare, BookOpen,
-  Slack, GoogleCalendar, Meta, Type,
-  Loom, Cherry, Stripe, Podium,
-  Notion, Airtable, GoogleDrive
+  users, Calendar as GoogleCalendar, MessageCircle as Slack, Type,
+  Calendar as MetaIcon, Mail as GoogleAds, Type as TypeformIcon,
+  MessageSquare as LoomIcon, Calendar as CherryIcon, MessageCircle as StripeIcon, MessageSquare as PodiumIcon,
+  BookOpen as NotionIcon, Calendar as AirtableIcon, Calendar as GoogleDriveIcon
 } from "lucide-react";
 
 type Tool = {
@@ -114,7 +115,7 @@ const AITeamSection = () => {
       <div className="container mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full bg-white/5 border border-white/10">
-            <Users className="h-4 w-4 text-nextgen-purple" />
+            <users className="h-4 w-4 text-nextgen-purple" />
             <span className="text-sm font-medium text-white/80">AI Team</span>
           </div>
           
