@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { GraduationCap, ArrowRight, Video, Book, Download, Check, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
