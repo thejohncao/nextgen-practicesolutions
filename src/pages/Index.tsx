@@ -14,6 +14,7 @@ import ResourcesSection from '../components/ResourcesSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import FAQSection from '../components/FAQSection';
 import FooterCTA from '../components/FooterCTA';
+import AcademyOverviewSection from '../components/AcademyOverviewSection';
 
 const Index = () => {
   return (
@@ -22,6 +23,7 @@ const Index = () => {
       <AITeamSection />
       <PatientJourneySection />
       <IntegrationsSection />
+      <AcademyOverviewSection />
       <ROISection />
       <FooterCTA />
       <PricingSection />
