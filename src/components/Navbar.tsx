@@ -49,9 +49,21 @@ const Navbar = () => {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <TubelightNavLink to="/academy">
+                <NavigationMenuTrigger className="text-white/80 hover:text-white transition-colors bg-transparent hover:bg-white/5">
                   Academy
-                </TubelightNavLink>
+                </NavigationMenuTrigger>
+                <NavigationMenuContent className="bg-nextgen-dark/95 backdrop-blur-xl border border-white/10">
+                  <div className="grid gap-3 p-4 w-[400px]">
+                    <Link to="/academy" className="block p-3 hover:bg-white/5 rounded-lg">
+                      <div className="text-sm font-medium text-white mb-1">Overview</div>
+                      <div className="text-sm text-white/60">Explore our comprehensive training program</div>
+                    </Link>
+                    <a href="/academy#certification" className="block p-3 hover:bg-white/5 rounded-lg">
+                      <div className="text-sm font-medium text-white mb-1">Become Certified</div>
+                      <div className="text-sm text-white/60">Master modern practice systems and earn your NextGen Certification</div>
+                    </a>
+                  </div>
+                </NavigationMenuContent>
               </NavigationMenuItem>
 
               <NavigationMenuItem>

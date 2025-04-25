@@ -12,7 +12,7 @@ const CertificationSection = () => {
   ];
 
   return (
-    <section className="py-24 relative bg-gradient-to-b from-nextgen-dark to-nextgen-dark/95">
+    <section className="py-24 relative bg-gradient-to-b from-nextgen-dark to-nextgen-dark/95" id="certification">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
           {/* Left side - Certificate badge */}
@@ -63,7 +63,7 @@ const CertificationSection = () => {
               size="lg"
               className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white"
             >
-              Join the Academy Today
+              Become NextGen Certified
             </Button>
           </div>
         </div>
