@@ -1,12 +1,16 @@
 import React from 'react';
 import { Shield, Star, BadgeCheck } from "lucide-react";
 import EmailCollectionForm from './EmailCollectionForm';
-import AuroraBackground from './effects/AuroraBackground';
+import QuantumGrid from './effects/QuantumGrid';
 import SplashCursor from './ui/splash-cursor';
+import SpliteText from './ui/splite-text';
 
 const HeroSection = () => {
   return (
-    <AuroraBackground className="relative flex items-center justify-center pt-24 pb-20">
+    <section className="relative flex items-center justify-center pt-24 pb-20">
+      {/* Quantum Grid Background */}
+      <QuantumGrid />
+      
       {/* Splash Cursor Effect */}
       <SplashCursor 
         SPLAT_RADIUS={0.2}
@@ -21,7 +25,7 @@ const HeroSection = () => {
         COLOR_UPDATE_SPEED={10}
       />
       
-      {/* Background video */}
+      {/* Background effects */}
       <div className="absolute inset-0 -z-20">
         <video
           autoPlay
@@ -34,6 +38,19 @@ const HeroSection = () => {
         </video>
       </div>
 
+      {/* Enhanced quantum-inspired background effects */}
+      <div className="absolute inset-0 -z-10">
+        {/* Animated gradient orbs */}
+        <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-nextgen-purple/10 blur-[100px] rounded-full animate-pulse-slow"></div>
+        <div className="absolute bottom-[-10%] left-[-5%] w-[40%] h-[40%] bg-nextgen-blue/10 blur-[100px] rounded-full animate-pulse-slow" style={{animationDelay: '1.5s'}}></div>
+        
+        {/* Enhanced quantum grid pattern */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:2rem_2rem]"></div>
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:6rem_6rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]"></div>
+        </div>
+      </div>
+      
       <div className="container mx-auto px-4 py-20 text-center relative">
         {/* Enhanced floating trust badges with glass effect */}
         <div className="flex flex-wrap justify-center gap-4 mb-8">
@@ -55,8 +72,10 @@ const HeroSection = () => {
           <span className="text-gradient-primary font-medium">Industry First</span>
         </div>
         
-        <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-bold leading-tight bg-gradient-to-br from-nextgen-purple via-nextgen-purple/90 to-nextgen-blue bg-clip-text text-transparent mb-6 animate-fade-in" style={{animationDelay: '400ms'}}>
-          The World's First AI Team for Dental Practices
+        <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-bold leading-tight mb-6 animate-fade-in" style={{animationDelay: '400ms'}}>
+          <SpliteText as="span" className="bg-gradient-to-br from-nextgen-purple via-nextgen-purple/90 to-nextgen-blue bg-clip-text">
+            The World's First AI Team for Dental Practices
+          </SpliteText>
         </h1>
         
         <p className="text-lg md:text-xl text-white/70 mb-8 max-w-2xl mx-auto animate-fade-in backdrop-blur-sm rounded-xl p-4" style={{animationDelay: '500ms'}}>
@@ -70,7 +89,7 @@ const HeroSection = () => {
           />
         </div>
       </div>
-    </AuroraBackground>
+    </section>
   );
 };
 
