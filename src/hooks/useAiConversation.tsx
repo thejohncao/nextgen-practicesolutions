@@ -23,7 +23,7 @@ export function useAiConversation() {
     if (messages.length === 0) {
       setMessages([
         {
-          text: "Hi, I'm Miles, your practice management AI. How can I help optimize your dental practice today?",
+          text: "Hi, I'm Miles, your practice management AI. How can I help optimize your dental practice today?\n\nQuick options:\n**1. Learn about Practice Growth Packages**\n**2. Explore Academy & Certification**\n**3. Book a Discovery Call**\n**4. Ask a General Question**",
           isUser: false,
           agent: "miles",
           timestamp: new Date(),

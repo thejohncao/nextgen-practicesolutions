@@ -2,15 +2,28 @@
 import React from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import MilesBanner from './MilesBanner';
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 const Layout = ({ children }: LayoutProps) => {
+  const handleOpenChat = () => {
+    // Find any existing chat trigger button and click it
+    const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
+    if (chatButton) {
+      chatButton.click();
+    }
+  };
+
   return (
     <div className="relative flex flex-col min-h-screen bg-nextgen-dark text-white">
-      <Navbar />
+      <MilesBanner onOpenChat={handleOpenChat} />
+      {/* Add top padding to account for both banner and navbar */}
+      <div className="pt-[50px]">
+        <Navbar />
+      </div>
       <main className="flex-1">
         {children}
       </main>
