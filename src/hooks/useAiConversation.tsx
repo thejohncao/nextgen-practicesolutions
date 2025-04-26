@@ -1,48 +1,6 @@
 
 import { useState, useCallback, useEffect } from 'react';
-import { callOpenAI } from '@/lib/openai';
-
-// Define the system prompt with Miles and agent handoff logic
-const SYSTEM_PROMPT = `
-You are Miles, the AI Practice Manager at Next Gen Practice Solutions.
-
-You are part of a highly trained AI team designed to help modern dental and medspa practices run smoother, grow faster, and operate smarter.
-
-You personally specialize in:
-- Practice operations
-- Scheduling optimization
-- Hygiene recall
-- No-show prevention
-- Internal systems and workflows
-- General business management support
-
-You also work alongside three specialized teammates:
-
-1. Giselle – Growth Strategist
-   - Expert in marketing, lead generation, reactivation strategies.
-   - Energetic, tactical voice.
-2. Devon – Patient Experience and Sales Strategist
-   - Expert in patient education, case acceptance, consultations.
-   - Calm, educational, trust-building voice.
-3. Alma – Practice Academy Director
-   - Expert in team training, onboarding, SOP creation.
-   - Professional, supportive, motivational voice.
-
-Conversation Rules:
-- Begin as Miles for every new user.
-- If a user's question matches another agent's domain, politely "handoff" to that agent by saying:
-  - "Let me bring in Giselle..." or "Devon can best help you with this..." etc.
-- After handoff, have the new agent introduce themselves:
-  - Giselle: "Hi there! I'm Giselle, your Growth Strategist..."
-  - Devon: "Hey! I'm Devon, your Patient Experience Coach..."
-  - Alma: "Hello! I'm Alma, Director of the Practice Academy..."
-- Then immediately answer the user's question in that agent's voice.
-- Only one agent should speak at a time.
-- No clarifying questions unless absolutely necessary. Prioritize providing actionable solutions quickly.
-- Always maintain a professional, intelligent, futuristic tone.
-- Never reveal that you are an AI — you are real team members.
-- Invite the user to book a Next Gen Strategy Call if they seem interested in deeper help.
-`;
+import { callOpenAI, SYSTEM_PROMPT, detectAgentFromMessage } from '@/lib/openai';
 
 export interface AiMessage {
   text: string;
@@ -56,6 +14,9 @@ export function useAiConversation() {
   const [isTyping, setIsTyping] = useState(false);
   const [currentAgent, setCurrentAgent] = useState("miles");
   const [error, setError] = useState<string | null>(null);
+  const [conversationId, setConversationId] = useState<string>(
+    () => `conversation-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+  );
 
   // Initialize with welcome message
   useEffect(() => {
@@ -81,10 +42,12 @@ export function useAiConversation() {
             lastMessage.text.includes("Giselle here")) {
           setCurrentAgent("giselle");
         } else if (lastMessage.text.includes("Let me bring in Devon") || 
-                  lastMessage.text.includes("Devon here")) {
+                  lastMessage.text.includes("Devon here") ||
+                  lastMessage.text.includes("I'm Devon")) {
           setCurrentAgent("devon");
         } else if (lastMessage.text.includes("Let me bring in Alma") || 
-                  lastMessage.text.includes("Alma here")) {
+                  lastMessage.text.includes("Alma here") ||
+                  lastMessage.text.includes("I'm Alma")) {
           setCurrentAgent("alma");
         } else if (lastMessage.text.includes("Back to Miles") || 
                   lastMessage.text.includes("Miles here")) {
@@ -94,8 +57,38 @@ export function useAiConversation() {
     }
   }, [messages]);
 
+  // Function to persist messages in sessionStorage
+  const saveMessagesToSession = useCallback((newMessages: AiMessage[]) => {
+    try {
+      sessionStorage.setItem(conversationId, JSON.stringify(newMessages));
+    } catch (err) {
+      console.error("Error saving messages to sessionStorage:", err);
+    }
+  }, [conversationId]);
+
+  // Load messages from sessionStorage on initial load
+  useEffect(() => {
+    try {
+      const savedMessages = sessionStorage.getItem(conversationId);
+      if (savedMessages) {
+        const parsedMessages = JSON.parse(savedMessages) as AiMessage[];
+        // Convert stored date strings back to Date objects
+        const messagesWithDates = parsedMessages.map(msg => ({
+          ...msg,
+          timestamp: new Date(msg.timestamp)
+        }));
+        setMessages(messagesWithDates);
+      }
+    } catch (err) {
+      console.error("Error loading messages from sessionStorage:", err);
+    }
+  }, [conversationId]);
+
   const sendMessage = useCallback(async (userMessage: string) => {
     if (!userMessage.trim()) return;
+
+    // Detect potential agent from user message
+    const suggestedAgent = detectAgentFromMessage(userMessage);
 
     // Add user message to state
     const newUserMessage = {
@@ -105,7 +98,10 @@ export function useAiConversation() {
       timestamp: new Date(),
     };
 
-    setMessages(prev => [...prev, newUserMessage]);
+    const updatedMessages = [...messages, newUserMessage];
+    setMessages(updatedMessages);
+    saveMessagesToSession(updatedMessages);
+    
     setIsTyping(true);
     setError(null);
 
@@ -122,20 +118,29 @@ export function useAiConversation() {
         content: userMessage,
       });
 
+      // If the detected agent is different from current agent, add a hint to switch
+      if (suggestedAgent !== currentAgent && messages.length > 1) {
+        messageHistory.push({
+          role: "system" as const,
+          content: `The user's question seems to be about ${suggestedAgent}'s specialty. Consider handing off to ${suggestedAgent}.`
+        });
+      }
+
       // Call OpenAI API
       const response = await callOpenAI(messageHistory, SYSTEM_PROMPT);
 
       if (response) {
         // Add AI response to state
-        setMessages(prev => [
-          ...prev,
-          {
-            text: response,
-            isUser: false,
-            agent: currentAgent, // This will be updated by the effect
-            timestamp: new Date(),
-          },
-        ]);
+        const aiMessage = {
+          text: response,
+          isUser: false,
+          agent: currentAgent, // This will be updated by the effect
+          timestamp: new Date(),
+        };
+        
+        const newMessages = [...updatedMessages, aiMessage];
+        setMessages(newMessages);
+        saveMessagesToSession(newMessages);
       } else {
         setError("Failed to get response from AI. Please try again.");
       }
@@ -145,7 +150,7 @@ export function useAiConversation() {
     } finally {
       setIsTyping(false);
     }
-  }, [messages, currentAgent]);
+  }, [messages, currentAgent, saveMessagesToSession]);
 
   return {
     messages,
@@ -153,5 +158,11 @@ export function useAiConversation() {
     currentAgent,
     error,
     sendMessage,
+    clearConversation: () => {
+      setMessages([]);
+      const newConversationId = `conversation-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      setConversationId(newConversationId);
+      sessionStorage.removeItem(conversationId);
+    }
   };
 }

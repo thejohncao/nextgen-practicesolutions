@@ -18,14 +18,15 @@ import AiAssistant from "./components/AiAssistant";
 
 const queryClient = new QueryClient();
 
-// Create a component that only renders AiAssistant at the root level
+// Create a component that manages where to show AiAssistant
 const AiAssistantWrapper = () => {
   const location = useLocation();
-  // Only render on the root page
-  if (location.pathname === '/') {
-    return <AiAssistant />;
-  }
-  return null;
+  
+  // Only show on these paths
+  const showAiAssistantPaths = ['/', '/solutions', '/academy', '/features'];
+  const shouldShow = showAiAssistantPaths.includes(location.pathname);
+  
+  return shouldShow ? <AiAssistant /> : null;
 };
 
 const App = () => (
@@ -46,7 +47,7 @@ const App = () => (
           <Route path="/resources/*" element={<Resources />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-        <AiAssistant />
+        <AiAssistantWrapper />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
