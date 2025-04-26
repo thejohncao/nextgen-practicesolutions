@@ -114,16 +114,18 @@ const FlywheelSection = () => {
         </div>
       </div>
 
-      <style jsx>{`
-        .glow-circle {
-          box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-          animation: pulse 3s infinite alternate;
-        }
-        @keyframes pulse {
-          0% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); }
-          100% { box-shadow: 0 0 25px rgba(255, 255, 255, 0.5); }
-        }
-      `}</style>
+      <style>
+        {`
+          .glow-circle {
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            animation: pulse 3s infinite alternate;
+          }
+          @keyframes pulse {
+            0% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); }
+            100% { box-shadow: 0 0 25px rgba(255, 255, 255, 0.5); }
+          }
+        `}
+      </style>
     </section>
   );
 };
