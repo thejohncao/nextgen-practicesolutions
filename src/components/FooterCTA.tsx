@@ -1,14 +1,14 @@
-
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import EmailCollectionForm from './EmailCollectionForm';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const FooterCTA = () => {
   const [showMobileCTA, setShowMobileCTA] = useState(false);
+  const isMobile = useIsMobile();
   
   useEffect(() => {
     const handleScroll = () => {
-      // Show mobile CTA after user scrolls past 500px
       if (window.scrollY > 500) {
         setShowMobileCTA(true);
       } else {
@@ -17,11 +17,24 @@ const FooterCTA = () => {
     };
     
     window.addEventListener('scroll', handleScroll);
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleChatOpen = () => {
+    try {
+      setTimeout(() => {
+        const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
+        if (chatButton) {
+          console.log('Chat button found in mobile CTA, clicking...');
+          chatButton.click();
+        } else {
+          console.warn('Chat button not found in DOM from mobile CTA');
+        }
+      }, 100);
+    } catch (error) {
+      console.error('Error opening chat from mobile CTA:', error);
+    }
+  };
 
   return (
     <section className="section-padding py-20">
@@ -89,6 +102,22 @@ const FooterCTA = () => {
             />
           </div>
         </div>
+      )}
+      
+      {/* Mobile Meet Miles CTA */}
+      {isMobile && showMobileCTA && (
+        <button
+          onClick={handleChatOpen}
+          className="fixed bottom-0 left-0 w-full h-[40px] bg-[#F0F8FF] border-t border-blue-100/50 
+                 flex items-center justify-center text-sm font-semibold text-slate-800 z-50 
+                 animate-fade-in"
+        >
+          Meet Miles — Your Always-On AI Concierge
+          <span className="inline-flex animate-shimmer bg-gradient-to-r from-[#a3c9f9] via-white to-[#a3c9f9] 
+                      bg-[length:400%_100%] bg-clip-text text-transparent ml-1">
+            ✨
+          </span>
+        </button>
       )}
     </section>
   );
