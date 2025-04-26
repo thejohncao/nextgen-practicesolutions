@@ -4,8 +4,17 @@ import { Button } from "@/components/ui/button";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
 import { Link } from "react-router-dom";
 import TubelightNavLink from './TubelightNavLink';
+import { MessageSquare } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const Navbar = () => {
+  const handleChatOpen = () => {
+    const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
+    if (chatButton) {
+      chatButton.click();
+    }
+  };
+  
   return (
     <header className="sticky top-0 w-full z-50 bg-nextgen-dark/95 backdrop-blur-lg border-b border-white/10">
       <div className="container mx-auto px-4">
@@ -90,7 +99,7 @@ const Navbar = () => {
             </NavigationMenuList>
           </NavigationMenu>
           
-          {/* CTA Buttons */}
+          {/* CTA Buttons + Meet Miles Badge */}
           <div className="flex items-center space-x-3">
             <Button variant="ghost" className="text-sm hidden sm:flex hover:bg-white/5">
               Login
@@ -98,6 +107,17 @@ const Navbar = () => {
             <Button className="bg-nextgen-purple text-white hover:bg-nextgen-purple/90">
               Book Demo
             </Button>
+            <button
+              onClick={handleChatOpen}
+              className={cn(
+                "hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-semibold",
+                "animate-shimmer bg-[linear-gradient(110deg,#a3c9f9,45%,#fff,55%,#a3c9f9)] bg-[length:200%_100%]",
+                "text-slate-800 rounded-full transition-colors"
+              )}
+            >
+              <MessageSquare className="h-3.5 w-3.5" />
+              <span>Meet Miles</span>
+            </button>
           </div>
         </div>
       </div>
