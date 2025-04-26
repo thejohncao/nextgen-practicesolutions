@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import EmailCollectionForm from './EmailCollectionForm';
@@ -90,19 +91,6 @@ const FooterCTA = () => {
           </div>
         </div>
       </div>
-      
-      {/* Sticky Mobile CTA */}
-      {showMobileCTA && (
-        <div className="fixed bottom-0 left-0 w-full md:hidden bg-nextgen-dark/90 backdrop-blur-lg border-t border-white/10 z-50 animate-fade-in">
-          <div className="container mx-auto px-4 py-3">
-            <EmailCollectionForm 
-              buttonText="Join" 
-              placeholder="Email address" 
-              className="p-0 bg-transparent border-0 shadow-none"
-            />
-          </div>
-        </div>
-      )}
       
       {/* Mobile Meet Miles CTA */}
       {isMobile && showMobileCTA && (

@@ -1,3 +1,4 @@
+
 import { useState, useCallback, useEffect } from 'react';
 import { callOpenAI, SYSTEM_PROMPT, detectAgentFromMessage, Message } from '@/lib/openai';
 
@@ -23,7 +24,7 @@ export function useAiConversation() {
     if (messages.length === 0) {
       setMessages([
         {
-          text: "Hi there, and welcome to NextGen Practice Solutions!\n\nI'm Miles, your AI Practice Concierge.\n\nI'm here to help you:\n\n➔ Learn about Practice Growth Packages\n➔ Explore the Academy & Certification\n➔ Book a Discovery Call\n➔ Ask a General Question\n\nJust click or type what you'd like to explore!\nI'm here to guide you.",
+          text: "Hey, I'm Miles — your AI Concierge here at NextGen.\nWhat can I help you with today?",
           isUser: false,
           agent: "miles",
           timestamp: new Date(),
