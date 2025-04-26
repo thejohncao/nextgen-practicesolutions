@@ -1,14 +1,14 @@
-import { Calendar, Mail, MessageSquare, BookOpen } from "lucide-react";
-import { Agent } from "@/types/agent";
+
+import { Calendar, MessageCircle, Headset, ChartLine, Funnel, DollarSign, Handshake, Check, Clipboard, GraduationCap, Play, ListCheck } from 'lucide-react';
+import { Agent } from '@/types/agent';
 
 export const agents: Agent[] = [
   {
     name: "Miles",
-    title: "Head of Practice Management",
-    tagline: "Your automation architect for scheduling, check-ins, and performance.",
-    quote: "I activate your systems and onboard every patient with ease—so nothing slips through the cracks, and your team never starts the day in chaos.",
+    title: "AI Front Office Concierge",
+    tagline: "Keeps your schedule full, your front office humming, and your patients coming back — all without lifting a finger.",
+    color: "blue",
     icon: Calendar,
-    color: "red",
     description: "Your AI practice management specialist who ensures smooth operations.",
     activities: [
       "Scheduling",
@@ -17,102 +17,103 @@ export const agents: Agent[] = [
       "Real-Time Alerts"
     ],
     features: [
-      "Calendar Sync + Auto Confirmation – Prevent cancellations before they happen",
-      "No-Show Rescue – Automatically rebooks missed appointments",
-      "Digital Check-In Links – Sends patient forms pre-visit",
-      "Front Desk AI Assistant – Handles incoming calls & messages",
-      "Daily Performance Reporting – Tracks calls, bookings, and revenue"
+      "Smart Calendar Automation - Fill scheduling gaps automatically and keep your calendar optimized",
+      "AI Receptionist Bot - Handle calls, texts, and scheduling conversations without human intervention",
+      "Recall and Reactivation Engine - Bring back overdue and inactive patients automatically",
+      "New Patient Digital Intake Forms - Streamline patient onboarding with customizable digital forms",
+      "Live Two-Way Patient Messaging - Communicate instantly with patients via SMS and email from one dashboard",
+      "No-Show Rescue Automations - Reach out automatically after missed appointments to rebook quickly",
+      "Daily Operational KPI Dashboards - Track front office performance with real-time analytics"
     ],
     tools: [
-      { name: "GoHighLevel", icon: Calendar, description: "CRM Automation" },
-      { name: "Google Calendar", icon: Calendar, description: "Appointment Scheduling" },
-      { name: "Slack", icon: MessageSquare, description: "Internal Notifications" },
-      { name: "Jotform", icon: Mail, description: "Digital Form Creation" }
+      { name: "Calendar", icon: Calendar, description: "Smart Scheduling" },
+      { name: "Messaging", icon: MessageCircle, description: "Patient Communication" },
+      { name: "Support", icon: Headset, description: "24/7 AI Reception" },
+      { name: "Analytics", icon: ChartLine, description: "Performance Tracking" }
     ]
   },
   {
     name: "Giselle",
-    title: "Head of Practice Growth",
-    tagline: "Your marketing engine. Giselle captures leads and fills your calendar.",
-    quote: "I attract the right patients and keep them engaged—from the moment they find you, to the moment they book.",
-    icon: Mail,
+    title: "AI Lead Nurturer",
+    tagline: "Turns leads into loyal patients by nurturing every opportunity from first click to lifelong care.",
     color: "green",
-    description: "Your AI marketing specialist focused on practice growth.",
+    icon: Funnel,
+    description: "Your AI growth specialist focused on attracting and converting new patients.",
     activities: [
-      "Ad Funnels",
-      "Lead Follow-Up",
-      "Campaigns",
+      "Lead Generation",
+      "Follow-ups",
+      "Reactivation",
       "Referrals"
     ],
     features: [
-      "Lead Routing & Smart Replies – Qualifies and responds to leads instantly",
-      "Follow-Up Sequences – Nurtures prospects at 1, 3, 7, 14 days",
-      "Qualification Quiz – Screens patients before booking",
-      "Calendar Embed with CTA – Converts leads into appointments",
-      "Weekly Promo Blasts – Sends time-sensitive offers"
+      "Lead Capture Funnels - Automate lead generation with customizable funnels for every campaign",
+      "Automated Follow-Up Sequences - Nurture leads across email, SMS, and voice without manual effort",
+      "Patient Reactivation Campaigns - Re-engage past patients and missed opportunities with personalized outreach",
+      "Referral Growth Engine - Encourage existing patients to bring in new ones through automated referral prompts",
+      "Paid Ads Lead Pipeline Integrations - Capture and nurture leads from Facebook, Google, and Instagram ads automatically",
+      "Membership Growth Automation - Sell and manage in-house membership plans without the paperwork"
     ],
     tools: [
-      { name: "Meta Ads", icon: Mail, description: "Social Media Advertising" },
-      { name: "Google Ads", icon: Mail, description: "Search Advertising" },
-      { name: "Typeform", icon: Mail, description: "Interactive Forms" },
-      { name: "GHL", icon: Calendar, description: "Marketing Automation" }
+      { name: "Funnels", icon: Funnel, description: "Lead Generation" },
+      { name: "Growth", icon: ChartLine, description: "Growth Analytics" },
+      { name: "Payments", icon: DollarSign, description: "Payment Processing" },
+      { name: "Partnerships", icon: Handshake, description: "Referral System" }
     ]
   },
   {
     name: "Devon",
-    title: "Head of Practice Development",
-    tagline: "Your treatment closer. Devon tracks cases and drives action.",
-    quote: "I help patients convert with confidence and retain with purpose—so you're not just closing more treatment, you're building lifelong loyalty.",
-    icon: MessageSquare,
-    color: "blue",
-    description: "Your AI engagement specialist for patient conversion and retention.",
+    title: "AI Treatment Closer",
+    tagline: "Boosts case acceptance, financing approvals, and post-consult follow-up — helping more patients say 'yes' to better care.",
+    color: "purple",
+    icon: Handshake,
+    description: "Your AI treatment acceptance specialist who helps convert consultations into care.",
     activities: [
       "Treatment Planning",
-      "Objection Handling",
+      "Case Acceptance",
       "Financing",
-      "Recall"
+      "Education"
     ],
     features: [
-      "Case Pipeline Management – Tracks all open treatment plans",
-      "Personalized Loom Videos – Delivers doctor-style case reviews",
-      "Financial Options Bot – Explains Cherry, Proceed, and insurance",
-      "3-Touch Close Sequence – Closes cases with reminder + video + follow-up",
-      "Secure Deposit Page – Sends $49–$99 treatment reservation links",
-      "Reactivation Offers – Brings dormant patients back"
+      "Consultation Day Prep Automation - Prepare patients for treatment presentations with reminders and educational content",
+      "Financing Offer Integrations - Show financing options automatically and increase case acceptance rates",
+      "Post-Consult Follow-Up Campaigns - Send personalized follow-ups after every treatment consultation",
+      "Abandoned Treatment Reactivation - Rescue unclosed treatment plans with targeted reactivation campaigns",
+      "Membership Retention Automations - Keep members active and renewing with proactive engagement sequences",
+      "Patient Education Drip Campaigns - Educate patients over time about their treatment needs, increasing acceptance"
     ],
     tools: [
-      { name: "Loom", icon: MessageSquare, description: "Video Messaging" },
-      { name: "Cherry", icon: Calendar, description: "Patient Financing" },
-      { name: "Stripe", icon: MessageSquare, description: "Payment Processing" },
-      { name: "Podium", icon: MessageSquare, description: "Review Management" }
+      { name: "Planning", icon: Clipboard, description: "Treatment Planning" },
+      { name: "Verify", icon: Check, description: "Acceptance Tracking" },
+      { name: "Finance", icon: DollarSign, description: "Payment Options" },
+      { name: "Education", icon: Play, description: "Patient Education" }
     ]
   },
   {
     name: "Alma",
-    title: "Head of Practice Academy",
-    tagline: "Your training director. Alma equips your team for success.",
-    quote: "I train your team and optimize your systems to deliver consistent, high-performance care.",
-    icon: BookOpen,
+    title: "AI Training Assistant",
+    tagline: "Empowers your team with onboarding checklists, training videos, and best practices — ensuring smooth growth from day one.",
     color: "gold",
-    description: "Your AI analyst for team training and system optimization.",
+    icon: GraduationCap,
+    description: "Your AI training director who ensures consistent, high-quality care delivery.",
     activities: [
-      "SOPs",
-      "Sales Scripting",
-      "KPI Coaching",
-      "Team Onboarding"
+      "Onboarding",
+      "Training",
+      "Compliance",
+      "Best Practices"
     ],
     features: [
-      "Training Portal Setup – Custom onboarding for front desk, TCs, and managers",
-      "SOP Builder – Centralized workflows, scripts, and policies",
-      "AI Onboarding Coach – Guided training without manual oversight",
-      "Certification Tracking – Monitors readiness of staff or contractors",
-      "Knowledge Base + Scripts – Quick access to replies and workflows"
+      "New Hire Onboarding Checklists - Streamline employee onboarding with step-by-step task management",
+      "SOP Library Access - Give your team instant access to updated office protocols and playbooks",
+      "Training Video Portal - Centralize video training for consistent, scalable education",
+      "Continuing Education Reminders - Automatically remind team members to complete required CE credits",
+      "Front Desk Communication Scripts - Equip your team with proven scripts for handling calls, objections, and scheduling",
+      "Best Practices Playbooks - Offer reference guides for daily operations, emergencies, and patient experience"
     ],
     tools: [
-      { name: "Notion", icon: BookOpen, description: "Knowledge Management" },
-      { name: "Airtable", icon: Calendar, description: "Process Management" },
-      { name: "GHL Academy", icon: BookOpen, description: "Training Platform" },
-      { name: "Google Drive", icon: Calendar, description: "Document Storage" }
+      { name: "Education", icon: GraduationCap, description: "Team Training" },
+      { name: "Tasks", icon: ListCheck, description: "Onboarding Tasks" },
+      { name: "Library", icon: Clipboard, description: "SOP Library" },
+      { name: "Support", icon: Headset, description: "24/7 Support" }
     ]
   }
 ];
