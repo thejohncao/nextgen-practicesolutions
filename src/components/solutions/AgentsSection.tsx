@@ -1,14 +1,14 @@
 
 import React from 'react';
-import { Calendar, MessageSquare, Headphones, TrendingUp, BarChart, DollarSign, Handshake, ClipboardCheck, ClipboardList, GraduationCap, Play, CheckSquare } from 'lucide-react';
+import { Calendar, TrendingUp, Handshake, GraduationCap } from 'lucide-react';
+import { Agent } from '@/types/agent';
 import AgentCard from './AgentCard';
 
-const agents = [
+const agents: Agent[] = [
   {
     name: "Miles",
     title: "AI Front Office Concierge",
-    description: "Miles keeps your schedule full, your front office humming, and your patients coming back — all without lifting a finger.",
-    icon: Calendar,
+    tagline: "Keeps your schedule full, your front office humming, and your patients coming back — all without lifting a finger.",
     color: "blue",
     features: [
       "Smart Calendar Automation",
@@ -23,8 +23,7 @@ const agents = [
   {
     name: "Giselle",
     title: "AI Lead Nurturer",
-    description: "Giselle turns leads into loyal patients by nurturing every opportunity from first click to lifelong care.",
-    icon: TrendingUp,
+    tagline: "Turns leads into loyal patients by nurturing every opportunity from first click to lifelong care.",
     color: "green",
     features: [
       "Lead Capture Funnels",
@@ -38,8 +37,7 @@ const agents = [
   {
     name: "Devon",
     title: "AI Treatment Closer",
-    description: "Devon boosts case acceptance, financing approvals, and post-consult follow-up — helping more patients say 'yes' to better care.",
-    icon: Handshake,
+    tagline: "Boosts case acceptance, financing approvals, and post-consult follow-up — helping more patients say 'yes' to better care.",
     color: "purple",
     features: [
       "Consultation Day Prep Automation",
@@ -53,8 +51,7 @@ const agents = [
   {
     name: "Alma",
     title: "AI Training Assistant",
-    description: "Alma empowers your team with onboarding checklists, training videos, and best practices — ensuring smooth growth from day one.",
-    icon: GraduationCap,
+    tagline: "Empowers your team with onboarding checklists, training videos, and best practices — ensuring smooth growth from day one.",
     color: "red",
     features: [
       "New Hire Onboarding Checklists",
@@ -78,7 +75,7 @@ const AgentsSection = () => {
               className="opacity-0 animate-fade-in-up"
               style={{ animationDelay: `${index * 0.2}s`, animationFillMode: 'forwards' }}
             >
-              <AgentCard {...agent} />
+              <AgentCard agent={agent} />
             </div>
           ))}
         </div>

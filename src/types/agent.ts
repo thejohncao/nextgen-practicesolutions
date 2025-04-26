@@ -1,21 +1,8 @@
 
-import { LucideIcon } from 'lucide-react';
-
-export type Tool = {
-  name: string;
-  icon: LucideIcon;
-  description?: string;
-};
-
-export type Agent = {
+export interface Agent {
   name: string;
   title: string;
   tagline: string;
-  quote: string;
-  icon: LucideIcon;
-  description: string;
-  activities: string[];
+  color: 'blue' | 'green' | 'purple' | 'red' | 'gold';
   features: string[];
-  tools: Tool[];
-  color: string;
-};
+}

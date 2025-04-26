@@ -1,20 +1,16 @@
 
 import React from 'react';
-import { LucideIcon, Check } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Agent } from '@/types/agent';
+import AgentAvatar from '../AgentAvatar';
 
 interface AgentCardProps {
-  name: string;
-  title: string;
-  description: string;
-  icon: LucideIcon;
-  features: string[];
-  color: string;
+  agent: Agent;
 }
 
-const AgentCard = ({ name, title, description, icon: Icon, features, color }: AgentCardProps) => {
+const AgentCard = ({ agent }: AgentCardProps) => {
   const handleChatOpen = () => {
     try {
       const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
@@ -26,25 +22,27 @@ const AgentCard = ({ name, title, description, icon: Icon, features, color }: Ag
 
   return (
     <Card className="glass-card border-white/10 overflow-hidden group transition-all duration-300 hover:shadow-glow animate-fade-in">
-      <CardHeader className="space-y-4 pb-2">
+      <CardHeader className="space-y-4">
         <div className="flex items-center gap-4">
-          <div className={`p-3 rounded-xl bg-${color}-500/10`}>
-            <Icon className={`w-6 h-6 text-${color}-500`} />
-          </div>
+          <AgentAvatar 
+            name={agent.name}
+            role={agent.title}
+            color={agent.color}
+          />
           <div>
-            <h3 className="text-2xl font-bold text-white">{name}</h3>
-            <p className="text-white/60">{title}</p>
+            <h3 className="text-2xl font-bold text-white">{agent.name}</h3>
+            <p className="text-white/60">{agent.title}</p>
           </div>
         </div>
-        <p className="text-lg text-white/80">{description}</p>
+        <p className="text-lg text-white/80">{agent.tagline}</p>
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="space-y-3">
           <h4 className="text-sm text-white/60 uppercase tracking-wider">Key Features</h4>
           <ul className="grid gap-3">
-            {features.map((feature, index) => (
+            {agent.features.map((feature, index) => (
               <li key={index} className="flex items-start gap-2">
-                <Check className={`h-4 w-4 mt-1 text-${color}-500 flex-shrink-0`} />
+                <Check className={`h-4 w-4 mt-1 text-${agent.color}-500 flex-shrink-0`} />
                 <span className="text-white/70">{feature}</span>
               </li>
             ))}
@@ -54,9 +52,9 @@ const AgentCard = ({ name, title, description, icon: Icon, features, color }: Ag
         <Button 
           onClick={handleChatOpen}
           variant="outline" 
-          className={`w-full border-${color}-500/20 hover:bg-${color}-500/20 transition-all duration-300`}
+          className={`w-full border-${agent.color}-500/20 hover:bg-${agent.color}-500/20 transition-all duration-300`}
         >
-          Learn More About {name}
+          Chat with {agent.name}
         </Button>
       </CardContent>
     </Card>
