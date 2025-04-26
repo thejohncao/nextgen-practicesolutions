@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Send } from 'lucide-react';
@@ -6,6 +7,7 @@ interface ChatInputProps {
   isTyping: boolean;
   currentAgent: string;
   onSendMessage: (message: string) => void;
+  messages?: Array<any>; // Add optional messages prop
 }
 
 // Define the AI agents with their color properties
@@ -25,7 +27,7 @@ const QUICK_REPLIES = [
   "Ask a Question"
 ];
 
-const ChatInput: React.FC<ChatInputProps> = ({ isTyping, currentAgent, onSendMessage }) => {
+const ChatInput: React.FC<ChatInputProps> = ({ isTyping, currentAgent, onSendMessage, messages = [] }) => {
   const [input, setInput] = useState("");
   const [showQuickReplies, setShowQuickReplies] = useState(true);
 
@@ -77,7 +79,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ isTyping, currentAgent, onSendMes
             agentColors[currentAgent as AgentKey],
             input.trim() && !isTyping ? "opacity-100" : "opacity-50"
           )}
-          onClick={handleSendMessage}
+          onClick={() => handleSendMessage()}
           disabled={!input.trim() || isTyping}
         >
           <Send className="h-4 w-4 text-white" />

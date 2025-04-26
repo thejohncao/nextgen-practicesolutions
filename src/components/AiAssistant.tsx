@@ -140,6 +140,7 @@ const AiAssistant = () => {
               isTyping={isTyping}
               currentAgent={currentAgent}
               onSendMessage={sendMessage}
+              messages={messages}
             />
           </>
         )}
