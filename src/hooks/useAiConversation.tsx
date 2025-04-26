@@ -1,6 +1,7 @@
-
 import { useState, useCallback, useEffect } from 'react';
 import { callOpenAI, SYSTEM_PROMPT, detectAgentFromMessage } from '@/lib/openai';
+
+type MessageRole = 'user' | 'assistant' | 'system';
 
 export interface AiMessage {
   text: string;
@@ -18,7 +19,6 @@ export function useAiConversation() {
     () => `conversation-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
   );
 
-  // Initialize with welcome message
   useEffect(() => {
     if (messages.length === 0) {
       setMessages([
@@ -32,12 +32,10 @@ export function useAiConversation() {
     }
   }, [messages.length]);
 
-  // Detect agent handoffs in messages and change the agent
   useEffect(() => {
     if (messages.length > 0) {
       const lastMessage = messages[messages.length - 1];
       if (!lastMessage.isUser) {
-        // Check for handoff phrases
         if (lastMessage.text.includes("Let me bring in Giselle") || 
             lastMessage.text.includes("Giselle here")) {
           setCurrentAgent("giselle");
@@ -57,7 +55,6 @@ export function useAiConversation() {
     }
   }, [messages]);
 
-  // Function to persist messages in sessionStorage
   const saveMessagesToSession = useCallback((newMessages: AiMessage[]) => {
     try {
       sessionStorage.setItem(conversationId, JSON.stringify(newMessages));
@@ -66,13 +63,11 @@ export function useAiConversation() {
     }
   }, [conversationId]);
 
-  // Load messages from sessionStorage on initial load
   useEffect(() => {
     try {
       const savedMessages = sessionStorage.getItem(conversationId);
       if (savedMessages) {
         const parsedMessages = JSON.parse(savedMessages) as AiMessage[];
-        // Convert stored date strings back to Date objects
         const messagesWithDates = parsedMessages.map(msg => ({
           ...msg,
           timestamp: new Date(msg.timestamp)
@@ -87,10 +82,8 @@ export function useAiConversation() {
   const sendMessage = useCallback(async (userMessage: string) => {
     if (!userMessage.trim()) return;
 
-    // Detect potential agent from user message
     const suggestedAgent = detectAgentFromMessage(userMessage);
 
-    // Add user message to state
     const newUserMessage = {
       text: userMessage,
       isUser: true,
@@ -106,35 +99,33 @@ export function useAiConversation() {
     setError(null);
 
     try {
-      // Format messages for OpenAI API
-      const messageHistory = messages.map(msg => ({
-        role: msg.isUser ? "user" as const : "assistant" as const,
+      const messageHistory: Array<{
+        role: MessageRole;
+        content: string;
+      }> = messages.map(msg => ({
+        role: msg.isUser ? "user" : "assistant",
         content: msg.text,
       }));
 
-      // Add the new user message
       messageHistory.push({
-        role: "user" as const,
+        role: "user",
         content: userMessage,
       });
 
-      // If the detected agent is different from current agent, add a hint to switch
       if (suggestedAgent !== currentAgent && messages.length > 1) {
         messageHistory.push({
-          role: "system" as const,
+          role: "system",
           content: `The user's question seems to be about ${suggestedAgent}'s specialty. Consider handing off to ${suggestedAgent}.`
         });
       }
 
-      // Call OpenAI API
       const response = await callOpenAI(messageHistory, SYSTEM_PROMPT);
 
       if (response) {
-        // Add AI response to state
         const aiMessage = {
           text: response,
           isUser: false,
-          agent: currentAgent, // This will be updated by the effect
+          agent: currentAgent,
           timestamp: new Date(),
         };
         
