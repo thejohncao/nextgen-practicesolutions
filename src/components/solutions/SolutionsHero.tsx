@@ -27,9 +27,19 @@ const SolutionsHero = () => {
         </div>
       </div>
       
-      {/* Decorative elements */}
+      {/* Enhanced decorative elements */}
       <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-nextgen-purple/10 blur-[100px] rounded-full animate-pulse-slow"></div>
       <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-[#E87C7C]/10 blur-[100px] rounded-full animate-pulse-slow" style={{animationDelay: '1s'}}></div>
+      
+      {/* Added floating icons */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 opacity-10 animate-float">
+          <Bot className="h-12 w-12 text-white" />
+        </div>
+        <div className="absolute top-1/3 right-1/4 opacity-10 animate-float" style={{animationDelay: '1s'}}>
+          <Sparkles className="h-12 w-12 text-white" />
+        </div>
+      </div>
     </section>
   );
 };

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import TubelightNavLink from './TubelightNavLink';
 import { MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
+import MobileNav from './MobileNav';
 
 const Navbar = () => {
   const handleChatOpen = () => {
@@ -112,7 +113,7 @@ const Navbar = () => {
             </NavigationMenuList>
           </NavigationMenu>
           
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center gap-3">
             <Button variant="ghost" className="text-sm hidden sm:flex hover:bg-white/5">
               Login
             </Button>
@@ -128,6 +129,7 @@ const Navbar = () => {
               <MessageSquare className="h-3.5 w-3.5" />
               <span>Meet Miles</span>
             </button>
+            <MobileNav />
           </div>
         </div>
       </div>
