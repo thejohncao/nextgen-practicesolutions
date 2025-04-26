@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { MessageSquare, X, MinusIcon, Send } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -111,6 +112,20 @@ const AiAssistant = () => {
     }
   };
 
+  const getAgentGradientClass = (agentKey: AgentKey) => {
+    return agents[agentKey].colorClass;
+  };
+
+  const getMessageBackgroundStyle = (message: Message) => {
+    if (message.isUser) {
+      return "bg-nextgen-dark/60";
+    } else {
+      const agent = message.agent;
+      const baseColor = agents[agent].baseColor;
+      return `bg-gradient-to-br from-[${baseColor}]/10 to-[${agents[agent].gradientColor}]/10`;
+    }
+  };
+
   return (
     <>
       <div 
@@ -122,7 +137,7 @@ const AiAssistant = () => {
             <div 
               className={cn(
                 "h-14 w-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-1000 ease-in-out",
-                agents[currentAgent].colorClass
+                getAgentGradientClass(currentAgent)
               )}
             >
               <MessageSquare className="text-white h-6 w-6" />
@@ -148,14 +163,14 @@ const AiAssistant = () => {
         <div 
           className={cn(
             "flex items-center justify-between px-4 py-3 rounded-t-xl transition-all duration-1000 ease-in-out",
-            agents[currentAgent].colorClass,
+            getAgentGradientClass(currentAgent),
             isMinimized && "rounded-full"
           )}
         >
           {!isMinimized && (
             <>
               <div className="flex items-center gap-3">
-                <div className={`h-8 w-8 rounded-full bg-gradient-radial ${agents[currentAgent].color} animate-pulse-slow`}>
+                <div className={`h-8 w-8 rounded-full bg-gradient-radial from-white/20 to-white/5 animate-pulse-slow`}>
                   <div className="h-full w-full flex items-center justify-center">
                     <div className="h-2 w-2 rounded-full bg-white animate-pulse"></div>
                   </div>
@@ -189,8 +204,11 @@ const AiAssistant = () => {
                   className={cn(
                     "mb-4 max-w-[85%] rounded-xl p-3",
                     message.isUser ? "bg-nextgen-dark/60 ml-auto" : 
-                    `bg-gradient-to-br ${agents[message.agent].color}/10 mr-auto`
+                    `bg-gradient-to-br from-[${agents[message.agent].baseColor}]/10 to-[${agents[message.agent].gradientColor}]/10 mr-auto`
                   )}
+                  style={!message.isUser ? {
+                    background: `linear-gradient(to bottom right, ${agents[message.agent].baseColor}10, ${agents[message.agent].gradientColor}10)`
+                  } : undefined}
                 >
                   {!message.isUser && (
                     <div className="font-semibold text-sm mb-1 text-white/90">
@@ -229,9 +247,12 @@ const AiAssistant = () => {
                   className={cn(
                     "absolute right-2 top-[50%] translate-y-[-50%] p-2 rounded-full",
                     "bg-gradient-to-r", 
-                    agents[currentAgent].color,
+                    `from-[${agents[currentAgent].baseColor}] to-[${agents[currentAgent].gradientColor}]`,
                     input.trim() ? "opacity-100" : "opacity-50"
                   )}
+                  style={{
+                    background: `linear-gradient(to right, ${agents[currentAgent].baseColor}, ${agents[currentAgent].gradientColor})`
+                  }}
                   onClick={sendMessage}
                   disabled={!input.trim()}
                 >
@@ -243,7 +264,8 @@ const AiAssistant = () => {
         )}
       </div>
 
-      <style jsx>{`
+      <style jsx>
+        {`
         .miles-color {
           background: radial-gradient(circle, #3A86FF, #7FDBFF);
           transition: all 1s ease-in-out;
@@ -260,7 +282,8 @@ const AiAssistant = () => {
           background: radial-gradient(circle, #00B4D8, #90E0EF);
           transition: all 1s ease-in-out;
         }
-      `}</style>
+        `}
+      </style>
     </>
   );
 };
