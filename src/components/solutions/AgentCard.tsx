@@ -4,7 +4,7 @@ import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Agent } from '@/types/agent';
 import AgentAvatar from '../AgentAvatar';
-import { Check } from 'lucide-react';
+import { Check, LucideIcon } from 'lucide-react';
 
 interface AgentCardProps {
   agent: Agent;
@@ -17,6 +17,16 @@ const AgentCard = ({ agent }: AgentCardProps) => {
       if (chatButton) chatButton.click();
     } catch (error) {
       console.error('Error opening chat:', error);
+    }
+  };
+
+  const getColorClass = (color: string) => {
+    switch (color) {
+      case 'purple': return 'text-purple-500';
+      case 'green': return 'text-green-500';
+      case 'blue': return 'text-blue-500';
+      case 'gold': return 'text-amber-500';
+      default: return 'text-white';
     }
   };
 
@@ -60,7 +70,7 @@ const AgentCard = ({ agent }: AgentCardProps) => {
               const [title, description] = feature.split(" - ");
               return (
                 <li key={index} className="flex items-start gap-2">
-                  <Check className={`h-4 w-4 mt-1 text-${agent.color}-500 flex-shrink-0`} />
+                  <Check className={`h-4 w-4 mt-1 ${getColorClass(agent.color)} flex-shrink-0`} />
                   <div>
                     <span className="text-white font-medium">{title}</span>
                     {description && (
@@ -78,13 +88,13 @@ const AgentCard = ({ agent }: AgentCardProps) => {
             <h4 className="text-sm text-white/60 uppercase tracking-wider">Tools & Integrations</h4>
             <div className="flex flex-wrap gap-3">
               {agent.tools.map((tool, index) => {
-                const IconComponent = tool.icon;
+                const IconComponent = tool.icon as LucideIcon;
                 return (
                   <div 
                     key={index} 
                     className={`flex items-center gap-2 px-3 py-2 rounded-lg bg-${agent.color}-500/5 border border-${agent.color}-500/10`}
                   >
-                    <IconComponent className={`h-4 w-4 text-${agent.color}-500`} />
+                    <IconComponent className={`h-4 w-4 ${getColorClass(agent.color)}`} />
                     <span className="text-sm text-white/80">{tool.name}</span>
                   </div>
                 );
