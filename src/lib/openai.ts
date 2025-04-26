@@ -1,8 +1,5 @@
-
 import { toast } from "@/components/ui/use-toast";
-
-// Will be provided securely by the user
-const API_KEY = ""; 
+import { supabase } from "@/integrations/supabase/client";
 
 // Define types for OpenAI API requests and responses
 export interface Message {
@@ -10,88 +7,26 @@ export interface Message {
   content: string;
 }
 
-interface OpenAIResponse {
-  choices: {
-    message: {
-      content: string;
-      role: string;
-    };
-    finish_reason: string;
-  }[];
-  usage: {
-    prompt_tokens: number;
-    completion_tokens: number;
-    total_tokens: number;
-  };
-}
-
 export async function callOpenAI(
   messages: Message[],
   systemPrompt: string
 ): Promise<string | null> {
-  if (!API_KEY) {
-    toast({
-      title: "API Key Required",
-      description: "Please set up your OpenAI API key to use the chat feature.",
-      variant: "destructive",
-    });
-    return null;
-  }
-
   try {
-    // Prepend the system prompt
-    const fullMessages = [
-      {
-        role: "system" as const,
-        content: systemPrompt,
-      },
-      ...messages,
-    ];
+    const { data, error } = await supabase.functions.invoke('chat', {
+      body: { messages, systemPrompt }
+    });
 
-    // Try the API call with retries
-    let retries = 3;
-    let response: Response | null = null;
-    
-    while (retries > 0) {
-      try {
-        response = await fetch("https://api.openai.com/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${API_KEY}`,
-            // Only allow calls from nextgenpractice.org
-            "Origin": "https://nextgenpractice.org"
-          },
-          body: JSON.stringify({
-            model: "gpt-4o",
-            messages: fullMessages,
-            temperature: 0.7,
-            max_tokens: 800,
-          }),
-        });
-        
-        if (response.ok) break;
-        
-        // If rate limited, wait before retrying
-        if (response.status === 429) {
-          await new Promise(resolve => setTimeout(resolve, 2000));
-        } else {
-          break; // For other errors, don't retry
-        }
-      } catch (error) {
-        console.error("OpenAI API request failed:", error);
-      }
-      retries--;
+    if (error) {
+      console.error("Supabase function error:", error);
+      toast({
+        title: "Error",
+        description: "Failed to connect to AI services. Please try again later.",
+        variant: "destructive",
+      });
+      return null;
     }
 
-    if (!response || !response.ok) {
-      const errorData = response ? await response.json() : { error: { message: "Network error" } };
-      console.error("OpenAI API Error:", errorData);
-      throw new Error(`API error: ${errorData.error?.message || response?.statusText || "Failed to connect"}`);
-    }
-
-    const data = await response.json() as OpenAIResponse;
-    return data.choices[0].message.content;
+    return data.response;
   } catch (error) {
     console.error("Error calling OpenAI:", error);
     toast({
