@@ -9,16 +9,22 @@ interface MilesBannerProps {
 
 const MilesBanner = ({ onOpenChat }: MilesBannerProps) => {
   return (
-    <div className="fixed top-0 left-0 w-full h-[50px] bg-gradient-to-r from-slate-50 to-blue-50 border-b border-blue-100/50 z-[60] backdrop-blur-sm">
+    <div className="fixed top-0 left-0 w-full h-[48px] bg-[#F0F8FF] border-b border-blue-100/50 z-[60] backdrop-blur-sm">
       <div className="container mx-auto h-full">
-        <div className="flex items-center justify-between h-full px-4">
-          <div className="text-slate-700 font-medium">
-            Your Always-On AI Concierge – Meet Miles
+        <div className="flex items-center justify-center h-full px-4 md:px-6">
+          <div className="flex-1 text-center md:text-left">
+            <span className="text-slate-800 font-semibold text-base md:text-lg">
+              Your Always-On AI Concierge – {' '}
+              <span className="inline-flex animate-shimmer bg-gradient-to-r from-[#a3c9f9] via-white to-[#a3c9f9] bg-[length:400%_100%] bg-clip-text text-transparent">
+                Meet Miles
+              </span>
+            </span>
           </div>
           <Button 
             onClick={onOpenChat}
-            variant="ghost" 
-            className="bg-white/50 hover:bg-white/80 text-slate-700"
+            variant="default"
+            size="sm"
+            className="bg-nextgen-blue hover:bg-nextgen-blue/90 text-white font-medium shadow-sm transition-all hover:shadow-md ml-4"
           >
             <MessageSquare className="h-4 w-4 mr-2" />
             Talk to Miles
