@@ -1,3 +1,4 @@
+
 import { toast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -12,21 +13,51 @@ export async function callOpenAI(
   systemPrompt: string
 ): Promise<string | null> {
   try {
-    const { data, error } = await supabase.functions.invoke('chat', {
-      body: { messages, systemPrompt }
-    });
+    // Call the Supabase edge function with retry logic
+    const maxRetries = 2;
+    let attempt = 0;
+    let lastError: any = null;
 
-    if (error) {
-      console.error("Supabase function error:", error);
-      toast({
-        title: "Error",
-        description: "Failed to connect to AI services. Please try again later.",
-        variant: "destructive",
-      });
-      return null;
+    while (attempt <= maxRetries) {
+      try {
+        const { data, error } = await supabase.functions.invoke('chat', {
+          body: { messages, systemPrompt }
+        });
+
+        if (error) {
+          console.error("Supabase function error:", error);
+          throw error;
+        }
+
+        if (!data || !data.response) {
+          throw new Error("Invalid response from AI service");
+        }
+
+        return data.response;
+      } catch (err) {
+        lastError = err;
+        console.error(`AI call attempt ${attempt + 1}/${maxRetries + 1} failed:`, err);
+        attempt++;
+        
+        if (attempt <= maxRetries) {
+          // Wait before retry (exponential backoff)
+          await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+        }
+      }
     }
 
-    return data.response;
+    // All retries failed
+    let errorMessage = "Unable to connect to AI services after multiple attempts.";
+    if (lastError?.message?.includes("API key")) {
+      errorMessage = "AI service configuration issue. Please try again later.";
+    }
+
+    toast({
+      title: "Connection Error",
+      description: errorMessage,
+      variant: "destructive",
+    });
+    return null;
   } catch (error) {
     console.error("Error calling OpenAI:", error);
     toast({

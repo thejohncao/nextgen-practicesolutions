@@ -15,10 +15,20 @@ serve(async (req) => {
   try {
     const openAiKey = Deno.env.get('OPENAI_API_KEY')
     if (!openAiKey) {
+      console.error("Error: OpenAI API key not configured")
       throw new Error('OpenAI API key not configured')
     }
 
     const { messages, systemPrompt } = await req.json()
+    
+    // Validate request data
+    if (!Array.isArray(messages)) {
+      throw new Error('Invalid messages format: messages must be an array')
+    }
+    
+    if (typeof systemPrompt !== 'string') {
+      throw new Error('Invalid systemPrompt format: systemPrompt must be a string')
+    }
 
     const fullMessages = [
       {
@@ -28,6 +38,8 @@ serve(async (req) => {
       ...messages,
     ]
 
+    console.log(`Making request to OpenAI with ${messages.length} messages`)
+    
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -35,7 +47,7 @@ serve(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "gpt-4o",
+        model: "gpt-4o-mini", // Using correct model name
         messages: fullMessages,
         temperature: 0.7,
         max_tokens: 800,
@@ -44,6 +56,7 @@ serve(async (req) => {
 
     if (!response.ok) {
       const error = await response.json()
+      console.error("OpenAI API error:", error)
       throw new Error(error.error?.message || 'OpenAI API error')
     }
 
