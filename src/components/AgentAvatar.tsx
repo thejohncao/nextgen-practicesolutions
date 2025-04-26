@@ -7,9 +7,10 @@ interface AgentAvatarProps {
   name: string;
   role: string;
   isActive?: boolean;
+  color?: string; // Added color prop
 }
 
-const AgentAvatar = ({ name, role, isActive = false }: AgentAvatarProps) => {
+const AgentAvatar = ({ name, role, isActive = false, color }: AgentAvatarProps) => {
   const [isAnimating, setIsAnimating] = useState(false);
   const [isPinging, setIsPinging] = useState(false);
   
@@ -32,6 +33,7 @@ const AgentAvatar = ({ name, role, isActive = false }: AgentAvatarProps) => {
   }, [isActive]);
   
   const getAgentGradient = () => {
+    // First check if we have a direct color from agentColors
     const colors = agentColors[name] || agentColors['Miles']; // Default to Miles
     return `from-[${colors.start}] to-[${colors.end}]`;
   };
