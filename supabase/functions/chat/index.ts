@@ -15,20 +15,26 @@ serve(async (req) => {
   try {
     const openAiKey = Deno.env.get('OPENAI_API_KEY')
     if (!openAiKey) {
-      console.error("Error: OpenAI API key not configured")
-      throw new Error('OpenAI API key not configured')
+      console.error("OpenAI API key missing or invalid")
+      throw new Error('OpenAI API key not configured or invalid. Please check your configuration.')
     }
 
     const { messages, systemPrompt } = await req.json()
     
-    // Validate request data
+    // Validate request data with detailed error messages
     if (!Array.isArray(messages)) {
-      throw new Error('Invalid messages format: messages must be an array')
+      const error = 'Invalid messages format: messages must be an array';
+      console.error(error);
+      throw new Error(error);
     }
     
     if (typeof systemPrompt !== 'string') {
-      throw new Error('Invalid systemPrompt format: systemPrompt must be a string')
+      const error = 'Invalid systemPrompt format: systemPrompt must be a string';
+      console.error(error);
+      throw new Error(error);
     }
+
+    console.log(`OpenAI API call: Processing ${messages.length} messages with system prompt`)
 
     const fullMessages = [
       {
@@ -38,7 +44,7 @@ serve(async (req) => {
       ...messages,
     ]
 
-    console.log(`Making request to OpenAI with ${messages.length} messages`)
+    console.log("Making request to OpenAI API...")
     
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -47,7 +53,7 @@ serve(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "gpt-4o-mini", // Using correct model name
+        model: "gpt-4o-mini",
         messages: fullMessages,
         temperature: 0.7,
         max_tokens: 800,
@@ -56,19 +62,21 @@ serve(async (req) => {
 
     if (!response.ok) {
       const error = await response.json()
-      console.error("OpenAI API error:", error)
-      throw new Error(error.error?.message || 'OpenAI API error')
+      console.error("OpenAI API error details:", error)
+      throw new Error(error.error?.message || 'Error communicating with OpenAI API')
     }
 
     const data = await response.json()
+    console.log("Successfully received response from OpenAI")
+    
     return new Response(JSON.stringify({ response: data.choices[0].message.content }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     })
 
   } catch (error) {
-    console.error("Error:", error.message)
+    console.error("Detailed error in chat function:", error.message, error.stack)
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: error.message || 'An unexpected error occurred' }),
       { 
         status: 500, 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
