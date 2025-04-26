@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Bot } from 'lucide-react';
+import { Bot, Sparkles } from 'lucide-react';
 
 const SolutionsHero = () => {
   return (
@@ -8,7 +8,7 @@ const SolutionsHero = () => {
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-white/5 border border-white/10">
-            <Bot className="h-5 w-5 text-nextgen-purple" />
+            <Sparkles className="h-5 w-5 text-nextgen-purple" />
             <span className="text-sm font-medium text-white/80">AI-Powered Solutions</span>
           </div>
           
@@ -16,9 +16,14 @@ const SolutionsHero = () => {
             Meet Your AI Practice Growth Team
           </h1>
           
-          <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto mb-8">
             Four specialized AI agents, each focused on a critical area of your practice's success — from front office operations to team development.
           </p>
+          
+          <div className="inline-flex items-center gap-2 text-nextgen-purple text-sm font-medium">
+            <Bot className="h-5 w-5" />
+            <span>Scroll down to explore each agent</span>
+          </div>
         </div>
       </div>
       

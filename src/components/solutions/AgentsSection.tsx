@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Calendar, MessageSquare, Headphones, TrendingUp, Funnel, DollarSign, Handshake, ClipboardCheck, ClipboardList, GraduationCap, Play, CheckSquare } from 'lucide-react';
+import { Calendar, MessageSquare, Headphones, TrendingUp, BarChart, DollarSign, Handshake, ClipboardCheck, ClipboardList, GraduationCap, Play, CheckSquare } from 'lucide-react';
 import AgentCard from './AgentCard';
 
 const agents = [
