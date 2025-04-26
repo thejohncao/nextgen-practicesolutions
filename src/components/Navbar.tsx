@@ -9,15 +9,22 @@ import { cn } from "@/lib/utils";
 const Navbar = () => {
   const handleChatOpen = () => {
     try {
-      setTimeout(() => {
-        const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
-        if (chatButton) {
-          console.log('Chat button found in navbar after delay, clicking...');
-          chatButton.click();
-        } else {
-          console.warn('Chat button still not found in DOM after navbar click');
-        }
-      }, 100);
+      const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
+      if (chatButton) {
+        console.log('Chat button found in navbar, clicking immediately...');
+        chatButton.click();
+      } else {
+        console.log('Chat button not found, trying with a delay...');
+        setTimeout(() => {
+          const delayedChatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
+          if (delayedChatButton) {
+            console.log('Chat button found in navbar after delay, clicking...');
+            delayedChatButton.click();
+          } else {
+            console.warn('Chat button still not found in DOM after navbar click');
+          }
+        }, 200);
+      }
     } catch (error) {
       console.error('Error opening chat from navbar:', error);
     }
@@ -27,7 +34,6 @@ const Navbar = () => {
     <header className="sticky top-0 w-full z-50 bg-nextgen-dark/95 backdrop-blur-lg border-b border-white/10">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
           <Link to="/" className="text-white">
             <div className="flex flex-col">
               <span className="font-heading font-bold text-xl">NextGen</span>
@@ -35,7 +41,6 @@ const Navbar = () => {
             </div>
           </Link>
           
-          {/* Main Navigation */}
           <NavigationMenu className="hidden lg:flex">
             <NavigationMenuList className="space-x-1">
               <NavigationMenuItem>
@@ -107,7 +112,6 @@ const Navbar = () => {
             </NavigationMenuList>
           </NavigationMenu>
           
-          {/* CTA Buttons + Meet Miles Badge */}
           <div className="flex items-center space-x-3">
             <Button variant="ghost" className="text-sm hidden sm:flex hover:bg-white/5">
               Login
@@ -119,6 +123,7 @@ const Navbar = () => {
                 "animate-shimmer bg-[linear-gradient(110deg,#a3c9f9,45%,#fff,55%,#a3c9f9)] bg-[length:200%_100%]",
                 "text-slate-800 rounded-full transition-colors"
               )}
+              data-testid="navbar-miles-button"
             >
               <MessageSquare className="h-3.5 w-3.5" />
               <span>Meet Miles</span>
