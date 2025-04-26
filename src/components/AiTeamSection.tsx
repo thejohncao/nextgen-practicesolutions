@@ -1,10 +1,7 @@
 
 import React, { useState } from 'react';
-import { Users, ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Users } from "lucide-react";
 import { agents } from '@/data/agents';
-import AgentCard from './AgentCard';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { 
   Carousel,
@@ -13,6 +10,7 @@ import {
   CarouselNext,
   CarouselPrevious
 } from "@/components/ui/carousel";
+import CarouselAgentCard from './team/CarouselAgentCard';
 
 const AITeamSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -21,6 +19,7 @@ const AITeamSection = () => {
   return (
     <section id="ai-team" className="section-padding py-12 sm:py-20 overflow-hidden">
       <div className="container mx-auto px-4">
+        {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-16">
           <div className="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full bg-white/5 border border-white/10">
             <Users className="h-4 w-4 text-nextgen-purple" />
@@ -33,8 +32,7 @@ const AITeamSection = () => {
           
           <p className="text-base sm:text-lg text-white/70 px-4">
             Your practice just hired four world-class experts — and they never take a day off. 
-            Each AI agent is trained to run a core part of your operations: scheduling, lead generation, 
-            case acceptance, and staff training.
+            Each AI agent is trained to run a core part of your operations.
           </p>
         </div>
 
@@ -51,7 +49,7 @@ const AITeamSection = () => {
               {agents.map((agent, index) => (
                 <CarouselItem key={agent.name} className={isMobile ? "basis-full" : "basis-1/2"}>
                   <div className="p-2">
-                    <AgentCard 
+                    <CarouselAgentCard 
                       agent={agent} 
                       isActive={activeIndex === index}
                     />
@@ -59,7 +57,7 @@ const AITeamSection = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <div className="flex items-center justify-center gap-2 mt-6">
+            <div className="flex items-center justify-center gap-4 mt-8">
               <CarouselPrevious className="relative static left-0 right-0 translate-y-0 mx-2" />
               {/* Dots for slide position */}
               <div className="flex gap-2">
@@ -78,14 +76,6 @@ const AITeamSection = () => {
               <CarouselNext className="relative static left-0 right-0 translate-y-0 mx-2" />
             </div>
           </Carousel>
-        </div>
-
-        {/* CTA after carousel */}
-        <div className="text-center mt-8">
-          <p className="text-lg text-white/90 mb-4">Want to see each agent in action?</p>
-          <Button asChild variant="outline" className="bg-white/5 hover:bg-white/10 border-white/20">
-            <Link to="/features">Explore Full Features →</Link>
-          </Button>
         </div>
       </div>
     </section>
