@@ -2,7 +2,36 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { MessageSquare, X, MinusIcon, Send } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { agents, AgentKey, getAgentFromMessage } from '../utils/agentStyles';
+
+// Define the AI agents with their properties
+const agents = {
+  miles: {
+    name: "Miles",
+    color: "from-[#3A86FF] to-[#7FDBFF]",
+    mood: "Calm, confident",
+    intro: "Hi, I'm Miles, your practice management AI. How can I help optimize your dental practice today?"
+  },
+  giselle: {
+    name: "Giselle",
+    color: "from-[#00C896] to-[#00FFB2]",
+    mood: "Energetic, strategic",
+    intro: "Hello, Giselle here. I specialize in practice growth strategies. What specific goals are you looking to achieve?"
+  },
+  devon: {
+    name: "Devon",
+    color: "from-[#7B2CBF] to-[#B388EB]",
+    mood: "Educational, warm trust",
+    intro: "I'm Devon, your clinical education specialist. What clinical workflows or training can I help with today?"
+  },
+  alma: {
+    name: "Alma", 
+    color: "from-[#00B4D8] to-[#90E0EF]",
+    mood: "Professional, motivating",
+    intro: "Alma here. I'm focused on team performance and patient experience. How can I help improve your practice culture?"
+  }
+};
+
+type AgentKey = keyof typeof agents;
 
 interface Message {
   text: string;
@@ -19,7 +48,8 @@ const AiAssistant = () => {
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
+  
+  // Initialize with welcome message
   useEffect(() => {
     if (messages.length === 0) {
       setMessages([
@@ -33,16 +63,30 @@ const AiAssistant = () => {
     }
   }, []);
 
+  // Auto-scroll to bottom of messages
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // Detect agent handoffs in messages and change the agent
   useEffect(() => {
     if (messages.length > 0) {
       const lastMessage = messages[messages.length - 1];
       if (!lastMessage.isUser) {
-        const newAgent = getAgentFromMessage(lastMessage.text);
-        setCurrentAgent(newAgent);
+        // Check for handoff phrases
+        if (lastMessage.text.includes("Let me bring in Giselle") || 
+            lastMessage.text.includes("Giselle here")) {
+          setCurrentAgent("giselle");
+        } else if (lastMessage.text.includes("Let me bring in Devon") || 
+                  lastMessage.text.includes("Devon here")) {
+          setCurrentAgent("devon");
+        } else if (lastMessage.text.includes("Let me bring in Alma") || 
+                  lastMessage.text.includes("Alma here")) {
+          setCurrentAgent("alma");
+        } else if (lastMessage.text.includes("Back to Miles") || 
+                  lastMessage.text.includes("Miles here")) {
+          setCurrentAgent("miles");
+        }
       }
     }
   }, [messages]);
@@ -74,10 +118,15 @@ const AiAssistant = () => {
     setInput("");
     setIsTyping(true);
 
+    // Mock AI response with a delay to simulate thinking
     setTimeout(() => {
+      // In a real implementation, you would call your GPT API here
+      // For now, we'll use mock responses with handoffs
+
       let aiResponse = "";
       let nextAgent = currentAgent;
 
+      // Simple demonstration of agent switching logic
       if (input.toLowerCase().includes("growth") || input.toLowerCase().includes("strategy")) {
         aiResponse = "Let me bring in Giselle, our growth specialist.\n\nGiselle here! I'd be happy to discuss growth strategies for your dental practice. What specific areas are you looking to improve?";
         nextAgent = "giselle";
@@ -91,6 +140,7 @@ const AiAssistant = () => {
         aiResponse = "Back to Miles, your practice management AI.\n\nMiles here! How else can I assist with your practice management needs?";
         nextAgent = "miles";
       } else {
+        // Default response if no handoff is triggered
         aiResponse = `I understand you're asking about "${input}". I can provide guidance on practice management, growth strategies, team culture, or clinical education. What specific aspect would you like to focus on?`;
       }
 
@@ -112,22 +162,9 @@ const AiAssistant = () => {
     }
   };
 
-  const getAgentGradientClass = (agentKey: AgentKey) => {
-    return agents[agentKey].colorClass;
-  };
-
-  const getMessageBackgroundStyle = (message: Message) => {
-    if (message.isUser) {
-      return "bg-nextgen-dark/60";
-    } else {
-      const agent = message.agent;
-      const baseColor = agents[agent].baseColor;
-      return `bg-gradient-to-br from-[${baseColor}]/10 to-[${agents[agent].gradientColor}]/10`;
-    }
-  };
-
   return (
     <>
+      {/* Chat toggle button */}
       <div 
         className={`fixed bottom-6 right-6 z-50 cursor-pointer transition-all duration-500 ease-in-out`}
         onClick={toggleChat}
@@ -135,16 +172,15 @@ const AiAssistant = () => {
         {!isOpen && (
           <div className="relative">
             <div 
-              className={cn(
-                "h-14 w-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-1000 ease-in-out",
-                getAgentGradientClass(currentAgent)
-              )}
+              className={`h-14 w-14 rounded-full flex items-center justify-center shadow-lg
+                bg-gradient-radial ${agents[currentAgent].color} animate-pulse-glow`}
             >
               <MessageSquare className="text-white h-6 w-6" />
             </div>
             <div className="absolute inset-0 rounded-full bg-gradient-radial blur-sm opacity-50 animate-pulse-slow"></div>
             <div className="absolute -inset-1 rounded-full bg-gradient-radial blur-md opacity-30 animate-pulse-slow"></div>
             
+            {/* Ripple effect */}
             <div className="absolute inset-0 rounded-full">
               <div className="absolute inset-0 rounded-full border-2 border-white/20 animate-[ripple_3s_ease-out_infinite]"></div>
               <div className="absolute inset-0 rounded-full border-2 border-white/20 animate-[ripple_3s_ease-out_1.5s_infinite]"></div>
@@ -153,6 +189,7 @@ const AiAssistant = () => {
         )}
       </div>
 
+      {/* Chat window */}
       <div 
         className={cn(
           "fixed z-50 transition-all duration-500 ease-in-out shadow-2xl",
@@ -160,17 +197,18 @@ const AiAssistant = () => {
           isMinimized ? "bottom-6 right-6 h-14 w-14" : "h-[550px] w-[350px] md:w-[400px]"
         )}
       >
+        {/* Chat header */}
         <div 
           className={cn(
-            "flex items-center justify-between px-4 py-3 rounded-t-xl transition-all duration-1000 ease-in-out",
-            getAgentGradientClass(currentAgent),
+            "flex items-center justify-between px-4 py-3 rounded-t-xl bg-gradient-to-r",
+            `${agents[currentAgent].color}`,
             isMinimized && "rounded-full"
           )}
         >
           {!isMinimized && (
             <>
               <div className="flex items-center gap-3">
-                <div className={`h-8 w-8 rounded-full bg-gradient-radial from-white/20 to-white/5 animate-pulse-slow`}>
+                <div className={`h-8 w-8 rounded-full bg-gradient-radial ${agents[currentAgent].color} animate-pulse-slow`}>
                   <div className="h-full w-full flex items-center justify-center">
                     <div className="h-2 w-2 rounded-full bg-white animate-pulse"></div>
                   </div>
@@ -197,6 +235,7 @@ const AiAssistant = () => {
         
         {!isMinimized && (
           <>
+            {/* Messages container */}
             <div className="bg-nextgen-dark overflow-y-auto p-4 h-[calc(100%-110px)]">
               {messages.map((message, index) => (
                 <div 
@@ -204,11 +243,8 @@ const AiAssistant = () => {
                   className={cn(
                     "mb-4 max-w-[85%] rounded-xl p-3",
                     message.isUser ? "bg-nextgen-dark/60 ml-auto" : 
-                    `bg-gradient-to-br from-[${agents[message.agent].baseColor}]/10 to-[${agents[message.agent].gradientColor}]/10 mr-auto`
+                    `bg-gradient-to-br ${agents[message.agent].color}/10 mr-auto`
                   )}
-                  style={!message.isUser ? {
-                    background: `linear-gradient(to bottom right, ${agents[message.agent].baseColor}10, ${agents[message.agent].gradientColor}10)`
-                  } : undefined}
                 >
                   {!message.isUser && (
                     <div className="font-semibold text-sm mb-1 text-white/90">
@@ -232,6 +268,7 @@ const AiAssistant = () => {
               <div ref={messagesEndRef}></div>
             </div>
             
+            {/* Message input */}
             <div className="p-3 border-t border-white/10 bg-nextgen-dark/80">
               <div className="relative">
                 <textarea
@@ -247,12 +284,9 @@ const AiAssistant = () => {
                   className={cn(
                     "absolute right-2 top-[50%] translate-y-[-50%] p-2 rounded-full",
                     "bg-gradient-to-r", 
-                    `from-[${agents[currentAgent].baseColor}] to-[${agents[currentAgent].gradientColor}]`,
+                    agents[currentAgent].color,
                     input.trim() ? "opacity-100" : "opacity-50"
                   )}
-                  style={{
-                    background: `linear-gradient(to right, ${agents[currentAgent].baseColor}, ${agents[currentAgent].gradientColor})`
-                  }}
                   onClick={sendMessage}
                   disabled={!input.trim()}
                 >
@@ -263,27 +297,6 @@ const AiAssistant = () => {
           </>
         )}
       </div>
-
-      <style jsx>
-        {`
-        .miles-color {
-          background: radial-gradient(circle, #3A86FF, #7FDBFF);
-          transition: all 1s ease-in-out;
-        }
-        .giselle-color {
-          background: radial-gradient(circle, #00C896, #00FFB2);
-          transition: all 1s ease-in-out;
-        }
-        .devon-color {
-          background: radial-gradient(circle, #7B2CBF, #B388EB);
-          transition: all 1s ease-in-out;
-        }
-        .alma-color {
-          background: radial-gradient(circle, #00B4D8, #90E0EF);
-          transition: all 1s ease-in-out;
-        }
-        `}
-      </style>
     </>
   );
 };
