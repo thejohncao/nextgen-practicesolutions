@@ -1,18 +1,20 @@
 
 import React, { useEffect, useState } from 'react';
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { agentColors } from '@/types/agent';
 
 interface AgentAvatarProps {
   name: string;
   role: string;
-  color?: string;
+  isActive?: boolean;
 }
 
-const AgentAvatar = ({ name, role, color = 'purple' }: AgentAvatarProps) => {
+const AgentAvatar = ({ name, role, isActive = false }: AgentAvatarProps) => {
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isPinging, setIsPinging] = useState(false);
   
   useEffect(() => {
-    // Create a random interval to trigger animations
+    // Create a random interval to trigger breathing animations
     const animationInterval = setInterval(() => {
       setIsAnimating(true);
       setTimeout(() => setIsAnimating(false), 2000);
@@ -21,15 +23,17 @@ const AgentAvatar = ({ name, role, color = 'purple' }: AgentAvatarProps) => {
     return () => clearInterval(animationInterval);
   }, []);
   
-  const getGradientClass = () => {
-    switch(color) {
-      case 'red': return 'from-red-500 to-red-600';
-      case 'green': return 'from-green-500 to-green-600';
-      case 'blue': return 'from-blue-500 to-blue-600';
-      case 'purple': return 'from-purple-500 to-purple-600';
-      case 'gold': return 'from-amber-500 to-amber-600';
-      default: return 'from-purple-500 to-purple-600';
+  useEffect(() => {
+    // Trigger ping animation on active state change
+    if (isActive) {
+      setIsPinging(true);
+      setTimeout(() => setIsPinging(false), 200);
     }
+  }, [isActive]);
+  
+  const getAgentGradient = () => {
+    const colors = agentColors[name] || agentColors['Miles']; // Default to Miles
+    return `from-[${colors.start}] to-[${colors.end}]`;
   };
   
   const getAnimationDelay = () => {
@@ -44,27 +48,72 @@ const AgentAvatar = ({ name, role, color = 'purple' }: AgentAvatarProps) => {
   return (
     <div className="flex items-center animate-fade-in relative" style={{ animationDelay: getAnimationDelay() }}>
       <div className="relative">
-        {/* Outer glow ring */}
-        <div className={`absolute inset-0 rounded-full ${isAnimating ? 'animate-pulse' : 'animate-pulse-slow'} opacity-50 bg-gradient-to-r ${getGradientClass()} blur-md`} />
+        {/* Outer glow ring with color transition */}
+        <div 
+          className={`
+            absolute inset-0 rounded-full 
+            ${isAnimating ? 'animate-pulse' : 'animate-pulse-slow'} 
+            ${isPinging ? 'scale-110 opacity-80' : 'opacity-50'} 
+            transition-all duration-1000 ease-in-out
+            bg-gradient-to-r ${getAgentGradient()} blur-md
+          `}
+        />
         
         {/* Animated rings */}
-        <div className={`absolute inset-0 rounded-full ${isAnimating ? 'animate-pulse' : 'animate-pulse-slow'} scale-125 opacity-20 bg-gradient-to-r ${getGradientClass()}`} />
+        <div 
+          className={`
+            absolute inset-0 rounded-full 
+            ${isAnimating ? 'animate-pulse' : 'animate-pulse-slow'} 
+            scale-125 opacity-20 
+            transition-all duration-1000 ease-in-out
+            bg-gradient-to-r ${getAgentGradient()}
+          `} 
+        />
+        
         <div className={`absolute inset-0 rounded-full ${isAnimating ? 'animate-pulse-glow' : ''}`} />
         
         {/* Fluid motion overlay */}
-        <div className={`absolute inset-0 rounded-full overflow-hidden ${isAnimating ? 'opacity-70' : 'opacity-30'}`}>
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-flow" style={{ animationDuration: isAnimating ? '1.5s' : '3s' }}></div>
+        <div className={`
+          absolute inset-0 rounded-full overflow-hidden 
+          ${isAnimating ? 'opacity-70' : 'opacity-30'}
+          transition-all duration-1000 ease-in-out
+        `}>
+          <div 
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-flow" 
+            style={{ animationDuration: isAnimating ? '1.5s' : '3s' }}
+          />
         </div>
         
-        <Avatar className={`w-12 h-12 border-2 border-white/10 relative z-10 transition-all duration-300 ${isAnimating ? 'scale-105' : ''}`}>
-          <AvatarFallback className={`bg-gradient-to-br ${getGradientClass()} ${isAnimating ? 'animate-pulse' : 'animate-pulse-slow duration-[3000ms]'}`}>
+        <Avatar className={`
+          w-12 h-12 border-2 border-white/10 relative z-10 
+          transition-all duration-300 
+          ${isAnimating ? 'scale-105' : ''}
+        `}>
+          <AvatarFallback 
+            className={`
+              bg-gradient-to-br ${getAgentGradient()} 
+              ${isAnimating ? 'animate-pulse' : 'animate-pulse-slow duration-[3000ms]'}
+              transition-all duration-1000 ease-in-out
+            `}
+          >
             {getInitials(name)}
           </AvatarFallback>
         </Avatar>
         
         {/* Status indicator with pulse */}
-        <div className={`absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-nextgen-dark transition-all duration-300 ${isAnimating ? 'scale-125' : ''}`}>
-          <div className={`absolute inset-0 rounded-full ${isAnimating ? 'animate-ping' : ''} bg-green-500 opacity-75`} />
+        <div className={`
+          absolute -bottom-1 -right-1 w-3 h-3 
+          rounded-full border-2 border-nextgen-dark 
+          transition-all duration-300 
+          ${isAnimating ? 'scale-125' : ''}
+          bg-gradient-to-r ${getAgentGradient()}
+        `}>
+          <div className={`
+            absolute inset-0 rounded-full 
+            ${isAnimating ? 'animate-ping' : ''} 
+            bg-gradient-to-r ${getAgentGradient()} 
+            opacity-75
+          `} />
         </div>
       </div>
     </div>
