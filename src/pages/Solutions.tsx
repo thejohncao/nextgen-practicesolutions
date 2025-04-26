@@ -7,6 +7,7 @@ import SolutionsPackages from '../components/solutions/SolutionsPackages';
 import FlywheelSection from '../components/solutions/FlywheelSection';
 import FooterCTA from '../components/FooterCTA';
 import Footer from '../components/Footer';
+import AiAssistant from '../components/AiAssistant';
 
 const Solutions = () => {
   return (
@@ -18,6 +19,7 @@ const Solutions = () => {
       <FlywheelSection />
       <FooterCTA />
       <Footer />
+      <AiAssistant />
     </div>
   );
 };
