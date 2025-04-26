@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { MessageSquare, X, MinusIcon, Send } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -156,9 +155,7 @@ const AiAssistant = () => {
           {!isMinimized && (
             <>
               <div className="flex items-center gap-3">
-                <div className={`h-8 w-8 rounded-full bg-gradient-radial animate-pulse-slow`} style={{
-                  background: `radial-gradient(circle, ${agents[currentAgent].baseColor}, ${agents[currentAgent].gradientColor})`
-                }}>
+                <div className={`h-8 w-8 rounded-full bg-gradient-radial ${agents[currentAgent].color} animate-pulse-slow`}>
                   <div className="h-full w-full flex items-center justify-center">
                     <div className="h-2 w-2 rounded-full bg-white animate-pulse"></div>
                   </div>
@@ -192,11 +189,8 @@ const AiAssistant = () => {
                   className={cn(
                     "mb-4 max-w-[85%] rounded-xl p-3",
                     message.isUser ? "bg-nextgen-dark/60 ml-auto" : 
-                    `bg-gradient-to-br mr-auto`
+                    `bg-gradient-to-br ${agents[message.agent].color}/10 mr-auto`
                   )}
-                  style={!message.isUser ? {
-                    backgroundColor: `rgba(${parseInt(agents[message.agent].baseColor.slice(1, 3), 16)}, ${parseInt(agents[message.agent].baseColor.slice(3, 5), 16)}, ${parseInt(agents[message.agent].baseColor.slice(5, 7), 16)}, 0.1)`
-                  } : undefined}
                 >
                   {!message.isUser && (
                     <div className="font-semibold text-sm mb-1 text-white/90">
@@ -233,12 +227,11 @@ const AiAssistant = () => {
                 />
                 <button 
                   className={cn(
-                    "absolute right-2 top-[50%] translate-y-[-50%] p-2 rounded-full transition-all duration-300",
+                    "absolute right-2 top-[50%] translate-y-[-50%] p-2 rounded-full",
+                    "bg-gradient-to-r", 
+                    agents[currentAgent].color,
                     input.trim() ? "opacity-100" : "opacity-50"
                   )}
-                  style={{
-                    background: `linear-gradient(to right, ${agents[currentAgent].baseColor}, ${agents[currentAgent].gradientColor})`
-                  }}
                   onClick={sendMessage}
                   disabled={!input.trim()}
                 >
@@ -250,8 +243,7 @@ const AiAssistant = () => {
         )}
       </div>
 
-      <style>
-        {`
+      <style jsx>{`
         .miles-color {
           background: radial-gradient(circle, #3A86FF, #7FDBFF);
           transition: all 1s ease-in-out;
@@ -268,8 +260,7 @@ const AiAssistant = () => {
           background: radial-gradient(circle, #00B4D8, #90E0EF);
           transition: all 1s ease-in-out;
         }
-        `}
-      </style>
+      `}</style>
     </>
   );
 };
