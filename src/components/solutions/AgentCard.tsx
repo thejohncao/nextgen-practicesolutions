@@ -77,15 +77,18 @@ const AgentCard = ({ agent }: AgentCardProps) => {
           <div className="space-y-3">
             <h4 className="text-sm text-white/60 uppercase tracking-wider">Tools & Integrations</h4>
             <div className="flex flex-wrap gap-3">
-              {agent.tools.map((tool, index) => (
-                <div 
-                  key={index} 
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg bg-${agent.color}-500/5 border border-${agent.color}-500/10`}
-                >
-                  <tool.icon className={`h-4 w-4 text-${agent.color}-500`} />
-                  <span className="text-sm text-white/80">{tool.name}</span>
-                </div>
-              ))}
+              {agent.tools.map((tool, index) => {
+                const IconComponent = tool.icon;
+                return (
+                  <div 
+                    key={index} 
+                    className={`flex items-center gap-2 px-3 py-2 rounded-lg bg-${agent.color}-500/5 border border-${agent.color}-500/10`}
+                  >
+                    <IconComponent className={`h-4 w-4 text-${agent.color}-500`} />
+                    <span className="text-sm text-white/80">{tool.name}</span>
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}

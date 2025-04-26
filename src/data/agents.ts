@@ -1,5 +1,5 @@
 
-import { Calendar, MessageCircle, Headset, ChartLine, Funnel, DollarSign, Handshake, Check, Clipboard, GraduationCap, Play, ListCheck } from 'lucide-react';
+import { Calendar, MessageCircle, Headset, ChartLine, Fuel, DollarSign, Handshake, Check, Clipboard, GraduationCap, Play, ListCheck } from 'lucide-react';
 import { Agent } from '@/types/agent';
 
 export const agents: Agent[] = [
@@ -37,7 +37,7 @@ export const agents: Agent[] = [
     title: "AI Lead Nurturer",
     tagline: "Turns leads into loyal patients by nurturing every opportunity from first click to lifelong care.",
     color: "green",
-    icon: Funnel,
+    icon: Fuel,
     description: "Your AI growth specialist focused on attracting and converting new patients.",
     activities: [
       "Lead Generation",
@@ -54,7 +54,7 @@ export const agents: Agent[] = [
       "Membership Growth Automation - Sell and manage in-house membership plans without the paperwork"
     ],
     tools: [
-      { name: "Funnels", icon: Funnel, description: "Lead Generation" },
+      { name: "Funnels", icon: Fuel, description: "Lead Generation" },
       { name: "Growth", icon: ChartLine, description: "Growth Analytics" },
       { name: "Payments", icon: DollarSign, description: "Payment Processing" },
       { name: "Partnerships", icon: Handshake, description: "Referral System" }
