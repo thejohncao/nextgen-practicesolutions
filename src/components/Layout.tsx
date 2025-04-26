@@ -10,9 +10,16 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   const handleOpenChat = () => {
-    const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
-    if (chatButton) {
-      chatButton.click();
+    try {
+      const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
+      if (chatButton) {
+        console.log('Chat button found, clicking...');
+        chatButton.click();
+      } else {
+        console.warn('Chat button not found in the DOM');
+      }
+    } catch (error) {
+      console.error('Error opening chat:', error);
     }
   };
 

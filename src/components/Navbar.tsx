@@ -8,9 +8,16 @@ import { cn } from "@/lib/utils";
 
 const Navbar = () => {
   const handleChatOpen = () => {
-    const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
-    if (chatButton) {
-      chatButton.click();
+    try {
+      const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
+      if (chatButton) {
+        console.log('Chat button found in navbar, clicking...');
+        chatButton.click();
+      } else {
+        console.warn('Chat button not found in the DOM');
+      }
+    } catch (error) {
+      console.error('Error opening chat from navbar:', error);
     }
   };
   

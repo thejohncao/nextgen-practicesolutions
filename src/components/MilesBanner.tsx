@@ -7,9 +7,15 @@ interface MilesBannerProps {
 }
 
 const MilesBanner = ({ onOpenChat }: MilesBannerProps) => {
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    console.log('Banner clicked, attempting to open chat...');
+    onOpenChat();
+  };
+
   return (
     <button 
-      onClick={onOpenChat}
+      onClick={handleClick}
       className="w-full h-[50px] bg-[#F0F8FF] border-b border-blue-100/50 z-[60] cursor-pointer transition-opacity duration-300 ease-in-out opacity-0 animate-fade-in"
     >
       <div className="container mx-auto h-full max-w-[1200px]">
