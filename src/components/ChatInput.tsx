@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Send } from 'lucide-react';
@@ -19,13 +18,22 @@ const agentColors = {
 
 type AgentKey = keyof typeof agentColors;
 
+const QUICK_REPLIES = [
+  "Learn about Solutions",
+  "Explore the Academy",
+  "Schedule a Demo",
+  "Ask a Question"
+];
+
 const ChatInput: React.FC<ChatInputProps> = ({ isTyping, currentAgent, onSendMessage }) => {
   const [input, setInput] = useState("");
+  const [showQuickReplies, setShowQuickReplies] = useState(true);
 
-  const handleSendMessage = () => {
-    if (input.trim() === "") return;
-    onSendMessage(input);
+  const handleSendMessage = (text: string = input) => {
+    if (!text.trim()) return;
+    onSendMessage(text);
     setInput("");
+    setShowQuickReplies(false);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -37,6 +45,20 @@ const ChatInput: React.FC<ChatInputProps> = ({ isTyping, currentAgent, onSendMes
 
   return (
     <div className="p-3 border-t border-white/10 bg-nextgen-dark/80">
+      {showQuickReplies && messages.length === 1 && (
+        <div className="grid grid-cols-2 gap-2 mb-3">
+          {QUICK_REPLIES.map((reply) => (
+            <button
+              key={reply}
+              onClick={() => handleSendMessage(reply)}
+              className="p-2 text-sm text-white/90 bg-white/5 hover:bg-white/10 
+                       border border-white/10 rounded-lg transition-colors"
+            >
+              {reply}
+            </button>
+          ))}
+        </div>
+      )}
       <div className="relative">
         <textarea
           className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-white/90 
