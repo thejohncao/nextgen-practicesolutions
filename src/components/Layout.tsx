@@ -11,13 +11,16 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   const handleOpenChat = () => {
     try {
-      const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
-      if (chatButton) {
-        console.log('Chat button found, clicking...');
-        chatButton.click();
-      } else {
-        console.warn('Chat button not found in the DOM');
-      }
+      // Try to find the chat button with a small delay to ensure it's mounted
+      setTimeout(() => {
+        const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
+        if (chatButton) {
+          console.log('Chat button found after delay, clicking...');
+          chatButton.click();
+        } else {
+          console.warn('Chat button still not found in DOM after delay');
+        }
+      }, 100);
     } catch (error) {
       console.error('Error opening chat:', error);
     }

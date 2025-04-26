@@ -9,13 +9,15 @@ import { cn } from "@/lib/utils";
 const Navbar = () => {
   const handleChatOpen = () => {
     try {
-      const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
-      if (chatButton) {
-        console.log('Chat button found in navbar, clicking...');
-        chatButton.click();
-      } else {
-        console.warn('Chat button not found in the DOM');
-      }
+      setTimeout(() => {
+        const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
+        if (chatButton) {
+          console.log('Chat button found in navbar after delay, clicking...');
+          chatButton.click();
+        } else {
+          console.warn('Chat button still not found in DOM after navbar click');
+        }
+      }, 100);
     } catch (error) {
       console.error('Error opening chat from navbar:', error);
     }
