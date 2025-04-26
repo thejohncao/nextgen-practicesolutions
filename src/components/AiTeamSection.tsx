@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Users } from "lucide-react";
+import { Users, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { agents } from '@/data/agents';
@@ -33,13 +33,15 @@ const AITeamSection = () => {
           
           <p className="text-base sm:text-lg text-white/70 px-4">
             Your practice just hired four world-class experts — and they never take a day off. 
-            Each AI agent is trained to run a core part of your operations.
+            Each AI agent is trained to run a core part of your operations: scheduling, lead generation, 
+            case acceptance, and staff training.
           </p>
         </div>
 
-        <div className="relative mb-12">
+        {/* Carousel */}
+        <div className="mb-12">
           <Carousel 
-            className="w-full max-w-lg mx-auto"
+            className="w-full max-w-5xl mx-auto"
             opts={{
               align: "center",
               loop: true,
@@ -47,36 +49,19 @@ const AITeamSection = () => {
           >
             <CarouselContent>
               {agents.map((agent, index) => (
-                <CarouselItem key={agent.name}>
+                <CarouselItem key={agent.name} className={isMobile ? "basis-full" : "basis-1/2"}>
                   <div className="p-2">
-                    <div className="glass-card p-8 text-center rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-glow">
-                      <div className="flex justify-center mb-6">
-                        <AgentCard agent={agent} isActive={activeIndex === index} />
-                      </div>
-                      
-                      <h3 className="text-2xl font-bold text-white mb-2">{agent.name}</h3>
-                      <p className="text-white/80 mb-3">{agent.title}</p>
-                      
-                      <p className="text-lg text-white/90 mb-6">
-                        {agent.tagline}
-                      </p>
-                      
-                      <Button 
-                        variant="outline" 
-                        className="w-full border-white/10 hover:bg-white/5"
-                        asChild
-                      >
-                        <Link to={`/solutions#${agent.name.toLowerCase()}`}>
-                          Learn More
-                        </Link>
-                      </Button>
-                    </div>
+                    <AgentCard 
+                      agent={agent} 
+                      isActive={activeIndex === index}
+                    />
                   </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
             <div className="flex items-center justify-center gap-2 mt-6">
               <CarouselPrevious className="relative static left-0 right-0 translate-y-0 mx-2" />
+              {/* Dots for slide position */}
               <div className="flex gap-2">
                 {agents.map((_, index) => (
                   <button
@@ -95,9 +80,11 @@ const AITeamSection = () => {
           </Carousel>
         </div>
 
+        {/* CTA after carousel */}
         <div className="text-center mt-8">
+          <p className="text-lg text-white/90 mb-4">Want to see each agent in action?</p>
           <Button asChild variant="outline" className="bg-white/5 hover:bg-white/10 border-white/20">
-            <Link to="/solutions">View Full Features →</Link>
+            <Link to="/features">Explore Full Features →</Link>
           </Button>
         </div>
       </div>
