@@ -14,7 +14,6 @@ import Integrations from "./pages/Integrations";
 import Academy from "./pages/Academy";
 import Solutions from "./pages/Solutions";
 import Resources from "./pages/Resources";
-import FloatingChat from "./components/FloatingChat";
 
 const queryClient = new QueryClient();
 
@@ -36,7 +35,6 @@ const App = () => (
           <Route path="/resources/*" element={<Resources />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-        <FloatingChat />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
