@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
@@ -103,9 +102,6 @@ const Navbar = () => {
           <div className="flex items-center space-x-3">
             <Button variant="ghost" className="text-sm hidden sm:flex hover:bg-white/5">
               Login
-            </Button>
-            <Button className="bg-nextgen-purple text-white hover:bg-nextgen-purple/90">
-              Book Demo
             </Button>
             <button
               onClick={handleChatOpen}
