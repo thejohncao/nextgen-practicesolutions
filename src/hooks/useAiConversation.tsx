@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import { callOpenAI, SYSTEM_PROMPT, detectAgentFromMessage } from '@/lib/openai';
+import { callOpenAI, SYSTEM_PROMPT, detectAgentFromMessage, Message } from '@/lib/openai';
 
 type MessageRole = 'user' | 'assistant' | 'system';
 
@@ -99,10 +99,7 @@ export function useAiConversation() {
     setError(null);
 
     try {
-      const messageHistory: Array<{
-        role: MessageRole;
-        content: string;
-      }> = messages.map(msg => ({
+      const messageHistory: Message[] = messages.map(msg => ({
         role: msg.isUser ? "user" : "assistant",
         content: msg.text,
       }));

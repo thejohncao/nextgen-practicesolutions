@@ -5,7 +5,7 @@ import { toast } from "@/components/ui/use-toast";
 const API_KEY = ""; 
 
 // Define types for OpenAI API requests and responses
-interface Message {
+export interface Message {
   role: "system" | "user" | "assistant";
   content: string;
 }
@@ -29,6 +29,15 @@ export async function callOpenAI(
   messages: Message[],
   systemPrompt: string
 ): Promise<string | null> {
+  if (!API_KEY) {
+    toast({
+      title: "API Key Required",
+      description: "Please set up your OpenAI API key to use the chat feature.",
+      variant: "destructive",
+    });
+    return null;
+  }
+
   try {
     // Prepend the system prompt
     const fullMessages = [
