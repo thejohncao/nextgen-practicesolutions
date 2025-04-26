@@ -2,6 +2,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { MessageSquare, X, MinusIcon, Send } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useAiConversation } from '@/hooks/useAiConversation';
+import AgentChatAvatar from './AgentChatAvatar';
 
 // Define the AI agents with their properties
 const agents = {
@@ -33,63 +35,24 @@ const agents = {
 
 type AgentKey = keyof typeof agents;
 
-interface Message {
-  text: string;
-  isUser: boolean;
-  agent: AgentKey;
-  timestamp: Date;
-}
-
 const AiAssistant = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
-  const [currentAgent, setCurrentAgent] = useState<AgentKey>("miles");
-  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
-  // Initialize with welcome message
-  useEffect(() => {
-    if (messages.length === 0) {
-      setMessages([
-        { 
-          text: agents[currentAgent].intro,
-          isUser: false, 
-          agent: currentAgent,
-          timestamp: new Date()
-        }
-      ]);
-    }
-  }, []);
+  const { 
+    messages, 
+    isTyping, 
+    currentAgent, 
+    error, 
+    sendMessage 
+  } = useAiConversation();
 
   // Auto-scroll to bottom of messages
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
-  // Detect agent handoffs in messages and change the agent
-  useEffect(() => {
-    if (messages.length > 0) {
-      const lastMessage = messages[messages.length - 1];
-      if (!lastMessage.isUser) {
-        // Check for handoff phrases
-        if (lastMessage.text.includes("Let me bring in Giselle") || 
-            lastMessage.text.includes("Giselle here")) {
-          setCurrentAgent("giselle");
-        } else if (lastMessage.text.includes("Let me bring in Devon") || 
-                  lastMessage.text.includes("Devon here")) {
-          setCurrentAgent("devon");
-        } else if (lastMessage.text.includes("Let me bring in Alma") || 
-                  lastMessage.text.includes("Alma here")) {
-          setCurrentAgent("alma");
-        } else if (lastMessage.text.includes("Back to Miles") || 
-                  lastMessage.text.includes("Miles here")) {
-          setCurrentAgent("miles");
-        }
-      }
-    }
-  }, [messages]);
+  }, [messages, isTyping]);
 
   const toggleChat = () => {
     if (isMinimized) {
@@ -104,61 +67,16 @@ const AiAssistant = () => {
     setIsMinimized(true);
   };
 
-  const sendMessage = async () => {
+  const handleSendMessage = async () => {
     if (input.trim() === "") return;
-
-    const userMessage = {
-      text: input,
-      isUser: true,
-      agent: currentAgent,
-      timestamp: new Date()
-    };
-
-    setMessages(prev => [...prev, userMessage]);
+    await sendMessage(input);
     setInput("");
-    setIsTyping(true);
-
-    // Mock AI response with a delay to simulate thinking
-    setTimeout(() => {
-      // In a real implementation, you would call your GPT API here
-      // For now, we'll use mock responses with handoffs
-
-      let aiResponse = "";
-      let nextAgent = currentAgent;
-
-      // Simple demonstration of agent switching logic
-      if (input.toLowerCase().includes("growth") || input.toLowerCase().includes("strategy")) {
-        aiResponse = "Let me bring in Giselle, our growth specialist.\n\nGiselle here! I'd be happy to discuss growth strategies for your dental practice. What specific areas are you looking to improve?";
-        nextAgent = "giselle";
-      } else if (input.toLowerCase().includes("train") || input.toLowerCase().includes("education") || input.toLowerCase().includes("learn")) {
-        aiResponse = "Let me bring in Devon, our education expert.\n\nDevon here! I'd love to help with training or educational resources. What specific skills or knowledge areas are you interested in?";
-        nextAgent = "devon";
-      } else if (input.toLowerCase().includes("team") || input.toLowerCase().includes("culture") || input.toLowerCase().includes("staff")) {
-        aiResponse = "Let me bring in Alma, our team performance specialist.\n\nAlma here! I'm excited to help with your team and culture questions. What specific challenges are you facing with your practice team?";
-        nextAgent = "alma";
-      } else if (input.toLowerCase().includes("back") || input.toLowerCase().includes("miles")) {
-        aiResponse = "Back to Miles, your practice management AI.\n\nMiles here! How else can I assist with your practice management needs?";
-        nextAgent = "miles";
-      } else {
-        // Default response if no handoff is triggered
-        aiResponse = `I understand you're asking about "${input}". I can provide guidance on practice management, growth strategies, team culture, or clinical education. What specific aspect would you like to focus on?`;
-      }
-
-      setMessages(prev => [...prev, {
-        text: aiResponse,
-        isUser: false,
-        agent: nextAgent,
-        timestamp: new Date()
-      }]);
-      
-      setIsTyping(false);
-    }, 1500);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      sendMessage();
+      handleSendMessage();
     }
   };
 
@@ -173,7 +91,7 @@ const AiAssistant = () => {
           <div className="relative">
             <div 
               className={`h-14 w-14 rounded-full flex items-center justify-center shadow-lg
-                bg-gradient-radial ${agents[currentAgent].color} animate-pulse-glow`}
+                bg-gradient-radial ${agents[currentAgent as AgentKey].color} animate-pulse-glow`}
             >
               <MessageSquare className="text-white h-6 w-6" />
             </div>
@@ -201,19 +119,19 @@ const AiAssistant = () => {
         <div 
           className={cn(
             "flex items-center justify-between px-4 py-3 rounded-t-xl bg-gradient-to-r",
-            `${agents[currentAgent].color}`,
+            `${agents[currentAgent as AgentKey].color}`,
             isMinimized && "rounded-full"
           )}
         >
           {!isMinimized && (
             <>
               <div className="flex items-center gap-3">
-                <div className={`h-8 w-8 rounded-full bg-gradient-radial ${agents[currentAgent].color} animate-pulse-slow`}>
+                <div className={`h-8 w-8 rounded-full bg-gradient-radial ${agents[currentAgent as AgentKey].color} animate-pulse-slow`}>
                   <div className="h-full w-full flex items-center justify-center">
                     <div className="h-2 w-2 rounded-full bg-white animate-pulse"></div>
                   </div>
                 </div>
-                <div className="text-white font-medium">{agents[currentAgent].name}</div>
+                <div className="text-white font-medium">{agents[currentAgent as AgentKey].name}</div>
               </div>
               <div className="flex gap-2">
                 <button 
@@ -243,12 +161,12 @@ const AiAssistant = () => {
                   className={cn(
                     "mb-4 max-w-[85%] rounded-xl p-3",
                     message.isUser ? "bg-nextgen-dark/60 ml-auto" : 
-                    `bg-gradient-to-br ${agents[message.agent].color}/10 mr-auto`
+                    `bg-gradient-to-br ${agents[message.agent as AgentKey].color}/10 mr-auto`
                   )}
                 >
                   {!message.isUser && (
                     <div className="font-semibold text-sm mb-1 text-white/90">
-                      {agents[message.agent].name}
+                      {agents[message.agent as AgentKey].name}
                     </div>
                   )}
                   <div className="whitespace-pre-wrap text-white/90">
@@ -257,12 +175,20 @@ const AiAssistant = () => {
                 </div>
               ))}
               {isTyping && (
-                <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-3 rounded-xl mr-auto max-w-[85%] mb-4">
-                  <div className="flex gap-1">
-                    <div className="h-2 w-2 rounded-full bg-white/70 animate-bounce"></div>
-                    <div className="h-2 w-2 rounded-full bg-white/70 animate-bounce" style={{animationDelay: '0.2s'}}></div>
-                    <div className="h-2 w-2 rounded-full bg-white/70 animate-bounce" style={{animationDelay: '0.4s'}}></div>
+                <div className="mb-4 max-w-[85%] rounded-xl p-3 mr-auto bg-gradient-to-br from-gray-800 to-gray-900">
+                  <div className="flex items-center gap-2">
+                    <AgentChatAvatar agent={currentAgent} />
+                    <div className="flex gap-1 mt-2">
+                      <div className="h-2 w-2 rounded-full bg-white/70 animate-bounce"></div>
+                      <div className="h-2 w-2 rounded-full bg-white/70 animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                      <div className="h-2 w-2 rounded-full bg-white/70 animate-bounce" style={{animationDelay: '0.4s'}}></div>
+                    </div>
                   </div>
+                </div>
+              )}
+              {error && (
+                <div className="bg-red-900/20 border border-red-500/30 p-3 rounded-xl text-white/80 text-sm mb-4">
+                  {error}
                 </div>
               )}
               <div ref={messagesEndRef}></div>
@@ -284,11 +210,11 @@ const AiAssistant = () => {
                   className={cn(
                     "absolute right-2 top-[50%] translate-y-[-50%] p-2 rounded-full",
                     "bg-gradient-to-r", 
-                    agents[currentAgent].color,
+                    agents[currentAgent as AgentKey].color,
                     input.trim() ? "opacity-100" : "opacity-50"
                   )}
-                  onClick={sendMessage}
-                  disabled={!input.trim()}
+                  onClick={handleSendMessage}
+                  disabled={!input.trim() || isTyping}
                 >
                   <Send className="h-4 w-4 text-white" />
                 </button>
