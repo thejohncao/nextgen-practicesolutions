@@ -1,32 +1,18 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import FloatingChatButton from './FloatingChatButton';
-import FloatingChatPanel from './FloatingChatPanel';
 
 const FloatingChat = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [currentAgent, setCurrentAgent] = useState('Miles');
+  const milesGPTLink = "https://chatgpt.com/g/g-680c4224fdcc8191b710d8c5f371f825-miles-practice-manager-nextgen";
 
-  const toggleChat = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const handleAgentChange = (agentName: string) => {
-    setCurrentAgent(agentName);
+  const handleChatClick = () => {
+    window.open(milesGPTLink, '_blank', 'noopener,noreferrer');
   };
 
   return (
-    <>
-      <FloatingChatButton 
-        isOpen={isOpen}
-        onClick={toggleChat}
-        currentAgent={currentAgent}
-      />
-      <FloatingChatPanel 
-        isOpen={isOpen}
-        onAgentChange={handleAgentChange}
-      />
-    </>
+    <FloatingChatButton 
+      onClick={handleChatClick}
+    />
   );
 };
 

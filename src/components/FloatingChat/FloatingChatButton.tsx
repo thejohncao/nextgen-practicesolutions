@@ -1,54 +1,24 @@
 
-import React, { useState, useEffect } from 'react';
-import AgentAvatar from '@/components/AgentAvatar';
+import React from 'react';
+import { MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { X } from 'lucide-react';
 
-interface FloatingChatButtonProps {
-  isOpen: boolean;
-  onClick: () => void;
-  currentAgent: string;
-}
-
-const FloatingChatButton = ({ isOpen, onClick, currentAgent }: FloatingChatButtonProps) => {
-  const [isHighlighted, setIsHighlighted] = useState(false);
-
-  // Highlight the button occasionally to draw attention
-  useEffect(() => {
-    if (!isOpen) {
-      const interval = setInterval(() => {
-        setIsHighlighted(true);
-        setTimeout(() => setIsHighlighted(false), 2000);
-      }, 30000); // Every 30 seconds
-      
-      return () => clearInterval(interval);
-    }
-  }, [isOpen]);
-
+const FloatingChatButton = ({ onClick }: { onClick: () => void }) => {
   return (
     <Button
       onClick={onClick}
       className={`
         fixed bottom-6 right-6 rounded-full w-16 h-16
         flex items-center justify-center shadow-lg
+        bg-nextgen-purple text-white
         transition-all duration-300
-        ${isHighlighted ? 'scale-110' : 'scale-100'}
-        ${isOpen ? 'bg-white/10 backdrop-blur-lg' : 'bg-transparent'}
+        hover:scale-110
+        animate-pulse-glow
         z-50
       `}
-      aria-label={isOpen ? "Close chat" : "Open chat"}
+      aria-label="Chat with Miles"
     >
-      {isOpen ? (
-        <X className="h-6 w-6 text-white" />
-      ) : (
-        <div className="scale-90">
-          <AgentAvatar 
-            name={currentAgent} 
-            role="AI Assistant"
-            isActive={isHighlighted}
-          />
-        </div>
-      )}
+      <MessageCircle className="h-8 w-8" />
     </Button>
   );
 };
