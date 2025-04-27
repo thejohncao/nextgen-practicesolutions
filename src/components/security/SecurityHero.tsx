@@ -12,7 +12,7 @@ const SecurityHero = () => {
           <Shield className="h-16 w-16 text-nextgen-purple mb-8" />
           
           <h1 className="text-4xl md:text-5xl font-heading font-bold text-gradient mb-6">
-            Security & Compliance at NextGen Practice Solutions
+            Security & Compliance at NextGen Practice Solutions™
           </h1>
           
           <p className="text-lg text-white/70 max-w-2xl">

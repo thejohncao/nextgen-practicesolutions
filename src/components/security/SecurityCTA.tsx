@@ -10,7 +10,7 @@ const SecurityCTA = () => {
             Your practice's security is non-negotiable.
           </h2>
           <p className="text-lg text-white/70">
-            NextGen Practice Solutions is committed to building the future of practice management — responsibly and securely.
+            NextGen Practice Solutions™ is committed to building the future of practice management — responsibly and securely.
           </p>
         </div>
       </div>

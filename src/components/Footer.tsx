@@ -25,7 +25,7 @@ const Footer = () => {
           <div className="lg:col-span-2">
             <Link to="/" onClick={scrollToTop} className="inline-block">
               <div className="flex flex-col">
-                <h2 className="text-white font-heading font-bold text-2xl">NextGen</h2>
+                <h2 className="text-white font-heading font-bold text-2xl">NextGen™</h2>
                 <span className="text-nextgen-purple text-sm -mt-1">Practice Solutions</span>
               </div>
             </Link>
@@ -41,7 +41,7 @@ const Footer = () => {
               className="mt-6 inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-nextgen-purple/90 rounded-lg hover:bg-nextgen-purple transition-colors"
             >
               <MessageSquare className="h-4 w-4" />
-              Talk to Miles
+              Talk to Miles™
             </button>
           </div>
           
@@ -90,7 +90,7 @@ const Footer = () => {
         
         <div className="mt-12 pt-6 border-t border-white/5 flex flex-col md:flex-row justify-between items-center">
           <p className="text-white/40 text-sm">
-            © 2025 NextGen Practice Solutions. All rights reserved.
+            © 2025 NextGen Practice Solutions™. All rights reserved.
           </p>
           
           <div className="mt-4 md:mt-0 flex flex-wrap items-center gap-4">
@@ -111,7 +111,7 @@ const Footer = () => {
 
         <div className="mt-6 text-center">
           <p className="text-white/40 text-xs">
-            © 2025 NextGen Practice Solutions. Powered by the NextGen Operating System™. All rights reserved.
+            © 2025 NextGen Practice Solutions™. Powered by the NextGen Operating System™. All rights reserved.
           </p>
         </div>
       </div>

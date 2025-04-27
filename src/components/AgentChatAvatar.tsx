@@ -12,15 +12,15 @@ const AgentChatAvatar: React.FC<AgentChatAvatarProps> = ({ agent, hideDetails = 
   const getAgentProps = () => {
     switch (agent) {
       case 'miles':
-        return { name: 'Miles', role: 'Practice Manager', color: 'blue' };
+        return { name: 'Miles™', role: 'Practice Manager', color: 'blue' };
       case 'giselle':
-        return { name: 'Giselle', role: 'Growth Strategist', color: 'green' };
+        return { name: 'Giselle™', role: 'Growth Strategist', color: 'green' };
       case 'devon':
-        return { name: 'Devon', role: 'Patient Experience Coach', color: 'purple' };
+        return { name: 'Devon™', role: 'Patient Experience Coach', color: 'purple' };
       case 'alma':
-        return { name: 'Alma', role: 'Academy Director', color: 'gold' };
+        return { name: 'Alma™', role: 'Academy Director', color: 'gold' };
       default:
-        return { name: 'Miles', role: 'Practice Manager', color: 'blue' };
+        return { name: 'Miles™', role: 'Practice Manager', color: 'blue' };
     }
   };
 
