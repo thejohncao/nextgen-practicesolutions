@@ -1,4 +1,3 @@
-
 import { Integration } from '@/types/integrations';
 
 // Categories for filtering
@@ -18,14 +17,14 @@ export const featuredIntegrations: Integration[] = [
   {
     name: "OpenAI",
     description: "Powers Miles, Giselle, Devon, and Alma AI conversations.",
-    logoUrl: "/images/integrations/openai.svg",
+    logoUrl: "https://cdn.brandfolder.io/BARRH8KO/as/pl546j-7le8zk-838d24/OpenAI_Logo.svg",
     categories: ["AI & Automations"],
     learnMoreUrl: "#",
   },
   {
     name: "Salesforce Health Cloud",
     description: "Enterprise CRM for dental groups and DSOs.",
-    logoUrl: "https://www.salesforce.com/news/wp-content/uploads/sites/3/2021/05/Salesforce-logo.jpg",
+    logoUrl: "https://www.salesforce.com/content/dam/sfdc-docs/www/logos/logo-salesforce.svg",
     categories: ["CRM & Patient Management"],
     learnMoreUrl: "#",
   },
@@ -39,7 +38,7 @@ export const featuredIntegrations: Integration[] = [
   {
     name: "CareCredit",
     description: "Offer patient financing instantly and boost case acceptance.",
-    logoUrl: "https://digital.carecredit.com/wp-content/uploads/2022/03/CCInterestFreePMFINAL-1.png",
+    logoUrl: "https://www.carecredit.com/assets/images/cc_logo_healthcare_consumer_rgb_rev.svg",
     categories: ["Billing & Payments"],
     learnMoreUrl: "#",
   },
@@ -54,11 +53,10 @@ export const featuredIntegrations: Integration[] = [
 
 // All integrations for the main grid
 export const integrations: Integration[] = [
-  // Major platforms first
   {
     name: "CareCredit",
     description: "Offer patient financing instantly and boost case acceptance.",
-    logoUrl: "https://digital.carecredit.com/wp-content/uploads/2022/03/CCInterestFreePMFINAL-1.png",
+    logoUrl: "https://www.carecredit.com/assets/images/cc_logo_healthcare_consumer_rgb_rev.svg",
     categories: ["Billing & Payments"],
     learnMoreUrl: "#",
   },
@@ -79,7 +77,7 @@ export const integrations: Integration[] = [
   {
     name: "OpenAI",
     description: "Powers Miles, Giselle, Devon, and Alma AI conversations.",
-    logoUrl: "/images/integrations/openai.svg",
+    logoUrl: "https://cdn.brandfolder.io/BARRH8KO/as/pl546j-7le8zk-838d24/OpenAI_Logo.svg",
     categories: ["AI & Automations"],
     learnMoreUrl: "#",
   },
@@ -93,7 +91,7 @@ export const integrations: Integration[] = [
   {
     name: "Zapier",
     description: "Automate workflows and connect thousands of apps.",
-    logoUrl: "/images/integrations/zapier.svg",
+    logoUrl: "https://cdn.zapier.com/zapier/images/logos/zapier-logo.svg",
     categories: ["AI & Automations"],
     learnMoreUrl: "#",
   },
@@ -107,7 +105,7 @@ export const integrations: Integration[] = [
   {
     name: "GoHighLevel",
     description: "All-in-one CRM for patient communication and lead management.",
-    logoUrl: "/images/integrations/gohighlevel.svg",
+    logoUrl: "https://assets.gohighlevel.com/logos/gohighlevel-dark.svg",
     categories: ["CRM & Patient Management", "Communications"],
     learnMoreUrl: "#",
   },
