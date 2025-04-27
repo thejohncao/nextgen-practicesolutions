@@ -63,7 +63,7 @@ export const integrations: Integration[] = [
   {
     name: "Proceed Finance",
     description: "Flexible financing options for large treatment plans.",
-    logoUrl: "/images/integrations/proceed.svg",
+    logoUrl: "https://www.proceedfinance.com/assets/images/logo.svg",
     categories: ["Billing & Payments"],
     learnMoreUrl: "#",
   },
@@ -112,7 +112,7 @@ export const integrations: Integration[] = [
   {
     name: "Salesforce Health Cloud",
     description: "Enterprise CRM for dental groups and DSOs.",
-    logoUrl: "https://www.salesforce.com/news/wp-content/uploads/sites/3/2021/05/Salesforce-logo.jpg",
+    logoUrl: "https://www.salesforce.com/content/dam/sfdc-docs/www/logos/logo-salesforce.svg",
     categories: ["CRM & Patient Management"],
     learnMoreUrl: "#",
   },

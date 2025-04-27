@@ -21,7 +21,7 @@ const IntegrationsMegaMenu = () => {
             <div
               key={idx}
               className={cn(
-                "group relative rounded-lg w-full h-[150px] transition-all duration-300",
+                "group relative rounded-lg h-[150px] w-full transition-all duration-300",
                 "hover:scale-[1.02] hover:shadow-lg hover:shadow-black/20",
                 "bg-gradient-to-br from-white/5 to-white/10 hover:from-white/10 hover:to-white/15",
                 "border border-white/10 hover:border-white/20",
