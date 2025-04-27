@@ -15,13 +15,15 @@ interface EmailCollectionDialogProps {
   buttonClassName?: string;
   buttonSize?: "default" | "sm" | "lg" | "icon";
   buttonVariant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
+  style?: React.CSSProperties;
 }
 
 const EmailCollectionDialog = ({ 
   triggerText,
   buttonClassName,
   buttonSize = "default",
-  buttonVariant = "default"
+  buttonVariant = "default",
+  style
 }: EmailCollectionDialogProps) => {
   return (
     <Dialog>
@@ -30,6 +32,7 @@ const EmailCollectionDialog = ({
           size={buttonSize}
           variant={buttonVariant}
           className={buttonClassName}
+          style={style}
         >
           {triggerText}
         </Button>
