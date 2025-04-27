@@ -16,11 +16,13 @@ import FounderSection from '../components/FounderSection';
 import ResourcesSection from '../components/ResourcesSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import FAQSection from '../components/FAQSection';
+import WhyWeBuiltSection from '../components/story/WhyWeBuiltSection';
 
 const Index = () => {
   return (
     <Layout>
       <HeroSection />
+      <WhyWeBuiltSection />
       <AIBoardroomSection />
       <AITeamSection />
       <HealthcareSecuritySection />
