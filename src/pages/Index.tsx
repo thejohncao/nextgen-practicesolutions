@@ -4,6 +4,7 @@ import Layout from '../components/Layout';
 import HeroSection from '../components/HeroSection';
 import AITeamSection from '../components/AiTeamSection';
 import PatientJourneySection from '../components/PatientJourneySection';
+import HealthcareSecuritySection from '../components/HealthcareSecuritySection';
 import ROISection from '../components/ROISection';
 import PricingSection from '../components/PricingSection';
 import SupportAndBenefits from '../components/SupportAndBenefits';
@@ -23,6 +24,7 @@ const Index = () => {
       <AITeamSection />
       <PatientJourneySection />
       <IntegrationsSection />
+      <HealthcareSecuritySection />
       <AcademyOverviewSection />
       <ROISection />
       <FooterCTA />
