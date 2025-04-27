@@ -42,6 +42,7 @@ const App = () => (
           <Route path="/academy" element={<Academy />} />
           <Route path="/solutions" element={<Solutions />} />
           <Route path="/resources/*" element={<Resources />} />
+          <Route path="/security" element={<Security />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <AiAssistantWrapper />

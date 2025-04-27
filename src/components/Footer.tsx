@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { MessageSquare, Mail, Shield, BookOpen, Briefcase, GraduationCap, Users } from "lucide-react";
@@ -70,7 +69,7 @@ const Footer = () => {
               <li><Link to="/features" className="text-white/60 hover:text-white transition-colors">Overview</Link></li>
               <li><Link to="/features#automation" className="text-white/60 hover:text-white transition-colors">Automation</Link></li>
               <li><Link to="/features#analytics" className="text-white/60 hover:text-white transition-colors">Analytics</Link></li>
-              <li><Link to="/features#security" className="text-white/60 hover:text-white transition-colors">Security</Link></li>
+              <li><Link to="/security" className="text-white/60 hover:text-white transition-colors">Security & Compliance</Link></li>
             </ul>
           </div>
           
@@ -110,7 +109,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Added Copyright Line */}
         <div className="mt-6 text-center">
           <p className="text-white/40 text-xs">
             © 2025 NextGen Practice Solutions. Powered by the NextGen Operating System™. All rights reserved.

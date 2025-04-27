@@ -11,6 +11,7 @@ import IntegrationsMegaMenu from './navigation/IntegrationsMegaMenu';
 import AcademyMegaMenu from './navigation/AcademyMegaMenu';
 import ResourcesMegaMenu from './navigation/ResourcesMegaMenu';
 import { useIsMobile } from '@/hooks/use-mobile';
+import TubelightNavLink from '@/components/ui/tubelight-nav-link';
 
 const Navbar = () => {
   const [showSolutionsMenu, setShowSolutionsMenu] = React.useState(false);
@@ -140,24 +141,30 @@ const Navbar = () => {
                   {showResourcesMenu && <ResourcesMegaMenu />}
                 </div>
               </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <TubelightNavLink to="/#pricing">
+                  Pricing
+                </TubelightNavLink>
+              </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
           
           <div className="flex items-center gap-3">
-            <Button variant="ghost" className="text-sm hidden sm:flex hover:bg-white/5">
-              Login
+            <Button 
+              variant="ghost" 
+              className="text-sm hidden sm:flex hover:bg-white/5 transition-all"
+              asChild
+            >
+              <Link to="/login">Login</Link>
             </Button>
             <button
               onClick={handleChatOpen}
-              className={cn(
-                "hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-semibold",
-                "animate-shimmer bg-[linear-gradient(110deg,#a3c9f9,45%,#fff,55%,#a3c9f9)] bg-[length:200%_100%]",
-                "text-slate-800 rounded-full transition-colors"
-              )}
+              className="hidden lg:inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium bg-nextgen-purple hover:bg-nextgen-purple/90 text-white rounded-lg transition-all"
               data-testid="navbar-miles-button"
             >
-              <MessageSquare className="h-3.5 w-3.5" />
-              <span>Meet Miles</span>
+              <MessageSquare className="h-4 w-4" />
+              <span>Talk to Miles</span>
             </button>
             <MobileNav />
           </div>
