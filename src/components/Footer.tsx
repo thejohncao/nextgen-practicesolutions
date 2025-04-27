@@ -1,16 +1,30 @@
+
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { MessageSquare, Mail, Shield, BookOpen, Briefcase, GraduationCap, Users } from "lucide-react";
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const scrollToPricing = () => {
+    const pricingSection = document.getElementById('pricing');
+    if (pricingSection) {
+      pricingSection.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      scrollToTop(); // Fallback if section not found
+    }
+  };
+  
   return (
     <footer className="bg-nextgen-dark border-t border-white/5">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Company Info */}
           <div className="lg:col-span-2">
-            <Link to="/" className="inline-block">
+            <Link to="/" onClick={scrollToTop} className="inline-block">
               <div className="flex flex-col">
                 <h2 className="text-white font-heading font-bold text-2xl">NextGen</h2>
                 <span className="text-nextgen-purple text-sm -mt-1">Practice Solutions</span>
@@ -39,10 +53,9 @@ const Footer = () => {
               Solutions
             </h3>
             <ul className="space-y-2 text-sm">
-              <li><Link to="/solutions/ai-team" className="text-white/60 hover:text-white transition-colors">AI Team</Link></li>
-              <li><Link to="/solutions/patient-journey" className="text-white/60 hover:text-white transition-colors">Patient Journey</Link></li>
-              <li><Link to="/solutions/roi" className="text-white/60 hover:text-white transition-colors">ROI Calculator</Link></li>
-              <li><Link to="/solutions/pricing" className="text-white/60 hover:text-white transition-colors">Pricing</Link></li>
+              <li><Link to="/solutions" className="text-white/60 hover:text-white transition-colors">AI Team</Link></li>
+              <li><Link to="/solutions#patient-journey" className="text-white/60 hover:text-white transition-colors">Patient Journey</Link></li>
+              <li><Link to="/#pricing" onClick={scrollToPricing} className="text-white/60 hover:text-white transition-colors">Pricing</Link></li>
               <li><Link to="/integrations" className="text-white/60 hover:text-white transition-colors">Integrations</Link></li>
             </ul>
           </div>
@@ -54,10 +67,10 @@ const Footer = () => {
               Features
             </h3>
             <ul className="space-y-2 text-sm">
-              <li><Link to="/features/automation" className="text-white/60 hover:text-white transition-colors">Automation</Link></li>
-              <li><Link to="/features/analytics" className="text-white/60 hover:text-white transition-colors">Analytics</Link></li>
-              <li><Link to="/features/communication" className="text-white/60 hover:text-white transition-colors">Communication</Link></li>
-              <li><Link to="/features/security" className="text-white/60 hover:text-white transition-colors">Security</Link></li>
+              <li><Link to="/features" className="text-white/60 hover:text-white transition-colors">Overview</Link></li>
+              <li><Link to="/features#automation" className="text-white/60 hover:text-white transition-colors">Automation</Link></li>
+              <li><Link to="/features#analytics" className="text-white/60 hover:text-white transition-colors">Analytics</Link></li>
+              <li><Link to="/features#security" className="text-white/60 hover:text-white transition-colors">Security</Link></li>
             </ul>
           </div>
           
@@ -70,8 +83,8 @@ const Footer = () => {
             <ul className="space-y-2 text-sm">
               <li><Link to="/academy" className="text-white/60 hover:text-white transition-colors">Academy</Link></li>
               <li><Link to="/resources" className="text-white/60 hover:text-white transition-colors">Resources</Link></li>
-              <li><Link to="/blog" className="text-white/60 hover:text-white transition-colors">Blog</Link></li>
-              <li><a href="#support" className="text-white/60 hover:text-white transition-colors">Support</a></li>
+              <li><Link to="/resources/blog" className="text-white/60 hover:text-white transition-colors">Blog</Link></li>
+              <li><a href="mailto:info@nextgenpractice.org" className="text-white/60 hover:text-white transition-colors">Contact</a></li>
             </ul>
           </div>
         </div>
