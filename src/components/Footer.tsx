@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { MessageSquare, Mail, Shield, BookOpen, BriefCase, GraduationCap, Users } from "lucide-react";
+import { MessageSquare, Mail, Shield, BookOpen, Briefcase, GraduationCap, Users } from "lucide-react";
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
