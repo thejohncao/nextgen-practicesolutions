@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { MessageSquare, Mail, Shield, BookOpen, Briefcase, GraduationCap, Users } from "lucide-react";
@@ -51,7 +50,7 @@ const Footer = () => {
           {/* Features */}
           <div>
             <h3 className="text-white font-medium mb-4 flex items-center gap-2">
-              <BriefCase className="h-4 w-4 text-nextgen-purple" />
+              <Briefcase className="h-4 w-4 text-nextgen-purple" />
               Features
             </h3>
             <ul className="space-y-2 text-sm">
