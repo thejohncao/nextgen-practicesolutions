@@ -1,8 +1,10 @@
+
 import React from 'react';
 import { Shield, LockKeyhole, Lock, Server, FileCheck } from 'lucide-react';
 import { Button } from './ui/button';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+import { featuredIntegrations } from '@/data/integrations';
 
 const securityCards = [
   {
@@ -37,22 +39,49 @@ const HealthcareSecuritySection = () => {
     <section className="py-20 bg-gradient-to-b from-nextgen-dark/95 to-nextgen-dark">
       <div className="container mx-auto px-4">
         {/* Top Badge */}
-        <div className="flex items-center justify-center gap-2 mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card">
+        <div className="flex items-center justify-center mb-12">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card animate-fade-in">
             <Shield className="h-5 w-5 text-nextgen-purple" />
             <span className="text-white/70 text-sm font-medium">Trusted by Practices Nationwide</span>
           </div>
         </div>
 
         <div className="max-w-6xl mx-auto">
+          {/* Headers */}
+          <div className="text-center mb-16 space-y-4 animate-fade-in">
+            <h2 className="text-4xl md:text-5xl font-heading font-bold text-gradient">
+              Built for Healthcare. Trusted by Practices.
+            </h2>
+            <p className="text-xl text-white/70 max-w-3xl mx-auto">
+              NextGen is built on HIPAA-ready architecture with seamless integrations for real clinical use.
+            </p>
+          </div>
+
           {/* Two Column Layout */}
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Left Column */}
-            <div className="space-y-6">
+            <div className="space-y-8">
               <p className="text-lg text-white/70">
                 NextGen Practice Solutions was engineered for the unique demands of healthcare providers — not generic SaaS workflows.
                 With HIPAA-compliant data protocols, SOC 2 Certification, and seamless integrations with platforms like Salesforce, Meta, and Google Ads, your practice runs smarter, safer, and faster.
               </p>
+
+              {/* Integration Logos Grid */}
+              <div className="grid grid-cols-3 gap-4">
+                {featuredIntegrations.slice(0, 5).map((integration, index) => (
+                  <div 
+                    key={integration.name}
+                    className="p-3 glass-card rounded-lg transition-all duration-300 hover:scale-105"
+                    style={{ animationDelay: `${index * 150}ms` }}
+                  >
+                    <img 
+                      src={integration.logoUrl}
+                      alt={`${integration.name} logo`}
+                      className="w-full h-auto object-contain brightness-200 contrast-200 opacity-70 group-hover:opacity-90"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Right Column - Security Cards */}
@@ -62,7 +91,7 @@ const HealthcareSecuritySection = () => {
                   key={card.title}
                   className={cn(
                     "p-6 glass-card animate-fade-in flex items-start gap-4",
-                    "transform transition-all duration-300 hover:scale-[1.02]"
+                    "transform transition-all duration-300 hover:scale-[1.02] hover:shadow-glow"
                   )}
                   style={{ animationDelay: `${index * 150}ms` }}
                 >
@@ -79,10 +108,10 @@ const HealthcareSecuritySection = () => {
           </div>
 
           {/* CTA Button */}
-          <div className="mt-12 text-center">
+          <div className="mt-12 text-center animate-fade-in" style={{ animationDelay: '800ms' }}>
             <Button asChild className="bg-nextgen-purple hover:bg-nextgen-purple/90">
               <Link to="/integrations">
-                See All Integrations
+                Explore Integrations
               </Link>
             </Button>
           </div>
