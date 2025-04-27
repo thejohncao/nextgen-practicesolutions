@@ -1,15 +1,16 @@
 
 import React from 'react';
-import { MessageSquare, Mail, Shield } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { MessageSquare, Mail, Shield, BookOpen, BriefCase, GraduationCap, Users } from "lucide-react";
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="bg-nextgen-dark/50 backdrop-blur-xl border-t border-white/5">
+    <footer className="bg-nextgen-dark border-t border-white/5">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Company Info */}
-          <div className="col-span-2">
+          <div className="lg:col-span-2">
             <Link to="/" className="inline-block">
               <div className="flex flex-col">
                 <h2 className="text-white font-heading font-bold text-2xl">NextGen</h2>
@@ -17,67 +18,61 @@ const Footer = () => {
               </div>
             </Link>
             <p className="text-white/60 text-sm max-w-xs mt-4">
-              The world's first AI-powered operating system for dental practices, 
-              built to help providers run smarter and scale faster.
+              The world's first AI-powered operating system for dental practices, helping providers run smarter and scale faster.
             </p>
             
-            <div className="mt-6 flex gap-4">
-              <a href="https://twitter.com/nextgenps" className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
-                <div className="h-4 w-4 text-white/80"></div>
-              </a>
-              <a href="https://linkedin.com/company/nextgenps" className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
-                <div className="h-4 w-4 text-white/80"></div>
-              </a>
-            </div>
+            <button
+              onClick={() => {
+                const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
+                if (chatButton) chatButton.click();
+              }}
+              className="mt-6 inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-nextgen-purple/90 rounded-lg hover:bg-nextgen-purple transition-colors"
+            >
+              <MessageSquare className="h-4 w-4" />
+              Talk to Miles
+            </button>
           </div>
           
           {/* Solutions */}
           <div>
-            <h3 className="text-white font-medium mb-4">Solutions</h3>
+            <h3 className="text-white font-medium mb-4 flex items-center gap-2">
+              <Users className="h-4 w-4 text-nextgen-purple" />
+              Solutions
+            </h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#ai-team" className="text-white/60 hover:text-white transition-colors">AI Team</a></li>
-              <li><a href="#patient-journey" className="text-white/60 hover:text-white transition-colors">Patient Journey</a></li>
-              <li><a href="#roi" className="text-white/60 hover:text-white transition-colors">ROI Calculator</a></li>
-              <li><a href="#pricing" className="text-white/60 hover:text-white transition-colors">Pricing</a></li>
+              <li><Link to="/solutions/ai-team" className="text-white/60 hover:text-white transition-colors">AI Team</Link></li>
+              <li><Link to="/solutions/patient-journey" className="text-white/60 hover:text-white transition-colors">Patient Journey</Link></li>
+              <li><Link to="/solutions/roi" className="text-white/60 hover:text-white transition-colors">ROI Calculator</Link></li>
+              <li><Link to="/solutions/pricing" className="text-white/60 hover:text-white transition-colors">Pricing</Link></li>
               <li><Link to="/integrations" className="text-white/60 hover:text-white transition-colors">Integrations</Link></li>
             </ul>
           </div>
           
-          {/* Resources */}
+          {/* Features */}
           <div>
-            <h3 className="text-white font-medium mb-4">Resources</h3>
+            <h3 className="text-white font-medium mb-4 flex items-center gap-2">
+              <BriefCase className="h-4 w-4 text-nextgen-purple" />
+              Features
+            </h3>
             <ul className="space-y-2 text-sm">
-              <li><Link to="/academy" className="text-white/60 hover:text-white transition-colors">Academy</Link></li>
-              <li><Link to="/story" className="text-white/60 hover:text-white transition-colors">Our Story</Link></li>
-              <li><a href="#resources" className="text-white/60 hover:text-white transition-colors">Practice Playbook</a></li>
-              <li><a href="#support" className="text-white/60 hover:text-white transition-colors">Support & Benefits</a></li>
-              <li><a href="#faq" className="text-white/60 hover:text-white transition-colors">FAQ</a></li>
-              <li><Link to="/features" className="text-white/60 hover:text-white transition-colors">Features</Link></li>
+              <li><Link to="/features/automation" className="text-white/60 hover:text-white transition-colors">Automation</Link></li>
+              <li><Link to="/features/analytics" className="text-white/60 hover:text-white transition-colors">Analytics</Link></li>
+              <li><Link to="/features/communication" className="text-white/60 hover:text-white transition-colors">Communication</Link></li>
+              <li><Link to="/features/security" className="text-white/60 hover:text-white transition-colors">Security</Link></li>
             </ul>
           </div>
           
-          {/* Contact */}
+          {/* Academy & Resources */}
           <div>
-            <h3 className="text-white font-medium mb-4">Contact</h3>
-            <ul className="space-y-4 text-sm">
-              <li>
-                <a href="#" className="text-white/60 hover:text-white transition-colors flex items-center">
-                  <MessageSquare className="h-4 w-4 mr-2" />
-                  Live Chat
-                </a>
-              </li>
-              <li>
-                <a href="mailto:support@nextgenps.com" className="text-white/60 hover:text-white transition-colors flex items-center">
-                  <Mail className="h-4 w-4 mr-2" />
-                  support@nextgenps.com
-                </a>
-              </li>
-              <li>
-                <a href="/privacy" className="text-white/60 hover:text-white transition-colors flex items-center">
-                  <Shield className="h-4 w-4 mr-2" />
-                  Privacy & Terms
-                </a>
-              </li>
+            <h3 className="text-white font-medium mb-4 flex items-center gap-2">
+              <GraduationCap className="h-4 w-4 text-nextgen-purple" />
+              Learn
+            </h3>
+            <ul className="space-y-2 text-sm">
+              <li><Link to="/academy" className="text-white/60 hover:text-white transition-colors">Academy</Link></li>
+              <li><Link to="/resources" className="text-white/60 hover:text-white transition-colors">Resources</Link></li>
+              <li><Link to="/blog" className="text-white/60 hover:text-white transition-colors">Blog</Link></li>
+              <li><a href="#support" className="text-white/60 hover:text-white transition-colors">Support</a></li>
             </ul>
           </div>
         </div>
@@ -87,7 +82,14 @@ const Footer = () => {
             © 2025 NextGen Practice Solutions. All rights reserved.
           </p>
           
-          <div className="mt-4 md:mt-0">
+          <div className="mt-4 md:mt-0 flex flex-wrap items-center gap-4">
+            <Link to="/privacy" className="text-white/40 hover:text-white/60 text-sm flex items-center gap-1">
+              <Shield className="h-3.5 w-3.5" />
+              Privacy
+            </Link>
+            <Link to="/terms" className="text-white/40 hover:text-white/60 text-sm">
+              Terms
+            </Link>
             <div className="flex items-center gap-2">
               <span className="text-white/40 text-xs">HIPAA Compliant</span>
               <div className="h-3 w-px bg-white/20"></div>
