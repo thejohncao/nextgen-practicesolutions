@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Shield, LockKeyhole, Lock } from 'lucide-react';
+import { Shield, LockKeyhole, Lock, Server, FileCheck } from 'lucide-react';
 import { Button } from './ui/button';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -20,6 +20,16 @@ const securityCards = [
     title: "End-to-End Encryption",
     description: "Patient data protected at every touchpoint",
     icon: Lock
+  },
+  {
+    title: "U.S. Secure Servers",
+    description: "Data hosted exclusively on secure U.S. infrastructure",
+    icon: Server
+  },
+  {
+    title: "HITECH & ADA Compliant",
+    description: "Built following latest healthcare guidelines",
+    icon: FileCheck
   }
 ];
 
@@ -37,11 +47,11 @@ const HealthcareSecuritySection = () => {
         <div className="max-w-6xl mx-auto">
           {/* Headers */}
           <div className="text-center mb-16 space-y-4">
-            <h2 className="text-3xl md:text-4xl font-heading font-bold text-gradient">
-              Purpose-Built for Modern Healthcare Practices
+            <h2 className="text-4xl md:text-5xl font-heading font-bold text-gradient">
+              Built for Healthcare. Trusted by Practices.
             </h2>
-            <p className="text-lg text-white/70">
-              Security. Compliance. Patient-Centric Automation — all built into your NextGen Operating System.
+            <p className="text-xl text-white/70 max-w-3xl mx-auto">
+              NextGen is built on HIPAA-ready architecture with seamless integrations for real clinical use.
             </p>
           </div>
 
