@@ -9,7 +9,6 @@ import AcademyOverviewSection from '../components/AcademyOverviewSection';
 import ROISection from '../components/ROISection';
 import FooterCTA from '../components/FooterCTA';
 import PricingSection from '../components/PricingSection';
-import SupportAndBenefits from '../components/SupportAndBenefits';
 import IntegrationsSection from '../components/IntegrationsSection';
 import SuccessGuarantee from '../components/SuccessGuarantee';
 import FounderSection from '../components/FounderSection';
@@ -30,7 +29,6 @@ const Index = () => {
       <ROISection />
       <FooterCTA />
       <PricingSection />
-      <SupportAndBenefits />
       <IntegrationsSection />
       <SuccessGuarantee />
       <FounderSection />
