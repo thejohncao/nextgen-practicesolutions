@@ -18,15 +18,15 @@ const AgentMessage: React.FC<AgentMessageProps> = ({ agent, role, message, bgCol
       <div className="flex items-start space-x-4">
         <div className="flex-shrink-0">
           <div className="relative">
-            <AgentChatAvatar agent={agent} hideDetails={isMobile} />
+            <AgentChatAvatar agent={agent} hideDetails />
           </div>
         </div>
         <div className="flex-1">
-          {isMobile && (
-            <span className="text-xs font-medium text-nextgen-dark/60 dark:text-white/90 mb-1 block">
-              {role}
+          <div className="mb-2">
+            <span className="text-sm font-medium text-nextgen-dark/90 dark:text-white/90">
+              {agent.charAt(0).toUpperCase() + agent.slice(1)} — {role}
             </span>
-          )}
+          </div>
           <p className={`${bgColorClass} p-4 rounded-2xl text-nextgen-dark dark:text-white`}>
             {message}
           </p>
