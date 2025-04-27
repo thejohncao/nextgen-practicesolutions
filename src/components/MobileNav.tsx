@@ -7,6 +7,11 @@ import { Link } from "react-router-dom";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const MobileNav = () => {
+  const handleChatOpen = () => {
+    const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
+    if (chatButton) chatButton.click();
+  };
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -26,10 +31,10 @@ const MobileNav = () => {
                 Solutions
               </AccordionTrigger>
               <AccordionContent className="pl-4 space-y-2">
-                <Link to="/solutions" className="block text-white/70 hover:text-white transition-colors py-1">Use Cases</Link>
-                <Link to="/solutions" className="block text-white/70 hover:text-white transition-colors py-1">Success Stories</Link>
-                <Link to="/solutions" className="block text-white/70 hover:text-white transition-colors py-1">Automation Solutions</Link>
-                <Link to="/solutions" className="block text-white/70 hover:text-white transition-colors py-1">ROI Calculator</Link>
+                <Link to="/solutions" className="block text-white/70 hover:text-white transition-colors py-1">Practice Management (Miles)</Link>
+                <Link to="/solutions" className="block text-white/70 hover:text-white transition-colors py-1">Practice Growth (Giselle)</Link>
+                <Link to="/solutions" className="block text-white/70 hover:text-white transition-colors py-1">Practice Development (Devon)</Link>
+                <Link to="/solutions" className="block text-white/70 hover:text-white transition-colors py-1">Practice Academy (Alma)</Link>
               </AccordionContent>
             </AccordionItem>
 
@@ -73,6 +78,17 @@ const MobileNav = () => {
           <Link to="/#pricing" className="text-lg font-medium text-white hover:text-nextgen-purple transition-colors">
             Pricing
           </Link>
+
+          <div className="mt-auto pt-4 border-t border-white/10">
+            <button
+              onClick={handleChatOpen}
+              className="w-full px-4 py-3 bg-nextgen-dark border border-nextgen-purple/20 rounded-lg text-white font-medium hover:bg-white/5 transition-colors group"
+            >
+              <span className="inline-flex animate-shimmer bg-gradient-to-r from-[#a3c9f9] via-white to-[#a3c9f9] bg-[length:400%_100%] bg-clip-text text-transparent">
+                Talk to Miles — Your AI Practice Concierge
+              </span>
+            </button>
+          </div>
         </nav>
       </SheetContent>
     </Sheet>
