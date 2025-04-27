@@ -11,6 +11,7 @@ interface PricingCardProps {
   stage: string;
   bestFor: string;
   features: string[];
+  tagline?: string;
   agent: {
     name: string;
     role: string;
@@ -74,6 +75,7 @@ const PricingCard = ({
   stage,
   bestFor,
   features,
+  tagline,
   agent,
   ctaText,
   isPopular,
@@ -124,14 +126,23 @@ const PricingCard = ({
       </CardHeader>
 
       <CardContent className="space-y-6">
-        <ul className="space-y-3">
-          {features.map((feature, index) => (
-            <li key={index} className="flex items-start gap-3">
-              {getFeatureIcon(feature, agentHexColor)}
-              <span className="text-white/80 text-sm">{feature}</span>
-            </li>
-          ))}
-        </ul>
+        <div>
+          <p className="text-white/80 text-sm font-medium mb-2">Includes:</p>
+          <ul className="space-y-3">
+            {features.map((feature, index) => (
+              <li key={index} className="flex items-start gap-3">
+                {getFeatureIcon(feature, agentHexColor)}
+                <span className="text-white/80 text-sm">{feature}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        
+        {tagline && (
+          <div className="pt-4 pb-1">
+            <p className="text-sm italic text-white/80 border-l-2 pl-3 border-l-nextgen-purple/50">{tagline}</p>
+          </div>
+        )}
 
         {isPopular && (
           <div className="text-center">
@@ -158,4 +169,3 @@ const PricingCard = ({
 };
 
 export default PricingCard;
-
