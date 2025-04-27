@@ -3,41 +3,56 @@ import React from 'react';
 import { integrations } from '@/data/integrations';
 import { cn } from '@/lib/utils';
 
+// Function to determine badge background color based on category
+const getBadgeColor = (categories: string[]) => {
+  if (categories.includes('CRM & Patient Management')) {
+    return 'bg-blue-500/90';
+  } else if (categories.includes('AI & Automations')) {
+    return 'bg-purple-500/90';
+  } else if (categories.includes('Billing & Payments')) {
+    return 'bg-green-500/90';
+  } else if (categories.includes('Communications')) {
+    return 'bg-yellow-500/90';
+  } else if (categories.includes('Scheduling')) {
+    return 'bg-cyan-500/90';
+  } else if (categories.includes('Team Collaboration')) {
+    return 'bg-orange-500/90';
+  } else if (categories.includes('Marketing')) {
+    return 'bg-pink-500/90';
+  } else if (categories.includes('Dental Specific')) {
+    return 'bg-indigo-500/90';
+  }
+  return 'bg-gray-500/90';
+};
+
 const IntegrationsMegaMenu = () => {
-  // Take first 16 integrations for the mega menu
-  const menuIntegrations = integrations.slice(0, 16);
+  // Take first 12 integrations for the mega menu
+  const menuIntegrations = integrations.slice(0, 12);
 
   return (
     <div className="absolute left-1/2 top-full -translate-x-1/2 pt-2 animate-mega-menu">
       <div className="w-[800px] max-w-[90vw] mx-auto rounded-xl bg-nextgen-dark/95 backdrop-blur-xl border border-white/10 shadow-2xl p-8">
         <div className="mb-6">
           <p className="text-white/60 text-sm text-center">
-            Seamlessly connect to the platforms your practice already uses.
+            Seamlessly connect to the platforms your practice already trusts.
           </p>
         </div>
         
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {menuIntegrations.map((integration, idx) => (
             <div
               key={idx}
               className={cn(
-                "group relative rounded-lg h-[150px] w-full transition-all duration-300",
-                "hover:scale-[1.02] hover:shadow-lg hover:shadow-black/20",
-                "bg-gradient-to-br from-white/5 to-white/10 hover:from-white/10 hover:to-white/15",
-                "border border-white/10 hover:border-white/20",
-                "flex items-center justify-center"
+                "group relative rounded-xl h-[90px] w-full transition-all duration-300",
+                "hover:scale-[1.02] hover:shadow-lg",
+                getBadgeColor(integration.categories),
+                "flex items-center justify-center cursor-pointer",
+                "hover:shadow-[0_0_15px_rgba(255,255,255,0.2)]"
               )}
             >
-              <div className="w-full h-full p-6 flex items-center justify-center">
-                <img
-                  src={integration.logoUrl}
-                  alt={`${integration.name} logo`}
-                  className="max-w-[80px] max-h-[80px] w-[70%] h-[70%] object-contain filter brightness-100 transition-all group-hover:brightness-110"
-                />
-              </div>
-              <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 flex items-center justify-center">
-                <span className="text-white text-sm font-medium">{integration.name}</span>
-              </div>
+              <span className="text-white font-medium text-base lg:text-lg text-center px-3">
+                {integration.name}
+              </span>
             </div>
           ))}
         </div>
