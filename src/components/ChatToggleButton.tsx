@@ -22,7 +22,11 @@ const ChatToggleButton: React.FC<ChatToggleButtonProps> = ({ isOpen, currentAgen
   if (isOpen) return null;
 
   return (
-    <div className="relative" onClick={onClick}>
+    <div 
+      className="fixed bottom-4 right-4 z-[100] cursor-pointer"
+      onClick={onClick}
+      data-testid="chat-toggle"
+    >
       <div 
         className={`h-14 w-14 rounded-full flex items-center justify-center shadow-lg
           bg-gradient-radial ${agentColors[currentAgent as AgentKey]} animate-pulse-glow`}
