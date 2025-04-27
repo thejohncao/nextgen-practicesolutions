@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
+import { Menu, Briefcase, Settings, Users, Book, Award, DollarSign } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
@@ -23,18 +23,35 @@ const MobileNav = () => {
           <Menu className="h-6 w-6" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="w-72 bg-nextgen-dark/95 backdrop-blur-xl border-white/10">
+      <SheetContent side="right" className="w-[85vw] sm:w-80 bg-nextgen-dark/95 backdrop-blur-xl border-white/10">
         <nav className="flex flex-col gap-4 mt-8">
           <Accordion type="single" collapsible className="space-y-2">
             <AccordionItem value="solutions" className="border-none">
               <AccordionTrigger className="text-lg font-medium text-white hover:text-nextgen-purple transition-colors py-2">
                 Solutions
               </AccordionTrigger>
-              <AccordionContent className="pl-4 space-y-2">
-                <Link to="/solutions" className="block text-white/70 hover:text-white transition-colors py-1">Practice Management (Miles)</Link>
-                <Link to="/solutions" className="block text-white/70 hover:text-white transition-colors py-1">Practice Growth (Giselle)</Link>
-                <Link to="/solutions" className="block text-white/70 hover:text-white transition-colors py-1">Practice Development (Devon)</Link>
-                <Link to="/solutions" className="block text-white/70 hover:text-white transition-colors py-1">Practice Academy (Alma)</Link>
+              <AccordionContent className="pl-4 space-y-4">
+                <Link to="/solutions" className="flex gap-4 p-3 rounded-lg hover:bg-white/5 transition-all group">
+                  <Briefcase className="h-5 w-5 text-nextgen-purple shrink-0 mt-0.5" />
+                  <div>
+                    <h3 className="font-medium text-white">Practice Management (Miles)</h3>
+                    <p className="text-sm text-white/60 mt-1">Run your scheduling, check-in, and front office systems.</p>
+                  </div>
+                </Link>
+                <Link to="/solutions" className="flex gap-4 p-3 rounded-lg hover:bg-white/5 transition-all group">
+                  <Users className="h-5 w-5 text-nextgen-purple shrink-0 mt-0.5" />
+                  <div>
+                    <h3 className="font-medium text-white">Practice Growth (Giselle)</h3>
+                    <p className="text-sm text-white/60 mt-1">Capture new leads and reactivate lapsed patients.</p>
+                  </div>
+                </Link>
+                <Link to="/solutions" className="flex gap-4 p-3 rounded-lg hover:bg-white/5 transition-all group">
+                  <Settings className="h-5 w-5 text-nextgen-purple shrink-0 mt-0.5" />
+                  <div>
+                    <h3 className="font-medium text-white">Practice Development (Devon)</h3>
+                    <p className="text-sm text-white/60 mt-1">Automate consultations, financing offers, and follow-ups.</p>
+                  </div>
+                </Link>
               </AccordionContent>
             </AccordionItem>
 
@@ -42,11 +59,21 @@ const MobileNav = () => {
               <AccordionTrigger className="text-lg font-medium text-white hover:text-nextgen-purple transition-colors py-2">
                 Features
               </AccordionTrigger>
-              <AccordionContent className="pl-4 space-y-2">
-                <Link to="/features" className="block text-white/70 hover:text-white transition-colors py-1">Smart Automation</Link>
-                <Link to="/features" className="block text-white/70 hover:text-white transition-colors py-1">Patient Communication</Link>
-                <Link to="/features" className="block text-white/70 hover:text-white transition-colors py-1">Team Collaboration</Link>
-                <Link to="/features" className="block text-white/70 hover:text-white transition-colors py-1">Analytics Dashboard</Link>
+              <AccordionContent className="pl-4 space-y-4">
+                <Link to="/features" className="flex gap-4 p-3 rounded-lg hover:bg-white/5 transition-all group">
+                  <Settings className="h-5 w-5 text-nextgen-purple shrink-0 mt-0.5" />
+                  <div>
+                    <h3 className="font-medium text-white">Automation Features</h3>
+                    <p className="text-sm text-white/60 mt-1">Streamline tasks with smart AI automations.</p>
+                  </div>
+                </Link>
+                <Link to="/features" className="flex gap-4 p-3 rounded-lg hover:bg-white/5 transition-all group">
+                  <Award className="h-5 w-5 text-nextgen-purple shrink-0 mt-0.5" />
+                  <div>
+                    <h3 className="font-medium text-white">Growth Tools</h3>
+                    <p className="text-sm text-white/60 mt-1">Fuel your practice's new patient pipeline.</p>
+                  </div>
+                </Link>
               </AccordionContent>
             </AccordionItem>
 
@@ -54,11 +81,14 @@ const MobileNav = () => {
               <AccordionTrigger className="text-lg font-medium text-white hover:text-nextgen-purple transition-colors py-2">
                 Integrations
               </AccordionTrigger>
-              <AccordionContent className="pl-4 space-y-2">
-                <Link to="/integrations" className="block text-white/70 hover:text-white transition-colors py-1">Practice Management</Link>
-                <Link to="/integrations" className="block text-white/70 hover:text-white transition-colors py-1">Patient Records</Link>
-                <Link to="/integrations" className="block text-white/70 hover:text-white transition-colors py-1">Billing Systems</Link>
-                <Link to="/integrations" className="block text-white/70 hover:text-white transition-colors py-1">Communication Tools</Link>
+              <AccordionContent className="pl-4">
+                <Link to="/integrations" className="flex gap-4 p-3 rounded-lg hover:bg-white/5 transition-all group">
+                  <Settings className="h-5 w-5 text-nextgen-purple shrink-0 mt-0.5" />
+                  <div>
+                    <h3 className="font-medium text-white">Platform Integrations</h3>
+                    <p className="text-sm text-white/60 mt-1">Connect seamlessly to Salesforce, CareCredit, and more.</p>
+                  </div>
+                </Link>
               </AccordionContent>
             </AccordionItem>
             
@@ -66,17 +96,31 @@ const MobileNav = () => {
               <AccordionTrigger className="text-lg font-medium text-white hover:text-nextgen-purple transition-colors py-2">
                 Academy
               </AccordionTrigger>
-              <AccordionContent className="pl-4 space-y-2">
-                <Link to="/academy" className="block text-white/70 hover:text-white transition-colors py-1">Training Programs</Link>
-                <Link to="/academy" className="block text-white/70 hover:text-white transition-colors py-1">Certification</Link>
-                <Link to="/academy" className="block text-white/70 hover:text-white transition-colors py-1">Resources</Link>
-                <Link to="/academy" className="block text-white/70 hover:text-white transition-colors py-1">Support</Link>
+              <AccordionContent className="pl-4 space-y-4">
+                <Link to="/academy" className="flex gap-4 p-3 rounded-lg hover:bg-white/5 transition-all group">
+                  <Book className="h-5 w-5 text-nextgen-purple shrink-0 mt-0.5" />
+                  <div>
+                    <h3 className="font-medium text-white">Training Programs</h3>
+                    <p className="text-sm text-white/60 mt-1">Master practice management and patient communication.</p>
+                  </div>
+                </Link>
+                <Link to="/academy" className="flex gap-4 p-3 rounded-lg hover:bg-white/5 transition-all group">
+                  <Award className="h-5 w-5 text-nextgen-purple shrink-0 mt-0.5" />
+                  <div>
+                    <h3 className="font-medium text-white">Certifications & Tools</h3>
+                    <p className="text-sm text-white/60 mt-1">Earn your NextGen Practice Certification.</p>
+                  </div>
+                </Link>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
 
-          <Link to="/#pricing" className="text-lg font-medium text-white hover:text-nextgen-purple transition-colors">
-            Pricing
+          <Link to="/pricing" className="flex gap-4 p-3 rounded-lg hover:bg-white/5 transition-all group">
+            <DollarSign className="h-5 w-5 text-nextgen-purple shrink-0 mt-0.5" />
+            <div>
+              <h3 className="font-medium text-white">Membership Plans</h3>
+              <p className="text-sm text-white/60 mt-1">Choose the right operating system package for your office.</p>
+            </div>
           </Link>
 
           <div className="mt-auto pt-4 border-t border-white/10">
@@ -96,3 +140,4 @@ const MobileNav = () => {
 };
 
 export default MobileNav;
+
