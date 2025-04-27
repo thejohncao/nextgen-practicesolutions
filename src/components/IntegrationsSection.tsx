@@ -1,10 +1,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import IntegrationsHeader from './integrations/IntegrationsHeader';
 import IntegrationsList from './integrations/IntegrationsList';
 import { Button } from './ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Link as LinkIcon } from 'lucide-react';
 import { Dialog, DialogContent } from './ui/dialog';
 import IntegrationsGrid from './integrations/IntegrationsGrid';
 
@@ -40,7 +39,18 @@ const IntegrationsSection = () => {
   return (
     <section id="integrations" className="section-padding py-20 bg-gradient-to-b from-nextgen-dark/95 to-nextgen-dark">
       <div className="container mx-auto">
-        <IntegrationsHeader isVisible={isVisible} />
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card mb-6">
+            <LinkIcon className="h-5 w-5 text-nextgen-purple" />
+            <span className="text-white/70 text-sm font-medium">Connect Your Tools</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-gradient">
+            Powerful Integrations
+          </h2>
+          <p className="text-xl text-white/70 max-w-3xl mx-auto">
+            Connect NextGen with your favorite tools and services to streamline your practice workflow.
+          </p>
+        </div>
         
         <div className={`glass-card p-8 mb-12 rounded-xl transition-all duration-700 ${
           isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
