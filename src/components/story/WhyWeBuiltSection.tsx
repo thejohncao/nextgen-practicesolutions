@@ -27,21 +27,36 @@ const WhyWeBuiltSection = () => {
           </div>
 
           {/* Main Text */}
-          <div className="space-y-6 text-lg text-white/70 max-w-3xl mx-auto animate-fade-in" style={{ animationDelay: '300ms' }}>
-            <p>
+          <div className="space-y-6 text-lg text-white/70 max-w-2xl mx-auto animate-fade-in" style={{ animationDelay: '300ms' }}>
+            <p className="font-medium">
               Most practices today are drowning in busywork — endless admin, staffing headaches, marketing overwhelm, and patient follow-up chaos.
             </p>
             <p>
-              We believe doctors, owners, and their teams deserve better.
+              Doctors and teams deserve better.
             </p>
             <p>
-              NextGen was built to buy back your time, energy, and freedom.
+              That's why we built NextGen — to buy back your time, energy, and freedom.
             </p>
-            <p>
-              By automating the operational burden, NextGen gives practices the power to scale, grow, and thrive — while giving teams the space to do what matters most: caring for patients, growing personally, and living fuller lives outside the office.
-            </p>
-            <p className="font-medium text-white">
-              You lead. We execute. You win back your life.
+            
+            <div className="space-y-4 py-2">
+              <p>
+                Instead of running your practice,<br />
+                <span className="text-white font-medium">you can lead it.</span>
+              </p>
+              <p>
+                Instead of reacting,<br />
+                <span className="text-white font-medium">you can grow.</span>
+              </p>
+              <p>
+                Instead of burning out,<br />
+                <span className="text-white font-medium">you can live.</span>
+              </p>
+            </div>
+
+            <p className="text-xl text-white font-medium pt-4">
+              You lead.<br />
+              We execute.<br />
+              You win back your life.
             </p>
           </div>
 
@@ -64,3 +79,4 @@ const WhyWeBuiltSection = () => {
 };
 
 export default WhyWeBuiltSection;
+
