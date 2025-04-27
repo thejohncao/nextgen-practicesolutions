@@ -1,7 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import IntegrationsHero from '../components/integrations/IntegrationsHero';
 import IntegrationsGrid from '../components/integrations/IntegrationsGrid';
@@ -12,7 +10,7 @@ const Integrations = () => {
   
   return (
     <Layout>
-      <div className="min-h-screen">
+      <div className="min-h-screen bg-nextgen-dark">
         <IntegrationsHero />
         <IntegrationsGrid activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
         <CustomIntegrationCTA />

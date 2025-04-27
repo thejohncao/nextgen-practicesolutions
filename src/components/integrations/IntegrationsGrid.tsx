@@ -1,8 +1,8 @@
 
-import React, { useEffect, useState } from 'react';
-import { Button } from "@/components/ui/button";
+import React from 'react';
 import { integrations, categories } from '@/data/integrations';
 import IntegrationCard from './IntegrationCard';
+import { Button } from "@/components/ui/button";
 import { useInView } from 'react-intersection-observer';
 
 interface IntegrationsGridProps {
@@ -21,16 +21,12 @@ const IntegrationsGrid = ({ activeFilter, setActiveFilter }: IntegrationsGridPro
     : integrations;
 
   return (
-    <section id="integrations-grid" className="py-16 px-6 md:px-8 lg:px-12 bg-gray-50">
+    <section id="integrations-grid" className="py-16 px-6 md:px-8 lg:px-12 bg-nextgen-dark/95">
       <div className="container mx-auto max-w-7xl">
         <div className="mb-12 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-nextgen-dark">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
             All Integrations
           </h2>
-          <p className="text-lg text-gray-600 mb-8 max-w-3xl mx-auto">
-            Connect your practice with these powerful tools and services to 
-            enhance productivity and automate workflows.
-          </p>
           
           <div className="flex flex-wrap justify-center gap-3 mb-8">
             <Button
@@ -39,7 +35,7 @@ const IntegrationsGrid = ({ activeFilter, setActiveFilter }: IntegrationsGridPro
               className={`rounded-full ${
                 activeFilter === null 
                   ? 'bg-nextgen-purple text-white hover:bg-nextgen-purple/90' 
-                  : 'bg-white text-nextgen-dark hover:bg-gray-100 border-gray-200'
+                  : 'bg-white/10 text-white hover:bg-white/20 border-white/20'
               }`}
             >
               All
@@ -52,7 +48,7 @@ const IntegrationsGrid = ({ activeFilter, setActiveFilter }: IntegrationsGridPro
                 className={`rounded-full ${
                   activeFilter === category 
                     ? 'bg-nextgen-purple text-white hover:bg-nextgen-purple/90' 
-                    : 'bg-white text-nextgen-dark hover:bg-gray-100 border-gray-200'
+                    : 'bg-white/10 text-white hover:bg-white/20 border-white/20'
                 }`}
               >
                 {category}
