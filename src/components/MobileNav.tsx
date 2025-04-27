@@ -26,9 +26,10 @@ const MobileNav = () => {
                 Solutions
               </AccordionTrigger>
               <AccordionContent className="pl-4 space-y-2">
-                <Link to="/solutions/ai-team" className="block text-white/70 hover:text-white transition-colors py-1">AI Team</Link>
-                <Link to="/solutions/patient-journey" className="block text-white/70 hover:text-white transition-colors py-1">Patient Journey</Link>
-                <Link to="/solutions/roi" className="block text-white/70 hover:text-white transition-colors py-1">ROI Calculator</Link>
+                <Link to="/solutions" className="block text-white/70 hover:text-white transition-colors py-1">Use Cases</Link>
+                <Link to="/solutions" className="block text-white/70 hover:text-white transition-colors py-1">Success Stories</Link>
+                <Link to="/solutions" className="block text-white/70 hover:text-white transition-colors py-1">Automation Solutions</Link>
+                <Link to="/solutions" className="block text-white/70 hover:text-white transition-colors py-1">ROI Calculator</Link>
               </AccordionContent>
             </AccordionItem>
 
@@ -37,9 +38,10 @@ const MobileNav = () => {
                 Features
               </AccordionTrigger>
               <AccordionContent className="pl-4 space-y-2">
-                <Link to="/features/automation" className="block text-white/70 hover:text-white transition-colors py-1">Automation</Link>
-                <Link to="/features/analytics" className="block text-white/70 hover:text-white transition-colors py-1">Analytics</Link>
-                <Link to="/features/communication" className="block text-white/70 hover:text-white transition-colors py-1">Communication</Link>
+                <Link to="/features" className="block text-white/70 hover:text-white transition-colors py-1">Smart Automation</Link>
+                <Link to="/features" className="block text-white/70 hover:text-white transition-colors py-1">Patient Communication</Link>
+                <Link to="/features" className="block text-white/70 hover:text-white transition-colors py-1">Team Collaboration</Link>
+                <Link to="/features" className="block text-white/70 hover:text-white transition-colors py-1">Analytics Dashboard</Link>
               </AccordionContent>
             </AccordionItem>
 
@@ -48,22 +50,29 @@ const MobileNav = () => {
                 Integrations
               </AccordionTrigger>
               <AccordionContent className="pl-4 space-y-2">
-                <Link to="/integrations/crm" className="block text-white/70 hover:text-white transition-colors py-1">CRM & Patient Management</Link>
-                <Link to="/integrations/billing" className="block text-white/70 hover:text-white transition-colors py-1">Billing & Payments</Link>
-                <Link to="/integrations/scheduling" className="block text-white/70 hover:text-white transition-colors py-1">Scheduling</Link>
+                <Link to="/integrations" className="block text-white/70 hover:text-white transition-colors py-1">Practice Management</Link>
+                <Link to="/integrations" className="block text-white/70 hover:text-white transition-colors py-1">Patient Records</Link>
+                <Link to="/integrations" className="block text-white/70 hover:text-white transition-colors py-1">Billing Systems</Link>
+                <Link to="/integrations" className="block text-white/70 hover:text-white transition-colors py-1">Communication Tools</Link>
+              </AccordionContent>
+            </AccordionItem>
+            
+            <AccordionItem value="academy" className="border-none">
+              <AccordionTrigger className="text-lg font-medium text-white hover:text-nextgen-purple transition-colors py-2">
+                Academy
+              </AccordionTrigger>
+              <AccordionContent className="pl-4 space-y-2">
+                <Link to="/academy" className="block text-white/70 hover:text-white transition-colors py-1">Training Programs</Link>
+                <Link to="/academy" className="block text-white/70 hover:text-white transition-colors py-1">Certification</Link>
+                <Link to="/academy" className="block text-white/70 hover:text-white transition-colors py-1">Resources</Link>
+                <Link to="/academy" className="block text-white/70 hover:text-white transition-colors py-1">Support</Link>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
 
-          <Link to="/academy" className="text-lg font-medium text-white hover:text-nextgen-purple transition-colors">
-            Academy
-          </Link>
-          <Link to="/resources" className="text-lg font-medium text-white hover:text-nextgen-purple transition-colors">
-            Resources
-          </Link>
-          <a href="/#pricing" className="text-lg font-medium text-white hover:text-nextgen-purple transition-colors">
+          <Link to="/#pricing" className="text-lg font-medium text-white hover:text-nextgen-purple transition-colors">
             Pricing
-          </a>
+          </Link>
         </nav>
       </SheetContent>
     </Sheet>
