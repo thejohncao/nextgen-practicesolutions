@@ -1,10 +1,9 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
 import { Link } from "react-router-dom";
 import TubelightNavLink from './TubelightNavLink';
-import { MessageSquare } from "lucide-react";
+import { MessageSquare, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import MobileNav from './MobileNav';
 import SolutionsMegaMenu from './navigation/SolutionsMegaMenu';
@@ -38,7 +37,7 @@ const Navbar = () => {
   };
   
   return (
-    <header className="sticky top-0 w-full z-50 bg-nextgen-dark/95 backdrop-blur-lg border-b border-white/10">
+    <header className="fixed top-0 left-0 right-0 w-full z-50 bg-nextgen-dark/95 backdrop-blur-lg border-b border-white/10">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="text-white">
@@ -63,11 +62,12 @@ const Navbar = () => {
                   onMouseLeave={() => !isMobile && setShowSolutionsMenu(false)}
                   onClick={() => isMobile && setShowSolutionsMenu(!showSolutionsMenu)}
                 >
-                  <NavigationMenuTrigger 
-                    className="text-white/80 hover:text-white transition-colors bg-transparent hover:bg-white/5"
+                  <button 
+                    className="text-white/80 hover:text-white transition-colors px-4 py-2 text-sm inline-flex items-center gap-1"
                   >
                     Solutions
-                  </NavigationMenuTrigger>
+                    <ChevronDown className="h-3.5 w-3.5 opacity-50" />
+                  </button>
                   {showSolutionsMenu && <SolutionsMegaMenu />}
                 </div>
               </NavigationMenuItem>
