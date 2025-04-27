@@ -7,10 +7,11 @@ import { MessageSquare, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import MobileNav from './MobileNav';
 import SolutionsMegaMenu from './navigation/SolutionsMegaMenu';
+import FeaturesMegaMenu from './navigation/FeaturesMegaMenu';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 const Navbar = () => {
-  const [showSolutionsMenu, setShowSolutionsMenu] = React.useState(false);
+  const [showFeaturesMenu, setShowFeaturesMenu] = React.useState(false);
   const isMobile = useIsMobile();
 
   const handleChatOpen = () => {
@@ -58,17 +59,17 @@ const Navbar = () => {
               <NavigationMenuItem>
                 <div
                   className="relative"
-                  onMouseEnter={() => !isMobile && setShowSolutionsMenu(true)}
-                  onMouseLeave={() => !isMobile && setShowSolutionsMenu(false)}
-                  onClick={() => isMobile && setShowSolutionsMenu(!showSolutionsMenu)}
+                  onMouseEnter={() => !isMobile && setShowFeaturesMenu(true)}
+                  onMouseLeave={() => !isMobile && setShowFeaturesMenu(false)}
+                  onClick={() => isMobile && setShowFeaturesMenu(!showFeaturesMenu)}
                 >
                   <button 
                     className="text-white/80 hover:text-white transition-colors px-4 py-2 text-sm inline-flex items-center gap-1"
                   >
-                    Solutions
+                    Features
                     <ChevronDown className="h-3.5 w-3.5 opacity-50" />
                   </button>
-                  {showSolutionsMenu && <SolutionsMegaMenu />}
+                  {showFeaturesMenu && <FeaturesMegaMenu />}
                 </div>
               </NavigationMenuItem>
 

@@ -135,6 +135,16 @@ export default {
         shimmer: {
           "0%": { backgroundPosition: "100% 50%" },
           "100%": { backgroundPosition: "0% 50%" }
+        },
+        'mega-menu-in': {
+          '0%': { 
+            opacity: '0',
+            transform: 'translateY(-4px)'
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0)'
+          }
         }
       },
       animation: {
@@ -148,7 +158,8 @@ export default {
         'pulse-slow': 'pulse-slow 3s ease-in-out infinite',
         'tubelight': 'tubelight 0.3s ease-out forwards',
         'glow': 'glow 2s ease-in-out infinite',
-        shimmer: "shimmer 3s linear infinite"
+        shimmer: "shimmer 3s linear infinite",
+        'mega-menu': 'mega-menu-in 0.4s ease-out forwards'
       }
     }
   },
