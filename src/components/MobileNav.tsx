@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Briefcase, Settings, Users, Book, Award, DollarSign } from "lucide-react";
+import { Menu, Briefcase, Settings, Users, Book, Award } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
@@ -115,14 +114,6 @@ const MobileNav = () => {
             </AccordionItem>
           </Accordion>
 
-          <Link to="/pricing" className="flex gap-4 p-3 rounded-lg hover:bg-white/5 transition-all group">
-            <DollarSign className="h-5 w-5 text-nextgen-purple shrink-0 mt-0.5" />
-            <div>
-              <h3 className="font-medium text-white">Membership Plans</h3>
-              <p className="text-sm text-white/60 mt-1">Choose the right operating system package for your office.</p>
-            </div>
-          </Link>
-
           <div className="mt-auto pt-4 border-t border-white/10">
             <button
               onClick={handleChatOpen}
@@ -140,4 +131,3 @@ const MobileNav = () => {
 };
 
 export default MobileNav;
-
