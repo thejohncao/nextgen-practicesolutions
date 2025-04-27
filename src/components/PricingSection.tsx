@@ -1,8 +1,7 @@
-
 import React from 'react';
-import { Check } from 'lucide-react';
 import PricingCard from './pricing/PricingCard';
 import BoardroomUnlockFlow from './pricing/BoardroomUnlockFlow';
+import EmailCollectionDialog from './EmailCollectionDialog';
 
 const pricingData = [
   {
@@ -65,14 +64,6 @@ const pricingData = [
   }
 ];
 
-const successFeatures = [
-  "Dedicated Success Manager",
-  "Priority Onboarding and Support",
-  "Quarterly Optimization Reviews",
-  "24/7 Automation Monitoring",
-  "Success Guarantee: If we don't help you grow, we don't stop working."
-];
-
 const PricingSection = () => {
   return (
     <section id="pricing" className="section-padding py-20 relative overflow-hidden">
@@ -98,28 +89,27 @@ const PricingSection = () => {
           ))}
         </div>
 
-        {/* Boardroom Unlock Flow */}
         <BoardroomUnlockFlow />
 
-        <div 
-          className="glass-card max-w-4xl mx-auto p-8 md:p-12 mt-16 animate-fade-in"
-          style={{ backdropFilter: 'blur(20px)' }}
-        >
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-heading font-bold mb-2 text-gradient">
-              Included with Every NextGen Plan
-            </h3>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {successFeatures.map((feature, index) => (
-              <div key={index} className="flex items-start gap-3">
-                <div className="rounded-full bg-nextgen-purple/20 p-1 mt-1">
-                  <Check className="h-4 w-4 text-nextgen-purple" />
-                </div>
-                <span className="text-white/90">{feature}</span>
-              </div>
-            ))}
+        <div className="text-center mt-16">
+          <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
+            Still have questions?
+          </h2>
+          <p className="text-xl md:text-2xl font-medium text-white/80 mb-8 max-w-3xl mx-auto">
+            Let's design your custom NextGen Operating System together —<br />
+            Book a free demo and meet your future AI Executive Team.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <EmailCollectionDialog
+              triggerText="Book a Demo"
+              buttonSize="lg"
+              buttonClassName="bg-nextgen-purple hover:bg-nextgen-purple/90"
+            />
+            <EmailCollectionDialog
+              triggerText="Start Now"
+              buttonSize="lg"
+              buttonClassName="bg-white text-nextgen-dark hover:bg-white/90"
+            />
           </div>
         </div>
       </div>
