@@ -84,8 +84,7 @@ const BoardroomUnlockFlow = () => {
                         <AgentAvatar 
                           name={agent.name} 
                           role={agent.role} 
-                          color={agent.color} 
-                          size="md" 
+                          color={agent.color}
                         />
                         <span className="text-xs text-white/70 mt-1">{agent.role}</span>
                       </div>

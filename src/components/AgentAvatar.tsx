@@ -10,9 +10,10 @@ interface AgentAvatarProps {
   name: string;
   role: string;
   color?: string;
+  size?: 'sm' | 'md' | 'lg';
 }
 
-const AgentAvatar = ({ name, role, color = 'purple' }: AgentAvatarProps) => {
+const AgentAvatar = ({ name, role, color = 'purple', size = 'md' }: AgentAvatarProps) => {
   const [isAnimating, setIsAnimating] = useState(false);
   
   useEffect(() => {
@@ -30,6 +31,12 @@ const AgentAvatar = ({ name, role, color = 'purple' }: AgentAvatarProps) => {
   };
   
   const getInitials = (name: string) => name.charAt(0).toUpperCase();
+
+  const sizeClasses = {
+    sm: 'w-8 h-8',
+    md: 'w-12 h-12',
+    lg: 'w-16 h-16'
+  };
   
   return (
     <div 
@@ -40,7 +47,7 @@ const AgentAvatar = ({ name, role, color = 'purple' }: AgentAvatarProps) => {
         <AvatarRings color={color} isAnimating={isAnimating} />
         <AvatarOverlay isAnimating={isAnimating} />
         
-        <Avatar className={`w-12 h-12 border-2 border-white/10 relative z-10 transition-all duration-300 ${isAnimating ? 'scale-105' : ''}`}>
+        <Avatar className={`${sizeClasses[size]} border-2 border-white/10 relative z-10 transition-all duration-300 ${isAnimating ? 'scale-105' : ''}`}>
           <AvatarFallback 
             className={`bg-gradient-to-br ${getAvatarGradient(color)} ${
               isAnimating ? 'animate-pulse' : 'animate-pulse-slow duration-[3000ms]'
