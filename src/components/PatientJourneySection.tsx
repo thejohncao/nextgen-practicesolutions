@@ -80,7 +80,7 @@ const PatientJourneySection = () => {
         </div>
         
         <div className="relative mt-20">
-          <div className="hidden md:block absolute top-28 left-0 w-full h-0.5 bg-gradient-animate rounded-full overflow-hidden">
+          <div className="hidden md:block absolute top-20 left-0 w-full h-0.5 bg-gradient-animate rounded-full overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 animate-flow"></div>
           </div>
           
@@ -90,36 +90,35 @@ const PatientJourneySection = () => {
                 key={stage.name} 
                 className={`relative transition-all duration-700 transform ${
                   visibleItems[index] 
-                    ? 'opacity-100 translate-y-0' 
-                    : 'opacity-0 translate-y-20'
+                    ? 'opacity-100 translate-x-0' 
+                    : 'opacity-0 translate-x-20'
                 }`}
                 style={{ transitionDelay: `${index * 200}ms` }}
               >
                 <div className="hidden md:flex absolute -top-20 left-1/2 transform -translate-x-1/2">
-                  <div className={`w-14 h-14 rounded-full bg-gradient-to-br from-${stage.color}-500 to-${stage.color}-600 flex items-center justify-center shadow-glow`}>
-                    <span className="text-2xl font-bold text-white">{index + 1}</span>
+                  <div className={`w-10 h-10 rounded-full bg-gradient-to-br from-${stage.color}-500 to-${stage.color}-600 flex items-center justify-center shadow-glow`}>
+                    <span className="text-white font-bold">{index + 1}</span>
                   </div>
                 </div>
                 
-                <div className={`glass-card h-full p-8 md:pt-14 ${stage.bgColor} backdrop-blur-xl transform transition-all duration-300 hover:scale-[1.02] hover:shadow-glow`}>
+                <div className={`glass-card h-full p-6 md:pt-14 ${stage.bgColor} backdrop-blur-xl transform transition-all duration-300 hover:scale-[1.02] hover:shadow-glow`}>
                   <div className="absolute top-4 right-4">
                     <JourneyStageIcon 
                       stageName={stage.name} 
                       color={stage.color} 
-                      size={32}
+                      className="animate-pulse-slow"
+                      size={32}  // Increased icon size
                     />
                   </div>
                   
                   <div className="md:hidden flex items-center mb-4">
-                    <div className={`w-10 h-10 rounded-full bg-gradient-to-br from-${stage.color}-500 to-${stage.color}-600 flex items-center justify-center mr-3`}>
-                      <span className="text-xl font-bold text-white">{index + 1}</span>
+                    <div className={`w-8 h-8 rounded-full bg-gradient-to-br from-${stage.color}-500 to-${stage.color}-600 flex items-center justify-center mr-3`}>
+                      <span className="text-white font-bold">{index + 1}</span>
                     </div>
                     <h3 className="text-xl font-heading font-semibold text-gradient">{stage.name}</h3>
                   </div>
                   
-                  <h3 className="hidden md:block text-xl font-heading font-semibold text-gradient mb-3">
-                    {stage.name}
-                  </h3>
+                  <h3 className="hidden md:block text-xl font-heading font-semibold text-gradient mb-2">{stage.name}</h3>
                   
                   <div className="inline-block px-3 py-1 rounded-full bg-white/5 border border-white/10 text-sm text-white/70 mb-4">
                     <div className="flex items-center gap-2">
@@ -128,37 +127,37 @@ const PatientJourneySection = () => {
                     </div>
                   </div>
                   
-                  <div className="space-y-6">
-                    <div>
-                      <h4 className="text-sm text-white/60 mb-2">Key Activities:</h4>
-                      <ul className="space-y-2">
-                        {stage.activities.map((activity, i) => (
-                          <li key={i} className="flex items-center text-white/80 text-sm group">
-                            <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-br from-${stage.color}-500 to-${stage.color}-400 mr-2 transition-all duration-300 group-hover:scale-150`}></div>
-                            {activity}
-                          </li>
-                        ))}
-                      </ul>
+                  {/* Removed the agent avatar hover effect */}
+                  
+                  <div className="mb-4">
+                    <h4 className="text-sm text-white/60 mb-1">Key Activities:</h4>
+                    <ul className="space-y-1">
+                      {stage.activities.map((activity, i) => (
+                        <li key={i} className="flex items-center text-white/80 text-sm group">
+                          <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-br from-${stage.color}-500 to-${stage.color}-400 mr-2 transition-all duration-300 group-hover:scale-150`}></div>
+                          {activity}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  
+                  <div className="mb-4">
+                    <h4 className="text-sm text-white/60 mb-1">Tools Used:</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {stage.tools.map((tool, i) => (
+                        <span 
+                          key={i} 
+                          className={`text-xs px-2 py-1 bg-white/5 rounded-md text-white/70 transition-all duration-300 hover:bg-${stage.color}-500/10 hover:text-white cursor-default`}
+                        >
+                          {tool}
+                        </span>
+                      ))}
                     </div>
-                    
-                    <div>
-                      <h4 className="text-sm text-white/60 mb-2">Tools Used:</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {stage.tools.map((tool, i) => (
-                          <span 
-                            key={i} 
-                            className={`text-xs px-2 py-1 bg-white/5 rounded-md text-white/70 transition-all duration-300 hover:bg-${stage.color}-500/10 hover:text-white`}
-                          >
-                            {tool}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <h4 className="text-sm text-white/60 mb-1">What It Solves:</h4>
-                      <p className="text-sm text-white/80">{stage.solves}</p>
-                    </div>
+                  </div>
+                  
+                  <div>
+                    <h4 className="text-sm text-white/60 mb-1">What It Solves:</h4>
+                    <p className="text-sm text-white/80">{stage.solves}</p>
                   </div>
                 </div>
               </div>
