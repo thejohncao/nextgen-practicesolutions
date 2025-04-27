@@ -1,112 +1,89 @@
 
-import React, { useState } from 'react';
-import { Button } from "@/components/ui/button";
-import { Check, ArrowRight, Shield } from "lucide-react";
-import { Link } from 'react-router-dom';
-import AgentAvatar from './AgentAvatar';
-import EmailCollectionForm from './EmailCollectionForm';
-import EmailCollectionDialog from './EmailCollectionDialog';
+import React from 'react';
+import PricingCard from './pricing/PricingCard';
 
-const plans = [
+const pricingData = [
   {
     name: "Spark",
-    subheader: "Build your base: streamlined operations, smart scheduling, and AI-powered front desk support.",
-    price: "$999",
-    yearlyPrice: "$9,990",
-    description: "Foundation Package",
-    includes: "Miles (Mgmt)",
+    stage: "Foundation Stage",
+    bestFor: "Practices building solid front office operations",
     features: [
-      "Practice management automation",
-      "Automated scheduling",
-      "Patient reminders",
-      "Basic reporting",
-      "Email support",
-      "HIPAA compliance"
+      "Smart Calendar Automation",
+      "New Patient Digital Intake Forms",
+      "Live Two-Way Patient Messaging",
+      "Recall and Reactivation Engine",
+      "No-Show Rescue Automations",
+      "Daily Operational KPI Dashboards"
     ],
-    agents: [
-      { name: "Miles", role: "Practice Management", color: "red" }
-    ],
-    popular: false,
-    color: "from-red-500 to-red-600", // Changed from blue to red
-    buttonClass: "bg-gradient-to-r from-red-500 to-red-600 hover:opacity-90 text-white"
+    agent: {
+      name: "Miles",
+      role: "AI Front Office Concierge",
+      color: "red"
+    },
+    ctaText: "Get Started with Spark"
   },
   {
     name: "Ignite",
-    subheader: "Fuel your momentum: lead generation, AI follow-up, and fully automated campaign workflows.",
-    price: "$1,999",
-    yearlyPrice: "$19,990",
-    description: "Growth Package",
-    includes: "+ Giselle (Growth)",
+    stage: "Growth Stage",
+    bestFor: "Practices scaling new patient flow",
     features: [
-      "Everything in Spark",
-      "Marketing automation",
-      "Social media management",
-      "Lead generation tools",
-      "Priority support",
-      "Advanced analytics"
+      "Lead Capture Funnels",
+      "Automated Follow-Up Sequences",
+      "Referral Growth Engine",
+      "Paid Ads Lead Pipeline Integrations",
+      "Membership Growth Automation"
     ],
-    agents: [
-      { name: "Miles", role: "Practice Management", color: "red" },
-      { name: "Giselle", role: "Growth", color: "green" }
-    ],
-    popular: true,
-    color: "from-green-500 to-green-600", // Changed from teal to green
-    buttonClass: "bg-gradient-to-r from-green-500 to-green-600 hover:opacity-90 text-white"
+    agent: {
+      name: "Giselle",
+      role: "AI Lead Nurturer",
+      color: "green"
+    },
+    ctaText: "Ignite My Growth",
+    includesText: "Everything in Spark, PLUS:"
   },
   {
     name: "Blaze",
-    subheader: "Scale with confidence: treatment close systems, reactivation flows, and your dream team fully trained and deployed.",
-    price: "$2,999",
-    yearlyPrice: "$29,990",
-    description: "Multiply Package",
-    includes: "+ Devon (Development)",
+    stage: "Development Stage",
+    bestFor: "Practices closing more high-ticket treatments",
     features: [
-      "Everything in Ignite",
-      "Patient engagement suite",
-      "Treatment follow-up automation",
-      "Advanced analytics",
-      "Dedicated success manager",
-      "Monthly strategy calls"
+      "Consultation Day Prep Automation",
+      "Financing Offer Integrations",
+      "Post-Consult Follow-Up Campaigns",
+      "Abandoned Treatment Reactivation",
+      "Membership Retention Automation"
     ],
-    agents: [
-      { name: "Miles", role: "Practice Management", color: "red" },
-      { name: "Giselle", role: "Growth", color: "green" },
-      { name: "Devon", role: "Development", color: "blue" }
-    ],
-    popular: false,
-    color: "from-blue-500 to-blue-600", // Changed from purple to blue
-    buttonClass: "bg-gradient-to-r from-blue-500 to-blue-600 hover:opacity-90 text-white"
+    agent: {
+      name: "Devon",
+      role: "AI Treatment Closer",
+      color: "blue"
+    },
+    ctaText: "Blaze Ahead with Devon",
+    includesText: "Everything in Spark + Ignite, PLUS:",
+    isPopular: true
   },
   {
     name: "Nova",
-    subheader: "For visionary practices: fully customized AI systems, enterprise automation, and hands-on executive strategy.",
-    price: "Custom",
-    yearlyPrice: "Custom",
-    description: "Custom Package",
-    includes: "+ Ava (Academy)",
+    stage: "Mastery Stage",
+    bestFor: "Practices mastering scale, team training, and multi-location growth",
     features: [
-      "Everything in Blaze",
-      "Operations & analytics",
-      "Multi-location management",
-      "Custom integrations",
-      "White-glove onboarding",
-      "Quarterly business reviews"
+      "New Hire Onboarding Checklists",
+      "SOP Library Access",
+      "Training Video Portal",
+      "Continuing Education Reminders",
+      "Front Desk Communication Scripts",
+      "Best Practices Playbooks"
     ],
-    agents: [
-      { name: "Miles", role: "Practice Management", color: "red" },
-      { name: "Giselle", role: "Growth", color: "green" },
-      { name: "Devon", role: "Development", color: "blue" },
-      { name: "Alma", role: "Academy", color: "gold" }
-    ],
-    popular: false,
-    color: "from-amber-500 to-amber-600", // Kept as gold for Alma
-    buttonClass: "bg-gradient-to-r from-amber-500 to-amber-600 hover:opacity-90 text-white"
+    agent: {
+      name: "Alma",
+      role: "AI Training Assistant",
+      color: "gold"
+    },
+    ctaText: "Level Up with Nova",
+    includesText: "Everything in Spark + Ignite + Blaze, PLUS:"
   }
 ];
 
 const PricingSection = () => {
-  const [isAnnual, setIsAnnual] = useState(false);
-
   return (
     <section id="pricing" className="section-padding py-20 relative overflow-hidden">
       <div className="absolute inset-0 -z-10">
@@ -115,120 +92,20 @@ const PricingSection = () => {
         <div className="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-[#7CE8D5]/5 blur-[100px] rounded-full animate-pulse-slow" style={{animationDelay: '2s'}}></div>
       </div>
 
-      <div className="container mx-auto">
-        <div className="text-center max-w-3xl mx-auto mb-12 relative">
-          <div className="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full bg-white/5 border border-white/10">
-            <Shield className="h-4 w-4 text-nextgen-purple" />
-            <span className="text-sm font-medium text-white/80">Transparent Pricing</span>
-          </div>
-
+      <div className="container mx-auto px-4">
+        <div className="text-center max-w-3xl mx-auto mb-12">
           <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
-            Choose Your Package. Unlock Your AI Team.
+            Transparent Pricing — Scale Smarter, Stage by Stage
           </h2>
-          
-          <p className="text-lg text-white/70 mb-8">
-            Each package unlocks a new department, led by its own AI-powered agent.
+          <p className="text-lg text-white/70">
+            Choose your perfect stage and unlock the AI agents that automate, grow, and scale your practice success.
           </p>
-
-          <div className="mt-6 inline-flex items-center gap-4 glass-card p-2 rounded-full animate-fade-in backdrop-blur-xl">
-            <button 
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                !isAnnual ? 'bg-nextgen-purple text-white' : 'text-white/60 hover:text-white'
-              }`}
-              onClick={() => setIsAnnual(false)}
-            >
-              Monthly
-            </button>
-            <button 
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                isAnnual ? 'bg-nextgen-purple text-white' : 'text-white/60 hover:text-white'
-              }`}
-              onClick={() => setIsAnnual(true)}
-            >
-              Annual (Save 2 Months)
-            </button>
-          </div>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {plans.map((plan, index) => (
-            <div 
-              key={plan.name}
-              className={`glass-card rounded-xl p-6 relative flex flex-col animate-fade-in backdrop-blur-xl
-                hover:shadow-[0_0_50px_rgba(155,135,245,0.1)] transition-all duration-500
-                ${plan.popular ? 'ring-2 ring-nextgen-purple' : ''}
-                ${isAnnual ? 'transform translate-x-0' : ''}`}
-              style={{ 
-                animationDelay: `${index * 200}ms`,
-                transition: 'transform 0.3s ease-in-out'
-              }}
-            >
-              {plan.popular && (
-                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-nextgen-purple text-white text-xs font-medium px-3 py-1 rounded-full">
-                  Most Popular
-                </div>
-              )}
-              
-              <div className="mb-4">
-                <h3 className={`text-2xl font-heading font-semibold bg-gradient-to-r ${plan.color} bg-clip-text text-transparent mb-1`}>
-                  {plan.name}
-                </h3>
-                <p className="text-sm text-white/70 mb-2">{plan.description}</p>
-                <p className="text-sm text-white/90 mb-4">{plan.subheader}</p>
-                <div className="flex items-baseline mt-2">
-                  <span className="text-3xl font-bold text-white">
-                    {isAnnual ? plan.yearlyPrice : plan.price}
-                    {plan.price !== "Custom" && (
-                      <span className="text-sm text-white/60">
-                        {isAnnual ? '/year' : '/month'}
-                      </span>
-                    )}
-                  </span>
-                </div>
-                {isAnnual && plan.price !== "Custom" && (
-                  <p className="text-xs text-nextgen-purple mt-1">(2 months free)</p>
-                )}
-              </div>
-
-              <div className="mt-4 flex flex-wrap gap-2">
-                {plan.agents.map((agent, i) => (
-                  <div key={i} className="flex-shrink-0" style={{ transform: 'scale(0.7)' }}>
-                    <AgentAvatar
-                      name={agent.name}
-                      role={agent.role}
-                      color={agent.color}
-                    />
-                  </div>
-                ))}
-              </div>
-              
-              <div className="mt-3 inline-block px-3 py-1 rounded-full bg-white/5 border border-white/10 text-sm text-white/70">
-                {plan.includes}
-              </div>
-              
-              <ul className="space-y-3 my-6 flex-grow">
-                {plan.features.map((feature, i) => (
-                  <li key={i} className="flex items-start">
-                    <Check className="h-5 w-5 text-nextgen-purple mr-2 flex-shrink-0" />
-                    <span className="text-white/80 text-sm">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-              
-              <EmailCollectionDialog
-                triggerText={`Get Started with ${plan.name}`}
-                buttonClassName={plan.buttonClass}
-              />
-            </div>
+          {pricingData.map((plan, index) => (
+            <PricingCard key={index} {...plan} />
           ))}
-        </div>
-        
-        <div className="text-center mt-10">
-          <EmailCollectionDialog
-            triggerText="Book a Demo to Find Your Fit"
-            buttonSize="lg"
-            buttonClassName="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white"
-          />
         </div>
       </div>
     </section>
