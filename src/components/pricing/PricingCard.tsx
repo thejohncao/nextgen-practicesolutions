@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
@@ -66,9 +67,10 @@ const PricingCard = ({
   const agentColor = getAgentColor(agent.name);
   
   return (
-    <Card className={`glass-card border-white/10 relative group animate-fade-in ${isPopular ? 'hover:ring-2 hover:ring-opacity-50 transition-all duration-300' : ''}`}
+    <Card 
+      className={`glass-card border-white/10 relative group animate-fade-in ${isPopular ? 'hover:ring-2 hover:ring-opacity-50 transition-all duration-300' : ''}`}
       style={{ 
-        ...(isPopular && { ringColor: agentColor })
+        ...(isPopular && { borderColor: agentColor })
       }}
     >
       {/* Stage Badge */}
