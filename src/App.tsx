@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -14,13 +13,13 @@ import Integrations from "./pages/Integrations";
 import Academy from "./pages/Academy";
 import Solutions from "./pages/Solutions";
 import Resources from "./pages/Resources";
+import Security from "./pages/Security";
+import Privacy from "./pages/Privacy";
 import AiAssistant from "./components/AiAssistant";
 
 const queryClient = new QueryClient();
 
-// Create a component that manages where to show AiAssistant
 const AiAssistantWrapper = () => {
-  // Only show on these paths - moved inside the Router context
   const showAiAssistantPaths = ['/', '/solutions', '/academy', '/features'];
   
   return <AiAssistant showPaths={showAiAssistantPaths} />;
@@ -43,6 +42,7 @@ const App = () => (
           <Route path="/solutions" element={<Solutions />} />
           <Route path="/resources/*" element={<Resources />} />
           <Route path="/security" element={<Security />} />
+          <Route path="/privacy" element={<Privacy />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <AiAssistantWrapper />
