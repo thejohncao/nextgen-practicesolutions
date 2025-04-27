@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Watch from "./pages/Watch";
@@ -20,13 +20,10 @@ const queryClient = new QueryClient();
 
 // Create a component that manages where to show AiAssistant
 const AiAssistantWrapper = () => {
-  const location = useLocation();
-  
-  // Only show on these paths
+  // Only show on these paths - moved inside the Router context
   const showAiAssistantPaths = ['/', '/solutions', '/academy', '/features'];
-  const shouldShow = showAiAssistantPaths.includes(location.pathname);
   
-  return shouldShow ? <AiAssistant /> : null;
+  return <AiAssistant showPaths={showAiAssistantPaths} />;
 };
 
 const App = () => (
