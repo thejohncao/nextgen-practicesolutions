@@ -1,8 +1,7 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
+import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "@/components/ui/navigation-menu";
 import { Link } from "react-router-dom";
-import TubelightNavLink from './TubelightNavLink';
 import { MessageSquare, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import MobileNav from './MobileNav';
@@ -11,6 +10,7 @@ import FeaturesMegaMenu from './navigation/FeaturesMegaMenu';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 const Navbar = () => {
+  const [showSolutionsMenu, setShowSolutionsMenu] = React.useState(false);
   const [showFeaturesMenu, setShowFeaturesMenu] = React.useState(false);
   const isMobile = useIsMobile();
 
@@ -51,9 +51,20 @@ const Navbar = () => {
           <NavigationMenu className="hidden lg:flex">
             <NavigationMenuList className="space-x-1">
               <NavigationMenuItem>
-                <TubelightNavLink to="/solutions">
-                  Solutions
-                </TubelightNavLink>
+                <div
+                  className="relative"
+                  onMouseEnter={() => !isMobile && setShowSolutionsMenu(true)}
+                  onMouseLeave={() => !isMobile && setShowSolutionsMenu(false)}
+                  onClick={() => isMobile && setShowSolutionsMenu(!showSolutionsMenu)}
+                >
+                  <button 
+                    className="text-white/80 hover:text-white transition-colors px-4 py-2 text-sm inline-flex items-center gap-1"
+                  >
+                    Solutions
+                    <ChevronDown className="h-3.5 w-3.5 opacity-50" />
+                  </button>
+                  {showSolutionsMenu && <SolutionsMegaMenu />}
+                </div>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
@@ -74,21 +85,27 @@ const Navbar = () => {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <TubelightNavLink to="/integrations">
+                <Link 
+                  to="/integrations"
+                  className="text-white/80 hover:text-white transition-colors px-4 py-2 text-sm"
+                >
                   Integrations
-                </TubelightNavLink>
+                </Link>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <TubelightNavLink to="/academy">
+                <Link 
+                  to="/academy"
+                  className="text-white/80 hover:text-white transition-colors px-4 py-2 text-sm"
+                >
                   Academy
-                </TubelightNavLink>
+                </Link>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
                 <a 
                   href="/#pricing" 
-                  className="relative px-4 py-2 text-sm text-white/80 transition-colors hover:text-white group"
+                  className="text-white/80 hover:text-white transition-colors px-4 py-2 text-sm"
                 >
                   Pricing
                 </a>
