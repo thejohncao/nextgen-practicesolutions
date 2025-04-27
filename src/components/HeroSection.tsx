@@ -1,10 +1,35 @@
+
 import React from 'react';
 import { Shield, Star, BadgeCheck } from "lucide-react";
-import EmailCollectionForm from './EmailCollectionForm';
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import QuantumGrid from './effects/QuantumGrid';
 import SplashCursor from './ui/splash-cursor';
 
 const HeroSection = () => {
+  const handleChatOpen = () => {
+    try {
+      const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
+      if (chatButton) {
+        console.log('Chat button found, clicking...');
+        chatButton.click();
+      } else {
+        console.log('Chat button not found, trying with a delay...');
+        setTimeout(() => {
+          const delayedChatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
+          if (delayedChatButton) {
+            console.log('Chat button found after delay, clicking...');
+            delayedChatButton.click();
+          } else {
+            console.warn('Chat button not found in DOM after delay');
+          }
+        }, 200);
+      }
+    } catch (error) {
+      console.error('Error opening chat:', error);
+    }
+  };
+
   return (
     <section className="relative flex items-center justify-center pt-24 pb-20">
       {/* Quantum Grid Background */}
@@ -66,24 +91,34 @@ const HeroSection = () => {
             <span className="text-sm text-white/70">SOC 2 Certified</span>
           </div>
         </div>
-
-        <div className="inline-block px-3 py-1 rounded-full backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)] text-sm mb-6 animate-fade-in hover:bg-white/10 transition-all duration-300" style={{animationDelay: '300ms'}}>
-          <span className="text-gradient-primary font-medium">Industry First</span>
-        </div>
         
         <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-bold leading-tight bg-gradient-to-br from-nextgen-purple via-nextgen-purple/90 to-nextgen-blue bg-clip-text text-transparent mb-6 animate-fade-in" style={{animationDelay: '400ms'}}>
-          The World's First AI Team for Dental Practices
+          The AI-Powered Operating System for Modern Dental Practices
         </h1>
         
         <p className="text-lg md:text-xl text-white/70 mb-8 max-w-2xl mx-auto animate-fade-in backdrop-blur-sm rounded-xl p-4" style={{animationDelay: '500ms'}}>
-          Transform your dental practice with our AI-powered platform. Automate routine tasks, enhance patient care, and drive unprecedented growth.
+          Automate growth, management, and development with your NextGen AI team.
         </p>
         
-        <div className="max-w-md mx-auto animate-fade-in" style={{animationDelay: '600ms'}}>
-          <EmailCollectionForm 
-            buttonText="Get Started" 
-            placeholder="Enter your work email"
-          />
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in" style={{animationDelay: '600ms'}}>
+          <Button 
+            onClick={handleChatOpen}
+            className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white px-6 py-2 rounded-full transition-all duration-300 hover:shadow-[0_0_15px_rgba(155,135,245,0.5)]"
+            size="lg"
+          >
+            Talk to Miles
+          </Button>
+          
+          <Button 
+            asChild
+            variant="outline" 
+            className="border border-white/20 bg-white/5 hover:bg-white/10 text-white px-6 py-2 rounded-full transition-all duration-300"
+            size="lg"
+          >
+            <Link to="/watch">
+              See How It Works
+            </Link>
+          </Button>
         </div>
       </div>
     </section>
