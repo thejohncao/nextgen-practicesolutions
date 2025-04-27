@@ -1,5 +1,5 @@
-
 import React from 'react';
+import { Check } from 'lucide-react';
 import PricingCard from './pricing/PricingCard';
 
 const pricingData = [
@@ -83,6 +83,14 @@ const pricingData = [
   }
 ];
 
+const successFeatures = [
+  "Dedicated Success Manager",
+  "Priority Onboarding and Support",
+  "Quarterly Optimization Reviews",
+  "24/7 Automation Monitoring",
+  "Success Guarantee: If we don't help you grow, we don't stop working."
+];
+
 const PricingSection = () => {
   return (
     <section id="pricing" className="section-padding py-20 relative overflow-hidden">
@@ -102,10 +110,32 @@ const PricingSection = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {pricingData.map((plan, index) => (
             <PricingCard key={index} {...plan} />
           ))}
+        </div>
+
+        <div 
+          className="glass-card max-w-4xl mx-auto p-8 md:p-12 animate-fade-in"
+          style={{ backdropFilter: 'blur(20px)' }}
+        >
+          <div className="text-center mb-8">
+            <h3 className="text-2xl font-heading font-bold mb-2 text-gradient">
+              Included with Every NextGen Plan
+            </h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {successFeatures.map((feature, index) => (
+              <div key={index} className="flex items-start gap-3">
+                <div className="rounded-full bg-nextgen-purple/20 p-1 mt-1">
+                  <Check className="h-4 w-4 text-nextgen-purple" />
+                </div>
+                <span className="text-white/90">{feature}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
