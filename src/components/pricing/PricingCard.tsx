@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
@@ -39,16 +38,16 @@ const getFeatureIcon = (feature: string, color: string) => {
   return <Star {...iconProps} />;
 };
 
-const getAgentColor = (name: string) => {
+const getAgentColor = (name: string): string => {
   switch (name.toLowerCase()) {
     case 'miles':
-      return '#ea384c'; // Red
+      return '#ea384c'; // Red for Practice Management
     case 'giselle':
-      return '#22c55e'; // Green
+      return '#22c55e'; // Green for Practice Growth
     case 'devon':
-      return '#0FA0CE'; // Deep Blue
+      return '#0FA0CE'; // Deep Blue for Practice Development
     case 'alma':
-      return '#f59e0b'; // Gold
+      return '#f59e0b'; // Gold for Practice Academy
     default:
       return '#9b87f5';
   }
@@ -67,7 +66,11 @@ const PricingCard = ({
   const agentColor = getAgentColor(agent.name);
   
   return (
-    <Card className="glass-card border-white/10 relative group animate-fade-in">
+    <Card className={`glass-card border-white/10 relative group animate-fade-in ${isPopular ? 'hover:ring-2 hover:ring-opacity-50 transition-all duration-300' : ''}`}
+      style={{ 
+        ...(isPopular && { ringColor: agentColor })
+      }}
+    >
       {/* Stage Badge */}
       <div 
         className="absolute -top-3 left-1/2 transform -translate-x-1/2 px-3 py-1 rounded-full text-xs font-medium"
@@ -78,13 +81,6 @@ const PricingCard = ({
       >
         {stage}
       </div>
-      
-      {/* Popular Badge (if applicable) */}
-      {isPopular && (
-        <div className="absolute -top-3 right-4 bg-nextgen-purple text-white text-xs font-medium px-3 py-1 rounded-full">
-          Most Popular
-        </div>
-      )}
       
       <CardHeader className="space-y-4">
         <div>
@@ -118,6 +114,20 @@ const PricingCard = ({
             </li>
           ))}
         </ul>
+
+        {isPopular && (
+          <div className="text-center">
+            <span 
+              className="inline-block px-3 py-1 rounded-full text-xs font-medium animate-pulse-slow"
+              style={{ 
+                backgroundColor: `${agentColor}20`,
+                color: agentColor 
+              }}
+            >
+              Most Popular
+            </span>
+          </div>
+        )}
 
         <EmailCollectionDialog
           triggerText={ctaText}
