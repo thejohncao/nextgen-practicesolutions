@@ -8,7 +8,7 @@ import AiMessageBubble from './AiMessageBubble';
 import { useAiConversation } from '../hooks/useAiConversation';
 import { Dialog, DialogContent } from './ui/dialog';
 import EmailCollectionDialog from './EmailCollectionDialog';
-import { useMobile } from '../hooks/use-mobile';
+import { useIsMobile } from "../hooks/use-mobile";
 
 interface AiAssistantProps {
   showPaths?: string[];
@@ -16,10 +16,11 @@ interface AiAssistantProps {
 
 const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] }: AiAssistantProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
   const [showEmailDialog, setShowEmailDialog] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const { messages, sendMessage, isTyping } = useAiConversation();
-  const isMobile = useMobile();
+  const { messages, sendMessage, isTyping, currentAgent } = useAiConversation();
+  const isMobile = useIsMobile();
   const location = useLocation();
   
   // Determine if we should show the assistant based on current path
@@ -47,11 +48,20 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
 
   return (
     <>
-      <ChatToggleButton isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
+      <ChatToggleButton 
+        isOpen={isOpen} 
+        currentAgent={currentAgent} 
+        onClick={() => setIsOpen(!isOpen)} 
+      />
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className={`p-0 gap-0 border-none ${isMobile ? 'w-[95vw] max-w-[95vw] h-[80vh] max-h-[85vh] rounded-lg' : 'w-[450px] max-w-[450px] h-[75vh] max-h-[75vh] rounded-xl'}`}>
           <div className="flex flex-col h-full bg-[#151719] text-gray-50 rounded-lg overflow-hidden">
-            <ChatHeader onClose={() => setIsOpen(false)} />
+            <ChatHeader 
+              isMinimized={isMinimized} 
+              currentAgent={currentAgent} 
+              onMinimize={(e) => setIsMinimized(!isMinimized)}
+              onClose={() => setIsOpen(false)} 
+            />
             
             <div className="flex-1 overflow-y-auto p-4 scrollbar-none">
               {messages.map((message, index) => (
@@ -80,22 +90,24 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
             </div>
             
             <ChatInput 
-              onSend={(message) => {
+              isTyping={isTyping}
+              currentAgent={currentAgent}
+              onSendMessage={(message) => {
                 if (messages.length === 0) {
                   // This is the first message, show email dialog after sending
                   setShowEmailDialog(true);
                 }
                 sendMessage(message);
-              }} 
-              disabled={isTyping}
+              }}
+              messages={messages}
             />
           </div>
         </DialogContent>
       </Dialog>
       
       <EmailCollectionDialog
-        open={showEmailDialog}
-        onOpenChange={setShowEmailDialog}
+        triggerText=""
+        buttonClassName="hidden"
       />
     </>
   );
