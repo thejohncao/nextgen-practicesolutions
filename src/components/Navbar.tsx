@@ -7,11 +7,13 @@ import { cn } from "@/lib/utils";
 import MobileNav from './MobileNav';
 import SolutionsMegaMenu from './navigation/SolutionsMegaMenu';
 import FeaturesMegaMenu from './navigation/FeaturesMegaMenu';
+import IntegrationsMegaMenu from './navigation/IntegrationsMegaMenu';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 const Navbar = () => {
   const [showSolutionsMenu, setShowSolutionsMenu] = React.useState(false);
   const [showFeaturesMenu, setShowFeaturesMenu] = React.useState(false);
+  const [showIntegrationsMenu, setShowIntegrationsMenu] = React.useState(false);
   const isMobile = useIsMobile();
 
   const handleChatOpen = () => {
@@ -85,12 +87,20 @@ const Navbar = () => {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <Link 
-                  to="/integrations"
-                  className="text-white/80 hover:text-white transition-colors px-4 py-2 text-sm"
+                <div
+                  className="relative"
+                  onMouseEnter={() => !isMobile && setShowIntegrationsMenu(true)}
+                  onMouseLeave={() => !isMobile && setShowIntegrationsMenu(false)}
+                  onClick={() => isMobile && setShowIntegrationsMenu(!showIntegrationsMenu)}
                 >
-                  Integrations
-                </Link>
+                  <button 
+                    className="text-white/80 hover:text-white transition-colors px-4 py-2 text-sm inline-flex items-center gap-1"
+                  >
+                    Integrations
+                    <ChevronDown className="h-3.5 w-3.5 opacity-50" />
+                  </button>
+                  {showIntegrationsMenu && <IntegrationsMegaMenu />}
+                </div>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
