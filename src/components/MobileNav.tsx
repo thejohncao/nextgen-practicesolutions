@@ -43,6 +43,12 @@ const MobileNav = () => {
           >
             Academy
           </Link>
+          <Link 
+            to="/resources" 
+            className="text-lg font-medium text-white hover:text-nextgen-purple transition-colors"
+          >
+            Resources
+          </Link>
           <a 
             href="/#pricing" 
             className="text-lg font-medium text-white hover:text-nextgen-purple transition-colors"
