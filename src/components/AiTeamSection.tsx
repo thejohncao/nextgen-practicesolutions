@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { agents } from '@/data/agents';
@@ -63,6 +62,11 @@ const AITeamSection = () => {
           </div>
         </div>
 
+        {/* Timeline Connector */}
+        <div className="hidden sm:block relative max-w-4xl mx-auto mb-12">
+          <div className="absolute left-0 right-0 top-1/2 transform -translate-y-1/2 border-t-2 border-dashed border-white/20 z-0"></div>
+        </div>
+
         {/* Carousel */}
         <div className="mb-12">
           <Carousel 
@@ -104,10 +108,10 @@ const AITeamSection = () => {
           </Carousel>
         </div>
 
-        {/* CTA Button */}
+        {/* New CTA Button */}
         <div className="text-center">
           <Button 
-            className="bg-[#6C63FF] hover:bg-[#5a52e0] text-white font-medium py-3 px-8 rounded-lg text-lg"
+            className="bg-[#6C63FF] hover:bg-[#5a52e0] text-white font-bold py-3 px-8 rounded-lg text-lg"
           >
             Meet Your Executive Team
           </Button>
