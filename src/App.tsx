@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -43,8 +44,7 @@ const App = () => (
           <Route path="/resources/*" element={<Resources />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-        {/* Remove showPaths prop since it's not in the component's type definition */}
-        <AiAssistant />
+        <AiAssistantWrapper />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
