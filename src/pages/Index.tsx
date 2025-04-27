@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Layout from '../components/Layout';
 import HeroSection from '../components/HeroSection';
@@ -9,8 +8,6 @@ import AcademyOverviewSection from '../components/AcademyOverviewSection';
 import ROISection from '../components/ROISection';
 import FooterCTA from '../components/FooterCTA';
 import PricingSection from '../components/PricingSection';
-import SupportAndBenefits from '../components/SupportAndBenefits';
-import SuccessGuarantee from '../components/SuccessGuarantee';
 import FounderSection from '../components/FounderSection';
 import ResourcesSection from '../components/ResourcesSection';
 import TestimonialsSection from '../components/TestimonialsSection';
@@ -27,8 +24,6 @@ const Index = () => {
       <ROISection />
       <FooterCTA />
       <PricingSection />
-      <SupportAndBenefits />
-      <SuccessGuarantee />
       <FounderSection />
       <ResourcesSection />
       <TestimonialsSection />
