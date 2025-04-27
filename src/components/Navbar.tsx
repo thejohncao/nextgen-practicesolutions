@@ -8,9 +8,11 @@ import { MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 import MobileNav from './MobileNav';
 import SolutionsMegaMenu from './navigation/SolutionsMegaMenu';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const Navbar = () => {
   const [showSolutionsMenu, setShowSolutionsMenu] = React.useState(false);
+  const isMobile = useIsMobile();
 
   const handleChatOpen = () => {
     try {
@@ -57,8 +59,9 @@ const Navbar = () => {
               <NavigationMenuItem>
                 <div
                   className="relative"
-                  onMouseEnter={() => setShowSolutionsMenu(true)}
-                  onMouseLeave={() => setShowSolutionsMenu(false)}
+                  onMouseEnter={() => !isMobile && setShowSolutionsMenu(true)}
+                  onMouseLeave={() => !isMobile && setShowSolutionsMenu(false)}
+                  onClick={() => isMobile && setShowSolutionsMenu(!showSolutionsMenu)}
                 >
                   <NavigationMenuTrigger 
                     className="text-white/80 hover:text-white transition-colors bg-transparent hover:bg-white/5"
