@@ -34,7 +34,7 @@ const ChatConversation = () => {
   return (
     <div className="glass-card bg-white dark:bg-white/5 mb-14">
       <CEOMessage />
-      <div className="divide-y divide-gray-100 dark:divide-white/10 space-y-8">
+      <div className="divide-y divide-gray-100 dark:divide-white/10 space-y-8 sm:space-y-4 mobile:space-y-6">
         {agentMessages.map((msg, index) => (
           <AgentMessage
             key={index}

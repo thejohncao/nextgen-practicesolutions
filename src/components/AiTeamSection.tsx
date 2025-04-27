@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { agents } from '@/data/agents';
@@ -49,8 +48,8 @@ const AITeamSection = () => {
         {/* Timeline */}
         <div className="max-w-4xl mx-auto mb-12">
           <div className="relative hidden sm:flex items-center justify-between mb-8">
-            {/* Timeline bar */}
-            <div className="absolute h-1 bg-white/10 left-0 right-0 top-1/2 transform -translate-y-1/2"></div>
+            {/* Horizontal Connector Line */}
+            <div className="absolute h-1 bg-gradient-to-r from-white/10 via-white/30 to-white/10 left-0 right-0 top-1/2 transform -translate-y-1/2 z-0"></div>
             
             {/* Timeline phases */}
             {phases.map((phase, index) => (
@@ -62,11 +61,6 @@ const AITeamSection = () => {
               </div>
             ))}
           </div>
-        </div>
-
-        {/* Timeline Connector */}
-        <div className="hidden sm:block relative max-w-4xl mx-auto mb-12">
-          <div className="absolute left-0 right-0 top-1/2 transform -translate-y-1/2 border-t-2 border-dashed border-white/20 z-0"></div>
         </div>
 
         {/* Carousel */}
@@ -110,8 +104,8 @@ const AITeamSection = () => {
           </Carousel>
         </div>
 
-        {/* New CTA Button */}
-        <div className="text-center">
+        {/* CTA Button */}
+        <div className="text-center mt-8">
           <Button 
             asChild
             variant="default"
@@ -126,4 +120,3 @@ const AITeamSection = () => {
 };
 
 export default AITeamSection;
-
