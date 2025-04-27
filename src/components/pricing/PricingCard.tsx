@@ -1,17 +1,16 @@
 
 import React from 'react';
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { Calendar, Clipboard, MessageCircle, RefreshCcw, DollarSign, Briefcase, Network, Star, UserSquare2, Files } from "lucide-react";
-import AgentAvatar from '../AgentAvatar';
+import { Calendar, RefreshCcw, Star, DollarSign } from 'lucide-react';
 import EmailCollectionDialog from '../EmailCollectionDialog';
 
 interface PricingCardProps {
   name: string;
   stage: string;
   bestFor: string;
+  tagline: string;
   features: string[];
-  tagline?: string;
   agent: {
     name: string;
     role: string;
@@ -19,54 +18,36 @@ interface PricingCardProps {
   };
   ctaText: string;
   isPopular?: boolean;
-  includesText?: string;
 }
 
-const getFeatureIcon = (feature: string, color: string) => {
-  const iconProps = { className: `h-4 w-4 flex-shrink-0 mt-1`, style: { color } };
-  
-  if (feature.toLowerCase().includes('calendar')) return <Calendar {...iconProps} />;
-  if (feature.toLowerCase().includes('intake')) return <Clipboard {...iconProps} />;
-  if (feature.toLowerCase().includes('messaging')) return <MessageCircle {...iconProps} />;
-  if (feature.toLowerCase().includes('recall') || feature.toLowerCase().includes('rescue')) return <RefreshCcw {...iconProps} />;
-  if (feature.toLowerCase().includes('financ')) return <DollarSign {...iconProps} />;
-  if (feature.toLowerCase().includes('consult')) return <Briefcase {...iconProps} />;
-  if (feature.toLowerCase().includes('referral')) return <Network {...iconProps} />;
-  if (feature.toLowerCase().includes('membership')) return <Star {...iconProps} />;
-  if (feature.toLowerCase().includes('hire') || feature.toLowerCase().includes('onboarding')) return <UserSquare2 {...iconProps} />;
-  if (feature.toLowerCase().includes('sop') || feature.toLowerCase().includes('library')) return <Files {...iconProps} />;
-  
-  // Default icon with package color
-  return <Star {...iconProps} />;
-};
-
-const getAgentColor = (name: string): string => {
-  switch (name.toLowerCase()) {
-    case 'miles':
-      return 'red';
-    case 'giselle':
-      return 'green';
-    case 'devon':
-      return 'blue';
-    case 'alma':
-      return 'gold';
-    default:
-      return 'purple';
+const getFeatureIcon = (feature: string) => {
+  if (feature.toLowerCase().includes('calendar') || feature.toLowerCase().includes('scheduling')) {
+    return <Calendar className="w-4 h-4" />;
   }
+  if (feature.toLowerCase().includes('recall') || feature.toLowerCase().includes('automat')) {
+    return <RefreshCcw className="w-4 h-4" />;
+  }
+  if (feature.toLowerCase().includes('membership') || feature.toLowerCase().includes('growth')) {
+    return <Star className="w-4 h-4" />;
+  }
+  if (feature.toLowerCase().includes('financ') || feature.toLowerCase().includes('payment')) {
+    return <DollarSign className="w-4 h-4" />;
+  }
+  return <Star className="w-4 h-4" />; // Default icon
 };
 
-const getAgentHexColor = (name: string): string => {
-  switch (name.toLowerCase()) {
+const getAgentColor = (agentName: string) => {
+  switch (agentName.toLowerCase()) {
     case 'miles':
-      return '#ea384c';
+      return 'text-red-500 bg-red-500/10';
     case 'giselle':
-      return '#22c55e';
+      return 'text-green-500 bg-green-500/10';
     case 'devon':
-      return '#0FA0CE';
+      return 'text-blue-500 bg-blue-500/10';
     case 'alma':
-      return '#f59e0b';
+      return 'text-amber-500 bg-amber-500/10';
     default:
-      return '#9b87f5';
+      return 'text-purple-500 bg-purple-500/10';
   }
 };
 
@@ -74,97 +55,62 @@ const PricingCard = ({
   name,
   stage,
   bestFor,
-  features,
   tagline,
+  features,
   agent,
   ctaText,
-  isPopular,
-  includesText
+  isPopular
 }: PricingCardProps) => {
-  const agentHexColor = getAgentHexColor(agent.name);
-  const agentColorName = getAgentColor(agent.name);
+  const agentColorClass = getAgentColor(agent.name);
   
   return (
-    <Card 
-      className="glass-card border-white/10 relative group animate-fade-in"
-      style={{ 
-        ...(isPopular && { borderColor: agentHexColor, borderWidth: '2px' })
-      }}
-    >
-      {/* Stage Badge */}
-      <div 
-        className="absolute -top-3 left-1/2 transform -translate-x-1/2 px-3 py-1 rounded-full text-xs font-medium"
-        style={{ 
-          backgroundColor: `${agentHexColor}20`,
-          color: agentHexColor 
-        }}
-      >
-        {stage}
+    <div className={cn(
+      "glass-card p-6 relative flex flex-col h-full",
+      isPopular && "border-nextgen-purple/30 shadow-[0_0_30px_rgba(155,135,245,0.1)]"
+    )}>
+      {isPopular && (
+        <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+          <span className="bg-nextgen-purple text-white px-4 py-1 rounded-full text-sm">
+            Most Popular
+          </span>
+        </div>
+      )}
+
+      <div className="mb-6 text-center">
+        <h3 className="text-2xl font-heading font-bold mb-2">{name}</h3>
+        <p className="text-sm text-white/60">{stage}</p>
+        <div className={cn(
+          "inline-block px-3 py-1 rounded-full text-sm mt-3",
+          agentColorClass
+        )}>
+          {bestFor}
+        </div>
       </div>
-      
-      <CardHeader className="space-y-4">
-        <div>
-          <h3 className="text-2xl font-heading font-bold text-white mt-2">{name}</h3>
-          <p className="text-white/70 mt-2 text-sm">{bestFor}</p>
-        </div>
-        
-        {includesText && (
-          <p className="text-sm text-white/60 italic">{includesText}</p>
-        )}
 
-        <div className="flex items-center gap-3">
-          <AgentAvatar
-            name={agent.name}
-            role={agent.role}
-            color={agentColorName}
-          />
-          <div>
-            <p className="text-sm text-white/90">Unlocks</p>
-            <p className="text-white font-medium">{agent.name}</p>
-          </div>
-        </div>
-      </CardHeader>
+      <p className="text-white/80 mb-6 text-center">{tagline}</p>
 
-      <CardContent className="space-y-6">
-        <div>
-          <p className="text-white/80 text-sm font-medium mb-2">Includes:</p>
-          <ul className="space-y-3">
-            {features.map((feature, index) => (
-              <li key={index} className="flex items-start gap-3">
-                {getFeatureIcon(feature, agentHexColor)}
-                <span className="text-white/80 text-sm">{feature}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        
-        {tagline && (
-          <div className="pt-4 pb-1">
-            <p className="text-sm italic text-white/80 border-l-2 pl-3 border-l-nextgen-purple/50">{tagline}</p>
-          </div>
-        )}
-
-        {isPopular && (
-          <div className="text-center">
-            <span 
-              className="inline-block px-3 py-1 rounded-full text-xs font-medium"
-              style={{ 
-                backgroundColor: `${agentHexColor}20`,
-                color: agentHexColor 
-              }}
-            >
-              Most Popular
+      <ul className="space-y-4 mb-8 flex-grow">
+        {features.map((feature, index) => (
+          <li key={index} className="flex items-start gap-3">
+            <span className={cn(
+              "rounded-full p-1 mt-0.5",
+              agentColorClass
+            )}>
+              {getFeatureIcon(feature)}
             </span>
-          </div>
-        )}
+            <span className="text-white/80">{feature}</span>
+          </li>
+        ))}
+      </ul>
 
-        <EmailCollectionDialog
-          triggerText={ctaText}
-          buttonClassName="w-full text-white hover:opacity-90 transition-opacity"
-          style={{ backgroundColor: agentHexColor }}
-        />
-      </CardContent>
-    </Card>
+      <EmailCollectionDialog
+        triggerText={ctaText}
+        buttonClassName={cn(
+          "w-full transition-all duration-300 hover:scale-[1.02] hover:shadow-lg",
+          isPopular ? "bg-nextgen-purple hover:bg-nextgen-purple/90" : "bg-white/5 hover:bg-white/10"
+        )}
+      />
+    </div>
   );
 };
 

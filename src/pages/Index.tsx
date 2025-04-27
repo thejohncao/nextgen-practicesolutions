@@ -16,12 +16,14 @@ import ResourcesSection from '../components/ResourcesSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import FAQSection from '../components/FAQSection';
 import WhyWeBuiltSection from '../components/story/WhyWeBuiltSection';
+import PatientJourneySteps from '../components/journey/PatientJourneySteps';
 
 const Index = () => {
   return (
     <Layout>
       <HeroSection />
       <WhyWeBuiltSection />
+      <PatientJourneySteps />
       <AIBoardroomSection />
       <AITeamSection />
       <HealthcareSecuritySection />
