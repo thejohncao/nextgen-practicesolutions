@@ -23,7 +23,7 @@ const AITeamSection = () => {
       setActiveIndex(index);
     };
 
-    const observer = new IntersectionObstation(
+    const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
@@ -96,4 +96,3 @@ const AITeamSection = () => {
 };
 
 export default AITeamSection;
-

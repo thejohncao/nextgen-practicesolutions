@@ -4,9 +4,10 @@ import AgentAvatar from './AgentAvatar';
 
 interface AgentChatAvatarProps {
   agent: string;
+  hideDetails?: boolean;
 }
 
-const AgentChatAvatar: React.FC<AgentChatAvatarProps> = ({ agent }) => {
+const AgentChatAvatar: React.FC<AgentChatAvatarProps> = ({ agent, hideDetails = false }) => {
   // Map agent names to their properties
   const getAgentProps = () => {
     switch (agent) {
@@ -28,10 +29,12 @@ const AgentChatAvatar: React.FC<AgentChatAvatarProps> = ({ agent }) => {
   return (
     <div className="flex items-center gap-2">
       <AgentAvatar name={name} role={role} color={color} />
-      <div className="text-sm">
-        <div className="font-medium text-white/90">{name}</div>
-        <div className="text-xs text-white/60">{role}</div>
-      </div>
+      {!hideDetails && (
+        <div className="text-sm">
+          <div className="font-medium text-white/90">{name}</div>
+          <div className="text-xs text-white/60">{role}</div>
+        </div>
+      )}
     </div>
   );
 };

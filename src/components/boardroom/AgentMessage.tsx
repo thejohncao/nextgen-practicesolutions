@@ -1,6 +1,7 @@
 
 import React from 'react';
 import AgentChatAvatar from '../AgentChatAvatar';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface AgentMessageProps {
   agent: string;
@@ -10,14 +11,22 @@ interface AgentMessageProps {
 }
 
 const AgentMessage: React.FC<AgentMessageProps> = ({ agent, role, message, bgColorClass }) => {
+  const isMobile = useIsMobile();
+  
   return (
-    <div className="p-6">
+    <div className="p-6 sm:py-6 py-8">
       <div className="flex items-start space-x-4">
         <div className="flex-shrink-0">
-          <AgentChatAvatar agent={agent} />
+          <div className="relative">
+            <AgentChatAvatar agent={agent} hideDetails={isMobile} />
+          </div>
         </div>
         <div className="flex-1">
-          <span className="text-xs text-nextgen-dark/60 dark:text-white/60 mb-1 block">{role}</span>
+          {isMobile && (
+            <span className="text-xs font-medium text-nextgen-dark/60 dark:text-white/90 mb-1 block">
+              {role}
+            </span>
+          )}
           <p className={`${bgColorClass} p-4 rounded-2xl text-nextgen-dark dark:text-white`}>
             {message}
           </p>

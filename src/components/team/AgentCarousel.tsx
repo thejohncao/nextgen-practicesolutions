@@ -23,6 +23,33 @@ interface AgentCarouselProps {
 const AgentCarousel = ({ agents, phases, activeIndex, onSlideChange, carouselRef }: AgentCarouselProps) => {
   const isMobile = useIsMobile();
 
+  if (isMobile) {
+    return (
+      <div className="space-y-12 relative" ref={carouselRef}>
+        {/* Vertical Timeline Line */}
+        <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-white/30 via-white/20 to-transparent z-0"></div>
+        
+        {agents.map((agent, index) => (
+          <div key={agent.name} className="relative carousel-agent-item" data-index={index}>
+            <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 z-10">
+              <div className={`${phases[index].color} ${phases[index].borderColor} border 
+                px-3 py-1 rounded-full text-sm font-bold ${phases[index].textColor}`}
+              >
+                Phase {index + 1}
+              </div>
+            </div>
+            <CarouselAgentCard 
+              agent={agent} 
+              isActive={activeIndex === index}
+              phaseDescription={phases[index].story}
+              phaseColor={phases[index].color}
+            />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className="mb-12" ref={carouselRef}>
       <Carousel 
@@ -34,23 +61,8 @@ const AgentCarousel = ({ agents, phases, activeIndex, onSlideChange, carouselRef
       >
         <CarouselContent>
           {agents.map((agent, index) => (
-            <CarouselItem key={agent.name} className={isMobile ? "basis-full" : "basis-1/2"}>
+            <CarouselItem key={agent.name} className="basis-1/2">
               <div className="p-2 relative carousel-agent-item" data-index={index}>
-                {/* Mobile Timeline Connector */}
-                {isMobile && index < agents.length - 1 && (
-                  <div className="absolute left-1/2 top-full w-1 h-12 bg-gradient-to-b from-white/30 to-transparent z-0"></div>
-                )}
-                
-                {/* Phase badge for mobile */}
-                {isMobile && (
-                  <div className={`absolute -top-1 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 
-                    ${phases[index].color} ${phases[index].borderColor} border 
-                    px-2 py-1 rounded-full text-xs font-bold ${phases[index].textColor}`}
-                  >
-                    Phase {index + 1}
-                  </div>
-                )}
-                
                 <CarouselAgentCard 
                   agent={agent} 
                   isActive={activeIndex === index}
@@ -84,4 +96,3 @@ const AgentCarousel = ({ agents, phases, activeIndex, onSlideChange, carouselRef
 };
 
 export default AgentCarousel;
-
