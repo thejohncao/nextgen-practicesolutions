@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
@@ -68,9 +67,9 @@ const PricingCard = ({
   
   return (
     <Card 
-      className={`glass-card border-white/10 relative group animate-fade-in ${isPopular ? 'hover:ring-2 hover:ring-opacity-50 transition-all duration-300' : ''}`}
+      className="glass-card border-white/10 relative group animate-fade-in"
       style={{ 
-        ...(isPopular && { borderColor: agentColor })
+        ...(isPopular && { borderColor: agentColor, borderWidth: '2px' })
       }}
     >
       {/* Stage Badge */}
@@ -120,7 +119,7 @@ const PricingCard = ({
         {isPopular && (
           <div className="text-center">
             <span 
-              className="inline-block px-3 py-1 rounded-full text-xs font-medium animate-pulse-slow"
+              className="inline-block px-3 py-1 rounded-full text-xs font-medium"
               style={{ 
                 backgroundColor: `${agentColor}20`,
                 color: agentColor 
@@ -133,7 +132,7 @@ const PricingCard = ({
 
         <EmailCollectionDialog
           triggerText={ctaText}
-          buttonClassName={`w-full text-white hover:opacity-90 transition-opacity`}
+          buttonClassName="w-full text-white hover:opacity-90 transition-opacity"
           style={{ backgroundColor: agentColor }}
         />
       </CardContent>
