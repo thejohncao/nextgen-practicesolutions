@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Briefcase, TrendingUp } from 'lucide-react';
+import { Briefcase, TrendingUp, BarChart3, Users } from 'lucide-react';
 
 const SolutionsMegaMenu = () => {
   return (
@@ -42,31 +42,56 @@ const SolutionsMegaMenu = () => {
                   </div>
                 </div>
               </Link>
+              <Link to="/solutions#case-acceptance" className="group block">
+                <div className="flex items-start gap-3">
+                  <div className="mt-1">
+                    <BarChart3 className="h-5 w-5 text-nextgen-purple/70 group-hover:text-nextgen-purple transition-colors" />
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-white/90 group-hover:text-white transition-colors">
+                      Case Acceptance Boosters
+                    </h4>
+                    <p className="text-sm text-white/60 group-hover:text-white/70 transition-colors">
+                      Improve treatment plan conversions with smart financing
+                    </p>
+                  </div>
+                </div>
+              </Link>
             </div>
           </div>
 
           {/* Success Stories Section */}
-          <div>
+          <div className="border-l border-white/10 pl-12">
             <h3 className="font-heading text-lg font-semibold mb-6 text-gradient">Success Stories</h3>
             <div className="space-y-6">
               <Link to="/solutions#case-studies" className="group block">
-                <div>
-                  <h4 className="font-medium text-white/90 group-hover:text-white transition-colors">
-                    Practice Growth Case Studies
-                  </h4>
-                  <p className="text-sm text-white/60 group-hover:text-white/70 transition-colors">
-                    Learn how practices doubled new patient flow with NextGen
-                  </p>
+                <div className="flex items-start gap-3">
+                  <div className="mt-1">
+                    <Users className="h-5 w-5 text-nextgen-purple/70 group-hover:text-nextgen-purple transition-colors" />
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-white/90 group-hover:text-white transition-colors">
+                      Practice Growth Case Studies
+                    </h4>
+                    <p className="text-sm text-white/60 group-hover:text-white/70 transition-colors">
+                      Learn how practices doubled new patient flow with NextGen
+                    </p>
+                  </div>
                 </div>
               </Link>
               <Link to="/solutions#reactivation" className="group block">
-                <div>
-                  <h4 className="font-medium text-white/90 group-hover:text-white transition-colors">
-                    Patient Reactivation Results
-                  </h4>
-                  <p className="text-sm text-white/60 group-hover:text-white/70 transition-colors">
-                    See real-world reactivation campaigns that revived lapsed patients
-                  </p>
+                <div className="flex items-start gap-3">
+                  <div className="mt-1">
+                    <Users className="h-5 w-5 text-nextgen-purple/70 group-hover:text-nextgen-purple transition-colors" />
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-white/90 group-hover:text-white transition-colors">
+                      Patient Reactivation Results
+                    </h4>
+                    <p className="text-sm text-white/60 group-hover:text-white/70 transition-colors">
+                      See real-world reactivation campaigns that revived lapsed patients
+                    </p>
+                  </div>
                 </div>
               </Link>
             </div>
