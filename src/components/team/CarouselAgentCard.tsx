@@ -9,9 +9,11 @@ import { cn } from '@/lib/utils';
 interface CarouselAgentCardProps {
   agent: Agent;
   isActive: boolean;
+  phaseDescription?: string;
+  phaseColor?: string;
 }
 
-const CarouselAgentCard = ({ agent, isActive }: CarouselAgentCardProps) => {
+const CarouselAgentCard = ({ agent, isActive, phaseDescription, phaseColor = 'bg-white/5' }: CarouselAgentCardProps) => {
   const getBlurb = (name: string) => {
     switch (name) {
       case 'Miles':
@@ -31,7 +33,8 @@ const CarouselAgentCard = ({ agent, isActive }: CarouselAgentCardProps) => {
     <div className={cn(
       "glass-card p-6 rounded-xl text-center transition-all duration-300",
       "opacity-0 animate-fade-in",
-      isActive && "shadow-glow"
+      isActive && "shadow-glow",
+      phaseColor
     )}>
       <div className="flex flex-col items-center gap-6">
         <div className="relative">
@@ -52,6 +55,15 @@ const CarouselAgentCard = ({ agent, isActive }: CarouselAgentCardProps) => {
           <p className="text-lg text-white/90">
             {getBlurb(agent.name)}
           </p>
+
+          {/* Phase description/storytelling element */}
+          {phaseDescription && (
+            <div className="mt-4 pt-4 border-t border-white/10">
+              <p className="text-sm italic text-white/80">
+                "{phaseDescription}"
+              </p>
+            </div>
+          )}
         </div>
 
         <Button 
