@@ -78,59 +78,59 @@ const SupportTable = () => {
       <Table className="w-full">
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            <TableHead className="w-[250px] py-3 text-sm">Feature</TableHead>
-            <TableHead className={`${getPackageColor(1)} py-3 text-sm`}>Spark</TableHead>
-            <TableHead className={`${getPackageColor(2)} py-3 text-sm`}>Ignite</TableHead>
-            <TableHead className={`${getPackageColor(3)} py-3 text-sm`}>Blaze</TableHead>
-            <TableHead className={`${getPackageColor(4)} py-3 text-sm`}>Nova</TableHead>
+            <TableHead className="w-[300px]">Feature</TableHead>
+            <TableHead className={getPackageColor(1)}>Spark</TableHead>
+            <TableHead className={getPackageColor(2)}>Ignite</TableHead>
+            <TableHead className={getPackageColor(3)}>Blaze</TableHead>
+            <TableHead className={getPackageColor(4)}>Nova</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {features.map((feature) => (
             <TableRow key={feature.name} className="hover:bg-white/5">
-              <TableCell className="font-medium text-sm py-3">{feature.name}</TableCell>
-              <TableCell className="py-3">
+              <TableCell className="font-medium">{feature.name}</TableCell>
+              <TableCell>
                 {typeof feature.spark === 'boolean' ? (
                   feature.spark ? (
-                    <Check className="h-3.5 w-3.5 text-red-500" />
+                    <Check className="h-4 w-4 text-red-500" />
                   ) : (
-                    <Minus className="h-3.5 w-3.5 text-white/20" />
+                    <Minus className="h-4 w-4 text-white/20" />
                   )
                 ) : (
-                  <span className="text-red-500 text-sm">{feature.spark}</span>
+                  <span className="text-red-500">{feature.spark}</span>
                 )}
               </TableCell>
-              <TableCell className="py-3">
+              <TableCell>
                 {typeof feature.ignite === 'boolean' ? (
                   feature.ignite ? (
-                    <Check className="h-3.5 w-3.5 text-green-500" />
+                    <Check className="h-4 w-4 text-green-500" />
                   ) : (
-                    <Minus className="h-3.5 w-3.5 text-white/20" />
+                    <Minus className="h-4 w-4 text-white/20" />
                   )
                 ) : (
-                  <span className="text-green-500 text-sm">{feature.ignite}</span>
+                  <span className="text-green-500">{feature.ignite}</span>
                 )}
               </TableCell>
-              <TableCell className="py-3">
+              <TableCell>
                 {typeof feature.blaze === 'boolean' ? (
                   feature.blaze ? (
-                    <Check className="h-3.5 w-3.5 text-blue-500" />
+                    <Check className="h-4 w-4 text-blue-500" />
                   ) : (
-                    <Minus className="h-3.5 w-3.5 text-white/20" />
+                    <Minus className="h-4 w-4 text-white/20" />
                   )
                 ) : (
-                  <span className="text-blue-500 text-sm">{feature.blaze}</span>
+                  <span className="text-blue-500">{feature.blaze}</span>
                 )}
               </TableCell>
-              <TableCell className="py-3">
+              <TableCell>
                 {typeof feature.nova === 'boolean' ? (
                   feature.nova ? (
-                    <Check className="h-3.5 w-3.5 text-amber-500" />
+                    <Check className="h-4 w-4 text-amber-500" />
                   ) : (
-                    <Minus className="h-3.5 w-3.5 text-white/20" />
+                    <Minus className="h-4 w-4 text-white/20" />
                   )
                 ) : (
-                  <span className="text-amber-500 text-sm">{feature.nova}</span>
+                  <span className="text-amber-500">{feature.nova}</span>
                 )}
               </TableCell>
             </TableRow>
