@@ -15,7 +15,7 @@ const PricingCTA = () => {
           buttonClassName="bg-nextgen-purple hover:bg-nextgen-purple/90"
         />
         <EmailCollectionDialog
-          triggerText="Get Started Today"
+          triggerText="Start Now"
           buttonSize="lg"
           buttonClassName="bg-white text-nextgen-dark hover:bg-white/90"
         />

@@ -1,50 +1,52 @@
+
 import React from 'react';
 import { Badge } from "@/components/ui/badge";
 import AgentAvatar from '../AgentAvatar';
+import { Clipboard, Megaphone, Handshake, GraduationCap } from 'lucide-react';
+
+const stages = [
+  {
+    name: "Spark",
+    color: "#ea384c",
+    agents: [
+      { name: "Miles", role: "Practice Management", color: "red", icon: Clipboard }
+    ],
+    features: ["Foundation Package Unlock"]
+  },
+  {
+    name: "Ignite",
+    color: "#22c55e",
+    agents: [
+      { name: "Miles", role: "Operations", color: "red", icon: Clipboard },
+      { name: "Giselle", role: "Marketing", color: "green", icon: Megaphone },
+      { name: "Devon", role: "Sales", color: "blue", icon: Handshake },
+      { name: "Alma", role: "Training", color: "gold", icon: GraduationCap }
+    ],
+    features: ["Full AI Boardroom Unlock"]
+  },
+  {
+    name: "Blaze",
+    color: "#0FA0CE",
+    agents: [
+      { name: "Miles", role: "Operations", color: "red", icon: Clipboard },
+      { name: "Giselle", role: "Marketing", color: "green", icon: Megaphone },
+      { name: "Devon", role: "Sales", color: "blue", icon: Handshake },
+      { name: "Alma", role: "Training", color: "gold", icon: GraduationCap }
+    ],
+    features: [
+      "Advanced Custom Campaigns",
+      "Executive KPI Dashboard",
+      "Dedicated Success Manager (Optional)"
+    ]
+  }
+];
 
 const BoardroomUnlockFlow = () => {
-  const stages = [
-    {
-      name: "Spark",
-      color: "#ea384c",
-      agents: [
-        { name: "Miles", role: "Practice Management", color: "red" }
-      ],
-      features: ["Foundation Package Unlock"]
-    },
-    {
-      name: "Ignite",
-      color: "#22c55e",
-      agents: [
-        { name: "Miles", role: "Operations", color: "red" },
-        { name: "Giselle", role: "Marketing", color: "green" },
-        { name: "Devon", role: "Sales", color: "blue" },
-        { name: "Alma", role: "Training", color: "gold" }
-      ],
-      features: ["Full AI Boardroom Unlock"]
-    },
-    {
-      name: "Blaze",
-      color: "#0FA0CE",
-      agents: [
-        { name: "Miles", role: "Operations", color: "red" },
-        { name: "Giselle", role: "Marketing", color: "green" },
-        { name: "Devon", role: "Sales", color: "blue" },
-        { name: "Alma", role: "Training", color: "gold" }
-      ],
-      features: [
-        "Advanced Custom Campaigns",
-        "Executive KPI Dashboard",
-        "Dedicated Success Manager (Optional)"
-      ]
-    }
-  ];
-
   return (
     <div className="glass-card p-8 md:p-12 max-w-4xl mx-auto animate-fade-in">
       <div className="text-center mb-8">
         <h3 className="text-2xl md:text-3xl font-heading font-bold mb-4 text-gradient">
-          Your NextGen Team Unlocks as You Grow
+          Unlock Your AI Executive Team as You Grow
         </h3>
       </div>
 
@@ -76,15 +78,20 @@ const BoardroomUnlockFlow = () => {
                 
                 {/* Stage Content */}
                 <div className="md:w-2/3 bg-black/20 rounded-xl p-6 backdrop-blur-sm">
-                  {/* Agent Avatars */}
+                  {/* Agent Avatars with Icons */}
                   <div className="flex flex-wrap justify-center gap-4 mb-4">
                     {stage.agents.map((agent, agentIdx) => (
                       <div key={agentIdx} className="flex flex-col items-center">
-                        <AgentAvatar 
-                          name={agent.name} 
-                          role={agent.role} 
-                          color={agent.color}
-                        />
+                        <div className="relative">
+                          <AgentAvatar 
+                            name={agent.name} 
+                            role={agent.role} 
+                            color={agent.color}
+                          />
+                          <div className="absolute -bottom-1 -right-1 bg-white/10 rounded-full p-1">
+                            <agent.icon className="w-4 h-4" style={{ color: stage.color }} />
+                          </div>
+                        </div>
                         <span className="text-xs text-white/70 mt-1">{agent.role}</span>
                       </div>
                     ))}
@@ -112,7 +119,7 @@ const BoardroomUnlockFlow = () => {
       
       <div className="text-center mt-12">
         <p className="text-lg text-white/70 italic">
-          "Your practice deserves more than tools — it deserves a full Executive Team to grow with you."
+          Your practice deserves more than just tools — it deserves a full Executive Team, ready to grow with you.
         </p>
       </div>
     </div>

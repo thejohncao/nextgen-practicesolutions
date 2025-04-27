@@ -6,15 +6,15 @@ const packages = [
   {
     name: "Spark",
     stage: "Foundation Package",
-    bestFor: "Built for new practices or lean teams ready to automate operations and patient communication.",
+    bestFor: "Best for Startups or Small Practices",
+    tagline: "Built for new practices or lean teams ready to automate operations and patient communication.",
     features: [
       "Your branded NextGen App (Basic CRM, Scheduling, Recall Automations)",
-      "Practice Management AI Agent (Miles)",
+      "Access to your Practice Management AI Agent (Miles)",
       "Prebuilt Scheduling, Recall, and Reactivation Workflows",
       "Front Office SOP Templates",
       "1:1 Onboarding and Setup Support"
     ],
-    tagline: "Strengthen your foundation and streamline operations — no extra hires needed.",
     agent: {
       name: "Miles",
       role: "Practice Management",
@@ -25,18 +25,18 @@ const packages = [
   {
     name: "Ignite",
     stage: "Growth Package",
-    bestFor: "For practices ready to attract new patients, grow production, and expand faster.",
+    bestFor: "Best for Growing Practices",
+    tagline: "For practices ready to attract new patients, grow production, and expand faster.",
     features: [
-      "Full NextGen App (Advanced CRM, Patient Pipelines, Automations)",
-      "Full AI Executive Boardroom (Miles, Giselle, Devon, Alma)",
-      "Prebuilt Patient Acquisition, Nurturing, and Membership Workflows",
+      "Full access to your branded NextGen App (Advanced CRM, Pipelines, Automations)",
+      "Unlock your full AI Executive Boardroom (Miles, Giselle, Devon, Alma)",
+      "Prebuilt Patient Acquisition, Nurturing, and Membership Growth Workflows",
       "Team Training SOPs + Templates",
       "1:1 Strategic Success Planning Session"
     ],
-    tagline: "Ignite powerful growth with your full AI team running the playbook for you.",
     agent: {
       name: "Giselle",
-      role: "Marketing and Growth",
+      role: "Marketing",
       color: "green"
     },
     ctaText: "Unlock Ignite Package",
@@ -45,18 +45,18 @@ const packages = [
   {
     name: "Blaze",
     stage: "Multiply Package",
-    bestFor: "For established practices ready to scale aggressively, dominate their market, and maximize profitability.",
+    bestFor: "Best for Scaling Practices and DSOs",
+    tagline: "For established practices ready to scale aggressively, dominate their market, and maximize profitability.",
     features: [
       "Everything in Ignite Package",
-      "Advanced Multilocation, Patient Lifecycle, and Referral Automation",
-      "Custom Growth Campaigns",
+      "Advanced Multilocation, Patient Lifecycle, and Referral System Automation",
+      "Custom Growth Campaigns tailored to your practice goals",
       "Executive KPI Tracking Dashboard",
       "Optional Dedicated Strategic Success Manager"
     ],
-    tagline: "Multiply your revenue and scale like a top-performing DSO — all powered by your NextGen Operating System and AI Executive Team.",
     agent: {
       name: "Devon",
-      role: "Sales and Growth",
+      role: "Sales",
       color: "blue"
     },
     ctaText: "Scale with Blaze"
