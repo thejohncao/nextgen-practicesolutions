@@ -9,11 +9,11 @@ const packages = [
     bestFor: "Best for Startups or Small Practices",
     tagline: "Built for new practices or lean teams ready to automate operations and patient communication.",
     features: [
-      "Your branded NextGen App (Basic CRM, Scheduling, Recall Automations)",
-      "Access to your Practice Management AI Agent (Miles)",
-      "Prebuilt Scheduling, Recall, and Reactivation Workflows",
-      "Front Office SOP Templates",
-      "1:1 Onboarding and Setup Support"
+      "Launch your branded NextGen App with streamlined scheduling, recall, and patient tracking",
+      "Activate your Practice Management AI Agent (Miles) to organize your front office and reduce chaos",
+      "Automate patient scheduling, recalls, and reactivations with proven workflows built in",
+      "Empower your team with ready-to-use front office SOP templates",
+      "Get live setup support with a 1:1 onboarding session tailored to your practice"
     ],
     agent: {
       name: "Miles",
@@ -28,11 +28,11 @@ const packages = [
     bestFor: "Best for Growing Practices",
     tagline: "For practices ready to attract new patients, grow production, and expand faster.",
     features: [
-      "Full access to your branded NextGen App (Advanced CRM, Pipelines, Automations)",
-      "Unlock your full AI Executive Boardroom (Miles, Giselle, Devon, Alma)",
-      "Prebuilt Patient Acquisition, Nurturing, and Membership Growth Workflows",
-      "Team Training SOPs + Templates",
-      "1:1 Strategic Success Planning Session"
+      "Unlock your full AI Executive Boardroom — your complete management, marketing, sales, and training team",
+      "Launch advanced patient pipelines and automations inside your branded NextGen App",
+      "Deploy high-converting Patient Acquisition, Nurturing, and Membership Growth Campaigns instantly",
+      "Strengthen your team with SOPs and onboarding templates designed to drive performance",
+      "Accelerate your results with a 1:1 Strategic Success Planning Session focused on your growth goals"
     ],
     agent: {
       name: "Giselle",
@@ -48,11 +48,11 @@ const packages = [
     bestFor: "Best for Scaling Practices and DSOs",
     tagline: "For established practices ready to scale aggressively, dominate their market, and maximize profitability.",
     features: [
-      "Everything in Ignite Package",
-      "Advanced Multilocation, Patient Lifecycle, and Referral System Automation",
-      "Custom Growth Campaigns tailored to your practice goals",
-      "Executive KPI Tracking Dashboard",
-      "Optional Dedicated Strategic Success Manager"
+      "Maximize your full AI Executive Boardroom power with advanced multilocation and patient lifecycle systems",
+      "Custom-build patient acquisition and retention campaigns tailored specifically to your market goals",
+      "Track your performance at an executive level with our KPI Dashboard and reporting suite",
+      "Boost high-value case conversions, referrals, and membership growth automatically",
+      "(Optional) Add a Dedicated Strategic Success Manager to drive implementation and optimization"
     ],
     agent: {
       name: "Devon",
