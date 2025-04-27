@@ -76,7 +76,7 @@ const growthFeatures = [
 
 const FeaturesMegaMenu = () => {
   return (
-    <div className="fixed left-0 right-0 top-16 z-50 animate-fade-in-up">
+    <div className="fixed left-0 right-0 top-16 z-50 animate-mega-menu">
       <div className="mx-auto max-w-[800px] px-4">
         <div className="overflow-hidden rounded-xl bg-[rgba(17,19,33,0.98)] backdrop-blur-md shadow-[0_15px_40px_-15px_rgba(0,0,0,0.3)] border border-white/[0.03]">
           <div className="p-6 md:p-8">

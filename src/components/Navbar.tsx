@@ -51,8 +51,8 @@ const Navbar = () => {
           <NavigationMenu className="hidden lg:flex">
             <NavigationMenuList className="space-x-1">
               <NavigationMenuItem>
-                <TubelightNavLink to="/">
-                  Home
+                <TubelightNavLink to="/solutions">
+                  Solutions
                 </TubelightNavLink>
               </NavigationMenuItem>
 
@@ -74,26 +74,14 @@ const Navbar = () => {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="text-white/80 hover:text-white transition-colors bg-transparent hover:bg-white/5">
-                  Academy
-                </NavigationMenuTrigger>
-                <NavigationMenuContent className="bg-nextgen-dark/95 backdrop-blur-xl border border-white/10">
-                  <div className="grid gap-3 p-4 w-[400px]">
-                    <Link to="/academy" className="block p-3 hover:bg-white/5 rounded-lg">
-                      <div className="text-sm font-medium text-white mb-1">Overview</div>
-                      <div className="text-sm text-white/60">Explore our comprehensive training program</div>
-                    </Link>
-                    <a href="/academy#certification" className="block p-3 hover:bg-white/5 rounded-lg">
-                      <div className="text-sm font-medium text-white mb-1">Become Certified</div>
-                      <div className="text-sm text-white/60">Master modern practice systems and earn your NextGen Certification</div>
-                    </a>
-                  </div>
-                </NavigationMenuContent>
+                <TubelightNavLink to="/integrations">
+                  Integrations
+                </TubelightNavLink>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <TubelightNavLink to="/resources">
-                  Free Resources
+                <TubelightNavLink to="/academy">
+                  Academy
                 </TubelightNavLink>
               </NavigationMenuItem>
 
@@ -104,12 +92,6 @@ const Navbar = () => {
                 >
                   Pricing
                 </a>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                <TubelightNavLink to="/story">
-                  About
-                </TubelightNavLink>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>

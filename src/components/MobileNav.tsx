@@ -26,23 +26,29 @@ const MobileNav = () => {
             Solutions
           </Link>
           <Link 
+            to="/features" 
+            className="text-lg font-medium text-white hover:text-nextgen-purple transition-colors"
+          >
+            Features
+          </Link>
+          <Link 
+            to="/integrations" 
+            className="text-lg font-medium text-white hover:text-nextgen-purple transition-colors"
+          >
+            Integrations
+          </Link>
+          <Link 
             to="/academy" 
             className="text-lg font-medium text-white hover:text-nextgen-purple transition-colors"
           >
             Academy
           </Link>
-          <Link 
-            to="/resources" 
+          <a 
+            href="/#pricing" 
             className="text-lg font-medium text-white hover:text-nextgen-purple transition-colors"
           >
-            Resources
-          </Link>
-          <Link 
-            to="/story" 
-            className="text-lg font-medium text-white hover:text-nextgen-purple transition-colors"
-          >
-            About
-          </Link>
+            Pricing
+          </a>
         </nav>
       </SheetContent>
     </Sheet>
