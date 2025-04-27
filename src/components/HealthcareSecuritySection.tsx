@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Shield, LockKeyhole, Lock, Server, FileCheck } from 'lucide-react';
 import { Button } from './ui/button';
@@ -39,22 +38,13 @@ const HealthcareSecuritySection = () => {
       <div className="container mx-auto px-4">
         {/* Top Badge */}
         <div className="flex items-center justify-center gap-2 mb-12">
-          <Shield className="h-5 w-5 text-nextgen-purple" />
-          <span className="text-white/70 text-sm font-medium">Trusted by Practices Nationwide</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card">
+            <Shield className="h-5 w-5 text-nextgen-purple" />
+            <span className="text-white/70 text-sm font-medium">Trusted by Practices Nationwide</span>
+          </div>
         </div>
 
-        {/* Main Content */}
         <div className="max-w-6xl mx-auto">
-          {/* Headers */}
-          <div className="text-center mb-16 space-y-4">
-            <h2 className="text-4xl md:text-5xl font-heading font-bold text-gradient">
-              Built for Healthcare. Trusted by Practices.
-            </h2>
-            <p className="text-xl text-white/70 max-w-3xl mx-auto">
-              NextGen is built on HIPAA-ready architecture with seamless integrations for real clinical use.
-            </p>
-          </div>
-
           {/* Two Column Layout */}
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Left Column */}
