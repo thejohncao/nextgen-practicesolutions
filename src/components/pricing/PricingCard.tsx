@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
@@ -41,13 +42,28 @@ const getFeatureIcon = (feature: string, color: string) => {
 const getAgentColor = (name: string): string => {
   switch (name.toLowerCase()) {
     case 'miles':
-      return '#ea384c'; // Red for Practice Management
+      return 'red';
     case 'giselle':
-      return '#22c55e'; // Green for Practice Growth
+      return 'green';
     case 'devon':
-      return '#0FA0CE'; // Deep Blue for Practice Development
+      return 'blue';
     case 'alma':
-      return '#f59e0b'; // Gold for Practice Academy
+      return 'gold';
+    default:
+      return 'purple';
+  }
+};
+
+const getAgentHexColor = (name: string): string => {
+  switch (name.toLowerCase()) {
+    case 'miles':
+      return '#ea384c';
+    case 'giselle':
+      return '#22c55e';
+    case 'devon':
+      return '#0FA0CE';
+    case 'alma':
+      return '#f59e0b';
     default:
       return '#9b87f5';
   }
@@ -63,21 +79,22 @@ const PricingCard = ({
   isPopular,
   includesText
 }: PricingCardProps) => {
-  const agentColor = getAgentColor(agent.name);
+  const agentHexColor = getAgentHexColor(agent.name);
+  const agentColorName = getAgentColor(agent.name);
   
   return (
     <Card 
       className="glass-card border-white/10 relative group animate-fade-in"
       style={{ 
-        ...(isPopular && { borderColor: agentColor, borderWidth: '2px' })
+        ...(isPopular && { borderColor: agentHexColor, borderWidth: '2px' })
       }}
     >
       {/* Stage Badge */}
       <div 
         className="absolute -top-3 left-1/2 transform -translate-x-1/2 px-3 py-1 rounded-full text-xs font-medium"
         style={{ 
-          backgroundColor: `${agentColor}20`,
-          color: agentColor 
+          backgroundColor: `${agentHexColor}20`,
+          color: agentHexColor 
         }}
       >
         {stage}
@@ -97,7 +114,7 @@ const PricingCard = ({
           <AgentAvatar
             name={agent.name}
             role={agent.role}
-            color={agentColor}
+            color={agentColorName}
           />
           <div>
             <p className="text-sm text-white/90">Unlocks</p>
@@ -110,7 +127,7 @@ const PricingCard = ({
         <ul className="space-y-3">
           {features.map((feature, index) => (
             <li key={index} className="flex items-start gap-3">
-              {getFeatureIcon(feature, agentColor)}
+              {getFeatureIcon(feature, agentHexColor)}
               <span className="text-white/80 text-sm">{feature}</span>
             </li>
           ))}
@@ -121,8 +138,8 @@ const PricingCard = ({
             <span 
               className="inline-block px-3 py-1 rounded-full text-xs font-medium"
               style={{ 
-                backgroundColor: `${agentColor}20`,
-                color: agentColor 
+                backgroundColor: `${agentHexColor}20`,
+                color: agentHexColor 
               }}
             >
               Most Popular
@@ -133,7 +150,7 @@ const PricingCard = ({
         <EmailCollectionDialog
           triggerText={ctaText}
           buttonClassName="w-full text-white hover:opacity-90 transition-opacity"
-          style={{ backgroundColor: agentColor }}
+          style={{ backgroundColor: agentHexColor }}
         />
       </CardContent>
     </Card>
@@ -141,3 +158,4 @@ const PricingCard = ({
 };
 
 export default PricingCard;
+
