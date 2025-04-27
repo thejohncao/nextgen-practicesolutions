@@ -5,14 +5,17 @@ import HeroSection from '../components/HeroSection';
 import AITeamSection from '../components/AiTeamSection';
 import PatientJourneySection from '../components/PatientJourneySection';
 import HealthcareSecuritySection from '../components/HealthcareSecuritySection';
-import AcademyOverviewSection from '../components/AcademyOverviewSection';
-import FounderSection from '../components/FounderSection';
-import PrePricingCTA from '../components/PrePricingCTA';
+import ROISection from '../components/ROISection';
 import PricingSection from '../components/PricingSection';
 import SupportAndBenefits from '../components/SupportAndBenefits';
 import SuccessGuarantee from '../components/SuccessGuarantee';
+import IntegrationsSection from '../components/IntegrationsSection';
+import FounderSection from '../components/FounderSection';
+import ResourcesSection from '../components/ResourcesSection';
+import TestimonialsSection from '../components/TestimonialsSection';
 import FAQSection from '../components/FAQSection';
-import FinalCTA from '../components/FinalCTA';
+import FooterCTA from '../components/FooterCTA';
+import AcademyOverviewSection from '../components/AcademyOverviewSection';
 
 const Index = () => {
   return (
@@ -20,15 +23,18 @@ const Index = () => {
       <HeroSection />
       <AITeamSection />
       <PatientJourneySection />
+      <IntegrationsSection />
       <HealthcareSecuritySection />
       <AcademyOverviewSection />
-      <FounderSection />
-      <PrePricingCTA />
+      <ROISection />
+      <FooterCTA />
       <PricingSection />
       <SupportAndBenefits />
       <SuccessGuarantee />
+      <FounderSection />
+      <ResourcesSection />
+      <TestimonialsSection />
       <FAQSection />
-      <FinalCTA />
     </Layout>
   );
 };

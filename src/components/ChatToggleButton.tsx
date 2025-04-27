@@ -27,13 +27,11 @@ const ChatToggleButton: React.FC<ChatToggleButtonProps> = ({ isOpen, currentAgen
       onClick={onClick}
       data-testid="chat-toggle"
     >
-      <div className="flex items-center gap-2">
-        <div 
-          className={`h-14 w-14 rounded-full flex items-center justify-center shadow-lg
-            bg-gradient-radial ${agentColors[currentAgent as AgentKey]} animate-pulse-glow`}
-        >
-          <MessageSquare className="text-white h-6 w-6" />
-        </div>
+      <div 
+        className={`h-14 w-14 rounded-full flex items-center justify-center shadow-lg
+          bg-gradient-radial ${agentColors[currentAgent as AgentKey]} animate-pulse-glow`}
+      >
+        <MessageSquare className="text-white h-6 w-6" />
       </div>
       <div className="absolute inset-0 rounded-full bg-gradient-radial blur-sm opacity-50 animate-pulse-slow"></div>
       <div className="absolute -inset-1 rounded-full bg-gradient-radial blur-md opacity-30 animate-pulse-slow"></div>

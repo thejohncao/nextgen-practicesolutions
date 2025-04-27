@@ -7,65 +7,37 @@ import {
   AccordionTrigger 
 } from "@/components/ui/accordion";
 import { MessageSquare } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 const faqs = [
   {
-    question: "What is NextGen Practice Solutions?",
-    answer: "NextGen Practice Solutions is an AI-powered operating system for modern dental practices. Our platform features four AI agents (Miles, Giselle, Devon, and Alma) that work together to automate front-office tasks, streamline patient communications, boost case acceptance, and train your team—helping you grow your practice while reducing administrative burden."
+    question: "Will NextGen AI replace my current team?",
+    answer: "No, NextGen AI is designed to complement your existing team, not replace them. Our AI agents handle repetitive, time-consuming tasks so your staff can focus on patient care and high-value activities that require a human touch. Most practices find that NextGen helps them grow without needing to hire additional administrative staff."
   },
   {
-    question: "Is it HIPAA compliant and secure?",
-    answer: "Absolutely. NextGen Practice Solutions is fully HIPAA compliant, with enterprise-grade security measures including end-to-end encryption, secure data storage, regular security audits, and comprehensive Business Associate Agreements (BAAs). We maintain SOC 2 certification and prioritize patient data security across all aspects of our platform."
+    question: "Is NextGen Practice Solutions HIPAA compliant?",
+    answer: "Absolutely. NextGen Practice Solutions is fully HIPAA compliant, with enterprise-grade security measures including encryption, secure data storage, regular security audits, and comprehensive Business Associate Agreements (BAAs). Patient data security is our top priority, and we maintain strict compliance with all healthcare privacy regulations."
   },
   {
-    question: "How fast can I get set up?",
+    question: "How long does it take to implement NextGen?",
     answer: "Most practices are up and running with NextGen within 1-2 weeks. Our onboarding process includes system integration, data migration, and staff training. Our Elite and Blaze plans include white-glove implementation services to ensure a smooth transition with minimal disruption to your practice."
   },
   {
-    question: "Can I upgrade stages later?",
-    answer: "Yes, you can easily upgrade your plan at any time as your practice grows and your needs evolve. We design our system with scalability in mind, making it simple to add additional AI agents and features when you're ready. Many practices start with our Spark plan and gradually add more capabilities."
+    question: "Will NextGen integrate with my current practice management software?",
+    answer: "Yes, NextGen is designed to integrate with all major dental practice management systems including Dentrix, Eaglesoft, Open Dental, and more. Our team will handle the integration during implementation to ensure seamless data flow between systems."
   },
   {
-    question: "What support do I get?",
-    answer: "Every NextGen practice receives dedicated onboarding support, 24/7 system monitoring, and access to our client success team. Higher-tier plans include additional support benefits like quarterly business reviews, priority support response times, and custom integration assistance. Our goal is to be a true partner in your practice's success."
+    question: "What kind of results can I expect?",
+    answer: "Most practices see significant improvements within the first 30 days, including reduced no-show rates, increased appointment bookings, and more efficient operations. Within 90 days, practices typically experience higher treatment acceptance rates, improved patient retention, and notable time savings for staff. Check out our ROI section for specific metrics."
   },
   {
-    question: "How does the Success Guarantee work?",
-    answer: "Our Success Guarantee means we're committed to your growth. If you don't see measurable improvements in your practice's efficiency, patient acquisition, or case acceptance within the first 90 days, we'll continue working with you at no additional cost until you achieve results. We'll develop a custom improvement plan and provide additional training and optimization."
-  },
-  {
-    question: "Can I talk to someone first?",
-    answer: "Absolutely! You can speak with Miles, our AI concierge, right away to get immediate answers to your questions. For a more in-depth conversation, Miles can connect you with our team to schedule a personalized demo and consultation about your specific practice needs and goals."
+    question: "Is there a contract or can I cancel anytime?",
+    answer: "We offer both monthly and annual billing options. Monthly plans can be canceled at any time with 30 days' notice. Annual plans offer a significant discount but require a 12-month commitment. All plans start with a 14-day free trial so you can experience the benefits before making a long-term decision."
   }
 ];
 
 const FAQSection = () => {
-  const handleChatOpen = () => {
-    try {
-      const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
-      if (chatButton) {
-        console.log('Chat button found in FAQ, clicking...');
-        chatButton.click();
-      } else {
-        console.log('Chat button not found, trying with a delay...');
-        setTimeout(() => {
-          const delayedChatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
-          if (delayedChatButton) {
-            console.log('Chat button found after delay, clicking...');
-            delayedChatButton.click();
-          } else {
-            console.warn('Chat button not found in DOM after delay');
-          }
-        }, 200);
-      }
-    } catch (error) {
-      console.error('Error opening chat from FAQ:', error);
-    }
-  };
-
   return (
-    <section id="faq" className="section-padding py-20 bg-gradient-to-b from-nextgen-dark/95 to-nextgen-dark">
+    <section id="faq" className="section-padding py-20 bg-gradient-to-b from-nextgen-dark to-nextgen-dark/95">
       <div className="container mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full bg-white/5 border border-white/10">
@@ -78,7 +50,8 @@ const FAQSection = () => {
           </h2>
           
           <p className="text-lg text-white/70">
-            Everything you need to know before getting started.
+            Find answers to common questions about implementing NextGen AI 
+            in your dental practice.
           </p>
         </div>
         
@@ -102,13 +75,11 @@ const FAQSection = () => {
         </div>
         
         <div className="mt-12 text-center">
-          <Button 
-            onClick={handleChatOpen}
-            className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white px-6 py-2 rounded-full transition-all duration-300 hover:shadow-[0_0_15px_rgba(155,135,245,0.5)]"
-            size="lg"
-          >
-            Talk to Miles — Get Your Questions Answered
-          </Button>
+          <div className="inline-block glass-card px-6 py-3 rounded-full">
+            <p className="text-sm text-white/60">
+              Have more questions? <a href="#" className="text-nextgen-purple hover:text-nextgen-purple/80">Contact our support team</a>
+            </p>
+          </div>
         </div>
       </div>
     </section>

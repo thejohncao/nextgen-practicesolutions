@@ -1,83 +1,53 @@
 
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, Users, Calendar, MessageCircle, HeartHandshake, StarIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+import JourneyStageIcon from './JourneyStageIcon';
+import { agents } from '@/data/agents';
 
 const stages = [
   {
-    name: "Awareness",
-    icon: Users,
-    description: "Patients discover your practice through targeted outreach",
-    color: "green"
+    name: "Attract & Engage",
+    agent: "Giselle",
+    color: "green",
+    bgColor: "bg-green-500/5",
+    activities: ["Ads", "Quizzes", "Lead Follow-up", "Referrals"],
+    tools: ["Meta", "Typeform", "GHL"],
+    solves: "Low lead conversion"
   },
   {
-    name: "Appointment",
-    icon: Calendar,
-    description: "Easy scheduling with smart automation and reminders",
-    color: "blue"
+    name: "Activate & Onboard",
+    agent: "Miles",
+    color: "blue",
+    bgColor: "bg-blue-500/5",
+    activities: ["Intake Forms", "Check-in", "Admin Handoff"],
+    tools: ["GHL Forms", "Slack", "Google Calendar"],
+    solves: "Front desk inefficiency"
   },
   {
-    name: "Consultation",
-    icon: MessageCircle,
-    description: "Personalized care plans and detailed treatment options",
-    color: "purple"
-  },
-  {
-    name: "Follow-Up",
-    icon: HeartHandshake,
-    description: "Automated communication for continued care and support",
-    color: "indigo"
-  },
-  {
-    name: "Membership",
-    icon: StarIcon,
-    description: "Long-term loyalty programs and patient retention",
-    color: "teal"
+    name: "Convert & Retain",
+    agent: "Devon",
+    color: "purple",
+    bgColor: "bg-purple-500/5",
+    activities: ["Treatment Planning", "Financing", "Recall"],
+    tools: ["Loom", "Cherry", "Podium", "Stripe"],
+    solves: "Lost revenue, poor retention"
   }
 ];
 
 const PatientJourneySection = () => {
-  const [visibleItems, setVisibleItems] = useState<boolean[]>(stages.map(() => false));
-
-  const handleChatOpen = () => {
-    try {
-      const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
-      if (chatButton) {
-        console.log('Chat button found, clicking...');
-        chatButton.click();
-      } else {
-        console.log('Chat button not found, trying with a delay...');
-        setTimeout(() => {
-          const delayedChatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
-          if (delayedChatButton) {
-            console.log('Chat button found after delay, clicking...');
-            delayedChatButton.click();
-          } else {
-            console.warn('Chat button not found in DOM after delay');
-          }
-        }, 200);
-      }
-    } catch (error) {
-      console.error('Error opening chat:', error);
-    }
-  };
+  const [visibleItems, setVisibleItems] = useState<boolean[]>([false, false, false]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            // Show stages with cascading timing
-            const newVisibleItems = [...visibleItems];
-            stages.forEach((_, index) => {
-              setTimeout(() => {
-                setVisibleItems(prev => {
-                  const updated = [...prev];
-                  updated[index] = true;
-                  return updated;
-                });
-              }, index * 200);
-            });
+            // Show stages with left to right timing
+            setTimeout(() => {
+              setVisibleItems([true, false, false]);
+              setTimeout(() => setVisibleItems([true, true, false]), 400);
+              setTimeout(() => setVisibleItems([true, true, true]), 800);
+            }, 200);
             observer.disconnect();
           }
         });
@@ -92,7 +62,7 @@ const PatientJourneySection = () => {
   }, []);
 
   return (
-    <section id="patient-journey" className="section-padding py-20 bg-gradient-to-b from-nextgen-dark/90 to-nextgen-dark">
+    <section id="patient-journey" className="section-padding py-20 bg-gradient-to-b from-nextgen-dark to-nextgen-dark/95">
       <div className="container mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full bg-white/5 border border-white/10">
@@ -101,64 +71,99 @@ const PatientJourneySection = () => {
           </div>
           
           <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
-            How the NextGen System Grows Your Practice
+            How the System Works
           </h2>
           
           <p className="text-lg text-white/70">
-            From first contact to loyal membership — see how our AI agents guide your patients every step of the way.
+            From first click to lifelong care—your AI team manages every stage of the patient lifecycle.
           </p>
         </div>
         
         <div className="relative mt-20">
-          {/* Timeline connector for desktop */}
-          <div className="hidden md:block absolute top-[4.5rem] left-0 w-full h-0.5 bg-white/10 rounded-full">
+          <div className="hidden md:block absolute top-28 left-0 w-full h-0.5 bg-gradient-animate rounded-full overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 animate-flow"></div>
           </div>
           
-          <div className="grid md:grid-cols-5 gap-8">
-            {stages.map((stage, index) => {
-              const StageIcon = stage.icon;
-              const colorClasses = {
-                green: "text-green-500 border-green-500/20 hover:bg-green-500/20",
-                blue: "text-blue-500 border-blue-500/20 hover:bg-blue-500/20",
-                purple: "text-purple-500 border-purple-500/20 hover:bg-purple-500/20",
-                indigo: "text-indigo-500 border-indigo-500/20 hover:bg-indigo-500/20",
-                teal: "text-teal-500 border-teal-500/20 hover:bg-teal-500/20"
-              };
-              
-              return (
-                <div 
-                  key={stage.name} 
-                  className={`relative transition-all duration-700 transform ${
-                    visibleItems[index] 
-                      ? 'opacity-100 translate-y-0' 
-                      : 'opacity-0 translate-y-20'
-                  }`}
-                  style={{ transitionDelay: `${index * 200}ms` }}
-                >
-                  <div className="text-center mb-8">
-                    <div className="flex items-center justify-center">
-                      <div className={`w-14 h-14 rounded-full bg-white/5 border ${colorClasses[stage.color as keyof typeof colorClasses]} flex items-center justify-center relative z-10 mb-4`}>
-                        <StageIcon className={`h-6 w-6 ${colorClasses[stage.color as keyof typeof colorClasses]}`} />
-                      </div>
-                    </div>
-                    <h3 className="text-xl font-bold text-white mb-2">{stage.name}</h3>
-                    <p className="text-white/70">{stage.description}</p>
+          <div className="grid md:grid-cols-3 gap-10">
+            {stages.map((stage, index) => (
+              <div 
+                key={stage.name} 
+                className={`relative transition-all duration-700 transform ${
+                  visibleItems[index] 
+                    ? 'opacity-100 translate-y-0' 
+                    : 'opacity-0 translate-y-20'
+                }`}
+                style={{ transitionDelay: `${index * 200}ms` }}
+              >
+                <div className="hidden md:flex absolute -top-20 left-1/2 transform -translate-x-1/2">
+                  <div className={`w-14 h-14 rounded-full bg-gradient-to-br from-${stage.color}-500 to-${stage.color}-600 flex items-center justify-center shadow-glow`}>
+                    <span className="text-2xl font-bold text-white">{index + 1}</span>
                   </div>
                 </div>
-              );
-            })}
+                
+                <div className={`glass-card h-full p-8 md:pt-14 ${stage.bgColor} backdrop-blur-xl transform transition-all duration-300 hover:scale-[1.02] hover:shadow-glow`}>
+                  <div className="absolute top-4 right-4">
+                    <JourneyStageIcon 
+                      stageName={stage.name} 
+                      color={stage.color} 
+                      size={32}
+                    />
+                  </div>
+                  
+                  <div className="md:hidden flex items-center mb-4">
+                    <div className={`w-10 h-10 rounded-full bg-gradient-to-br from-${stage.color}-500 to-${stage.color}-600 flex items-center justify-center mr-3`}>
+                      <span className="text-xl font-bold text-white">{index + 1}</span>
+                    </div>
+                    <h3 className="text-xl font-heading font-semibold text-gradient">{stage.name}</h3>
+                  </div>
+                  
+                  <h3 className="hidden md:block text-xl font-heading font-semibold text-gradient mb-3">
+                    {stage.name}
+                  </h3>
+                  
+                  <div className="inline-block px-3 py-1 rounded-full bg-white/5 border border-white/10 text-sm text-white/70 mb-4">
+                    <div className="flex items-center gap-2">
+                      <span>Managed by</span>
+                      <span className={`text-${stage.color}-400 font-medium`}>{stage.agent}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-6">
+                    <div>
+                      <h4 className="text-sm text-white/60 mb-2">Key Activities:</h4>
+                      <ul className="space-y-2">
+                        {stage.activities.map((activity, i) => (
+                          <li key={i} className="flex items-center text-white/80 text-sm group">
+                            <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-br from-${stage.color}-500 to-${stage.color}-400 mr-2 transition-all duration-300 group-hover:scale-150`}></div>
+                            {activity}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    
+                    <div>
+                      <h4 className="text-sm text-white/60 mb-2">Tools Used:</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {stage.tools.map((tool, i) => (
+                          <span 
+                            key={i} 
+                            className={`text-xs px-2 py-1 bg-white/5 rounded-md text-white/70 transition-all duration-300 hover:bg-${stage.color}-500/10 hover:text-white`}
+                          >
+                            {tool}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <h4 className="text-sm text-white/60 mb-1">What It Solves:</h4>
+                      <p className="text-sm text-white/80">{stage.solves}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
-        </div>
-        
-        <div className="mt-16 text-center">
-          <Button 
-            onClick={handleChatOpen}
-            className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white px-6 py-2 rounded-full transition-all duration-300 hover:shadow-[0_0_15px_rgba(155,135,245,0.5)]"
-            size="lg"
-          >
-            Experience the Future — Talk to Miles
-          </Button>
         </div>
       </div>
     </section>
