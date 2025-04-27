@@ -109,6 +109,13 @@ const Footer = () => {
             </div>
           </div>
         </div>
+
+        {/* Added Copyright Line */}
+        <div className="mt-6 text-center">
+          <p className="text-white/40 text-xs">
+            © 2025 NextGen Practice Solutions. Powered by the NextGen Operating System™. All rights reserved.
+          </p>
+        </div>
       </div>
     </footer>
   );

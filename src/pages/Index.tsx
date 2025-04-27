@@ -3,7 +3,7 @@ import React from 'react';
 import Layout from '../components/Layout';
 import HeroSection from '../components/HeroSection';
 import AITeamSection from '../components/AiTeamSection';
-import PatientJourneySection from '../components/PatientJourneySection';
+import AIBoardroomSection from '../components/AIBoardroomSection';
 import HealthcareSecuritySection from '../components/HealthcareSecuritySection';
 import AcademyOverviewSection from '../components/AcademyOverviewSection';
 import ROISection from '../components/ROISection';
@@ -21,8 +21,8 @@ const Index = () => {
   return (
     <Layout>
       <HeroSection />
+      <AIBoardroomSection />
       <AITeamSection />
-      <PatientJourneySection />
       <HealthcareSecuritySection />
       <AcademyOverviewSection />
       <ROISection />
