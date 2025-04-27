@@ -6,8 +6,11 @@ import TubelightNavLink from './TubelightNavLink';
 import { MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 import MobileNav from './MobileNav';
+import SolutionsMegaMenu from './navigation/SolutionsMegaMenu';
 
 const Navbar = () => {
+  const [showSolutionsMenu, setShowSolutionsMenu] = React.useState(false);
+
   const handleChatOpen = () => {
     try {
       const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
@@ -51,25 +54,18 @@ const Navbar = () => {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="text-white/80 hover:text-white transition-colors bg-transparent hover:bg-white/5">
-                  Solutions
-                </NavigationMenuTrigger>
-                <NavigationMenuContent className="bg-nextgen-dark/95 backdrop-blur-xl border border-white/10">
-                  <div className="grid gap-3 p-4 w-[400px]">
-                    <Link to="/solutions" className="block p-3 hover:bg-white/5 rounded-lg">
-                      <div className="text-sm font-medium text-white mb-1">Practice Management</div>
-                      <div className="text-sm text-white/60">Run smoother with AI automation</div>
-                    </Link>
-                    <Link to="/solutions" className="block p-3 hover:bg-white/5 rounded-lg">
-                      <div className="text-sm font-medium text-white mb-1">Practice Growth</div>
-                      <div className="text-sm text-white/60">Scale your patient acquisition</div>
-                    </Link>
-                    <Link to="/solutions" className="block p-3 hover:bg-white/5 rounded-lg">
-                      <div className="text-sm font-medium text-white mb-1">Practice Development</div>
-                      <div className="text-sm text-white/60">Train and develop your team</div>
-                    </Link>
-                  </div>
-                </NavigationMenuContent>
+                <div
+                  className="relative"
+                  onMouseEnter={() => setShowSolutionsMenu(true)}
+                  onMouseLeave={() => setShowSolutionsMenu(false)}
+                >
+                  <NavigationMenuTrigger 
+                    className="text-white/80 hover:text-white transition-colors bg-transparent hover:bg-white/5"
+                  >
+                    Solutions
+                  </NavigationMenuTrigger>
+                  {showSolutionsMenu && <SolutionsMegaMenu />}
+                </div>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
