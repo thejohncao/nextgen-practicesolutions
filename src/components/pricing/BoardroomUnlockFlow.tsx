@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Badge } from "@/components/ui/badge";
 import AgentAvatar from '../AgentAvatar';
@@ -11,7 +10,7 @@ const BoardroomUnlockFlow = () => {
       agents: [
         { name: "Miles", role: "Practice Management", color: "red" }
       ],
-      features: []
+      features: ["Foundation Package Unlock"]
     },
     {
       name: "Ignite",
