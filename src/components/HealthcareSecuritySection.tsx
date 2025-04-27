@@ -4,7 +4,6 @@ import { Shield, LockKeyhole, Lock, Server, FileCheck } from 'lucide-react';
 import { Button } from './ui/button';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { featuredIntegrations } from '@/data/integrations';
 
 const securityCards = [
   {
@@ -32,6 +31,11 @@ const securityCards = [
     description: "Built following latest healthcare guidelines",
     icon: FileCheck
   }
+];
+
+const trustedPlatforms = [
+  "GoHighLevel", "Google Calendar", "Meta Ads", "Typeform", 
+  "Slack", "Cherry", "Stripe", "Loom", "Podium", "Notion"
 ];
 
 const HealthcareSecuritySection = () => {
@@ -66,19 +70,19 @@ const HealthcareSecuritySection = () => {
                 With HIPAA-compliant data protocols, SOC 2 Certification, and seamless integrations with platforms like Salesforce, Meta, and Google Ads, your practice runs smarter, safer, and faster.
               </p>
 
-              {/* Integration Logos Grid */}
-              <div className="grid grid-cols-3 gap-4">
-                {featuredIntegrations.slice(0, 5).map((integration, index) => (
+              {/* Integration Names Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                {trustedPlatforms.map((platform, index) => (
                   <div 
-                    key={integration.name}
-                    className="p-3 glass-card rounded-lg transition-all duration-300 hover:scale-105"
+                    key={platform}
+                    className={cn(
+                      "px-4 py-3 glass-card rounded-lg text-center",
+                      "text-white/70 hover:text-white/90 transition-all duration-300",
+                      "transform hover:scale-105"
+                    )}
                     style={{ animationDelay: `${index * 150}ms` }}
                   >
-                    <img 
-                      src={integration.logoUrl}
-                      alt={`${integration.name} logo`}
-                      className="w-full h-auto object-contain brightness-200 contrast-200 opacity-70 group-hover:opacity-90"
-                    />
+                    <span className="text-sm font-medium">{platform}</span>
                   </div>
                 ))}
               </div>
