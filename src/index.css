@@ -6,34 +6,44 @@
 
 @layer base {
   :root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 263 69% 73%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    /* Brand Colors */
+    --color-nextgen-dark: 37 36 40;      /* #252428 */
+    --color-nextgen-light: 251 251 254;  /* #FBFBFE */
+    --color-nextgen-purple: 167 140 251; /* #A78CFB */
+    --color-nextgen-blue: 147 197 253;   /* #93C5FD */
+    --color-nextgen-yellow: 250 191 34;  /* #FABF22 */
+    --color-nextgen-green: 75 223 127;   /* #4BDF7F */
+    --color-nextgen-red: 247 112 112;    /* #F77070 */
+
+    /* Shadcn System Colors */
+    --background: 251 251 254;
+    --foreground: 37 36 40;
+    --card: 251 251 254;
+    --card-foreground: 37 36 40;
+    --popover: 251 251 254;
+    --popover-foreground: 37 36 40;
+    --primary: 167 140 251;
+    --primary-foreground: 251 251 254;
+    --secondary: 147 197 253;
+    --secondary-foreground: 37 36 40;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 250 191 34;
+    --accent-foreground: 37 36 40;
+    --destructive: 247 112 112;
+    --destructive-foreground: 251 251 254;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 167 140 251;
     --radius: 0.75rem;
   }
 
   * {
-    @apply border-border selection:bg-white/10 selection:text-white;
+    @apply border-border selection:bg-nextgen-purple/10 selection:text-nextgen-dark;
   }
   
   body {
-    @apply bg-nextgen-dark text-foreground antialiased;
+    @apply bg-nextgen-light text-nextgen-dark antialiased;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
   }
 
@@ -170,6 +180,23 @@
     100% {
       background-position: 200% 0;
     }
+  }
+
+  /* Brand-specific utilities */
+  .text-gradient-brand {
+    @apply bg-gradient-to-br from-nextgen-purple via-nextgen-blue to-nextgen-purple/80 bg-clip-text text-transparent;
+  }
+  
+  .text-gradient-accent {
+    @apply bg-gradient-to-br from-nextgen-yellow via-nextgen-yellow/90 to-nextgen-yellow/70 bg-clip-text text-transparent;
+  }
+  
+  .button-hover-effect {
+    @apply transition-colors duration-200 hover:opacity-90;
+  }
+  
+  .glass-card {
+    @apply backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)] rounded-2xl;
   }
 }
 
