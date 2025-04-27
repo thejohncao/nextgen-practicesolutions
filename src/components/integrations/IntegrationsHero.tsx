@@ -2,11 +2,19 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowDown } from "lucide-react";
+import { Shield } from "lucide-react";
 
 const IntegrationsHero = () => {
+  const handleScroll = () => {
+    const gridSection = document.getElementById('integrations-grid');
+    if (gridSection) {
+      gridSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section className="py-20 lg:py-24 px-6 md:px-8 lg:px-12 bg-gradient-to-b from-nextgen-dark/95 to-nextgen-dark relative overflow-hidden">
-      {/* Video Background */}
+      {/* Background Video Effect */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <video
           autoPlay
@@ -25,38 +33,35 @@ const IntegrationsHero = () => {
       </div>
 
       <div className="container mx-auto max-w-5xl text-center">
+        <div className="inline-flex items-center gap-2 mb-6 px-3 py-1 rounded-full bg-white/5 border border-white/10">
+          <Shield className="h-4 w-4 text-nextgen-purple" />
+          <span className="text-sm font-medium text-white/80">Trusted by Practices</span>
+        </div>
+
         <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 text-white text-gradient">
           Seamless Integrations With the Platforms Modern Practices Trust
         </h1>
         
-        <h2 className="text-xl md:text-2xl font-medium mb-6 text-white/80">
+        <h2 className="text-xl md:text-2xl font-medium mb-8 text-white/80">
           Expand your capabilities instantly.
         </h2>
         
-        <div className="mb-10 max-w-4xl mx-auto">
-          <p className="text-lg text-white/70 mb-4">
+        <div className="mb-12 max-w-4xl mx-auto">
+          <p className="text-lg text-white/70 mb-8">
             NextGen Practice Solutions connects with the leading healthcare, marketing, and operational platforms to streamline every part of your practice — from patient acquisition to lifetime retention.
           </p>
           
-          <p className="text-lg text-white/70 mb-6">
-            Whether you're managing patient financing, CRM workflows, marketing campaigns, or daily operations, NextGen integrates seamlessly with the tools you already trust.
-          </p>
-          
           <p className="text-lg text-white/70">
-            Boost efficiency, accelerate growth, and future-proof your practice with our built-in compatibility across the industry's most powerful platforms.
+            Whether you're managing patient financing, CRM workflows, marketing campaigns, or daily operations, NextGen integrates seamlessly with the tools you already trust.
           </p>
         </div>
         
         <Button 
-          className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white px-8 py-6 h-auto text-lg"
-          onClick={() => {
-            const gridSection = document.getElementById('integrations-grid');
-            if (gridSection) {
-              gridSection.scrollIntoView({ behavior: 'smooth' });
-            }
-          }}
+          onClick={handleScroll}
+          className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white group transition-all duration-300"
         >
-          Explore All Integrations <ArrowDown className="ml-2 h-5 w-5" />
+          Explore All Integrations
+          <ArrowDown className="ml-2 h-5 w-5 group-hover:translate-y-1 transition-transform" />
         </Button>
       </div>
     </section>
