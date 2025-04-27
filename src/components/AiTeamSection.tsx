@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { agents } from '@/data/agents';
@@ -10,6 +11,7 @@ import {
   CarouselNext,
   CarouselPrevious
 } from "@/components/ui/carousel";
+import { Link } from 'react-router-dom';
 
 // Reorder agents to match patient journey
 const orderedAgents = agents.sort((a, b) => {
@@ -111,9 +113,11 @@ const AITeamSection = () => {
         {/* New CTA Button */}
         <div className="text-center">
           <Button 
+            asChild
+            variant="default"
             className="bg-[#6C63FF] hover:bg-[#5a52e0] text-white font-bold py-3 px-8 rounded-lg text-lg"
           >
-            Meet Your Executive Team
+            <Link to="/solutions">Meet Your Executive Team</Link>
           </Button>
         </div>
       </div>
@@ -122,3 +126,4 @@ const AITeamSection = () => {
 };
 
 export default AITeamSection;
+
