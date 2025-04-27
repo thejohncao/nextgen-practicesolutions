@@ -1,8 +1,8 @@
+
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import IntegrationsHeader from './integrations/IntegrationsHeader';
 import IntegrationsList from './integrations/IntegrationsList';
-import ComplianceSection from './integrations/ComplianceSection';
 import { Button } from './ui/button';
 import { ArrowRight } from 'lucide-react';
 import { Dialog, DialogContent } from './ui/dialog';
@@ -37,13 +37,6 @@ const IntegrationsSection = () => {
     "Slack", "Cherry", "Stripe", "Loom", "Podium", "Notion"
   ];
 
-  const complianceChecklist = [
-    "HIPAA-Compliant Framework",
-    "End-to-End Encryption",
-    "Hosted on U.S. Secure Servers",
-    "Built with HITECH & ADA Guidelines"
-  ];
-
   return (
     <section id="integrations" className="section-padding py-20 bg-gradient-to-b from-nextgen-dark/95 to-nextgen-dark">
       <div className="container mx-auto">
@@ -53,7 +46,6 @@ const IntegrationsSection = () => {
           isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
         }`}>
           <IntegrationsList integrations={integrations} isVisible={isVisible} />
-          <ComplianceSection complianceChecklist={complianceChecklist} />
           
           <div className="flex justify-center mt-8">
             <Button 

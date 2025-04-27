@@ -4,8 +4,8 @@ import Layout from '../components/Layout';
 import HeroSection from '../components/HeroSection';
 import AITeamSection from '../components/AiTeamSection';
 import PatientJourneySection from '../components/PatientJourneySection';
-import IntegrationsSection from '../components/IntegrationsSection';
 import HealthcareSecuritySection from '../components/HealthcareSecuritySection';
+import IntegrationsSection from '../components/IntegrationsSection';
 import AcademyOverviewSection from '../components/AcademyOverviewSection';
 import ROISection from '../components/ROISection';
 import FooterCTA from '../components/FooterCTA';
@@ -23,8 +23,8 @@ const Index = () => {
       <HeroSection />
       <AITeamSection />
       <PatientJourneySection />
-      <IntegrationsSection />
       <HealthcareSecuritySection />
+      <IntegrationsSection />
       <AcademyOverviewSection />
       <ROISection />
       <FooterCTA />
