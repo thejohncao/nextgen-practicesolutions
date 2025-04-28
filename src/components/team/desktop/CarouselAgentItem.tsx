@@ -11,7 +11,7 @@ interface CarouselAgentItemProps {
   isActive: boolean;
   phaseDescription: string;
   phaseColor: string;
-  onSlideChange: (index: number) => void;
+  onSelect: () => void;
 }
 
 const CarouselAgentItem = ({
@@ -20,7 +20,7 @@ const CarouselAgentItem = ({
   isActive,
   phaseDescription,
   phaseColor,
-  onSlideChange,
+  onSelect,
 }: CarouselAgentItemProps) => {
   return (
     <div 
@@ -39,7 +39,7 @@ const CarouselAgentItem = ({
           color={agent.color}
           tooltipText={getTooltipText(agent.name)}
           isActive={isActive}
-          onClick={() => onSlideChange(index)}
+          onClick={onSelect}
         />
         <CarouselAgentCard 
           agent={agent} 
