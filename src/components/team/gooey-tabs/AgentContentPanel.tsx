@@ -32,10 +32,35 @@ const AgentContentPanel = ({
   quote,
   fullDescription
 }: AgentContentPanelProps) => {
+  // Get agent-specific styling classes
+  const getAgentAccentColor = (color: string): string => {
+    switch(color) {
+      case 'green': return "from-green-500/30 to-green-700/10";
+      case 'blue': return "from-blue-500/30 to-blue-700/10";
+      case 'purple': return "from-purple-500/30 to-purple-700/10";
+      case 'gold': return "from-amber-500/30 to-amber-700/10";
+      default: return "from-white/20 to-white/5";
+    }
+  };
+  
+  const getAgentTextGradient = (color: string): string => {
+    switch(color) {
+      case 'green': return "from-green-300 to-green-100";
+      case 'blue': return "from-blue-300 to-blue-100";
+      case 'purple': return "from-purple-300 to-purple-100";
+      case 'gold': return "from-amber-300 to-amber-100";
+      default: return "from-white to-white/80";
+    }
+  };
+
   return (
     <motion.div
       key={agent.name}
-      className={`glass-card rounded-xl p-5 md:p-6 bg-gradient-to-br ${getAgentCardColor(agent.color)} border ${getAgentBorderColor(agent.color)}`}
+      className={cn(
+        "glass-card rounded-xl p-5 md:p-6 bg-gradient-to-br",
+        getAgentCardColor(agent.color),
+        getAgentBorderColor(agent.color)
+      )}
       initial={{ opacity: 0, y: 20 }}
       animate={{ 
         opacity: activeTab === index ? 1 : 0,
@@ -44,22 +69,45 @@ const AgentContentPanel = ({
       }}
       transition={{ duration: 0.5 }}
     >
+      {/* Agent-colored accent gradient at the top of the panel */}
+      <div className={cn(
+        "absolute top-0 left-0 right-0 h-1 rounded-t-xl bg-gradient-to-r",
+        getAgentAccentColor(agent.color)
+      )}></div>
+      
       <div className="grid md:grid-cols-2 gap-6 md:gap-8">
         {/* Left Column: Agent Profile */}
         <div className="space-y-5">
           <div className="flex items-center gap-3 mb-2 sm:mb-4">
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center bg-${agent.color}-500/20`}>
+            <div className={cn(
+              "w-8 h-8 rounded-full flex items-center justify-center",
+              agent.color === 'green' ? "bg-green-500/20" :
+              agent.color === 'blue' ? "bg-blue-500/20" :
+              agent.color === 'purple' ? "bg-purple-500/20" : 
+              "bg-amber-500/20"
+            )}>
               <span className="font-bold text-white">{index + 1}</span>
             </div>
             <div>
-              <h3 className="text-lg sm:text-xl font-bold text-white">{stageTitle}</h3>
+              <h3 className={cn(
+                "text-lg sm:text-xl font-bold bg-gradient-to-r bg-clip-text text-transparent",
+                getAgentTextGradient(agent.color)
+              )}>
+                {stageTitle}
+              </h3>
               <p className="text-sm text-white/70">{agent.name} - {agent.title}</p>
             </div>
           </div>
           
           <div className="space-y-4">
             <p className="text-white/90">{fullDescription}</p>
-            <p className="italic text-white/80">"{quote}"</p>
+            <p className={cn(
+              "italic font-medium border-l-2 pl-3",
+              agent.color === 'green' ? "border-green-500/50" :
+              agent.color === 'blue' ? "border-blue-500/50" :
+              agent.color === 'purple' ? "border-purple-500/50" : 
+              "border-amber-500/50"
+            )}>"{quote}"</p>
             <AgentProfile agent={agent} />
           </div>
         </div>
