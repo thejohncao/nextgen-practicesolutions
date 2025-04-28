@@ -24,7 +24,7 @@ const PatientJourneySection = () => {
           }
         });
       },
-      { threshold: 0.5 }
+      { threshold: 0.6 }
     );
 
     const stageElements = sectionRef.current?.querySelectorAll('.journey-stage');
@@ -48,7 +48,10 @@ const PatientJourneySection = () => {
 
         <div 
           ref={sectionRef} 
-          className={`${isMobile ? 'flex flex-col gap-12' : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'}`}
+          className={`${isMobile 
+            ? 'flex flex-col gap-12' 
+            : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'
+          }`}
         >
           {patientJourney.map((stage, index) => (
             <div 
