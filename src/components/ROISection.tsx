@@ -1,5 +1,6 @@
+
 import React from 'react';
-import { TrendingUp, Check } from "lucide-react";
+import { TrendingUp, Check, Clock, Zap, Heart } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -35,22 +36,69 @@ const comparisonData = [
   }
 ];
 
+const benefitCards = [
+  {
+    icon: Clock,
+    title: "Save Your Time",
+    description: "Eliminate busywork. Automate operations. Buy back the hours you can never replace."
+  },
+  {
+    icon: Zap,
+    title: "Recharge Your Energy",
+    description: "Remove chaos from your day. Empower your team. Grow with momentum, not stress."
+  },
+  {
+    icon: Heart,
+    title: "Win Back Your Life",
+    description: "Spend time with family. Lead with vision, not exhaustion. Build a life outside the office."
+  }
+];
+
 const ROISection = () => {
   return (
-    <section id="roi" className="section-padding py-20">
+    <section id="roi" className="section-padding py-20 relative overflow-hidden scroll-transition">
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute top-1/3 right-1/3 w-[400px] h-[400px] bg-nextgen-purple/10 blur-[100px] rounded-full animate-pulse-slow"></div>
+        <div className="absolute bottom-1/3 left-1/3 w-[300px] h-[300px] bg-[#E87C7C]/10 blur-[80px] rounded-full animate-pulse-slow" style={{animationDelay: '1s'}}></div>
+      </div>
+      
       <div className="container mx-auto">
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-in">
           <div className="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full bg-white/5 border border-white/10">
             <TrendingUp className="h-4 w-4 text-nextgen-purple" />
             <span className="text-sm font-medium text-white/80">ROI Snapshot</span>
           </div>
           
           <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
-            The Results Speak for Themselves
+            Your Life, Upgraded by NextGen.
           </h2>
+          
+          <p className="text-lg text-white/70">
+            We didn't just build software. We built freedom for practice owners.
+          </p>
         </div>
         
-        <div className="hidden md:block glass-card p-6 md:p-8 rounded-xl overflow-hidden">
+        {/* Emotional Benefit Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          {benefitCards.map((card, index) => (
+            <div 
+              key={card.title} 
+              className="glass-card p-6 text-center flex flex-col items-center animate-fade-in-up" 
+              style={{animationDelay: `${index * 100}ms`}}
+            >
+              <div className="w-14 h-14 rounded-full bg-nextgen-purple/20 flex items-center justify-center mb-4">
+                <card.icon size={24} className="text-nextgen-purple" strokeWidth={1.5} />
+              </div>
+              <h3 className="text-xl font-medium text-white mb-3">{card.title}</h3>
+              <p className="text-white/70 whitespace-pre-line leading-relaxed">
+                {card.description}
+              </p>
+            </div>
+          ))}
+        </div>
+        
+        {/* ROI Metrics */}
+        <div className="hidden md:block glass-card p-6 md:p-8 rounded-xl overflow-hidden animate-fade-in" style={{animationDelay: '400ms'}}>
           <div className="grid grid-cols-3 gap-4 mb-6 text-sm md:text-base">
             <div className="col-span-1 font-medium text-white/80">Metric</div>
             <div className="text-center font-medium text-white/80">
@@ -106,7 +154,8 @@ const ROISection = () => {
           </div>
         </div>
         
-        <div className="md:hidden">
+        {/* Mobile Carousel for ROI Metrics */}
+        <div className="md:hidden animate-fade-in" style={{animationDelay: '400ms'}}>
           <Carousel className="w-full">
             <CarouselContent>
               {comparisonData.map((item, index) => (

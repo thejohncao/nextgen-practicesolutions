@@ -4,6 +4,20 @@
   .scroll-transition {
     transition: transform 0.8s cubic-bezier(0.33, 1, 0.68, 1);
   }
+
+  .section-transition {
+    transition: opacity 0.6s ease-out, transform 0.8s cubic-bezier(0.33, 1, 0.68, 1);
+  }
+  
+  .section-enter-animation {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  
+  .section-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes quantum-float {
@@ -45,3 +59,24 @@
     transform: rotate(360deg);
   }
 }
+
+@keyframes smooth-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes card-float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(0.5deg);
+  }
+}
+
