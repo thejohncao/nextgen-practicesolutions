@@ -32,7 +32,7 @@ const CarouselAgentItem = ({
         animation: `fadeInUp 0.7s ease-out forwards ${index * 0.1}s`
       }}
     >
-      <div className="flex flex-col items-center gap-6">
+      <div className="flex flex-col items-center gap-4">
         <AgentOrb
           name={agent.name}
           role={agent.title}

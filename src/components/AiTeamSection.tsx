@@ -4,7 +4,6 @@ import TimelinePhases from './team/TimelinePhases';
 import AgentCarousel from './team/AgentCarousel';
 import TeamSectionHeader from './team/TeamSectionHeader';
 import TeamCTA from './team/TeamCTA';
-import MicroCarouselSection from './team/micro-carousel/MicroCarouselSection';
 import { orderedAgents, teamPhases } from './team/data/TeamPhases';
 
 const AITeamSection = () => {
@@ -32,8 +31,6 @@ const AITeamSection = () => {
 
         <TeamCTA />
       </div>
-      
-      <MicroCarouselSection />
     </section>
   );
 };

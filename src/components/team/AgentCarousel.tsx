@@ -25,7 +25,7 @@ const AgentCarousel = ({
   return (
     <div className="mb-12" ref={carouselRef}>
       <div className={`w-full max-w-5xl mx-auto ${isMobile ? 'space-y-6' : ''}`}>
-        <div className={isMobile ? 'space-y-6' : 'grid grid-cols-2 gap-6'}>
+        <div className={isMobile ? 'space-y-6' : 'grid grid-cols-4 gap-4'}>
           {agents.map((agent, index) => (
             <div 
               key={agent.name}

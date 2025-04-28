@@ -18,7 +18,7 @@ export const teamPhases: Phase[] = [
     textColor: 'text-green-400'
   },
   { 
-    title: 'Phase 2: Manage Scheduling', 
+    title: 'Phase 2: Onboard & Convert', 
     agent: 'Miles',
     story: 'Streamline operations and create frictionless patient experiences.',
     color: 'bg-blue-500/10',
@@ -26,7 +26,7 @@ export const teamPhases: Phase[] = [
     textColor: 'text-blue-400'
   },
   { 
-    title: 'Phase 3: Close Treatment', 
+    title: 'Phase 3: Retain & Grow', 
     agent: 'Devon',
     story: 'Convert prospects into lifelong patients with personalized care.',
     color: 'bg-purple-500/10',
@@ -34,7 +34,7 @@ export const teamPhases: Phase[] = [
     textColor: 'text-purple-400'
   },
   { 
-    title: 'Phase 4: Train Your Team', 
+    title: 'Phase 4: Train & Scale', 
     agent: 'Alma',
     story: 'Build a high-performing team that delivers exceptional care.',
     color: 'bg-amber-500/10',

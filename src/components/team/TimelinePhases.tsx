@@ -2,6 +2,7 @@
 import React from 'react';
 import { Phase } from './PhaseData';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { Magnet, Calendar, ArrowUp, GraduationCap } from 'lucide-react';
 
 interface TimelinePhasesProps {
   phases: Phase[];
@@ -11,6 +12,17 @@ interface TimelinePhasesProps {
 
 const TimelinePhases = ({ phases, activeIndex, onPhaseClick }: TimelinePhasesProps) => {
   const isMobile = useIsMobile();
+
+  // Get the appropriate icon for each phase
+  const getPhaseIcon = (index: number) => {
+    switch (index) {
+      case 0: return <Magnet className={`w-5 h-5 ${activeIndex === index ? phases[index].textColor : 'text-white/70'}`} />;
+      case 1: return <Calendar className={`w-5 h-5 ${activeIndex === index ? phases[index].textColor : 'text-white/70'}`} />;
+      case 2: return <ArrowUp className={`w-5 h-5 ${activeIndex === index ? phases[index].textColor : 'text-white/70'}`} />;
+      case 3: return <GraduationCap className={`w-5 h-5 ${activeIndex === index ? phases[index].textColor : 'text-white/70'}`} />;
+      default: return null;
+    }
+  };
 
   // On mobile, we'll hide the timeline if it would clutter the UI
   if (isMobile) return null;
@@ -33,10 +45,11 @@ const TimelinePhases = ({ phases, activeIndex, onPhaseClick }: TimelinePhasesPro
                 w-12 h-12 rounded-full border
                 transition-all duration-300 ease-in-out
                 flex items-center justify-center mb-2
-                hover:scale-105
+                hover:scale-105 hover:shadow-[0_0_15px_rgba(255,255,255,0.3)]
                 ${activeIndex === index ? phase.color : 'bg-white/5'}
                 ${activeIndex === index ? phase.borderColor : 'border-white/10'}
                 ${activeIndex === index ? 'shadow-[0_0_15px_rgba(255,255,255,0.2)]' : ''}
+                ${activeIndex === index ? 'animate-pulse-slow' : ''}
               `}
             >
               <span 
@@ -48,7 +61,8 @@ const TimelinePhases = ({ phases, activeIndex, onPhaseClick }: TimelinePhasesPro
                 {index + 1}
               </span>
             </div>
-            <div className="text-center w-28">
+            <div className="text-center w-36 flex flex-col items-center gap-1">
+              {getPhaseIcon(index)}
               <span className={`
                 text-sm font-medium transition-colors duration-300
                 ${activeIndex === index ? 'text-white' : 'text-white/70'}
