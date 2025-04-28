@@ -68,8 +68,8 @@ const AgentContentPanel = ({
     <motion.div
       key={agent.name}
       className={cn(
-        "rounded-xl rounded-tl-none p-5 md:p-6 border border-t-0 border-white/10",
-        "bg-[#1A1F2C]/90 backdrop-blur-md"
+        "rounded-xl rounded-tl-none p-4 md:p-5 border border-t-0 border-white/10",
+        "bg-[#111827]/95 backdrop-blur-md"
       )}
       initial={{ opacity: 0, y: 20 }}
       animate={{ 
@@ -80,7 +80,7 @@ const AgentContentPanel = ({
       transition={{ duration: 0.5 }}
     >
       {/* File header style element */}
-      <div className="flex items-center mb-4 pb-2 border-b border-white/10">
+      <div className="flex items-center mb-3 pb-2 border-b border-white/10">
         <div className={cn(
           "w-3 h-3 rounded-full mr-2",
           agent.color === 'green' ? "bg-green-400" :
@@ -96,13 +96,13 @@ const AgentContentPanel = ({
         </div>
       </div>
       
-      <div className="grid md:grid-cols-2 gap-6 md:gap-8">
+      <div className="grid md:grid-cols-2 gap-4 md:gap-6">
         {/* Left Column: Agent Profile - styled like a file in folder */}
         <div className={cn(
-          "space-y-5 rounded-md border-l-2 pl-4 py-2",
+          "space-y-4 rounded-md border-l-2 pl-3 py-1",
           getAgentFolderStyle(agent.color)
         )}>
-          <div className="flex items-center gap-3 mb-2">
+          <div className="flex items-center gap-3 mb-1">
             <div className={cn(
               "w-7 h-7 rounded-full flex items-center justify-center",
               agent.color === 'green' ? "bg-green-500/20" :
@@ -119,10 +119,10 @@ const AgentContentPanel = ({
             </div>
           </div>
           
-          <div className="space-y-4">
-            <p className="text-white/90">{fullDescription}</p>
+          <div className="space-y-3">
+            <p className="text-white/90 text-sm">{fullDescription}</p>
             <p className={cn(
-              "italic font-medium border-l-2 pl-3",
+              "italic text-sm font-medium border-l-2 pl-3",
               agent.color === 'green' ? "border-green-500/50" :
               agent.color === 'blue' ? "border-blue-500/50" :
               agent.color === 'purple' ? "border-purple-500/50" : 

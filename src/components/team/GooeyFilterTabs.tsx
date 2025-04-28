@@ -36,7 +36,7 @@ const GooeyFilterTabs = ({ className }: GooeyFilterTabsProps) => {
   }, [activeTab]);
 
   return (
-    <div className={cn("relative py-12 mt-0 bg-black/40 backdrop-blur-sm", className)} id="ai-team">
+    <div className={cn("relative py-8 mt-0 bg-black/60 backdrop-blur-sm", className)} id="ai-team">
       <div className="container mx-auto px-4">
         <TeamSectionHeader />
 
@@ -65,7 +65,7 @@ const GooeyFilterTabs = ({ className }: GooeyFilterTabsProps) => {
         </div>
 
         {/* CTA Button */}
-        <div className="text-center mt-12">
+        <div className="text-center mt-8">
           <button 
             className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors"
             onClick={() => window.location.href = '/solutions'}

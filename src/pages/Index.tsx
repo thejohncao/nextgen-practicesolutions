@@ -19,10 +19,19 @@ const Index = () => {
   return (
     <Layout>
       <HeroSection />
-      {/* Move AI Team section right after hero */}
+      
+      {/* Meet the AI Team section with improved folder-style UI */}
       <GooeyFilterTabs />
-      {/* Combined Demo + Results section */}
+      
+      {/* Visual separator between dark and light sections */}
+      <div className="h-8 bg-gradient-to-b from-black/60 to-white"></div>
+      
+      {/* Demo + Results section with white background */}
       <DemoResultsSection />
+      
+      {/* Visual separator between light and dark sections */}
+      <div className="h-8 bg-gradient-to-b from-white to-nextgen-dark"></div>
+      
       {/* ROI section that consolidates the emotional benefits */}
       <ROISection />
       <HealthcareSecuritySection />

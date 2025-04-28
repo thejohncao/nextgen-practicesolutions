@@ -10,28 +10,57 @@ interface AgentResultCardProps {
   result: AgentResultItem;
   index: number;
   isMobile: boolean;
+  isLightMode?: boolean;
 }
 
-const AgentResultCard = ({ result, index, isMobile }: AgentResultCardProps) => {
+const AgentResultCard = ({ result, index, isMobile, isLightMode = false }: AgentResultCardProps) => {
   // Enhanced card color functions
-  const getEnhancedCardBg = (color: string) => {
-    switch(color) {
-      case 'green': return "bg-gradient-to-br from-green-500/20 to-black/50";
-      case 'blue': return "bg-gradient-to-br from-blue-500/20 to-black/50";
-      case 'purple': return "bg-gradient-to-br from-purple-500/20 to-black/50";
-      case 'gold': return "bg-gradient-to-br from-amber-500/20 to-black/50";
-      default: return "bg-gradient-to-br from-white/10 to-black/50";
+  const getEnhancedCardBg = (color: string, isLightMode: boolean) => {
+    if (isLightMode) {
+      switch(color) {
+        case 'green': return "bg-gradient-to-br from-green-50/80 to-white";
+        case 'blue': return "bg-gradient-to-br from-blue-50/80 to-white";
+        case 'purple': return "bg-gradient-to-br from-purple-50/80 to-white";
+        case 'gold': return "bg-gradient-to-br from-amber-50/80 to-white";
+        default: return "bg-gradient-to-br from-gray-50/80 to-white";
+      }
+    } else {
+      switch(color) {
+        case 'green': return "bg-gradient-to-br from-green-500/20 to-black/50";
+        case 'blue': return "bg-gradient-to-br from-blue-500/20 to-black/50";
+        case 'purple': return "bg-gradient-to-br from-purple-500/20 to-black/50";
+        case 'gold': return "bg-gradient-to-br from-amber-500/20 to-black/50";
+        default: return "bg-gradient-to-br from-white/10 to-black/50";
+      }
     }
   };
   
-  const getEnhancedCardBorder = (color: string) => {
-    switch(color) {
-      case 'green': return "border-green-500/40";
-      case 'blue': return "border-blue-500/40";
-      case 'purple': return "border-purple-500/40";
-      case 'gold': return "border-amber-500/40";
-      default: return "border-white/30";
+  const getEnhancedCardBorder = (color: string, isLightMode: boolean) => {
+    if (isLightMode) {
+      switch(color) {
+        case 'green': return "border-green-200";
+        case 'blue': return "border-blue-200";
+        case 'purple': return "border-purple-200";
+        case 'gold': return "border-amber-200";
+        default: return "border-gray-200";
+      }
+    } else {
+      switch(color) {
+        case 'green': return "border-green-500/40";
+        case 'blue': return "border-blue-500/40";
+        case 'purple': return "border-purple-500/40";
+        case 'gold': return "border-amber-500/40";
+        default: return "border-white/30";
+      }
     }
+  };
+
+  const getTextColor = (isLightMode: boolean) => {
+    return isLightMode ? "text-gray-800" : "text-white";
+  };
+
+  const getDescriptionColor = (isLightMode: boolean) => {
+    return isLightMode ? "text-gray-600" : "text-white/90";
   };
 
   return (
@@ -42,9 +71,9 @@ const AgentResultCard = ({ result, index, isMobile }: AgentResultCardProps) => {
       <Card 
         className={`
           h-full transition-all duration-300 hover:scale-[1.02] 
-          ${getEnhancedCardBg(result.color)} 
-          border ${getEnhancedCardBorder(result.color)}
-          overflow-hidden relative backdrop-blur-md
+          ${getEnhancedCardBg(result.color, isLightMode)} 
+          border ${getEnhancedCardBorder(result.color, isLightMode)}
+          overflow-hidden relative ${isLightMode ? "shadow-sm" : "backdrop-blur-md"}
         `}
       >
         <CardContent className="p-6">
@@ -57,22 +86,22 @@ const AgentResultCard = ({ result, index, isMobile }: AgentResultCardProps) => {
               size="sm"
             />
             <div className="ml-3">
-              <h4 className="font-semibold text-white">{result.agent}</h4>
-              <p className="text-sm text-white/80">{result.role}</p>
+              <h4 className={`font-semibold ${getTextColor(isLightMode)}`}>{result.agent}</h4>
+              <p className={`text-sm ${isLightMode ? "text-gray-500" : "text-white/80"}`}>{result.role}</p>
             </div>
           </div>
           
           {/* Result content */}
           <div>
-            <h3 className="text-xl font-bold mb-2 flex items-center text-white">
-              <Sparkle className="w-4 h-4 mr-2 text-white/90" />
+            <h3 className={`text-xl font-bold mb-2 flex items-center ${getTextColor(isLightMode)}`}>
+              <Sparkle className={`w-4 h-4 mr-2 ${isLightMode ? "text-indigo-500" : "text-white/90"}`} />
               {result.title}
             </h3>
-            <p className="text-white/90">{result.description}</p>
+            <p className={getDescriptionColor(isLightMode)}>{result.description}</p>
           </div>
 
           {/* Subtle decoration */}
-          <div className={`absolute top-0 right-0 w-24 h-24 opacity-20 rounded-full blur-xl bg-${result.color === 'green' ? 'green' : result.color === 'blue' ? 'blue' : result.color === 'purple' ? 'purple' : 'amber'}-500 -translate-y-1/2 translate-x-1/2`} />
+          <div className={`absolute top-0 right-0 w-24 h-24 opacity-${isLightMode ? '10' : '20'} rounded-full blur-xl bg-${result.color === 'green' ? 'green' : result.color === 'blue' ? 'blue' : result.color === 'purple' ? 'purple' : 'amber'}-${isLightMode ? '300' : '500'} -translate-y-1/2 translate-x-1/2`} />
         </CardContent>
       </Card>
     </div>

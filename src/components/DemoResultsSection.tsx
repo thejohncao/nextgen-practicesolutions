@@ -11,18 +11,19 @@ const DemoResultsSection = () => {
   const featuredResults = getDuplicatedResults().slice(0, 4);
 
   return (
-    <section className="py-24 relative overflow-hidden scroll-transition">
+    <section className="py-20 relative overflow-hidden scroll-transition bg-white">
+      {/* Subtle background effects */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-nextgen-purple/20 blur-[120px] rounded-full animate-pulse-slow"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-[#3E63DD]/20 blur-[100px] rounded-full animate-pulse-slow" style={{animationDelay: '1.5s'}}></div>
+        <div className="absolute top-1/3 left-1/4 w-[400px] h-[400px] bg-blue-100/40 blur-[120px] rounded-full animate-pulse-slow"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] bg-purple-100/40 blur-[100px] rounded-full animate-pulse-slow" style={{animationDelay: '1.5s'}}></div>
       </div>
 
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient animate-fade-in">
+          <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gray-800">
             See it in Action. See Real Results.
           </h2>
-          <p className="text-lg text-white/80 max-w-2xl mx-auto animate-fade-in" 
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto animate-fade-in" 
              style={{animationDelay: '100ms'}}>
             Watch how our AI team transforms dental practices, then see the measurable outcomes from real customers.
           </p>
@@ -30,9 +31,9 @@ const DemoResultsSection = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Left side: Demo/Conversation */}
-          <div className="animate-fade-in-up glass-card p-6 border border-white/20" style={{animationDelay: '200ms'}}>
-            <div className="mb-6 text-xl font-medium text-white opacity-90">
-              <span className="bg-nextgen-purple/30 py-1 px-3 rounded-full text-sm mr-2">Demo</span>
+          <div className="animate-fade-in-up border border-gray-200 bg-white rounded-xl shadow-md p-6" style={{animationDelay: '200ms'}}>
+            <div className="mb-6 text-xl font-medium text-gray-800">
+              <span className="bg-indigo-100 text-indigo-800 py-1 px-3 rounded-full text-sm mr-2">Demo</span>
               How Your AI Team Works
             </div>
             
@@ -49,9 +50,9 @@ const DemoResultsSection = () => {
           </div>
 
           {/* Right side: Results/Outcomes */}
-          <div className="animate-fade-in-up glass-card p-6 border border-white/20" style={{animationDelay: '400ms'}}>
-            <div className="mb-6 text-xl font-medium text-white opacity-90">
-              <span className="bg-green-500/30 py-1 px-3 rounded-full text-sm mr-2">Results</span>
+          <div className="animate-fade-in-up border border-gray-200 bg-white rounded-xl shadow-md p-6" style={{animationDelay: '400ms'}}>
+            <div className="mb-6 text-xl font-medium text-gray-800">
+              <span className="bg-green-100 text-green-800 py-1 px-3 rounded-full text-sm mr-2">Results</span>
               Real Practice Outcomes
             </div>
             
@@ -65,7 +66,8 @@ const DemoResultsSection = () => {
                   <AgentResultCard 
                     result={result} 
                     index={index} 
-                    isMobile={false} 
+                    isMobile={false}
+                    isLightMode={true}
                   />
                 </div>
               ))}
@@ -74,7 +76,7 @@ const DemoResultsSection = () => {
             <div className="mt-8 text-center">
               <Button 
                 variant="outline"
-                className="border-nextgen-purple/40 text-nextgen-purple hover:bg-nextgen-purple/10"
+                className="border-nextgen-purple/60 text-nextgen-purple hover:bg-nextgen-purple/10"
               >
                 View All Results
               </Button>

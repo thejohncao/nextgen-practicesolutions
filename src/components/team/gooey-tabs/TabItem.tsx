@@ -17,13 +17,13 @@ const TabItem = ({ agent, index, activeTab, onClick }: TabItemProps) => {
   
   // Get folder tab color based on agent
   const getTabBgClass = (color: string, isActive: boolean): string => {
-    if (!isActive) return "bg-black/30 hover:bg-black/50";
+    if (!isActive) return "bg-black/50 hover:bg-black/70";
     
     switch(color) {
-      case 'green': return "bg-green-500/20 border-b-0";
-      case 'blue': return "bg-blue-500/20 border-b-0";
-      case 'purple': return "bg-purple-500/20 border-b-0";
-      case 'gold': return "bg-amber-500/20 border-b-0";
+      case 'green': return "bg-green-500/30 border-b-0";
+      case 'blue': return "bg-blue-500/30 border-b-0";
+      case 'purple': return "bg-purple-500/30 border-b-0";
+      case 'gold': return "bg-amber-500/30 border-b-0";
       default: return "bg-white/10 border-b-0";
     }
   };
@@ -33,10 +33,10 @@ const TabItem = ({ agent, index, activeTab, onClick }: TabItemProps) => {
     if (!isActive) return "border-white/5 border-b-white/20";
     
     switch(color) {
-      case 'green': return "border-green-500/30 border-b-transparent";
-      case 'blue': return "border-blue-500/30 border-b-transparent";
-      case 'purple': return "border-purple-500/30 border-b-transparent";
-      case 'gold': return "border-amber-500/30 border-b-transparent";
+      case 'green': return "border-green-500/50 border-b-transparent";
+      case 'blue': return "border-blue-500/50 border-b-transparent";
+      case 'purple': return "border-purple-500/50 border-b-transparent";
+      case 'gold': return "border-amber-500/50 border-b-transparent";
       default: return "border-white/20 border-b-transparent";
     }
   };
@@ -71,7 +71,7 @@ const TabItem = ({ agent, index, activeTab, onClick }: TabItemProps) => {
       className={cn(
         "relative z-10 flex items-center px-4 pt-2 pb-3 rounded-t-lg",
         "border border-b-[3px] transition-all duration-300",
-        "cursor-pointer",
+        "cursor-pointer shadow-md",
         getTabBgClass(agent.color, isActive),
         getTabBorderClass(agent.color, isActive),
         getGlowFilterClass(agent.color, isActive),
