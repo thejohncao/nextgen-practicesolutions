@@ -11,13 +11,13 @@ import FooterCTA from '../components/FooterCTA';
 import PricingSection from '../components/PricingSection';
 import IntegrationsSection from '../components/IntegrationsSection';
 import SuccessGuarantee from '../components/SuccessGuarantee';
-import FounderSection from '../components/FounderSection';
 import ResourcesSection from '../components/ResourcesSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import FAQSection from '../components/FAQSection';
 import WhyWeBuiltSection from '../components/story/WhyWeBuiltSection';
 import TeamResultsSection from '../components/TeamResultsSection';
 import TabbedAgentSection from '../components/journey/TabbedAgentSection';
+import StoryAndFounderSection from '../components/StoryAndFounderSection';
 
 const Index = () => {
   return (
@@ -33,9 +33,9 @@ const Index = () => {
       <ROISection />
       <FooterCTA />
       <PricingSection />
+      <StoryAndFounderSection />
       <IntegrationsSection />
       <SuccessGuarantee />
-      <FounderSection />
       <ResourcesSection />
       <TestimonialsSection />
       <FAQSection />
