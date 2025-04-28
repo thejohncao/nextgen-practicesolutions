@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
   Tooltip,
@@ -14,6 +13,7 @@ interface AgentOrbProps {
   role: string;
   color: string;
   tooltipText: string;
+  animated?: boolean;
   isActive?: boolean;
   onClick?: () => void;
 }
@@ -28,7 +28,7 @@ const getGlowColor = (color: string) => {
   }
 };
 
-const AgentOrb = ({ name, role, color, tooltipText, isActive, onClick }: AgentOrbProps) => {
+const AgentOrb = ({ name, role, color, tooltipText, animated, isActive, onClick }: AgentOrbProps) => {
   const isMobile = useIsMobile();
   const glowColor = getGlowColor(color);
   
@@ -71,7 +71,7 @@ const AgentOrb = ({ name, role, color, tooltipText, isActive, onClick }: AgentOr
               role={role}
               color={color}
               size="lg"
-              animated={isActive}
+              animated={animated}
             />
           </button>
         </TooltipTrigger>
