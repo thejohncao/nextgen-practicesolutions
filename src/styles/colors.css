@@ -47,4 +47,38 @@
   .hover\:bg-purple-500\/20:hover {
     background-color: rgb(168 85 247 / 0.2);
   }
+
+  /* Card background colors - soft pastels */
+  .bg-blue-50\/5 {
+    background-color: rgba(224, 247, 250, 0.05);
+  }
+  
+  .bg-green-50\/5 {
+    background-color: rgba(230, 244, 234, 0.05);
+  }
+  
+  .bg-purple-50\/5 {
+    background-color: rgba(242, 230, 250, 0.05);
+  }
+  
+  .bg-amber-50\/5 {
+    background-color: rgba(255, 249, 229, 0.05);
+  }
+
+  /* Card border colors */
+  .border-blue-200\/10 {
+    border-color: rgba(186, 230, 253, 0.1);
+  }
+  
+  .border-green-200\/10 {
+    border-color: rgba(187, 247, 208, 0.1);
+  }
+  
+  .border-purple-200\/10 {
+    border-color: rgba(216, 180, 254, 0.1);
+  }
+  
+  .border-amber-200\/10 {
+    border-color: rgba(253, 230, 138, 0.1);
+  }
 }

@@ -15,7 +15,7 @@ import ResourcesSection from '../components/ResourcesSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import FAQSection from '../components/FAQSection';
 import WhyWeBuiltSection from '../components/story/WhyWeBuiltSection';
-import TeamResultsSection from '../components/TeamResultsSection';
+import AgentResultsSection from '../components/results/AgentResultsSection';
 import TabbedAgentSection from '../components/journey/TabbedAgentSection';
 import StoryAndFounderSection from '../components/StoryAndFounderSection';
 
@@ -27,7 +27,7 @@ const Index = () => {
       <TabbedAgentSection />
       <AITeamSection />
       <AIBoardroomSection />
-      <TeamResultsSection />
+      <AgentResultsSection />
       <HealthcareSecuritySection />
       <AcademyOverviewSection />
       <ROISection />
