@@ -21,7 +21,7 @@ const AgentCarousel = ({
   carouselRef,
 }: AgentCarouselProps) => {
   const isMobile = useIsMobile();
-
+  
   return (
     <div className="mb-12" ref={carouselRef}>
       <div className={`w-full max-w-5xl mx-auto ${isMobile ? 'space-y-6' : ''}`}>

@@ -8,7 +8,7 @@ const CEOMessage = () => {
         <div className="flex-1 max-w-[80%]">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-6 h-6 rounded-full bg-nextgen-purple/10 flex items-center justify-center text-xs">
-              <span className="text-nextgen-purple font-medium">Owner</span>
+              <span className="text-nextgen-purple font-medium">Practice Owner</span>
             </div>
             <span className="text-sm text-nextgen-dark/60 dark:text-white/60">You</span>
           </div>
