@@ -10,11 +10,12 @@ interface TabNavigationProps {
   activeTab: number;
   setActiveTab: (index: number) => void;
   className?: string;
+  style?: React.CSSProperties;
 }
 
-const TabNavigation = ({ agents, activeTab, setActiveTab, className }: TabNavigationProps) => {
+const TabNavigation = ({ agents, activeTab, setActiveTab, className, style }: TabNavigationProps) => {
   return (
-    <div className={cn("relative flex justify-center mb-12", className)}>
+    <div className={cn("relative flex justify-center mb-12", className)} style={style}>
       {/* SVG Filters for Gooey and Glow Effects */}
       <GooeyFilter />
       
