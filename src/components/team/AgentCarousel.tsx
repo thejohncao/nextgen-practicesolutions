@@ -23,12 +23,17 @@ const AgentCarousel = ({
 }: AgentCarouselProps) => {
   const isMobile = useIsMobile();
 
+  const handleAgentSelect = (index: number) => {
+    onSlideChange(index);
+  };
+
   if (isMobile) {
     return (
       <MobileAgentTimeline
         agents={agents}
         phases={phases}
         activeIndex={activeIndex}
+        onAgentSelect={handleAgentSelect}
         carouselRef={carouselRef}
       />
     );
@@ -40,6 +45,7 @@ const AgentCarousel = ({
       phases={phases}
       activeIndex={activeIndex}
       onSlideChange={onSlideChange}
+      onAgentSelect={handleAgentSelect}
       carouselRef={carouselRef}
     />
   );

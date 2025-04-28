@@ -12,6 +12,7 @@ interface TimelineAgentItemProps {
   phase: Phase;
   index: number;
   isActive: boolean;
+  onSelect?: (index: number) => void;
 }
 
 const TimelineAgentItem = ({
@@ -19,7 +20,12 @@ const TimelineAgentItem = ({
   phase,
   index,
   isActive,
+  onSelect,
 }: TimelineAgentItemProps) => {
+  const handleOrbClick = () => {
+    onSelect?.(index);
+  };
+
   return (
     <div 
       className="relative carousel-agent-item" 
@@ -39,6 +45,7 @@ const TimelineAgentItem = ({
           color={agent.color}
           tooltipText={getTooltipText(agent.name)}
           isActive={isActive}
+          onClick={handleOrbClick}
         />
         <CarouselAgentCard 
           agent={agent} 

@@ -8,13 +8,15 @@ interface MobileAgentTimelineProps {
   agents: Agent[];
   phases: Phase[];
   activeIndex: number;
+  onAgentSelect?: (index: number) => void;
   carouselRef: React.RefObject<HTMLDivElement>;
 }
 
 const MobileAgentTimeline = ({ 
   agents, 
   phases, 
-  activeIndex, 
+  activeIndex,
+  onAgentSelect,
   carouselRef 
 }: MobileAgentTimelineProps) => {
   return (
@@ -32,6 +34,7 @@ const MobileAgentTimeline = ({
           phase={phases[index]}
           index={index}
           isActive={activeIndex === index}
+          onSelect={onAgentSelect}
         />
       ))}
     </div>

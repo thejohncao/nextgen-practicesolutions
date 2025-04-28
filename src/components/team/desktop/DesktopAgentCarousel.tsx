@@ -14,6 +14,7 @@ interface DesktopAgentCarouselProps {
   phases: Phase[];
   activeIndex: number;
   onSlideChange: (index: number) => void;
+  onAgentSelect: (index: number) => void;
   carouselRef: React.RefObject<HTMLDivElement>;
 }
 
@@ -22,6 +23,7 @@ const DesktopAgentCarousel = ({
   phases,
   activeIndex,
   onSlideChange,
+  onAgentSelect,
   carouselRef,
 }: DesktopAgentCarouselProps) => {
   return (
@@ -43,7 +45,7 @@ const DesktopAgentCarousel = ({
                 isActive={activeIndex === index}
                 phaseDescription={phases[index].story}
                 phaseColor={phases[index].color}
-                onSlideChange={onSlideChange}
+                onSelect={() => onAgentSelect(index)}
               />
             </CarouselItem>
           ))}

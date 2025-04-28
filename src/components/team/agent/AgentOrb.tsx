@@ -44,6 +44,18 @@ const AgentOrb = ({ name, role, color, tooltipText, isActive, onClick }: AgentOr
               ${isActive ? 'scale-105' : ''}
             `}
           >
+            {/* Active agent pulse animation */}
+            {isActive && (
+              <div
+                className="absolute inset-0 rounded-full animate-pulse-slow opacity-40"
+                style={{ 
+                  backgroundColor: glowColor,
+                  animation: 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+                }}
+              />
+            )}
+            
+            {/* Hover glow effect */}
             <div 
               className={`
                 absolute inset-0 rounded-full opacity-0
@@ -53,6 +65,7 @@ const AgentOrb = ({ name, role, color, tooltipText, isActive, onClick }: AgentOr
               `}
               style={{ backgroundColor: glowColor }}
             />
+            
             <IllustratedAgentAvatar
               name={name}
               role={role}
