@@ -44,11 +44,11 @@ const getFeatureIcon = (feature: string, color: string) => {
 const getAgentColor = (name: string): string => {
   switch (name.toLowerCase()) {
     case 'miles':
-      return 'red';
+      return 'blue';
     case 'giselle':
       return 'green';
     case 'devon':
-      return 'blue';
+      return 'purple';
     case 'alma':
       return 'gold';
     default:
@@ -59,11 +59,11 @@ const getAgentColor = (name: string): string => {
 const getAgentHexColor = (name: string): string => {
   switch (name.toLowerCase()) {
     case 'miles':
-      return '#ea384c';
+      return '#3A86FF';
     case 'giselle':
       return '#22c55e';
     case 'devon':
-      return '#0FA0CE';
+      return '#9b87f5';
     case 'alma':
       return '#f59e0b';
     default:

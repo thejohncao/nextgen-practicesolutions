@@ -2,8 +2,50 @@
 import React from 'react';
 import ChatConversation from './boardroom/ChatConversation';
 import RainbowButton from './ui/rainbow-button';
+import AgentResultCard from './results/AgentResultCard';
+import { getDuplicatedResults } from '@/data/agentResults';
+import { ArrowRight, ArrowLeft } from 'lucide-react';
+import useEmblaCarousel from 'embla-carousel-react';
+import AutoPlay from 'embla-carousel-autoplay';
+import { useCallback, useEffect, useState } from 'react';
 
 const DemoResultsSection = () => {
+  const [isPaused, setIsPaused] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const duplicatedResults = getDuplicatedResults().slice(0, 6);
+
+  // Initialize Embla carousel
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { 
+      loop: true,
+      align: "start",
+      dragFree: true,
+    },
+    [
+      AutoPlay({ 
+        playOnInit: true, 
+        delay: 5000, 
+        stopOnInteraction: true,
+        stopOnMouseEnter: true, 
+      })
+    ]
+  );
+
+  // Handle carousel navigation
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+
+  // Handle mobile detection
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
+
   const handleChatOpen = () => {
     try {
       const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
@@ -36,7 +78,7 @@ const DemoResultsSection = () => {
       </div>
 
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gray-800">
             See it in Action
           </h2>
@@ -46,22 +88,74 @@ const DemoResultsSection = () => {
           </p>
         </div>
 
-        {/* Single column focus on the demo conversation */}
-        <div className="max-w-3xl mx-auto animate-fade-in-up border border-gray-200 bg-white rounded-xl shadow-md p-6" style={{animationDelay: '200ms'}}>
-          <div className="mb-6 text-xl font-medium text-gray-800">
-            <span className="bg-indigo-100 text-indigo-800 py-1 px-3 rounded-full text-sm mr-2">Demo</span>
-            How Your AI Team Works
+        {/* Two column layout for desktop */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          {/* Left side - Demo conversation */}
+          <div className="animate-fade-in-up border border-gray-200 bg-white rounded-xl shadow-md p-6" style={{animationDelay: '200ms'}}>
+            <div className="mb-6 text-xl font-medium text-gray-800">
+              <span className="bg-indigo-100 text-indigo-800 py-1 px-3 rounded-full text-sm mr-2">Demo</span>
+              How Your AI Team Works
+            </div>
+            
+            <ChatConversation />
+            
+            <div className="mt-8 text-center">
+              <RainbowButton 
+                size="lg"
+                onClick={handleChatOpen}
+              >
+                Talk to Miles
+              </RainbowButton>
+            </div>
           </div>
           
-          <ChatConversation />
-          
-          <div className="mt-8 text-center">
-            <RainbowButton 
-              size="lg"
-              onClick={handleChatOpen}
-            >
-              Talk to Miles
-            </RainbowButton>
+          {/* Right side - Results carousel */}
+          <div className="animate-fade-in-up" style={{animationDelay: '300ms'}}>
+            <div className="mb-6">
+              <div className="flex justify-between items-center">
+                <h3 className="text-xl font-medium text-gray-800">
+                  <span className="bg-purple-100 text-purple-800 py-1 px-3 rounded-full text-sm mr-2">Results</span>
+                  Real Practice Transformations
+                </h3>
+                
+                {/* Carousel controls */}
+                {!isMobile && (
+                  <div className="flex space-x-2">
+                    <button 
+                      onClick={scrollPrev}
+                      className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                    >
+                      <ArrowLeft size={16} />
+                    </button>
+                    <button 
+                      onClick={scrollNext}
+                      className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                    >
+                      <ArrowRight size={16} />
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            {/* Results carousel */}
+            <div className="overflow-hidden" ref={emblaRef}>
+              <div className="flex">
+                {duplicatedResults.map((result, index) => (
+                  <div 
+                    key={`${result.agent}-${result.title}-${index}`}
+                    className="flex-none min-w-full md:min-w-[80%] px-2"
+                  >
+                    <AgentResultCard 
+                      result={result}
+                      index={index}
+                      isMobile={isMobile}
+                      isLightMode={true}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>

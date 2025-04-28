@@ -8,13 +8,13 @@ import ROISection from '../components/ROISection';
 import HealthcareSecuritySection from '../components/HealthcareSecuritySection';
 import AcademyOverviewSection from '../components/AcademyOverviewSection';
 import FooterCTA from '../components/FooterCTA';
-import PricingSection from '../components/PricingSection';
+import PricingSection from '../components/pricing/PricingSection';
+import PricingPackages from '../components/pricing/PricingPackages';
 import IntegrationsSection from '../components/IntegrationsSection';
 import SuccessGuarantee from '../components/SuccessGuarantee';
 import ResourcesSection from '../components/ResourcesSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import FAQSection from '../components/FAQSection';
-import MarqueeResultsSection from '../components/results/MarqueeResultsSection';
 
 const Index = () => {
   return (
@@ -27,11 +27,8 @@ const Index = () => {
       {/* Visual separator between dark and light sections */}
       <div className="h-8 bg-gradient-to-b from-black/60 to-white"></div>
       
-      {/* Demo + Results section with white background */}
+      {/* Unified Demo + Results section */}
       <DemoResultsSection />
-
-      {/* New Marquee Results section */}
-      <MarqueeResultsSection />
       
       {/* Visual separator between light and dark sections */}
       <div className="h-8 bg-gradient-to-b from-white to-nextgen-dark"></div>
@@ -41,7 +38,15 @@ const Index = () => {
       <HealthcareSecuritySection />
       <AcademyOverviewSection />
       <FooterCTA />
+      
+      {/* Unified Pricing/Unlock Section */}
       <PricingSection />
+      <div className="bg-nextgen-dark">
+        <div className="container mx-auto px-4">
+          <PricingPackages />
+        </div>
+      </div>
+      
       <IntegrationsSection />
       <SuccessGuarantee />
       <ResourcesSection />

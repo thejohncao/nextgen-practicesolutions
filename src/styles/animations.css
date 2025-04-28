@@ -35,7 +35,27 @@
   }
 }
 
-.animate-rainbow-shimmer {
+.animate-shimmer {
   animation: rainbow-shimmer 3s linear infinite;
 }
 
+/* Section transitions */
+@keyframes smooth-section-transition {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-section-transition {
+  animation: smooth-section-transition 0.7s ease-out forwards;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import PricingCard from './PricingCard';
 
@@ -19,7 +20,7 @@ const packages = [
       role: "Practice Management",
       color: "blue"
     },
-    ctaText: "Get Started with Spark"
+    ctaText: "Talk to Miles"
   },
   {
     name: "Ignite",
@@ -38,7 +39,7 @@ const packages = [
       role: "Marketing",
       color: "green"
     },
-    ctaText: "Unlock Ignite Package",
+    ctaText: "Talk to Miles",
     isPopular: true
   },
   {
@@ -58,7 +59,7 @@ const packages = [
       role: "Sales",
       color: "purple"
     },
-    ctaText: "Scale with Blaze"
+    ctaText: "Talk to Miles"
   },
   {
     name: "Nova",
@@ -78,25 +79,17 @@ const packages = [
       role: "Academy Director",
       color: "gold"
     },
-    ctaText: "Unlock Full Platform",
+    ctaText: "Talk to Miles",
     isMastery: true
   }
 ];
 
 const PricingPackages = () => {
   return (
-    <div className="container mx-auto px-4 mb-20">
-      <div className="text-center max-w-3xl mx-auto mb-12">
-        <h2 className="text-3xl md:text-4xl font-heading font-bold mb-6 text-gradient">
-          Find the Right Package for Your Practice Growth Stage
-        </h2>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {packages.map((pkg, index) => (
-          <PricingCard key={index} {...pkg} />
-        ))}
-      </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {packages.map((pkg, index) => (
+        <PricingCard key={index} {...pkg} />
+      ))}
     </div>
   );
 };
