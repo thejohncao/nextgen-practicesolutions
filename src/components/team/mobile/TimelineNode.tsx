@@ -10,13 +10,13 @@ interface TimelineNodeProps {
 
 const TimelineNode = ({ phase, index, isActive }: TimelineNodeProps) => {
   return (
-    <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 z-10">
+    <div className="absolute -top-7 left-1/2 transform -translate-x-1/2 z-10">
       <div className={`
-        w-4 h-4 rounded-full flex items-center justify-center
+        w-5 h-5 rounded-full flex items-center justify-center
         transition-all duration-300 ease-in-out
         ${isActive ? phase.color : 'bg-white/5'} 
         ${isActive ? phase.borderColor : 'border-white/10'} border
-        ${isActive ? 'shadow-[0_0_10px_rgba(255,255,255,0.1)]' : ''}
+        ${isActive ? 'shadow-[0_0_12px_rgba(255,255,255,0.15)]' : ''}
       `}>
         <span className={`text-xs font-medium ${isActive ? phase.textColor : 'text-white/60'}`}>
           {index + 1}
