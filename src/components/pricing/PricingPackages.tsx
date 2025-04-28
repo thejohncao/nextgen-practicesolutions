@@ -1,4 +1,3 @@
-
 import React from 'react';
 import PricingCard from './PricingCard';
 
@@ -18,7 +17,7 @@ const packages = [
     agent: {
       name: "Miles",
       role: "Practice Management",
-      color: "red"
+      color: "blue"
     },
     ctaText: "Get Started with Spark"
   },
@@ -28,11 +27,11 @@ const packages = [
     bestFor: "Best for Growing Practices",
     tagline: "For practices ready to attract new patients, grow production, and expand faster.",
     features: [
-      "Unlock your full AI Executive Boardroom — your complete management, marketing, sales, and training team",
-      "Launch advanced patient pipelines and automations inside your branded NextGen App",
-      "Deploy high-converting Patient Acquisition, Nurturing, and Membership Growth Campaigns instantly",
+      "Unlock advanced patient pipelines and automations inside your branded NextGen App",
+      "Deploy high-converting Patient Acquisition, Nurturing, and Membership Growth Campaigns",
+      "Launch smart marketing campaigns with Giselle leading your growth strategies",
       "Strengthen your team with SOPs and onboarding templates designed to drive performance",
-      "Accelerate your results with a 1:1 Strategic Success Planning Session focused on your growth goals"
+      "Accelerate your results with a 1:1 Strategic Success Planning Session"
     ],
     agent: {
       name: "Giselle",
@@ -44,22 +43,43 @@ const packages = [
   },
   {
     name: "Blaze",
-    stage: "Multiply Package",
-    bestFor: "Best for Scaling Practices and DSOs",
-    tagline: "For established practices ready to scale aggressively, dominate their market, and maximize profitability.",
+    stage: "Development Package",
+    bestFor: "Best for Scaling Practices",
+    tagline: "For established practices ready to scale aggressively and maximize profitability.",
     features: [
-      "Maximize your full AI Executive Boardroom power with advanced multilocation and patient lifecycle systems",
-      "Custom-build patient acquisition and retention campaigns tailored specifically to your market goals",
-      "Track your performance at an executive level with our KPI Dashboard and reporting suite",
-      "Boost high-value case conversions, referrals, and membership growth automatically",
-      "(Optional) Add a Dedicated Strategic Success Manager to drive implementation and optimization"
+      "Custom-build patient acquisition and retention campaigns for your market",
+      "Track performance with our Executive KPI Dashboard and reporting suite",
+      "Boost high-value case conversions with Devon's treatment acceptance system",
+      "Maximize team performance with advanced training modules",
+      "(Optional) Add a Dedicated Strategic Success Manager"
     ],
     agent: {
       name: "Devon",
       role: "Sales",
-      color: "blue"
+      color: "purple"
     },
     ctaText: "Scale with Blaze"
+  },
+  {
+    name: "Nova",
+    stage: "Mastery Package",
+    bestFor: "Best for Large Practices",
+    tagline: "Your complete AI-powered operating system for multi-location success.",
+    features: [
+      "Smart Scheduling & Intelligent Recall System",
+      "Growth Automations & Paid Ad Campaign Management",
+      "Treatment Close Follow-Ups & Financing Integrations",
+      "New Hire Onboarding & Training Automation",
+      "Complete SOP Library & Staff Communication Playbooks",
+      "Continuing Education Tracking & Reminders"
+    ],
+    agent: {
+      name: "Alma",
+      role: "Academy Director",
+      color: "gold"
+    },
+    ctaText: "Unlock Full Platform",
+    isMastery: true
   }
 ];
 

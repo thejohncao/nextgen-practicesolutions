@@ -1,10 +1,10 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Calendar, Clipboard, MessageCircle, RefreshCcw, DollarSign, Briefcase, Network, Star, UserSquare2, Files } from "lucide-react";
 import AgentAvatar from '../AgentAvatar';
 import EmailCollectionDialog from '../EmailCollectionDialog';
+import Crown from '../Crown';
 
 interface PricingCardProps {
   name: string;
@@ -19,6 +19,7 @@ interface PricingCardProps {
   };
   ctaText: string;
   isPopular?: boolean;
+  isMastery?: boolean;
   includesText?: string;
 }
 
@@ -79,6 +80,7 @@ const PricingCard = ({
   agent,
   ctaText,
   isPopular,
+  isMastery,
   includesText
 }: PricingCardProps) => {
   const agentHexColor = getAgentHexColor(agent.name);
@@ -86,19 +88,19 @@ const PricingCard = ({
   
   return (
     <Card 
-      className="glass-card border-white/10 relative group animate-fade-in"
-      style={{ 
-        ...(isPopular && { borderColor: agentHexColor, borderWidth: '2px' })
-      }}
+      className={`glass-card border-white/10 relative group animate-fade-in ${
+        isMastery ? 'border-amber-400/50' : ''
+      }`}
     >
       {/* Stage Badge */}
       <div 
-        className="absolute -top-3 left-1/2 transform -translate-x-1/2 px-3 py-1 rounded-full text-xs font-medium"
+        className="absolute -top-3 left-1/2 transform -translate-x-1/2 px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1"
         style={{ 
           backgroundColor: `${agentHexColor}20`,
           color: agentHexColor 
         }}
       >
+        {isMastery && <Crown className="w-3.5 h-3.5" />}
         {stage}
       </div>
       
@@ -144,7 +146,7 @@ const PricingCard = ({
           </div>
         )}
 
-        {isPopular && (
+        {(isPopular || isMastery) && (
           <div className="text-center">
             <span 
               className="inline-block px-3 py-1 rounded-full text-xs font-medium"
@@ -153,7 +155,7 @@ const PricingCard = ({
                 color: agentHexColor 
               }}
             >
-              Most Popular
+              {isMastery ? 'Best for Large Practices' : 'Most Popular'}
             </span>
           </div>
         )}

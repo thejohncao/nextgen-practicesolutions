@@ -2,14 +2,14 @@
 import React from 'react';
 import { Badge } from "@/components/ui/badge";
 import AgentAvatar from '../AgentAvatar';
-import { Clipboard, Megaphone, Handshake, GraduationCap } from 'lucide-react';
+import { Clipboard, Megaphone, Handshake, GraduationCap, Crown } from 'lucide-react';
 
 const stages = [
   {
     name: "Spark",
-    color: "#ea384c",
+    color: "#3b82f6",
     agents: [
-      { name: "Miles", role: "Practice Management", color: "red", icon: Clipboard }
+      { name: "Miles", role: "Practice Management", color: "blue", icon: Clipboard }
     ],
     features: ["Foundation Package Unlock"]
   },
@@ -17,26 +17,34 @@ const stages = [
     name: "Ignite",
     color: "#22c55e",
     agents: [
-      { name: "Miles", role: "Operations", color: "red", icon: Clipboard },
-      { name: "Giselle", role: "Marketing", color: "green", icon: Megaphone },
-      { name: "Devon", role: "Sales", color: "blue", icon: Handshake },
-      { name: "Alma", role: "Training", color: "gold", icon: GraduationCap }
+      { name: "Miles", role: "Operations", color: "blue", icon: Clipboard },
+      { name: "Giselle", role: "Marketing", color: "green", icon: Megaphone }
     ],
-    features: ["Full AI Boardroom Unlock"]
+    features: ["Growth Package Unlock"]
   },
   {
     name: "Blaze",
-    color: "#0FA0CE",
+    color: "#8b5cf6",
     agents: [
-      { name: "Miles", role: "Operations", color: "red", icon: Clipboard },
+      { name: "Miles", role: "Operations", color: "blue", icon: Clipboard },
       { name: "Giselle", role: "Marketing", color: "green", icon: Megaphone },
-      { name: "Devon", role: "Sales", color: "blue", icon: Handshake },
+      { name: "Devon", role: "Sales", color: "purple", icon: Handshake }
+    ],
+    features: ["Development Package Unlock"]
+  },
+  {
+    name: "Nova",
+    color: "#f59e0b",
+    agents: [
+      { name: "Miles", role: "Operations", color: "blue", icon: Clipboard },
+      { name: "Giselle", role: "Marketing", color: "green", icon: Megaphone },
+      { name: "Devon", role: "Sales", color: "purple", icon: Handshake },
       { name: "Alma", role: "Training", color: "gold", icon: GraduationCap }
     ],
     features: [
-      "Advanced Custom Campaigns",
-      "Executive KPI Dashboard",
-      "Dedicated Success Manager (Optional)"
+      "Full AI Boardroom Access",
+      "Multi-Location Support",
+      "Advanced Automations"
     ]
   }
 ];
