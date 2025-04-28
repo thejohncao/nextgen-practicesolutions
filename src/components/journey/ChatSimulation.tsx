@@ -14,7 +14,7 @@ interface ChatSimulationProps {
 
 const ChatSimulation = ({ agentName, agentRole, messages, onClose }: ChatSimulationProps) => {
   return (
-    <Card className="glass-card absolute z-10 w-[320px] p-4 animate-fade-in-up shadow-lg backdrop-blur-xl bg-black/40">
+    <Card className="glass-card p-4 animate-fade-in-up shadow-lg backdrop-blur-xl bg-black/40">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <AgentAvatar name={agentName} role={agentRole} size="sm" />

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Layout from '../components/Layout';
 import HeroSection from '../components/HeroSection';
@@ -16,14 +17,14 @@ import TestimonialsSection from '../components/TestimonialsSection';
 import FAQSection from '../components/FAQSection';
 import WhyWeBuiltSection from '../components/story/WhyWeBuiltSection';
 import TeamResultsSection from '../components/TeamResultsSection';
-import PatientJourneySection from '../components/journey/PatientJourneySection';
+import CinematicJourneySection from '../components/journey/CinematicJourneySection';
 
 const Index = () => {
   return (
     <Layout>
       <HeroSection />
       <WhyWeBuiltSection />
-      <PatientJourneySection />
+      <CinematicJourneySection />
       <AITeamSection />
       <AIBoardroomSection />
       <TeamResultsSection />
