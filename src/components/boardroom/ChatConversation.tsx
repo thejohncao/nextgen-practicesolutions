@@ -9,32 +9,32 @@ const ChatConversation = () => {
       agent: "miles",
       role: "Practice Management",
       message: "Opening 15 additional consult slots. Front desk team prepared.",
-      bgColorClass: "bg-[#D3E4FD] dark:bg-blue-500/20"
+      bgColorClass: "bg-[#D3E4FD]"
     },
     {
       agent: "giselle",
       role: "Practice Growth",
       message: "Launching rapid Facebook and Google Ads campaigns. Activating lead nurturing sequences.",
-      bgColorClass: "bg-[#F2FCE2] dark:bg-green-500/20"
+      bgColorClass: "bg-[#F2FCE2]"
     },
     {
       agent: "devon",
       role: "Practice Development",
       message: "Optimizing closing scripts for Smile Preview consultations. Reactivating abandoned veneer leads.",
-      bgColorClass: "bg-[#E5DEFF] dark:bg-purple-500/20"
+      bgColorClass: "bg-[#E5DEFF]"
     },
     {
       agent: "alma",
       role: "Practice Mastery",
       message: "Mini-training scheduled tomorrow to coach front desk on the Smile Preview pitch.",
-      bgColorClass: "bg-[#FDE1D3] dark:bg-amber-500/20"
+      bgColorClass: "bg-[#FDE1D3]"
     }
   ];
 
   return (
-    <div className="glass-card bg-white/90 dark:bg-white/5 mb-14">
+    <div className="bg-white rounded-xl shadow-lg mb-14">
       <CEOMessage />
-      <div className="divide-y divide-gray-100 dark:divide-white/10 space-y-8 sm:space-y-4 mobile:space-y-6">
+      <div className="divide-y divide-gray-100">
         {agentMessages.map((msg, index) => (
           <AgentMessage
             key={index}
