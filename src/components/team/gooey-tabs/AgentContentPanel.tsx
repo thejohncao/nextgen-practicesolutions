@@ -120,14 +120,7 @@ const AgentContentPanel = ({
           </div>
           
           <div className="space-y-3">
-            {/* Removed the fullDescription paragraph that was redundant */}
-            <p className={cn(
-              "italic text-sm font-medium border-l-2 pl-3",
-              agent.color === 'green' ? "border-green-500/50" :
-              agent.color === 'blue' ? "border-blue-500/50" :
-              agent.color === 'purple' ? "border-purple-500/50" : 
-              "border-amber-500/50"
-            )}>"{quote}"</p>
+            {/* Removed both the fullDescription paragraph and the quote paragraph */}
             <AgentProfile agent={agent} />
           </div>
         </div>
