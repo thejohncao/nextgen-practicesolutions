@@ -26,7 +26,7 @@ const AgentProfile = ({ agent }: AgentProfileProps) => {
   };
 
   return (
-    <div className="flex flex-col items-center text-center">
+    <div className="flex flex-col">
       <div className="mb-4">
         <AgentAvatar 
           name={agent.name}

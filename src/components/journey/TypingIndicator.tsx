@@ -10,7 +10,7 @@ const TypingIndicator = ({ agent }: TypingIndicatorProps) => {
   return (
     <div className="max-w-[85%] rounded-xl p-3 mr-auto bg-gradient-to-br from-gray-800 to-gray-900 mb-4 animate-fade-in">
       <div className="flex items-center gap-2">
-        <AgentChatAvatar agent={agent} hideDetails={true} />
+        <AgentChatAvatar agent={agent} hideDetails={false} />
         <div className="flex gap-1 mt-1">
           <div className="h-2 w-2 rounded-full bg-white/70 animate-bounce"></div>
           <div className="h-2 w-2 rounded-full bg-white/70 animate-bounce" style={{animationDelay: '0.2s'}}></div>

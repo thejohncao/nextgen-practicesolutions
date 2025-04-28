@@ -2,8 +2,7 @@
 import React from 'react';
 import { ChatMessage } from '@/data/patientJourney';
 import { Card } from '@/components/ui/card';
-import { X } from 'lucide-react';
-import AgentAvatar from '../AgentAvatar';
+import AgentChatAvatar from '../AgentChatAvatar';
 
 interface ChatSimulationProps {
   agentName: string;
@@ -15,21 +14,8 @@ interface ChatSimulationProps {
 const ChatSimulation = ({ agentName, agentRole, messages, onClose }: ChatSimulationProps) => {
   return (
     <Card className="glass-card p-4 animate-fade-in-up shadow-lg backdrop-blur-xl bg-black/40">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <AgentAvatar name={agentName} role={agentRole} size="sm" />
-          <div>
-            <div className="text-base font-bold text-white">{agentName}</div>
-            <div className="text-xs text-white/70">{agentRole}</div>
-          </div>
-        </div>
-        <button 
-          onClick={onClose}
-          className="text-white/60 hover:text-white transition-colors p-1 rounded-full hover:bg-white/10"
-          aria-label="Close chat"
-        >
-          <X size={18} />
-        </button>
+      <div className="flex items-center gap-2 mb-4">
+        <AgentChatAvatar agent={agentName} hideDetails={false} />
       </div>
       
       <div className="space-y-4">
