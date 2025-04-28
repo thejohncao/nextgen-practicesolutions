@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import SectionHeader from './boardroom/SectionHeader';
@@ -25,7 +24,7 @@ const AIBoardroomSection = () => {
             onClick={scrollToTeam}
             className="bg-[#6C63FF] hover:bg-[#5a52e0] text-white font-bold py-3 px-8 rounded-lg text-lg"
           >
-            Activate Your AI Boardroom™
+            Meet Your Executive Team
           </Button>
         </div>
       </div>
@@ -34,4 +33,3 @@ const AIBoardroomSection = () => {
 };
 
 export default AIBoardroomSection;
-

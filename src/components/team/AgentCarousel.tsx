@@ -44,6 +44,7 @@ const AgentCarousel = ({
                 isActive={isMobile || activeIndex === index}
                 phaseDescription={phases[index].story}
                 phaseColor={phases[index].color}
+                onSelect={() => onSlideChange(index)}
               />
             </div>
           ))}

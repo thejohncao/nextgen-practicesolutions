@@ -5,7 +5,7 @@ import { Agent } from '@/types/agent';
 export const agents: Agent[] = [
   {
     name: "Miles",
-    title: "AI Front Office Concierge",
+    title: "Practice Management",
     tagline: "Keeps your schedule full, your front office humming, and your patients coming back — all without lifting a finger.",
     color: "blue",
     icon: Calendar,
@@ -36,7 +36,7 @@ export const agents: Agent[] = [
   },
   {
     name: "Giselle",
-    title: "AI Lead Nurturer",
+    title: "Practice Growth",
     tagline: "Turns leads into loyal patients by nurturing every opportunity from first click to lifelong care.",
     color: "green",
     icon: Fuel,
@@ -66,7 +66,7 @@ export const agents: Agent[] = [
   },
   {
     name: "Devon",
-    title: "AI Treatment Closer",
+    title: "Practice Development",
     tagline: "Boosts case acceptance, financing approvals, and post-consult follow-up — helping more patients say 'yes' to better care.",
     color: "purple",
     icon: Handshake,
@@ -96,7 +96,7 @@ export const agents: Agent[] = [
   },
   {
     name: "Alma",
-    title: "AI Training Assistant",
+    title: "Practice Academy",
     tagline: "Empowers your team with onboarding checklists, training videos, and best practices — ensuring smooth growth from day one.",
     color: "gold",
     icon: GraduationCap,

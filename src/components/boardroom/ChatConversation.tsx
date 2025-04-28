@@ -7,25 +7,25 @@ const ChatConversation = () => {
   const agentMessages = [
     {
       agent: "miles",
-      role: "Operations Lead",
+      role: "Practice Management",
       message: "Optimizing schedule: 15 new consult slots created. Front desk team notified.",
       bgColorClass: "bg-blue-500/10 dark:bg-blue-500/20"
     },
     {
       agent: "giselle",
-      role: "Growth Specialist",
+      role: "Practice Growth",
       message: "Launching targeted campaign. Facebook and Google Ads going live in 30 minutes.",
       bgColorClass: "bg-green-500/10 dark:bg-green-500/20"
     },
     {
       agent: "devon",
-      role: "Development Lead",
+      role: "Practice Development",
       message: "Reactivating past veneer leads. 28 high-value prospects identified.",
       bgColorClass: "bg-purple-500/10 dark:bg-purple-500/20"
     },
     {
       agent: "alma",
-      role: "Training Lead",
+      role: "Practice Academy",
       message: "Team training scheduled: New veneer consultation script ready for tomorrow.",
       bgColorClass: "bg-amber-500/10 dark:bg-amber-500/20"
     }
