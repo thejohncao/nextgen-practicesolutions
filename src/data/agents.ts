@@ -10,6 +10,8 @@ export const agents: Agent[] = [
     color: "blue",
     icon: Calendar,
     description: "Your AI practice management specialist who ensures smooth operations.",
+    avatarImage: "/assets/avatars/miles-avatar.png", // Path to custom illustrated avatar
+    animatedAvatar: true,
     activities: [
       "Scheduling",
       "Intake Forms",
@@ -39,6 +41,8 @@ export const agents: Agent[] = [
     color: "green",
     icon: Fuel,
     description: "Your AI growth specialist focused on attracting and converting new patients.",
+    avatarImage: "/assets/avatars/giselle-avatar.png", // Path to custom illustrated avatar
+    animatedAvatar: true,
     activities: [
       "Lead Generation",
       "Follow-ups",
@@ -67,6 +71,8 @@ export const agents: Agent[] = [
     color: "purple",
     icon: Handshake,
     description: "Your AI treatment acceptance specialist who helps convert consultations into care.",
+    avatarImage: "/assets/avatars/devon-avatar.png", // Path to custom illustrated avatar
+    animatedAvatar: true,
     activities: [
       "Treatment Planning",
       "Case Acceptance",
@@ -95,6 +101,8 @@ export const agents: Agent[] = [
     color: "gold",
     icon: GraduationCap,
     description: "Your AI training director who ensures consistent, high-quality care delivery.",
+    avatarImage: "/assets/avatars/alma-avatar.png", // Path to custom illustrated avatar
+    animatedAvatar: true,
     activities: [
       "Onboarding",
       "Training",

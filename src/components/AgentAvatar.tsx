@@ -1,65 +1,31 @@
 
-import React, { useEffect, useState } from 'react';
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { getAvatarGradient } from './avatar/getAvatarGradient';
-import AvatarRings from './avatar/AvatarRings';
-import AvatarOverlay from './avatar/AvatarOverlay';
-import StatusIndicator from './avatar/StatusIndicator';
+import React from 'react';
+import { agents } from '@/data/agents';
+import IllustratedAgentAvatar from './avatar/IllustratedAgentAvatar';
 
 interface AgentAvatarProps {
   name: string;
   role: string;
   color?: string;
   size?: 'sm' | 'md' | 'lg';
+  animated?: boolean;
 }
 
-const AgentAvatar = ({ name, role, color = 'purple', size = 'md' }: AgentAvatarProps) => {
-  const [isAnimating, setIsAnimating] = useState(false);
-  
-  useEffect(() => {
-    const animationInterval = setInterval(() => {
-      setIsAnimating(true);
-      setTimeout(() => setIsAnimating(false), 2000);
-    }, Math.random() * 5000 + 3000);
-    
-    return () => clearInterval(animationInterval);
-  }, []);
-  
-  const getAnimationDelay = () => {
-    const hash = name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    return `${(hash % 5) * 100}ms`;
-  };
-  
-  const getInitials = (name: string) => name.charAt(0).toUpperCase();
-
-  const sizeClasses = {
-    sm: 'w-8 h-8',
-    md: 'w-12 h-12',
-    lg: 'w-16 h-16'
-  };
+const AgentAvatar = ({ name, role, color = 'purple', size = 'md', animated = true }: AgentAvatarProps) => {
+  // Try to find agent's custom avatar if available
+  const agent = agents.find(a => a.name.toLowerCase() === name.toLowerCase());
+  const avatarImage = agent?.avatarImage;
+  const isAnimatedAvatar = agent?.animatedAvatar ?? animated;
   
   return (
-    <div 
-      className="flex items-center animate-fade-in relative" 
-      style={{ animationDelay: getAnimationDelay() }}
-    >
-      <div className="relative">
-        <AvatarRings color={color} isAnimating={isAnimating} />
-        <AvatarOverlay isAnimating={isAnimating} />
-        
-        <Avatar className={`${sizeClasses[size]} border-2 border-white/10 relative z-10 transition-all duration-300 ${isAnimating ? 'scale-105' : ''}`}>
-          <AvatarFallback 
-            className={`bg-gradient-to-br ${getAvatarGradient(color)} ${
-              isAnimating ? 'animate-pulse' : 'animate-pulse-slow duration-[3000ms]'
-            }`}
-          >
-            {getInitials(name)}
-          </AvatarFallback>
-        </Avatar>
-        
-        <StatusIndicator isAnimating={isAnimating} />
-      </div>
-    </div>
+    <IllustratedAgentAvatar
+      name={name}
+      role={role}
+      color={color}
+      size={size}
+      imagePath={avatarImage}
+      animated={isAnimatedAvatar}
+    />
   );
 };
 

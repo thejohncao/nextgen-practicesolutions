@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -16,6 +17,7 @@ import Resources from "./pages/Resources";
 import Security from "./pages/Security";
 import Privacy from "./pages/Privacy";
 import AiAssistant from "./components/AiAssistant";
+import AvatarManager from "./components/admin/AvatarManager";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +45,7 @@ const App = () => (
           <Route path="/resources/*" element={<Resources />} />
           <Route path="/security" element={<Security />} />
           <Route path="/privacy" element={<Privacy />} />
+          <Route path="/admin/avatars" element={<AvatarManager />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <AiAssistantWrapper />
