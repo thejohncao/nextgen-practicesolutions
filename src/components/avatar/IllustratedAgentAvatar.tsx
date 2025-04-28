@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import AvatarRings from './AvatarRings';
@@ -30,8 +29,8 @@ const IllustratedAgentAvatar = ({
     
     const animationInterval = setInterval(() => {
       setIsAnimating(true);
-      setTimeout(() => setIsAnimating(false), 2000);
-    }, Math.random() * 5000 + 3000);
+      setTimeout(() => setIsAnimating(false), 3000);
+    }, Math.random() * 3000 + 2000);
     
     return () => clearInterval(animationInterval);
   }, [animated]);
@@ -64,15 +63,13 @@ const IllustratedAgentAvatar = ({
           ) : (
             <AvatarFallback 
               className={`bg-gradient-to-br ${getAvatarGradient(color)} ${
-                isAnimating ? 'animate-pulse' : 'animate-pulse-slow duration-[3000ms]'
+                isAnimating ? 'animate-pulse' : 'animate-pulse-slow'
               }`}
             >
               {getInitials(name)}
             </AvatarFallback>
           )}
         </Avatar>
-        
-        <StatusIndicator isAnimating={isAnimating} />
       </div>
     </div>
   );

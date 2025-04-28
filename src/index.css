@@ -73,12 +73,12 @@
   }
   
   /* Animation utilities */
-  .animate-pulse-slow {
-    animation: pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  .animate-pulse-glow {
+    animation: pulse-glow 4s ease-in-out infinite;
   }
   
-  .animate-pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite alternate;
+  .animate-pulse-slow {
+    animation: pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
   
   .animate-fade-in-up {
@@ -206,11 +206,13 @@
 }
 
 @keyframes pulse-glow {
-  from {
-    box-shadow: 0 0 5px rgba(155, 135, 245, 0.2);
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(1);
   }
-  to {
-    box-shadow: 0 0 20px rgba(155, 135, 245, 0.6);
+  50% {
+    opacity: 0.4;
+    transform: scale(1.1);
   }
 }
 

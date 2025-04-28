@@ -14,21 +14,23 @@ const AvatarRings = ({ color, isAnimating }: AvatarRingsProps) => {
     <>
       {/* Outer glow ring */}
       <div 
-        className={`absolute inset-0 rounded-full ${
+        className={`absolute inset-[-4px] rounded-full ${
           isAnimating ? 'animate-pulse' : 'animate-pulse-slow'
-        } opacity-50 bg-gradient-to-r ${gradientClass} blur-md`} 
+        } opacity-60 bg-gradient-to-r ${gradientClass} blur-md`} 
       />
       
-      {/* Animated rings */}
+      {/* Inner pulse ring */}
       <div 
         className={`absolute inset-0 rounded-full ${
           isAnimating ? 'animate-pulse' : 'animate-pulse-slow'
-        } scale-125 opacity-20 bg-gradient-to-r ${gradientClass}`} 
+        } scale-110 opacity-40 bg-gradient-to-r ${gradientClass}`}
+        style={{ animationDuration: isAnimating ? '2s' : '3s' }}
       />
+      
+      {/* Additional outer pulse ring for enhanced glow */}
       <div 
-        className={`absolute inset-0 rounded-full ${
-          isAnimating ? 'animate-pulse-glow' : ''
-        }`} 
+        className={`absolute inset-[-8px] rounded-full opacity-20 bg-gradient-to-r ${gradientClass} animate-pulse-glow`}
+        style={{ animationDuration: '4s' }}
       />
     </>
   );
