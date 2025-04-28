@@ -8,6 +8,7 @@ import { ChatMessage } from '@/data/patientJourney';
 import AgentProfile from '../../journey/AgentProfile';
 import ChatSimulation from '../../journey/ChatSimulation';
 import TypingIndicator from '../../journey/TypingIndicator';
+import { File, Folder } from 'lucide-react';
 
 interface AgentContentPanelProps {
   agent: Agent;
@@ -35,26 +36,16 @@ const AgentContentPanel = ({
   // Get agent-specific styling classes
   const getAgentAccentColor = (color: string): string => {
     switch(color) {
-      case 'green': return "from-green-500/30 to-green-700/10";
-      case 'blue': return "from-blue-500/30 to-blue-700/10";
-      case 'purple': return "from-purple-500/30 to-purple-700/10";
-      case 'gold': return "from-amber-500/30 to-amber-700/10";
-      default: return "from-white/20 to-white/5";
-    }
-  };
-  
-  const getAgentTextGradient = (color: string): string => {
-    switch(color) {
-      case 'green': return "from-green-300 to-green-100";
-      case 'blue': return "from-blue-300 to-blue-100";
-      case 'purple': return "from-purple-300 to-purple-100";
-      case 'gold': return "from-amber-300 to-amber-100";
-      default: return "from-white to-white/80";
+      case 'green': return "from-green-500/20 to-green-500/10";
+      case 'blue': return "from-blue-500/20 to-blue-500/10";
+      case 'purple': return "from-purple-500/20 to-purple-500/10";
+      case 'gold': return "from-amber-500/20 to-amber-500/10";
+      default: return "from-white/10 to-white/5";
     }
   };
 
-  // Folder file styling for agent content
-  const getAgentFolderStyle = (color: string): string => {
+  // Get folder side color
+  const getFolderSideColor = (color: string): string => {
     switch(color) {
       case 'green': return "border-l-green-500/30";
       case 'blue': return "border-l-blue-500/30";
@@ -68,8 +59,8 @@ const AgentContentPanel = ({
     <motion.div
       key={agent.name}
       className={cn(
-        "rounded-xl rounded-tl-none p-4 md:p-5 border border-t-0 border-white/10",
-        "bg-[#111827]/95 backdrop-blur-md"
+        "rounded-xl rounded-tl-none p-5",
+        "bg-[#121212] border border-t-0 border-white/10"
       )}
       initial={{ opacity: 0, y: 20 }}
       animate={{ 
@@ -79,79 +70,99 @@ const AgentContentPanel = ({
       }}
       transition={{ duration: 0.5 }}
     >
-      {/* File header style element */}
-      <div className="flex items-center mb-3 pb-2 border-b border-white/10">
-        <div className={cn(
-          "w-3 h-3 rounded-full mr-2",
-          agent.color === 'green' ? "bg-green-400" :
-          agent.color === 'blue' ? "bg-blue-400" :
-          agent.color === 'purple' ? "bg-purple-400" : 
-          "bg-amber-400"
-        )}></div>
-        <div className={cn(
-          "text-lg font-semibold bg-gradient-to-r bg-clip-text text-transparent",
-          getAgentTextGradient(agent.color)
-        )}>
-          {stageTitle}
+      {/* File header with simulated title bar */}
+      <div className="flex items-center mb-4 pb-2 border-b border-white/10">
+        <div className="flex items-center gap-2">
+          <div className="flex gap-1.5">
+            <div className="w-2.5 h-2.5 rounded-full bg-red-500"></div>
+            <div className="w-2.5 h-2.5 rounded-full bg-yellow-500"></div>
+            <div className="w-2.5 h-2.5 rounded-full bg-green-500"></div>
+          </div>
+          <div className="ml-2 text-white/50 text-xs">{agent.name} - {stageTitle}</div>
         </div>
       </div>
-      
-      <div className="grid md:grid-cols-2 gap-4 md:gap-6">
-        {/* Left Column: Agent Profile and Description */}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Left Column: Agent Profile in a folder-style */}
         <div className={cn(
-          "space-y-4 rounded-md border-l-2 pl-3 py-1",
-          getAgentFolderStyle(agent.color)
+          "space-y-4 bg-black/20 rounded-md border-l-2 pl-3 py-2",
+          getFolderSideColor(agent.color)
         )}>
-          <div className="flex items-center gap-3 mb-1">
-            <div className={cn(
-              "w-7 h-7 rounded-full flex items-center justify-center",
-              agent.color === 'green' ? "bg-green-500/20" :
-              agent.color === 'blue' ? "bg-blue-500/20" :
-              agent.color === 'purple' ? "bg-purple-500/20" : 
-              "bg-amber-500/20"
-            )}>
-              <span className="font-bold text-white">{index + 1}</span>
-            </div>
-            <div>
-              <h3 className="font-bold text-white">
-                {agent.name} - {agent.title}
-              </h3>
-            </div>
+          <div className="flex items-center gap-2">
+            <Folder className={cn(
+              "w-4 h-4",
+              agent.color === 'green' ? "text-green-400" :
+              agent.color === 'blue' ? "text-blue-400" :
+              agent.color === 'purple' ? "text-purple-400" : 
+              "text-amber-400"
+            )} />
+            <span className="text-white/80 font-medium text-sm">profile</span>
           </div>
           
-          <div className="space-y-3">
-            <p className="text-white/90 text-sm">{fullDescription}</p>
-            <p className={cn(
-              "italic text-sm font-medium border-l-2 pl-3",
-              agent.color === 'green' ? "border-green-500/50" :
-              agent.color === 'blue' ? "border-blue-500/50" :
-              agent.color === 'purple' ? "border-purple-500/50" : 
-              "border-amber-500/50"
-            )}>"{quote}"</p>
-            <AgentProfile agent={agent} />
+          <AgentProfile agent={agent} />
+
+          <div className="pt-2 border-t border-white/10">
+            <div className="flex items-center gap-2 mb-2">
+              <File className={cn(
+                "w-4 h-4",
+                agent.color === 'green' ? "text-green-400" :
+                agent.color === 'blue' ? "text-blue-400" :
+                agent.color === 'purple' ? "text-purple-400" : 
+                "text-amber-400"
+              )} />
+              <span className="text-white/80 font-medium text-sm">description.txt</span>
+            </div>
+            <p className="text-white/70 text-sm pl-6">{fullDescription}</p>
+          </div>
+
+          <div className="pt-2 border-t border-white/10">
+            <div className="flex items-center gap-2 mb-2">
+              <File className={cn(
+                "w-4 h-4",
+                agent.color === 'green' ? "text-green-400" :
+                agent.color === 'blue' ? "text-blue-400" :
+                agent.color === 'purple' ? "text-purple-400" : 
+                "text-amber-400"
+              )} />
+              <span className="text-white/80 font-medium text-sm">quote.txt</span>
+            </div>
+            <p className="text-white/90 text-sm italic pl-6">"{quote}"</p>
           </div>
         </div>
         
-        {/* Right Column: Chat Preview - styled like a chat window in folder */}
+        {/* Right Column: Chat Preview in a terminal-style window */}
         <div className="flex flex-col justify-center">
-          {isTyping && activeTab === index && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <TypingIndicator agent={agent.name} />
-            </motion.div>
-          )}
-          
-          {showChat && activeTab === index && (
-            <ChatSimulation
-              agentName={agent.name}
-              agentRole={agent.title}
-              messages={messages}
-              onClose={() => {}}
-            />
-          )}
+          <div className="bg-black/30 border border-white/10 rounded-md p-2">
+            <div className="flex items-center mb-2 pb-2 border-b border-white/10">
+              <div className="flex items-center gap-2">
+                <div className="flex gap-1.5">
+                  <div className="w-2 h-2 rounded-full bg-red-500/50"></div>
+                  <div className="w-2 h-2 rounded-full bg-yellow-500/50"></div>
+                  <div className="w-2 h-2 rounded-full bg-green-500/50"></div>
+                </div>
+                <div className="ml-2 text-white/50 text-xs">chat-simulation.sh</div>
+              </div>
+            </div>
+            
+            {isTyping && activeTab === index && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <TypingIndicator agent={agent.name} />
+              </motion.div>
+            )}
+            
+            {showChat && activeTab === index && (
+              <ChatSimulation
+                agentName={agent.name}
+                agentRole={agent.title}
+                messages={messages}
+                onClose={() => {}}
+              />
+            )}
+          </div>
         </div>
       </div>
     </motion.div>

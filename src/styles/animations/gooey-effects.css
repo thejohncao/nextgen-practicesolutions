@@ -6,7 +6,7 @@
   }
   
   .blob-move {
-    animation: blob-move 3s infinite alternate;
+    animation: blob-move 10s infinite alternate;
   }
 
   /* Agent color-specific glows */
