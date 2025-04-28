@@ -45,6 +45,9 @@ const AgentOrb = ({ name, role, color, tooltipText, animated, isActive, onClick 
               ${isActive ? 'scale-105' : ''}
             `}
           >
+            {/* Background tint for better effect visibility */}
+            <div className="absolute inset-0 rounded-full bg-black/5" />
+            
             {/* Active agent pulse animation */}
             {isActive && (
               <div
@@ -56,15 +59,17 @@ const AgentOrb = ({ name, role, color, tooltipText, animated, isActive, onClick 
               />
             )}
             
-            {/* Enhanced inner effects */}
-            <OrbInnerEffects color={color} isActive={isActive} />
+            {/* Enhanced inner effects with proper z-index */}
+            <div className="relative z-10">
+              <OrbInnerEffects color={color} isActive={isActive} />
+            </div>
             
             {/* Hover glow effect */}
             <div 
               className={`
                 absolute inset-0 rounded-full opacity-0
                 transition-opacity duration-500 blur-xl
-                group-hover:opacity-40
+                group-hover:opacity-40 z-20
                 ${isActive ? 'opacity-40' : ''}
               `}
               style={{ backgroundColor: glowColor }}
