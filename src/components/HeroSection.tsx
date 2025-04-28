@@ -1,13 +1,16 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import PulseBeams from './effects/PulseBeams';
 import FloatingAgentAvatars from './hero/FloatingAgentAvatars';
+import CoreArchitectureBg from './hero/CoreArchitectureBg';
 
 const HeroSection = () => {
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
       {/* Background effects */}
+      <CoreArchitectureBg />
       <PulseBeams opacity={0.06} />
       
       <div className="absolute inset-0 -z-10">
