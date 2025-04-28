@@ -14,7 +14,6 @@ import SuccessGuarantee from '../components/SuccessGuarantee';
 import ResourcesSection from '../components/ResourcesSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import FAQSection from '../components/FAQSection';
-import MarqueeResultsSection from '../components/results/MarqueeResultsSection';
 import ScrollSection from '../components/providers/ScrollSection';
 
 const Index = () => {
@@ -32,20 +31,15 @@ const Index = () => {
       {/* Visual separator between dark and light sections */}
       <div className="h-8 bg-gradient-to-b from-black/60 to-white"></div>
       
-      {/* Demo + Results section with white background */}
-      <ScrollSection id="demo" className="bg-white py-16">
+      {/* Combined Demo + Results section with white background */}
+      <ScrollSection id="demo-results" className="bg-white py-16">
         <DemoResultsSection />
-      </ScrollSection>
-
-      {/* New Marquee Results section */}
-      <ScrollSection id="results" className="bg-nextgen-dark py-16">
-        <MarqueeResultsSection />
       </ScrollSection>
       
       {/* Visual separator between light and dark sections */}
       <div className="h-8 bg-gradient-to-b from-white to-nextgen-dark"></div>
       
-      {/* ROI section that consolidates the emotional benefits */}
+      {/* ROI section with emotional benefits */}
       <ScrollSection id="roi">
         <ROISection />
       </ScrollSection>

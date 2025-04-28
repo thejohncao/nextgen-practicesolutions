@@ -57,10 +57,10 @@ const benefitCards = [
 
 const ROISection = () => {
   return (
-    <section id="roi" className="section-padding py-20 relative overflow-hidden scroll-transition">
+    <section id="roi" className="section-padding py-24 relative overflow-hidden scroll-transition">
       <BackgroundEffect />
       
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4">
         <ROISectionHeader />
         
         {/* Emotional Benefit Cards */}
