@@ -7,7 +7,7 @@ interface LenisProviderProps {
 }
 
 const LenisProvider = ({ children }: LenisProviderProps) => {
-  // Options for smooth scrolling with scroll snapping
+  // Options for smooth scrolling
   const options = {
     duration: 1.2,
     easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),

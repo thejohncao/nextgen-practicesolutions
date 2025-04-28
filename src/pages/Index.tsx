@@ -14,71 +14,39 @@ import SuccessGuarantee from '../components/SuccessGuarantee';
 import ResourcesSection from '../components/ResourcesSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import FAQSection from '../components/FAQSection';
-import ScrollSection from '../components/providers/ScrollSection';
+import MarqueeResultsSection from '../components/results/MarqueeResultsSection';
 
 const Index = () => {
   return (
     <Layout>
-      <ScrollSection fullScreen id="hero">
-        <HeroSection />
-      </ScrollSection>
+      <HeroSection />
       
       {/* Meet the AI Team section with improved folder-style UI */}
-      <ScrollSection id="ai-team" className="bg-black/60 backdrop-blur-sm py-16">
-        <GooeyFilterTabs />
-      </ScrollSection>
+      <GooeyFilterTabs />
       
       {/* Visual separator between dark and light sections */}
       <div className="h-8 bg-gradient-to-b from-black/60 to-white"></div>
       
-      {/* Combined Demo + Results section with white background */}
-      <ScrollSection id="demo-results" className="bg-white py-16">
-        <DemoResultsSection />
-      </ScrollSection>
+      {/* Demo + Results section with white background */}
+      <DemoResultsSection />
+
+      {/* New Marquee Results section */}
+      <MarqueeResultsSection />
       
       {/* Visual separator between light and dark sections */}
       <div className="h-8 bg-gradient-to-b from-white to-nextgen-dark"></div>
       
-      {/* ROI section with emotional benefits */}
-      <ScrollSection id="roi">
-        <ROISection />
-      </ScrollSection>
-      
-      <ScrollSection id="security">
-        <HealthcareSecuritySection />
-      </ScrollSection>
-      
-      <ScrollSection id="academy">
-        <AcademyOverviewSection />
-      </ScrollSection>
-      
-      <ScrollSection id="cta">
-        <FooterCTA />
-      </ScrollSection>
-      
-      <ScrollSection id="pricing">
-        <PricingSection />
-      </ScrollSection>
-      
-      <ScrollSection id="integrations">
-        <IntegrationsSection />
-      </ScrollSection>
-      
-      <ScrollSection id="guarantee">
-        <SuccessGuarantee />
-      </ScrollSection>
-      
-      <ScrollSection id="resources">
-        <ResourcesSection />
-      </ScrollSection>
-      
-      <ScrollSection id="testimonials">
-        <TestimonialsSection />
-      </ScrollSection>
-      
-      <ScrollSection id="faq">
-        <FAQSection />
-      </ScrollSection>
+      {/* ROI section that consolidates the emotional benefits */}
+      <ROISection />
+      <HealthcareSecuritySection />
+      <AcademyOverviewSection />
+      <FooterCTA />
+      <PricingSection />
+      <IntegrationsSection />
+      <SuccessGuarantee />
+      <ResourcesSection />
+      <TestimonialsSection />
+      <FAQSection />
     </Layout>
   );
 };

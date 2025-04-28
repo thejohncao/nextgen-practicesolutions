@@ -6,11 +6,10 @@ const PricingHero = () => {
   return (
     <div className="container mx-auto px-4 text-center mb-20">
       <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold mb-6 text-gradient">
-        Choose Your Growth Stage
+        Choose Your NextGen Package
       </h1>
-      <p className="text-xl md:text-2xl font-medium text-white/80 mb-8 max-w-3xl mx-auto">
-        NextGen grows with you — unlocking powerful AI teammates at every stage of your practice's journey. 
-        Start where you are. Scale into who you're meant to become.
+      <p className="text-xl md:text-2xl lg:text-3xl font-medium text-white/80 mb-8 max-w-3xl mx-auto">
+        Your Practice. Your AI Team. Your Next Evolution.
       </p>
       <EmailCollectionDialog
         triggerText="Book a Demo"
