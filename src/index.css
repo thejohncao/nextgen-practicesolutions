@@ -1,15 +1,5 @@
 
-/* Import Tailwind base directives first */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* Import our base styles */
 @import './styles/base.css';
-
-/* Import all utility and component styles */
 @import './styles/utilities.css';
 @import './styles/animations.css';
 @import './styles/colors.css';
-
-/* Add any additional global styles below */

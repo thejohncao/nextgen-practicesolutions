@@ -30,44 +30,42 @@ const GooeyFilterTabs = ({ className }: GooeyFilterTabsProps) => {
     const typingTimer = setTimeout(() => {
       setIsTyping(false);
       setShowChat(true);
-    }, 1200);
+    }, 2000);
     
     return () => clearTimeout(typingTimer);
   }, [activeTab]);
 
   return (
-    <div className={cn("relative py-8 mt-0 bg-gradient-to-b from-black/90 to-black/70 backdrop-blur-sm", className)} id="ai-team">
+    <div className={cn("relative py-8 mt-0 bg-black/60 backdrop-blur-sm", className)} id="ai-team">
       <div className="container mx-auto px-4">
         <TeamSectionHeader />
 
-        <div className="mt-6 mb-10 max-w-4xl mx-auto">
-          <TabNavigation 
-            agents={orderedAgents} 
-            activeTab={activeTab} 
-            setActiveTab={setActiveTab} 
-          />
-  
-          {/* Content Area */}
-          <div className="bg-transparent max-w-4xl mx-auto">
-            {orderedAgents.map((agent, index) => (
-              <AgentContentPanel
-                key={agent.name}
-                agent={agent}
-                index={index}
-                activeTab={activeTab}
-                isTyping={isTyping}
-                showChat={showChat}
-                messages={getSampleChat(agent.name)}
-                stageTitle={getAgentStageTitle(index)}
-                quote={getAgentQuote(agent.name)}
-                fullDescription={getAgentFullDescription(agent.name)}
-              />
-            ))}
-          </div>
+        <TabNavigation 
+          agents={orderedAgents} 
+          activeTab={activeTab} 
+          setActiveTab={setActiveTab} 
+        />
+
+        {/* Content Area - Improved Folder-style Panels */}
+        <div className="max-w-4xl mx-auto">
+          {orderedAgents.map((agent, index) => (
+            <AgentContentPanel
+              key={agent.name}
+              agent={agent}
+              index={index}
+              activeTab={activeTab}
+              isTyping={isTyping}
+              showChat={showChat}
+              messages={getSampleChat(agent.name)}
+              stageTitle={getAgentStageTitle(index)}
+              quote={getAgentQuote(agent.name)}
+              fullDescription={getAgentFullDescription(agent.name)}
+            />
+          ))}
         </div>
 
         {/* CTA Button */}
-        <div className="text-center mt-12">
+        <div className="text-center mt-8">
           <button 
             className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors"
             onClick={() => window.location.href = '/solutions'}
