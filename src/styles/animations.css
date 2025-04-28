@@ -1,3 +1,4 @@
+
 @layer utilities {
   .animate-pulse-glow {
     animation: pulse-glow 4s ease-in-out infinite;
@@ -240,13 +241,4 @@
 /* Scroll transitions */
 .scroll-transition {
   transition: transform 0.8s cubic-bezier(0.33, 1, 0.68, 1);
-}
-
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
