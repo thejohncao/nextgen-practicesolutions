@@ -12,7 +12,31 @@ const LampEffect = ({ children, className = "" }: LampEffectProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
   
-  // Disable on mobile
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!containerRef.current) return;
+      
+      const bounds = containerRef.current.getBoundingClientRect();
+      const x = e.clientX - bounds.left;
+      const y = e.clientY - bounds.top;
+      
+      containerRef.current.style.setProperty('--x', `${x}px`);
+      containerRef.current.style.setProperty('--y', `${y}px`);
+    };
+
+    const container = containerRef.current;
+    if (container && !isMobile) {
+      container.addEventListener('mousemove', handleMouseMove);
+    }
+
+    return () => {
+      if (container && !isMobile) {
+        container.removeEventListener('mousemove', handleMouseMove);
+      }
+    };
+  }, [isMobile]);
+
+  // Return basic container on mobile
   if (isMobile) {
     return <div className={className}>{children}</div>;
   }
@@ -20,23 +44,12 @@ const LampEffect = ({ children, className = "" }: LampEffectProps) => {
   return (
     <motion.div 
       ref={containerRef}
-      className={`relative overflow-hidden ${className}`}
-      onMouseMove={(e) => {
-        if (!containerRef.current) return;
-        const bounds = containerRef.current.getBoundingClientRect();
-        const x = e.clientX - bounds.left;
-        const y = e.clientY - bounds.top;
-        
-        containerRef.current.style.setProperty('--x', `${x}px`);
-        containerRef.current.style.setProperty('--y', `${y}px`);
-      }}
+      className={`relative ${className}`}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
     >
-      <div 
-        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        style={{
-          background: 'radial-gradient(600px circle at var(--x) var(--y), rgba(255,255,255,0.06), transparent 40%)',
-        }}
-      />
+      <div className="lamp-gradient absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
       {children}
     </motion.div>
   );
