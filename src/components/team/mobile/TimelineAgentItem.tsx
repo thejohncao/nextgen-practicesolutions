@@ -53,7 +53,7 @@ const TimelineAgentItem = ({
   );
 };
 
-// Helper function to get the new department titles
+// Updated department titles
 const getDepartmentTitle = (name: string): string => {
   switch (name.toLowerCase()) {
     case 'miles':
