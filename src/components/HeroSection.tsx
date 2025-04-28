@@ -27,11 +27,11 @@ const HeroSection = () => {
               </h1>
             </SparkleText>
             
-            <p className="text-xl md:text-2xl text-white/70 leading-relaxed max-w-2xl animate-hero-fade animate-hero-fade-delay-1">
+            <p className="text-xl md:text-2xl text-white/70 leading-relaxed max-w-2xl animate-hero-fade animate-cinematic-delay-1">
               Deploy your Dream Team. Operate smarter. Grow faster. Lead effortlessly.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 animate-hero-fade animate-hero-fade-delay-2">
+            <div className="flex flex-col sm:flex-row gap-4 animate-hero-fade-up animate-cinematic-delay-2">
               <Button 
                 asChild
                 size="lg"
@@ -45,8 +45,8 @@ const HeroSection = () => {
           </div>
 
           {/* Right Side: Floating Avatars */}
-          <div className="relative h-[500px] animate-hero-fade animate-hero-fade-delay-1">
-            <FloatingAgentAvatars />
+          <div className="relative h-[500px]">
+            <FloatingAgentAvatars staggered={true} />
           </div>
         </div>
       </div>
