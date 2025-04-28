@@ -8,8 +8,7 @@ const SectionHeader = () => {
         Lead Your Practice Like a CEO — Instantly
       </h2>
       <p className="text-lg text-nextgen-dark/70 dark:text-white/70 max-w-3xl mx-auto">
-        The NextGen AI Boardroom™ turns your practice into a command center.
-        Set your goal — your AI Executive Team plans, launches, and grows your practice automatically.
+        Stop managing tasks. Start commanding your AI executive team — and run your practice like a Fortune 500 company.
       </p>
     </div>
   );

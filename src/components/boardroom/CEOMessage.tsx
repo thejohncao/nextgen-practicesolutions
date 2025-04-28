@@ -13,7 +13,7 @@ const CEOMessage = () => {
             <span className="text-sm text-nextgen-dark/60 dark:text-white/60">You</span>
           </div>
           <p className="bg-nextgen-purple/10 dark:bg-nextgen-purple/20 p-4 rounded-2xl text-nextgen-dark dark:text-white">
-            "Team, I want to add 10 new veneer cases this month."
+            "I need 10 new veneer cases this month."
           </p>
         </div>
       </div>
