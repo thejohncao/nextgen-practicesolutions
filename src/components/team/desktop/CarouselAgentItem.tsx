@@ -1,0 +1,55 @@
+
+import React from 'react';
+import { Agent } from '@/types/agent';
+import AgentOrb from '../agent/AgentOrb';
+import CarouselAgentCard from '../CarouselAgentCard';
+import { getTooltipText } from '../utils/getTooltipText';
+
+interface CarouselAgentItemProps {
+  agent: Agent;
+  index: number;
+  isActive: boolean;
+  phaseDescription: string;
+  phaseColor: string;
+  onSlideChange: (index: number) => void;
+}
+
+const CarouselAgentItem = ({
+  agent,
+  index,
+  isActive,
+  phaseDescription,
+  phaseColor,
+  onSlideChange,
+}: CarouselAgentItemProps) => {
+  return (
+    <div 
+      className="p-2 relative carousel-agent-item" 
+      data-index={index}
+      style={{
+        opacity: 0,
+        transform: 'translateY(20px)',
+        animation: `fadeInUp 0.7s ease-out forwards ${index * 0.1}s`
+      }}
+    >
+      <div className="flex flex-col items-center gap-6">
+        <AgentOrb
+          name={agent.name}
+          role={agent.title}
+          color={agent.color}
+          tooltipText={getTooltipText(agent.name)}
+          isActive={isActive}
+          onClick={() => onSlideChange(index)}
+        />
+        <CarouselAgentCard 
+          agent={agent} 
+          isActive={isActive}
+          phaseDescription={phaseDescription}
+          phaseColor={phaseColor}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default CarouselAgentItem;
