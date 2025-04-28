@@ -1,5 +1,10 @@
 
+/* Import base styles first */
 @import './styles/base.css';
+
+/* Import all utility and component styles */
 @import './styles/utilities.css';
 @import './styles/animations.css';
 @import './styles/colors.css';
+
+/* Add any additional global styles below */
