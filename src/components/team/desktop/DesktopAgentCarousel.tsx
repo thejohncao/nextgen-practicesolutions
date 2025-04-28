@@ -3,12 +3,11 @@ import React from 'react';
 import { Agent } from '@/types/agent';
 import { Phase } from '../PhaseData';
 import CarouselAgentCard from '../CarouselAgentCard';
+import AgentOrb from '../agent/AgentOrb';
 import { 
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 
 interface DesktopAgentCarouselProps {
@@ -18,6 +17,16 @@ interface DesktopAgentCarouselProps {
   onSlideChange: (index: number) => void;
   carouselRef: React.RefObject<HTMLDivElement>;
 }
+
+const getTooltipText = (name: string) => {
+  switch (name) {
+    case 'Miles': return 'Front Office Automation';
+    case 'Giselle': return 'Lead Growth Engine';
+    case 'Devon': return 'Treatment Closer';
+    case 'Alma': return 'Team Training AI';
+    default: return '';
+  }
+};
 
 const DesktopAgentCarousel = ({
   agents,
@@ -33,39 +42,33 @@ const DesktopAgentCarousel = ({
         opts={{
           align: "center",
           loop: true,
+          startIndex: activeIndex,
         }}
       >
         <CarouselContent>
           {agents.map((agent, index) => (
             <CarouselItem key={agent.name} className="basis-1/2">
               <div className="p-2 relative carousel-agent-item" data-index={index}>
-                <CarouselAgentCard 
-                  agent={agent} 
-                  isActive={activeIndex === index}
-                  phaseDescription={phases[index].story}
-                  phaseColor={phases[index].color}
-                />
+                <div className="flex flex-col items-center gap-6">
+                  <AgentOrb
+                    name={agent.name}
+                    role={agent.title}
+                    color={agent.color}
+                    tooltipText={getTooltipText(agent.name)}
+                    isActive={activeIndex === index}
+                    onClick={() => onSlideChange(index)}
+                  />
+                  <CarouselAgentCard 
+                    agent={agent} 
+                    isActive={activeIndex === index}
+                    phaseDescription={phases[index].story}
+                    phaseColor={phases[index].color}
+                  />
+                </div>
               </div>
             </CarouselItem>
           ))}
         </CarouselContent>
-        <div className="flex items-center justify-center gap-4 mt-8">
-          <CarouselPrevious className="relative static left-0 right-0 translate-y-0 mx-2" />
-          <div className="flex gap-2">
-            {agents.map((_, index) => (
-              <button
-                key={index}
-                className={`w-2 h-2 rounded-full transition-all ${
-                  activeIndex === index 
-                    ? `w-4 ${phases[index].textColor.replace('text-', 'bg-')}` 
-                    : "bg-white/30 hover:bg-white/50"
-                }`}
-                onClick={() => onSlideChange(index)}
-              />
-            ))}
-          </div>
-          <CarouselNext className="relative static left-0 right-0 translate-y-0 mx-2" />
-        </div>
       </Carousel>
     </div>
   );
