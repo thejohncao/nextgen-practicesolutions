@@ -1,0 +1,64 @@
+
+@layer utilities {
+  /* Hover and interactive effects */
+  .lamp-gradient {
+    background: radial-gradient(
+      800px circle at var(--x) var(--y),
+      rgba(255, 255, 255, 0.06),
+      transparent 40%
+    );
+  }
+  
+  /* Folder tab animations */
+  .folder-tab {
+    position: relative;
+    overflow: visible;
+    transition: all 0.3s ease;
+  }
+
+  .folder-tab.active {
+    transform: translateY(-4px);
+    z-index: 10;
+  }
+
+  .folder-tab:hover:not(.active) {
+    transform: translateY(-2px);
+  }
+
+  /* Tab highlight effects */
+  .tab-highlight {
+    transition: all 0.3s ease-in-out;
+  }
+}
+
+@keyframes tab-lift {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-4px);
+  }
+}
+
+/* Button Animation with Better Easing */
+@keyframes hero-fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  30% {
+    opacity: 0.3;
+    transform: translateY(20px);
+  }
+  70% {
+    opacity: 0.7;
+    transform: translateY(10px);
+  }
+  85% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

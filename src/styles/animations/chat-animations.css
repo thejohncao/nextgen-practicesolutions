@@ -1,0 +1,24 @@
+
+@layer utilities {
+  /* Chat message animations */
+  .message-appear {
+    animation: message-appear 0.5s ease-out forwards;
+  }
+
+  .message-appear-delayed {
+    opacity: 0;
+    animation: message-appear 0.5s ease-out 0.7s forwards;
+  }
+}
+
+/* Message appearance animation */
+@keyframes message-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
