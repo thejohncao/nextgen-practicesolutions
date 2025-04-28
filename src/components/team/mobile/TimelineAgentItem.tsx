@@ -36,7 +36,7 @@ const TimelineAgentItem = ({
       <div className="flex flex-col items-center gap-6">
         <AgentOrb
           name={agent.name}
-          role={phase.title}
+          role={getDepartmentTitle(agent.name)}
           color={agent.color}
           isActive={isActive}
           onClick={() => onSelect?.(index)}
@@ -46,12 +46,27 @@ const TimelineAgentItem = ({
           agent={agent} 
           isActive={isActive}
           phaseDescription={phase.story}
-          phaseTitle={phase.title}
           phaseColor={phase.color}
         />
       </div>
     </div>
   );
+};
+
+// Helper function to get the new department titles
+const getDepartmentTitle = (name: string): string => {
+  switch (name.toLowerCase()) {
+    case 'miles':
+      return 'Practice Management';
+    case 'giselle':
+      return 'Practice Growth';
+    case 'devon':
+      return 'Practice Development';
+    case 'alma':
+      return 'Practice Mastery';
+    default:
+      return 'Practice Management';
+  }
 };
 
 export default TimelineAgentItem;
