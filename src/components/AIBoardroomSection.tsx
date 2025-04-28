@@ -1,14 +1,30 @@
 
 import React from 'react';
-import { Button } from '@/components/ui/button';
 import SectionHeader from './boardroom/SectionHeader';
 import ChatConversation from './boardroom/ChatConversation';
+import RainbowButton from './ui/rainbow-button';
 
 const AIBoardroomSection = () => {
-  const scrollToTeam = () => {
-    const teamSection = document.getElementById('ai-team');
-    if (teamSection) {
-      teamSection.scrollIntoView({ behavior: 'smooth' });
+  const handleChatOpen = () => {
+    try {
+      const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
+      if (chatButton) {
+        console.log('Chat button found in boardroom, clicking immediately...');
+        chatButton.click();
+      } else {
+        console.log('Chat button not found, trying with a delay...');
+        setTimeout(() => {
+          const delayedChatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
+          if (delayedChatButton) {
+            console.log('Chat button found in boardroom after delay, clicking...');
+            delayedChatButton.click();
+          } else {
+            console.warn('Chat button still not found in DOM after boardroom click');
+          }
+        }, 200);
+      }
+    } catch (error) {
+      console.error('Error opening chat from boardroom:', error);
     }
   };
 
@@ -21,12 +37,12 @@ const AIBoardroomSection = () => {
         <SectionHeader />
         <ChatConversation />
         <div className="text-center mt-12">
-          <Button 
-            onClick={scrollToTeam}
-            className="bg-[#6C63FF] hover:bg-[#5a52e0] text-white font-bold py-3 px-8 rounded-lg text-lg"
+          <RainbowButton 
+            onClick={handleChatOpen}
+            size="lg"
           >
-            Meet Your Executive Team
-          </Button>
+            Talk to Miles
+          </RainbowButton>
         </div>
       </div>
     </section>

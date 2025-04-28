@@ -1,15 +1,37 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import PulseBeams from './effects/PulseBeams';
 import FloatingAgentAvatars from './hero/FloatingAgentAvatars';
 import HeroQuantumGrid from './effects/HeroQuantumGrid';
 import LampEffect from './effects/LampEffect';
 import SparkleText from './effects/SparkleText';
+import RainbowButton from './ui/rainbow-button';
 
 const HeroSection = () => {
+  const handleChatOpen = () => {
+    try {
+      const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
+      if (chatButton) {
+        console.log('Chat button found in hero, clicking immediately...');
+        chatButton.click();
+      } else {
+        console.log('Chat button not found, trying with a delay...');
+        setTimeout(() => {
+          const delayedChatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
+          if (delayedChatButton) {
+            console.log('Chat button found in hero after delay, clicking...');
+            delayedChatButton.click();
+          } else {
+            console.warn('Chat button still not found in DOM after hero click');
+          }
+        }, 200);
+      }
+    } catch (error) {
+      console.error('Error opening chat from hero:', error);
+    }
+  };
+
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
       {/* Background effects layering */}
@@ -48,16 +70,13 @@ const HeroSection = () => {
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 animate-hero-fade-up animate-cinematic-delay-2">
-                <Button 
-                  asChild
+                <RainbowButton 
                   size="lg"
-                  className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white px-8 py-6 h-auto text-lg rounded-lg shadow-lg hover:shadow-nextgen-purple/25 hover:scale-[1.02] transition-all duration-300 group"
+                  onClick={handleChatOpen}
+                  className="h-auto group"
                 >
-                  <Link to="/solutions" className="flex items-center">
-                    Meet Your Dream Team
-                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </Button>
+                  Talk to Miles
+                </RainbowButton>
               </div>
             </div>
           </LampEffect>

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import EmailCollectionForm from './EmailCollectionForm';
 import { useIsMobile } from '@/hooks/use-mobile';
+import RainbowButton from './ui/rainbow-button';
 
 const FooterCTA = () => {
   const [showMobileCTA, setShowMobileCTA] = useState(false);
@@ -26,14 +27,14 @@ const FooterCTA = () => {
       setTimeout(() => {
         const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
         if (chatButton) {
-          console.log('Chat button found in mobile CTA, clicking...');
+          console.log('Chat button found in footer CTA, clicking...');
           chatButton.click();
         } else {
-          console.warn('Chat button not found in DOM from mobile CTA');
+          console.warn('Chat button not found in DOM from footer CTA');
         }
       }, 100);
     } catch (error) {
-      console.error('Error opening chat from mobile CTA:', error);
+      console.error('Error opening chat from footer CTA:', error);
     }
   };
 
@@ -59,6 +60,15 @@ const FooterCTA = () => {
                 buttonText="Get Started" 
                 placeholder="Enter your work email" 
               />
+            </div>
+            
+            <div className="flex justify-center mb-6">
+              <RainbowButton 
+                onClick={handleChatOpen}
+                size="lg"
+              >
+                Talk to Miles
+              </RainbowButton>
             </div>
             
             <div className="flex justify-center">

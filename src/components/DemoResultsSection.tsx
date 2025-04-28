@@ -1,10 +1,32 @@
 
 import React from 'react';
-import { Button } from '@/components/ui/button';
 import ChatConversation from './boardroom/ChatConversation';
-import { ArrowRight } from 'lucide-react';
+import RainbowButton from './ui/rainbow-button';
 
 const DemoResultsSection = () => {
+  const handleChatOpen = () => {
+    try {
+      const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
+      if (chatButton) {
+        console.log('Chat button found in demo results, clicking immediately...');
+        chatButton.click();
+      } else {
+        console.log('Chat button not found, trying with a delay...');
+        setTimeout(() => {
+          const delayedChatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
+          if (delayedChatButton) {
+            console.log('Chat button found in demo results after delay, clicking...');
+            delayedChatButton.click();
+          } else {
+            console.warn('Chat button still not found in DOM after demo results click');
+          }
+        }, 200);
+      }
+    } catch (error) {
+      console.error('Error opening chat from demo results:', error);
+    }
+  };
+
   return (
     <section className="py-20 relative overflow-hidden scroll-transition bg-white">
       {/* Subtle background effects */}
@@ -34,12 +56,12 @@ const DemoResultsSection = () => {
           <ChatConversation />
           
           <div className="mt-8 text-center">
-            <Button 
-              className="bg-[#6C63FF] hover:bg-[#5a52e0] text-white font-bold py-3 px-8 rounded-lg text-lg group"
+            <RainbowButton 
+              size="lg"
+              onClick={handleChatOpen}
             >
-              Schedule a Demo
-              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
+              Talk to Miles
+            </RainbowButton>
           </div>
         </div>
       </div>

@@ -1,10 +1,10 @@
+
 import React from 'react';
-import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Calendar, Clipboard, MessageCircle, RefreshCcw, DollarSign, Briefcase, Network, Star, UserSquare2, Files } from "lucide-react";
 import AgentAvatar from '../AgentAvatar';
-import EmailCollectionDialog from '../EmailCollectionDialog';
-import Crown from '../Crown';
+import RainbowButton from '../ui/rainbow-button';
+import { cn } from "@/lib/utils";
 
 interface PricingCardProps {
   name: string;
@@ -86,11 +86,35 @@ const PricingCard = ({
   const agentHexColor = getAgentHexColor(agent.name);
   const agentColorName = getAgentColor(agent.name);
   
+  const handleChatOpen = () => {
+    try {
+      const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
+      if (chatButton) {
+        console.log('Chat button found in pricing card, clicking immediately...');
+        chatButton.click();
+      } else {
+        console.log('Chat button not found, trying with a delay...');
+        setTimeout(() => {
+          const delayedChatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
+          if (delayedChatButton) {
+            console.log('Chat button found in pricing card after delay, clicking...');
+            delayedChatButton.click();
+          } else {
+            console.warn('Chat button still not found in DOM after pricing card click');
+          }
+        }, 200);
+      }
+    } catch (error) {
+      console.error('Error opening chat from pricing card:', error);
+    }
+  };
+  
   return (
     <Card 
-      className={`glass-card border-white/10 relative group animate-fade-in ${
-        isMastery ? 'border-amber-400/50' : ''
-      }`}
+      className={cn(
+        "glass-card border-white/10 relative group animate-fade-in",
+        isMastery ? "border-amber-400/50" : ""
+      )}
     >
       {/* Stage Badge */}
       <div 
@@ -100,7 +124,7 @@ const PricingCard = ({
           color: agentHexColor 
         }}
       >
-        {isMastery && <Crown className="w-3.5 h-3.5" />}
+        {isMastery && <div className="w-3.5 h-3.5">👑</div>}
         {stage}
       </div>
       
@@ -160,11 +184,12 @@ const PricingCard = ({
           </div>
         )}
 
-        <EmailCollectionDialog
-          triggerText={ctaText}
-          buttonClassName="w-full text-white hover:opacity-90 transition-opacity"
-          style={{ backgroundColor: agentHexColor }}
-        />
+        <RainbowButton 
+          onClick={handleChatOpen}
+          className="w-full"
+        >
+          Talk to Miles
+        </RainbowButton>
       </CardContent>
     </Card>
   );
