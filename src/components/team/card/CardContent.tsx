@@ -2,7 +2,7 @@
 import React from 'react';
 import { Agent } from '@/types/agent';
 import AgentAvatar from '../../AgentAvatar';
-import { getAgentMicroIntro } from '../utils/getAgentMicroIntro';
+import { getAgentBlurb } from '../utils/getAgentBlurb';
 
 interface CardContentProps {
   agent: Agent;
@@ -10,7 +10,7 @@ interface CardContentProps {
 
 const CardContent = ({ agent }: CardContentProps) => {
   return (
-    <div className="flex flex-col items-center gap-6 animate-fade-in">
+    <div className="flex flex-col items-center gap-6">
       <div className="relative">
         <AgentAvatar 
           name={agent.name}
@@ -19,15 +19,15 @@ const CardContent = ({ agent }: CardContentProps) => {
         />
       </div>
 
-      <div className="space-y-3 text-center">
+      <div className="space-y-3">
         <h3 className="text-2xl font-bold text-white">
           {agent.name}
         </h3>
-        <p className="text-white/80">
+        <p className="text-white/70">
           {agent.title}
         </p>
-        <p className="text-sm text-white/60 font-light">
-          {getAgentMicroIntro(agent.name)}
+        <p className="text-lg text-white/90">
+          {getAgentBlurb(agent.name)}
         </p>
       </div>
     </div>
