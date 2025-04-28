@@ -21,10 +21,10 @@ const TabNavigation = ({ agents, activeTab, setActiveTab, className }: TabNaviga
       {/* Enhanced Folder-style Tab Navigation with Gooey Effect */}
       <div className="relative z-10 w-full max-w-3xl">
         {/* Background Pill - enhances the gooey tab effect */}
-        <div className="absolute inset-0 rounded-full bg-black/40 blur-md -z-10 transform scale-y-[0.7] scale-x-[1.02] -translate-y-1"></div>
+        <div className="absolute inset-0 rounded-full bg-black/60 blur-md -z-10 transform scale-y-[0.7] scale-x-[1.02] -translate-y-1"></div>
         
         {/* Tab Container - the gooey blob effect is applied here */}
-        <div className="relative flex space-x-1 backdrop-blur-sm rounded-lg overflow-visible gooey-blob p-2 bg-white/5 border border-white/10 shadow-lg">
+        <div className="relative flex space-x-1.5 backdrop-blur-sm rounded-lg overflow-visible gooey-blob p-2.5 bg-white/10 border border-white/20 shadow-lg">
           {agents.map((agent, index) => (
             <TabItem 
               key={agent.name}

@@ -35,13 +35,13 @@ const GooeyFilterTabs = ({ className }: GooeyFilterTabsProps) => {
   }, [activeTab]);
 
   return (
-    <div className={cn("relative py-12 mt-8", className)} id="ai-team">
+    <div className={cn("relative py-12 mt-0", className)} id="ai-team">
       <div className="container mx-auto px-4">
         <div className="text-center mb-10">
           <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
             Meet Your AI Team
           </h2>
-          <p className="text-lg text-white/70 max-w-2xl mx-auto px-4">
+          <p className="text-lg text-white/80 max-w-2xl mx-auto px-4">
             Experience how our AI agents work together to grow your practice at every stage
             of the patient journey.
           </p>
