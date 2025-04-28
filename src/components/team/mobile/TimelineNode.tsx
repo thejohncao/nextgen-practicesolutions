@@ -10,7 +10,7 @@ interface TimelineNodeProps {
 
 const TimelineNode = ({ phase, index, isActive }: TimelineNodeProps) => {
   return (
-    <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 z-10">
+    <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 z-10">
       <div className={`
         w-6 h-6 rounded-full flex items-center justify-center
         transition-all duration-300 ease-in-out

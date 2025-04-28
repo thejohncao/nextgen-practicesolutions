@@ -4,6 +4,7 @@ import { Agent } from '@/types/agent';
 import { Phase } from '../PhaseData';
 import AgentOrb from '../agent/AgentOrb';
 import TimelineNode from './TimelineNode';
+import { getTooltipText } from '../utils/getTooltipText';
 
 interface TimelineAgentItemProps {
   agent: Agent;
@@ -41,6 +42,7 @@ const TimelineAgentItem = ({
           name={agent.name}
           role={agent.title}
           color={agent.color}
+          tooltipText={getTooltipText(agent.name)}
           isActive={isActive}
           onClick={handleOrbClick}
         />

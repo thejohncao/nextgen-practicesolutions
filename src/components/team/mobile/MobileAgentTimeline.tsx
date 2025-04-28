@@ -20,14 +20,14 @@ const MobileAgentTimeline = ({
   carouselRef 
 }: MobileAgentTimelineProps) => {
   return (
-    <div className="relative py-8" ref={carouselRef}>
+    <div className="relative py-12" ref={carouselRef}>
       {/* Vertical Timeline Line */}
       <div 
         className="absolute left-1/2 h-full w-px bg-gradient-to-b from-white/20 via-white/10 to-transparent" 
         style={{ top: '40px' }} 
       />
       
-      <div className="space-y-16">
+      <div className="space-y-20">
         {agents.map((agent, index) => (
           <TimelineAgentItem
             key={agent.name}
