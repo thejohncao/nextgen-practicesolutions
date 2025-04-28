@@ -20,8 +20,8 @@ const JourneyStage = ({ stage, currentStage, totalStages }: JourneyStageProps) =
       <div className="max-w-4xl mx-auto">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-8 gap-4">
           <div>
-            <span className="text-4xl sm:text-5xl font-bold text-white/20">{stage.number}</span>
-            <h3 className="text-xl sm:text-2xl font-bold text-white mt-2">{stage.name}</h3>
+            <span className="text-4xl sm:text-5xl font-bold text-white/40 font-heading tracking-tight">{stage.number}</span>
+            <h3 className="text-xl sm:text-2xl font-bold text-white mt-2 font-heading">{stage.name}</h3>
           </div>
           <JourneyProgressBar currentStage={currentStage} totalStages={totalStages} />
         </div>
