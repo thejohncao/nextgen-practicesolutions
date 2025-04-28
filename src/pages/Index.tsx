@@ -15,38 +15,76 @@ import ResourcesSection from '../components/ResourcesSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import FAQSection from '../components/FAQSection';
 import MarqueeResultsSection from '../components/results/MarqueeResultsSection';
+import ScrollSection from '../components/providers/ScrollSection';
 
 const Index = () => {
   return (
     <Layout>
-      <HeroSection />
+      <ScrollSection fullScreen id="hero">
+        <HeroSection />
+      </ScrollSection>
       
       {/* Meet the AI Team section with improved folder-style UI */}
-      <GooeyFilterTabs />
+      <ScrollSection id="ai-team" className="bg-black/60 backdrop-blur-sm py-16">
+        <GooeyFilterTabs />
+      </ScrollSection>
       
       {/* Visual separator between dark and light sections */}
       <div className="h-8 bg-gradient-to-b from-black/60 to-white"></div>
       
       {/* Demo + Results section with white background */}
-      <DemoResultsSection />
+      <ScrollSection id="demo" className="bg-white py-16">
+        <DemoResultsSection />
+      </ScrollSection>
 
       {/* New Marquee Results section */}
-      <MarqueeResultsSection />
+      <ScrollSection id="results" className="bg-nextgen-dark py-16">
+        <MarqueeResultsSection />
+      </ScrollSection>
       
       {/* Visual separator between light and dark sections */}
       <div className="h-8 bg-gradient-to-b from-white to-nextgen-dark"></div>
       
       {/* ROI section that consolidates the emotional benefits */}
-      <ROISection />
-      <HealthcareSecuritySection />
-      <AcademyOverviewSection />
-      <FooterCTA />
-      <PricingSection />
-      <IntegrationsSection />
-      <SuccessGuarantee />
-      <ResourcesSection />
-      <TestimonialsSection />
-      <FAQSection />
+      <ScrollSection id="roi">
+        <ROISection />
+      </ScrollSection>
+      
+      <ScrollSection id="security">
+        <HealthcareSecuritySection />
+      </ScrollSection>
+      
+      <ScrollSection id="academy">
+        <AcademyOverviewSection />
+      </ScrollSection>
+      
+      <ScrollSection id="cta">
+        <FooterCTA />
+      </ScrollSection>
+      
+      <ScrollSection id="pricing">
+        <PricingSection />
+      </ScrollSection>
+      
+      <ScrollSection id="integrations">
+        <IntegrationsSection />
+      </ScrollSection>
+      
+      <ScrollSection id="guarantee">
+        <SuccessGuarantee />
+      </ScrollSection>
+      
+      <ScrollSection id="resources">
+        <ResourcesSection />
+      </ScrollSection>
+      
+      <ScrollSection id="testimonials">
+        <TestimonialsSection />
+      </ScrollSection>
+      
+      <ScrollSection id="faq">
+        <FAQSection />
+      </ScrollSection>
     </Layout>
   );
 };

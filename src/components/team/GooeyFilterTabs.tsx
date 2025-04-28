@@ -36,7 +36,7 @@ const GooeyFilterTabs = ({ className }: GooeyFilterTabsProps) => {
   }, [activeTab]);
 
   return (
-    <div className={cn("relative py-8 mt-0 bg-black/60 backdrop-blur-sm", className)} id="ai-team">
+    <div className={cn("relative", className)}>
       <div className="container mx-auto px-4">
         <TeamSectionHeader />
 

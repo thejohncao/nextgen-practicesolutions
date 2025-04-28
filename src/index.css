@@ -1,5 +1,22 @@
 
-@import './styles/base.css';
-@import './styles/utilities.css';
-@import './styles/animations.css';
-@import './styles/colors.css';
+/* ... keep existing code */
+
+/* Add animation for scroll indicators */
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 2s infinite;
+}
+
+/* Style for scroll sections */
+[data-scroll-section] {
+  scroll-snap-align: start;
+  position: relative;
+}
