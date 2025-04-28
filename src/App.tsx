@@ -1,21 +1,21 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import Watch from "./pages/Watch";
-import Story from "./pages/Story";
-import Join from "./pages/Join";
-import Features from "./pages/Features";
-import Integrations from "./pages/Integrations";
-import Academy from "./pages/Academy";
 import Solutions from "./pages/Solutions";
-import Resources from "./pages/Resources";
+import Academy from "./pages/Academy";
+import Features from "./pages/Features";
+import Join from "./pages/Join";
+import Integrations from "./pages/Integrations";
 import Security from "./pages/Security";
 import Privacy from "./pages/Privacy";
+import Watch from "./pages/Watch";
+import Resources from "./pages/Resources";
+import Story from "./pages/Story";
+import Animations from "./pages/Animations";
+import NotFound from "./pages/NotFound";
 import AiAssistant from "./components/AiAssistant";
 import AvatarManager from "./components/admin/AvatarManager";
 
@@ -32,7 +32,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <Router>
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/watch" element={<Watch />} />
@@ -49,7 +49,7 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
         <AiAssistantWrapper />
-      </BrowserRouter>
+      </Router>
     </TooltipProvider>
   </QueryClientProvider>
 );
