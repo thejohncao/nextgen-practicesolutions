@@ -25,6 +25,17 @@ const AgentProfile = ({ agent }: AgentProfileProps) => {
     }
   };
 
+  // Get color class based on agent
+  const getAgentColorClass = (name: string) => {
+    switch (name) {
+      case 'Giselle': return 'text-green-500';
+      case 'Miles': return 'text-blue-500';
+      case 'Devon': return 'text-purple-500';
+      case 'Alma': return 'text-amber-500';
+      default: return 'text-white';
+    }
+  };
+
   return (
     <div className="flex flex-col">
       <div className="mb-4">
@@ -37,7 +48,7 @@ const AgentProfile = ({ agent }: AgentProfileProps) => {
         />
       </div>
       
-      <div className="space-y-3">
+      <div className="space-y-2 sm:space-y-3">
         <h3 className="text-xl font-bold text-white">{agent.name}</h3>
         <p className="text-sm text-white/80">{agent.title}</p>
         
@@ -46,7 +57,7 @@ const AgentProfile = ({ agent }: AgentProfileProps) => {
         </p>
         
         <SparkleText>
-          <p className="text-sm italic text-white/90 mt-4">
+          <p className="text-sm italic text-white/90 mt-3 pb-1 border-b border-white/10">
             "{getAgentQuote(agent.name)}"
           </p>
         </SparkleText>

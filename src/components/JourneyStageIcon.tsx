@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Users, CalendarDays, Heart } from 'lucide-react';
+import { Magnet, Calendar, Handshake, Sprout } from 'lucide-react';
 
 interface JourneyStageIconProps {
   stageName: string;
@@ -13,13 +13,15 @@ const JourneyStageIcon = ({ stageName, color, size = 24, className = "" }: Journ
   const getIcon = () => {
     switch (stageName.toLowerCase()) {
       case "attract & engage":
-        return <Users size={size} className="text-green-400" />;
+        return <Magnet size={size} className="text-green-400" />;
       case "activate & onboard":
-        return <CalendarDays size={size} className="text-blue-400" />;
+        return <Calendar size={size} className="text-blue-400" />;
       case "convert & retain":
-        return <Heart size={size} className="text-purple-400" />;
+        return <Handshake size={size} className="text-purple-400" />;
+      case "retain & grow":
+        return <Sprout size={size} className="text-amber-400" />;
       default:
-        return <Users size={size} className="text-green-400" />;
+        return <Magnet size={size} className="text-green-400" />;
     }
   };
 
@@ -31,6 +33,8 @@ const JourneyStageIcon = ({ stageName, color, size = 24, className = "" }: Journ
         return "border-blue-400/20";
       case "convert & retain":
         return "border-purple-400/20";
+      case "retain & grow":
+        return "border-amber-400/20";
       default:
         return "border-green-400/20";
     }
