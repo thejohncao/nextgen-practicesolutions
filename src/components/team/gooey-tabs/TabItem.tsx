@@ -28,14 +28,14 @@ const TabItem = ({ agent, index, activeTab, onClick }: TabItemProps) => {
 
   // Get tab background color based on agent
   const getTabBgClass = (color: string, isActive: boolean): string => {
-    if (!isActive) return "bg-black/30 hover:bg-black/50";
+    if (!isActive) return "bg-black/20 hover:bg-black/30";
     
     switch(color) {
-      case 'green': return "bg-green-500/20";
-      case 'blue': return "bg-blue-500/20";
-      case 'purple': return "bg-purple-500/20";
-      case 'gold': return "bg-amber-500/20";
-      default: return "bg-white/10";
+      case 'green': return "bg-green-500/10";
+      case 'blue': return "bg-blue-500/10";
+      case 'purple': return "bg-purple-500/10";
+      case 'gold': return "bg-amber-500/10";
+      default: return "bg-white/5";
     }
   };
 
@@ -48,7 +48,7 @@ const TabItem = ({ agent, index, activeTab, onClick }: TabItemProps) => {
       case 'blue': return "border-blue-500/30";
       case 'purple': return "border-purple-500/30";
       case 'gold': return "border-amber-500/30";
-      default: return "border-white/20";
+      default: return "border-white/10";
     }
   };
 
@@ -68,10 +68,10 @@ const TabItem = ({ agent, index, activeTab, onClick }: TabItemProps) => {
   // Get agent icon based on agent name
   const getAgentIcon = (agentName: string) => {
     switch(agentName) {
-      case 'Giselle': return <Fuel className={`w-5 h-5 ${isActive ? 'text-green-400' : 'text-white/60'}`} />;
-      case 'Miles': return <Calendar className={`w-5 h-5 ${isActive ? 'text-blue-400' : 'text-white/60'}`} />;
-      case 'Devon': return <Handshake className={`w-5 h-5 ${isActive ? 'text-purple-400' : 'text-white/60'}`} />;
-      case 'Alma': return <GraduationCap className={`w-5 h-5 ${isActive ? 'text-amber-400' : 'text-white/60'}`} />;
+      case 'Giselle': return <Fuel className={`w-4 h-4 ${isActive ? 'text-green-400' : 'text-white/60'}`} />;
+      case 'Miles': return <Calendar className={`w-4 h-4 ${isActive ? 'text-blue-400' : 'text-white/60'}`} />;
+      case 'Devon': return <Handshake className={`w-4 h-4 ${isActive ? 'text-purple-400' : 'text-white/60'}`} />;
+      case 'Alma': return <GraduationCap className={`w-4 h-4 ${isActive ? 'text-amber-400' : 'text-white/60'}`} />;
       default: return null;
     }
   };
@@ -81,12 +81,12 @@ const TabItem = ({ agent, index, activeTab, onClick }: TabItemProps) => {
       onClick={onClick}
       className={cn(
         "relative",
-        "flex items-center gap-2 px-5 py-2.5 rounded-t-lg",
+        "flex items-center gap-1.5 px-4 py-1.5 rounded-t-lg",
         "border border-b-0",
-        "cursor-pointer shadow-lg",
+        "cursor-pointer",
         getTabBgClass(agent.color, isActive),
         getTabBorderClass(agent.color, isActive),
-        isActive ? "z-30 text-white font-bold" : "text-white/70 z-20"
+        isActive ? "z-30 text-white font-medium" : "text-white/70 z-20"
       )}
       style={{
         filter: isActive ? getGlowFilterClass(agent.color, isActive) : "none"
@@ -103,8 +103,7 @@ const TabItem = ({ agent, index, activeTab, onClick }: TabItemProps) => {
       }}
       whileHover={{
         y: isActive ? -4 : -2,
-        scale: 1,
-        boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
+        scale: 1
       }}
     >
       {/* Agent Icon */}
@@ -112,7 +111,7 @@ const TabItem = ({ agent, index, activeTab, onClick }: TabItemProps) => {
       
       {/* Agent Name */}
       <span className={cn(
-        "font-medium text-sm whitespace-nowrap",
+        "text-sm whitespace-nowrap",
         isActive && getAgentColorClass(agent.color)
       )}>
         {agent.name}
@@ -122,7 +121,7 @@ const TabItem = ({ agent, index, activeTab, onClick }: TabItemProps) => {
       {isActive && (
         <motion.div 
           className={cn(
-            "absolute -top-[2px] left-0 right-0 h-[3px] rounded-full",
+            "absolute -top-[2px] left-0 right-0 h-[2px] rounded-full",
             agent.color === 'green' ? "bg-green-400" :
             agent.color === 'blue' ? "bg-blue-400" :
             agent.color === 'purple' ? "bg-purple-400" : 

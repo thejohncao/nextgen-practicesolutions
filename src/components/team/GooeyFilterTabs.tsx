@@ -30,7 +30,7 @@ const GooeyFilterTabs = ({ className }: GooeyFilterTabsProps) => {
     const typingTimer = setTimeout(() => {
       setIsTyping(false);
       setShowChat(true);
-    }, 2000);
+    }, 1200);
     
     return () => clearTimeout(typingTimer);
   }, [activeTab]);
@@ -40,15 +40,15 @@ const GooeyFilterTabs = ({ className }: GooeyFilterTabsProps) => {
       <div className="container mx-auto px-4">
         <TeamSectionHeader />
 
-        <div className="mt-6 mb-10 max-w-5xl mx-auto">
+        <div className="mt-6 mb-10 max-w-4xl mx-auto">
           <TabNavigation 
             agents={orderedAgents} 
             activeTab={activeTab} 
             setActiveTab={setActiveTab} 
           />
   
-          {/* Content Area - Improved Folder-style Panels */}
-          <div className="max-w-5xl mx-auto">
+          {/* Content Area */}
+          <div className="bg-transparent max-w-4xl mx-auto">
             {orderedAgents.map((agent, index) => (
               <AgentContentPanel
                 key={agent.name}
@@ -67,7 +67,7 @@ const GooeyFilterTabs = ({ className }: GooeyFilterTabsProps) => {
         </div>
 
         {/* CTA Button */}
-        <div className="text-center mt-10">
+        <div className="text-center mt-12">
           <button 
             className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors"
             onClick={() => window.location.href = '/solutions'}

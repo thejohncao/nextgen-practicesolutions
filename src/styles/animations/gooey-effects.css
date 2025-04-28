@@ -28,7 +28,7 @@
 
   /* Enhanced tab animations */
   .tab-hover-lift {
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   
   .tab-hover-lift:hover {
@@ -37,23 +37,16 @@
   
   .tab-active-lift {
     transform: translateY(-4px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 }
 
-/* Blob movement for gooey effect - enhanced with more organic movement */
+/* Blob movement for gooey effect */
 @keyframes blob-move {
   0% {
     border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
   }
-  25% {
-    border-radius: 40% 60% 70% 30% / 30% 60% 40% 70%;
-  }
   50% {
     border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
-  }
-  75% {
-    border-radius: 50% 50% 40% 60% / 40% 50% 60% 50%;
   }
   100% {
     border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
