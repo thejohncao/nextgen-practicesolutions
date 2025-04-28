@@ -4,6 +4,13 @@ import { Agent } from '@/types/agent';
 import { Phase } from './PhaseData';
 import { useIsMobile } from '@/hooks/use-mobile';
 import CarouselAgentItem from './desktop/CarouselAgentItem';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
 
 interface AgentCarouselProps {
   agents: Agent[];
@@ -24,32 +31,36 @@ const AgentCarousel = ({
   
   return (
     <div className="mb-12" ref={carouselRef}>
-      <div className={`w-full max-w-5xl mx-auto ${isMobile ? 'space-y-6' : ''}`}>
-        <div className={isMobile ? 'space-y-6' : 'grid grid-cols-2 gap-6'}>
+      <Carousel 
+        className="w-full max-w-4xl mx-auto"
+        opts={{
+          align: "center",
+          loop: true,
+        }}
+        onSelect={(api) => {
+          const selectedIndex = api.selectedScrollSnap();
+          onSlideChange(selectedIndex);
+        }}
+      >
+        <CarouselContent>
           {agents.map((agent, index) => (
-            <div 
-              key={agent.name}
-              className={`
-                opacity-0 animate-fade-in
-                ${!isMobile && 'transition-all duration-300'}
-              `}
-              style={{ 
-                animationDelay: `${index * 0.1}s`,
-                animationFillMode: 'forwards'
-              }}
-            >
+            <CarouselItem key={agent.name} className="basis-full md:basis-full pl-4">
               <CarouselAgentItem
                 agent={agent}
                 index={index}
-                isActive={isMobile || activeIndex === index}
+                isActive={activeIndex === index}
                 phaseDescription={phases[index].story}
                 phaseColor={phases[index].color}
                 onSelect={() => onSlideChange(index)}
               />
-            </div>
+            </CarouselItem>
           ))}
+        </CarouselContent>
+        <div className="hidden sm:block">
+          <CarouselPrevious className="border-white/20 hover:bg-white/10" />
+          <CarouselNext className="border-white/20 hover:bg-white/10" />
         </div>
-      </div>
+      </Carousel>
     </div>
   );
 };
