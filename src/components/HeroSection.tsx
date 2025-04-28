@@ -1,10 +1,8 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import PulseBeams from './effects/PulseBeams';
 import FloatingAgentAvatars from './hero/FloatingAgentAvatars';
-import SparkleText from './effects/SparkleText';
 
 const HeroSection = () => {
   return (
@@ -21,11 +19,9 @@ const HeroSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Side: Copy Block */}
           <div className="text-left space-y-8">
-            <SparkleText>
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold leading-tight text-gradient">
-                The World's First AI Team for Dental Practices
-              </h1>
-            </SparkleText>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold leading-tight text-gradient animate-hero-fade">
+              The World's First AI Team for Dental Practices
+            </h1>
             
             <p className="text-xl md:text-2xl text-white/70 leading-relaxed max-w-2xl animate-hero-fade animate-cinematic-delay-1">
               Deploy your Dream Team. Operate smarter. Grow faster. Lead effortlessly.
