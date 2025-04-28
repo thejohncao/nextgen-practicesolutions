@@ -32,14 +32,14 @@ const ChatConversation = () => {
   ];
 
   return (
-    <div className="glass-card bg-black/40 rounded-xl shadow-lg mb-8 border border-white/20">
+    <div className="glass-card bg-black/40 rounded-xl shadow-lg border border-white/20">
       <CEOMessage />
       <div className="divide-y divide-white/10">
         {agentMessages.map((msg, index) => (
           <div 
             key={index} 
             className="opacity-0 animate-fade-in"
-            style={{ animationDelay: `${index * 0.15}s`, animationFillMode: 'forwards' }}
+            style={{ animationDelay: `${index * 0.15 + 0.3}s`, animationFillMode: 'forwards' }}
           >
             <AgentMessage
               agent={msg.agent}

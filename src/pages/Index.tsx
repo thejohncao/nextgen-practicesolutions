@@ -27,7 +27,7 @@ const Index = () => {
       {/* Visual separator between dark and light sections */}
       <div className="h-8 bg-gradient-to-b from-black/60 to-white"></div>
       
-      {/* Unified Demo + Results section */}
+      {/* Enhanced Demo + Results section */}
       <DemoResultsSection />
       
       {/* Visual separator between light and dark sections */}

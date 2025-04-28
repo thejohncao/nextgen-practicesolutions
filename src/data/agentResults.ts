@@ -15,6 +15,10 @@ export const agentResults: AgentResult[] = [
       {
         title: "3x Faster Lead Follow-Up",
         description: "Automated workflows replied to patient inquiries within minutes, capturing more opportunities before competitors could."
+      },
+      {
+        title: "68% Boost in Google Reviews",
+        description: "Giselle's automated review collection system helped increase positive reviews and online reputation significantly."
       }
     ]
   },
@@ -30,6 +34,10 @@ export const agentResults: AgentResult[] = [
       {
         title: "48% Increase in Same-Week Scheduling",
         description: "Miles optimized calendar availability, filling last-minute openings and keeping operatories booked consistently."
+      },
+      {
+        title: "+27% Higher Insurance Collections",
+        description: "Miles' automated insurance verification and claim tracking resulted in significant revenue increases for practices."
       }
     ]
   },
@@ -45,6 +53,10 @@ export const agentResults: AgentResult[] = [
       {
         title: "$120K Average Annual Revenue Growth",
         description: "Practices leveraging Devon's AI systems converted larger cases and maximized patient lifetime value."
+      },
+      {
+        title: "9x ROI on Treatment Plan Follow-Ups",
+        description: "Devon's automated communication sequences recovered lost revenue from previously declined treatment plans."
       }
     ]
   },
@@ -60,6 +72,10 @@ export const agentResults: AgentResult[] = [
       {
         title: "10+ Hours Saved Weekly on Staff Management",
         description: "Automated SOPs and feedback loops freed leadership teams to focus on growth, not micromanagement."
+      },
+      {
+        title: "43% Reduction in Staff Turnover",
+        description: "Consistent training and professional development opportunities increased job satisfaction and team stability."
       }
     ]
   }
@@ -81,5 +97,6 @@ export const getFlattenedResults = () => {
 // Duplicate cards to ensure seamless looping
 export const getDuplicatedResults = () => {
   const flattenedResults = getFlattenedResults();
-  return [...flattenedResults, ...flattenedResults];
+  // Create a larger set of duplicated results for the dual-row carousel
+  return [...flattenedResults, ...flattenedResults, ...flattenedResults];
 };

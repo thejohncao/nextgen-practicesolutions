@@ -64,47 +64,42 @@ const AgentResultCard = ({ result, index, isMobile, isLightMode = false }: Agent
   };
 
   return (
-    <div 
-      key={`${result.agent}-${result.title}-${index}`}
-      className={`flex-none ${isMobile ? 'w-full sm:w-[85%]' : 'w-full'}`}
+    <Card 
+      className={`
+        h-full transform transition-all duration-300 hover:scale-[1.02] 
+        ${getEnhancedCardBg(result.color, isLightMode)} 
+        border ${getEnhancedCardBorder(result.color, isLightMode)}
+        overflow-hidden relative ${isLightMode ? "shadow-sm" : "backdrop-blur-md"}
+      `}
     >
-      <Card 
-        className={`
-          h-full transition-all duration-300 hover:scale-[1.02] 
-          ${getEnhancedCardBg(result.color, isLightMode)} 
-          border ${getEnhancedCardBorder(result.color, isLightMode)}
-          overflow-hidden relative ${isLightMode ? "shadow-sm" : "backdrop-blur-md"}
-        `}
-      >
-        <CardContent className="p-6">
-          {/* Agent info row */}
-          <div className="flex items-center mb-4">
-            <AgentAvatar 
-              name={result.agent} 
-              role={result.role}
-              color={result.color}
-              size="sm"
-            />
-            <div className="ml-3">
-              <h4 className={`font-semibold ${getTextColor(isLightMode)}`}>{result.agent}</h4>
-              <p className={`text-sm ${isLightMode ? "text-gray-500" : "text-white/80"}`}>{result.role}</p>
-            </div>
+      <CardContent className="p-4 md:p-5">
+        {/* Agent info row */}
+        <div className="flex items-center mb-3">
+          <AgentAvatar 
+            name={result.agent} 
+            role={result.role}
+            color={result.color}
+            size="sm"
+          />
+          <div className="ml-3">
+            <h4 className={`font-semibold text-sm md:text-base ${getTextColor(isLightMode)}`}>{result.agent}</h4>
+            <p className={`text-xs md:text-sm ${isLightMode ? "text-gray-500" : "text-white/80"}`}>{result.role}</p>
           </div>
-          
-          {/* Result content */}
-          <div>
-            <h3 className={`text-xl font-bold mb-2 flex items-center ${getTextColor(isLightMode)}`}>
-              <Sparkle className={`w-4 h-4 mr-2 ${isLightMode ? "text-indigo-500" : "text-white/90"}`} />
-              {result.title}
-            </h3>
-            <p className={getDescriptionColor(isLightMode)}>{result.description}</p>
-          </div>
+        </div>
+        
+        {/* Result content */}
+        <div>
+          <h3 className={`text-base md:text-lg font-bold mb-1 flex items-center ${getTextColor(isLightMode)}`}>
+            <Sparkle className={`w-3 h-3 mr-1 md:w-4 md:h-4 md:mr-2 ${isLightMode ? "text-indigo-500" : "text-white/90"}`} />
+            {result.title}
+          </h3>
+          <p className={`text-sm md:text-base ${getDescriptionColor(isLightMode)}`}>{result.description}</p>
+        </div>
 
-          {/* Subtle decoration */}
-          <div className={`absolute top-0 right-0 w-24 h-24 opacity-${isLightMode ? '10' : '20'} rounded-full blur-xl bg-${result.color === 'green' ? 'green' : result.color === 'blue' ? 'blue' : result.color === 'purple' ? 'purple' : 'amber'}-${isLightMode ? '300' : '500'} -translate-y-1/2 translate-x-1/2`} />
-        </CardContent>
-      </Card>
-    </div>
+        {/* Subtle decoration */}
+        <div className={`absolute top-0 right-0 w-24 h-24 opacity-${isLightMode ? '10' : '20'} rounded-full blur-xl bg-${result.color === 'green' ? 'green' : result.color === 'blue' ? 'blue' : result.color === 'purple' ? 'purple' : 'amber'}-${isLightMode ? '300' : '500'} -translate-y-1/2 translate-x-1/2`} />
+      </CardContent>
+    </Card>
   );
 };
 

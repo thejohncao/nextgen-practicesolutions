@@ -55,7 +55,53 @@
   animation: smooth-section-transition 0.7s ease-out forwards;
 }
 
+/* Results carousel animations */
+@keyframes carousel-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.carousel-item-enter {
+  opacity: 0;
+  animation: carousel-fade-in 0.5s ease-out forwards;
+}
+
+/* Stagger animation for results cards */
+@keyframes stagger-in {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stagger-item {
+  opacity: 0;
+}
+
+.stagger-item-visible {
+  animation: stagger-in 0.6s ease-out forwards;
+}
+
 /* Smooth scroll behavior */
 html {
   scroll-behavior: smooth;
+}
+
+/* Chat message spacing adjustments */
+.chat-container .message {
+  margin-bottom: 12px;
+}
+
+.chat-container .message:last-child {
+  margin-bottom: 0;
 }
