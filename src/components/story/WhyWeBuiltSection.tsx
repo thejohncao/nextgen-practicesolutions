@@ -39,21 +39,30 @@ const WhyWeBuiltSection = () => {
             icon={<Clock className="h-8 w-8 text-nextgen-purple" />}
             title="Save Your Time"
             description="Eliminate busywork. Automate operations. Buy back the hours you can never replace."
-          />
+          >
+            {/* Empty children to satisfy TypeScript requirement */}
+            <div></div>
+          </BentoGridItem>
 
           <BentoGridItem
             colSpan="col-span-1"
             icon={<Zap className="h-8 w-8 text-nextgen-purple" />}
             title="Recharge Your Energy"
             description="Remove chaos from your day. Empower your team. Grow with momentum, not stress."
-          />
+          >
+            {/* Empty children to satisfy TypeScript requirement */}
+            <div></div>
+          </BentoGridItem>
 
           <BentoGridItem
             colSpan="col-span-1"
             icon={<Heart className="h-8 w-8 text-nextgen-purple" />}
             title="Win Back Your Life"
             description="Spend time with family. Lead with vision, not exhaustion. Build a life outside the office."
-          />
+          >
+            {/* Empty children to satisfy TypeScript requirement */}
+            <div></div>
+          </BentoGridItem>
         </BentoGrid>
       </div>
     </section>
