@@ -7,7 +7,6 @@ import {
   AccordionTrigger 
 } from "@/components/ui/accordion";
 import { MessageSquare } from "lucide-react";
-import SparkleText from './effects/SparkleText';
 
 const faqs = [
   {
@@ -38,28 +37,17 @@ const faqs = [
 
 const FAQSection = () => {
   return (
-    <section id="faq" className="section-padding py-24 bg-gradient-to-b from-nextgen-dark/90 to-nextgen-dark relative overflow-hidden">
-      {/* Background effects */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-1/3 right-1/4 w-[450px] h-[450px] bg-nextgen-purple/5 blur-[120px] rounded-full animate-pulse-slow"></div>
-        <div className="absolute bottom-1/3 left-1/4 w-[400px] h-[400px] bg-[#1EAEDB]/5 blur-[100px] rounded-full animate-pulse-slow" style={{animationDelay: '1.5s'}}></div>
-      </div>
-      
-      {/* Grid overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-25"></div>
-      
-      <div className="container mx-auto relative z-10">
+    <section id="faq" className="section-padding py-20 bg-gradient-to-b from-nextgen-dark to-nextgen-dark/95">
+      <div className="container mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full bg-white/5 border border-white/10">
             <MessageSquare className="h-4 w-4 text-nextgen-purple" />
             <span className="text-sm font-medium text-white/80">FAQ</span>
           </div>
           
-          <SparkleText>
-            <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
-              Frequently Asked Questions
-            </h2>
-          </SparkleText>
+          <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
+            Frequently Asked Questions
+          </h2>
           
           <p className="text-lg text-white/70">
             Find answers to common questions about implementing NextGen AI 
@@ -73,7 +61,7 @@ const FAQSection = () => {
               <AccordionItem 
                 key={index} 
                 value={`item-${index}`}
-                className="border border-white/10 rounded-lg overflow-hidden bg-white/5 backdrop-blur-md transition-all duration-300 hover:shadow-lg hover:bg-white/8"
+                className="border border-white/10 rounded-lg overflow-hidden bg-white/5"
               >
                 <AccordionTrigger className="px-6 py-4 text-left hover:no-underline hover:bg-white/5 text-white font-medium">
                   {faq.question}
@@ -87,9 +75,9 @@ const FAQSection = () => {
         </div>
         
         <div className="mt-12 text-center">
-          <div className="inline-block glass-card px-6 py-3 rounded-full hover:bg-white/5 transition-all duration-300 backdrop-blur-md border border-white/10 hover:shadow-lg">
+          <div className="inline-block glass-card px-6 py-3 rounded-full">
             <p className="text-sm text-white/60">
-              Have more questions? <a href="#" className="text-nextgen-purple hover:text-nextgen-purple/80 transition-colors">Contact our support team</a>
+              Have more questions? <a href="#" className="text-nextgen-purple hover:text-nextgen-purple/80">Contact our support team</a>
             </p>
           </div>
         </div>

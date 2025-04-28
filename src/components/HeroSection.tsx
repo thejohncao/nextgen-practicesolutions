@@ -5,19 +5,24 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import PulseBeams from './effects/PulseBeams';
 import FloatingAgentAvatars from './hero/FloatingAgentAvatars';
+import HeroQuantumGrid from './effects/HeroQuantumGrid';
 import LampEffect from './effects/LampEffect';
 import SparkleText from './effects/SparkleText';
-import ThreeJsHeroBackground from './effects/ThreeJsHeroBackground';
 
 const HeroSection = () => {
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-      {/* Three.js background */}
-      <ThreeJsHeroBackground />
-      
       {/* Background effects layering */}
+      <HeroQuantumGrid />
       <PulseBeams opacity={0.06} />
       
+      {/* Enhanced gradient orbs */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute top-[-10%] right-[-5%] w-[45%] h-[45%] bg-nextgen-purple/15 blur-[120px] rounded-full animate-pulse-slow"></div>
+        <div className="absolute bottom-[-10%] left-[-5%] w-[40%] h-[40%] bg-nextgen-blue/15 blur-[100px] rounded-full animate-pulse-slow" style={{animationDelay: '1.5s'}}></div>
+        <div className="absolute top-[30%] left-[20%] w-[25%] h-[25%] bg-[#E87C7C]/10 blur-[80px] rounded-full animate-pulse-slow" style={{animationDelay: '2s'}}></div>
+      </div>
+
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Side: Enhanced Copy Block */}
