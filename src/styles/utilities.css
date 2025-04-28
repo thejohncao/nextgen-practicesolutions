@@ -1,3 +1,4 @@
+
 @layer utilities {
   .scrollbar-none {
     -ms-overflow-style: none;
@@ -26,28 +27,5 @@
   
   .neo-blur {
     @apply backdrop-blur-xl bg-black/40 border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)];
-  }
-
-  /* Custom scrollbar styling */
-  .styled-scrollbar {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(156, 163, 175, 0.3) transparent;
-  }
-
-  .styled-scrollbar::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  .styled-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .styled-scrollbar::-webkit-scrollbar-thumb {
-    background-color: rgba(156, 163, 175, 0.3);
-    border-radius: 9999px;
-  }
-
-  .styled-scrollbar::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(156, 163, 175, 0.5);
   }
 }

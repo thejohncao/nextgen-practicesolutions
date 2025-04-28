@@ -35,15 +35,13 @@ const GooeyFilterTabs = ({ className }: GooeyFilterTabsProps) => {
   }, [activeTab]);
 
   return (
-    <section className={cn("relative py-16 bg-nextgen-dark/50", className)}>
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-nextgen-dark to-transparent"></div>
-      
+    <div className={cn("relative py-16", className)}>
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient animate-fade-in">
+          <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
             Meet Your AI Team
           </h2>
-          <p className="text-lg text-white/70 max-w-2xl mx-auto px-4 animate-fade-in" style={{animationDelay: '200ms'}}>
+          <p className="text-lg text-white/70 max-w-2xl mx-auto px-4">
             Experience how our AI agents work together to grow your practice at every stage
             of the patient journey.
           </p>
@@ -52,13 +50,11 @@ const GooeyFilterTabs = ({ className }: GooeyFilterTabsProps) => {
         <TabNavigation 
           agents={orderedAgents} 
           activeTab={activeTab} 
-          setActiveTab={setActiveTab}
-          className="animate-fade-in"
-          style={{animationDelay: '300ms'}}
+          setActiveTab={setActiveTab} 
         />
 
         {/* Content Area */}
-        <div className="max-w-4xl mx-auto animate-fade-in" style={{animationDelay: '400ms'}}>
+        <div className="max-w-4xl mx-auto">
           {orderedAgents.map((agent, index) => (
             <AgentContentPanel
               key={agent.name}
@@ -76,7 +72,7 @@ const GooeyFilterTabs = ({ className }: GooeyFilterTabsProps) => {
         </div>
 
         {/* CTA Button */}
-        <div className="text-center mt-12 animate-fade-in" style={{animationDelay: '500ms'}}>
+        <div className="text-center mt-12">
           <button 
             className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors"
             onClick={() => window.location.href = '/solutions'}
@@ -85,7 +81,7 @@ const GooeyFilterTabs = ({ className }: GooeyFilterTabsProps) => {
           </button>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
