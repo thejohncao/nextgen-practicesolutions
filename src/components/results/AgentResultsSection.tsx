@@ -1,8 +1,10 @@
 
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import AgentAvatar from '../AgentAvatar';
 import { Sparkle } from 'lucide-react';
+import useEmblaCarousel from 'embla-carousel-react';
+import AutoPlay from 'embla-carousel-autoplay';
 
 // Define the structure for result data
 interface AgentResult {
@@ -101,9 +103,63 @@ const getAgentBorderColor = (color: string) => {
   }
 };
 
+// Flatten the agent results for carousel display
+const flattenedResults = agentResults.flatMap((agentData) => 
+  agentData.results.map((result) => ({
+    agent: agentData.agent,
+    role: agentData.role,
+    color: agentData.color,
+    title: result.title,
+    description: result.description
+  }))
+);
+
+// Duplicate cards to ensure seamless looping
+const duplicatedResults = [...flattenedResults, ...flattenedResults];
+
 const AgentResultsSection = () => {
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { 
+      loop: true,
+      align: "start",
+      slidesToScroll: 1,
+      dragFree: true,
+    },
+    [
+      AutoPlay({ 
+        playOnInit: true, 
+        delay: 5000, 
+        stopOnInteraction: true,
+        stopOnMouseEnter: true, 
+      })
+    ]
+  );
+  
+  const [isPaused, setIsPaused] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
+
+  const handleMouseEnter = useCallback(() => {
+    setIsPaused(true);
+    if (emblaApi) emblaApi.plugins().autoplay?.stop();
+  }, [emblaApi]);
+
+  const handleMouseLeave = useCallback(() => {
+    setIsPaused(false);
+    if (emblaApi) emblaApi.plugins().autoplay?.play();
+  }, [emblaApi]);
+
   return (
-    <section className="py-24 bg-nextgen-dark">
+    <section className="py-24 bg-nextgen-dark overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-heading font-bold text-gradient animate-fade-in mb-4">
@@ -115,22 +171,28 @@ const AgentResultsSection = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {agentResults.flatMap((agentData, agentIndex) => 
-            agentData.results.map((result, resultIndex) => {
-              const delay = (agentIndex * 2 + resultIndex) * 0.1;
-              
-              return (
+        <div 
+          className="relative" 
+          onMouseEnter={!isMobile ? handleMouseEnter : undefined}
+          onMouseLeave={!isMobile ? handleMouseLeave : undefined}
+        >
+          {/* Edge fading effect containers */}
+          <div className="absolute left-0 top-0 bottom-0 w-12 z-10 bg-gradient-to-r from-nextgen-dark to-transparent pointer-events-none"></div>
+          <div className="absolute right-0 top-0 bottom-0 w-12 z-10 bg-gradient-to-l from-nextgen-dark to-transparent pointer-events-none"></div>
+          
+          {/* Carousel container */}
+          <div className="overflow-hidden" ref={emblaRef}>
+            <div className="flex gap-6 scrollbar-none">
+              {duplicatedResults.map((result, index) => (
                 <div 
-                  key={`${agentData.agent}-${resultIndex}`}
-                  className="opacity-0 animate-fade-in-up"
-                  style={{ animationDelay: `${delay}s`, animationFillMode: 'forwards' }}
+                  key={`${result.agent}-${result.title}-${index}`}
+                  className={`flex-none ${isMobile ? 'w-full sm:w-[85%]' : 'w-[350px]'}`}
                 >
                   <Card 
                     className={`
                       h-full transition-all duration-300 hover:scale-[1.02] 
-                      ${getAgentCardColor(agentData.color)} 
-                      ${getAgentBorderColor(agentData.color)}
+                      ${getAgentCardColor(result.color)} 
+                      ${getAgentBorderColor(result.color)}
                       overflow-hidden relative
                     `}
                   >
@@ -138,14 +200,14 @@ const AgentResultsSection = () => {
                       {/* Agent info row */}
                       <div className="flex items-center mb-4">
                         <AgentAvatar 
-                          name={agentData.agent} 
-                          role={agentData.role}
-                          color={agentData.color}
+                          name={result.agent} 
+                          role={result.role}
+                          color={result.color}
                           size="sm"
                         />
                         <div className="ml-3">
-                          <h4 className="font-semibold text-white">{agentData.agent}</h4>
-                          <p className="text-sm text-white/70">{agentData.role}</p>
+                          <h4 className="font-semibold text-white">{result.agent}</h4>
+                          <p className="text-sm text-white/70">{result.role}</p>
                         </div>
                       </div>
                       
@@ -159,12 +221,19 @@ const AgentResultsSection = () => {
                       </div>
 
                       {/* Subtle decoration */}
-                      <div className={`absolute top-0 right-0 w-24 h-24 opacity-5 rounded-full blur-xl bg-${agentData.color}-500 -translate-y-1/2 translate-x-1/2`} />
+                      <div className={`absolute top-0 right-0 w-24 h-24 opacity-5 rounded-full blur-xl bg-${result.color}-500 -translate-y-1/2 translate-x-1/2`} />
                     </CardContent>
                   </Card>
                 </div>
-              );
-            })
+              ))}
+            </div>
+          </div>
+
+          {/* Pause indicator for desktop */}
+          {!isMobile && isPaused && (
+            <div className="absolute top-4 right-4 bg-white/10 text-white text-xs px-2 py-1 rounded-full z-20 backdrop-blur-sm">
+              Paused
+            </div>
           )}
         </div>
       </div>
