@@ -17,14 +17,14 @@ import TestimonialsSection from '../components/TestimonialsSection';
 import FAQSection from '../components/FAQSection';
 import WhyWeBuiltSection from '../components/story/WhyWeBuiltSection';
 import TeamResultsSection from '../components/TeamResultsSection';
-import CinematicJourneySection from '../components/journey/CinematicJourneySection';
+import PatientJourneySection from '../components/journey/PatientJourneySection';
 
 const Index = () => {
   return (
     <Layout>
       <HeroSection />
       <WhyWeBuiltSection />
-      <CinematicJourneySection />
+      <PatientJourneySection />
       <AITeamSection />
       <AIBoardroomSection />
       <TeamResultsSection />

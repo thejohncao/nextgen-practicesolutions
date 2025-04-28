@@ -8,7 +8,7 @@ interface TypingIndicatorProps {
 
 const TypingIndicator = ({ agent }: TypingIndicatorProps) => {
   return (
-    <div className="mb-4 max-w-[85%] rounded-xl p-3 mr-auto bg-gradient-to-br from-gray-800 to-gray-900">
+    <div className="max-w-[85%] rounded-xl p-3 mr-auto bg-gradient-to-br from-gray-800 to-gray-900 mb-4 animate-fade-in">
       <div className="flex items-center gap-2">
         <AgentChatAvatar agent={agent} hideDetails={true} />
         <div className="flex gap-1 mt-1">
