@@ -22,8 +22,8 @@ const Index = () => {
     <Layout>
       <HeroSection />
       <WhyWeBuiltSection />
-      <AIBoardroomSection />
       <AITeamSection />
+      <AIBoardroomSection />
       <HealthcareSecuritySection />
       <AcademyOverviewSection />
       <ROISection />
