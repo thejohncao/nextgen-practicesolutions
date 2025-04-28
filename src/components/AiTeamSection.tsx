@@ -5,7 +5,6 @@ import AgentCarousel from './team/AgentCarousel';
 import TeamSectionHeader from './team/TeamSectionHeader';
 import TeamCTA from './team/TeamCTA';
 import MicroCarouselSection from './team/micro-carousel/MicroCarouselSection';
-import CTABridge from './team/CTABridge';
 import { orderedAgents, teamPhases } from './team/data/TeamPhases';
 
 const AITeamSection = () => {
@@ -35,8 +34,6 @@ const AITeamSection = () => {
       </div>
       
       <MicroCarouselSection />
-      
-      <CTABridge targetSectionId="how-it-works" />
     </section>
   );
 };

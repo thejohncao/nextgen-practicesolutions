@@ -4,7 +4,6 @@ import Layout from '../components/Layout';
 import HeroSection from '../components/HeroSection';
 import AITeamSection from '../components/AiTeamSection';
 import AIBoardroomSection from '../components/AIBoardroomSection';
-import WhyWeBuiltSection from '../components/story/WhyWeBuiltSection';
 import HealthcareSecuritySection from '../components/HealthcareSecuritySection';
 import AcademyOverviewSection from '../components/AcademyOverviewSection';
 import ROISection from '../components/ROISection';
@@ -16,6 +15,7 @@ import FounderSection from '../components/FounderSection';
 import ResourcesSection from '../components/ResourcesSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import FAQSection from '../components/FAQSection';
+import WhyWeBuiltSection from '../components/story/WhyWeBuiltSection';
 
 const Index = () => {
   return (

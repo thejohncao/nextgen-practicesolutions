@@ -74,7 +74,7 @@
   
   /* Animation utilities */
   .animate-pulse-slow {
-    animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
   
   .animate-pulse-glow {
@@ -239,20 +239,5 @@
   100% {
     transform: scale(2);
     opacity: 0;
-  }
-}
-
-@keyframes pulse-slow {
-  0% {
-    opacity: 0.4;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.2;
-    transform: scale(1.05);
-  }
-  100% {
-    opacity: 0.4;
-    transform: scale(1);
   }
 }

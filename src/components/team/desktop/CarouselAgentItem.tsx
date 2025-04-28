@@ -3,6 +3,7 @@ import React from 'react';
 import { Agent } from '@/types/agent';
 import AgentOrb from '../agent/AgentOrb';
 import CarouselAgentCard from '../CarouselAgentCard';
+import { getTooltipText } from '../utils/getTooltipText';
 
 interface CarouselAgentItemProps {
   agent: Agent;
@@ -36,9 +37,9 @@ const CarouselAgentItem = ({
           name={agent.name}
           role={agent.title}
           color={agent.color}
+          tooltipText={getTooltipText(agent.name)}
           isActive={isActive}
           onClick={onSelect}
-          animate={isActive}
         />
         <CarouselAgentCard 
           agent={agent} 

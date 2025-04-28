@@ -13,8 +13,8 @@ interface AgentOrbProps {
   name: string;
   role: string;
   color: string;
+  tooltipText: string;
   isActive?: boolean;
-  animate?: boolean;
   onClick?: () => void;
 }
 
@@ -28,7 +28,7 @@ const getGlowColor = (color: string) => {
   }
 };
 
-const AgentOrb = ({ name, role, color, isActive, animate, onClick }: AgentOrbProps) => {
+const AgentOrb = ({ name, role, color, tooltipText, isActive, onClick }: AgentOrbProps) => {
   const isMobile = useIsMobile();
   const glowColor = getGlowColor(color);
   
@@ -45,12 +45,12 @@ const AgentOrb = ({ name, role, color, isActive, animate, onClick }: AgentOrbPro
             `}
           >
             {/* Active agent pulse animation */}
-            {animate && (
+            {isActive && (
               <div
                 className="absolute inset-0 rounded-full animate-pulse-slow opacity-40"
                 style={{ 
                   backgroundColor: glowColor,
-                  animation: 'pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+                  animation: 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite'
                 }}
               />
             )}
@@ -66,23 +66,21 @@ const AgentOrb = ({ name, role, color, isActive, animate, onClick }: AgentOrbPro
               style={{ backgroundColor: glowColor }}
             />
             
-            <div className="relative">
-              <IllustratedAgentAvatar
-                name={name}
-                role={role}
-                color={color}
-                size="lg"
-                animated={animate}
-              />
-            </div>
+            <IllustratedAgentAvatar
+              name={name}
+              role={role}
+              color={color}
+              size="lg"
+              animated={isActive}
+            />
           </button>
         </TooltipTrigger>
         {!isMobile && (
           <TooltipContent 
             side="top"
-            className="bg-gradient-to-br from-black/90 to-black/80 text-white text-sm py-2 px-3 shadow-xl animate-in fade-in-0 zoom-in-95"
+            className="bg-black/80 text-white text-sm py-2 px-3 animate-in fade-in-0 zoom-in-95"
           >
-            {role}
+            {tooltipText}
           </TooltipContent>
         )}
       </Tooltip>

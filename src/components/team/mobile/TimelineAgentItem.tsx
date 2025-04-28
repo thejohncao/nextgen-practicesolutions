@@ -5,6 +5,7 @@ import { Phase } from '../PhaseData';
 import AgentOrb from '../agent/AgentOrb';
 import CarouselAgentCard from '../CarouselAgentCard';
 import TimelineNode from './TimelineNode';
+import { getTooltipText } from '../utils/getTooltipText';
 
 interface TimelineAgentItemProps {
   agent: Agent;
@@ -21,9 +22,13 @@ const TimelineAgentItem = ({
   isActive,
   onSelect,
 }: TimelineAgentItemProps) => {
+  const handleOrbClick = () => {
+    onSelect?.(index);
+  };
+
   return (
     <div 
-      className="relative carousel-agent-item"
+      className="relative carousel-agent-item" 
       data-index={index}
       style={{
         opacity: 0,
@@ -36,11 +41,11 @@ const TimelineAgentItem = ({
       <div className="flex flex-col items-center gap-6">
         <AgentOrb
           name={agent.name}
-          role={getDepartmentTitle(agent.name)}
+          role={agent.title}
           color={agent.color}
+          tooltipText={getTooltipText(agent.name)}
           isActive={isActive}
-          onClick={() => onSelect?.(index)}
-          animate={isActive}
+          onClick={handleOrbClick}
         />
         <CarouselAgentCard 
           agent={agent} 
@@ -51,22 +56,6 @@ const TimelineAgentItem = ({
       </div>
     </div>
   );
-};
-
-// Updated department titles
-const getDepartmentTitle = (name: string): string => {
-  switch (name.toLowerCase()) {
-    case 'miles':
-      return 'Practice Management';
-    case 'giselle':
-      return 'Practice Growth';
-    case 'devon':
-      return 'Practice Development';
-    case 'alma':
-      return 'Practice Mastery';
-    default:
-      return 'Practice Management';
-  }
 };
 
 export default TimelineAgentItem;

@@ -20,6 +20,7 @@ const TimelinePhases = ({ phases, activeIndex, onPhaseClick }: TimelinePhasesPro
         {/* Horizontal Connector Line */}
         <div className="absolute h-1 bg-gradient-to-r from-white/10 via-white/30 to-white/10 left-0 right-0 top-1/2 transform -translate-y-1/2 z-0" />
         
+        {/* Timeline phases */}
         {phases.map((phase, index) => (
           <div 
             key={phase.agent}
@@ -51,7 +52,7 @@ const TimelinePhases = ({ phases, activeIndex, onPhaseClick }: TimelinePhasesPro
                 text-sm font-medium transition-colors duration-300
                 ${activeIndex === index ? 'text-white' : 'text-white/70'}
               `}>
-                {phase.title}
+                {phase.title.split(':')[1]}
               </span>
             </div>
           </div>
