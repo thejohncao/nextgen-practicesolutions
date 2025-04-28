@@ -14,6 +14,7 @@ import SuccessGuarantee from '../components/SuccessGuarantee';
 import ResourcesSection from '../components/ResourcesSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import FAQSection from '../components/FAQSection';
+import MarqueeResultsSection from '../components/results/MarqueeResultsSection';
 
 const Index = () => {
   return (
@@ -28,6 +29,9 @@ const Index = () => {
       
       {/* Demo + Results section with white background */}
       <DemoResultsSection />
+
+      {/* New Marquee Results section */}
+      <MarqueeResultsSection />
       
       {/* Visual separator between light and dark sections */}
       <div className="h-8 bg-gradient-to-b from-white to-nextgen-dark"></div>

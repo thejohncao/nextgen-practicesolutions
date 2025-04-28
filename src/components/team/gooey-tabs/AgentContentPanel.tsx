@@ -97,7 +97,7 @@ const AgentContentPanel = ({
       </div>
       
       <div className="grid md:grid-cols-2 gap-4 md:gap-6">
-        {/* Left Column: Agent Profile - styled like a file in folder */}
+        {/* Left Column: Agent Profile and Description */}
         <div className={cn(
           "space-y-4 rounded-md border-l-2 pl-3 py-1",
           getAgentFolderStyle(agent.color)

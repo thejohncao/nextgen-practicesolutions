@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -18,6 +19,7 @@ import Animations from "./pages/Animations";
 import NotFound from "./pages/NotFound";
 import AiAssistant from "./components/AiAssistant";
 import AvatarManager from "./components/admin/AvatarManager";
+import LenisProvider from "./components/providers/LenisProvider";
 
 const queryClient = new QueryClient();
 
@@ -32,24 +34,26 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <Router>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/watch" element={<Watch />} />
-          <Route path="/story" element={<Story />} />
-          <Route path="/join" element={<Join />} />
-          <Route path="/features" element={<Features />} />
-          <Route path="/integrations" element={<Integrations />} />
-          <Route path="/academy" element={<Academy />} />
-          <Route path="/solutions" element={<Solutions />} />
-          <Route path="/resources/*" element={<Resources />} />
-          <Route path="/security" element={<Security />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/admin/avatars" element={<AvatarManager />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <AiAssistantWrapper />
-      </Router>
+      <LenisProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/watch" element={<Watch />} />
+            <Route path="/story" element={<Story />} />
+            <Route path="/join" element={<Join />} />
+            <Route path="/features" element={<Features />} />
+            <Route path="/integrations" element={<Integrations />} />
+            <Route path="/academy" element={<Academy />} />
+            <Route path="/solutions" element={<Solutions />} />
+            <Route path="/resources/*" element={<Resources />} />
+            <Route path="/security" element={<Security />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/admin/avatars" element={<AvatarManager />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+          <AiAssistantWrapper />
+        </Router>
+      </LenisProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
