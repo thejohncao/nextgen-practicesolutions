@@ -1,8 +1,8 @@
+
 import React from 'react';
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -34,66 +34,64 @@ const AgentOrb = ({ name, role, color, tooltipText, animated, isActive, onClick 
   const glowColor = getGlowColor(color);
   
   return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <button
-            onClick={onClick}
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <button
+          onClick={onClick}
+          className={`
+            relative group transition-transform duration-300
+            hover:scale-105 focus:outline-none
+            ${isActive ? 'scale-105' : ''}
+          `}
+        >
+          {/* Background tint for better effect visibility */}
+          <div className="absolute inset-0 rounded-full bg-black/5" />
+          
+          {/* Active agent pulse animation */}
+          {isActive && (
+            <div
+              className="absolute inset-0 rounded-full animate-pulse-slow opacity-40"
+              style={{ 
+                backgroundColor: glowColor,
+                animation: 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+              }}
+            />
+          )}
+          
+          {/* Enhanced inner effects with proper z-index */}
+          <div className="relative z-10">
+            <OrbInnerEffects color={color} isActive={isActive} />
+          </div>
+          
+          {/* Hover glow effect */}
+          <div 
             className={`
-              relative group transition-transform duration-300
-              hover:scale-105 focus:outline-none
-              ${isActive ? 'scale-105' : ''}
+              absolute inset-0 rounded-full opacity-0
+              transition-opacity duration-500 blur-xl
+              group-hover:opacity-40 z-20
+              ${isActive ? 'opacity-40' : ''}
             `}
-          >
-            {/* Background tint for better effect visibility */}
-            <div className="absolute inset-0 rounded-full bg-black/5" />
-            
-            {/* Active agent pulse animation */}
-            {isActive && (
-              <div
-                className="absolute inset-0 rounded-full animate-pulse-slow opacity-40"
-                style={{ 
-                  backgroundColor: glowColor,
-                  animation: 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite'
-                }}
-              />
-            )}
-            
-            {/* Enhanced inner effects with proper z-index */}
-            <div className="relative z-10">
-              <OrbInnerEffects color={color} isActive={isActive} />
-            </div>
-            
-            {/* Hover glow effect */}
-            <div 
-              className={`
-                absolute inset-0 rounded-full opacity-0
-                transition-opacity duration-500 blur-xl
-                group-hover:opacity-40 z-20
-                ${isActive ? 'opacity-40' : ''}
-              `}
-              style={{ backgroundColor: glowColor }}
-            />
-            
-            <IllustratedAgentAvatar
-              name={name}
-              role={role}
-              color={color}
-              size="lg"
-              animated={animated}
-            />
-          </button>
-        </TooltipTrigger>
-        {!isMobile && (
-          <TooltipContent 
-            side="top"
-            className="bg-black/80 text-white text-sm py-2 px-3 animate-in fade-in-0 zoom-in-95"
-          >
-            {tooltipText}
-          </TooltipContent>
-        )}
-      </Tooltip>
-    </TooltipProvider>
+            style={{ backgroundColor: glowColor }}
+          />
+          
+          <IllustratedAgentAvatar
+            name={name}
+            role={role}
+            color={color}
+            size="lg"
+            animated={animated}
+          />
+        </button>
+      </TooltipTrigger>
+      {!isMobile && (
+        <TooltipContent 
+          side="top"
+          className="bg-black/80 text-white text-sm py-2 px-3 animate-in fade-in-0 zoom-in-95"
+        >
+          {tooltipText}
+        </TooltipContent>
+      )}
+    </Tooltip>
   );
 };
 
