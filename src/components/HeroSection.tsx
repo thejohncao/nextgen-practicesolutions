@@ -66,20 +66,41 @@ const HeroSection = () => {
             icon={<Users className="w-6 h-6 text-nextgen-purple" />}
             title="Team Excellence"
             description="Train and empower your staff with AI-powered role-play and certifications."
-          />
+          >
+            <div className="mt-4">
+              <Link to="/academy" className="text-nextgen-purple hover:text-nextgen-purple/90 flex items-center text-sm font-medium">
+                Explore Team Training
+                <ArrowRight className="ml-1 h-4 w-4" />
+              </Link>
+            </div>
+          </BentoGridItem>
 
           <BentoGridItem
             colSpan="col-span-2"
             icon={<GraduationCap className="w-6 h-6 text-nextgen-purple" />}
             title="NextGen Academy"
             description="World-class training for your entire team. From front desk to treatment coordinators."
-          />
+          >
+            <div className="mt-4">
+              <Link to="/academy" className="text-nextgen-purple hover:text-nextgen-purple/90 flex items-center text-sm font-medium">
+                View Certification Programs
+                <ArrowRight className="ml-1 h-4 w-4" />
+              </Link>
+            </div>
+          </BentoGridItem>
 
           <BentoGridItem
             icon={<Target className="w-6 h-6 text-nextgen-purple" />}
             title="Growth Solutions"
             description="Automate patient acquisition and optimize case acceptance rates."
-          />
+          >
+            <div className="mt-4">
+              <Link to="/solutions" className="text-nextgen-purple hover:text-nextgen-purple/90 flex items-center text-sm font-medium">
+                Discover Growth Tools
+                <ArrowRight className="ml-1 h-4 w-4" />
+              </Link>
+            </div>
+          </BentoGridItem>
         </BentoGrid>
       </div>
     </section>
