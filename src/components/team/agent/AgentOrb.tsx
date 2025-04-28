@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useIsMobile } from '@/hooks/use-mobile';
 import IllustratedAgentAvatar from '@/components/avatar/IllustratedAgentAvatar';
+import OrbInnerEffects from './OrbInnerEffects';
 
 interface AgentOrbProps {
   name: string;
@@ -54,6 +55,9 @@ const AgentOrb = ({ name, role, color, tooltipText, animated, isActive, onClick 
                 }}
               />
             )}
+            
+            {/* Enhanced inner effects */}
+            <OrbInnerEffects color={color} isActive={isActive} />
             
             {/* Hover glow effect */}
             <div 
