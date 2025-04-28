@@ -11,9 +11,13 @@ const JourneyProgressBar = ({ currentStage, totalStages }: JourneyProgressBarPro
   const progress = (currentStage / totalStages) * 100;
   
   return (
-    <div className="w-full max-w-[200px] flex items-center gap-4">
-      <Progress value={progress} className="h-1" />
-      <span className="text-sm text-white/60">
+    <div className="w-full max-w-[240px] flex items-center gap-4">
+      <Progress 
+        value={progress} 
+        className="h-1 bg-white/10" 
+        indicatorClassName="bg-white/80"
+      />
+      <span className="text-sm text-white/70">
         Stage {currentStage} of {totalStages}
       </span>
     </div>

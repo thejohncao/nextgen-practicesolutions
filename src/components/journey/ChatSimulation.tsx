@@ -14,14 +14,19 @@ interface ChatSimulationProps {
 
 const ChatSimulation = ({ agentName, agentRole, messages, onClose }: ChatSimulationProps) => {
   return (
-    <Card className="glass-card absolute z-10 w-[300px] p-4 animate-fade-in-up">
+    <Card className="glass-card absolute z-10 w-[320px] p-4 animate-fade-in-up shadow-lg">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <AgentAvatar name={agentName} role={agentRole} size="sm" />
+          <div>
+            <div className="text-base font-bold text-white">{agentName}</div>
+            <div className="text-xs text-white/70">{agentRole}</div>
+          </div>
         </div>
         <button 
           onClick={onClose}
           className="text-white/60 hover:text-white transition-colors"
+          aria-label="Close chat"
         >
           <X size={18} />
         </button>
@@ -35,7 +40,7 @@ const ChatSimulation = ({ agentName, agentRole, messages, onClose }: ChatSimulat
           >
             <div className={`max-w-[80%] p-3 rounded-lg ${
               msg.sender === 'agent' 
-                ? 'bg-white/5 text-white' 
+                ? 'bg-white/10 text-white' 
                 : 'bg-nextgen-purple/20 text-white'
             }`}>
               <p className="text-sm">{msg.message}</p>

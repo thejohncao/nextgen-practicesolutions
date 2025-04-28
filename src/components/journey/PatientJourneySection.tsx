@@ -4,6 +4,7 @@ import { patientJourney } from '@/data/patientJourney';
 import JourneyStage from './JourneyStage';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import SparkleText from '../effects/SparkleText';
 
 const PatientJourneySection = () => {
   const [activeStage, setActiveStage] = useState(1);
@@ -31,8 +32,8 @@ const PatientJourneySection = () => {
   }, []);
 
   return (
-    <section className="bg-nextgen-dark">
-      <div className="py-12 text-center">
+    <section className="bg-nextgen-dark py-12">
+      <div className="text-center mb-12">
         <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
           Meet Your AI Team
         </h2>
@@ -54,13 +55,22 @@ const PatientJourneySection = () => {
         ))}
       </div>
 
-      <div className="py-12 text-center bg-gradient-to-t from-nextgen-dark/50">
-        <Button 
-          asChild
-          className="bg-nextgen-purple hover:bg-nextgen-purple/90"
-        >
-          <Link to="/solutions">Meet Your Full AI Team</Link>
-        </Button>
+      <div className="py-16 text-center bg-gradient-to-t from-nextgen-dark to-nextgen-dark/20">
+        <div className="max-w-2xl mx-auto px-4">
+          <SparkleText className="mb-6">
+            <h3 className="text-2xl md:text-3xl font-bold text-white">
+              Your AI Team is Ready. Are You?
+            </h3>
+          </SparkleText>
+          
+          <Button 
+            asChild
+            size="lg"
+            className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white font-bold"
+          >
+            <Link to="/join">Book Your Free Strategy Call</Link>
+          </Button>
+        </div>
       </div>
     </section>
   );
