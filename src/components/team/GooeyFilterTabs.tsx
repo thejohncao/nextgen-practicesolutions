@@ -8,6 +8,7 @@ import AgentProfile from '../journey/AgentProfile';
 import ChatSimulation from '../journey/ChatSimulation';
 import TypingIndicator from '../journey/TypingIndicator';
 import { getAgentCardColor, getAgentBorderColor } from '@/utils/colorUtils';
+import { ChatMessage } from '@/data/patientJourney';
 
 // Order agents to match patient journey
 const orderedAgents = agents.sort((a, b) => {
@@ -38,10 +39,24 @@ const GooeyFilterTabs = ({ className }: GooeyFilterTabsProps) => {
   }, [activeTab]);
 
   // Get sample chat for the active agent
-  const getSampleChat = (agentName: string) => {
+  const getSampleChat = (agentName: string): ChatMessage[] => {
+    const agentResponses: Record<string, string> = {
+      'Giselle': "Fantastic choice! Let me help you schedule a complimentary consultation so we can get you glowing.",
+      'Miles': "Of course! Let's find a new time that works best for you. I've sent you a few options to choose from.",
+      'Devon': "You're in great hands. I can walk you through a customized plan and flexible options to help you feel confident moving forward.",
+      'Alma': "No problem! I have an easy step-by-step training ready for you. You can start anytime, and I'll guide you through it."
+    };
+
+    const userMessages: Record<string, string> = {
+      'Giselle': "I'm interested in a whitening treatment.",
+      'Miles': "Can I reschedule my appointment?",
+      'Devon': "I'm thinking about Invisalign, but not sure.",
+      'Alma': "How do I learn the new front office workflow?"
+    };
+
     return [
-      { sender: 'user', message: `Hi ${agentName}, how can you help my practice?` },
-      { sender: 'agent', message: getAgentResponse(agentName) },
+      { sender: "visitor", message: userMessages[agentName] || `Hi ${agentName}, how can you help my practice?` },
+      { sender: "agent", message: agentResponses[agentName] || getAgentResponse(agentName) }
     ];
   };
 
@@ -60,16 +75,65 @@ const GooeyFilterTabs = ({ className }: GooeyFilterTabsProps) => {
     }
   };
 
-  // Get color class based on agent
-  const getGradientClass = (index: number) => {
-    const agent = orderedAgents[index];
-    return `from-${agent.color}-500/10 to-${agent.color}-500/5`;
+  // Get agent stage title
+  const getAgentStageTitle = (index: number): string => {
+    switch(index) {
+      case 0: return "01 - Attract & Engage";
+      case 1: return "02 - Onboard & Convert";
+      case 2: return "03 - Retain & Grow";
+      case 3: return "04 - Train & Scale";
+      default: return "";
+    }
   };
 
-  // Get border accent class based on agent
-  const getBorderAccentClass = (index: number) => {
+  // Get agent quote
+  const getAgentQuote = (agentName: string): string => {
+    switch(agentName) {
+      case 'Giselle': return "Growth isn't accidental. It's a deliberate strategy we execute daily.";
+      case 'Miles': return "Efficiency isn't luck — it's the result of systems that work smarter for you.";
+      case 'Devon': return "Growth isn't just new — it's maximizing the trust you've already built.";
+      case 'Alma': return "Your growth is only as strong as the team you train behind it.";
+      default: return "";
+    }
+  };
+
+  // Get full agent description
+  const getAgentFullDescription = (agentName: string): string => {
+    switch(agentName) {
+      case 'Giselle': return "Turns leads into loyal patients by nurturing every opportunity from first click to lifelong care.";
+      case 'Miles': return "Streamlines front office operations, ensuring seamless scheduling, paperwork, and patient onboarding every step of the way.";
+      case 'Devon': return "Strengthens patient loyalty and increases treatment acceptance by guiding patients through their next steps with clarity and care.";
+      case 'Alma': return "Equips your team with proven training, SOPs, and continuous education to operate at the highest level.";
+      default: return "";
+    }
+  };
+
+  // Get folder tab color based on agent
+  const getTabBgClass = (index: number, isActive: boolean): string => {
+    if (!isActive) return "bg-white/5";
+    
     const agent = orderedAgents[index];
-    return `border-${agent.color}-500/20`;
+    switch(agent.color) {
+      case 'green': return "bg-green-500/10";
+      case 'blue': return "bg-blue-500/10";
+      case 'purple': return "bg-purple-500/10";
+      case 'gold': return "bg-amber-500/10";
+      default: return "bg-white/10";
+    }
+  };
+
+  // Get tab border color based on agent
+  const getTabBorderClass = (index: number, isActive: boolean): string => {
+    if (!isActive) return "border-white/10";
+    
+    const agent = orderedAgents[index];
+    switch(agent.color) {
+      case 'green': return "border-green-500/20";
+      case 'blue': return "border-blue-500/20";
+      case 'purple': return "border-purple-500/20";
+      case 'gold': return "border-amber-500/20";
+      default: return "border-white/20";
+    }
   };
 
   return (
@@ -85,7 +149,7 @@ const GooeyFilterTabs = ({ className }: GooeyFilterTabsProps) => {
           </p>
         </div>
 
-        {/* Gooey Filter Navigation */}
+        {/* Gooey Filter Tab Navigation */}
         <div className="relative flex justify-center mb-12">
           {/* SVG Filter for Gooey Effect */}
           <svg width="0" height="0" style={{ position: 'absolute' }}>
@@ -100,34 +164,48 @@ const GooeyFilterTabs = ({ className }: GooeyFilterTabsProps) => {
             </filter>
           </svg>
           
-          {/* Tab Navigation with Gooey Effect */}
-          <div 
-            className="relative flex bg-white/10 backdrop-blur-md rounded-full p-2 gap-1"
-            style={{ filter: 'url(#gooey)', minWidth: '280px' }}
-          >
+          {/* Folder-style Tab Navigation with Gooey Effect */}
+          <div className="relative flex space-x-1 backdrop-blur-md rounded-lg overflow-visible gooey-blob">
             {orderedAgents.map((agent, index) => (
-              <button 
+              <motion.button 
                 key={agent.name}
                 onClick={() => setActiveTab(index)}
                 className={cn(
-                  "relative z-10 flex-1 py-2 px-4 rounded-full text-white font-medium text-sm transition-all duration-300",
-                  activeTab === index ? "text-white" : "text-white/60 hover:text-white/80"
+                  "relative z-10 flex flex-col justify-center items-center px-6 py-3 rounded-tl-lg rounded-tr-lg",
+                  "border-t border-l border-r transition-all duration-300",
+                  "hover:bg-white/10",
+                  getTabBgClass(index, activeTab === index),
+                  getTabBorderClass(index, activeTab === index),
+                  activeTab === index ? "text-white font-medium" : "text-white/70"
                 )}
+                initial={false}
+                animate={{ 
+                  y: activeTab === index ? -3 : 0,
+                  scale: activeTab === index ? 1.03 : 1,
+                  zIndex: activeTab === index ? 20 : 10
+                }}
+                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
               >
-                {agent.name}
-              </button>
+                <span className="font-bold text-base">{agent.name}</span>
+                <span className="text-xs opacity-70">{agent.title}</span>
+                
+                {/* Active Tab Indicator */}
+                {activeTab === index && (
+                  <motion.div 
+                    className="absolute bottom-0 left-0 w-full h-0.5"
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: 0.3 }}
+                    style={{
+                      background: agent.color === 'green' ? 'linear-gradient(to right, rgba(34, 197, 94, 0.3), rgba(34, 197, 94, 0.7))'
+                        : agent.color === 'blue' ? 'linear-gradient(to right, rgba(59, 130, 246, 0.3), rgba(59, 130, 246, 0.7))'
+                        : agent.color === 'purple' ? 'linear-gradient(to right, rgba(168, 85, 247, 0.3), rgba(168, 85, 247, 0.7))'
+                        : 'linear-gradient(to right, rgba(251, 191, 36, 0.3), rgba(251, 191, 36, 0.7))'
+                    }}
+                  />
+                )}
+              </motion.button>
             ))}
-            
-            {/* Moving Highlight Blob */}
-            <motion.div 
-              className="absolute top-2 bottom-2 rounded-full bg-gradient-to-r from-nextgen-purple to-nextgen-purple/70"
-              initial={false}
-              animate={{ 
-                left: `calc(${activeTab * 25}% + 2px)`, 
-                right: `calc(${(3 - activeTab) * 25}% + 2px)` 
-              }}
-              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            />
           </div>
         </div>
 
@@ -152,18 +230,29 @@ const GooeyFilterTabs = ({ className }: GooeyFilterTabsProps) => {
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center bg-${agent.color}-500/20`}>
                       <span className="font-bold text-white">{index + 1}</span>
                     </div>
-                    <h3 className="text-lg sm:text-xl font-bold text-white">
-                      {agent.name} - {agent.title}
-                    </h3>
+                    <div>
+                      <h3 className="text-lg sm:text-xl font-bold text-white">{getAgentStageTitle(index)}</h3>
+                      <p className="text-sm text-white/70">{agent.name} - {agent.title}</p>
+                    </div>
                   </div>
                   
-                  <AgentProfile agent={agent} />
+                  <div className="space-y-4">
+                    <p className="text-white/90">{getAgentFullDescription(agent.name)}</p>
+                    <p className="italic text-white/80">"{getAgentQuote(agent.name)}"</p>
+                    <AgentProfile agent={agent} />
+                  </div>
                 </div>
                 
                 {/* Right Column: Chat Preview */}
                 <div className="flex flex-col justify-center">
                   {isTyping && activeTab === index && (
-                    <TypingIndicator agent={agent.name} />
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <TypingIndicator agent={agent.name} />
+                    </motion.div>
                   )}
                   
                   {showChat && activeTab === index && (
