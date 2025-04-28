@@ -9,30 +9,30 @@ const ChatConversation = () => {
       agent: "miles",
       role: "Practice Management",
       message: "Optimizing schedule: 15 new consult slots created. Front desk team notified.",
-      bgColorClass: "bg-blue-500/10 dark:bg-blue-500/20"
+      bgColorClass: "bg-blue-500/20 dark:bg-blue-500/30"
     },
     {
       agent: "giselle",
       role: "Practice Growth",
       message: "Launching targeted campaign. Facebook and Google Ads going live in 30 minutes.",
-      bgColorClass: "bg-green-500/10 dark:bg-green-500/20"
+      bgColorClass: "bg-green-500/20 dark:bg-green-500/30"
     },
     {
       agent: "devon",
       role: "Practice Development",
       message: "Reactivating past veneer leads. 28 high-value prospects identified.",
-      bgColorClass: "bg-purple-500/10 dark:bg-purple-500/20"
+      bgColorClass: "bg-purple-500/20 dark:bg-purple-500/30"
     },
     {
       agent: "alma",
       role: "Practice Academy",
       message: "Team training scheduled: New veneer consultation script ready for tomorrow.",
-      bgColorClass: "bg-amber-500/10 dark:bg-amber-500/20"
+      bgColorClass: "bg-amber-500/20 dark:bg-amber-500/30"
     }
   ];
 
   return (
-    <div className="glass-card bg-white dark:bg-white/5 mb-14">
+    <div className="glass-card bg-white/10 dark:bg-white/10 rounded-xl shadow-lg mb-14 border border-white/20">
       <CEOMessage />
       <div className="divide-y divide-gray-100 dark:divide-white/10">
         {agentMessages.map((msg, index) => (

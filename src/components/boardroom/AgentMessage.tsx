@@ -34,10 +34,10 @@ const AgentMessage: React.FC<AgentMessageProps> = ({ agent, role, message, bgCol
         <div className="flex-1">
           <div className="mb-2">
             <span className="text-sm font-medium text-nextgen-dark/90 dark:text-white/90">
-              {agent.charAt(0)} — {getDepartmentName(role)}
+              {agent.charAt(0).toUpperCase() + agent.slice(1)} — {getDepartmentName(role)}
             </span>
           </div>
-          <p className={`${bgColorClass} p-4 rounded-2xl text-nextgen-dark dark:text-white`}>
+          <p className={`${bgColorClass} p-4 rounded-2xl text-nextgen-dark dark:text-white border border-white/20`}>
             {message}
           </p>
         </div>

@@ -1,16 +1,14 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import SectionHeader from './boardroom/SectionHeader';
 import ChatConversation from './boardroom/ChatConversation';
 import { getDuplicatedResults } from '@/data/agentResults';
 import AgentResultCard from './results/AgentResultCard';
 import { ArrowRight } from 'lucide-react';
 
 const DemoResultsSection = () => {
-  const duplicatedResults = getDuplicatedResults();
   // Take only first 4 results for more focused display
-  const featuredResults = duplicatedResults.slice(0, 4);
+  const featuredResults = getDuplicatedResults().slice(0, 4);
 
   return (
     <section className="py-24 relative overflow-hidden">
