@@ -4,6 +4,7 @@ import { Agent } from '@/types/agent';
 import { Phase } from '../PhaseData';
 import CarouselAgentCard from '../CarouselAgentCard';
 import AgentOrb from '../agent/AgentOrb';
+import { getTooltipText } from '../utils/getTooltipText';
 import { 
   Carousel,
   CarouselContent,
@@ -48,7 +49,15 @@ const DesktopAgentCarousel = ({
         <CarouselContent>
           {agents.map((agent, index) => (
             <CarouselItem key={agent.name} className="basis-1/2">
-              <div className="p-2 relative carousel-agent-item" data-index={index}>
+              <div 
+                className="p-2 relative carousel-agent-item" 
+                data-index={index}
+                style={{
+                  opacity: 0,
+                  transform: 'translateY(20px)',
+                  animation: `fadeInUp 0.7s ease-out forwards ${index * 0.1}s`
+                }}
+              >
                 <div className="flex flex-col items-center gap-6">
                   <AgentOrb
                     name={agent.name}

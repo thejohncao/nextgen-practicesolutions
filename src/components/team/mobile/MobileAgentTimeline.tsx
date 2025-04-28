@@ -1,9 +1,9 @@
-
 import React from 'react';
 import { Agent } from '@/types/agent';
 import { Phase } from '../PhaseData';
 import AgentOrb from '../agent/AgentOrb';
 import CarouselAgentCard from '../CarouselAgentCard';
+import { getTooltipText } from '../utils/getTooltipText';
 
 interface MobileAgentTimelineProps {
   agents: Agent[];
@@ -21,10 +21,20 @@ const MobileAgentTimeline = ({
   return (
     <div className="space-y-24 relative py-12" ref={carouselRef}>
       {/* Vertical Timeline Line */}
-      <div className="absolute left-1/2 h-full w-px bg-gradient-to-b from-white/30 via-white/20 to-transparent" style={{ top: '60px' }} />
+      <div className="absolute left-1/2 h-full w-px bg-gradient-to-b from-white/30 via-white/20 to-transparent" 
+        style={{ top: '60px' }} />
       
       {agents.map((agent, index) => (
-        <div key={agent.name} className="relative carousel-agent-item" data-index={index}>
+        <div 
+          key={agent.name} 
+          className="relative carousel-agent-item" 
+          data-index={index}
+          style={{
+            opacity: 0,
+            transform: 'translateY(20px)',
+            animation: `fadeInUp 0.7s ease-out forwards ${index * 0.1}s`
+          }}
+        >
           {/* Phase Node */}
           <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 z-10">
             <div className={`
