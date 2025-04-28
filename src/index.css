@@ -74,7 +74,7 @@
   
   /* Animation utilities */
   .animate-pulse-slow {
-    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    animation: pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
   
   .animate-pulse-glow {
@@ -170,6 +170,29 @@
     100% {
       background-position: 200% 0;
     }
+  }
+
+  .animate-beam {
+    animation: beam 4s ease-in-out infinite;
+  }
+
+  @keyframes beam {
+    0%, 100% {
+      opacity: 0.5;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+  }
+
+  .lamp-gradient {
+    background: radial-gradient(
+      800px circle at var(--x) var(--y),
+      rgba(255, 255, 255, 0.06),
+      transparent 40%
+    );
   }
 }
 
