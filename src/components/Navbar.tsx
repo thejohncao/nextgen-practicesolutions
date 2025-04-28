@@ -1,4 +1,5 @@
-import React from 'react';
+
+import React, { useState, useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "@/components/ui/navigation-menu";
 import { Link } from "react-router-dom";
@@ -14,12 +15,60 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import TubelightNavLink from '@/components/ui/tubelight-nav-link';
 
 const Navbar = () => {
-  const [showSolutionsMenu, setShowSolutionsMenu] = React.useState(false);
-  const [showFeaturesMenu, setShowFeaturesMenu] = React.useState(false);
-  const [showIntegrationsMenu, setShowIntegrationsMenu] = React.useState(false);
-  const [showAcademyMenu, setShowAcademyMenu] = React.useState(false);
-  const [showResourcesMenu, setShowResourcesMenu] = React.useState(false);
+  const [showSolutionsMenu, setShowSolutionsMenu] = useState(false);
+  const [showFeaturesMenu, setShowFeaturesMenu] = useState(false);
+  const [showIntegrationsMenu, setShowIntegrationsMenu] = useState(false);
+  const [showAcademyMenu, setShowAcademyMenu] = useState(false);
+  const [showResourcesMenu, setShowResourcesMenu] = useState(false);
   const isMobile = useIsMobile();
+  
+  // Add refs for each dropdown container
+  const solutionsRef = useRef(null);
+  const featuresRef = useRef(null);
+  const integrationsRef = useRef(null);
+  const academyRef = useRef(null);
+  const resourcesRef = useRef(null);
+
+  // Handle clicks outside of the dropdown to close it
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        solutionsRef.current && !solutionsRef.current.contains(event.target) &&
+        featuresRef.current && !featuresRef.current.contains(event.target) &&
+        integrationsRef.current && !integrationsRef.current.contains(event.target) &&
+        academyRef.current && !academyRef.current.contains(event.target) &&
+        resourcesRef.current && !resourcesRef.current.contains(event.target)
+      ) {
+        setShowSolutionsMenu(false);
+        setShowFeaturesMenu(false);
+        setShowIntegrationsMenu(false);
+        setShowAcademyMenu(false);
+        setShowResourcesMenu(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  // Close all other menus when one is opened
+  const handleMenuToggle = (menu, state) => {
+    // Close all menus first
+    setShowSolutionsMenu(false);
+    setShowFeaturesMenu(false);
+    setShowIntegrationsMenu(false);
+    setShowAcademyMenu(false);
+    setShowResourcesMenu(false);
+    
+    // Then open the selected one
+    if (menu === 'solutions') setShowSolutionsMenu(state);
+    if (menu === 'features') setShowFeaturesMenu(state);
+    if (menu === 'integrations') setShowIntegrationsMenu(state);
+    if (menu === 'academy') setShowAcademyMenu(state);
+    if (menu === 'resources') setShowResourcesMenu(state);
+  };
 
   const handleChatOpen = () => {
     try {
@@ -59,16 +108,19 @@ const Navbar = () => {
             <NavigationMenuList className="space-x-1">
               <NavigationMenuItem>
                 <div
+                  ref={solutionsRef}
                   className="relative"
-                  onMouseEnter={() => !isMobile && setShowSolutionsMenu(true)}
-                  onMouseLeave={() => !isMobile && setShowSolutionsMenu(false)}
-                  onClick={() => isMobile && setShowSolutionsMenu(!showSolutionsMenu)}
+                  onMouseEnter={() => !isMobile && handleMenuToggle('solutions', true)}
+                  onMouseLeave={() => !isMobile && handleMenuToggle('solutions', false)}
                 >
                   <button 
                     className="text-white/80 hover:text-white transition-colors px-4 py-2 text-sm inline-flex items-center gap-1"
+                    onClick={() => isMobile && handleMenuToggle('solutions', !showSolutionsMenu)}
+                    aria-expanded={showSolutionsMenu}
                   >
                     Solutions
-                    <ChevronDown className="h-3.5 w-3.5 opacity-50" />
+                    <ChevronDown className={cn("h-3.5 w-3.5 opacity-50 transition-transform", 
+                      showSolutionsMenu && "transform rotate-180")} />
                   </button>
                   {showSolutionsMenu && <SolutionsMegaMenu />}
                 </div>
@@ -76,16 +128,19 @@ const Navbar = () => {
 
               <NavigationMenuItem>
                 <div
+                  ref={featuresRef}
                   className="relative"
-                  onMouseEnter={() => !isMobile && setShowFeaturesMenu(true)}
-                  onMouseLeave={() => !isMobile && setShowFeaturesMenu(false)}
-                  onClick={() => isMobile && setShowFeaturesMenu(!showFeaturesMenu)}
+                  onMouseEnter={() => !isMobile && handleMenuToggle('features', true)}
+                  onMouseLeave={() => !isMobile && handleMenuToggle('features', false)}
                 >
                   <button 
                     className="text-white/80 hover:text-white transition-colors px-4 py-2 text-sm inline-flex items-center gap-1"
+                    onClick={() => isMobile && handleMenuToggle('features', !showFeaturesMenu)}
+                    aria-expanded={showFeaturesMenu}
                   >
                     Features
-                    <ChevronDown className="h-3.5 w-3.5 opacity-50" />
+                    <ChevronDown className={cn("h-3.5 w-3.5 opacity-50 transition-transform", 
+                      showFeaturesMenu && "transform rotate-180")} />
                   </button>
                   {showFeaturesMenu && <FeaturesMegaMenu />}
                 </div>
@@ -93,16 +148,19 @@ const Navbar = () => {
 
               <NavigationMenuItem>
                 <div
+                  ref={integrationsRef}
                   className="relative"
-                  onMouseEnter={() => !isMobile && setShowIntegrationsMenu(true)}
-                  onMouseLeave={() => !isMobile && setShowIntegrationsMenu(false)}
-                  onClick={() => isMobile && setShowIntegrationsMenu(!showIntegrationsMenu)}
+                  onMouseEnter={() => !isMobile && handleMenuToggle('integrations', true)}
+                  onMouseLeave={() => !isMobile && handleMenuToggle('integrations', false)}
                 >
                   <button 
                     className="text-white/80 hover:text-white transition-colors px-4 py-2 text-sm inline-flex items-center gap-1"
+                    onClick={() => isMobile && handleMenuToggle('integrations', !showIntegrationsMenu)}
+                    aria-expanded={showIntegrationsMenu}
                   >
                     Integrations
-                    <ChevronDown className="h-3.5 w-3.5 opacity-50" />
+                    <ChevronDown className={cn("h-3.5 w-3.5 opacity-50 transition-transform", 
+                      showIntegrationsMenu && "transform rotate-180")} />
                   </button>
                   {showIntegrationsMenu && <IntegrationsMegaMenu />}
                 </div>
@@ -110,16 +168,19 @@ const Navbar = () => {
 
               <NavigationMenuItem>
                 <div
+                  ref={academyRef}
                   className="relative"
-                  onMouseEnter={() => !isMobile && setShowAcademyMenu(true)}
-                  onMouseLeave={() => !isMobile && setShowAcademyMenu(false)}
-                  onClick={() => isMobile && setShowAcademyMenu(!showAcademyMenu)}
+                  onMouseEnter={() => !isMobile && handleMenuToggle('academy', true)}
+                  onMouseLeave={() => !isMobile && handleMenuToggle('academy', false)}
                 >
                   <button 
                     className="text-white/80 hover:text-white transition-colors px-4 py-2 text-sm inline-flex items-center gap-1"
+                    onClick={() => isMobile && handleMenuToggle('academy', !showAcademyMenu)}
+                    aria-expanded={showAcademyMenu}
                   >
                     Academy
-                    <ChevronDown className="h-3.5 w-3.5 opacity-50" />
+                    <ChevronDown className={cn("h-3.5 w-3.5 opacity-50 transition-transform", 
+                      showAcademyMenu && "transform rotate-180")} />
                   </button>
                   {showAcademyMenu && <AcademyMegaMenu />}
                 </div>
@@ -127,16 +188,19 @@ const Navbar = () => {
 
               <NavigationMenuItem>
                 <div
+                  ref={resourcesRef}
                   className="relative"
-                  onMouseEnter={() => !isMobile && setShowResourcesMenu(true)}
-                  onMouseLeave={() => !isMobile && setShowResourcesMenu(false)}
-                  onClick={() => isMobile && setShowResourcesMenu(!showResourcesMenu)}
+                  onMouseEnter={() => !isMobile && handleMenuToggle('resources', true)}
+                  onMouseLeave={() => !isMobile && handleMenuToggle('resources', false)}
                 >
                   <button 
                     className="text-white/80 hover:text-white transition-colors px-4 py-2 text-sm inline-flex items-center gap-1"
+                    onClick={() => isMobile && handleMenuToggle('resources', !showResourcesMenu)}
+                    aria-expanded={showResourcesMenu}
                   >
                     Resources
-                    <ChevronDown className="h-3.5 w-3.5 opacity-50" />
+                    <ChevronDown className={cn("h-3.5 w-3.5 opacity-50 transition-transform", 
+                      showResourcesMenu && "transform rotate-180")} />
                   </button>
                   {showResourcesMenu && <ResourcesMegaMenu />}
                 </div>

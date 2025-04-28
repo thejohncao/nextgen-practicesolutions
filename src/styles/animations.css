@@ -1,9 +1,24 @@
 
-/* Import all animation modules */
 @import './animations/base-animations.css';
-@import './animations/hover-effects.css';
-@import './animations/gooey-effects.css';
 @import './animations/chat-animations.css';
+@import './animations/gooey-effects.css';
 @import './animations/hero-animations.css';
-@import './animations/sparkle-effects.css';
+@import './animations/hover-effects.css';
 @import './animations/movement-animations.css';
+@import './animations/sparkle-effects.css';
+
+/* Mega menu animation */
+@keyframes mega-menu-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-mega-menu {
+  animation: mega-menu-fade-in 0.2s ease-out forwards;
+}
