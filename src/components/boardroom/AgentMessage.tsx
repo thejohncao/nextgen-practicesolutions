@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { cn } from '@/lib/utils';
+import AgentChatAvatar from '../AgentChatAvatar';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface AgentMessageProps {
@@ -17,10 +17,8 @@ const AgentMessage: React.FC<AgentMessageProps> = ({ agent, role, message, bgCol
     <div className="p-6 sm:py-6 py-8">
       <div className="flex items-start space-x-4">
         <div className="flex-shrink-0">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-white/10 to-transparent flex items-center justify-center">
-            <span className="text-sm font-medium text-white/90">
-              {agent.charAt(0).toUpperCase()}
-            </span>
+          <div className="relative">
+            <AgentChatAvatar agent={agent} hideDetails />
           </div>
         </div>
         <div className="flex-1">
