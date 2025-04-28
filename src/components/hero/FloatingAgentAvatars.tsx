@@ -1,6 +1,6 @@
 
 import React from 'react';
-import AgentAvatar from '../AgentAvatar';
+import AgentOrb from '../team/agent/AgentOrb';
 import { agents } from '@/data/agents';
 
 // Reorder agents for visual consistency
@@ -8,6 +8,16 @@ const orderedAgents = agents.sort((a, b) => {
   const order = { 'Miles': 1, 'Giselle': 2, 'Devon': 3, 'Alma': 4 };
   return order[a.name] - order[b.name];
 });
+
+const getDepartmentName = (name: string) => {
+  switch (name) {
+    case 'Miles': return 'Practice Management';
+    case 'Giselle': return 'Practice Growth';
+    case 'Devon': return 'Practice Development';
+    case 'Alma': return 'Practice Academy';
+    default: return '';
+  }
+};
 
 const FloatingAgentAvatars = () => {
   return (
@@ -27,11 +37,11 @@ const FloatingAgentAvatars = () => {
             <div className="absolute inset-0 bg-nextgen-purple/10 rounded-full filter blur-xl animate-pulse-slow" 
               style={{animationDelay: `${index * 1}s`}}
             />
-            <AgentAvatar
+            <AgentOrb
               name={agent.name}
               role={agent.title}
               color={agent.color}
-              size="lg"
+              tooltipText={getDepartmentName(agent.name)}
               animated={true}
             />
           </div>

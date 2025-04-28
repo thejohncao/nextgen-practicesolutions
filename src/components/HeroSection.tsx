@@ -2,14 +2,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
-import EmailCollectionForm from './EmailCollectionForm';
-import QuantumGrid from './effects/QuantumGrid';
+import PulseBeams from './effects/PulseBeams';
 import FloatingAgentAvatars from './hero/FloatingAgentAvatars';
 
 const HeroSection = () => {
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-      <QuantumGrid />
+      {/* Background effects */}
+      <PulseBeams opacity={0.06} />
       
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-nextgen-purple/10 blur-[100px] rounded-full animate-pulse-slow"></div>
