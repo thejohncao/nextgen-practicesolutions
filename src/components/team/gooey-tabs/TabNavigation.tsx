@@ -54,8 +54,7 @@ const TabNavigation = ({ agents, activeTab, setActiveTab, className }: TabNaviga
               'bg-amber-500/90 w-1/4 translate-x-[300%]'
             }`}></div>
             
-            {/* Empty space for content (actual content rendered elsewhere) */}
-            <div className="h-4"></div>
+            {/* Removed the empty space div that was creating the gap */}
           </div>
         </div>
       </div>

@@ -102,25 +102,8 @@ const AgentContentPanel = ({
           "space-y-4 rounded-md border-l-2 pl-3 py-1",
           getAgentFolderStyle(agent.color)
         )}>
-          <div className="flex items-center gap-3 mb-1">
-            <div className={cn(
-              "w-7 h-7 rounded-full flex items-center justify-center",
-              agent.color === 'green' ? "bg-green-500/20" :
-              agent.color === 'blue' ? "bg-blue-500/20" :
-              agent.color === 'purple' ? "bg-purple-500/20" : 
-              "bg-amber-500/20"
-            )}>
-              <span className="font-bold text-white">{index + 1}</span>
-            </div>
-            <div>
-              <h3 className="font-bold text-white">
-                {agent.name} - {agent.title}
-              </h3>
-            </div>
-          </div>
-          
+          {/* Removed the duplicated agent name and number display */}
           <div className="space-y-3">
-            {/* Removed both the fullDescription paragraph and the quote paragraph */}
             <AgentProfile agent={agent} />
           </div>
         </div>
