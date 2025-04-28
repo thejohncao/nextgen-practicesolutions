@@ -5,7 +5,6 @@ import { Phase } from '../PhaseData';
 import AgentOrb from '../agent/AgentOrb';
 import CarouselAgentCard from '../CarouselAgentCard';
 import TimelineNode from './TimelineNode';
-import { getTooltipText } from '../utils/getTooltipText';
 
 interface TimelineAgentItemProps {
   agent: Agent;
@@ -22,13 +21,9 @@ const TimelineAgentItem = ({
   isActive,
   onSelect,
 }: TimelineAgentItemProps) => {
-  const handleOrbClick = () => {
-    onSelect?.(index);
-  };
-
   return (
     <div 
-      className="relative carousel-agent-item" 
+      className="relative carousel-agent-item"
       data-index={index}
       style={{
         opacity: 0,
@@ -41,16 +36,17 @@ const TimelineAgentItem = ({
       <div className="flex flex-col items-center gap-6">
         <AgentOrb
           name={agent.name}
-          role={agent.title}
+          role={phase.title}
           color={agent.color}
-          tooltipText={getTooltipText(agent.name)}
           isActive={isActive}
-          onClick={handleOrbClick}
+          onClick={() => onSelect?.(index)}
+          animate={isActive}
         />
         <CarouselAgentCard 
           agent={agent} 
           isActive={isActive}
           phaseDescription={phase.story}
+          phaseTitle={phase.title}
           phaseColor={phase.color}
         />
       </div>
