@@ -3,8 +3,7 @@ import React from 'react';
 import { Agent } from '@/types/agent';
 import { Phase } from './PhaseData';
 import { useIsMobile } from '@/hooks/use-mobile';
-import MobileAgentTimeline from './mobile/MobileAgentTimeline';
-import DesktopAgentCarousel from './desktop/DesktopAgentCarousel';
+import CarouselAgentItem from './desktop/CarouselAgentItem';
 
 interface AgentCarouselProps {
   agents: Agent[];
@@ -14,40 +13,43 @@ interface AgentCarouselProps {
   carouselRef: React.RefObject<HTMLDivElement>;
 }
 
-const AgentCarousel = ({ 
-  agents, 
-  phases, 
-  activeIndex, 
-  onSlideChange, 
-  carouselRef 
+const AgentCarousel = ({
+  agents,
+  phases,
+  activeIndex,
+  onSlideChange,
+  carouselRef,
 }: AgentCarouselProps) => {
   const isMobile = useIsMobile();
 
-  const handleAgentSelect = (index: number) => {
-    onSlideChange(index);
-  };
-
-  if (isMobile) {
-    return (
-      <MobileAgentTimeline
-        agents={agents}
-        phases={phases}
-        activeIndex={activeIndex}
-        onAgentSelect={handleAgentSelect}
-        carouselRef={carouselRef}
-      />
-    );
-  }
-
   return (
-    <DesktopAgentCarousel
-      agents={agents}
-      phases={phases}
-      activeIndex={activeIndex}
-      onSlideChange={onSlideChange}
-      onAgentSelect={handleAgentSelect}
-      carouselRef={carouselRef}
-    />
+    <div className="mb-12" ref={carouselRef}>
+      <div className={`w-full max-w-5xl mx-auto ${isMobile ? 'space-y-6' : ''}`}>
+        <div className={isMobile ? 'space-y-6' : 'grid grid-cols-2 gap-6'}>
+          {agents.map((agent, index) => (
+            <div 
+              key={agent.name}
+              className={`
+                opacity-0 animate-fade-in
+                ${!isMobile && 'transition-all duration-300'}
+              `}
+              style={{ 
+                animationDelay: `${index * 0.1}s`,
+                animationFillMode: 'forwards'
+              }}
+            >
+              <CarouselAgentItem
+                agent={agent}
+                index={index}
+                isActive={isMobile || activeIndex === index}
+                phaseDescription={phases[index].story}
+                phaseColor={phases[index].color}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -12,6 +12,7 @@ interface TimelinePhasesProps {
 const TimelinePhases = ({ phases, activeIndex, onPhaseClick }: TimelinePhasesProps) => {
   const isMobile = useIsMobile();
 
+  // On mobile, we'll hide the timeline if it would clutter the UI
   if (isMobile) return null;
 
   return (
@@ -52,7 +53,7 @@ const TimelinePhases = ({ phases, activeIndex, onPhaseClick }: TimelinePhasesPro
                 text-sm font-medium transition-colors duration-300
                 ${activeIndex === index ? 'text-white' : 'text-white/70'}
               `}>
-                {phase.title.split(':')[1]}
+                {phase.title.split(':')[1].trim()}
               </span>
             </div>
           </div>

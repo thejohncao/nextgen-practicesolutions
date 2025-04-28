@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Layout from '../components/Layout';
 import HeroSection from '../components/HeroSection';
@@ -24,8 +23,8 @@ const Index = () => {
       <HeroSection />
       <WhyWeBuiltSection />
       <AIBoardroomSection />
-      <TeamResultsSection />
       <AITeamSection />
+      <TeamResultsSection />
       <HealthcareSecuritySection />
       <AcademyOverviewSection />
       <ROISection />
