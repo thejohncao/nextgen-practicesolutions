@@ -13,6 +13,14 @@
     @apply backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)] rounded-2xl;
   }
   
+  .glass-card-hover {
+    @apply backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)] rounded-2xl hover:bg-white/10 hover:shadow-lg transition-all duration-300;
+  }
+  
+  .glass-card-intense {
+    @apply backdrop-blur-2xl bg-white/8 border border-white/15 shadow-[0_8px_16px_-4px_rgba(0,0,0,0.4)] rounded-2xl;
+  }
+  
   .text-gradient {
     @apply bg-gradient-to-br from-white via-white/90 to-white/70 bg-clip-text text-transparent;
   }
@@ -27,5 +35,17 @@
   
   .neo-blur {
     @apply backdrop-blur-xl bg-black/40 border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)];
+  }
+  
+  .shadow-glow {
+    @apply shadow-[0_0_15px_rgba(155,135,245,0.3)];
+  }
+  
+  .shadow-glow-subtle {
+    @apply shadow-[0_0_8px_rgba(155,135,245,0.15)];
+  }
+  
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
   }
 }

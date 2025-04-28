@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { TrendingUp, Check } from "lucide-react";
 import {
@@ -7,6 +8,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import SparkleText from './effects/SparkleText';
 
 const comparisonData = [
   {
@@ -37,20 +39,31 @@ const comparisonData = [
 
 const ROISection = () => {
   return (
-    <section id="roi" className="section-padding py-20">
-      <div className="container mx-auto">
+    <section id="roi" className="section-padding py-24 relative overflow-hidden">
+      {/* Background effects */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-nextgen-purple/8 blur-[150px] rounded-full animate-pulse-slow"></div>
+        <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-nextgen-blue/8 blur-[120px] rounded-full animate-pulse-slow" style={{animationDelay: '1.5s'}}></div>
+      </div>
+      
+      {/* Grid overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-20"></div>
+      
+      <div className="container mx-auto relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full bg-white/5 border border-white/10">
             <TrendingUp className="h-4 w-4 text-nextgen-purple" />
             <span className="text-sm font-medium text-white/80">ROI Snapshot</span>
           </div>
           
-          <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
-            The Results Speak for Themselves
-          </h2>
+          <SparkleText>
+            <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
+              The Results Speak for Themselves
+            </h2>
+          </SparkleText>
         </div>
         
-        <div className="hidden md:block glass-card p-6 md:p-8 rounded-xl overflow-hidden">
+        <div className="hidden md:block glass-card p-6 md:p-8 rounded-xl overflow-hidden backdrop-blur-lg border border-white/10 shadow-lg hover:shadow-xl transition-all duration-300">
           <div className="grid grid-cols-3 gap-4 mb-6 text-sm md:text-base">
             <div className="col-span-1 font-medium text-white/80">Metric</div>
             <div className="text-center font-medium text-white/80">
@@ -65,7 +78,10 @@ const ROISection = () => {
           
           <div className="space-y-4">
             {comparisonData.map((item, index) => (
-              <div key={index} className="grid grid-cols-3 gap-4 py-4 border-t border-white/10">
+              <div 
+                key={index} 
+                className="grid grid-cols-3 gap-4 py-4 border-t border-white/10 hover:bg-white/5 transition-all duration-300"
+              >
                 <div className="col-span-1 flex items-center text-white">
                   <Check className="h-4 w-4 text-nextgen-purple mr-2 flex-shrink-0" />
                   <span>{item.metric}</span>
@@ -111,7 +127,7 @@ const ROISection = () => {
             <CarouselContent>
               {comparisonData.map((item, index) => (
                 <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                  <div className="glass-card p-6 rounded-xl space-y-4">
+                  <div className="glass-card p-6 backdrop-blur-lg border border-white/10 rounded-xl hover:shadow-lg transition-all duration-300 hover:bg-white/5">
                     <div className="flex items-center text-white mb-4">
                       <Check className="h-4 w-4 text-nextgen-purple mr-2 flex-shrink-0" />
                       <span className="font-medium">{item.metric}</span>
@@ -143,7 +159,7 @@ const ROISection = () => {
         </div>
         
         <div className="mt-10 text-center">
-          <p className="text-sm text-white/50 max-w-2xl mx-auto">
+          <p className="text-sm text-white/50 max-w-2xl mx-auto glass-card px-4 py-2 inline-block backdrop-blur-md border border-white/5">
             *Data based on performance metrics from 500+ dental practices using NextGen Practice Solutions 
             compared to industry averages. Results may vary based on practice size and location.
           </p>

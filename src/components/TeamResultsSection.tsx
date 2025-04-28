@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Sparkle, Zap } from 'lucide-react';
 import AgentAvatar from './AgentAvatar';
+import SparkleText from './effects/SparkleText';
 
 interface TeamNotification {
   action: string;
@@ -70,7 +71,7 @@ const TeamResultsSection = () => {
     
     return (
       <div 
-        className="glass-card p-4 mb-3 relative overflow-hidden transition-all duration-300 animate-fade-in-up"
+        className="glass-card p-4 mb-3 relative overflow-hidden backdrop-blur-md border border-white/10 hover:bg-white/5 transition-all duration-300 hover:shadow-lg animate-fade-in-up group"
         style={{ 
           animationDelay: `${index * 0.1}s`,
           animationFillMode: 'both' 
@@ -78,7 +79,7 @@ const TeamResultsSection = () => {
       >
         {/* Highlight glow effect for newest notification */}
         {index === 0 && (
-          <div className="absolute inset-0 bg-gradient-to-r from-nextgen-purple/10 to-transparent opacity-50"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-nextgen-purple/10 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300"></div>
         )}
         
         <div className="flex items-center gap-3">
@@ -116,18 +117,29 @@ const TeamResultsSection = () => {
   };
 
   return (
-    <section className="py-24 bg-nextgen-dark">
-      <div className="container mx-auto px-4">
+    <section className="py-24 bg-gradient-to-b from-nextgen-dark/90 to-nextgen-dark relative overflow-hidden">
+      {/* Background effects */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute top-1/3 right-1/4 w-[450px] h-[450px] bg-nextgen-purple/10 blur-[120px] rounded-full animate-pulse-slow"></div>
+        <div className="absolute bottom-1/3 left-1/4 w-[350px] h-[350px] bg-nextgen-blue/10 blur-[100px] rounded-full animate-pulse-slow" style={{animationDelay: '1.5s'}}></div>
+      </div>
+      
+      {/* Grid overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-25"></div>
+      
+      <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-heading font-bold text-gradient animate-fade-in mb-4">
-            Real Results from Your AI Team
-          </h2>
+          <SparkleText>
+            <h2 className="text-4xl md:text-5xl font-heading font-bold text-gradient mb-4">
+              Real Results from Your AI Team
+            </h2>
+          </SparkleText>
           <p className="text-xl text-white/70 max-w-3xl mx-auto animate-fade-in" style={{ animationDelay: '200ms' }}>
             While you're focusing on patient care, your team is busy growing, optimizing, and automating your practice — task by task, day by day.
           </p>
         </div>
 
-        <div className="max-w-xl mx-auto" ref={feedRef}>
+        <div className="max-w-xl mx-auto glass-card p-6 backdrop-blur-lg border border-white/10 rounded-2xl" ref={feedRef}>
           {activeNotifications.map((notification, index) => (
             <NotificationItem 
               key={`${notification.agent}-${notification.action}-${notification.timestamp}`} 
