@@ -120,7 +120,7 @@ const AgentContentPanel = ({
           </div>
           
           <div className="space-y-3">
-            <p className="text-white/90 text-sm">{fullDescription}</p>
+            {/* Removed the fullDescription paragraph that was redundant */}
             <p className={cn(
               "italic text-sm font-medium border-l-2 pl-3",
               agent.color === 'green' ? "border-green-500/50" :
