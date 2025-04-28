@@ -4,7 +4,7 @@ import { Phase } from '../PhaseData';
 
 // Reorder agents to match patient journey
 export const orderedAgents = agents.sort((a, b) => {
-  const order = { 'Giselle': 1, 'Miles': 2, 'Devon': 3, 'Alma': 4 };
+  const order = { 'Miles': 1, 'Giselle': 2, 'Devon': 3, 'Alma': 4 };
   return order[a.name] - order[b.name];
 });
 

@@ -31,13 +31,13 @@ const TimelineAgentItem = ({
       data-index={index}
       style={{
         opacity: 0,
-        transform: 'translateY(10px)',
-        animation: `fadeInUp 0.5s ease-out forwards ${index * 0.1}s`
+        transform: 'translateY(20px)',
+        animation: `fadeInUp 0.6s ease-out forwards ${index * 0.15}s`
       }}
     >
       <TimelineNode phase={phase} index={index} isActive={isActive} />
       
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-col items-center gap-6">
         <AgentOrb
           name={agent.name}
           role={agent.title}
@@ -48,7 +48,7 @@ const TimelineAgentItem = ({
         />
         
         <div className={`
-          text-center space-y-2 px-6 py-4 rounded-xl
+          text-center space-y-3 px-6 py-4 rounded-xl
           transition-all duration-300
           ${isActive ? 'bg-white/5' : 'bg-transparent'}
         `}>
@@ -59,7 +59,7 @@ const TimelineAgentItem = ({
             {agent.title}
           </p>
           {isActive && (
-            <p className="text-sm text-white/90 mt-2 animate-fade-in">
+            <p className="text-sm text-white/90 mt-3 animate-fade-in">
               {phase.story}
             </p>
           )}
