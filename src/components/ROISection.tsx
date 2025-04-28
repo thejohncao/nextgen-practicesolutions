@@ -1,13 +1,14 @@
 
 import React from 'react';
-import { TrendingUp, Check, Clock, Zap, Heart } from "lucide-react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+import { Clock, Zap, Heart } from "lucide-react";
+
+// Import the smaller, refactored components
+import BackgroundEffect from './roi/BackgroundEffect';
+import ROISectionHeader from './roi/ROISectionHeader';
+import BenefitCard from './roi/BenefitCard';
+import ComparisonTable from './roi/ComparisonTable';
+import MobileComparisonCarousel from './roi/MobileComparisonCarousel';
+import ROIFootnote from './roi/ROIFootnote';
 
 const comparisonData = [
   {
@@ -57,146 +58,33 @@ const benefitCards = [
 const ROISection = () => {
   return (
     <section id="roi" className="section-padding py-20 relative overflow-hidden scroll-transition">
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-1/3 right-1/3 w-[400px] h-[400px] bg-nextgen-purple/10 blur-[100px] rounded-full animate-pulse-slow"></div>
-        <div className="absolute bottom-1/3 left-1/3 w-[300px] h-[300px] bg-[#E87C7C]/10 blur-[80px] rounded-full animate-pulse-slow" style={{animationDelay: '1s'}}></div>
-      </div>
+      <BackgroundEffect />
       
       <div className="container mx-auto">
-        <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-in">
-          <div className="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full bg-white/5 border border-white/10">
-            <TrendingUp className="h-4 w-4 text-nextgen-purple" />
-            <span className="text-sm font-medium text-white/80">ROI Snapshot</span>
-          </div>
-          
-          <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
-            Your Life, Upgraded by NextGen.
-          </h2>
-          
-          <p className="text-lg text-white/70">
-            We didn't just build software. We built freedom for practice owners.
-          </p>
-        </div>
+        <ROISectionHeader />
         
         {/* Emotional Benefit Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           {benefitCards.map((card, index) => (
-            <div 
-              key={card.title} 
-              className="glass-card p-6 text-center flex flex-col items-center animate-fade-in-up" 
-              style={{animationDelay: `${index * 100}ms`}}
-            >
-              <div className="w-14 h-14 rounded-full bg-nextgen-purple/20 flex items-center justify-center mb-4">
-                <card.icon size={24} className="text-nextgen-purple" strokeWidth={1.5} />
-              </div>
-              <h3 className="text-xl font-medium text-white mb-3">{card.title}</h3>
-              <p className="text-white/70 whitespace-pre-line leading-relaxed">
-                {card.description}
-              </p>
-            </div>
+            <BenefitCard 
+              key={card.title}
+              icon={card.icon}
+              title={card.title}
+              description={card.description}
+              index={index}
+            />
           ))}
         </div>
         
-        {/* ROI Metrics */}
-        <div className="hidden md:block glass-card p-6 md:p-8 rounded-xl overflow-hidden animate-fade-in" style={{animationDelay: '400ms'}}>
-          <div className="grid grid-cols-3 gap-4 mb-6 text-sm md:text-base">
-            <div className="col-span-1 font-medium text-white/80">Metric</div>
-            <div className="text-center font-medium text-white/80">
-              <span className="block text-sm text-nextgen-gray mb-1">Old Way</span>
-              Traditional Practice
-            </div>
-            <div className="text-center font-medium text-white/80">
-              <span className="block text-sm text-nextgen-purple mb-1">AI-Powered Practice</span>
-              With NextGen AI
-            </div>
-          </div>
-          
-          <div className="space-y-4">
-            {comparisonData.map((item, index) => (
-              <div key={index} className="grid grid-cols-3 gap-4 py-4 border-t border-white/10">
-                <div className="col-span-1 flex items-center text-white">
-                  <Check className="h-4 w-4 text-nextgen-purple mr-2 flex-shrink-0" />
-                  <span>{item.metric}</span>
-                </div>
-                <div className="flex justify-center items-center">
-                  <div className="px-3 py-1 rounded-md bg-white/5 text-white/70">
-                    {item.metric === "Treatment Acceptance Rate" ? (
-                      <div className="flex items-center justify-center">
-                        <div className="w-16 h-3 bg-white/10 rounded-full overflow-hidden mr-2">
-                          <div className="h-full bg-nextgen-gray w-2/5"></div>
-                        </div>
-                        {item.traditional}
-                      </div>
-                    ) : (
-                      item.traditional
-                    )}
-                  </div>
-                </div>
-                <div className="flex justify-center items-center">
-                  <div className="px-3 py-1 rounded-md bg-nextgen-purple/20 text-nextgen-purple font-medium">
-                    {item.metric === "Treatment Acceptance Rate" ? (
-                      <div className="flex items-center justify-center">
-                        <div className="w-16 h-3 bg-white/10 rounded-full overflow-hidden mr-2">
-                          <div className="h-full bg-nextgen-purple w-4/5"></div>
-                        </div>
-                        {item.nextgen}
-                      </div>
-                    ) : (
-                      item.nextgen
-                    )}
-                    <span className="ml-2 text-xs bg-white/10 px-1.5 py-0.5 rounded-full text-white/80">
-                      {item.improvement}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+        {/* ROI Metrics - Desktop View */}
+        <div className="hidden md:block">
+          <ComparisonTable comparisonData={comparisonData} />
         </div>
         
-        {/* Mobile Carousel for ROI Metrics */}
-        <div className="md:hidden animate-fade-in" style={{animationDelay: '400ms'}}>
-          <Carousel className="w-full">
-            <CarouselContent>
-              {comparisonData.map((item, index) => (
-                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                  <div className="glass-card p-6 rounded-xl space-y-4">
-                    <div className="flex items-center text-white mb-4">
-                      <Check className="h-4 w-4 text-nextgen-purple mr-2 flex-shrink-0" />
-                      <span className="font-medium">{item.metric}</span>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <div className="text-sm text-white/60 mb-2">Traditional</div>
-                        <div className="px-3 py-2 rounded-md bg-white/5 text-white/70">
-                          {item.traditional}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-sm text-white/60 mb-2">With NextGen</div>
-                        <div className="px-3 py-2 rounded-md bg-nextgen-purple/20 text-nextgen-purple">
-                          {item.nextgen}
-                          <span className="ml-2 text-xs bg-white/10 px-1.5 py-0.5 rounded-full text-white/80">
-                            {item.improvement}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="hidden" />
-            <CarouselNext className="hidden" />
-          </Carousel>
-        </div>
+        {/* ROI Metrics - Mobile View */}
+        <MobileComparisonCarousel comparisonData={comparisonData} />
         
-        <div className="mt-10 text-center">
-          <p className="text-sm text-white/50 max-w-2xl mx-auto">
-            *Data based on performance metrics from 500+ dental practices using NextGen Practice Solutions 
-            compared to industry averages. Results may vary based on practice size and location.
-          </p>
-        </div>
+        <ROIFootnote />
       </div>
     </section>
   );

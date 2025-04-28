@@ -4,7 +4,7 @@ import Layout from '../components/Layout';
 import HeroSection from '../components/HeroSection';
 import GooeyFilterTabs from '../components/team/GooeyFilterTabs';
 import DemoResultsSection from '../components/DemoResultsSection';
-import ROISection from '../components/ROISection';
+import ROISection from '../components/ROISection'; // This import remains unchanged
 import HealthcareSecuritySection from '../components/HealthcareSecuritySection';
 import AcademyOverviewSection from '../components/AcademyOverviewSection';
 import FooterCTA from '../components/FooterCTA';
