@@ -1,35 +1,20 @@
 
-import React, { useState, useRef } from 'react';
-import TimelinePhases from './team/TimelinePhases';
-import AgentCarousel from './team/AgentCarousel';
-import TeamSectionHeader from './team/TeamSectionHeader';
-import TeamCTA from './team/TeamCTA';
-import { orderedAgents, teamPhases } from './team/data/TeamPhases';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Button } from "@/components/ui/button";
 
+// This component is now replaced by GooeyFilterTabs
+// This stub is kept for compatibility with existing imports
 const AITeamSection = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const carouselRef = useRef<HTMLDivElement>(null);
-
+  console.warn('AITeamSection is deprecated. Use GooeyFilterTabs instead.');
+  
   return (
-    <section id="ai-team" className="section-padding py-12 sm:py-20 overflow-hidden">
-      <div className="container mx-auto px-4">
-        <TeamSectionHeader />
-
-        <TimelinePhases
-          phases={teamPhases}
-          activeIndex={activeIndex}
-          onPhaseClick={setActiveIndex}
-        />
-
-        <AgentCarousel
-          agents={orderedAgents}
-          phases={teamPhases}
-          activeIndex={activeIndex}
-          onSlideChange={setActiveIndex}
-          carouselRef={carouselRef}
-        />
-
-        <TeamCTA />
+    <section className="py-12">
+      <div className="container mx-auto px-4 text-center">
+        <p className="text-white/70 mb-4">This component has been replaced by GooeyFilterTabs.</p>
+        <Button asChild>
+          <Link to="/">Go to Homepage</Link>
+        </Button>
       </div>
     </section>
   );

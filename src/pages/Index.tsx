@@ -2,7 +2,6 @@
 import React from 'react';
 import Layout from '../components/Layout';
 import HeroSection from '../components/HeroSection';
-import AITeamSection from '../components/AiTeamSection';
 import AIBoardroomSection from '../components/AIBoardroomSection';
 import HealthcareSecuritySection from '../components/HealthcareSecuritySection';
 import AcademyOverviewSection from '../components/AcademyOverviewSection';
@@ -16,7 +15,7 @@ import TestimonialsSection from '../components/TestimonialsSection';
 import FAQSection from '../components/FAQSection';
 import WhyWeBuiltSection from '../components/story/WhyWeBuiltSection';
 import AgentResultsSection from '../components/results/AgentResultsSection';
-import TabbedAgentSection from '../components/journey/TabbedAgentSection';
+import GooeyFilterTabs from '../components/team/GooeyFilterTabs';
 import StoryAndFounderSection from '../components/StoryAndFounderSection';
 
 const Index = () => {
@@ -24,8 +23,7 @@ const Index = () => {
     <Layout>
       <HeroSection />
       <WhyWeBuiltSection />
-      <TabbedAgentSection />
-      <AITeamSection />
+      <GooeyFilterTabs />
       <AIBoardroomSection />
       <AgentResultsSection />
       <HealthcareSecuritySection />
