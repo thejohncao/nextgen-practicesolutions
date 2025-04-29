@@ -1,17 +1,31 @@
 
 import React from 'react';
+import { motion } from 'framer-motion';
 
-const SectionHeader = () => {
+interface SectionHeaderProps {
+  title: string;
+  subtitle: string;
+  isVisible: boolean;
+}
+
+const SectionHeader: React.FC<SectionHeaderProps> = ({ title, subtitle, isVisible }) => {
   return (
-    <div className="text-center max-w-3xl mx-auto mb-12">
+    <motion.div 
+      className="text-center max-w-3xl mx-auto mb-12"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ 
+        opacity: isVisible ? 1 : 0,
+        y: isVisible ? 0 : 20
+      }}
+      transition={{ duration: 0.7 }}
+    >
       <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-gradient">
-        Your AI Team, Connected to Everything You Use
+        {title}
       </h2>
       <p className="text-xl text-white/70">
-        NextGen integrates with your favorite tools — powered by a full AI executive team that doesn't just sync… they act. 
-        From scheduling and growth to follow-ups and training, every integration fuels smarter execution.
+        {subtitle}
       </p>
-    </div>
+    </motion.div>
   );
 };
 

@@ -5,16 +5,16 @@ import { Agent } from '@/types/agent';
 import AgentOrb from '@/components/team/agent/AgentOrb';
 import { getTooltipText } from '@/components/team/utils/getTooltipText';
 
-interface AgentOrbsDisplayProps {
-  orderedAgents: Agent[];
+export interface AgentOrbsDisplayProps {
+  agents: Agent[];
   positions: { top: string; left: string }[];
   isVisible: boolean;
 }
 
-const AgentOrbsDisplay: React.FC<AgentOrbsDisplayProps> = ({ orderedAgents, positions, isVisible }) => {
+const AgentOrbsDisplay: React.FC<AgentOrbsDisplayProps> = ({ agents, positions, isVisible }) => {
   return (
     <>
-      {orderedAgents.map((agent, index) => (
+      {agents.map((agent, index) => (
         <motion.div
           key={agent.name}
           className="absolute"
