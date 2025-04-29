@@ -46,6 +46,9 @@ const Index = () => {
       {/* Pre-Pricing CTA Section */}
       <PrePricingCTA />
       
+      {/* Footer CTA moved above Pricing section */}
+      <FooterCTA />
+      
       {/* Unified Pricing/Unlock Section */}
       <PricingSection />
       
@@ -65,7 +68,6 @@ const Index = () => {
       <FAQSection />
       
       <TestimonialsSection />
-      <FooterCTA />
     </Layout>
   );
 };
