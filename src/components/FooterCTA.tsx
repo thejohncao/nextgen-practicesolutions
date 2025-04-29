@@ -1,9 +1,9 @@
-
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import EmailCollectionForm from './EmailCollectionForm';
 import { useIsMobile } from '@/hooks/use-mobile';
 import RainbowButton from './ui/rainbow-button';
+import CircleBackground from './effects/CircleBackground';
 
 const FooterCTA = () => {
   const [showMobileCTA, setShowMobileCTA] = useState(false);
@@ -40,67 +40,69 @@ const FooterCTA = () => {
 
   return (
     <section className="section-padding py-20">
-      <div className="container mx-auto">
-        <div className="glass-card rounded-2xl p-8 md:p-12 lg:p-16 bg-gradient-to-br from-nextgen-purple/10 to-nextgen-blue/5 relative overflow-hidden">
-          {/* Decorative elements */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-nextgen-purple/20 rounded-full blur-3xl -z-10"></div>
-          <div className="absolute bottom-0 left-0 w-48 h-48 bg-nextgen-blue/20 rounded-full blur-3xl -z-10"></div>
-          
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-6 text-gradient">
-              Ready to Run Your Practice Like a Fortune 500?
-            </h2>
+      <CircleBackground count={8} opacity={0.05} colorScheme="mixed" speed={0.5}>
+        <div className="container mx-auto">
+          <div className="glass-card rounded-2xl p-8 md:p-12 lg:p-16 bg-gradient-to-br from-nextgen-purple/10 to-nextgen-blue/5 relative overflow-hidden">
+            {/* Decorative elements */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-nextgen-purple/20 rounded-full blur-3xl -z-10"></div>
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-nextgen-blue/20 rounded-full blur-3xl -z-10"></div>
             
-            <p className="text-lg text-white/70 mb-10 max-w-2xl mx-auto">
-              Try NextGen risk-free and experience the difference in 30 days.
-            </p>
-            
-            <div className="max-w-md mx-auto mb-8">
-              <EmailCollectionForm 
-                buttonText="Get Started" 
-                placeholder="Enter your work email" 
-              />
-            </div>
-            
-            <div className="flex justify-center mb-6">
-              <RainbowButton 
-                onClick={handleChatOpen}
-                size="lg"
-              >
-                Talk to Miles
-              </RainbowButton>
-            </div>
-            
-            <div className="flex justify-center">
-              <Link 
-                to="/join" 
-                className="text-white/70 underline hover:text-white transition-colors text-sm"
-              >
-                Learn more about our solution
-              </Link>
-            </div>
-            
-            <p className="text-sm text-white/60 mt-6">
-              Join the practices already transforming patient care with AI.
-            </p>
-            
-            <div className="mt-8 flex flex-wrap justify-center gap-6 items-center">
-              <div className="flex items-center gap-1 text-white/60 text-sm">
-                <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                HIPAA Compliant
+            <div className="max-w-3xl mx-auto text-center">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-6 text-gradient">
+                Ready to Run Your Practice Like a Fortune 500?
+              </h2>
+              
+              <p className="text-lg text-white/70 mb-10 max-w-2xl mx-auto">
+                Try NextGen risk-free and experience the difference in 30 days.
+              </p>
+              
+              <div className="max-w-md mx-auto mb-8">
+                <EmailCollectionForm 
+                  buttonText="Get Started" 
+                  placeholder="Enter your work email" 
+                />
               </div>
-              <div className="flex items-center gap-1 text-white/60 text-sm">
-                <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                SOC 2 Certified
+              
+              <div className="flex justify-center mb-6">
+                <RainbowButton 
+                  onClick={handleChatOpen}
+                  size="lg"
+                >
+                  Talk to Miles
+                </RainbowButton>
               </div>
-              <div className="flex items-center gap-1 text-white/60 text-sm">
-                <div className="w-3 h-3 rounded-full bg-purple-500"></div>
-                14-Day Free Trial
+              
+              <div className="flex justify-center">
+                <Link 
+                  to="/join" 
+                  className="text-white/70 underline hover:text-white transition-colors text-sm"
+                >
+                  Learn more about our solution
+                </Link>
+              </div>
+              
+              <p className="text-sm text-white/60 mt-6">
+                Join the practices already transforming patient care with AI.
+              </p>
+              
+              <div className="mt-8 flex flex-wrap justify-center gap-6 items-center">
+                <div className="flex items-center gap-1 text-white/60 text-sm">
+                  <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                  HIPAA Compliant
+                </div>
+                <div className="flex items-center gap-1 text-white/60 text-sm">
+                  <div className="w-3 h-3 rounded-full bg-blue-500"></div>
+                  SOC 2 Certified
+                </div>
+                <div className="flex items-center gap-1 text-white/60 text-sm">
+                  <div className="w-3 h-3 rounded-full bg-purple-500"></div>
+                  14-Day Free Trial
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </CircleBackground>
       
       {/* Mobile Meet Miles CTA */}
       {isMobile && showMobileCTA && (

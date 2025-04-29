@@ -40,6 +40,26 @@
   }
 }
 
+@keyframes orbit {
+  0% {
+    transform: rotate(0deg) translateX(50px) rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(50px) rotate(-360deg);
+  }
+}
+
+@keyframes breathe {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+}
+
 @keyframes ripple {
   0% {
     transform: scale(0.8);
@@ -155,4 +175,21 @@ section {
 
 .glow-hover:hover {
   animation: subtle-glow 2s ease-in-out infinite;
+}
+
+/* Circle animation classes */
+.circle-orbit-slow {
+  animation: orbit 60s linear infinite;
+}
+
+.circle-orbit-medium {
+  animation: orbit 45s linear infinite;
+}
+
+.circle-breathe {
+  animation: breathe 8s ease-in-out infinite;
+}
+
+.circle-fade-in {
+  animation: fadeInUp 1s ease-out forwards;
 }
