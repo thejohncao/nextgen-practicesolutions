@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import AgentChatAvatar from './AgentChatAvatar';
-import { AiMessage } from '@/hooks/useAiConversation';
+import { AiMessage } from '@/types/conversation';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
 // Define the AI agents with their properties

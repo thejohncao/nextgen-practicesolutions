@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import ChatToggleButton from './ChatToggleButton';
@@ -12,6 +11,7 @@ import { useIsMobile } from "../hooks/use-mobile";
 import TypingIndicator from './TypingIndicator';
 import { Button } from './ui/button';
 import { RefreshCw, ArrowRight } from 'lucide-react';
+import { AiMessage } from '@/types/conversation';
 
 interface AiAssistantProps {
   showPaths?: string[];
@@ -79,7 +79,7 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
             />
             
             <div className="flex-1 overflow-y-auto p-4 scrollbar-none">
-              {messages.map((message, index) => (
+              {messages.map((message: AiMessage, index) => (
                 <AiMessageBubble
                   key={index}
                   message={message}

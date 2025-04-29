@@ -2,7 +2,7 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 import AgentChatAvatar from '../AgentChatAvatar';
-import { AiMessage } from '@/hooks/useAiConversation';
+import { AiMessage } from '@/types/conversation';
 
 interface ChatBubbleProps {
   message: AiMessage;

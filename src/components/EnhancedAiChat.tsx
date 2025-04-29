@@ -1,9 +1,10 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 import { MessageSquare, X } from 'lucide-react';
-import { AiMessage } from '@/hooks/useAiConversation';
+import { AiMessage } from '@/types/conversation';
 import ChatInput from './ChatInput';
 import ChatHeader from './ChatHeader';
 import ChatBubble from './chat/ChatBubble';
