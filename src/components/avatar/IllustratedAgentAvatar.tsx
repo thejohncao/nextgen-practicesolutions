@@ -79,14 +79,14 @@ const IllustratedAgentAvatar = ({
     lg: 'w-16 h-16'
   };
   
-  const orbClass = `orb ${isPrimary ? 'orb-primary' : 'orb-secondary'} ${isInView ? 'in-view' : ''}`;
+  const orbClass = `orb ${isPrimary ? 'orb-primary' : 'orb-secondary'} ${isInView ? 'in-view' : ''} bg-transparent`;
   
   return (
     <div 
       className={`flex items-center ${isTyping ? 'animate-pulse-slow' : 'animate-fade-in'} relative avatar-${name.toLowerCase()} bg-transparent`}
       style={{ animationDelay: getAnimationDelay() }}
     >
-      <div className={`relative ${orbClass} bg-transparent`}>
+      <div className={`relative ${orbClass} rounded-full bg-transparent overflow-visible`}>
         <AvatarRings color={color} isAnimating={isAnimating || isTyping || isPrimary} />
         <AvatarOverlay isAnimating={isAnimating || isTyping || isPrimary} />
         

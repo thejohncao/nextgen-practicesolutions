@@ -29,7 +29,7 @@ const FloatingAgentAvatars = ({ staggered = false }: FloatingAgentAvatarsProps) 
       {orderedAgents.map((agent, index) => (
         <div
           key={agent.name}
-          className={`absolute transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 hover:scale-110 bg-transparent ${
+          className={`absolute transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 hover:scale-110 bg-transparent overflow-visible ${
             staggered ? 'animate-fade-in-staggered' : ''
           }`}
           style={{
@@ -46,7 +46,7 @@ const FloatingAgentAvatars = ({ staggered = false }: FloatingAgentAvatarsProps) 
             zIndex: 20 // Ensure agents are visible above background elements
           }}
         >
-          <div className="relative bg-transparent">
+          <div className="relative bg-transparent overflow-visible">
             <div className="absolute inset-0 bg-transparent rounded-full filter blur-xl animate-pulse-slow" 
               style={{animationDelay: `${index * 1}s`}}
             />

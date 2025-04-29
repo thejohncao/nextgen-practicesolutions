@@ -96,6 +96,7 @@ section {
 /* Animate section backgrounds with reduced intensity */
 .animate-pulse-slow {
   animation: pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  background-color: transparent;
 }
 
 /* Vertical slider animations with improved performance */
@@ -139,6 +140,7 @@ section {
 
 .gemini-animate {
   animation: gemini-fade 8s ease-in-out infinite;
+  background-color: transparent;
 }
 
 /* Card hover effects with performance optimization */

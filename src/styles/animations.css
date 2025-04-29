@@ -97,21 +97,21 @@
 }
 
 .orb {
-  @apply bg-transparent;
+  @apply bg-transparent rounded-full overflow-visible;
 }
 
 .orb-primary {
   animation: orbPulsePrimary 6s ease-in-out infinite;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
   transform-origin: center;
-  @apply bg-transparent;
+  @apply bg-transparent rounded-full overflow-visible;
 }
 
 .orb-secondary {
   animation: orbPulseSecondary 8s ease-in-out infinite;
   box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
   transform-origin: center;
-  @apply bg-transparent;
+  @apply bg-transparent rounded-full overflow-visible;
 }
 
 .orb.in-view {
