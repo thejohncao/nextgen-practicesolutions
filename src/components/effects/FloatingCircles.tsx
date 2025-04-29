@@ -24,6 +24,7 @@ interface FloatingCirclesProps {
   scale?: number;
   speed?: number;
   className?: string;
+  reduceOnMobile?: boolean;
 }
 
 const FloatingCircles: React.FC<FloatingCirclesProps> = ({
@@ -33,12 +34,18 @@ const FloatingCircles: React.FC<FloatingCirclesProps> = ({
   scale = 1,
   speed = 1,
   className = '',
+  reduceOnMobile = true,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const requestRef = useRef<number>();
   const circlesRef = useRef<Circle[]>([]);
   const isMobile = useIsMobile();
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  
+  // Throttle for performance
+  const throttleRef = useRef<number>(0);
+  const FPS = isMobile ? 30 : 60; // Lower FPS on mobile for better performance
+  const frameTime = 1000 / FPS;
 
   // Generate colors based on scheme
   const getColorScheme = () => {
@@ -57,8 +64,8 @@ const FloatingCircles: React.FC<FloatingCirclesProps> = ({
     const width = canvas.offsetWidth;
     const height = canvas.offsetHeight;
     
-    // Adjust circle count based on screen size
-    const adjustedCount = isMobile ? Math.floor(count / 2) : count;
+    // Adjust circle count based on screen size and reduceOnMobile setting
+    const adjustedCount = (isMobile && reduceOnMobile) ? Math.floor(count / 2.5) : count;
     
     const circles: Circle[] = [];
     const colors = getColorScheme();
@@ -97,13 +104,16 @@ const FloatingCircles: React.FC<FloatingCirclesProps> = ({
     const canvas = canvasRef.current;
     const dpr = window.devicePixelRatio || 1;
     
+    // Use getBoundingClientRect for more accurate dimensions
+    const rect = canvas.getBoundingClientRect();
+    
     setDimensions({
-      width: canvas.offsetWidth,
-      height: canvas.offsetHeight
+      width: rect.width,
+      height: rect.height
     });
     
-    canvas.width = canvas.offsetWidth * dpr;
-    canvas.height = canvas.offsetHeight * dpr;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
     
     const ctx = canvas.getContext('2d');
     if (ctx) {
@@ -118,20 +128,39 @@ const FloatingCircles: React.FC<FloatingCirclesProps> = ({
     initializeCircles();
     
     const handleResize = () => {
-      updateCanvasSize();
-      initializeCircles();
+      // Debounce resize handler
+      if (requestRef.current) {
+        cancelAnimationFrame(requestRef.current);
+      }
+      
+      requestRef.current = requestAnimationFrame(() => {
+        updateCanvasSize();
+        initializeCircles();
+      });
     };
     
     window.addEventListener('resize', handleResize);
     
-    const animate = () => {
+    const animate = (timestamp: number) => {
       if (!canvasRef.current) return;
       
+      // Throttle animation frames for better performance
+      if (timestamp - throttleRef.current < frameTime) {
+        requestRef.current = requestAnimationFrame(animate);
+        return;
+      }
+      
+      throttleRef.current = timestamp;
+      
       const canvas = canvasRef.current;
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext('2d', { alpha: true });
       if (!ctx) return;
       
-      ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
+      // Use clearRect with the correct dimensions
+      ctx.clearRect(0, 0, canvas.width / (window.devicePixelRatio || 1), canvas.height / (window.devicePixelRatio || 1));
+      
+      // Request next frame before heavy calculation to ensure smooth animation
+      requestRef.current = requestAnimationFrame(animate);
       
       circlesRef.current.forEach(circle => {
         // Update position using orbital motion
@@ -143,14 +172,12 @@ const FloatingCircles: React.FC<FloatingCirclesProps> = ({
         const breathingFactor = 0.15 * Math.sin(performance.now() * circle.breathingSpeed + circle.breathingOffset) + 1;
         const currentAlpha = circle.alpha * breathingFactor;
         
-        // Draw circle
+        // Draw circle with proper transform
         ctx.beginPath();
         ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
         ctx.fillStyle = circle.color.replace('1)', `${currentAlpha})`);
         ctx.fill();
       });
-      
-      requestRef.current = requestAnimationFrame(animate);
     };
     
     requestRef.current = requestAnimationFrame(animate);
@@ -161,12 +188,12 @@ const FloatingCircles: React.FC<FloatingCirclesProps> = ({
       }
       window.removeEventListener('resize', handleResize);
     };
-  }, [count, opacity, colorScheme, scale, speed, isMobile]);
+  }, [count, opacity, colorScheme, scale, speed, isMobile, reduceOnMobile]);
 
   return (
     <canvas
       ref={canvasRef}
-      className={`absolute inset-0 w-full h-full pointer-events-none ${className}`}
+      className={`absolute inset-0 w-full h-full pointer-events-none will-change-transform ${className}`}
       style={{
         width: '100%',
         height: '100%',

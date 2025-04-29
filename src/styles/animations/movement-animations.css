@@ -18,6 +18,14 @@
     opacity: 1;
     transform: translateY(0);
   }
+
+  .gpu-accelerated {
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
+    perspective: 1000px;
+  }
 }
 
 @keyframes quantum-float {
@@ -192,4 +200,27 @@ section {
 
 .circle-fade-in {
   animation: fadeInUp 1s ease-out forwards;
+}
+
+/* Intersection Observer animated classes */
+.fade-in-element {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fade-in-element.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scale-in-element {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.6s ease-out, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scale-in-element.is-visible {
+  opacity: 1;
+  transform: scale(1);
 }

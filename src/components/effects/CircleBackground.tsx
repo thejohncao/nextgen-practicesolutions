@@ -11,6 +11,7 @@ interface CircleBackgroundProps {
   speed?: number;
   className?: string;
   overlay?: boolean;
+  reduceOnMobile?: boolean;
 }
 
 const CircleBackground: React.FC<CircleBackgroundProps> = ({
@@ -21,7 +22,8 @@ const CircleBackground: React.FC<CircleBackgroundProps> = ({
   scale,
   speed,
   className = '',
-  overlay = true
+  overlay = true,
+  reduceOnMobile = true
 }) => {
   return (
     <div className={`relative ${className}`}>
@@ -32,6 +34,7 @@ const CircleBackground: React.FC<CircleBackgroundProps> = ({
           colorScheme={colorScheme}
           scale={scale}
           speed={speed}
+          reduceOnMobile={reduceOnMobile}
         />
         {overlay && (
           <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-transparent to-black/20" />
