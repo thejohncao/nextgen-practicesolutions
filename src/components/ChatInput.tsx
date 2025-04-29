@@ -7,7 +7,7 @@ interface ChatInputProps {
   isTyping: boolean;
   currentAgent: string;
   onSendMessage: (message: string) => void;
-  messages?: Array<any>; // Add optional messages prop
+  messages?: Array<any>;
 }
 
 // Define the AI agents with their color properties
@@ -18,14 +18,35 @@ const agentColors = {
   alma: "from-[#00B4D8] to-[#90E0EF]",
 };
 
-type AgentKey = keyof typeof agentColors;
+// Agent-specific smart suggestions
+const AGENT_SUGGESTIONS = {
+  miles: [
+    "Need help fixing your schedule?",
+    "How do I reduce no-shows?",
+    "What does a recall automation look like?",
+    "Show me how to streamline my front desk."
+  ],
+  giselle: [
+    "How can I get more veneer patients?",
+    "Show me your best performing ad campaigns.",
+    "How do I convert leads from Instagram?",
+    "Help me launch a new patient special."
+  ],
+  devon: [
+    "Patients keep ghosting after consults — help.",
+    "How do I close more implant cases?",
+    "Can you send me your best follow-up scripts?",
+    "I want to improve case acceptance."
+  ],
+  alma: [
+    "Give me an onboarding checklist.",
+    "How do I train my new front desk?",
+    "Show me a sample SOP.",
+    "We need better team systems."
+  ]
+};
 
-const QUICK_REPLIES = [
-  "Learn about Solutions",
-  "Explore the Academy",
-  "Schedule a Demo",
-  "Ask a Question"
-];
+type AgentKey = keyof typeof agentColors;
 
 const ChatInput: React.FC<ChatInputProps> = ({ isTyping, currentAgent, onSendMessage, messages = [] }) => {
   const [input, setInput] = useState("");
@@ -45,18 +66,23 @@ const ChatInput: React.FC<ChatInputProps> = ({ isTyping, currentAgent, onSendMes
     }
   };
 
+  const getAgentSuggestions = () => {
+    const agentKey = currentAgent.toLowerCase() as AgentKey;
+    return AGENT_SUGGESTIONS[agentKey] || AGENT_SUGGESTIONS.miles;
+  };
+
   return (
-    <div className="p-3 border-t border-white/10 bg-nextgen-dark/80">
+    <div className={cn("p-3 border-t border-white/10 bg-nextgen-dark/80", currentAgent.toLowerCase() + "-color")}>
       {showQuickReplies && messages.length === 1 && (
         <div className="grid grid-cols-2 gap-2 mb-3">
-          {QUICK_REPLIES.map((reply) => (
+          {getAgentSuggestions().map((suggestion) => (
             <button
-              key={reply}
-              onClick={() => handleSendMessage(reply)}
-              className="p-2 text-sm text-white/90 bg-white/5 hover:bg-white/10 
+              key={suggestion}
+              onClick={() => handleSendMessage(suggestion)}
+              className="prompt-button p-2 text-sm text-white/90 bg-white/5 hover:bg-white/10 
                        border border-white/10 rounded-lg transition-colors"
             >
-              {reply}
+              {suggestion}
             </button>
           ))}
         </div>
@@ -76,7 +102,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ isTyping, currentAgent, onSendMes
           className={cn(
             "absolute right-2 top-[50%] translate-y-[-50%] p-2 rounded-full",
             "bg-gradient-to-r", 
-            agentColors[currentAgent as AgentKey],
+            agentColors[currentAgent.toLowerCase() as AgentKey],
             input.trim() && !isTyping ? "opacity-100" : "opacity-50"
           )}
           onClick={() => handleSendMessage()}

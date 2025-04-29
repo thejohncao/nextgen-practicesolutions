@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -128,7 +127,6 @@ const EnhancedAiChat = ({ showPaths = ['/', '/solutions', '/academy', '/features
     }, 1500);
   };
   
-  // This is a placeholder - in production you'd replace this with your actual OpenAI call
   const getSimulatedAgentResponse = (agent: string, userMessage: string) => {
     const responses: Record<string, string[]> = {
       'miles': [
