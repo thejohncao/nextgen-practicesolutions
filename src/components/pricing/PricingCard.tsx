@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Calendar, Clipboard, MessageCircle, RefreshCcw, DollarSign, Briefcase, Network, Star, UserSquare2, Files } from "lucide-react";
@@ -160,7 +159,7 @@ const PricingCard = ({
           <div className="flex items-end">
             <AgentStackDisplay 
               agents={agents} 
-              isPrimary={isMastery}
+              isPrimary={true}
             />
           </div>
         </div>

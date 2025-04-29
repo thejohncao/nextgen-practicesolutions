@@ -213,3 +213,100 @@ html {
 .breathe {
   animation: breathe 4s ease-in-out infinite;
 }
+
+/* Agent orb animation states */
+@keyframes orbPulsePrimary {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 28px rgba(255, 255, 255, 0.7);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+  }
+}
+
+@keyframes orbPulseSecondary {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
+  }
+}
+
+.orb-primary {
+  animation: orbPulsePrimary 6s ease-in-out infinite;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+  transform-origin: center;
+}
+
+.orb-secondary {
+  animation: orbPulseSecondary 8s ease-in-out infinite;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+  transform-origin: center;
+}
+
+.orb-inactive {
+  filter: grayscale(1) opacity(0.4);
+  box-shadow: none;
+  animation: none;
+}
+
+/* Agent-specific glows */
+.orb-blue { box-shadow: 0 0 20px rgba(93, 176, 255, 0.6); }
+.orb-green { box-shadow: 0 0 20px rgba(102, 255, 204, 0.6); }
+.orb-purple { box-shadow: 0 0 20px rgba(196, 120, 255, 0.6); }
+.orb-orange, .orb-gold { box-shadow: 0 0 20px rgba(255, 186, 90, 0.6); }
+
+/* Hover effects for agent orbs */
+.orb:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 32px rgba(255, 255, 255, 0.8);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+@media (hover: none) {
+  .orb:active {
+    transform: scale(1.08);
+    box-shadow: 0 0 32px rgba(255, 255, 255, 0.8);
+  }
+}
+
+/* In-view animation for agent orbs */
+.orb.in-view {
+  animation: orbGlowSync 1.2s ease-out;
+}
+
+@keyframes orbGlowSync {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 0 36px rgba(255, 255, 255, 0.8);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .orb-primary,
+  .orb-secondary {
+    animation-duration: 10s;
+  }
+}

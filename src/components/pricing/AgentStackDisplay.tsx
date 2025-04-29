@@ -24,12 +24,15 @@ const AgentStackDisplay = ({ agents, isPrimary = false }: AgentStackDisplayProps
     <div className="relative">
       {/* Primary Agent */}
       <div className="relative z-10">
-        <AgentAvatar
-          name={primaryAgent.name}
-          role={primaryAgent.role}
-          color={primaryAgent.color}
-          size={isPrimary ? "md" : "sm"}
-        />
+        <div className={`${isPrimary ? 'animate-pulse-slow' : ''}`}>
+          <AgentAvatar
+            name={primaryAgent.name}
+            role={primaryAgent.role}
+            color={primaryAgent.color}
+            size={isPrimary ? "md" : "sm"}
+            animated={true}
+          />
+        </div>
       </div>
 
       {/* Secondary Agents (if any) */}
@@ -42,6 +45,7 @@ const AgentStackDisplay = ({ agents, isPrimary = false }: AgentStackDisplayProps
               style={{ 
                 zIndex: 9 - index,
                 opacity: 0.9 - (index * 0.1),
+                transform: `translateX(${index * -5}px)`
               }}
             >
               <AgentAvatar
@@ -49,6 +53,7 @@ const AgentStackDisplay = ({ agents, isPrimary = false }: AgentStackDisplayProps
                 role={agent.role}
                 color={agent.color}
                 size="sm"
+                animated={false}
               />
             </div>
           ))}

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import AvatarRings from './AvatarRings';
@@ -13,6 +14,7 @@ interface IllustratedAgentAvatarProps {
   imagePath?: string;
   animated?: boolean;
   isTyping?: boolean;
+  isPrimary?: boolean;
 }
 
 const IllustratedAgentAvatar = ({ 
@@ -22,9 +24,11 @@ const IllustratedAgentAvatar = ({
   size = 'md', 
   imagePath,
   animated = true,
-  isTyping = false
+  isTyping = false,
+  isPrimary = false
 }: IllustratedAgentAvatarProps) => {
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isInView, setIsInView] = useState(false);
   
   useEffect(() => {
     if (isTyping) {
@@ -42,6 +46,26 @@ const IllustratedAgentAvatar = ({
     return () => clearInterval(animationInterval);
   }, [animated, isTyping]);
   
+  useEffect(() => {
+    // Setup intersection observer for in-view detection
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setIsInView(true);
+        }
+      },
+      { threshold: 0.3 }
+    );
+    
+    // Find the avatar container element
+    const element = document.querySelector(`.avatar-${name.toLowerCase()}`);
+    if (element) {
+      observer.observe(element);
+    }
+    
+    return () => observer.disconnect();
+  }, [name]);
+  
   const getAnimationDelay = () => {
     const hash = name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
     return `${(hash % 5) * 100}ms`;
@@ -55,22 +79,24 @@ const IllustratedAgentAvatar = ({
     lg: 'w-16 h-16'
   };
   
+  const orbClass = `orb orb-${color} ${isPrimary ? 'orb-primary' : 'orb-secondary'} ${isInView ? 'in-view' : ''}`;
+  
   return (
     <div 
-      className={`flex items-center ${isTyping ? 'animate-pulse-slow' : 'animate-fade-in'} relative`}
+      className={`flex items-center ${isTyping ? 'animate-pulse-slow' : 'animate-fade-in'} relative avatar-${name.toLowerCase()}`}
       style={{ animationDelay: getAnimationDelay() }}
     >
-      <div className="relative">
-        <AvatarRings color={color} isAnimating={isAnimating || isTyping} />
-        <AvatarOverlay isAnimating={isAnimating || isTyping} />
+      <div className={`relative ${orbClass}`}>
+        <AvatarRings color={color} isAnimating={isAnimating || isTyping || isPrimary} />
+        <AvatarOverlay isAnimating={isAnimating || isTyping || isPrimary} />
         
-        <Avatar className={`${sizeClasses[size]} border-2 border-white/10 relative z-10 transition-all duration-300 ${(isAnimating || isTyping) ? 'scale-105' : ''}`}>
+        <Avatar className={`${sizeClasses[size]} border-2 border-white/10 relative z-10 transition-all duration-300 ${(isAnimating || isTyping || isPrimary) ? 'scale-105' : ''}`}>
           {imagePath ? (
             <AvatarImage src={imagePath} alt={`${name} avatar`} className="object-cover" />
           ) : (
             <AvatarFallback 
               className={`bg-gradient-to-br ${getAvatarGradient(color)} ${
-                (isAnimating || isTyping) ? 'animate-pulse' : 'animate-pulse-slow'
+                (isAnimating || isTyping || isPrimary) ? 'animate-pulse' : 'animate-pulse-slow'
               }`}
             >
               {getInitials(name)}
