@@ -21,7 +21,7 @@ import Animations from "./pages/Animations";
 import NotFound from "./pages/NotFound";
 import NotFoundPage from './pages/NotFoundPage';
 import Pricing from "./pages/Pricing";
-import AiAssistant from "./components/AiAssistant";
+import EnhancedAiChat from "./components/EnhancedAiChat";
 import AvatarManager from "./components/admin/AvatarManager";
 import LenisProvider from "./components/providers/LenisProvider";
 
@@ -39,10 +39,10 @@ const ScrollToTop = () => {
   return null;
 };
 
-const AiAssistantWrapper = () => {
-  const showAiAssistantPaths = ['/', '/solutions', '/academy', '/academy/curriculum', '/features', '/pricing'];
+const EnhancedAiChatWrapper = () => {
+  const showAiChatPaths = ['/', '/solutions', '/academy', '/academy/curriculum', '/features', '/pricing'];
   
-  return <AiAssistant showPaths={showAiAssistantPaths} />;
+  return <EnhancedAiChat showPaths={showAiChatPaths} />;
 };
 
 const App = () => (
@@ -70,7 +70,7 @@ const App = () => (
             <Route path="/admin/avatars" element={<AvatarManager />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
-          <AiAssistantWrapper />
+          <EnhancedAiChatWrapper />
         </Router>
       </LenisProvider>
     </TooltipProvider>
