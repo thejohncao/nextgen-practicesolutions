@@ -1,59 +1,42 @@
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ChatConversation from './boardroom/ChatConversation';
 import RainbowButton from './ui/rainbow-button';
 import AgentResultCard from './results/AgentResultCard';
-import { getDuplicatedResults } from '@/data/agentResults';
-import { ArrowRight, ArrowLeft } from 'lucide-react';
-import useEmblaCarousel from 'embla-carousel-react';
-import AutoPlay from 'embla-carousel-autoplay';
+import { getFlattenedResults } from '@/data/agentResults';
 
 const DemoResultsSection = () => {
-  const [isPaused, setIsPaused] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const allResults = getDuplicatedResults();
-  const firstRowResults = allResults.slice(0, 6);
-  const secondRowResults = allResults.slice(6, 12);
-
-  // Initialize Embla carousels for both rows
-  const [firstRowRef, firstRowApi] = useEmblaCarousel(
-    { 
-      loop: true,
-      align: "start",
-      dragFree: true,
-    },
-    [
-      AutoPlay({ 
-        playOnInit: true, 
-        delay: 5000, 
-        stopOnInteraction: true,
-        stopOnMouseEnter: true, 
-      })
-    ]
-  );
-
-  const [secondRowRef, secondRowApi] = useEmblaCarousel(
-    { 
-      loop: true,
-      align: "start",
-      dragFree: true,
-      startIndex: 2 // Stagger the second row
-    },
-    [
-      AutoPlay({ 
-        playOnInit: true, 
-        delay: 6000, // Slightly different timing for visual interest
-        stopOnInteraction: true,
-        stopOnMouseEnter: true, 
-      })
-    ]
-  );
-
-  // Handle carousel navigation
-  const scrollPrevFirst = useCallback(() => firstRowApi?.scrollPrev(), [firstRowApi]);
-  const scrollNextFirst = useCallback(() => firstRowApi?.scrollNext(), [firstRowApi]);
-  const scrollPrevSecond = useCallback(() => secondRowApi?.scrollPrev(), [secondRowApi]);
-  const scrollNextSecond = useCallback(() => secondRowApi?.scrollNext(), [secondRowApi]);
+  const allResults = getFlattenedResults();
+  
+  // Filter and organize results in the requested order
+  const organizedResults = {
+    leftColumn: [
+      // Miles — Same-Week Scheduling
+      allResults.find(r => r.agent === "Miles" && r.title.includes("Same-Week Scheduling")),
+      // Devon — Treatment Follow-Ups
+      allResults.find(r => r.agent === "Devon" && r.title.includes("ROI on Treatment Plan")),
+      // Miles — No-Show Reduction
+      allResults.find(r => r.agent === "Miles" && r.title.includes("No-Show")),
+      // Devon — Treatment Acceptance Boost
+      allResults.find(r => r.agent === "Devon" && r.title.includes("Case Acceptance")),
+      // Miles — Insurance Collections Increase
+      allResults.find(r => r.agent === "Miles" && r.title.includes("Insurance Collections"))
+    ].filter(Boolean),
+    
+    rightColumn: [
+      // Giselle — Google Reviews
+      allResults.find(r => r.agent === "Giselle" && r.title.includes("Google Reviews")),
+      // Alma — Team Onboarding
+      allResults.find(r => r.agent === "Alma" && r.title.includes("Team Onboarding")),
+      // Giselle — Lead Conversion
+      allResults.find(r => r.agent === "Giselle" && r.title.includes("New Patient Leads")),
+      // Alma — Staff Management Savings
+      allResults.find(r => r.agent === "Alma" && r.title.includes("Staff Management")),
+      // Giselle — Social Proof Growth (optional)
+      allResults.find(r => r.agent === "Giselle" && !r.title.includes("Google Reviews") && !r.title.includes("New Patient Leads"))
+    ].filter(Boolean)
+  };
 
   // Handle mobile detection
   useEffect(() => {
@@ -120,12 +103,12 @@ const DemoResultsSection = () => {
 
       <div className="container mx-auto px-4">
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-heading font-bold mb-3 text-white">
-            Experience the Power of Your AI Team
+          <h2 className="text-3xl md:text-5xl font-heading font-bold mb-3 text-white">
+            Experience Your AI Team in Action
           </h2>
           <p className="text-lg text-gray-300 max-w-3xl mx-auto animate-fade-in" 
              style={{animationDelay: '100ms'}}>
-            See how your AI Executive Team transforms daily operations, drives growth, and scales your practice with precision.
+            See how your AI Executive Team transforms daily operations and drives real practice growth.
           </p>
         </div>
 
@@ -152,95 +135,57 @@ const DemoResultsSection = () => {
             </div>
           </div>
           
-          {/* Right side - Results carousel with two staggered rows */}
-          <div className="animate-fade-in-up space-y-6" style={{animationDelay: '300ms'}}>
+          {/* Right side - Results Grid */}
+          <div className="animate-fade-in-up" style={{animationDelay: '300ms'}}>
             <div>
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-medium text-white">
-                  <span className="bg-purple-900/50 text-purple-200 py-1 px-3 rounded-full text-sm mr-2">Results</span>
-                  Real Practice Transformations
-                </h3>
-                
-                {/* First row carousel controls - only show on desktop */}
-                {!isMobile && (
-                  <div className="flex space-x-2">
-                    <button 
-                      onClick={scrollPrevFirst}
-                      className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-                    >
-                      <ArrowLeft size={16} className="text-white" />
-                    </button>
-                    <button 
-                      onClick={scrollNextFirst}
-                      className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-                    >
-                      <ArrowRight size={16} className="text-white" />
-                    </button>
-                  </div>
-                )}
-              </div>
+              <h3 className="text-xl font-medium text-white mb-5">
+                <span className="bg-purple-900/50 text-purple-200 py-1 px-3 rounded-full text-sm mr-2">Results</span>
+                Real Practice Transformations
+              </h3>
               
-              {/* First row results carousel */}
-              <div className="overflow-hidden" ref={firstRowRef}>
-                <div className="flex gap-6">
-                  {firstRowResults.map((result, index) => (
-                    <div 
-                      key={`row1-${result.agent}-${result.title}-${index}`}
-                      className={`flex-none ${isMobile ? 'w-[85%]' : 'w-[85%] md:w-[300px]'}`}
-                    >
-                      <AgentResultCard 
-                        result={result}
-                        index={index}
-                        isMobile={isMobile}
-                        isLightMode={false}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-            
-            {/* Second row (only for desktop) */}
-            {!isMobile && (
-              <div>
-                <div className="flex justify-end items-center mb-4">
-                  {/* Second row carousel controls */}
-                  <div className="flex space-x-2">
-                    <button 
-                      onClick={scrollPrevSecond}
-                      className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-                    >
-                      <ArrowLeft size={16} className="text-white" />
-                    </button>
-                    <button 
-                      onClick={scrollNextSecond}
-                      className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-                    >
-                      <ArrowRight size={16} className="text-white" />
-                    </button>
-                  </div>
-                </div>
-                
-                {/* Second row results carousel */}
-                <div className="overflow-hidden" ref={secondRowRef}>
-                  <div className="flex gap-6">
-                    {secondRowResults.map((result, index) => (
+              {/* Results grid with 2 columns for desktop, 1 column for mobile */}
+              <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-2'} gap-5`}>
+                {/* Left column */}
+                <div className="space-y-5">
+                  {organizedResults.leftColumn.map((result, index) => (
+                    result && (
                       <div 
-                        key={`row2-${result.agent}-${result.title}-${index}`}
-                        className="flex-none w-[300px]"
+                        key={`left-${result.agent}-${result.title}-${index}`} 
+                        className="animate-section-transition"
+                        style={{ animationDelay: `${index * 100}ms` }}
                       >
                         <AgentResultCard 
                           result={result}
-                          index={index + 6}
+                          index={index}
                           isMobile={isMobile}
                           isLightMode={false}
                         />
                       </div>
-                    ))}
-                  </div>
+                    )
+                  ))}
+                </div>
+                
+                {/* Right column */}
+                <div className="space-y-5">
+                  {organizedResults.rightColumn.map((result, index) => (
+                    result && (
+                      <div 
+                        key={`right-${result.agent}-${result.title}-${index}`}
+                        className="animate-section-transition"
+                        style={{ animationDelay: `${(index + 0.5) * 100}ms` }}
+                      >
+                        <AgentResultCard 
+                          result={result}
+                          index={index + organizedResults.leftColumn.length}
+                          isMobile={isMobile}
+                          isLightMode={false}
+                        />
+                      </div>
+                    )
+                  ))}
                 </div>
               </div>
-            )}
+            </div>
           </div>
         </div>
       </div>

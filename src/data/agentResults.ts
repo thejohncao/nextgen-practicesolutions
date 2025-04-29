@@ -1,4 +1,3 @@
-
 import { AgentResult } from "@/types/agentResults";
 
 // Result data organized by agent
@@ -81,7 +80,7 @@ export const agentResults: AgentResult[] = [
   }
 ];
 
-// Flatten the agent results for carousel display
+// Flatten the agent results for grid display
 export const getFlattenedResults = () => {
   return agentResults.flatMap((agentData) => 
     agentData.results.map((result) => ({
@@ -94,9 +93,9 @@ export const getFlattenedResults = () => {
   );
 };
 
-// Duplicate cards to ensure seamless looping
+// Duplicate cards to ensure seamless looping 
+// (keeping function for backwards compatibility)
 export const getDuplicatedResults = () => {
   const flattenedResults = getFlattenedResults();
-  // Create a larger set of duplicated results for the dual-row carousel
   return [...flattenedResults, ...flattenedResults, ...flattenedResults];
 };
