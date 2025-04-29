@@ -3,9 +3,9 @@ import React from 'react';
 import { cn } from "@/lib/utils";
 import BackgroundEffect from '../roi/BackgroundEffect';
 import PricingPackages from './PricingPackages';
-import PricingHero from './pricing/PricingHero';
-import BoardroomUnlockFlow from './pricing/BoardroomUnlockFlow';
-import PricingCTA from './pricing/PricingCTA';
+import PricingHero from './PricingHero';
+import BoardroomUnlockFlow from './BoardroomUnlockFlow';
+import PricingCTA from './PricingCTA';
 
 const PricingSection = () => {
   return (
