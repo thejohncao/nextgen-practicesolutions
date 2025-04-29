@@ -22,3 +22,18 @@
     transform: translateY(0);
   }
 }
+
+/* Message shimmer animations */
+@keyframes message-shimmer {
+  0% { 
+    background-position: 200% 0;
+  }
+  100% { 
+    background-position: -200% 0;
+  }
+}
+
+.shimmer-effect {
+  background-size: 200% auto;
+  animation: message-shimmer 10s linear infinite;
+}
