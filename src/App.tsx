@@ -18,6 +18,7 @@ import Resources from "./pages/Resources";
 import Story from "./pages/Story";
 import Animations from "./pages/Animations";
 import NotFound from "./pages/NotFound";
+import Pricing from "./pages/Pricing";
 import AiAssistant from "./components/AiAssistant";
 import AvatarManager from "./components/admin/AvatarManager";
 import LenisProvider from "./components/providers/LenisProvider";
@@ -37,7 +38,7 @@ const ScrollToTop = () => {
 };
 
 const AiAssistantWrapper = () => {
-  const showAiAssistantPaths = ['/', '/solutions', '/academy', '/features'];
+  const showAiAssistantPaths = ['/', '/solutions', '/academy', '/features', '/pricing'];
   
   return <AiAssistant showPaths={showAiAssistantPaths} />;
 };
@@ -59,6 +60,7 @@ const App = () => (
             <Route path="/integrations" element={<Integrations />} />
             <Route path="/academy" element={<Academy />} />
             <Route path="/solutions" element={<Solutions />} />
+            <Route path="/pricing" element={<Pricing />} />
             <Route path="/resources/*" element={<Resources />} />
             <Route path="/security" element={<Security />} />
             <Route path="/privacy" element={<Privacy />} />

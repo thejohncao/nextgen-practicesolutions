@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "@/components/ui/navigation-menu";
@@ -207,7 +206,7 @@ const Navbar = () => {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <TubelightNavLink to="/#pricing">
+                <TubelightNavLink to="/pricing">
                   Pricing
                 </TubelightNavLink>
               </NavigationMenuItem>
