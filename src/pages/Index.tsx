@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Layout from '../components/Layout';
 import HeroSection from '../components/HeroSection';
@@ -36,7 +35,7 @@ const Index = () => {
       {/* New Results section with vertical sliders */}
       <AgentResultsSection />
       
-      {/* Combined Security & Integrations Section */}
+      {/* Combined Security & Integrations Section - now with enhanced design */}
       <CombinedSecurityIntegrationsSection />
       
       {/* Pre-Pricing CTA Section */}

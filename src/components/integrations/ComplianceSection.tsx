@@ -1,6 +1,35 @@
 
 import React from 'react';
-import { Shield, Check } from "lucide-react";
+import { Shield, Check, Lock, Server, FileCheck } from "lucide-react";
+import EnhancedSecurityCard from './EnhancedSecurityCard';
+
+const securityBadges = [
+  {
+    title: "HIPAA Compliant",
+    description: "Enterprise-grade security and privacy protocols",
+    icon: Shield
+  },
+  {
+    title: "SOC 2 Certified",
+    description: "Rigorous security controls and data protection",
+    icon: Check
+  },
+  {
+    title: "End-to-End Encryption",
+    description: "Patient data protected at every touchpoint",
+    icon: Lock
+  },
+  {
+    title: "U.S. Secure Servers",
+    description: "Data hosted exclusively on secure U.S. infrastructure",
+    icon: Server
+  },
+  {
+    title: "HITECH & ADA Compliant",
+    description: "Built following latest healthcare guidelines",
+    icon: FileCheck
+  }
+];
 
 interface ComplianceSectionProps {
   complianceChecklist: string[];
@@ -8,31 +37,17 @@ interface ComplianceSectionProps {
 
 const ComplianceSection = ({ complianceChecklist }: ComplianceSectionProps) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div className="p-4">
-        <h3 className="text-xl font-heading font-semibold text-white mb-4">Compliance Checklist</h3>
-        <ul className="space-y-3">
-          {complianceChecklist.map((item, index) => (
-            <li key={index} className="flex items-center text-white/80">
-              {index === 0 ? (
-                <Shield className="h-5 w-5 text-nextgen-purple mr-2 flex-shrink-0" />
-              ) : (
-                <Check className="h-5 w-5 text-nextgen-purple mr-2 flex-shrink-0" />
-              )}
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className="p-4 flex flex-col justify-center">
-        <div className="glass-card p-4 bg-white/5">
-          <p className="text-white/80 italic">
-            "Our practice handles sensitive patient data every day. NextGen's security infrastructure gives us peace of mind while revolutionizing our workflow."
-          </p>
-          <p className="text-sm text-white/60 mt-2">
-            — Dr. Sarah M., Periodontics
-          </p>
-        </div>
+    <div className="grid grid-cols-1 gap-6">
+      <div className="space-y-4">
+        {securityBadges.map((badge, index) => (
+          <EnhancedSecurityCard
+            key={badge.title}
+            title={badge.title}
+            description={badge.description}
+            icon={badge.icon}
+            className="staggered-card"
+          />
+        ))}
       </div>
     </div>
   );
