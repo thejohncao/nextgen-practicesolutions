@@ -1,30 +1,10 @@
 
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { 
-  callOpenAI, 
-  getAgentSystemPrompt, 
-  detectAgentFromMessage, 
-  isVagueInput, 
-  getAgentFallbackResponse,
-  AGENT_SUGGESTIONS,
-  Message 
-} from '@/lib/openai';
+import { callOpenAI } from '@/utils/aiService';
+import { getAgentSystemPrompt, detectAgentFromMessage, AGENT_SUGGESTIONS } from '@/utils/agentUtils';
+import { isVagueInput, getAgentFallbackResponse } from '@/utils/fallbackUtils';
+import { AiMessage, Message } from '@/types/conversation';
 import { toast } from '@/components/ui/use-toast';
-
-type MessageRole = 'user' | 'assistant' | 'system';
-
-export interface AiMessage {
-  text: string;
-  isUser: boolean;
-  agent: string;
-  timestamp: Date;
-}
-
-export interface ConversationState {
-  messages: AiMessage[];
-  currentAgent: string;
-  userIntent?: string;
-}
 
 // Keys for local storage
 const CURRENT_AGENT_KEY = 'nextgen_current_agent';
