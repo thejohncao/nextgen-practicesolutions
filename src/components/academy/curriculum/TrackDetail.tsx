@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ScrollRevealWrapper from '../../animation/ScrollRevealWrapper';
 import { ModulesList } from './ModulesList';
