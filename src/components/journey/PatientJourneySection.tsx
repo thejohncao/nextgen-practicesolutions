@@ -48,22 +48,25 @@ const PatientJourneySection = () => {
 
         <div 
           ref={sectionRef} 
-          className={`${isMobile 
-            ? 'flex flex-col gap-12' 
-            : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'
+          className={`relative ${
+            isMobile 
+              ? 'flex flex-col gap-8' 
+              : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'
           }`}
         >
           {patientJourney.map((stage, index) => (
             <div 
               key={stage.number} 
-              className={`journey-stage ${stage.gradientClass} rounded-xl p-6 animate-fade-in`} 
+              className="journey-stage rounded-xl overflow-hidden animate-fade-in" 
               data-stage={index}
               style={{ animationDelay: `${index * 0.2}s` }}
             >
-              <JourneyStage
-                stage={stage}
-                isActive={activeStage === index + 1}
-              />
+              <div className={`h-full p-6 ${stage.gradientClass}`}>
+                <JourneyStage
+                  stage={stage}
+                  isActive={activeStage === index + 1}
+                />
+              </div>
             </div>
           ))}
         </div>

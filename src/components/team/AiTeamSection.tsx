@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { agents } from '@/data/agents';
 import { Link } from 'react-router-dom';
-import { phases } from './PhaseData';
+import { teamPhases } from './data/TeamPhases';
 import TimelinePhases from './TimelinePhases';
 import AgentCarousel from './AgentCarousel';
 
@@ -67,14 +67,14 @@ const AITeamSection = () => {
         </div>
 
         <TimelinePhases
-          phases={phases}
+          phases={teamPhases}
           activeIndex={activeIndex}
           onPhaseClick={setActiveIndex}
         />
 
         <AgentCarousel
           agents={orderedAgents}
-          phases={phases}
+          phases={teamPhases}
           activeIndex={activeIndex}
           onSlideChange={setActiveIndex}
           carouselRef={carouselRef}
