@@ -1,6 +1,6 @@
 
 import React, { useEffect, useRef } from 'react';
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 interface Circle {
   x: number;
@@ -76,10 +76,27 @@ const BackgroundCircles: React.FC<BackgroundCirclesProps> = ({
   useEffect(() => {
     if (!animate || !containerRef.current) return;
     
-    const container = containerRef.current;
-    const { width, height } = container.getBoundingClientRect();
-
-    const animate = () => {
+    // Define renderCircles function before using it
+    const renderCircles = () => {
+      if (!containerRef.current) return;
+      
+      const circleElements = containerRef.current.querySelectorAll<HTMLDivElement>('.background-circle');
+      
+      circles.current.forEach((circle, index) => {
+        if (circleElements[index]) {
+          const el = circleElements[index];
+          el.style.left = `${circle.x}px`;
+          el.style.top = `${circle.y}px`;
+          el.style.width = `${circle.radius * 2}px`;
+          el.style.height = `${circle.radius * 2}px`;
+          el.style.backgroundColor = circle.color;
+          el.style.opacity = String(circle.opacity);
+          el.style.filter = `blur(${blurAmount})`;
+        }
+      });
+    };
+    
+    const animateCircles = () => {
       circles.current = circles.current.map(circle => {
         const newOpacity = circle.opacity + (0.002 * circle.direction);
         
@@ -96,29 +113,10 @@ const BackgroundCircles: React.FC<BackgroundCirclesProps> = ({
       });
       
       renderCircles();
-      requestRef.current = requestAnimationFrame(animate);
+      requestRef.current = requestAnimationFrame(animateCircles);
     };
     
-    const renderCircles = () => {
-      if (!containerRef.current) return;
-      
-      const circles = containerRef.current.querySelectorAll<HTMLDivElement>('.background-circle');
-      
-      circles.current.forEach((circle, index) => {
-        if (circles[index]) {
-          const el = circles[index];
-          el.style.left = `${circle.x}px`;
-          el.style.top = `${circle.y}px`;
-          el.style.width = `${circle.radius * 2}px`;
-          el.style.height = `${circle.radius * 2}px`;
-          el.style.backgroundColor = circle.color;
-          el.style.opacity = String(circle.opacity);
-          el.style.filter = `blur(${blurAmount})`;
-        }
-      });
-    };
-    
-    requestRef.current = requestAnimationFrame(animate);
+    requestRef.current = requestAnimationFrame(animateCircles);
     
     return () => {
       if (requestRef.current) {
