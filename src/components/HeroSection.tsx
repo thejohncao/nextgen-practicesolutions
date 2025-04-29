@@ -7,7 +7,6 @@ import HeroQuantumGrid from './effects/HeroQuantumGrid';
 import LampEffect from './effects/LampEffect';
 import SparkleText from './effects/SparkleText';
 import RainbowButton from './ui/rainbow-button';
-import CircleBackground from './effects/CircleBackground';
 
 const HeroSection = () => {
   const handleChatOpen = () => {
@@ -36,10 +35,8 @@ const HeroSection = () => {
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
       {/* Background effects layering */}
-      <CircleBackground count={18} opacity={0.05} colorScheme="mixed" overlay={false}>
-        <HeroQuantumGrid />
-        <PulseBeams opacity={0.06} />
-      </CircleBackground>
+      <HeroQuantumGrid />
+      <PulseBeams opacity={0.06} />
       
       {/* Enhanced gradient orbs */}
       <div className="absolute inset-0 -z-10">

@@ -9,7 +9,6 @@ import BenefitCard from './roi/BenefitCard';
 import ComparisonTable from './roi/ComparisonTable';
 import MobileComparisonCarousel from './roi/MobileComparisonCarousel';
 import ROIFootnote from './roi/ROIFootnote';
-import CircleBackground from './effects/CircleBackground';
 
 const comparisonData = [
   {
@@ -58,11 +57,8 @@ const benefitCards = [
 
 const ROISection = () => {
   return (
-    <section id="roi" className="section-padding py-24 relative overflow-hidden scroll-transition bg-gradient-to-br from-nextgen-dark to-black">
-      <CircleBackground count={12} opacity={0.07} colorScheme="purple" speed={0.8} overlay={false}>
-        {/* The background effect component */}
-        <BackgroundEffect />
-      </CircleBackground>
+    <section id="roi" className="section-padding py-24 relative overflow-hidden scroll-transition">
+      <BackgroundEffect />
       
       <div className="container mx-auto px-4 relative z-10">
         <ROISectionHeader />

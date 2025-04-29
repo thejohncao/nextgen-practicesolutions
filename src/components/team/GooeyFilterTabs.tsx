@@ -1,58 +1,80 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { cn } from '@/lib/utils';
 import { agents } from '@/data/agents';
 import TabNavigation from './gooey-tabs/TabNavigation';
 import AgentContentPanel from './gooey-tabs/AgentContentPanel';
-import { useState } from 'react';
-import { Sparkles } from "lucide-react";
+import { getAgentStageTitle, getAgentQuote, getAgentFullDescription, getSampleChat } from './gooey-tabs/utils';
 import TeamSectionHeader from './TeamSectionHeader';
-import TeamCTA from './TeamCTA';
-import CircleBackground from '../effects/CircleBackground';
 
-// This is the enhanced version of AITeamSection that replaced the original component
-const GooeyFilterTabs = () => {
-  const [activeAgentIndex, setActiveAgentIndex] = useState(0);
+// Order agents to match patient journey
+const orderedAgents = agents.sort((a, b) => {
+  const order = { 'Giselle': 1, 'Miles': 2, 'Devon': 3, 'Alma': 4 };
+  return order[a.name] - order[b.name];
+});
+
+interface GooeyFilterTabsProps {
+  className?: string;
+}
+
+const GooeyFilterTabs = ({ className }: GooeyFilterTabsProps) => {
+  const [activeTab, setActiveTab] = useState(0);
+  const [isTyping, setIsTyping] = useState(false);
+  const [showChat, setShowChat] = useState(false);
+
+  // Reset and show typing animation when tab changes
+  useEffect(() => {
+    setShowChat(false);
+    setIsTyping(true);
+    
+    const typingTimer = setTimeout(() => {
+      setIsTyping(false);
+      setShowChat(true);
+    }, 2000);
+    
+    return () => clearTimeout(typingTimer);
+  }, [activeTab]);
 
   return (
-    <section className="section-padding py-24 relative overflow-hidden bg-nextgen-dark/95">
-      <CircleBackground count={10} opacity={0.06} colorScheme="blue" speed={0.6}>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="mb-8 text-center">
-            <div className="inline-flex items-center gap-2 mb-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
-              <Sparkles className="h-4 w-4 text-nextgen-purple" />
-              <span className="text-sm font-medium text-white/80">Meet Your AI Team</span>
-            </div>
-            
-            <TeamSectionHeader />
-          </div>
-          
-          {/* Gooey filter tabs navigation */}
-          <div className="mb-8">
-            <TabNavigation 
-              agents={agents} 
-              activeTab={activeAgentIndex}
-              setActiveTab={setActiveAgentIndex}
+    <div className={cn("relative py-8 mt-0 bg-black/60 backdrop-blur-sm", className)} id="ai-team">
+      <div className="container mx-auto px-4">
+        <TeamSectionHeader />
+
+        <TabNavigation 
+          agents={orderedAgents} 
+          activeTab={activeTab} 
+          setActiveTab={setActiveTab} 
+        />
+
+        {/* Content Area - Improved Folder-style Panels */}
+        <div className="max-w-4xl mx-auto">
+          {orderedAgents.map((agent, index) => (
+            <AgentContentPanel
+              key={agent.name}
+              agent={agent}
+              index={index}
+              activeTab={activeTab}
+              isTyping={isTyping}
+              showChat={showChat}
+              messages={getSampleChat(agent.name)}
+              stageTitle={getAgentStageTitle(index)}
+              quote={getAgentQuote(agent.name)}
+              fullDescription={getAgentFullDescription(agent.name)}
             />
-          </div>
-          
-          {/* Agent content panel */}
-          <AgentContentPanel 
-            agent={agents[activeAgentIndex]}
-            index={activeAgentIndex}
-            activeTab={activeAgentIndex}
-            isTyping={false}
-            showChat={true}
-            messages={[]}
-            stageTitle={`${agents[activeAgentIndex].name}: ${agents[activeAgentIndex].title}`}
-            quote={agents[activeAgentIndex].tagline}
-            fullDescription={agents[activeAgentIndex].description || ''}
-          />
-          
-          {/* Team CTA */}
-          <TeamCTA />
+          ))}
         </div>
-      </CircleBackground>
-    </section>
+
+        {/* CTA Button */}
+        <div className="text-center mt-8">
+          <button 
+            className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors"
+            onClick={() => window.location.href = '/solutions'}
+          >
+            Meet Your Executive Team
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 
