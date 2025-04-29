@@ -18,6 +18,7 @@ import PricingSection from '../components/pricing/PricingSection';
 import SectionTransition from '../components/effects/SectionTransition';
 import ParallaxSection from '../components/effects/ParallaxSection';
 import ScrollRevealWrapper from '../components/animation/ScrollRevealWrapper';
+import EnhancedAiChat from '../components/EnhancedAiChat';
 
 const Index = () => {
   const sectionRefs = {
@@ -40,6 +41,9 @@ const Index = () => {
         <div ref={sectionRefs.hero}>
           <EnhancedHero />
         </div>
+        
+        {/* Enhanced AI Chat component */}
+        <EnhancedAiChat />
         
         {/* Meet the AI Team section with improved folder-style UI */}
         <div ref={sectionRefs.team} className="relative">

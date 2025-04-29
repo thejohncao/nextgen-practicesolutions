@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -19,6 +18,7 @@ import Resources from "./pages/Resources";
 import Story from "./pages/Story";
 import Animations from "./pages/Animations";
 import NotFound from "./pages/NotFound";
+import NotFoundPage from './pages/NotFoundPage';
 import Pricing from "./pages/Pricing";
 import AiAssistant from "./components/AiAssistant";
 import AvatarManager from "./components/admin/AvatarManager";
@@ -67,7 +67,7 @@ const App = () => (
             <Route path="/security" element={<Security />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/admin/avatars" element={<AvatarManager />} />
-            <Route path="*" element={<NotFound />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
           <AiAssistantWrapper />
         </Router>
