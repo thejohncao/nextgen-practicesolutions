@@ -1,6 +1,6 @@
 
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { callOpenAI, SYSTEM_PROMPT, detectAgentFromMessage, Message } from '@/lib/openai';
+import { callOpenAI, getAgentSystemPrompt, detectAgentFromMessage, Message } from '@/lib/openai';
 import { toast } from '@/components/ui/use-toast';
 
 type MessageRole = 'user' | 'assistant' | 'system';
@@ -39,6 +39,7 @@ export function useAiConversation() {
   const [conversationId, setConversationId] = useState<string>(
     () => `conversation-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
   );
+  const [showExpandedMessage, setShowExpandedMessage] = useState<number | null>(null);
   
   // Timeout reference for response waiting
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -50,16 +51,29 @@ export function useAiConversation() {
     
     if (message.toLowerCase().includes('patient') || 
         message.toLowerCase().includes('growth') ||
-        message.toLowerCase().includes('marketing')) {
+        message.toLowerCase().includes('marketing') ||
+        message.toLowerCase().includes('lead') ||
+        message.toLowerCase().includes('veneer') ||
+        message.toLowerCase().includes('ortho')) {
       detectedIntent = 'marketing';
     } else if (message.toLowerCase().includes('treatment') || 
                message.toLowerCase().includes('case acceptance') ||
-               message.toLowerCase().includes('conversion')) {
+               message.toLowerCase().includes('conversion') || 
+               message.toLowerCase().includes('ghosting') ||
+               message.toLowerCase().includes('consult')) {
       detectedIntent = 'treatment';
     } else if (message.toLowerCase().includes('team') || 
                message.toLowerCase().includes('staff') ||
-               message.toLowerCase().includes('training')) {
+               message.toLowerCase().includes('training') || 
+               message.toLowerCase().includes('front desk') ||
+               message.toLowerCase().includes('assistant')) {
       detectedIntent = 'training';
+    } else if (message.toLowerCase().includes('scheduling') ||
+               message.toLowerCase().includes('no-show') ||
+               message.toLowerCase().includes('operations') ||
+               message.toLowerCase().includes('workflow') ||
+               message.toLowerCase().includes('efficiency')) {
+      detectedIntent = 'operations';
     }
     
     if (detectedIntent) {
@@ -159,12 +173,12 @@ export function useAiConversation() {
       clearTimeout(timeoutRef.current);
     }
     
-    // Set new timeout for 10 seconds
+    // Set new timeout for 15 seconds
     timeoutRef.current = setTimeout(() => {
       setIsTimedOut(true);
       setIsTyping(false);
       console.log("Response timeout triggered - showing fallback message");
-    }, 10000);
+    }, 15000);
   }, []);
   
   // Clear timeout when response is received
@@ -217,6 +231,7 @@ export function useAiConversation() {
     setIsTimedOut(false); // Reset timeout status
     setIsTyping(true);
     setError(null);
+    setShowExpandedMessage(null); // Reset expanded message state
     startResponseTimeout(); // Start timeout tracking
 
     try {
@@ -244,7 +259,13 @@ export function useAiConversation() {
       // Add routing hint for agent specialization
       const suggestedAgent = detectAgentFromMessage(isRetry ? 
         [...messages].reverse().find(msg => msg.isUser)?.text || "" : userMessage);
+      
+      // Get message count for conversation context
+      const messageLength = messages.length;
         
+      // Get appropriate system prompt based on agent
+      const systemPrompt = getAgentSystemPrompt(currentAgent, userIntent, messageLength);
+
       if (suggestedAgent !== currentAgent && messages.length > 1) {
         messageHistory.push({
           role: "system",
@@ -252,7 +273,7 @@ export function useAiConversation() {
         });
       }
 
-      const response = await callOpenAI(messageHistory, SYSTEM_PROMPT);
+      const response = await callOpenAI(messageHistory, systemPrompt);
 
       clearResponseTimeout(); // Clear timeout since we received a response
 
@@ -297,7 +318,13 @@ export function useAiConversation() {
     const newConversationId = `conversation-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     setConversationId(newConversationId);
     sessionStorage.removeItem(conversationId);
+    setShowExpandedMessage(null);
   }, [conversationId]);
+  
+  // Toggle message expansion for long messages
+  const toggleMessageExpansion = useCallback((index: number) => {
+    setShowExpandedMessage(prev => prev === index ? null : index);
+  }, []);
 
   return {
     messages,
@@ -306,9 +333,11 @@ export function useAiConversation() {
     userIntent,
     error,
     isTimedOut,
+    showExpandedMessage,
     sendMessage,
     handleRetry,
     handleStartOver,
-    clearConversation
+    clearConversation,
+    toggleMessageExpansion
   };
 }

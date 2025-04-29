@@ -29,7 +29,9 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
     currentAgent, 
     isTimedOut,
     handleRetry,
-    handleStartOver
+    handleStartOver,
+    showExpandedMessage,
+    toggleMessageExpansion
   } = useAiConversation();
   const isMobile = useIsMobile();
   const location = useLocation();
@@ -52,7 +54,7 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
     if (isOpen && messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [messages, isOpen, isTyping]);
+  }, [messages, isOpen, isTyping, showExpandedMessage]);
 
   // Return null if we shouldn't show on this path
   if (!shouldShow) return null;
@@ -80,6 +82,8 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
                 <AiMessageBubble
                   key={index}
                   message={message}
+                  isExpanded={showExpandedMessage === index}
+                  onToggleExpansion={() => toggleMessageExpansion(index)}
                 />
               ))}
               
