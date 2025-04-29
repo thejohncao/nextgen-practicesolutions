@@ -6,23 +6,23 @@ const JourneySteps = () => {
   const steps = [
     {
       icon: BookUser,
-      title: "Enroll in the Academy",
-      description: "Begin your journey to becoming NextGen certified"
+      title: "1. Enroll",
+      description: "Start your journey into AI-powered operations"
     },
     {
       icon: GraduationCap,
-      title: "Complete the Certification Program",
-      description: "Master our curriculum at your own pace"
+      title: "2. Certify",
+      description: "Master your training at your own pace"
     },
     {
       icon: Award,
-      title: "Receive Career Coaching",
-      description: "Get placement support and career guidance"
+      title: "3. Coach",
+      description: "Get career coaching and strategic guidance"
     },
     {
       icon: Users,
-      title: "Launch into a NextGen Practice",
-      description: "Join the network of elite dental professionals"
+      title: "4. Launch",
+      description: "Join a NextGen-approved practice"
     }
   ];
 
@@ -33,7 +33,7 @@ const JourneySteps = () => {
           The NextGen Journey
         </h2>
         
-        <div className="grid md:grid-cols-4 gap-8 max-w-5xl mx-auto relative">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto relative">
           {/* Connecting line for desktop */}
           <div className="hidden md:block absolute top-20 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-nextgen-purple/30 to-transparent"></div>
           
@@ -43,11 +43,6 @@ const JourneySteps = () => {
               className="relative flex flex-col items-center text-center animate-fade-in"
               style={{animationDelay: `${index * 150}ms`}}
             >
-              {/* Step number */}
-              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-nextgen-purple text-white w-8 h-8 rounded-full flex items-center justify-center text-lg font-semibold">
-                {index + 1}
-              </div>
-              
               {/* Icon */}
               <div className="rounded-full bg-nextgen-purple/20 p-5 mb-4">
                 <step.icon className="h-8 w-8 text-nextgen-purple" />

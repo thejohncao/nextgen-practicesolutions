@@ -6,7 +6,7 @@ import { Award } from "lucide-react";
 const CertificationSection = () => {
   const certificationItems = [
     "AI-powered patient journey systems",
-    "Front office and management workflows",
+    "Front office & management workflows",
     "Treatment coordination best practices",
     "Growth-driven operational strategies"
   ];
@@ -37,26 +37,17 @@ const CertificationSection = () => {
           {/* Right side - Content */}
           <div className="order-1 md:order-2">
             <h2 className="text-3xl md:text-4xl font-heading font-bold mb-6 text-gradient">
-              Earn Your Official NextGen Practice Certification
+              Earn Your Official NextGen Certification
             </h2>
             
-            <p className="text-lg text-white/80 mb-6">
-              Our certification program validates that graduates have mastered:
-            </p>
-            
-            <ul className="space-y-3 mb-8">
+            <ul className="space-y-3 mb-6 list-disc pl-5">
               {certificationItems.map((item, index) => (
-                <li key={index} className="flex items-center gap-3">
-                  <div className="rounded-full bg-nextgen-purple/20 p-1">
-                    <Award className="h-4 w-4 text-nextgen-purple" />
-                  </div>
-                  <span className="text-white">{item}</span>
-                </li>
+                <li key={index} className="text-white leading-7">{item}</li>
               ))}
             </ul>
             
             <p className="text-white/80 mb-8">
-              The NextGen Certification signals to practices that you're not just ready — you're ahead of the curve.
+              Certification signals you're not just ready — you're ahead of the curve.
             </p>
             
             <Button 
