@@ -1,131 +1,151 @@
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { Badge } from "@/components/ui/badge";
 import AgentAvatar from '../AgentAvatar';
-import { Clipboard, Megaphone, Handshake, GraduationCap, Crown } from 'lucide-react';
+import { ScrollArea } from '../ui/scroll-area';
+import { Clipboard, Megaphone, Handshake, GraduationCap, ChevronRight } from 'lucide-react';
+import { cn } from "@/lib/utils";
 
+// Updated stages with additional badges as per the requirements
 const stages = [
   {
     name: "Spark",
-    color: "#3b82f6",
+    color: "#3b82f6", // Blue
     agents: [
       { name: "Miles", role: "Practice Management", color: "blue", icon: Clipboard }
     ],
-    features: ["Foundation Package Unlock"]
+    badges: ["Foundation Package Unlock"]
   },
   {
     name: "Ignite",
-    color: "#22c55e",
+    color: "#22c55e", // Green
     agents: [
       { name: "Miles", role: "Operations", color: "blue", icon: Clipboard },
       { name: "Giselle", role: "Marketing", color: "green", icon: Megaphone }
     ],
-    features: ["Growth Package Unlock"]
+    badges: ["Growth Package Unlock"]
   },
   {
     name: "Blaze",
-    color: "#8b5cf6",
+    color: "#8b5cf6", // Purple
     agents: [
       { name: "Miles", role: "Operations", color: "blue", icon: Clipboard },
       { name: "Giselle", role: "Marketing", color: "green", icon: Megaphone },
       { name: "Devon", role: "Sales", color: "purple", icon: Handshake }
     ],
-    features: ["Development Package Unlock"]
+    badges: [
+      "Development Package Unlock",
+      "Advanced Automations",
+      "KPI Dashboard Access"
+    ]
   },
   {
     name: "Nova",
-    color: "#f59e0b",
+    color: "#f59e0b", // Orange
     agents: [
       { name: "Miles", role: "Operations", color: "blue", icon: Clipboard },
       { name: "Giselle", role: "Marketing", color: "green", icon: Megaphone },
       { name: "Devon", role: "Sales", color: "purple", icon: Handshake },
       { name: "Alma", role: "Training", color: "gold", icon: GraduationCap }
     ],
-    features: [
+    badges: [
       "Full AI Boardroom Access",
-      "Multi-Location Support",
-      "Advanced Automations"
+      "Multi-Location Support"
     ]
   }
 ];
 
 const BoardroomUnlockFlow = () => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
   return (
-    <div className="glass-card p-8 md:p-12 max-w-4xl mx-auto animate-fade-in">
+    <div className="glass-card p-8 md:p-12 max-w-5xl mx-auto animate-fade-in">
       <div className="text-center mb-8">
         <h3 className="text-2xl md:text-3xl font-heading font-bold mb-4 text-gradient">
           Unlock Your AI Executive Team as You Grow
         </h3>
       </div>
 
-      <div className="relative">
-        {/* Vertical Timeline Line */}
-        <div className="absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-nextgen-purple/30 to-nextgen-purple/70 hidden md:block"></div>
-
-        {/* Timeline Stages */}
-        <div className="space-y-16 md:space-y-24 relative">
+      <ScrollArea className="w-full pb-6" orientation="horizontal">
+        <div className="flex space-x-4 md:space-x-6 pb-4 px-2 min-w-max">
+          {/* Horizontal timeline with cards */}
           {stages.map((stage, index) => (
-            <div key={index} className="relative">
-              {/* Stage Circle on Timeline (desktop only) */}
-              <div 
-                className="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full hidden md:block"
-                style={{ backgroundColor: stage.color, top: "-12px" }}
-              ></div>
+            <div 
+              key={stage.name} 
+              className="group relative w-64 md:w-72"
+            >
+              {/* Timeline connector */}
+              {index < stages.length - 1 && (
+                <div className="absolute top-10 right-0 w-4 md:w-6 h-0.5 bg-white/20 z-0 hidden md:block" />
+              )}
               
-              {/* Stage Content */}
-              <div className={`flex flex-col ${index % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'} items-center`}>
-                {/* Stage Name */}
-                <div className={`md:w-1/3 mb-6 md:mb-0 text-center ${index % 2 === 1 ? 'md:pl-8' : 'md:pr-8'}`}>
+              {/* Stage Card */}
+              <div 
+                className="glass-card p-5 rounded-xl transition-all duration-300 hover:scale-105 group-hover:shadow-glow h-full"
+                style={{ borderColor: `${stage.color}40` }}
+              >
+                {/* Stage Header */}
+                <div className="flex items-center justify-between mb-4">
                   <div 
-                    className="inline-block text-2xl font-bold font-heading p-2 rounded-md"
+                    className="text-xl font-heading font-bold"
                     style={{ color: stage.color }}
                   >
                     {stage.name}
                   </div>
+                  <div 
+                    className="h-6 w-6 rounded-full flex items-center justify-center"
+                    style={{ backgroundColor: `${stage.color}30` }}
+                  >
+                    {index < stages.length - 1 && (
+                      <ChevronRight 
+                        size={16} 
+                        className="text-white/70"
+                      />
+                    )}
+                  </div>
                 </div>
                 
-                {/* Stage Content */}
-                <div className="md:w-2/3 bg-black/20 rounded-xl p-6 backdrop-blur-sm">
-                  {/* Agent Avatars with Icons */}
-                  <div className="flex flex-wrap justify-center gap-4 mb-4">
-                    {stage.agents.map((agent, agentIdx) => (
-                      <div key={agentIdx} className="flex flex-col items-center">
-                        <div className="relative">
-                          <AgentAvatar 
-                            name={agent.name} 
-                            role={agent.role} 
-                            color={agent.color}
-                          />
-                          <div className="absolute -bottom-1 -right-1 bg-white/10 rounded-full p-1">
-                            <agent.icon className="w-4 h-4" style={{ color: stage.color }} />
-                          </div>
-                        </div>
-                        <span className="text-xs text-white/70 mt-1">{agent.role}</span>
-                      </div>
-                    ))}
-                  </div>
-                  
-                  {/* Features */}
-                  {stage.features.length > 0 && (
-                    <div className="mt-4 flex flex-wrap justify-center gap-2">
-                      {stage.features.map((feature, featureIdx) => (
-                        <Badge 
-                          key={featureIdx} 
-                          className="bg-white/10 hover:bg-white/15 text-white"
+                {/* Agents Grid */}
+                <div className="grid grid-cols-2 gap-2 mb-4">
+                  {stage.agents.map((agent, agentIdx) => (
+                    <div key={agentIdx} className="flex flex-col items-center">
+                      <div className="relative">
+                        <AgentAvatar 
+                          name={agent.name} 
+                          role={agent.role} 
+                          color={agent.color}
+                          size="sm"
+                        />
+                        <div 
+                          className="absolute -bottom-1 -right-1 bg-white/10 rounded-full p-1"
+                          style={{ backgroundColor: `${stage.color}30` }}
                         >
-                          {feature}
-                        </Badge>
-                      ))}
+                          <agent.icon className="w-3 h-3" style={{ color: stage.color }} />
+                        </div>
+                      </div>
+                      <span className="text-xs text-white/70 mt-1">{agent.role}</span>
                     </div>
-                  )}
+                  ))}
+                </div>
+                
+                {/* Badges */}
+                <div className="mt-4 space-y-2">
+                  {stage.badges.map((badge, badgeIdx) => (
+                    <Badge 
+                      key={badgeIdx}
+                      className="bg-white/10 hover:bg-white/15 text-white text-xs w-full justify-center py-1"
+                    >
+                      {badge}
+                    </Badge>
+                  ))}
                 </div>
               </div>
             </div>
           ))}
         </div>
-      </div>
+      </ScrollArea>
       
-      <div className="text-center mt-12">
+      <div className="text-center mt-10">
         <p className="text-lg text-white/70 italic">
           Your practice deserves more than just tools — it deserves a full Executive Team, ready to grow with you.
         </p>
