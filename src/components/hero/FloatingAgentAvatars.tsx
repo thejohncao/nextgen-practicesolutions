@@ -1,15 +1,20 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import AgentAvatar from '../AgentAvatar';
+import AgentOrb from '../team/agent/AgentOrb';
 import { agents } from '@/data/agents';
+import { getTooltipText } from '@/components/team/utils/getTooltipText';
+import ConnectingLines from '../integrations/ConnectedTeam/ConnectingLines';
+import CentralGlow from '../integrations/ConnectedTeam/CentralGlow';
 
 interface FloatingAgentAvatarsProps {
   staggered?: boolean;
+  onAgentSelect?: (agentName: string) => void;
 }
 
-const FloatingAgentAvatars = ({ staggered = false }: FloatingAgentAvatarsProps) => {
+const FloatingAgentAvatars = ({ staggered = false, onAgentSelect }: FloatingAgentAvatarsProps) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [selectedAgent, setSelectedAgent] = useState<string | null>(null);
   
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -25,19 +30,30 @@ const FloatingAgentAvatars = ({ staggered = false }: FloatingAgentAvatarsProps) 
     return order[a.name] - order[b.name];
   });
   
-  // Define positions for each agent
+  // Define positions for each agent in a diamond layout
   const positions = [
-    { x: '10%', y: '20%', delay: 0.2 },
-    { x: '70%', y: '15%', delay: 0.4 },
-    { x: '65%', y: '70%', delay: 0.6 },
-    { x: '20%', y: '65%', delay: 0.8 },
+    { x: '25%', y: '25%', delay: 0.2 }, // Top left (Giselle)
+    { x: '75%', y: '25%', delay: 0.4 }, // Top right (Miles)
+    { x: '75%', y: '75%', delay: 0.6 }, // Bottom right (Devon)
+    { x: '25%', y: '75%', delay: 0.8 }, // Bottom left (Alma)
   ];
+
+  const handleAgentClick = (agentName: string) => {
+    setSelectedAgent(agentName === selectedAgent ? null : agentName);
+    if (onAgentSelect) onAgentSelect(agentName);
+  };
   
   return (
     <div className="relative w-full h-full">
       {/* Decorative elements */}
       <div className="absolute inset-0 bg-gradient-radial from-transparent to-black/20 rounded-full"></div>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(155,135,245,0.1)_0,transparent_70%)]"></div>
+      
+      {/* Connecting diamond lines */}
+      <ConnectingLines isVisible={isVisible} />
+      
+      {/* Central glow effect */}
+      <CentralGlow isVisible={isVisible} />
       
       {/* Floating agents */}
       {orderedAgents.map((agent, index) => (
@@ -68,68 +84,28 @@ const FloatingAgentAvatars = ({ staggered = false }: FloatingAgentAvatarsProps) 
               y: [0, -10, 0],
             }}
             transition={{
-              duration: 4,
+              duration: 8, // Longer duration for more premium feel
               repeat: Infinity,
               repeatType: 'reverse',
-              delay: index * 0.5,
+              ease: "easeInOutCubic", // Premium easing
+              delay: index * 0.6,
             }}
-            className="relative"
+            className="animate-hero-float relative"
           >
-            <AgentAvatar 
+            <AgentOrb 
               name={agent.name}
               role={agent.title}
               color={agent.color}
-              size="lg"
+              tooltipText={getTooltipText(agent.name)}
               animated={true}
+              isActive={selectedAgent === agent.name}
+              onClick={() => handleAgentClick(agent.name)}
               displayMode="initial"
               showLabel={false} // Default to not showing label (will show on hover)
             />
           </motion.div>
         </motion.div>
       ))}
-      
-      {/* Central connecting lines */}
-      <svg className="absolute inset-0 w-full h-full" style={{ opacity: isVisible ? 0.3 : 0 }}>
-        <motion.line 
-          x1="30%" y1="30%" x2="70%" y2="30%" 
-          stroke="white" strokeWidth="1" strokeDasharray="5,5"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: isVisible ? 0.5 : 0 }}
-          transition={{ delay: staggered ? 1 : 0.2, duration: 1.5 }}
-        />
-        <motion.line 
-          x1="70%" y1="30%" x2="70%" y2="70%" 
-          stroke="white" strokeWidth="1" strokeDasharray="5,5"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: isVisible ? 0.5 : 0 }}
-          transition={{ delay: staggered ? 1.2 : 0.4, duration: 1.5 }}
-        />
-        <motion.line 
-          x1="70%" y1="70%" x2="30%" y2="70%" 
-          stroke="white" strokeWidth="1" strokeDasharray="5,5"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: isVisible ? 0.5 : 0 }}
-          transition={{ delay: staggered ? 1.4 : 0.6, duration: 1.5 }}
-        />
-        <motion.line 
-          x1="30%" y1="70%" x2="30%" y2="30%" 
-          stroke="white" strokeWidth="1" strokeDasharray="5,5"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: isVisible ? 0.5 : 0 }}
-          transition={{ delay: staggered ? 1.6 : 0.8, duration: 1.5 }}
-        />
-      </svg>
-      
-      {/* Central glow */}
-      <motion.div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-nextgen-purple/20 blur-xl"
-        initial={{ opacity: 0, scale: 0.5 }}
-        animate={{ 
-          opacity: isVisible ? 0.6 : 0,
-          scale: isVisible ? 1 : 0.5
-        }}
-        transition={{ delay: staggered ? 1.8 : 1, duration: 1 }}
-      />
     </div>
   );
 };

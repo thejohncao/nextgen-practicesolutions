@@ -21,12 +21,24 @@ interface AgentOrbProps {
   showLabel?: boolean;
 }
 
+const getAgentColorClass = (color: string) => {
+  switch (color) {
+    case 'red': return 'red-color';
+    case 'green': return 'giselle-color';
+    case 'blue': return 'miles-color';
+    case 'gold': return 'alma-color';
+    case 'purple': return 'devon-color';
+    default: return 'miles-color';
+  }
+};
+
 const getGlowColor = (color: string) => {
   switch (color) {
     case 'red': return 'rgb(234, 56, 76)';
-    case 'green': return 'rgb(34, 197, 94)';
-    case 'blue': return 'rgb(15, 160, 206)';
-    case 'gold': return 'rgb(245, 158, 11)';
+    case 'green': return 'rgb(63, 198, 160)'; // Updated to match Giselle's color
+    case 'blue': return 'rgb(74, 140, 255)';  // Updated to match Miles's color
+    case 'gold': return 'rgb(245, 158, 11)';  // Updated to match Alma's color
+    case 'purple': return 'rgb(139, 92, 246)'; // Updated to match Devon's color
     default: return 'rgb(155, 135, 245)';
   }
 };
@@ -44,6 +56,7 @@ const AgentOrb = ({
 }: AgentOrbProps) => {
   const isMobile = useIsMobile();
   const glowColor = getGlowColor(color);
+  const colorClass = getAgentColorClass(color);
   const [isHovering, setIsHovering] = useState(false);
   
   const handleMouseEnter = () => {
@@ -58,6 +71,13 @@ const AgentOrb = ({
     }
   };
   
+  const handleTap = () => {
+    if (isMobile) {
+      setIsHovering(prev => !prev);
+    }
+    if (onClick) onClick();
+  };
+  
   // Determine if we should show the label based on hover state
   const effectiveShowLabel = showLabel || isHovering || isActive;
   
@@ -65,11 +85,12 @@ const AgentOrb = ({
     <Tooltip>
       <TooltipTrigger asChild>
         <button
-          onClick={onClick}
+          onClick={handleTap}
           className={`
-            relative group transition-transform duration-300
-            hover:scale-105 focus:outline-none bg-transparent overflow-visible rounded-full
+            relative group transition-all duration-300 animate-hover-pop
+            focus:outline-none bg-transparent overflow-visible rounded-full
             ${isActive ? 'scale-105' : ''}
+            ${colorClass}
           `}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
@@ -90,13 +111,14 @@ const AgentOrb = ({
             <OrbInnerEffects color={color} isActive={isActive} />
           </div>
           
-          {/* Hover glow effect */}
+          {/* Hover glow effect - enhanced with new animation */}
           <div 
             className={`
               absolute inset-0 rounded-full opacity-0
-              transition-opacity duration-500 blur-xl
-              group-hover:opacity-40 z-20 bg-transparent overflow-visible
-              ${isActive ? 'opacity-40' : ''}
+              transition-all duration-500 blur-xl
+              group-hover:opacity-60 z-20 bg-transparent overflow-visible
+              ${isActive ? 'opacity-60 animate-hero-glow' : ''}
+              ${isHovering ? 'opacity-60' : ''}
             `}
             style={{ backgroundColor: glowColor }}
           />

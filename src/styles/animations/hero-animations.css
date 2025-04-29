@@ -13,6 +13,32 @@
     will-change: opacity, transform;
   }
 
+  /* Floating animation with premium feel */
+  .animate-hero-float {
+    animation: hero-float 8s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+
+  /* Glow pulse animation with heartbeat feel */
+  .animate-hero-glow {
+    animation: hero-glow 4s ease-in-out infinite;
+    will-change: box-shadow, opacity;
+  }
+
+  /* Avatar name fade-in */
+  .animate-name-reveal {
+    animation: name-reveal 300ms cubic-bezier(0.33, 1, 0.68, 1) forwards;
+    will-change: opacity, transform;
+  }
+
+  /* Interactive hover effect */
+  .animate-hover-pop {
+    transition: transform 250ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .animate-hover-pop:hover {
+    transform: scale(1.05);
+  }
+
   /* Cinematic timing delays */
   .animate-cinematic-delay-1 {
     animation-delay: 0.7s;
@@ -20,6 +46,10 @@
 
   .animate-cinematic-delay-2 {
     animation-delay: 1.2s;
+  }
+  
+  .animate-cinematic-delay-3 {
+    animation-delay: 1.7s;
   }
 }
 
@@ -47,6 +77,43 @@
   }
   70% {
     opacity: 0.8;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Premium floating animation for avatars */
+@keyframes hero-float {
+  0% { 
+    transform: translateY(0) translateX(0); 
+  }
+  50% { 
+    transform: translateY(-5px) translateX(3px); 
+  }
+  100% { 
+    transform: translateY(0) translateX(0); 
+  }
+}
+
+/* Glow pulse animation with heartbeat feel */
+@keyframes hero-glow {
+  0%, 100% { 
+    box-shadow: 0 0 10px rgba(var(--agent-color-rgb), 0.4);
+    opacity: 0.9;
+  }
+  50% { 
+    box-shadow: 0 0 20px rgba(var(--agent-color-rgb), 0.6);
+    opacity: 1;
+  }
+}
+
+/* Agent name reveal animation */
+@keyframes name-reveal {
+  0% {
+    opacity: 0;
     transform: translateY(10px);
   }
   100% {

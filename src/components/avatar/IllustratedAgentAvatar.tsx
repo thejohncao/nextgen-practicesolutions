@@ -41,7 +41,7 @@ const IllustratedAgentAvatar = ({
   const isMobile = useIsMobile();
   
   // Always use initial display mode by default, override only when explicitly hovering or directed
-  const effectiveDisplayMode = isHovering ? 'fullName' : 'initial';
+  const effectiveDisplayMode = isHovering ? 'fullName' : displayMode;
   
   // If showLabel is false, name should not show regardless of hover
   const shouldShowName = showLabel && (isHovering || displayMode === 'fullName');
@@ -126,7 +126,7 @@ const IllustratedAgentAvatar = ({
   
   const avatarContent = (
     <div 
-      className={`flex items-center ${isTyping ? 'animate-pulse-slow' : 'animate-fade-in'} relative avatar-${name.toLowerCase()} bg-transparent`}
+      className={`flex flex-col items-center ${isTyping ? 'animate-pulse-slow' : 'animate-fade-in'} relative avatar-${name.toLowerCase()} bg-transparent`}
       style={{ animationDelay: getAnimationDelay() }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -153,9 +153,9 @@ const IllustratedAgentAvatar = ({
       
       {/* Display label with animation when hovering or when explicitly set to show label */}
       {shouldShowName && (
-        <div className="flex flex-col items-center mt-2">
+        <div className="mt-3 animate-name-reveal">
           <span 
-            className={`text-white font-semibold ${labelSizeClasses[size]} transition-all duration-150 ease-in-out animate-fade-in`}
+            className={`text-white font-semibold ${labelSizeClasses[size]} transition-all duration-150 ease-in-out`}
           >
             {getFullName(name)}
           </span>

@@ -1,6 +1,7 @@
 
 @import './styles/base.css';
 @import './styles/colors.css';
+@import './styles/colors/agent-colors.css';
 @import './styles/utilities.css';
 @import './styles/animations.css';
 @import './styles/animations/base-animations.css';
@@ -10,7 +11,7 @@
 @import './styles/animations/gooey-effects.css';
 @import './styles/animations/chat-animations.css';
 @import './styles/animations/movement-animations.css';
-@import './styles/animations/display-card.css'; /* Add this new import */
+@import './styles/animations/display-card.css';
 
 @tailwind base;
 @tailwind components;

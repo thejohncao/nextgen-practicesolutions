@@ -1,0 +1,40 @@
+
+:root {
+  /* Agent brand colors as CSS variables */
+  --miles-color: #4A8CFF;
+  --miles-color-rgb: 74, 140, 255;
+  
+  --giselle-color: #3FC6A0;
+  --giselle-color-rgb: 63, 198, 160;
+  
+  --devon-color: #8B5CF6;
+  --devon-color-rgb: 139, 92, 246;
+  
+  --alma-color: #F59E0B;
+  --alma-color-rgb: 245, 158, 11;
+  
+  /* Default color fallback */
+  --agent-color: var(--miles-color);
+  --agent-color-rgb: var(--miles-color-rgb);
+}
+
+/* Agent color utility classes */
+.miles-color {
+  --agent-color: var(--miles-color);
+  --agent-color-rgb: var(--miles-color-rgb);
+}
+
+.giselle-color {
+  --agent-color: var(--giselle-color);
+  --agent-color-rgb: var(--giselle-color-rgb);
+}
+
+.devon-color {
+  --agent-color: var(--devon-color);
+  --agent-color-rgb: var(--devon-color-rgb);
+}
+
+.alma-color {
+  --agent-color: var(--alma-color);
+  --agent-color-rgb: var(--alma-color-rgb);
+}
