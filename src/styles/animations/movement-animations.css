@@ -1,12 +1,14 @@
 
 @layer utilities {
-  /* Movement and transition animations */
+  /* Movement and transition animations - refined timing for scroll */
   .scroll-transition {
-    transition: transform 0.8s cubic-bezier(0.33, 1, 0.68, 1);
+    transition: transform 0.9s cubic-bezier(0.33, 1, 0.68, 1);
+    will-change: transform;
   }
 
   .section-transition {
-    transition: opacity 0.6s ease-out, transform 0.8s cubic-bezier(0.33, 1, 0.68, 1);
+    transition: opacity 0.7s ease-out, transform 0.9s cubic-bezier(0.33, 1, 0.68, 1);
+    will-change: opacity, transform;
   }
   
   .section-enter-animation {
@@ -80,30 +82,33 @@
   }
 }
 
-/* Add smooth scrolling to page */
+/* Remove default smooth scrolling to prevent conflicts with Lenis */
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
-/* Enhance section transitions */
+/* Enhance section transitions with will-change for rendering performance */
 section {
   transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.33, 1, 0.68, 1);
+  will-change: opacity, transform;
 }
 
-/* Animate section backgrounds */
+/* Animate section backgrounds with reduced intensity */
 .animate-pulse-slow {
   animation: pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* Vertical slider animations */
+/* Vertical slider animations with improved performance */
 @keyframes fadeInUp {
   from {
     opacity: 0;
     transform: translateY(20px);
+    will-change: opacity, transform;
   }
   to {
     opacity: 1;
     transform: translateY(0);
+    will-change: opacity, transform;
   }
 }
 
@@ -116,12 +121,13 @@ section {
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
 }
 
-/* Smooth vertical scrolling */
+/* Smooth vertical scrolling with optimized performance */
 .vertical-slider-content {
   transition: transform 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+  will-change: transform;
 }
 
-/* Gemini effect animations */
+/* Gemini effect animations with reduced performance impact */
 @keyframes gemini-fade {
   0%, 100% {
     opacity: 0.4;
@@ -135,7 +141,7 @@ section {
   animation: gemini-fade 8s ease-in-out infinite;
 }
 
-/* Card hover effects */
+/* Card hover effects with performance optimization */
 @keyframes subtle-glow {
   0%, 100% {
     box-shadow: 0 8px 32px rgba(155, 135, 245, 0.15);

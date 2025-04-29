@@ -3,7 +3,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import Index from "./pages/Index";
 import Solutions from "./pages/Solutions";
 import Academy from "./pages/Academy";
@@ -23,6 +24,17 @@ import LenisProvider from "./components/providers/LenisProvider";
 
 const queryClient = new QueryClient();
 
+// Create a ScrollToTop component to reset scroll position on navigation
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  
+  return null;
+};
+
 const AiAssistantWrapper = () => {
   const showAiAssistantPaths = ['/', '/solutions', '/academy', '/features'];
   
@@ -36,6 +48,7 @@ const App = () => (
       <Sonner />
       <LenisProvider>
         <Router>
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/watch" element={<Watch />} />
