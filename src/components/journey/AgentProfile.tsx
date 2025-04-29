@@ -45,6 +45,8 @@ const AgentProfile = ({ agent }: AgentProfileProps) => {
           color={agent.color}
           size="md"
           animated={true}
+          displayMode="initial"
+          showLabel={true}
         />
       </div>
       

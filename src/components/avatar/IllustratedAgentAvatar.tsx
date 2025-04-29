@@ -135,7 +135,7 @@ const IllustratedAgentAvatar = ({
     </div>
   );
   
-  // Wrap with tooltip if showing initial and not on mobile
+  // Wrap with tooltip if showing initial and not showing label and not on mobile
   if (effectiveDisplayMode === 'initial' && !showLabel && !isMobile) {
     return (
       <Tooltip>
@@ -143,7 +143,7 @@ const IllustratedAgentAvatar = ({
           {avatarContent}
         </TooltipTrigger>
         <TooltipContent side="top" className="bg-black/80 text-white text-sm py-2 px-3">
-          {name}
+          {name} – {role}
         </TooltipContent>
       </Tooltip>
     );

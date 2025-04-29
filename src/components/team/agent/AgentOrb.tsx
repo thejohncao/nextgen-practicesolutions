@@ -36,8 +36,8 @@ const AgentOrb = ({
   role, 
   color, 
   tooltipText, 
-  animated, 
-  isActive, 
+  animated = true, 
+  isActive = false, 
   onClick,
   displayMode = 'initial',
   showLabel = false
@@ -69,7 +69,7 @@ const AgentOrb = ({
           
           {/* Enhanced inner effects with proper z-index */}
           <div className="relative z-10 bg-transparent overflow-visible rounded-full">
-            <OrbInnerEffects color={color} isActive={!!isActive} />
+            <OrbInnerEffects color={color} isActive={isActive} />
           </div>
           
           {/* Hover glow effect */}

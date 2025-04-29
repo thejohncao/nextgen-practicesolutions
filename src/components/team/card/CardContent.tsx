@@ -16,6 +16,8 @@ const CardContent = ({ agent }: CardContentProps) => {
           name={agent.name}
           role={agent.title}
           color={agent.color}
+          displayMode="initial"
+          showLabel={true}
         />
       </div>
 

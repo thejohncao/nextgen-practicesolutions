@@ -29,7 +29,16 @@ const AgentChatAvatar: React.FC<AgentChatAvatarProps> = ({ agent, hideDetails = 
 
   return (
     <div className="flex items-center gap-2">
-      <AgentAvatar name={name} role={role} color={color} size="sm" animated={true} isTyping={isTyping} />
+      <AgentAvatar 
+        name={name} 
+        role={role} 
+        color={color} 
+        size="sm" 
+        animated={true} 
+        isTyping={isTyping}
+        displayMode="initial"
+        showLabel={false}
+      />
       {!hideDetails && (
         <div className="text-sm">
           <div className="font-medium text-white/90">{name}</div>

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import AgentAvatar from '../AgentAvatar';
@@ -80,7 +81,7 @@ const FloatingAgentAvatars = ({ staggered = false }: FloatingAgentAvatarsProps) 
               color={agent.color}
               size="lg"
               animated={true}
-              displayMode="fullName"
+              displayMode="initial"
               showLabel={true}
             />
           </motion.div>
