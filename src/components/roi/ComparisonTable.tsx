@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Check } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface ComparisonDataItem {
   metric: string;
@@ -15,7 +16,12 @@ interface ComparisonTableProps {
 
 const ComparisonTable: React.FC<ComparisonTableProps> = ({ comparisonData }) => {
   return (
-    <div className="glass-card p-6 md:p-8 rounded-xl overflow-hidden animate-fade-in" style={{animationDelay: '400ms'}}>
+    <div className={cn(
+      "backdrop-blur-xl bg-white/5 border border-white/10",
+      "p-6 md:p-8 rounded-xl overflow-hidden animate-fade-in",
+      "shadow-[0_8px_32px_rgba(0,0,0,0.2)]",
+      "hover:shadow-[0_8px_32px_rgba(155,135,245,0.15)] transition-shadow duration-300"
+    )} style={{animationDelay: '400ms'}}>
       <div className="grid grid-cols-3 gap-4 mb-6 text-sm md:text-base">
         <div className="col-span-1 font-medium text-white/80">Metric</div>
         <div className="text-center font-medium text-white/80">

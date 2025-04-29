@@ -4,8 +4,8 @@ import { TrendingUp } from "lucide-react";
 
 const ROISectionHeader: React.FC = () => {
   return (
-    <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-in">
-      <div className="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full bg-white/5 border border-white/10">
+    <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-in relative z-10">
+      <div className="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
         <TrendingUp className="h-4 w-4 text-nextgen-purple" />
         <span className="text-sm font-medium text-white/80">ROI Snapshot</span>
       </div>

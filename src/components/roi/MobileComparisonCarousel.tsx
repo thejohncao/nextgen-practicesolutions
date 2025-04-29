@@ -1,11 +1,7 @@
 
 import React from 'react';
 import { Check } from "lucide-react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
+import { cn } from "@/lib/utils";
 
 interface ComparisonDataItem {
   metric: string;
@@ -20,38 +16,40 @@ interface MobileComparisonCarouselProps {
 
 const MobileComparisonCarousel: React.FC<MobileComparisonCarouselProps> = ({ comparisonData }) => {
   return (
-    <div className="md:hidden animate-fade-in" style={{animationDelay: '400ms'}}>
-      <Carousel className="w-full">
-        <CarouselContent>
-          {comparisonData.map((item, index) => (
-            <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-              <div className="glass-card p-6 rounded-xl space-y-4">
-                <div className="flex items-center text-white mb-4">
-                  <Check className="h-4 w-4 text-nextgen-purple mr-2 flex-shrink-0" />
-                  <span className="font-medium">{item.metric}</span>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <div className="text-sm text-white/60 mb-2">Traditional</div>
-                    <div className="px-3 py-2 rounded-md bg-white/5 text-white/70">
-                      {item.traditional}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-sm text-white/60 mb-2">With NextGen</div>
-                    <div className="px-3 py-2 rounded-md bg-nextgen-purple/20 text-nextgen-purple">
-                      {item.nextgen}
-                      <span className="ml-2 text-xs bg-white/10 px-1.5 py-0.5 rounded-full text-white/80">
-                        {item.improvement}
-                      </span>
-                    </div>
-                  </div>
-                </div>
+    <div className="md:hidden space-y-6">
+      {comparisonData.map((item, index) => (
+        <div 
+          key={index} 
+          className={cn(
+            "backdrop-blur-xl bg-white/5 border border-white/10",
+            "p-5 rounded-xl animate-fade-in", 
+            "shadow-[0_8px_32px_rgba(0,0,0,0.2)]"
+          )}
+          style={{animationDelay: `${index * 100}ms`}}
+        >
+          <div className="flex items-center mb-4">
+            <Check className="h-4 w-4 text-nextgen-purple mr-2" />
+            <h4 className="text-lg font-medium text-white">{item.metric}</h4>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-3">
+            <div className="p-3 rounded-md bg-white/5">
+              <div className="text-sm text-nextgen-gray mb-1">Old Way</div>
+              <div className="font-medium text-white/80">{item.traditional}</div>
+            </div>
+            
+            <div className="p-3 rounded-md bg-nextgen-purple/10">
+              <div className="text-sm text-nextgen-purple mb-1">With NextGen AI</div>
+              <div className="font-medium text-white flex items-center">
+                {item.nextgen}
+                <span className="ml-2 text-xs bg-white/10 px-1.5 py-0.5 rounded-full text-white/80">
+                  {item.improvement}
+                </span>
               </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-      </Carousel>
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };

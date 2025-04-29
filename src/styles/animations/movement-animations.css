@@ -120,3 +120,31 @@ section {
 .vertical-slider-content {
   transition: transform 0.5s cubic-bezier(0.33, 1, 0.68, 1);
 }
+
+/* Gemini effect animations */
+@keyframes gemini-fade {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.gemini-animate {
+  animation: gemini-fade 8s ease-in-out infinite;
+}
+
+/* Card hover effects */
+@keyframes subtle-glow {
+  0%, 100% {
+    box-shadow: 0 8px 32px rgba(155, 135, 245, 0.15);
+  }
+  50% {
+    box-shadow: 0 8px 32px rgba(155, 135, 245, 0.3);
+  }
+}
+
+.glow-hover:hover {
+  animation: subtle-glow 2s ease-in-out infinite;
+}

@@ -57,14 +57,14 @@ const benefitCards = [
 
 const ROISection = () => {
   return (
-    <section id="roi" className="section-padding py-20 relative overflow-hidden scroll-transition">
+    <section id="roi" className="section-padding py-24 relative overflow-hidden scroll-transition">
       <BackgroundEffect />
       
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4 relative z-10">
         <ROISectionHeader />
         
-        {/* Emotional Benefit Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        {/* Emotional Benefit Cards - Updated to 2-column grid on desktop */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
           {benefitCards.map((card, index) => (
             <BenefitCard 
               key={card.title}
