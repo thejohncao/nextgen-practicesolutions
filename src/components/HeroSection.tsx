@@ -82,7 +82,7 @@ const HeroSection = () => {
           </LampEffect>
 
           {/* Right Side: Enhanced Floating Avatars */}
-          <div className="relative h-[500px]">
+          <div className="relative h-[500px] bg-transparent z-10">
             <FloatingAgentAvatars staggered={true} />
           </div>
         </div>

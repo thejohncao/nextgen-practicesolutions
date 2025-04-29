@@ -40,17 +40,17 @@ const AgentOrb = ({ name, role, color, tooltipText, animated, isActive, onClick 
           onClick={onClick}
           className={`
             relative group transition-transform duration-300
-            hover:scale-105 focus:outline-none
+            hover:scale-105 focus:outline-none bg-transparent
             ${isActive ? 'scale-105' : ''}
           `}
         >
           {/* Background tint for better effect visibility */}
-          <div className="absolute inset-0 rounded-full bg-black/5" />
+          <div className="absolute inset-0 rounded-full bg-transparent" />
           
           {/* Active agent pulse animation */}
           {isActive && (
             <div
-              className="absolute inset-0 rounded-full animate-pulse-slow opacity-40"
+              className="absolute inset-0 rounded-full animate-pulse-slow opacity-40 bg-transparent"
               style={{ 
                 backgroundColor: glowColor,
                 animation: 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite'
@@ -59,7 +59,7 @@ const AgentOrb = ({ name, role, color, tooltipText, animated, isActive, onClick 
           )}
           
           {/* Enhanced inner effects with proper z-index */}
-          <div className="relative z-10">
+          <div className="relative z-10 bg-transparent">
             <OrbInnerEffects color={color} isActive={isActive} />
           </div>
           
@@ -68,7 +68,7 @@ const AgentOrb = ({ name, role, color, tooltipText, animated, isActive, onClick 
             className={`
               absolute inset-0 rounded-full opacity-0
               transition-opacity duration-500 blur-xl
-              group-hover:opacity-40 z-20
+              group-hover:opacity-40 z-20 bg-transparent
               ${isActive ? 'opacity-40' : ''}
             `}
             style={{ backgroundColor: glowColor }}

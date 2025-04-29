@@ -60,6 +60,38 @@
   }
 }
 
+/* Agent appear animation */
+@keyframes agent-appear {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* Float animation */
+@keyframes float {
+  0%, 100% {
+    transform: translate(-50%, -50%);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-10px);
+  }
+}
+
+/* Rotation animation */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .orb {
   @apply bg-transparent;
 }

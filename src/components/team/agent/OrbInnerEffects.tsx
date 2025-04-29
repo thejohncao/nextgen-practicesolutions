@@ -46,10 +46,10 @@ const OrbInnerEffects = ({ color, isActive }: OrbInnerEffectsProps) => {
   const { center, edge, glow } = getGradientColors(color);
 
   return (
-    <div className="absolute inset-0 rounded-full overflow-hidden">
+    <div className="absolute inset-0 rounded-full overflow-hidden bg-transparent">
       {/* Enhanced radial gradient core with higher opacity */}
       <div 
-        className={`absolute inset-0 transition-opacity duration-300 ${
+        className={`absolute inset-0 transition-opacity duration-300 bg-transparent ${
           isActive ? 'opacity-100' : 'opacity-80'
         }`}
         style={{
@@ -59,7 +59,7 @@ const OrbInnerEffects = ({ color, isActive }: OrbInnerEffectsProps) => {
       
       {/* Improved pulse effect with rotation */}
       <div 
-        className={`absolute inset-0 transition-opacity duration-300 ${
+        className={`absolute inset-0 transition-opacity duration-300 bg-transparent ${
           isActive ? 'opacity-60' : 'opacity-40'
         }`}
         style={{
@@ -72,7 +72,7 @@ const OrbInnerEffects = ({ color, isActive }: OrbInnerEffectsProps) => {
 
       {/* Additional subtle glow layer */}
       <div 
-        className={`absolute inset-[-2px] rounded-full transition-opacity duration-300 ${
+        className={`absolute inset-[-2px] rounded-full transition-opacity duration-300 bg-transparent ${
           isActive ? 'opacity-40' : 'opacity-20'
         }`}
         style={{

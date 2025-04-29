@@ -25,17 +25,17 @@ interface FloatingAgentAvatarsProps {
 
 const FloatingAgentAvatars = ({ staggered = false }: FloatingAgentAvatarsProps) => {
   return (
-    <div className="relative w-full h-full">
+    <div className="relative w-full h-full bg-transparent">
       {orderedAgents.map((agent, index) => (
         <div
           key={agent.name}
-          className={`absolute transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 hover:scale-110 ${
+          className={`absolute transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 hover:scale-110 bg-transparent ${
             staggered ? 'animate-fade-in-staggered' : ''
           }`}
           style={{
             animation: `float 6s ease-in-out infinite${staggered ? ', agent-appear 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards' : ''}`,
             animationDelay: staggered 
-              ? `${index * 0.2 + 0.8}s, ${index * 1.5}s` 
+              ? `${index * 0.2 + 0.8}s, ${index * 0.15}s` 
               : `${index * 1.5}s`,
             left: `${50 + Math.cos(index * (2 * Math.PI / 4)) * 25}%`,
             top: `${50 + Math.sin(index * (2 * Math.PI / 4)) * 25}%`,
@@ -45,8 +45,8 @@ const FloatingAgentAvatars = ({ staggered = false }: FloatingAgentAvatarsProps) 
               : `translate(-50%, -50%) scale(1)`,
           }}
         >
-          <div className="relative">
-            <div className="absolute inset-0 bg-nextgen-purple/10 rounded-full filter blur-xl animate-pulse-slow" 
+          <div className="relative bg-transparent">
+            <div className="absolute inset-0 bg-transparent rounded-full filter blur-xl animate-pulse-slow" 
               style={{animationDelay: `${index * 1}s`}}
             />
             <AgentOrb
