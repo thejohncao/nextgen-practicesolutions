@@ -61,8 +61,11 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
       )}
     >
       {!message.isUser && (
-        <div className="font-semibold text-sm mb-1 text-white/90">
-          {agents[message.agent as AgentKey].name}
+        <div className="flex items-center gap-2 mb-2">
+          <AgentChatAvatar agent={message.agent} hideDetails={false} />
+          <div className="font-semibold text-sm text-white/90">
+            {agents[message.agent as AgentKey].name}
+          </div>
         </div>
       )}
       

@@ -31,7 +31,8 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
     handleRetry,
     handleStartOver,
     showExpandedMessage,
-    toggleMessageExpansion
+    toggleMessageExpansion,
+    getAgentSuggestions
   } = useAiConversation();
   const isMobile = useIsMobile();
   const location = useLocation();
@@ -131,6 +132,7 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
                 sendMessage(message);
               }}
               messages={messages}
+              suggestions={getAgentSuggestions()}
             />
           </div>
         </DialogContent>

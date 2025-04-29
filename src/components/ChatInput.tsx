@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { Send } from 'lucide-react';
 
@@ -8,6 +8,7 @@ interface ChatInputProps {
   currentAgent: string;
   onSendMessage: (message: string) => void;
   messages?: Array<any>;
+  suggestions?: string[];
 }
 
 // Define the AI agents with their color properties
@@ -18,39 +19,25 @@ const agentColors = {
   alma: "from-[#00B4D8] to-[#90E0EF]",
 };
 
-// Agent-specific smart suggestions
-const AGENT_SUGGESTIONS = {
-  miles: [
-    "Need help fixing your schedule?",
-    "How do I reduce no-shows?",
-    "What does a recall automation look like?",
-    "Show me how to streamline my front desk."
-  ],
-  giselle: [
-    "How can I get more veneer patients?",
-    "Show me your best performing ad campaigns.",
-    "How do I convert leads from Instagram?",
-    "Help me launch a new patient special."
-  ],
-  devon: [
-    "Patients keep ghosting after consults — help.",
-    "How do I close more implant cases?",
-    "Can you send me your best follow-up scripts?",
-    "I want to improve case acceptance."
-  ],
-  alma: [
-    "Give me an onboarding checklist.",
-    "How do I train my new front desk?",
-    "Show me a sample SOP.",
-    "We need better team systems."
-  ]
-};
-
 type AgentKey = keyof typeof agentColors;
 
-const ChatInput: React.FC<ChatInputProps> = ({ isTyping, currentAgent, onSendMessage, messages = [] }) => {
+const ChatInput: React.FC<ChatInputProps> = ({ 
+  isTyping, 
+  currentAgent, 
+  onSendMessage, 
+  messages = [],
+  suggestions = []
+}) => {
   const [input, setInput] = useState("");
   const [showQuickReplies, setShowQuickReplies] = useState(true);
+  const [suggestionsList, setSuggestionsList] = useState<string[]>([]);
+
+  // Update suggestions when agent changes
+  useEffect(() => {
+    if (suggestions && suggestions.length > 0) {
+      setSuggestionsList(suggestions);
+    }
+  }, [suggestions, currentAgent]);
 
   const handleSendMessage = (text: string = input) => {
     if (!text.trim()) return;
@@ -66,21 +53,19 @@ const ChatInput: React.FC<ChatInputProps> = ({ isTyping, currentAgent, onSendMes
     }
   };
 
-  const getAgentSuggestions = () => {
-    const agentKey = currentAgent.toLowerCase() as AgentKey;
-    return AGENT_SUGGESTIONS[agentKey] || AGENT_SUGGESTIONS.miles;
-  };
-
   return (
     <div className={cn("p-3 border-t border-white/10 bg-nextgen-dark/80", currentAgent.toLowerCase() + "-color")}>
-      {showQuickReplies && messages.length === 1 && (
-        <div className="grid grid-cols-2 gap-2 mb-3">
-          {getAgentSuggestions().map((suggestion) => (
+      {showQuickReplies && (messages.length === 1 || 
+       (messages.length >= 2 && !messages[messages.length - 2].isUser && messages[messages.length - 1].isUser)) && (
+        <div className="grid grid-cols-2 gap-2 mb-3 animate-fade-in">
+          {suggestionsList.map((suggestion) => (
             <button
               key={suggestion}
               onClick={() => handleSendMessage(suggestion)}
-              className="prompt-button p-2 text-sm text-white/90 bg-white/5 hover:bg-white/10 
-                       border border-white/10 rounded-lg transition-colors"
+              className={cn(
+                "prompt-button p-2 text-sm text-white/90 hover:bg-white/10 border rounded-lg transition-all duration-200",
+                "hover:scale-[1.02] border-white/10 bg-white/5"
+              )}
             >
               {suggestion}
             </button>

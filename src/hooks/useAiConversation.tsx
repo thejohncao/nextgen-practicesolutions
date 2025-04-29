@@ -1,6 +1,14 @@
 
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { callOpenAI, getAgentSystemPrompt, detectAgentFromMessage, Message } from '@/lib/openai';
+import { 
+  callOpenAI, 
+  getAgentSystemPrompt, 
+  detectAgentFromMessage, 
+  isVagueInput, 
+  getAgentFallbackResponse,
+  AGENT_SUGGESTIONS,
+  Message 
+} from '@/lib/openai';
 import { toast } from '@/components/ui/use-toast';
 
 type MessageRole = 'user' | 'assistant' | 'system';
@@ -21,6 +29,7 @@ export interface ConversationState {
 // Keys for local storage
 const CURRENT_AGENT_KEY = 'nextgen_current_agent';
 const USER_INTENT_KEY = 'nextgen_user_intent';
+const USER_TOPIC_KEY = 'nextgen_last_topic';
 
 export function useAiConversation() {
   const [messages, setMessages] = useState<AiMessage[]>([]);
@@ -34,19 +43,35 @@ export function useAiConversation() {
     // Try to restore user intent from session storage
     return sessionStorage.getItem(USER_INTENT_KEY) || undefined;
   });
+  const [lastTopic, setLastTopic] = useState<string | undefined>(() => {
+    // Try to restore user's last topic from session storage
+    return sessionStorage.getItem(USER_TOPIC_KEY) || undefined;
+  });
   const [error, setError] = useState<string | null>(null);
   const [isTimedOut, setIsTimedOut] = useState(false);
   const [conversationId, setConversationId] = useState<string>(
     () => `conversation-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
   );
   const [showExpandedMessage, setShowExpandedMessage] = useState<number | null>(null);
+  const [isVagueQuery, setIsVagueQuery] = useState<boolean>(false);
   
   // Timeout reference for response waiting
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Define a function to detect and save user intent from message
   const detectAndSaveUserIntent = useCallback((message: string) => {
-    // Simple intent detection logic
+    // If it's a vague query, don't try to detect intent
+    if (isVagueInput(message)) {
+      return undefined;
+    }
+    
+    // Store the message as last topic for memory context (if not vague)
+    if (message.length > 10) {
+      setLastTopic(message);
+      sessionStorage.setItem(USER_TOPIC_KEY, message);
+    }
+    
+    // Simple intent detection logic for broad categorization
     let detectedIntent: string | undefined;
     
     if (message.toLowerCase().includes('patient') || 
@@ -205,8 +230,50 @@ export function useAiConversation() {
     clearConversation();
   }, []);
 
+  // Get suggestions for the current agent
+  const getAgentSuggestions = useCallback(() => {
+    return AGENT_SUGGESTIONS[currentAgent.toLowerCase() as keyof typeof AGENT_SUGGESTIONS] || 
+           AGENT_SUGGESTIONS.miles;
+  }, [currentAgent]);
+
+  // Handle vague query with fallback response
+  const handleVagueQuery = useCallback((userMessage: string) => {
+    setIsVagueQuery(true);
+    
+    // Get agent-specific fallback response
+    const fallbackResponse = getAgentFallbackResponse(currentAgent);
+    
+    // Add fallback to the conversation
+    const newMessages = [...messages, {
+      text: userMessage,
+      isUser: true,
+      agent: currentAgent,
+      timestamp: new Date()
+    }, {
+      text: fallbackResponse,
+      isUser: false,
+      agent: currentAgent, 
+      timestamp: new Date()
+    }];
+    
+    setMessages(newMessages);
+    saveMessagesToSession(newMessages);
+    
+    return true; // Indicate that we handled the vague query
+  }, [currentAgent, messages, saveMessagesToSession]);
+
   const sendMessage = useCallback(async (userMessage: string, isRetry: boolean = false) => {
     if (!userMessage.trim()) return;
+
+    // Check if this is a vague query that should trigger a fallback response
+    if (!isRetry && isVagueInput(userMessage)) {
+      // Handle vague query with agent-specific fallback
+      if (handleVagueQuery(userMessage)) {
+        return; // Exit early, fallback response was added
+      }
+    }
+    
+    setIsVagueQuery(false); // Reset vague query flag for non-vague inputs
 
     // Don't add user message again if this is a retry
     if (!isRetry) {
@@ -262,9 +329,12 @@ export function useAiConversation() {
       
       // Get message count for conversation context
       const messageLength = messages.length;
+      
+      // Use last topic for memory context in system prompt
+      const currentTopic = lastTopic || userMessage;
         
       // Get appropriate system prompt based on agent
-      const systemPrompt = getAgentSystemPrompt(currentAgent, userIntent, messageLength);
+      const systemPrompt = getAgentSystemPrompt(currentAgent, currentTopic, messageLength);
 
       if (suggestedAgent !== currentAgent && messages.length > 1) {
         messageHistory.push({
@@ -306,14 +376,17 @@ export function useAiConversation() {
       setIsTyping(false);
       clearResponseTimeout(); // Clear timeout just in case
     }
-  }, [messages, currentAgent, saveMessagesToSession, startResponseTimeout, clearResponseTimeout, detectAndSaveUserIntent]);
+  }, [messages, currentAgent, saveMessagesToSession, startResponseTimeout, clearResponseTimeout, detectAndSaveUserIntent, handleVagueQuery, lastTopic]);
 
   // Clear conversation and reset state
   const clearConversation = useCallback(() => {
     setMessages([]);
     setUserIntent(undefined);
+    setLastTopic(undefined);
     setCurrentAgent("miles");
+    setIsVagueQuery(false);
     sessionStorage.removeItem(USER_INTENT_KEY);
+    sessionStorage.removeItem(USER_TOPIC_KEY);
     sessionStorage.removeItem(CURRENT_AGENT_KEY);
     const newConversationId = `conversation-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     setConversationId(newConversationId);
@@ -333,11 +406,13 @@ export function useAiConversation() {
     userIntent,
     error,
     isTimedOut,
+    isVagueQuery,
     showExpandedMessage,
     sendMessage,
     handleRetry,
     handleStartOver,
     clearConversation,
-    toggleMessageExpansion
+    toggleMessageExpansion,
+    getAgentSuggestions
   };
 }

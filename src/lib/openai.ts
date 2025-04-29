@@ -8,6 +8,15 @@ export interface Message {
   content: string;
 }
 
+// Define fallback triggers for vague user inputs
+export const FALLBACK_TRIGGERS = {
+  general: [
+    "i need help", "help me", "help", "not sure", "idk", "i don't know", 
+    "what do you do", "what can you do", "how does this work", 
+    "tell me more", "hi", "hey", "hello", "what's this"
+  ]
+};
+
 // Add timeout for OpenAI API calls with automatic retry
 export async function callOpenAI(
   messages: Message[],
@@ -86,6 +95,15 @@ export async function callOpenAI(
     });
     return null;
   }
+}
+
+// Check if user input is vague and should trigger a fallback response
+export function isVagueInput(input: string): boolean {
+  const normalizedInput = input.toLowerCase().trim();
+  return FALLBACK_TRIGGERS.general.some(trigger => 
+    normalizedInput === trigger || 
+    normalizedInput.includes(trigger)
+  );
 }
 
 // Enhanced agent detection with more specific trigger phrases
@@ -172,6 +190,50 @@ export function detectAgentFromMessage(message: string): string {
   return "miles";
 }
 
+// Get fallback response for a specific agent when user input is vague
+export function getAgentFallbackResponse(agent: string): string {
+  switch(agent.toLowerCase()) {
+    case 'giselle':
+      return "Let's grow this thing — can I ask what kind of patients you want more of? Veneers, implants, Botox, something else?";
+    case 'miles':
+      return "Got it — happy to help. Is your main concern with scheduling, patient flow, or front desk tasks?";
+    case 'devon':
+      return "Happy to dive in. Are you having trouble with patients saying no, ghosting after consults, or not booking follow-ups?";
+    case 'alma':
+      return "No problem — are you looking for help hiring, training, or creating systems for your team?";
+    default:
+      return "I'm here to help. What specific area of your practice would you like to improve?";
+  }
+}
+
+// Updated agent-specific suggestions
+export const AGENT_SUGGESTIONS = {
+  miles: [
+    "Fix my scheduling gaps",
+    "Reduce no-shows",
+    "Improve front desk efficiency",
+    "Automate patient recall"
+  ],
+  giselle: [
+    "Get more veneer patients",
+    "Improve social media marketing",
+    "Generate implant leads",
+    "Build a referral system"
+  ],
+  devon: [
+    "Patients ghost after consults",
+    "Improve case acceptance",
+    "Handle price objections",
+    "Follow-up system for treatment"
+  ],
+  alma: [
+    "Onboard new front desk staff",
+    "Create team SOPs",
+    "Train treatment coordinators",
+    "Improve team communication"
+  ]
+};
+
 // Updated system prompts with enhanced conversation flow
 const AGENT_PROMPTS = {
   miles: `You are Miles, the Operations and Scheduling expert at NextGen Practice Solutions. You specialize in helping dental and medspa practices streamline front office workflows, reduce no-shows, and optimize their daily systems.
@@ -221,7 +283,7 @@ export function getAgentSystemPrompt(agent: string, userIntent?: string, message
   
   // If this is not the first message, add a memory hint
   if (messageLengthHint > 2 && userIntent) {
-    return `${basePrompt}\n\nThe user has been discussing "${userIntent}" with you. Keep this context in mind for your response.`;
+    return `${basePrompt}\n\nThe user has been discussing "${userIntent}" with you. Keep this context in mind for your response. Refer to this previous topic naturally in your reply, for example: "Since we were talking about ${userIntent} earlier, I think...".`;
   }
   
   return basePrompt;
