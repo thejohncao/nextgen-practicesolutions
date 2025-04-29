@@ -144,16 +144,6 @@ const PricingPackages = () => {
           </div>
         ))}
       </div>
-      
-      {/* Bottom Section */}
-      <div className="text-center mt-16">
-        <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
-          Still deciding? Let Miles recommend your plan.
-        </h2>
-        <p className="text-lg md:text-xl font-medium text-white/80 mb-8 max-w-3xl mx-auto">
-          Not sure where to start? Miles can help you figure it out in 60 seconds or less.
-        </p>
-      </div>
     </div>
   );
 };
