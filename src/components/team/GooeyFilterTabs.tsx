@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { agents } from '@/data/agents';
 import TabNavigation from './gooey-tabs/TabNavigation';
@@ -29,15 +30,22 @@ const GooeyFilterTabs = () => {
           <div className="mb-8">
             <TabNavigation 
               agents={agents} 
-              activeIndex={activeAgentIndex}
-              onChange={setActiveAgentIndex}
+              activeTab={activeAgentIndex}
+              setActiveTab={setActiveAgentIndex}
             />
           </div>
           
           {/* Agent content panel */}
           <AgentContentPanel 
-            agents={agents}
-            activeIndex={activeAgentIndex}
+            agent={agents[activeAgentIndex]}
+            index={activeAgentIndex}
+            activeTab={activeAgentIndex}
+            isTyping={false}
+            showChat={true}
+            messages={[]}
+            stageTitle={`${agents[activeAgentIndex].name}: ${agents[activeAgentIndex].title}`}
+            quote={agents[activeAgentIndex].tagline}
+            fullDescription={agents[activeAgentIndex].description || ''}
           />
           
           {/* Team CTA */}
