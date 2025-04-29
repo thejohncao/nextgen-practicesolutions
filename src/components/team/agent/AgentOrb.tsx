@@ -16,10 +16,12 @@ interface AgentOrbProps {
   color: string;
   tooltipText: string;
   animated?: boolean;
+  animationIntensity?: "none" | "low" | "medium" | "high";
   isActive?: boolean;
   onClick?: () => void;
   displayMode?: 'initial' | 'fullName';
   showLabel?: boolean;
+  poweredUp?: boolean;
 }
 
 const getAgentColorClass = (color: string) => {
@@ -50,10 +52,12 @@ const AgentOrb = ({
   color, 
   tooltipText, 
   animated = true, 
+  animationIntensity = "medium", 
   isActive = false, 
   onClick,
   displayMode = 'initial', 
-  showLabel = false
+  showLabel = false,
+  poweredUp = false
 }: AgentOrbProps) => {
   const isMobile = useIsMobile();
   const glowColor = getGlowColor(color);
@@ -82,6 +86,16 @@ const AgentOrb = ({
   // Determine if we should show the label based on hover state
   const effectiveShowLabel = showLabel || isHovering || isActive;
   
+  // Get animation intensity factor
+  const getAnimationIntensityFactor = () => {
+    switch (animationIntensity) {
+      case "none": return 0;
+      case "low": return 0.5;
+      case "high": return 1.5;
+      default: return 1; // medium is default
+    }
+  };
+  
   return (
     <Tooltip>
       <TooltipTrigger asChild>
@@ -109,7 +123,11 @@ const AgentOrb = ({
           
           {/* Enhanced inner effects with proper z-index */}
           <div className="relative z-10 bg-transparent overflow-visible rounded-full">
-            <OrbInnerEffects color={color} isActive={isActive} />
+            <OrbInnerEffects 
+              color={color} 
+              isActive={isActive} 
+              intensity={animationIntensity !== "none" ? animationIntensity : undefined}
+            />
           </div>
           
           {/* Agent-specific icon and tooltip */}

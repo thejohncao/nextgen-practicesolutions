@@ -72,7 +72,10 @@ const FloatingAgentAvatarsWithWelcome = ({
       <ConnectingLines isVisible={isVisible} animated={true} />
       
       {/* Central glow effect - enhanced with pulse */}
-      <CentralGlow isVisible={isVisible} pulseIntensity={welcomeComplete ? "high" : "low"} />
+      <CentralGlow 
+        isVisible={isVisible} 
+        pulseIntensity={welcomeComplete ? "high" : "low"} 
+      />
       
       {/* Floating agents with welcome animation sequence */}
       {orderedAgents.map((agent, index) => {
