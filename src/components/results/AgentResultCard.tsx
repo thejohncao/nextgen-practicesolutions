@@ -63,14 +63,29 @@ const AgentResultCard = ({ result, index, isMobile, isLightMode = false }: Agent
     return isLightMode ? "text-gray-600" : "text-white/90";
   };
 
+  const shimmerClass = () => {
+    switch(result.color) {
+      case 'green': return "shimmer-green";
+      case 'blue': return "shimmer-blue";
+      case 'purple': return "shimmer-purple";
+      case 'gold': return "shimmer-amber";
+      default: return "";
+    }
+  };
+
   return (
     <Card 
       className={`
-        h-full transform transition-all duration-300 hover:scale-[1.02] 
+        h-full transition-all duration-500 
         ${getEnhancedCardBg(result.color, isLightMode)} 
         border ${getEnhancedCardBorder(result.color, isLightMode)}
         overflow-hidden relative ${isLightMode ? "shadow-sm" : "backdrop-blur-md"}
+        vertical-slider-item-enter ${shimmerClass()}
       `}
+      style={{
+        animationDelay: `${index * 0.1}s`,
+        animationFillMode: 'both'
+      }}
     >
       <CardContent className="p-4 md:p-5">
         {/* Agent info row */}
@@ -80,6 +95,7 @@ const AgentResultCard = ({ result, index, isMobile, isLightMode = false }: Agent
             role={result.role}
             color={result.color}
             size="sm"
+            animated={true}
           />
           <div className="ml-3">
             <h4 className={`font-semibold text-sm md:text-base ${getTextColor(isLightMode)}`}>{result.agent}</h4>

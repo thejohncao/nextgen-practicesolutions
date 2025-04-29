@@ -1,12 +1,10 @@
 
 import React, { useEffect, useState } from 'react';
 import { getDuplicatedResults } from '@/data/agentResults';
-import AgentResultCard from './AgentResultCard';
-import CarouselContainer from './CarouselContainer';
 import SectionHeader from './SectionHeader';
+import VerticalSlider from './VerticalSlider';
 
 const AgentResultsSection = () => {
-  const [isPaused, setIsPaused] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const duplicatedResults = getDuplicatedResults();
 
@@ -25,20 +23,33 @@ const AgentResultsSection = () => {
       <div className="container mx-auto px-4">
         <SectionHeader />
 
-        <CarouselContainer 
-          isPaused={isPaused}
-          setIsPaused={setIsPaused}
-          isMobile={isMobile}
-        >
-          {duplicatedResults.map((result, index) => (
-            <AgentResultCard 
-              key={`${result.agent}-${result.title}-${index}`}
-              result={result}
-              index={index}
-              isMobile={isMobile}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* We'll create three columns of vertical sliders for a more interesting effect */}
+          <div className="h-[500px] md:h-[700px]">
+            <VerticalSlider 
+              items={duplicatedResults.slice(0, 6)} 
+              isMobile={isMobile} 
             />
-          ))}
-        </CarouselContainer>
+          </div>
+          
+          {/* Only show additional columns on desktop */}
+          {!isMobile && (
+            <>
+              <div className="h-[700px]">
+                <VerticalSlider 
+                  items={duplicatedResults.slice(6, 12)} 
+                  isMobile={isMobile} 
+                />
+              </div>
+              <div className="h-[700px]">
+                <VerticalSlider 
+                  items={duplicatedResults.slice(12, 18)} 
+                  isMobile={isMobile} 
+                />
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </section>
   );

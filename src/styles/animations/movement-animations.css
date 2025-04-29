@@ -94,3 +94,29 @@ section {
 .animate-pulse-slow {
   animation: pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+
+/* Vertical slider animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.vertical-slider-item-enter {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.vertical-slider-container {
+  mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+}
+
+/* Smooth vertical scrolling */
+.vertical-slider-content {
+  transition: transform 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+}
