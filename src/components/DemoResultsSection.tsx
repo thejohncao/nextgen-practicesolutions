@@ -4,7 +4,6 @@ import ChatConversation from './boardroom/ChatConversation';
 import RainbowButton from './ui/rainbow-button';
 import AgentResultCard from './results/AgentResultCard';
 import { getDuplicatedResults } from '@/data/agentResults';
-import { ArrowRight, ArrowLeft } from 'lucide-react';
 import useEmblaCarousel from 'embla-carousel-react';
 import AutoPlay from 'embla-carousel-autoplay';
 
@@ -48,12 +47,6 @@ const DemoResultsSection = () => {
       })
     ]
   );
-
-  // Handle carousel navigation
-  const scrollPrevFirst = useCallback(() => firstRowApi?.scrollPrev(), [firstRowApi]);
-  const scrollNextFirst = useCallback(() => firstRowApi?.scrollNext(), [firstRowApi]);
-  const scrollPrevSecond = useCallback(() => secondRowApi?.scrollPrev(), [secondRowApi]);
-  const scrollNextSecond = useCallback(() => secondRowApi?.scrollNext(), [secondRowApi]);
 
   // Handle mobile detection
   useEffect(() => {
@@ -155,30 +148,10 @@ const DemoResultsSection = () => {
           {/* Right side - Results carousel with two staggered rows */}
           <div className="animate-fade-in-up space-y-6" style={{animationDelay: '300ms'}}>
             <div>
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-medium text-white">
-                  <span className="bg-purple-900/50 text-purple-200 py-1 px-3 rounded-full text-sm mr-2">Results</span>
-                  Real Practice Transformations
-                </h3>
-                
-                {/* First row carousel controls - only show on desktop */}
-                {!isMobile && (
-                  <div className="flex space-x-2">
-                    <button 
-                      onClick={scrollPrevFirst}
-                      className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-                    >
-                      <ArrowLeft size={16} className="text-white" />
-                    </button>
-                    <button 
-                      onClick={scrollNextFirst}
-                      className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-                    >
-                      <ArrowRight size={16} className="text-white" />
-                    </button>
-                  </div>
-                )}
-              </div>
+              <h3 className="text-lg font-medium text-white mb-4">
+                <span className="bg-purple-900/50 text-purple-200 py-1 px-3 rounded-full text-sm mr-2">Results</span>
+                Real Practice Transformations
+              </h3>
               
               {/* First row results carousel */}
               <div className="overflow-hidden" ref={firstRowRef}>
@@ -203,25 +176,7 @@ const DemoResultsSection = () => {
             {/* Second row (only for desktop) */}
             {!isMobile && (
               <div>
-                <div className="flex justify-end items-center mb-4">
-                  {/* Second row carousel controls */}
-                  <div className="flex space-x-2">
-                    <button 
-                      onClick={scrollPrevSecond}
-                      className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-                    >
-                      <ArrowLeft size={16} className="text-white" />
-                    </button>
-                    <button 
-                      onClick={scrollNextSecond}
-                      className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-                    >
-                      <ArrowRight size={16} className="text-white" />
-                    </button>
-                  </div>
-                </div>
-                
-                {/* Second row results carousel */}
+                {/* Second row results carousel - removed the flex justify-end items-center mb-4 div with buttons */}
                 <div className="overflow-hidden" ref={secondRowRef}>
                   <div className="flex gap-6">
                     {secondRowResults.map((result, index) => (
