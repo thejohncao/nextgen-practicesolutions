@@ -31,16 +31,20 @@ const IllustratedAgentAvatar = ({
   animated = true,
   isTyping = false,
   isPrimary = false,
-  displayMode = 'initial',
+  displayMode = 'initial', // Default to initial now
   showLabel = false,
   isCompactView = false
 }: IllustratedAgentAvatarProps) => {
   const [isAnimating, setIsAnimating] = useState(false);
   const [isInView, setIsInView] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
   const isMobile = useIsMobile();
   
-  // Determine which display mode to use based on context
-  const effectiveDisplayMode = isCompactView ? 'initial' : displayMode;
+  // Always use initial display mode by default, override only when explicitly hovering or directed
+  const effectiveDisplayMode = isHovering ? 'fullName' : 'initial';
+  
+  // If showLabel is false, name should not show regardless of hover
+  const shouldShowName = showLabel && (isHovering || displayMode === 'fullName');
   
   useEffect(() => {
     if (isTyping) {
@@ -102,10 +106,31 @@ const IllustratedAgentAvatar = ({
   
   const orbClass = `orb ${isPrimary ? 'orb-primary' : 'orb-secondary'} ${isInView ? 'in-view' : ''} bg-transparent`;
   
+  const handleMouseEnter = () => {
+    if (!isMobile) {
+      setIsHovering(true);
+    }
+  };
+  
+  const handleMouseLeave = () => {
+    if (!isMobile) {
+      setIsHovering(false);
+    }
+  };
+  
+  const handleTap = () => {
+    if (isMobile) {
+      setIsHovering(prev => !prev);
+    }
+  };
+  
   const avatarContent = (
     <div 
-      className={`flex items-center ${isTyping ? 'animate-pulse-slow' : 'animate-fade-in'} relative avatar-${name.toLowerCase()} bg-transparent ${showLabel ? 'flex-col' : ''}`}
+      className={`flex items-center ${isTyping ? 'animate-pulse-slow' : 'animate-fade-in'} relative avatar-${name.toLowerCase()} bg-transparent`}
       style={{ animationDelay: getAnimationDelay() }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleTap}
     >
       <div className={`relative ${orbClass} rounded-full bg-transparent overflow-visible`}>
         <AvatarRings color={color} isAnimating={isAnimating || isTyping || isPrimary} />
@@ -126,17 +151,21 @@ const IllustratedAgentAvatar = ({
         </Avatar>
       </div>
       
-      {/* Display label if enabled */}
-      {showLabel && (
-        <span className={`mt-2 text-white font-semibold ${labelSizeClasses[size]}`}>
-          {displayText}
-        </span>
+      {/* Display label with animation when hovering or when explicitly set to show label */}
+      {shouldShowName && (
+        <div className="flex flex-col items-center mt-2">
+          <span 
+            className={`text-white font-semibold ${labelSizeClasses[size]} transition-all duration-150 ease-in-out animate-fade-in`}
+          >
+            {getFullName(name)}
+          </span>
+        </div>
       )}
     </div>
   );
   
-  // Wrap with tooltip if showing initial and not showing label and not on mobile
-  if (effectiveDisplayMode === 'initial' && !showLabel && !isMobile) {
+  // Wrap with tooltip if not showing label and not on mobile
+  if (!shouldShowName && !isMobile) {
     return (
       <Tooltip>
         <TooltipTrigger asChild>

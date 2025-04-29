@@ -82,7 +82,7 @@ const FloatingAgentAvatars = ({ staggered = false }: FloatingAgentAvatarsProps) 
               size="lg"
               animated={true}
               displayMode="initial"
-              showLabel={true}
+              showLabel={false} // Default to not showing label (will show on hover)
             />
           </motion.div>
         </motion.div>

@@ -160,8 +160,8 @@ const ConnectedAITeamSection = () => {
                   role={agent.title}
                   color={agent.color}
                   tooltipText={getTooltipText(agent.name)}
-                  displayMode="fullName"
-                  showLabel={true}
+                  displayMode="initial"
+                  showLabel={false} // Default to initial mode with no label (only show on hover)
                 />
               </motion.div>
             </motion.div>

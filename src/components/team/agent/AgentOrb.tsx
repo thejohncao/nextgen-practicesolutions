@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Tooltip,
   TooltipContent,
@@ -39,11 +39,27 @@ const AgentOrb = ({
   animated = true, 
   isActive = false, 
   onClick,
-  displayMode = 'initial',
+  displayMode = 'initial', // Default to initial
   showLabel = false
 }: AgentOrbProps) => {
   const isMobile = useIsMobile();
   const glowColor = getGlowColor(color);
+  const [isHovering, setIsHovering] = useState(false);
+  
+  const handleMouseEnter = () => {
+    if (!isMobile) {
+      setIsHovering(true);
+    }
+  };
+  
+  const handleMouseLeave = () => {
+    if (!isMobile) {
+      setIsHovering(false);
+    }
+  };
+  
+  // Determine if we should show the label based on hover state
+  const effectiveShowLabel = showLabel || isHovering || isActive;
   
   return (
     <Tooltip>
@@ -55,6 +71,8 @@ const AgentOrb = ({
             hover:scale-105 focus:outline-none bg-transparent overflow-visible rounded-full
             ${isActive ? 'scale-105' : ''}
           `}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         >
           {/* Active agent pulse animation */}
           {isActive && (
@@ -90,11 +108,11 @@ const AgentOrb = ({
             size="lg"
             animated={animated}
             displayMode={displayMode}
-            showLabel={showLabel}
+            showLabel={effectiveShowLabel}
           />
         </button>
       </TooltipTrigger>
-      {!isMobile && (
+      {!isMobile && !effectiveShowLabel && (
         <TooltipContent 
           side="top"
           className="bg-black/80 text-white text-sm py-2 px-3 animate-in fade-in-0 zoom-in-95"

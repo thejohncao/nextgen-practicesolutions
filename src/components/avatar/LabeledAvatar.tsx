@@ -1,7 +1,8 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import AgentAvatar from '../AgentAvatar';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface LabeledAvatarProps {
   agent: {
@@ -18,23 +19,53 @@ interface LabeledAvatarProps {
 const LabeledAvatar = ({ 
   agent, 
   tooltip = false, 
-  mode = 'fullName',
+  mode = 'initial', // Default changed to initial
   size = 'md',
   animated = true 
 }: LabeledAvatarProps) => {
+  const [isHovering, setIsHovering] = useState(false);
+  const isMobile = useIsMobile();
+  
+  const handleMouseEnter = () => {
+    if (!isMobile) {
+      setIsHovering(true);
+    }
+  };
+  
+  const handleMouseLeave = () => {
+    if (!isMobile) {
+      setIsHovering(false);
+    }
+  };
+  
+  const handleTap = () => {
+    if (isMobile) {
+      setIsHovering(prev => !prev);
+    }
+  };
+  
+  // Show the label if we're hovering or if explicitly set to full name mode
+  const showLabel = isHovering || mode === 'fullName';
+  
   const avatarComponent = (
-    <AgentAvatar 
-      name={agent.name} 
-      role={agent.role}
-      color={agent.color || 'purple'}
-      size={size}
-      animated={animated}
-      displayMode={mode} 
-      showLabel={true} 
-    />
+    <div 
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleTap}
+    >
+      <AgentAvatar 
+        name={agent.name} 
+        role={agent.role}
+        color={agent.color || 'purple'}
+        size={size}
+        animated={animated}
+        displayMode="initial" // Always use initial, the hover state is handled in this component
+        showLabel={showLabel} 
+      />
+    </div>
   );
 
-  if (tooltip) {
+  if (tooltip && !showLabel) {
     return (
       <Tooltip>
         <TooltipTrigger asChild>

@@ -36,7 +36,7 @@ const AgentChatAvatar: React.FC<AgentChatAvatarProps> = ({ agent, hideDetails = 
         size="sm" 
         animated={true} 
         isTyping={isTyping}
-        displayMode="fullName"
+        displayMode="initial"
         showLabel={false}
       />
       {!hideDetails && (
