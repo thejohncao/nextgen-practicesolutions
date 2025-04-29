@@ -8,16 +8,23 @@ interface AgentOrbInnerIconProps {
   isActive?: boolean;
   className?: string;
   size?: number;
+  // Added name prop for backwards compatibility
+  name?: string;
+  color?: string;
 }
 
 const AgentOrbInnerIcon: React.FC<AgentOrbInnerIconProps> = ({
   agent,
   isActive = false,
   className,
-  size = 16
+  size = 16,
+  name // Use name if agent is not provided
 }) => {
+  // Use agent prop or fallback to name prop
+  const agentName = agent || name || '';
+  
   const getIconByAgent = () => {
-    switch (agent.toLowerCase()) {
+    switch (agentName.toLowerCase()) {
       case 'giselle':
         return <Sprout size={size} className="text-green-300" />;
       case 'devon':
@@ -31,7 +38,7 @@ const AgentOrbInnerIcon: React.FC<AgentOrbInnerIconProps> = ({
   };
   
   const getDepartmentName = () => {
-    switch (agent.toLowerCase()) {
+    switch (agentName.toLowerCase()) {
       case 'giselle':
         return 'Practice Growth';
       case 'devon':

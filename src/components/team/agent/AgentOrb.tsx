@@ -109,7 +109,10 @@ const AgentOrb = ({
                     showLabel={false}
                   />
                 ) : (
-                  <AgentOrbInnerIcon name={name} color={color} />
+                  <AgentOrbInnerIcon 
+                    agent={name} 
+                    color={color} 
+                  />
                 )}
               </div>
             </div>

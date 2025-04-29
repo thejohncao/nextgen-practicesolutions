@@ -4,7 +4,7 @@ import React from 'react';
 interface OrbInnerEffectsProps {
   color: string;
   isActive: boolean;
-  intensity?: "low" | "medium" | "high";
+  intensity?: "none" | "low" | "medium" | "high";  // Updated to include "none"
 }
 
 const OrbInnerEffects = ({ color, isActive, intensity = "medium" }: OrbInnerEffectsProps) => {
@@ -49,6 +49,7 @@ const OrbInnerEffects = ({ color, isActive, intensity = "medium" }: OrbInnerEffe
   // Adjust effects based on intensity
   const getIntensityMultiplier = () => {
     switch (intensity) {
+      case 'none': return 0.5;  // Added case for "none"
       case 'low': return 0.7;
       case 'high': return 1.3;
       default: return 1.0;
@@ -59,6 +60,9 @@ const OrbInnerEffects = ({ color, isActive, intensity = "medium" }: OrbInnerEffe
   const animationDuration = isActive ? 
     (2.5 / intensityFactor) : 
     (4 / intensityFactor);
+  
+  // If intensity is none, we don't want animations
+  const shouldAnimate = intensity !== "none";
 
   return (
     <div className="absolute inset-0 rounded-full overflow-hidden bg-transparent">
@@ -73,17 +77,19 @@ const OrbInnerEffects = ({ color, isActive, intensity = "medium" }: OrbInnerEffe
       />
       
       {/* Improved pulse effect with rotation */}
-      <div 
-        className={`absolute inset-0 transition-opacity duration-300 bg-transparent ${
-          isActive ? 'opacity-60' : 'opacity-40'
-        }`}
-        style={{
-          background: `radial-gradient(circle at center, ${glow} 0%, transparent 70%)`,
-          animation: isActive ? 
-            `pulse ${animationDuration}s ease-in-out infinite, rotate 8s linear infinite` : 
-            `pulse ${animationDuration}s ease-in-out infinite`
-        }}
-      />
+      {shouldAnimate && (
+        <div 
+          className={`absolute inset-0 transition-opacity duration-300 bg-transparent ${
+            isActive ? 'opacity-60' : 'opacity-40'
+          }`}
+          style={{
+            background: `radial-gradient(circle at center, ${glow} 0%, transparent 70%)`,
+            animation: isActive ? 
+              `pulse ${animationDuration}s ease-in-out infinite, rotate 8s linear infinite` : 
+              `pulse ${animationDuration}s ease-in-out infinite`
+          }}
+        />
+      )}
 
       {/* Additional subtle glow layer */}
       <div 
