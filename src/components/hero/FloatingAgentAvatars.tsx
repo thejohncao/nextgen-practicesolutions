@@ -87,7 +87,7 @@ const FloatingAgentAvatars = ({ staggered = false, onAgentSelect }: FloatingAgen
               duration: 8, // Longer duration for more premium feel
               repeat: Infinity,
               repeatType: 'reverse',
-              ease: "easeInOutCubic", // Premium easing
+              ease: "easeInOut", // Fixed: Changed from "easeInOutCubic" to "easeInOut"
               delay: index * 0.6,
             }}
             className="animate-hero-float relative"

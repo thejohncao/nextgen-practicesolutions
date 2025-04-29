@@ -20,13 +20,31 @@ const VerticalSlider: React.FC<VerticalSliderProps> = ({ items, isMobile }) => {
     if (!containerRef.current || isPaused) return;
 
     const container = containerRef.current;
+    
+    // Check if container has children before trying to access them
+    if (!container.children.length) {
+      console.log('No children found in vertical slider container');
+      return;
+    }
+    
     scrollPosRef.current += scrollSpeed;
     
+    // Safe access to first child with null check
+    const firstChildHeight = container.children[0]?.clientHeight;
+    
+    // If we couldn't get the height or there's no first child, don't proceed
+    if (!firstChildHeight) {
+      console.log('Could not determine height of first child in vertical slider');
+      return;
+    }
+    
     // If we've scrolled past the first item, reset position to create infinite loop
-    if (scrollPosRef.current >= container.children[0].clientHeight) {
-      // Move the first item to the end to create an infinite loop
+    if (scrollPosRef.current >= firstChildHeight) {
+      // Check if the first child exists before operating on it
       const firstItem = container.children[0];
-      container.appendChild(firstItem);
+      if (firstItem) {
+        container.appendChild(firstItem);
+      }
       
       // Reset scroll position
       scrollPosRef.current = 0;
@@ -41,16 +59,21 @@ const VerticalSlider: React.FC<VerticalSliderProps> = ({ items, isMobile }) => {
 
   // Initialize and clean up animation
   useEffect(() => {
-    if (isMobile) return; // Don't auto-scroll on mobile
+    // Don't start animation if we're on mobile or if items array is empty
+    if (isMobile || !items || items.length === 0) return;
     
-    animationRef.current = requestAnimationFrame(scrollItems);
+    // Give DOM time to render before starting animation
+    const timeout = setTimeout(() => {
+      animationRef.current = requestAnimationFrame(scrollItems);
+    }, 500);
     
     return () => {
+      clearTimeout(timeout);
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [isMobile, isPaused]);
+  }, [isMobile, isPaused, items]);
 
   // Handle mouse interactions
   const handleMouseEnter = () => setIsPaused(true);
@@ -74,20 +97,24 @@ const VerticalSlider: React.FC<VerticalSliderProps> = ({ items, isMobile }) => {
           flexDirection: 'column',
         }}
       >
-        {/* Duplicate items to ensure seamless looping */}
-        {items.map((result, index) => (
-          <div 
-            key={`${result.agent}-${result.title}-${index}`} 
-            className="py-3"
-          >
-            <AgentResultCard 
-              result={result}
-              index={index}
-              isMobile={isMobile}
-              isLightMode={false}
-            />
-          </div>
-        ))}
+        {/* Only render items if we have them */}
+        {items && items.length > 0 ? (
+          items.map((result, index) => (
+            <div 
+              key={`${result.agent}-${result.title}-${index}`} 
+              className="py-3"
+            >
+              <AgentResultCard 
+                result={result}
+                index={index}
+                isMobile={isMobile}
+                isLightMode={false}
+              />
+            </div>
+          ))
+        ) : (
+          <div className="py-3 text-center text-white/60">No result data available</div>
+        )}
       </div>
       
       {/* Gradient fade effect at bottom */}
