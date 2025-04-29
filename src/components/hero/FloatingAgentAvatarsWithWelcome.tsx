@@ -24,24 +24,51 @@ const FloatingAgentAvatarsWithWelcome = ({
   const [isVisible, setIsVisible] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState<string | null>(null);
   const [agentsPoweredUp, setAgentsPoweredUp] = useState<{ [key: string]: boolean }>({});
+  const [orbAnimations, setOrbAnimations] = useState<{ [key: string]: "none" | "low" | "medium" | "high" }>({});
   
   useEffect(() => {
     // Initial delay to start the welcome sequence
     const timer = setTimeout(() => {
       setIsVisible(true);
       
-      // Power up agents in sequence
+      // Power up agents in sequence with cinematic timing
       const agentNames = agents.map(a => a.name);
+      
+      // Wake up sequence - staggered with deliberate timing
       agentNames.forEach((name, index) => {
+        // First show the agent with low energy
         setTimeout(() => {
           setAgentsPoweredUp(prev => ({ ...prev, [name]: true }));
+          setOrbAnimations(prev => ({ ...prev, [name]: "low" }));
         }, 400 * (index + 1));
+        
+        // Then increase energy to medium after a short delay
+        setTimeout(() => {
+          setOrbAnimations(prev => ({ ...prev, [name]: "medium" }));
+        }, 400 * (index + 1) + 800);
+        
+        // Finally reach full energy if welcome is complete
+        setTimeout(() => {
+          if (welcomeComplete) {
+            setOrbAnimations(prev => ({ ...prev, [name]: "high" }));
+          }
+        }, 400 * (index + 1) + 1600);
       });
       
     }, 500);
     
     return () => clearTimeout(timer);
   }, []);
+  
+  // Update agent animation intensity when welcome completes
+  useEffect(() => {
+    if (welcomeComplete) {
+      const agentNames = agents.map(a => a.name);
+      agentNames.forEach((name) => {
+        setOrbAnimations(prev => ({ ...prev, [name]: "high" }));
+      });
+    }
+  }, [welcomeComplete]);
   
   // Reorder agents to match patient journey
   const orderedAgents = [...agents].sort((a, b) => {
@@ -83,15 +110,16 @@ const FloatingAgentAvatarsWithWelcome = ({
         const baseX = parseFloat(positions[index].x) / 100;
         const baseY = parseFloat(positions[index].y) / 100;
         
-        // Adjust sensitivity based on agent
+        // Adjust sensitivity based on agent - Miles is more responsive to mouse
         const sensitivity = agent.name === 'Miles' ? 0.03 : 0.02;
         
-        // Calculate position with mouse influence
+        // Calculate position with mouse influence - creates a sense that agents are aware of user
         const x = `${(baseX * 100) + (mousePosition.x * sensitivity * 100)}%`;
         const y = `${(baseY * 100) + (mousePosition.y * sensitivity * 100)}%`;
         
         // Determine if this agent is powered up
         const isPoweredUp = agentsPoweredUp[agent.name] || false;
+        const animationIntensity = orbAnimations[agent.name] || "none";
         
         return (
           <motion.div
@@ -132,9 +160,9 @@ const FloatingAgentAvatarsWithWelcome = ({
               }}
               className="animate-hero-float relative"
             >
-              {/* Particle/glow effect when "powering up" */}
+              {/* Enhanced particle/glow effect when "powering up" */}
               {isPoweredUp && (
-                <OrbGlowEffect color={agent.color} />
+                <OrbGlowEffect color={agent.color} intensity={animationIntensity} />
               )}
               
               <AgentOrb 
@@ -143,7 +171,7 @@ const FloatingAgentAvatarsWithWelcome = ({
                 color={agent.color}
                 tooltipText={getTooltipText(agent.name)}
                 animated={isPoweredUp}
-                animationIntensity={isPoweredUp ? "high" : "none"}
+                animationIntensity={animationIntensity}
                 isActive={selectedAgent === agent.name}
                 onClick={() => handleAgentClick(agent.name)}
                 displayMode="initial"

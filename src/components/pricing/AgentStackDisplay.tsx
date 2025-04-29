@@ -1,6 +1,7 @@
 
 import React from 'react';
 import AgentAvatar from '../AgentAvatar';
+import { motion } from 'framer-motion';
 
 interface AgentInfo {
   name: string;
@@ -28,11 +29,26 @@ const AgentStackDisplay = ({
   // Primary agent is always the first in the array
   const primaryAgent = agents[0];
   const secondaryAgents = agents.slice(1);
+  
+  // Premium animation easing
+  const premiumEasing = [0.25, 1, 0.5, 1];
 
   return (
     <div className="relative bg-transparent">
       {/* Primary Agent */}
-      <div className="relative z-10 bg-transparent">
+      <motion.div 
+        className="relative z-10 bg-transparent"
+        animate={animated && isPrimary ? { 
+          scale: [1, 1.05, 1],
+          filter: ["brightness(1)", "brightness(1.2)", "brightness(1)"] 
+        } : {}}
+        transition={{
+          duration: 2.5,
+          repeat: Infinity,
+          repeatType: "reverse",
+          ease: premiumEasing
+        }}
+      >
         <div className={`${isPrimary ? 'animate-pulse-slow' : ''} bg-transparent`}>
           <AgentAvatar
             name={primaryAgent.name}
@@ -45,19 +61,29 @@ const AgentStackDisplay = ({
             showLabel={showLabels}
           />
         </div>
-      </div>
+      </motion.div>
 
       {/* Secondary Agents (if any) */}
       {secondaryAgents.length > 0 && (
         <div className="flex -space-x-3 mt-2 bg-transparent">
           {secondaryAgents.map((agent, index) => (
-            <div 
+            <motion.div
               key={agent.name} 
               className="relative bg-transparent" 
               style={{ 
                 zIndex: 9 - index,
                 opacity: 0.9 - (index * 0.1),
                 transform: `translateX(${index * -5}px)`
+              }}
+              animate={animated ? { 
+                y: [0, -3, 0] 
+              } : {}}
+              transition={{
+                duration: 3,
+                delay: index * 0.6,
+                repeat: Infinity,
+                repeatType: "reverse",
+                ease: "easeInOut"
               }}
             >
               <AgentAvatar
@@ -69,7 +95,7 @@ const AgentStackDisplay = ({
                 displayMode={displayMode}
                 showLabel={false}
               />
-            </div>
+            </motion.div>
           ))}
         </div>
       )}

@@ -3,87 +3,86 @@ import React, { useState, useEffect, useRef } from 'react';
 
 interface ProgressiveCounterProps {
   value: number;
+  duration?: number;
   prefix?: string;
   suffix?: string;
-  duration?: number;
   active?: boolean;
-  formatter?: (value: number) => string;
+  decimals?: number;
 }
 
 const ProgressiveCounter: React.FC<ProgressiveCounterProps> = ({
   value,
+  duration = 2,
   prefix = '',
   suffix = '',
-  duration = 1.0,
   active = true,
-  formatter
+  decimals = 0
 }) => {
   const [displayValue, setDisplayValue] = useState(0);
-  const countRef = useRef<number>(0);
-  const requestRef = useRef<number>();
-  const startTimeRef = useRef<number>();
+  const countRef = useRef<number | null>(null);
+  const startTimeRef = useRef<number | null>(null);
   
-  // Format the number (with commas for thousands)
-  const formatValue = (num: number): string => {
-    if (formatter) return formatter(num);
-    
-    // Default formatting with commas
-    if (num >= 1000) {
-      return num.toLocaleString('en-US');
-    }
-    return num.toString();
+  // Format the number with commas and decimals
+  const formatNumber = (num: number) => {
+    return num.toLocaleString('en-US', {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals
+    });
   };
   
-  // Animation function
-  const animateCount = (timestamp: number) => {
-    if (startTimeRef.current === undefined) {
-      startTimeRef.current = timestamp;
-    }
-    
-    const elapsed = timestamp - startTimeRef.current;
-    const progress = Math.min(elapsed / (duration * 1000), 1);
-    
-    // Easing function for smooth counting
-    const easedProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-    const currentCount = Math.floor(easedProgress * value);
-    
-    if (currentCount !== countRef.current) {
-      countRef.current = currentCount;
-      setDisplayValue(currentCount);
-    }
-    
-    if (progress < 1) {
-      requestRef.current = requestAnimationFrame(animateCount);
-    } else {
-      setDisplayValue(value); // Ensure we end on the exact target value
-    }
-  };
-  
-  // Start/reset animation when active changes
   useEffect(() => {
-    if (active) {
-      // Reset values
+    if (!active) {
       setDisplayValue(0);
-      countRef.current = 0;
-      startTimeRef.current = undefined;
-      
-      // Start animation
-      requestRef.current = requestAnimationFrame(animateCount);
-    } else {
-      // Reset when not active
-      setDisplayValue(0);
+      return;
     }
     
-    return () => {
-      if (requestRef.current) {
-        cancelAnimationFrame(requestRef.current);
+    // Animate the counting
+    const animateCount = (timestamp: number) => {
+      if (!startTimeRef.current) {
+        startTimeRef.current = timestamp;
+      }
+      
+      const elapsed = timestamp - startTimeRef.current;
+      const progress = Math.min(elapsed / (duration * 1000), 1);
+      
+      // Use easing for more natural counting
+      const easedProgress = easeOutExpo(progress);
+      const currentValue = Math.floor(value * easedProgress);
+      
+      setDisplayValue(currentValue);
+      
+      if (progress < 1) {
+        countRef.current = requestAnimationFrame(animateCount);
+      } else {
+        setDisplayValue(value);
       }
     };
-  }, [active, value]);
+    
+    countRef.current = requestAnimationFrame(animateCount);
+    
+    return () => {
+      if (countRef.current) {
+        cancelAnimationFrame(countRef.current);
+      }
+    };
+  }, [value, duration, active]);
+  
+  // Reset when becoming inactive
+  useEffect(() => {
+    if (!active) {
+      setDisplayValue(0);
+      startTimeRef.current = null;
+    }
+  }, [active]);
+  
+  // Easing function for smoother counting
+  const easeOutExpo = (x: number): number => {
+    return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
+  };
   
   return (
-    <span className="tabular-nums">
-      {prefix}{formatValue(displayValue)}{suffix}
+    <span>
+      {prefix}{formatNumber(displayValue)}{suffix}
     </span>
   );
 };
