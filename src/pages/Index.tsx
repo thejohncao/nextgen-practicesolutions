@@ -14,6 +14,7 @@ import ResourcesSection from '../components/ResourcesSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import FAQSection from '../components/FAQSection';
 import AgentResultsSection from '../components/results/AgentResultsSection';
+import PrePricingCTA from '../components/PrePricingCTA';
 
 const Index = () => {
   return (
@@ -37,6 +38,9 @@ const Index = () => {
       
       {/* Combined Security & Integrations Section */}
       <CombinedSecurityIntegrationsSection />
+      
+      {/* Pre-Pricing CTA Section */}
+      <PrePricingCTA />
       
       {/* Unified Pricing/Unlock Section */}
       <PricingSection />

@@ -4,7 +4,6 @@ import { Shield, LockKeyhole, Lock, Server, FileCheck, Link as LinkIcon } from '
 import { Button } from './ui/button';
 import { Dialog, DialogContent } from './ui/dialog';
 import IntegrationsGrid from './integrations/IntegrationsGrid';
-import IntegrationsList from './integrations/IntegrationsList';
 
 const securityCards = [
   {
@@ -80,22 +79,6 @@ const CombinedSecurityIntegrationsSection = () => {
           </p>
         </div>
 
-        {/* Top Row - Integration Icons */}
-        <div className={`glass-card p-8 mb-12 rounded-xl transition-all duration-700 ${
-          isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-        }`}>
-          <IntegrationsList integrations={integrations} isVisible={isVisible} />
-          
-          <div className="flex justify-center mt-8">
-            <Button 
-              className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white"
-              onClick={() => setDialogOpen(true)}
-            >
-              Explore All Integrations <LinkIcon className="ml-2 h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-
         {/* Two Column Layout */}
         <div className="grid md:grid-cols-2 gap-8 mt-12">
           {/* Left Column - Security Cards */}
@@ -117,18 +100,33 @@ const CombinedSecurityIntegrationsSection = () => {
             ))}
           </div>
           
-          {/* Right Column - Integration Pills (repeat) */}
-          <div className="flex items-center justify-center">
-            <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 w-full">
-              {integrations.map((integration, index) => (
-                <div 
-                  key={integration + "-right"}
-                  className="px-4 py-3 glass-card rounded-lg text-center text-white/70 hover:text-white/90 transition-all duration-300 transform hover:scale-105"
-                  style={{ animationDelay: `${index * 100}ms` }}
+          {/* Right Column - Integration Pills with CTA */}
+          <div className="flex flex-col">
+            {/* Integration Pills with responsive grid */}
+            <div className={`glass-card p-6 rounded-xl transition-all duration-700 ${
+              isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+            }`}>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                {integrations.map((integration, index) => (
+                  <div 
+                    key={integration}
+                    className="px-4 py-3 glass-card rounded-lg text-center text-white/70 hover:text-white/90 transition-all duration-300 transform hover:scale-105"
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  >
+                    <span className="text-sm font-medium">{integration}</span>
+                  </div>
+                ))}
+              </div>
+              
+              {/* CTA Below Integration Pills */}
+              <div className="flex justify-center mt-8">
+                <Button 
+                  className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white"
+                  onClick={() => setDialogOpen(true)}
                 >
-                  <span className="text-sm font-medium">{integration}</span>
-                </div>
-              ))}
+                  Explore All Integrations <LinkIcon className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
             </div>
           </div>
         </div>
