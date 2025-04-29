@@ -1,0 +1,77 @@
+
+@layer utilities {
+  /* Codehagen-style display card animations */
+  .display-card {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  
+  .display-card:hover {
+    transform: translateY(-8px);
+  }
+  
+  /* Staggered animation for cards */
+  .staggered-card {
+    animation: slide-in-right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+  
+  .staggered-card:nth-child(1) { animation-delay: 0.1s; }
+  .staggered-card:nth-child(2) { animation-delay: 0.3s; }
+  .staggered-card:nth-child(3) { animation-delay: 0.5s; }
+  
+  /* Glow animation on hover */
+  .card-glow:hover {
+    box-shadow: 0 0 25px 5px rgba(155, 135, 245, 0.25);
+  }
+  
+  .card-icon-glow {
+    filter: drop-shadow(0 0 8px rgba(155, 135, 245, 0.6));
+    transition: filter 0.3s ease;
+  }
+  
+  .card-icon-glow:hover {
+    filter: drop-shadow(0 0 12px rgba(155, 135, 245, 0.8));
+  }
+}
+
+@keyframes slide-in-right {
+  0% {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Enhance the glow effect */
+.glow-border {
+  position: relative;
+  isolation: isolate;
+}
+
+.glow-border::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(to right, rgba(155, 135, 245, 0), rgba(155, 135, 245, 0.5), rgba(155, 135, 245, 0));
+  z-index: -1;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.glow-border:hover::after {
+  opacity: 1;
+}
+
+/* Amplified hover effect */
+.amplify-hover {
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.amplify-hover:hover {
+  transform: scale(1.03) translateY(-5px);
+}

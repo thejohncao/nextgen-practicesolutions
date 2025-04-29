@@ -1,5 +1,17 @@
 
 @import './styles/base.css';
+@import './styles/colors.css';
 @import './styles/utilities.css';
 @import './styles/animations.css';
-@import './styles/colors.css';
+@import './styles/animations/base-animations.css';
+@import './styles/animations/hero-animations.css';
+@import './styles/animations/hover-effects.css';
+@import './styles/animations/sparkle-effects.css';
+@import './styles/animations/gooey-effects.css';
+@import './styles/animations/chat-animations.css';
+@import './styles/animations/movement-animations.css';
+@import './styles/animations/display-card.css'; /* Add this new import */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
