@@ -12,6 +12,7 @@
 @import './styles/animations/chat-animations.css';
 @import './styles/animations/movement-animations.css';
 @import './styles/animations/display-card.css';
+@import './styles/animations/grain-effects.css';
 
 @tailwind base;
 @tailwind components;

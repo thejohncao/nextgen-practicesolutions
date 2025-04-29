@@ -10,6 +10,10 @@ import RainbowButton from './ui/rainbow-button';
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
 import { agents } from '@/data/agents';
+import BackgroundCircles from './effects/BackgroundCircles';
+import AnimatedGrainOverlay from './effects/AnimatedGrainOverlay';
+import AnimatedHeading from './ui/animated-heading';
+import FadeInSection from './ui/fade-in-section';
 
 const HeroSection = () => {
   const [selectedAgent, setSelectedAgent] = useState<string | null>(null);
@@ -51,80 +55,86 @@ const HeroSection = () => {
       {/* Background effects layering */}
       <HeroQuantumGrid />
       <PulseBeams opacity={0.06} />
+      <BackgroundCircles variant="default" primaryColor="rgba(155, 135, 245, 0.12)" secondaryColor="rgba(30, 174, 219, 0.08)" />
+      <AnimatedGrainOverlay opacity={0.05} />
       
-      {/* Enhanced gradient orbs */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-[-10%] right-[-5%] w-[45%] h-[45%] bg-nextgen-purple/15 blur-[120px] rounded-full animate-pulse-slow"></div>
-        <div className="absolute bottom-[-10%] left-[-5%] w-[40%] h-[40%] bg-nextgen-blue/15 blur-[100px] rounded-full animate-pulse-slow" style={{animationDelay: '1.5s'}}></div>
-        <div className="absolute top-[30%] left-[20%] w-[25%] h-[25%] bg-[#E87C7C]/10 blur-[80px] rounded-full animate-pulse-slow" style={{animationDelay: '2s'}}></div>
-      </div>
-
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Side: Enhanced Copy Block */}
           <LampEffect>
             <div className="text-left space-y-8">
-              <div className="inline-block px-3 py-1 rounded-full backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)] text-sm mb-6 animate-hero-fade">
-                <SparkleText delay={300}>
-                  <span className="text-gradient-primary font-medium flex items-center gap-2">
-                    <Sparkles className="h-4 w-4" />
-                    The Future of Dental Practice Management
-                  </span>
-                </SparkleText>
-              </div>
+              <FadeInSection delay={0.1} direction="up">
+                <div className="inline-block px-3 py-1 rounded-full backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)] text-sm mb-6">
+                  <SparkleText delay={300}>
+                    <span className="text-gradient-primary font-medium flex items-center gap-2">
+                      <Sparkles className="h-4 w-4" />
+                      The Future of Dental Practice Management
+                    </span>
+                  </SparkleText>
+                </div>
+              </FadeInSection>
               
-              <SparkleText>
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold leading-tight text-gradient animate-hero-fade">
-                  The World's First AI Team for Dental Practices
-                </h1>
-              </SparkleText>
+              <AnimatedHeading 
+                text="The World's First AI Team for Dental Practices"
+                as="h1"
+                className="text-4xl md:text-6xl lg:text-7xl leading-tight"
+                type="word"
+                staggerChildren={0.03}
+                delay={0.3}
+              />
               
-              <p className="text-xl md:text-2xl text-white/70 leading-relaxed max-w-2xl animate-hero-fade animate-cinematic-delay-1">
-                Deploy your Dream Team. Operate smarter. Grow faster. Lead effortlessly.
-              </p>
+              <FadeInSection delay={0.7} direction="up">
+                <p className="text-xl md:text-2xl text-white/70 leading-relaxed max-w-2xl">
+                  Deploy your Dream Team. Operate smarter. Grow faster. Lead effortlessly.
+                </p>
+              </FadeInSection>
               
               {/* Agent spotlight content shows when an agent is selected */}
               {spotlightAgent && (
-                <div className="bg-black/30 backdrop-blur-md rounded-lg p-4 border border-white/10 animate-hero-fade-up animate-cinematic-delay-1">
-                  <h3 className="font-bold text-lg mb-1">{spotlightAgent.name} – {spotlightAgent.title}</h3>
-                  <p className="text-white/80 text-sm">{spotlightAgent.tagline}</p>
-                </div>
+                <FadeInSection delay={0.1} direction="up">
+                  <div className="bg-black/30 backdrop-blur-md rounded-lg p-4 border border-white/10">
+                    <h3 className="font-bold text-lg mb-1">{spotlightAgent.name} – {spotlightAgent.title}</h3>
+                    <p className="text-white/80 text-sm">{spotlightAgent.tagline}</p>
+                  </div>
+                </FadeInSection>
               )}
               
               {/* CTA Buttons with improved animations */}
-              <div className="flex flex-col sm:flex-row gap-4 animate-hero-fade-up animate-cinematic-delay-2">
-                <RainbowButton 
-                  size="lg"
-                  onClick={handleChatOpen}
-                  className="h-auto group"
-                >
-                  <span className="flex items-center">
-                    Talk to Miles
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                  </span>
-                </RainbowButton>
-                
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="border border-white/10 bg-white/5 text-white hover:bg-white/10 transition-all duration-300"
-                  asChild
-                >
-                  <Link to="/solutions">
+              <FadeInSection delay={0.9} direction="up">
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <RainbowButton 
+                    size="lg"
+                    onClick={handleChatOpen}
+                    className="h-auto group"
+                  >
                     <span className="flex items-center">
-                      See How It Works
+                      Talk to Miles
                       <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                     </span>
-                  </Link>
-                </Button>
-              </div>
+                  </RainbowButton>
+                  
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="border border-white/10 bg-white/5 text-white hover:bg-white/10 transition-all duration-300"
+                    asChild
+                  >
+                    <Link to="/solutions">
+                      <span className="flex items-center">
+                        See How It Works
+                        <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                      </span>
+                    </Link>
+                  </Button>
+                </div>
+              </FadeInSection>
               
-              {/* Scroll indicator (optional) */}
-              <div className="flex justify-center mt-10 animate-hero-fade-up animate-cinematic-delay-3 opacity-70">
+              {/* Scroll indicator with better fade animation */}
+              <FadeInSection delay={1.2} direction="up" className="flex justify-center mt-10 opacity-70">
                 <div className="animate-bounce">
                   <ArrowRight className="h-5 w-5 transform rotate-90" />
                 </div>
-              </div>
+              </FadeInSection>
             </div>
           </LampEffect>
 

@@ -8,6 +8,7 @@ import {
 import { useIsMobile } from '@/hooks/use-mobile';
 import IllustratedAgentAvatar from '@/components/avatar/IllustratedAgentAvatar';
 import OrbInnerEffects from './OrbInnerEffects';
+import AgentOrbInnerIcon from './AgentOrbInnerIcon';
 
 interface AgentOrbProps {
   name: string;
@@ -35,10 +36,10 @@ const getAgentColorClass = (color: string) => {
 const getGlowColor = (color: string) => {
   switch (color) {
     case 'red': return 'rgb(234, 56, 76)';
-    case 'green': return 'rgb(63, 198, 160)'; // Updated to match Giselle's color
-    case 'blue': return 'rgb(74, 140, 255)';  // Updated to match Miles's color
-    case 'gold': return 'rgb(245, 158, 11)';  // Updated to match Alma's color
-    case 'purple': return 'rgb(139, 92, 246)'; // Updated to match Devon's color
+    case 'green': return 'rgb(63, 198, 160)'; 
+    case 'blue': return 'rgb(74, 140, 255)';  
+    case 'gold': return 'rgb(245, 158, 11)';  
+    case 'purple': return 'rgb(139, 92, 246)'; 
     default: return 'rgb(155, 135, 245)';
   }
 };
@@ -51,7 +52,7 @@ const AgentOrb = ({
   animated = true, 
   isActive = false, 
   onClick,
-  displayMode = 'initial', // Default to initial
+  displayMode = 'initial', 
   showLabel = false
 }: AgentOrbProps) => {
   const isMobile = useIsMobile();
@@ -110,6 +111,12 @@ const AgentOrb = ({
           <div className="relative z-10 bg-transparent overflow-visible rounded-full">
             <OrbInnerEffects color={color} isActive={isActive} />
           </div>
+          
+          {/* Agent-specific icon and tooltip */}
+          <AgentOrbInnerIcon 
+            agent={name}
+            isActive={isActive || isHovering}
+          />
           
           {/* Hover glow effect - enhanced with new animation */}
           <div 
