@@ -9,6 +9,9 @@ import { useAiConversation } from '../hooks/useAiConversation';
 import { Dialog, DialogContent } from './ui/dialog';
 import EmailCollectionDialog from './EmailCollectionDialog';
 import { useIsMobile } from "../hooks/use-mobile";
+import TypingIndicator from './TypingIndicator';
+import { Button } from './ui/button';
+import { RefreshCw, ArrowRight } from 'lucide-react';
 
 interface AiAssistantProps {
   showPaths?: string[];
@@ -19,7 +22,15 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
   const [isMinimized, setIsMinimized] = useState(false);
   const [showEmailDialog, setShowEmailDialog] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const { messages, sendMessage, isTyping, currentAgent } = useAiConversation();
+  const { 
+    messages, 
+    sendMessage, 
+    isTyping, 
+    currentAgent, 
+    isTimedOut,
+    handleRetry,
+    handleStartOver
+  } = useAiConversation();
   const isMobile = useIsMobile();
   const location = useLocation();
   
@@ -41,7 +52,7 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
     if (isOpen && messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [messages, isOpen]);
+  }, [messages, isOpen, isTyping]);
 
   // Return null if we shouldn't show on this path
   if (!shouldShow) return null;
@@ -52,6 +63,7 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
         isOpen={isOpen} 
         currentAgent={currentAgent} 
         onClick={() => setIsOpen(!isOpen)} 
+        isTyping={isTyping}
       />
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className={`p-0 gap-0 border-none ${isMobile ? 'w-[95vw] max-w-[95vw] h-[80vh] max-h-[85vh] rounded-lg' : 'w-[450px] max-w-[450px] h-[75vh] max-h-[75vh] rounded-xl'}`}>
@@ -72,16 +84,31 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
               ))}
               
               {isTyping && (
-                <div className="flex items-start gap-3 mb-4">
-                  <div className="w-8 h-8 rounded-full bg-nextgen-dark flex items-center justify-center shrink-0 border border-nextgen-purple/20">
-                    <span className="text-sm font-medium text-nextgen-purple">M</span>
-                  </div>
-                  <div className="px-4 py-3 bg-nextgen-dark/50 backdrop-blur rounded-tr-xl rounded-br-xl rounded-bl-xl max-w-[85%] typing-indicator">
-                    <div className="flex space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-white/30 animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-                      <div className="w-2 h-2 rounded-full bg-white/30 animate-pulse" style={{ animationDelay: '0.3s' }}></div>
-                      <div className="w-2 h-2 rounded-full bg-white/30 animate-pulse" style={{ animationDelay: '0.4s' }}></div>
-                    </div>
+                <TypingIndicator agent={currentAgent} />
+              )}
+              
+              {isTimedOut && (
+                <div className="p-4 mb-4 bg-[#000000] border border-red-900/30 rounded-lg">
+                  <p className="text-white/90 mb-3">Sorry about that — I may have lost connection for a moment. Want to continue where we left off or start over?</p>
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      className="flex items-center gap-1 border-white/20 hover:bg-white/5"
+                      onClick={handleRetry}
+                    >
+                      <RefreshCw className="h-3.5 w-3.5 mr-1" />
+                      Yes, continue
+                    </Button>
+                    <Button 
+                      variant="outline"
+                      size="sm"
+                      className="flex items-center gap-1 border-white/20 hover:bg-white/5"
+                      onClick={handleStartOver}
+                    >
+                      <ArrowRight className="h-3.5 w-3.5 mr-1" />
+                      Start over
+                    </Button>
                   </div>
                 </div>
               )}
@@ -90,12 +117,12 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
             </div>
             
             <ChatInput 
-              isTyping={isTyping}
+              isTyping={isTyping || isTimedOut}
               currentAgent={currentAgent}
               onSendMessage={(message) => {
-                if (messages.length === 0) {
+                if (messages.length === 0 || (messages.length === 1 && !messages[0].isUser)) {
                   // This is the first message, show email dialog after sending
-                  setShowEmailDialog(true);
+                  setTimeout(() => setShowEmailDialog(true), 2000);
                 }
                 sendMessage(message);
               }}
@@ -108,6 +135,8 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
       <EmailCollectionDialog
         triggerText=""
         buttonClassName="hidden"
+        open={showEmailDialog}
+        onOpenChange={setShowEmailDialog}
       />
     </>
   );

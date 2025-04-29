@@ -12,6 +12,7 @@ interface IllustratedAgentAvatarProps {
   size?: 'sm' | 'md' | 'lg';
   imagePath?: string;
   animated?: boolean;
+  isTyping?: boolean;
 }
 
 const IllustratedAgentAvatar = ({ 
@@ -20,11 +21,17 @@ const IllustratedAgentAvatar = ({
   color = 'purple', 
   size = 'md', 
   imagePath,
-  animated = true
+  animated = true,
+  isTyping = false
 }: IllustratedAgentAvatarProps) => {
   const [isAnimating, setIsAnimating] = useState(false);
   
   useEffect(() => {
+    if (isTyping) {
+      setIsAnimating(true);
+      return;
+    }
+    
     if (!animated) return;
     
     const animationInterval = setInterval(() => {
@@ -33,7 +40,7 @@ const IllustratedAgentAvatar = ({
     }, Math.random() * 3000 + 2000);
     
     return () => clearInterval(animationInterval);
-  }, [animated]);
+  }, [animated, isTyping]);
   
   const getAnimationDelay = () => {
     const hash = name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
@@ -50,20 +57,20 @@ const IllustratedAgentAvatar = ({
   
   return (
     <div 
-      className="flex items-center animate-fade-in relative" 
+      className={`flex items-center ${isTyping ? 'animate-pulse-slow' : 'animate-fade-in'} relative`}
       style={{ animationDelay: getAnimationDelay() }}
     >
       <div className="relative">
-        <AvatarRings color={color} isAnimating={isAnimating} />
-        <AvatarOverlay isAnimating={isAnimating} />
+        <AvatarRings color={color} isAnimating={isAnimating || isTyping} />
+        <AvatarOverlay isAnimating={isAnimating || isTyping} />
         
-        <Avatar className={`${sizeClasses[size]} border-2 border-white/10 relative z-10 transition-all duration-300 ${isAnimating ? 'scale-105' : ''}`}>
+        <Avatar className={`${sizeClasses[size]} border-2 border-white/10 relative z-10 transition-all duration-300 ${(isAnimating || isTyping) ? 'scale-105' : ''}`}>
           {imagePath ? (
             <AvatarImage src={imagePath} alt={`${name} avatar`} className="object-cover" />
           ) : (
             <AvatarFallback 
               className={`bg-gradient-to-br ${getAvatarGradient(color)} ${
-                isAnimating ? 'animate-pulse' : 'animate-pulse-slow'
+                (isAnimating || isTyping) ? 'animate-pulse' : 'animate-pulse-slow'
               }`}
             >
               {getInitials(name)}

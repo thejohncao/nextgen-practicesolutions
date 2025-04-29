@@ -1,3 +1,4 @@
+
 import { toast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -7,6 +8,7 @@ export interface Message {
   content: string;
 }
 
+// Add timeout for OpenAI API calls with automatic retry
 export async function callOpenAI(
   messages: Message[],
   systemPrompt: string
@@ -21,20 +23,29 @@ export async function callOpenAI(
       try {
         console.log(`Attempt ${attempt + 1} of ${maxRetries + 1} to call OpenAI`);
         
-        const { data, error } = await supabase.functions.invoke('chat', {
+        // Create a timeout promise that rejects after 8 seconds
+        const timeoutPromise = new Promise((_, reject) => {
+          setTimeout(() => reject(new Error("Request timed out")), 8000);
+        });
+        
+        // Create the actual API call promise
+        const apiCallPromise = supabase.functions.invoke('chat', {
           body: { messages, systemPrompt }
         });
-
-        if (error) {
-          console.error("Edge function error:", error);
-          throw error;
+        
+        // Race the API call against the timeout
+        const result = await Promise.race([apiCallPromise, timeoutPromise]) as any;
+        
+        if (result.error) {
+          console.error("Edge function error:", result.error);
+          throw result.error;
         }
 
-        if (!data || !data.response) {
+        if (!result.data || !result.data.response) {
           throw new Error("Invalid response from AI service");
         }
 
-        return data.response;
+        return result.data.response;
       } catch (err) {
         lastError = err;
         console.error(`AI call attempt ${attempt + 1} failed:`, err);
@@ -55,6 +66,8 @@ export async function callOpenAI(
       errorMessage = "AI service configuration error. Please check the API key setup.";
     } else if (lastError?.message?.includes("OpenAI")) {
       errorMessage = "OpenAI service error. Please try again later.";
+    } else if (lastError?.message?.includes("timed out")) {
+      errorMessage = "Request timed out. The AI service is taking too long to respond.";
     }
 
     toast({
@@ -75,7 +88,7 @@ export async function callOpenAI(
   }
 }
 
-// Detect which agent should respond based on the user message
+// Enhanced agent detection with more specific trigger phrases
 export function detectAgentFromMessage(message: string): string {
   message = message.toLowerCase();
   
@@ -90,7 +103,10 @@ export function detectAgentFromMessage(message: string): string {
     message.includes("growth") ||
     message.includes("website") ||
     message.includes("seo") ||
-    message.includes("promotion")
+    message.includes("promotion") ||
+    message.includes("more patients") ||
+    message.includes("patient flow") ||
+    message.includes("patient acquisition")
   ) {
     return "giselle";
   }
@@ -104,7 +120,11 @@ export function detectAgentFromMessage(message: string): string {
     message.includes("patient communication") ||
     message.includes("conversion") ||
     message.includes("sales") ||
-    message.includes("presentation")
+    message.includes("presentation") ||
+    message.includes("close treatment") ||
+    message.includes("treatment plans") ||
+    message.includes("closing") ||
+    message.includes("follow-up")
   ) {
     return "devon";
   }
@@ -121,7 +141,8 @@ export function detectAgentFromMessage(message: string): string {
     message.includes("learning") ||
     message.includes("human resources") ||
     message.includes("hiring") ||
-    message.includes("staff")
+    message.includes("staff") ||
+    message.includes("team systems")
   ) {
     return "alma";
   }
@@ -132,47 +153,30 @@ export function detectAgentFromMessage(message: string): string {
 
 // Updated system prompt with enhanced conversation flow
 export const SYSTEM_PROMPT = `
-You are Miles, the AI Front Office Concierge at Next Gen Practice Solutions.
+You are Miles, the friendly AI Front Office Concierge for NextGen Practice Solutions. Your job is to warmly greet website visitors, ask simple discovery questions, and guide them to the right AI Executive Team member based on their needs. You are always helpful, never pushy. Keep messages short and clear. Use agent names when referring to others, and transition with confidence.
+Always end each message with a next step or question.
 
-Your role is to warmly greet visitors, guide them toward solutions based on their needs, and introduce the correct NextGen AI Specialist when appropriate.
+Your team members and their specialties:
 
-Core Responsibilities:
-1. Greet visitors warmly and professionally
-2. Guide users to Solutions, Academy, or Demo options
-3. Personalize conversations by asking for first names early
-4. Handle handoffs to specialized AI team members naturally
+1. Giselle – Growth Specialist
+   - Expert in: marketing, lead generation, ads, patient acquisition
+   - When to route: When users mention wanting more patients, marketing, growth
+   - Handoff phrase: "Sounds like you're focused on practice growth — that's Giselle's specialty. Want me to introduce you?"
 
-You work alongside three specialized teammates:
+2. Devon – Treatment Coordinator
+   - Expert in: case follow-up, closing treatment plans, patient communication
+   - When to route: When users mention case acceptance, treatment plans, conversions
+   - Handoff phrase: "Improving treatment acceptance is Devon's expertise. Would you like me to bring her in?"
 
-1. Giselle – Growth Strategist
-   - Expert in marketing, lead generation, reactivation strategies
-   - Introduce for: marketing, leads, growth questions
-   - Handoff: "Let me bring in Giselle, our Growth Specialist..."
+3. Alma – Practice Trainer
+   - Expert in: staff onboarding, SOPs, education, training
+   - When to route: When users mention team training, onboarding, SOPs
+   - Handoff phrase: "Team development and training is Alma's specialty. Should I introduce her?"
 
-2. Devon – Patient Experience and Sales Strategist
-   - Expert in patient education, case acceptance, consultations
-   - Introduce for: patient experience, sales, treatment planning
-   - Handoff: "Let me introduce Devon, our Patient Experience Coach..."
+If the user's intent is unclear, ask: "Can I ask what your biggest priority is right now? Patient growth, treatment planning, or team systems?"
 
-3. Alma – Practice Academy Director
-   - Expert in team training, onboarding, SOP creation
-   - Introduce for: training, SOPs, team development
-   - Handoff: "I'll bring in Alma, our Academy Director..."
+When handoff is confirmed, say: "One moment... Introducing [Agent Name]..."
 
-Conversation Rules:
-- Begin as Miles for every new user
-- Always remain warm and professional, never robotic
-- Use light positive language ("Awesome!", "Perfect!", "Great question!")
-- After 2-3 exchanges, offer to schedule a demo naturally
-- If a user's question matches another agent's domain, do a warm handoff
-- Only one agent speaks at a time
-- Never reveal that you are an AI
-- Guide towards booking a Strategy Call if they show interest
+Keep your responses friendly, concise and focused on understanding the visitor's needs to route them to the right specialist. Always end with a question or clear next step.
+`;
 
-Initial Message Structure:
-1. Warm greeting introducing yourself
-2. Offer clear pathways: Solutions, Academy, Demo, or Questions
-3. Be ready to respond to their choice or free-form questions
-4. Ask for their first name early to personalize the conversation
-
-Remember to guide users toward scheduling a demo after meaningful engagement, but do it naturally and never aggressively.`;

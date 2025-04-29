@@ -5,6 +5,7 @@ import { MessageSquare } from 'lucide-react';
 interface ChatToggleButtonProps {
   isOpen: boolean;
   currentAgent: string;
+  isTyping?: boolean;
   onClick: () => void;
 }
 
@@ -18,7 +19,7 @@ const agentColors = {
 
 type AgentKey = keyof typeof agentColors;
 
-const ChatToggleButton: React.FC<ChatToggleButtonProps> = ({ isOpen, currentAgent, onClick }) => {
+const ChatToggleButton: React.FC<ChatToggleButtonProps> = ({ isOpen, currentAgent, isTyping = false, onClick }) => {
   if (isOpen) return null;
 
   return (
@@ -29,17 +30,17 @@ const ChatToggleButton: React.FC<ChatToggleButtonProps> = ({ isOpen, currentAgen
     >
       <div 
         className={`h-14 w-14 rounded-full flex items-center justify-center shadow-lg
-          bg-gradient-radial ${agentColors[currentAgent as AgentKey]} animate-pulse-glow`}
+          bg-gradient-radial ${agentColors[currentAgent as AgentKey]} ${isTyping ? 'animate-pulse' : 'animate-pulse-glow'}`}
       >
         <MessageSquare className="text-white h-6 w-6" />
       </div>
-      <div className="absolute inset-0 rounded-full bg-gradient-radial blur-sm opacity-50 animate-pulse-slow"></div>
-      <div className="absolute -inset-1 rounded-full bg-gradient-radial blur-md opacity-30 animate-pulse-slow"></div>
+      <div className={`absolute inset-0 rounded-full bg-gradient-radial blur-sm opacity-50 ${isTyping ? 'animate-pulse' : 'animate-pulse-slow'}`}></div>
+      <div className={`absolute -inset-1 rounded-full bg-gradient-radial blur-md opacity-30 ${isTyping ? 'animate-pulse' : 'animate-pulse-slow'}`}></div>
       
-      {/* Ripple effect */}
+      {/* Enhanced ripple effect when typing */}
       <div className="absolute inset-0 rounded-full">
-        <div className="absolute inset-0 rounded-full border-2 border-white/20 animate-[ripple_3s_ease-out_infinite]"></div>
-        <div className="absolute inset-0 rounded-full border-2 border-white/20 animate-[ripple_3s_ease-out_1.5s_infinite]"></div>
+        <div className={`absolute inset-0 rounded-full border-2 border-white/20 ${isTyping ? 'animate-[ripple_2s_ease-out_infinite]' : 'animate-[ripple_3s_ease-out_infinite]'}`}></div>
+        <div className={`absolute inset-0 rounded-full border-2 border-white/20 ${isTyping ? 'animate-[ripple_2s_ease-out_1s_infinite]' : 'animate-[ripple_3s_ease-out_1.5s_infinite]'}`}></div>
       </div>
     </div>
   );
