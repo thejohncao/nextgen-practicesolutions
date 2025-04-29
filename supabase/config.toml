@@ -1,1 +1,23 @@
+
 project_id = "taxlppvyrtmeropdnugv"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage", "graphql_public"]
+
+[db]
+port = 54322
+
+[realtime]
+enabled = true
+
+[storage]
+enabled = true
+
+[auth]
+enabled = true
+site_url = "http://localhost:3000"
+
+[functions.text-to-speech]
+verify_jwt = true

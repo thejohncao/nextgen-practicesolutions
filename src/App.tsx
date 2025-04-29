@@ -1,80 +1,63 @@
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import { useEffect } from "react";
-import Index from "./pages/Index";
-import Solutions from "./pages/Solutions";
-import Academy from "./pages/Academy";
-import AcademyCurriculum from "./pages/AcademyCurriculum";
-import Features from "./pages/Features";
-import Join from "./pages/Join";
-import Integrations from "./pages/Integrations";
-import Security from "./pages/Security";
-import Privacy from "./pages/Privacy";
-import Watch from "./pages/Watch";
-import Resources from "./pages/Resources";
-import Story from "./pages/Story";
-import Animations from "./pages/Animations";
-import NotFound from "./pages/NotFound";
-import NotFoundPage from './pages/NotFoundPage';
-import Pricing from "./pages/Pricing";
-import EnhancedAiChat from "./components/EnhancedAiChat";
-import AvatarManager from "./components/admin/AvatarManager";
-import LenisProvider from "./components/providers/LenisProvider";
+import { useState } from 'react'
+import { Route, Routes } from 'react-router-dom'
+import Layout from './components/Layout'
+import HomePage from './pages/HomePage'
+import FeaturesPage from './pages/FeaturesPage'
+import PricingPage from './pages/PricingPage'
+import SolutionsPage from './pages/SolutionsPage'
+import AcademyPage from './pages/AcademyPage'
+import DemoPage from './pages/DemoPage'
+import ContactPage from './pages/ContactPage'
+import NotFound from './pages/NotFound'
+import SocialProofPage from './pages/SocialProofPage'
+import CurriculumPage from './pages/CurriculumPage'
+import SitemapPage from './pages/SitemapPage'
+import LegalPage from './pages/LegalPage'
+import LenisProvider from './components/providers/LenisProvider'
+import AiAssistant from './components/AiAssistant'
+import VoiceAiAssistant from './components/VoiceAiAssistant'
+import { Toaster } from './components/ui/toaster'
+import './App.css'
 
-const queryClient = new QueryClient();
+function App() {
+  const [useVoiceAssistant, setUseVoiceAssistant] = useState(true);
 
-// Create a ScrollToTop component to reset scroll position on navigation
-const ScrollToTop = () => {
-  const { pathname } = useLocation();
-  
-  useEffect(() => {
-    // Use standard window.scrollTo without smooth behavior for consistent experience
-    window.scrollTo(0, 0);
-  }, [pathname]);
-  
-  return null;
-};
-
-const EnhancedAiChatWrapper = () => {
-  const showAiChatPaths = ['/', '/solutions', '/academy', '/academy/curriculum', '/features', '/pricing'];
-  
-  return <EnhancedAiChat showPaths={showAiChatPaths} />;
-};
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
+  return (
+    <LenisProvider>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="features" element={<FeaturesPage />} />
+          <Route path="pricing" element={<PricingPage />} />
+          <Route path="solutions" element={<SolutionsPage />} />
+          <Route path="academy" element={<AcademyPage />} />
+          <Route path="demo" element={<DemoPage />} />
+          <Route path="contact" element={<ContactPage />} />
+          <Route path="social-proof" element={<SocialProofPage />} />
+          <Route path="curriculum" element={<CurriculumPage />} />
+          <Route path="sitemap" element={<SitemapPage />} />
+          <Route path="legal" element={<LegalPage />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+      
+      {/* Use the voice-enabled AI Assistant */}
+      {useVoiceAssistant ? (
+        <VoiceAiAssistant 
+          showPaths={['/', '/solutions', '/academy', '/features']}
+          initialAgent="miles"
+          initialVoiceMode={false}
+        />
+      ) : (
+        <AiAssistant 
+          showPaths={['/', '/solutions', '/academy', '/features']}
+        />
+      )}
+      
       <Toaster />
-      <Sonner />
-      <LenisProvider>
-        <Router>
-          <ScrollToTop />
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/watch" element={<Watch />} />
-            <Route path="/story" element={<Story />} />
-            <Route path="/join" element={<Join />} />
-            <Route path="/features" element={<Features />} />
-            <Route path="/integrations" element={<Integrations />} />
-            <Route path="/academy" element={<Academy />} />
-            <Route path="/academy/curriculum" element={<AcademyCurriculum />} />
-            <Route path="/solutions" element={<Solutions />} />
-            <Route path="/pricing" element={<Pricing />} />
-            <Route path="/resources/*" element={<Resources />} />
-            <Route path="/security" element={<Security />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/admin/avatars" element={<AvatarManager />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-          <EnhancedAiChatWrapper />
-        </Router>
-      </LenisProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+    </LenisProvider>
+  )
+}
 
-export default App;
+export default App

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -12,6 +11,7 @@ import { agents } from '@/data/agents';
 import { createSequence } from '@/lib/animationUtils';
 import { useTimeout } from '@/hooks/useTimeout';
 import TypingIndicator from '../ui/TypingIndicator';
+import MeetYourTeamButton from '../MeetYourTeamButton';
 
 const EnhancedHero = () => {
   const [selectedAgent, setSelectedAgent] = useState<string | null>(null);
@@ -148,16 +148,7 @@ const EnhancedHero = () => {
             )}
             
             <ScrollRevealWrapper animation="fade-up" delay={welcomeComplete ? 0.3 : sequence.next()} className="flex flex-col sm:flex-row gap-4">
-              <RainbowButton 
-                size="lg"
-                onClick={handleChatOpen}
-                className="h-auto group"
-              >
-                <span className="flex items-center">
-                  Talk to Miles
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                </span>
-              </RainbowButton>
+              <MeetYourTeamButton />
               
               <Button
                 variant="outline"
