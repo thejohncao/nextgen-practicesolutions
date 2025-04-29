@@ -11,13 +11,24 @@ interface AgentMessageProps {
 
 const AgentMessage = ({ agent, role, message, bgColorClass }: AgentMessageProps) => {
   // Get shimmer effect class based on agent
-  const getShimmerClass = () => {
+  const getTextShimmerClass = () => {
     switch(agent) {
-      case 'miles': return 'shimmer-blue';
-      case 'giselle': return 'shimmer-green';
-      case 'devon': return 'shimmer-purple';
-      case 'alma': return 'shimmer-amber';
-      default: return 'shimmer-blue';
+      case 'miles': return 'text-shimmer text-shimmer-blue';
+      case 'giselle': return 'text-shimmer text-shimmer-green';
+      case 'devon': return 'text-shimmer text-shimmer-purple';
+      case 'alma': return 'text-shimmer text-shimmer-amber';
+      default: return 'text-shimmer text-shimmer-blue';
+    }
+  };
+  
+  // Get subtle background color based on agent
+  const getBackgroundClass = () => {
+    switch(agent) {
+      case 'miles': return 'bg-blue-900/20';
+      case 'giselle': return 'bg-green-900/20';
+      case 'devon': return 'bg-purple-900/20';
+      case 'alma': return 'bg-amber-900/20';
+      default: return 'bg-blue-900/20';
     }
   };
   
@@ -33,14 +44,14 @@ const AgentMessage = ({ agent, role, message, bgColorClass }: AgentMessageProps)
   };
   
   return (
-    <div className={`p-2.5 md:p-3 rounded-lg backdrop-blur-sm ${getShimmerClass()} ${getGlowColor()}`}>
+    <div className={`p-2.5 md:p-3 rounded-lg backdrop-blur-sm ${getBackgroundClass()} ${getGlowColor()}`}>
       <div className="flex items-center">
         <div className="flex-shrink-0">
           <AgentChatAvatar agent={agent} hideDetails={true} />
         </div>
         <div className="ml-2 md:ml-3">
           <div className="text-xs font-medium text-white/90">{role}</div>
-          <div className="text-sm text-white">{message}</div>
+          <div className={`text-sm font-medium ${getTextShimmerClass()}`}>{message}</div>
         </div>
       </div>
     </div>
