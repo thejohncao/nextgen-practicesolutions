@@ -7,12 +7,9 @@ import DemoResultsSection from '../components/DemoResultsSection';
 import ROISection from '../components/ROISection';
 import AcademyOverviewSection from '../components/AcademyOverviewSection';
 import FooterCTA from '../components/FooterCTA';
-import PricingSection from '../components/pricing/PricingSection';
 import CombinedSecurityIntegrationsSection from '../components/CombinedSecurityIntegrationsSection';
-import ConnectedAITeamSection from '../components/integrations/ConnectedAITeamSection';
 import SuccessGuarantee from '../components/SuccessGuarantee';
 import ResourcesSection from '../components/ResourcesSection';
-import TestimonialsSection from '../components/TestimonialsSection';
 import FAQSection from '../components/FAQSection';
 import AgentResultsSection from '../components/results/AgentResultsSection';
 
@@ -36,9 +33,6 @@ const Index = () => {
       {/* New Results section with vertical sliders */}
       <AgentResultsSection />
       
-      {/* Connected AI Team Section - NEW */}
-      <ConnectedAITeamSection />
-      
       {/* Moved ROI section after Connected AI Team section */}
       <ROISection />
       
@@ -47,9 +41,6 @@ const Index = () => {
       
       {/* Footer CTA moved above Pricing section */}
       <FooterCTA />
-      
-      {/* Unified Pricing/Unlock Section */}
-      <PricingSection />
       
       {/* Resources Section */}
       <ResourcesSection />
@@ -62,8 +53,6 @@ const Index = () => {
       
       {/* FAQ Section */}
       <FAQSection />
-      
-      <TestimonialsSection />
     </Layout>
   );
 };
