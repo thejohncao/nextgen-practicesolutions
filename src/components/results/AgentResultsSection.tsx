@@ -6,7 +6,23 @@ import VerticalSlider from './VerticalSlider';
 
 const AgentResultsSection = () => {
   const [isMobile, setIsMobile] = useState(false);
-  const duplicatedResults = getDuplicatedResults();
+  const [shuffledResults, setShuffledResults] = useState([]);
+  
+  // Get results and shuffle them on component mount
+  useEffect(() => {
+    const duplicatedResults = getDuplicatedResults();
+    setShuffledResults(shuffleArray(duplicatedResults));
+  }, []);
+
+  // Fisher-Yates shuffle algorithm
+  const shuffleArray = (array) => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  };
 
   useEffect(() => {
     const checkIfMobile = () => {
@@ -24,10 +40,10 @@ const AgentResultsSection = () => {
         <SectionHeader />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* We'll create three columns of vertical sliders for a more interesting effect */}
+          {/* We'll create three columns of vertical sliders with shuffled data */}
           <div className="h-[500px] md:h-[700px]">
             <VerticalSlider 
-              items={duplicatedResults.slice(0, 6)} 
+              items={shuffledResults.slice(0, 6)} 
               isMobile={isMobile} 
             />
           </div>
@@ -37,13 +53,13 @@ const AgentResultsSection = () => {
             <>
               <div className="h-[700px]">
                 <VerticalSlider 
-                  items={duplicatedResults.slice(6, 12)} 
+                  items={shuffledResults.slice(6, 12).reverse()} 
                   isMobile={isMobile} 
                 />
               </div>
               <div className="h-[700px]">
                 <VerticalSlider 
-                  items={duplicatedResults.slice(12, 18)} 
+                  items={shuffledResults.slice(12, 18)} 
                   isMobile={isMobile} 
                 />
               </div>
