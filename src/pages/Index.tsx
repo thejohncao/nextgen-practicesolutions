@@ -14,6 +14,7 @@ import FAQSection from '../components/FAQSection';
 import AgentResultsSection from '../components/results/AgentResultsSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import AnimatedGrainOverlay from '../components/effects/AnimatedGrainOverlay';
+import PricingSection from '../components/pricing/PricingSection';
 
 const Index = () => {
   return (
@@ -58,6 +59,11 @@ const Index = () => {
         {/* Combined Security & Integrations Section - now with enhanced design */}
         <div className="relative">
           <CombinedSecurityIntegrationsSection />
+        </div>
+        
+        {/* Pricing Section added back to the homepage */}
+        <div className="relative">
+          <PricingSection />
         </div>
         
         {/* Footer CTA moved above Pricing section */}
