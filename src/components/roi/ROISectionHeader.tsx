@@ -11,11 +11,11 @@ const ROISectionHeader: React.FC = () => {
       </div>
       
       <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
-        Your Life, Upgraded by NextGen.
+        Your Time. Your Energy. Your Life.
       </h2>
       
       <p className="text-lg text-white/70">
-        We didn't just build software. We built freedom for practice owners.
+        NextGen AI was built to buy back your time, recharge your energy, and give you back your life outside the office.
       </p>
     </div>
   );

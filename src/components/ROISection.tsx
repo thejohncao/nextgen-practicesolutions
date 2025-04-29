@@ -1,13 +1,11 @@
 
 import React from 'react';
-import { Clock, Zap, Heart } from "lucide-react";
 
 // Import the smaller, refactored components
 import BackgroundEffect from './roi/BackgroundEffect';
 import ROISectionHeader from './roi/ROISectionHeader';
-import BenefitCard from './roi/BenefitCard';
-import ComparisonTable from './roi/ComparisonTable';
-import MobileComparisonCarousel from './roi/MobileComparisonCarousel';
+import BenefitCardsGrid from './roi/BenefitCardsGrid';
+import ComparisonChart from './roi/ComparisonChart';
 import ROIFootnote from './roi/ROIFootnote';
 
 const comparisonData = [
@@ -37,24 +35,6 @@ const comparisonData = [
   }
 ];
 
-const benefitCards = [
-  {
-    icon: Clock,
-    title: "Save Your Time",
-    description: "Eliminate busywork. Automate operations. Buy back the hours you can never replace."
-  },
-  {
-    icon: Zap,
-    title: "Recharge Your Energy",
-    description: "Remove chaos from your day. Empower your team. Grow with momentum, not stress."
-  },
-  {
-    icon: Heart,
-    title: "Win Back Your Life",
-    description: "Spend time with family. Lead with vision, not exhaustion. Build a life outside the office."
-  }
-];
-
 const ROISection = () => {
   return (
     <section id="roi" className="section-padding py-24 relative overflow-hidden scroll-transition">
@@ -63,26 +43,11 @@ const ROISection = () => {
       <div className="container mx-auto px-4 relative z-10">
         <ROISectionHeader />
         
-        {/* Codehagen-style staggered display cards */}
-        <div className="flex flex-col space-y-5 mb-16 max-w-3xl mx-auto">
-          {benefitCards.map((card, index) => (
-            <BenefitCard 
-              key={card.title}
-              icon={card.icon}
-              title={card.title}
-              description={card.description}
-              index={index}
-            />
-          ))}
-        </div>
+        {/* Updated 3-column card grid */}
+        <BenefitCardsGrid />
         
-        {/* ROI Metrics - Desktop View */}
-        <div className="hidden md:block">
-          <ComparisonTable comparisonData={comparisonData} />
-        </div>
-        
-        {/* ROI Metrics - Mobile View */}
-        <MobileComparisonCarousel comparisonData={comparisonData} />
+        {/* New interactive comparison chart */}
+        <ComparisonChart data={comparisonData} />
         
         <ROIFootnote />
       </div>
