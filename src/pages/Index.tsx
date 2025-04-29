@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Layout from '../components/Layout';
 import HeroSection from '../components/HeroSection';
@@ -8,6 +9,7 @@ import AcademyOverviewSection from '../components/AcademyOverviewSection';
 import FooterCTA from '../components/FooterCTA';
 import PricingSection from '../components/pricing/PricingSection';
 import CombinedSecurityIntegrationsSection from '../components/CombinedSecurityIntegrationsSection';
+import ConnectedAITeamSection from '../components/integrations/ConnectedAITeamSection';
 import SuccessGuarantee from '../components/SuccessGuarantee';
 import ResourcesSection from '../components/ResourcesSection';
 import TestimonialsSection from '../components/TestimonialsSection';
@@ -34,6 +36,9 @@ const Index = () => {
       
       {/* New Results section with vertical sliders */}
       <AgentResultsSection />
+      
+      {/* Connected AI Team Section - NEW */}
+      <ConnectedAITeamSection />
       
       {/* Combined Security & Integrations Section - now with enhanced design */}
       <CombinedSecurityIntegrationsSection />

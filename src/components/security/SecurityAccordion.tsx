@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Shield, Check, Lock, Server, FileCheck, ChevronDown } from 'lucide-react';
+import { Shield, Check, Lock, Server, FileCheck } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   Accordion,
@@ -64,7 +64,10 @@ const SecurityAccordion = () => {
             value={`item-${index}`}
             className="border-none glass-card bg-white/5 overflow-hidden rounded-xl"
           >
-            <AccordionTrigger className="p-4 hover:no-underline group">
+            <AccordionTrigger 
+              className="p-4 hover:no-underline group"
+              style={{ color: 'white' }}
+            >
               <div className="flex items-center text-left">
                 <div className="rounded-full p-2 bg-nextgen-purple/20 mr-3">
                   <item.icon className="h-5 w-5 text-nextgen-purple" />
@@ -73,7 +76,7 @@ const SecurityAccordion = () => {
                   {item.title}
                 </span>
               </div>
-              <ChevronDown className="h-5 w-5 text-nextgen-purple transition-transform duration-300" />
+              {/* Removed duplicate ChevronDown icon here */}
             </AccordionTrigger>
             <AccordionContent className="p-4 pt-0 pl-16">
               <p className="text-white/70">{item.description}</p>
