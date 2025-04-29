@@ -15,7 +15,6 @@ import SuccessGuarantee from '../components/SuccessGuarantee';
 import ResourcesSection from '../components/ResourcesSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import FAQSection from '../components/FAQSection';
-import MicroCarouselSection from '../components/team/micro-carousel/MicroCarouselSection';
 import AgentResultsSection from '../components/results/AgentResultsSection';
 
 const Index = () => {
@@ -37,9 +36,6 @@ const Index = () => {
       
       {/* New Results section with vertical sliders */}
       <AgentResultsSection />
-      
-      {/* What Your AI Team Can Do For You */}
-      <MicroCarouselSection />
       
       {/* ROI section that consolidates the emotional benefits */}
       <ROISection />
