@@ -29,6 +29,7 @@ const ScrollToTop = () => {
   const { pathname } = useLocation();
   
   useEffect(() => {
+    // Use standard window.scrollTo without smooth behavior for consistent experience
     window.scrollTo(0, 0);
   }, [pathname]);
   

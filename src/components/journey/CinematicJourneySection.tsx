@@ -1,5 +1,5 @@
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { patientJourney } from '@/data/patientJourney';
 import FullScreenStage from './FullScreenStage';
 import VerticalProgressIndicator from './VerticalProgressIndicator';
@@ -22,7 +22,7 @@ const CinematicJourneySection = () => {
   return (
     <section 
       ref={sectionRef}
-      className="bg-nextgen-dark snap-y snap-mandatory overflow-y-auto scroll-smooth"
+      className="bg-nextgen-dark overflow-y-auto scroll-smooth"
     >
       <div className="text-center py-16">
         <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">

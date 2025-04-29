@@ -82,7 +82,7 @@
   }
 }
 
-/* Remove default smooth scrolling to prevent conflicts with Lenis */
+/* Enable default smooth scrolling behavior */
 html {
   scroll-behavior: auto;
 }
