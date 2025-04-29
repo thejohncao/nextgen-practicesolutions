@@ -19,8 +19,7 @@ const BenefitCard: React.FC<BenefitCardProps> = ({ icon, title, description, ind
       description={description}
       index={index}
       className={cn(
-        "animate-fade-in-up w-full",
-        index === 0 ? "md:ml-0" : ""
+        "animate-fade-in-up w-full"
       )}
     />
   );

@@ -64,7 +64,7 @@ const ROISection = () => {
         <ROISectionHeader />
         
         {/* Codehagen-style staggered display cards */}
-        <div className="flex flex-col space-y-4 md:space-y-5 mb-16 max-w-3xl mx-auto">
+        <div className="flex flex-col space-y-5 mb-16 max-w-3xl mx-auto">
           {benefitCards.map((card, index) => (
             <BenefitCard 
               key={card.title}
