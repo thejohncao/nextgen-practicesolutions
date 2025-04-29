@@ -73,12 +73,16 @@ const ScrollRevealWrapper: React.FC<ScrollRevealWrapperProps> = ({
       const childDelay = delay + (index * staggerDelay);
       const delayStyle = { transitionDelay: `${childDelay}s` };
       
+      // Merge className values properly
+      const childClassName = cn(
+        child.props.className,
+        animationClasses.base,
+        isVisible ? animationClasses.visible : animationClasses.initial
+      );
+      
       return React.cloneElement(child, {
-        className: cn(
-          child.props.className,
-          animationClasses.base,
-          isVisible ? animationClasses.visible : animationClasses.initial
-        ),
+        ...child.props,
+        className: childClassName,
         style: {
           ...child.props.style,
           ...delayStyle
