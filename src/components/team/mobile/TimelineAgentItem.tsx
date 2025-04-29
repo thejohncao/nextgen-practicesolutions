@@ -12,6 +12,7 @@ interface TimelineAgentItemProps {
   index: number;
   isActive: boolean;
   onSelect?: (index: number) => void;
+  displayMode?: 'initial' | 'fullName';
 }
 
 const TimelineAgentItem = ({
@@ -20,6 +21,7 @@ const TimelineAgentItem = ({
   index,
   isActive,
   onSelect,
+  displayMode = 'fullName',
 }: TimelineAgentItemProps) => {
   const handleOrbClick = () => {
     onSelect?.(index);
@@ -45,7 +47,7 @@ const TimelineAgentItem = ({
           tooltipText={getTooltipText(agent.name)}
           isActive={isActive}
           onClick={handleOrbClick}
-          displayMode="initial"  
+          displayMode={displayMode}  
           showLabel={true}
         />
         
