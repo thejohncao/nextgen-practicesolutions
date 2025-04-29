@@ -35,18 +35,12 @@ const CombinedSecurityIntegrationsSection = () => {
   return (
     <section id="combined-section" className="py-20 bg-gradient-to-b from-nextgen-dark/95 to-nextgen-dark">
       <div className="container mx-auto px-4">
-        {/* Section Header */}
+        {/* Section Header with minimal badge - removed redundant header and subtext */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card mb-6">
             <Shield className="h-5 w-5 text-nextgen-purple" />
             <span className="text-white/70 text-sm font-medium">Secure & Connected</span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-gradient">
-            Built for Healthcare. Powered by Integrations.
-          </h2>
-          <p className="text-xl text-white/70 max-w-3xl mx-auto">
-            NextGen is HIPAA-ready, SOC 2 certified, and connects seamlessly with the tools you already use — from Google Calendar to Stripe. Launch faster. Work smarter. Stay secure.
-          </p>
         </div>
 
         {/* Two Column Layout - 40/60 split (swapped order) */}
