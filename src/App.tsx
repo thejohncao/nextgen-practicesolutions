@@ -46,18 +46,12 @@ function App() {
         <Route path="*" element={<Layout><NotFound /></Layout>} />
       </Routes>
       
-      {/* Use the voice-enabled AI Assistant */}
-      {useVoiceAssistant ? (
-        <VoiceAiAssistant 
-          showPaths={['/', '/solutions', '/academy', '/features']}
-          initialAgent="miles"
-          initialVoiceMode={false}
-        />
-      ) : (
-        <AiAssistant 
-          showPaths={['/', '/solutions', '/academy', '/features']}
-        />
-      )}
+      {/* Only use the voice-enabled AI Assistant */}
+      <VoiceAiAssistant 
+        showPaths={['/', '/solutions', '/academy', '/features']}
+        initialAgent="miles"
+        initialVoiceMode={false}
+      />
       
       <Toaster />
     </LenisProvider>

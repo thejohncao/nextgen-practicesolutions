@@ -20,15 +20,16 @@ const MeetYourTeamButton: React.FC<MeetYourTeamButtonProps> = ({
     const event = new CustomEvent('open-miles-chat', {
       detail: {
         agent: agent,
-        voiceMode: true
+        voiceMode: true // Set voice mode to true by default
       }
     });
     document.dispatchEvent(event);
+    setShowDialog(false); // Close the dialog after selection
   };
 
   const handleSelectMode = (useVoice: boolean) => {
-    // This detail will be included in the same event as above
-    console.log('Voice mode:', useVoice);
+    // This will be included in the event above now, no need for separate handling
+    console.log('Voice mode selected:', useVoice);
   };
 
   return (
