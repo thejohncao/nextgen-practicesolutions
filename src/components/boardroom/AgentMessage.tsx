@@ -24,16 +24,16 @@ const AgentMessage = ({ agent, role, message, bgColorClass }: AgentMessageProps)
   // Get subtle glow effect based on agent color
   const getGlowColor = () => {
     switch(agent) {
-      case 'miles': return 'border border-blue-900/30 shadow-[0_0_8px_rgba(59,130,246,0.25)]';
-      case 'giselle': return 'border border-green-900/30 shadow-[0_0_8px_rgba(34,197,94,0.25)]';
-      case 'devon': return 'border border-purple-900/30 shadow-[0_0_8px_rgba(168,85,247,0.25)]';
-      case 'alma': return 'border border-amber-900/30 shadow-[0_0_8px_rgba(251,191,36,0.25)]';
-      default: return 'border border-blue-900/30 shadow-[0_0_8px_rgba(59,130,246,0.25)]';
+      case 'miles': return 'border border-blue-900/20 shadow-[0_0_6px_rgba(59,130,246,0.2)]';
+      case 'giselle': return 'border border-green-900/20 shadow-[0_0_6px_rgba(34,197,94,0.2)]';
+      case 'devon': return 'border border-purple-900/20 shadow-[0_0_6px_rgba(168,85,247,0.2)]';
+      case 'alma': return 'border border-amber-900/20 shadow-[0_0_6px_rgba(251,191,36,0.2)]';
+      default: return 'border border-blue-900/20 shadow-[0_0_6px_rgba(59,130,246,0.2)]';
     }
   };
   
   return (
-    <div className={`p-2.5 md:p-3 rounded-lg backdrop-blur-sm bg-black/90 ${getGlowColor()}`}>
+    <div className={`p-2.5 md:p-3 rounded-lg backdrop-blur-[2px] bg-[#000000] ${getGlowColor()}`}>
       <div className="flex items-center">
         <div className="flex-shrink-0">
           <AgentChatAvatar agent={agent} hideDetails={true} />
