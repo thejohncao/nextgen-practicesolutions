@@ -78,12 +78,12 @@ const FloatingAgentAvatarsWithWelcome = ({
     return order[a.name] - order[b.name];
   });
   
-  // Define positions for each agent in a diamond layout
+  // Define positions for each agent with more space between them
   const positions = [
-    { x: '25%', y: '25%', delay: 0.2 }, // Top left (Giselle)
-    { x: '75%', y: '25%', delay: 0.4 }, // Top right (Miles)
-    { x: '75%', y: '75%', delay: 0.6 }, // Bottom right (Devon)
-    { x: '25%', y: '75%', delay: 0.8 }, // Bottom left (Alma)
+    { x: '20%', y: '25%', delay: 0.2 }, // Top left (Giselle)
+    { x: '80%', y: '25%', delay: 0.4 }, // Top right (Miles)
+    { x: '80%', y: '75%', delay: 0.6 }, // Bottom right (Devon)
+    { x: '20%', y: '75%', delay: 0.8 }, // Bottom left (Alma)
   ];
 
   const handleAgentClick = (agentName: string) => {

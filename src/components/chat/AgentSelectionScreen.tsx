@@ -34,7 +34,7 @@ const AgentSelectionScreen: React.FC<AgentSelectionScreenProps> = ({ onSelectAge
   };
 
   const getAgentDescription = (agentName: string) => {
-    switch (agentName.toLowerCase()) {
+    switch(agentName.toLowerCase()) {
       case 'miles':
         return "Operations & Scheduling";
       case 'giselle':

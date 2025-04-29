@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -9,6 +9,16 @@ interface MilesBannerProps {
 
 const MilesBanner = ({ onOpenChat }: MilesBannerProps) => {
   const isMobile = useIsMobile();
+  const [isVisible, setIsVisible] = useState(false);
+  
+  // Only show banner after a delay to prevent duplicate with hero section
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 3000);
+    
+    return () => clearTimeout(timer);
+  }, []);
   
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -28,7 +38,8 @@ const MilesBanner = ({ onOpenChat }: MilesBannerProps) => {
     <button 
       onClick={handleClick}
       className={cn(
-        "w-full bg-[#F0F8FF] border-b border-blue-100/50 z-[60] transition-opacity duration-300 ease-in-out opacity-0 animate-fade-in",
+        "w-full bg-[#F0F8FF] border-b border-blue-100/50 z-[60] transition-opacity duration-300 ease-in-out",
+        isVisible ? "opacity-100" : "opacity-0",
         isMobile ? "h-[40px]" : "h-[50px]"
       )}
     >

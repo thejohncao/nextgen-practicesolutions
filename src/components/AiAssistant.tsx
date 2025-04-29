@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import ChatToggleButton from './ChatToggleButton';
@@ -12,6 +13,7 @@ import TypingIndicator from './TypingIndicator';
 import { Button } from './ui/button';
 import { RefreshCw, ArrowRight } from 'lucide-react';
 import { AiMessage } from '@/types/conversation';
+import AgentSelectionScreen from './chat/AgentSelectionScreen';
 
 interface AiAssistantProps {
   showPaths?: string[];
@@ -21,6 +23,7 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [showEmailDialog, setShowEmailDialog] = useState(false);
+  const [showAgentSelection, setShowAgentSelection] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { 
     messages, 
@@ -32,7 +35,8 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
     handleStartOver,
     showExpandedMessage,
     toggleMessageExpansion,
-    getAgentSuggestions
+    getAgentSuggestions,
+    selectAgent
   } = useAiConversation();
   const isMobile = useIsMobile();
   const location = useLocation();
@@ -57,6 +61,28 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
     }
   }, [messages, isOpen, isTyping, showExpandedMessage]);
 
+  // Hide agent selection once user starts a conversation
+  useEffect(() => {
+    if (messages.length > 0) {
+      setShowAgentSelection(false);
+    }
+  }, [messages]);
+  
+  const handleSelectAgent = (agentName: string) => {
+    selectAgent(agentName);
+    // After a short delay, hide the agent selection screen
+    setTimeout(() => {
+      setShowAgentSelection(false);
+    }, 300);
+  };
+
+  const handleGoBackToAgentSelection = () => {
+    // Only allow going back if there are no messages yet
+    if (messages.length === 0) {
+      setShowAgentSelection(true);
+    }
+  };
+
   // Return null if we shouldn't show on this path
   if (!shouldShow) return null;
 
@@ -75,65 +101,74 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
               isMinimized={isMinimized} 
               currentAgent={currentAgent} 
               onMinimize={(e) => setIsMinimized(!isMinimized)}
-              onClose={() => setIsOpen(false)} 
+              onClose={() => setIsOpen(false)}
+              onGoBack={messages.length === 0 ? handleGoBackToAgentSelection : undefined}
             />
             
             <div className="flex-1 overflow-y-auto p-4 scrollbar-none">
-              {messages.map((message: AiMessage, index) => (
-                <AiMessageBubble
-                  key={index}
-                  message={message}
-                  isExpanded={showExpandedMessage === index}
-                  onToggleExpansion={() => toggleMessageExpansion(index)}
-                />
-              ))}
-              
-              {isTyping && (
-                <TypingIndicator agent={currentAgent} />
-              )}
-              
-              {isTimedOut && (
-                <div className="p-4 mb-4 bg-[#000000] border border-red-900/30 rounded-lg">
-                  <p className="text-white/90 mb-3">Sorry about that — I may have lost connection for a moment. Want to continue where we left off or start over?</p>
-                  <div className="flex gap-2">
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      className="flex items-center gap-1 border-white/20 hover:bg-white/5"
-                      onClick={handleRetry}
-                    >
-                      <RefreshCw className="h-3.5 w-3.5 mr-1" />
-                      Yes, continue
-                    </Button>
-                    <Button 
-                      variant="outline"
-                      size="sm"
-                      className="flex items-center gap-1 border-white/20 hover:bg-white/5"
-                      onClick={handleStartOver}
-                    >
-                      <ArrowRight className="h-3.5 w-3.5 mr-1" />
-                      Start over
-                    </Button>
-                  </div>
-                </div>
+              {showAgentSelection ? (
+                <AgentSelectionScreen onSelectAgent={handleSelectAgent} />
+              ) : (
+                <>
+                  {messages.map((message: AiMessage, index) => (
+                    <AiMessageBubble
+                      key={index}
+                      message={message}
+                      isExpanded={showExpandedMessage === index}
+                      onToggleExpansion={() => toggleMessageExpansion(index)}
+                    />
+                  ))}
+                  
+                  {isTyping && (
+                    <TypingIndicator agent={currentAgent} />
+                  )}
+                  
+                  {isTimedOut && (
+                    <div className="p-4 mb-4 bg-[#000000] border border-red-900/30 rounded-lg">
+                      <p className="text-white/90 mb-3">Sorry about that — I may have lost connection for a moment. Want to continue where we left off or start over?</p>
+                      <div className="flex gap-2">
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          className="flex items-center gap-1 border-white/20 hover:bg-white/5"
+                          onClick={handleRetry}
+                        >
+                          <RefreshCw className="h-3.5 w-3.5 mr-1" />
+                          Yes, continue
+                        </Button>
+                        <Button 
+                          variant="outline"
+                          size="sm"
+                          className="flex items-center gap-1 border-white/20 hover:bg-white/5"
+                          onClick={handleStartOver}
+                        >
+                          <ArrowRight className="h-3.5 w-3.5 mr-1" />
+                          Start over
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
               
               <div ref={messagesEndRef} />
             </div>
             
-            <ChatInput 
-              isTyping={isTyping || isTimedOut}
-              currentAgent={currentAgent}
-              onSendMessage={(message) => {
-                if (messages.length === 0 || (messages.length === 1 && !messages[0].isUser)) {
-                  // This is the first message, show email dialog after sending
-                  setTimeout(() => setShowEmailDialog(true), 2000);
-                }
-                sendMessage(message);
-              }}
-              messages={messages}
-              suggestions={getAgentSuggestions()}
-            />
+            {!showAgentSelection && (
+              <ChatInput 
+                isTyping={isTyping || isTimedOut}
+                currentAgent={currentAgent}
+                onSendMessage={(message) => {
+                  if (messages.length === 0 || (messages.length === 1 && !messages[0].isUser)) {
+                    // This is the first message, show email dialog after sending
+                    setTimeout(() => setShowEmailDialog(true), 2000);
+                  }
+                  sendMessage(message);
+                }}
+                messages={messages}
+                suggestions={getAgentSuggestions()}
+              />
+            )}
           </div>
         </DialogContent>
       </Dialog>

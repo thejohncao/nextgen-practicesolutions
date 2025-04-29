@@ -24,6 +24,12 @@ const AgentSelectionDialog: React.FC<AgentSelectionDialogProps> = ({
   onSelectAgent,
   onSelectMode
 }) => {
+  // Filter to get only the 4 main agents in the correct order
+  const mainAgents = ['miles', 'giselle', 'devon', 'alma'];
+  const sortedAgents = mainAgents.map(name => 
+    agents.find(a => a.name.toLowerCase() === name)
+  ).filter(Boolean);
+
   const [selectedAgent, setSelectedAgent] = useState<string | null>(null);
   const [selectedMode, setSelectedMode] = useState<'voice' | 'text'>('voice');
 
@@ -56,7 +62,7 @@ const AgentSelectionDialog: React.FC<AgentSelectionDialogProps> = ({
           </p>
 
           <div className="grid grid-cols-2 gap-3">
-            {agents.map((agent) => (
+            {sortedAgents.map((agent) => (
               <Button
                 key={agent.name}
                 variant="outline"
