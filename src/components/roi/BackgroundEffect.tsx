@@ -6,8 +6,8 @@ const BackgroundEffect: React.FC = () => {
   return (
     <div className="absolute inset-0 -z-10 overflow-hidden">
       <GeminiEffect />
-      {/* Subtle gradient overlay to improve text readability */}
-      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-black/40 via-transparent to-black/40 backdrop-blur-[1px]"></div>
+      {/* Enhanced gradient overlay for better text readability */}
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-black/50 via-black/20 to-black/50 backdrop-blur-[1px]"></div>
     </div>
   );
 };

@@ -57,7 +57,8 @@ const benefitCards = [
 
 const ROISection = () => {
   return (
-    <section id="roi" className="section-padding py-24 relative overflow-hidden scroll-transition bg-nextgen-dark">
+    <section id="roi" className="section-padding py-24 relative overflow-hidden scroll-transition bg-gradient-to-br from-nextgen-dark to-black">
+      {/* The background effect component */}
       <BackgroundEffect />
       
       <div className="container mx-auto px-4 relative z-10">

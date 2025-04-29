@@ -135,6 +135,14 @@ section {
   animation: gemini-fade 8s ease-in-out infinite;
 }
 
+.gemini-dot {
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.gemini-line {
+  transition: opacity 0.8s ease, width 0.5s ease;
+}
+
 /* Card hover effects */
 @keyframes subtle-glow {
   0%, 100% {
