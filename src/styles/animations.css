@@ -60,11 +60,15 @@
   }
 }
 
-/* Agent appear animation */
+/* Agent appear animation - enhanced for hero section */
 @keyframes agent-appear {
   0% {
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.8);
+  }
+  70% {
+    opacity: 0.8; 
+    transform: translate(-50%, -50%) scale(1.05);
   }
   100% {
     opacity: 1;
@@ -160,4 +164,9 @@
 
 .animate-pulse-glow {
   animation: pulse-glow 4s infinite ease-in-out;
+}
+
+/* Fix for blob dark backgrounds */
+.blob-container * {
+  background-color: transparent;
 }

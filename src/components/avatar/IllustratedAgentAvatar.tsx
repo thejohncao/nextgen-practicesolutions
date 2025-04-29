@@ -79,11 +79,11 @@ const IllustratedAgentAvatar = ({
     lg: 'w-16 h-16'
   };
   
-  const orbClass = `orb orb-${color} ${isPrimary ? 'orb-primary' : 'orb-secondary'} ${isInView ? 'in-view' : ''}`;
+  const orbClass = `orb ${isPrimary ? 'orb-primary' : 'orb-secondary'} ${isInView ? 'in-view' : ''}`;
   
   return (
     <div 
-      className={`flex items-center ${isTyping ? 'animate-pulse-slow' : 'animate-fade-in'} relative avatar-${name.toLowerCase()}`}
+      className={`flex items-center ${isTyping ? 'animate-pulse-slow' : 'animate-fade-in'} relative avatar-${name.toLowerCase()} bg-transparent`}
       style={{ animationDelay: getAnimationDelay() }}
     >
       <div className={`relative ${orbClass} bg-transparent`}>

@@ -43,6 +43,7 @@ const FloatingAgentAvatars = ({ staggered = false }: FloatingAgentAvatarsProps) 
             transform: staggered 
               ? `translate(-50%, -50%) scale(0.95)` 
               : `translate(-50%, -50%) scale(1)`,
+            zIndex: 20 // Ensure agents are visible above background elements
           }}
         >
           <div className="relative bg-transparent">
