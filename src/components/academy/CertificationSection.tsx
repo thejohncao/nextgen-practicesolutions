@@ -1,7 +1,8 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { Award } from "lucide-react";
+import { Award, CheckCircle } from "lucide-react";
+import ScrollRevealWrapper from '../animation/ScrollRevealWrapper';
 
 const CertificationSection = () => {
   const certificationItems = [
@@ -16,8 +17,8 @@ const CertificationSection = () => {
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
           {/* Left side - Certificate badge */}
-          <div className="flex justify-center order-2 md:order-1">
-            <div className="relative animate-fade-in">
+          <ScrollRevealWrapper animation="fade-in" delay={0.1} className="flex justify-center order-2 md:order-1">
+            <div className="relative">
               {/* Certificate Badge */}
               <div className="w-64 h-64 rounded-full bg-gradient-to-br from-nextgen-purple via-nextgen-blue to-nextgen-purple/70 flex items-center justify-center p-1 animate-pulse-slow">
                 <div className="w-full h-full rounded-full bg-nextgen-dark flex items-center justify-center p-6">
@@ -32,17 +33,20 @@ const CertificationSection = () => {
               {/* Glow effect */}
               <div className="absolute inset-0 -z-10 bg-nextgen-purple/20 rounded-full blur-xl"></div>
             </div>
-          </div>
+          </ScrollRevealWrapper>
           
           {/* Right side - Content */}
-          <div className="order-1 md:order-2">
+          <ScrollRevealWrapper animation="fade-up" delay={0.2} className="order-1 md:order-2">
             <h2 className="text-3xl md:text-4xl font-heading font-bold mb-6 text-gradient">
               Earn Your Official NextGen Certification
             </h2>
             
-            <ul className="space-y-3 mb-6 list-disc pl-5">
+            <ul className="space-y-4 mb-6">
               {certificationItems.map((item, index) => (
-                <li key={index} className="text-white leading-7">{item}</li>
+                <li key={index} className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-nextgen-purple mr-2 mt-1 flex-shrink-0" />
+                  <span className="text-white leading-7">{item}</span>
+                </li>
               ))}
             </ul>
             
@@ -56,7 +60,7 @@ const CertificationSection = () => {
             >
               Become NextGen Certified
             </Button>
-          </div>
+          </ScrollRevealWrapper>
         </div>
       </div>
     </section>

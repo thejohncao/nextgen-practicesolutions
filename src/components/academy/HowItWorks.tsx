@@ -1,15 +1,22 @@
 
 import React from 'react';
 import { Video, User, Download, Check, Book, Clock } from "lucide-react";
+import ScrollRevealWrapper from '../animation/ScrollRevealWrapper';
+import ParallaxSection from '../effects/ParallaxSection';
+import { cn } from '@/lib/utils';
 
-const FeatureCard = ({ icon: Icon, title, description }) => (
-  <div className="relative flex flex-col items-center text-center p-6 glass-card transform transition-all duration-500 hover:bg-white/10">
+const FeatureCard = ({ icon: Icon, title, description, delay }) => (
+  <ScrollRevealWrapper 
+    animation="fade-up" 
+    delay={delay} 
+    className="relative flex flex-col items-center text-center p-6 glass-card transform transition-all duration-500 hover:bg-white/10 hover:-translate-y-1 hover:shadow-lg"
+  >
     <div className="rounded-full bg-nextgen-purple/20 p-4 mb-4">
       <Icon className="h-6 w-6 text-nextgen-purple" />
     </div>
     <h3 className="text-lg font-heading font-semibold mb-2 text-white">{title}</h3>
     <p className="text-white/70 text-sm">{description}</p>
-  </div>
+  </ScrollRevealWrapper>
 );
 
 const HowItWorks = () => {
@@ -47,13 +54,13 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section className="py-24 relative">
+    <ParallaxSection className="py-24 relative">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
+        <ScrollRevealWrapper animation="fade-up" className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-6 text-gradient">
             How It Works
           </h2>
-        </div>
+        </ScrollRevealWrapper>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {features.map((feature, index) => (
@@ -62,11 +69,12 @@ const HowItWorks = () => {
               icon={feature.icon}
               title={feature.title}
               description={feature.description}
+              delay={0.1 * (index + 1)}
             />
           ))}
         </div>
       </div>
-    </section>
+    </ParallaxSection>
   );
 };
 

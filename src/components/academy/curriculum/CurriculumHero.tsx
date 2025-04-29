@@ -1,16 +1,14 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import QuantumGrid from '../effects/QuantumGrid';
-import { ArrowDown } from "lucide-react";
-import { Link as ScrollLink } from "react-router-dom";
-import { Link } from "react-router-dom";
-import EmailCollectionDialog from '../EmailCollectionDialog';
-import ScrollRevealWrapper from '../animation/ScrollRevealWrapper';
+import { Download } from "lucide-react";
+import EmailCollectionDialog from '../../EmailCollectionDialog';
+import ScrollRevealWrapper from '../../animation/ScrollRevealWrapper';
+import QuantumGrid from '../../effects/QuantumGrid';
 
-const AcademyHero = () => {
+const CurriculumHero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24">
+    <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden pt-24">
       <QuantumGrid />
       
       {/* Background effects */}
@@ -27,45 +25,38 @@ const AcademyHero = () => {
       <div className="container mx-auto px-4 py-20 text-center relative">
         <ScrollRevealWrapper animation="fade-up" delay={0.1}>
           <div className="inline-block px-3 py-1 rounded-full backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)] text-sm mb-6">
-            <span className="text-nextgen-purple font-medium uppercase tracking-widest">NextGen Academy</span>
+            <span className="text-nextgen-purple font-medium uppercase tracking-widest">NextGen Certification</span>
           </div>
-        
+          
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold leading-tight text-white mb-6">
-            Train Your Team. Grow Your Practice.
+            Your Certification Journey Starts Here
           </h1>
           
           <p className="text-lg md:text-xl text-white/70 mb-8 max-w-2xl mx-auto">
-            NextGen Academy delivers world-class, AI-powered certification training to your Front Desk, Treatment Coordinators, and Managers — without micromanagement.
+            Master the systems that power modern practices — from AI operations to case acceptance. Learn at your own pace. Graduate with confidence.
           </p>
           
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button 
-              asChild
               size="lg" 
               className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white"
             >
-              <ScrollLink to="#certification">
-                Learn About Academy
-              </ScrollLink>
+              Start Certification
             </Button>
             
-            <EmailCollectionDialog
-              triggerText="Book a Strategy Call"
-              buttonVariant="outline" 
-              buttonSize="lg"
-              buttonClassName="border-white/10 hover:bg-white/5"
-            />
+            <Button 
+              variant="outline" 
+              size="lg"
+              className="border-white/10 hover:bg-white/5 group"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              Download Sample Module
+            </Button>
           </div>
         </ScrollRevealWrapper>
-      </div>
-      
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <Button variant="ghost" size="icon" className="rounded-full bg-white/5 hover:bg-white/10">
-          <ArrowDown className="h-5 w-5 text-white/70" />
-        </Button>
       </div>
     </section>
   );
 };
 
-export default AcademyHero;
+export default CurriculumHero;

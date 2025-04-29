@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import Index from "./pages/Index";
 import Solutions from "./pages/Solutions";
 import Academy from "./pages/Academy";
+import AcademyCurriculum from "./pages/AcademyCurriculum";
 import Features from "./pages/Features";
 import Join from "./pages/Join";
 import Integrations from "./pages/Integrations";
@@ -38,7 +39,7 @@ const ScrollToTop = () => {
 };
 
 const AiAssistantWrapper = () => {
-  const showAiAssistantPaths = ['/', '/solutions', '/academy', '/features', '/pricing'];
+  const showAiAssistantPaths = ['/', '/solutions', '/academy', '/academy/curriculum', '/features', '/pricing'];
   
   return <AiAssistant showPaths={showAiAssistantPaths} />;
 };
@@ -59,6 +60,7 @@ const App = () => (
             <Route path="/features" element={<Features />} />
             <Route path="/integrations" element={<Integrations />} />
             <Route path="/academy" element={<Academy />} />
+            <Route path="/academy/curriculum" element={<AcademyCurriculum />} />
             <Route path="/solutions" element={<Solutions />} />
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/resources/*" element={<Resources />} />
