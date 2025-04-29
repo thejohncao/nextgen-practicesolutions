@@ -6,6 +6,8 @@ import { ModulesList } from './ModulesList';
 export interface Module {
   title: string;
   description: string;
+  type?: string;
+  number?: number;
 }
 
 interface TrackDetailProps {
