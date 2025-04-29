@@ -22,7 +22,7 @@ export const ModulesList: React.FC<ModulesListProps> = ({ modules }) => {
           >
             <div className="flex items-start gap-3">
               <span className="flex items-center justify-center w-6 h-6 rounded-full bg-nextgen-purple/20 text-nextgen-purple text-sm font-medium flex-shrink-0">
-                {index + 1}
+                {module.number || index + 1}
               </span>
               <div className="flex-1">
                 <div className="flex items-center justify-between mb-1">
