@@ -21,7 +21,7 @@ const TypingIndicator: React.FC<TypingIndicatorProps> = ({ agent }) => {
   return (
     <div className={`max-w-[85%] rounded-xl p-3 mr-auto bg-gradient-to-br ${getGradientClass()} mb-3 animate-fade-in border border-white/5`}>
       <div className="flex items-center gap-2">
-        <AgentChatAvatar agent={agent} hideDetails={false} />
+        <AgentChatAvatar agent={agent} hideDetails={false} isTyping={true} />
         <div className="flex gap-1 mt-1">
           <div className="h-2 w-2 rounded-full bg-white/70 animate-bounce"></div>
           <div className="h-2 w-2 rounded-full bg-white/70 animate-bounce" style={{animationDelay: '0.2s'}}></div>

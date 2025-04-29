@@ -18,7 +18,7 @@ interface LabeledAvatarProps {
 const LabeledAvatar = ({ 
   agent, 
   tooltip = false, 
-  mode = 'initial',
+  mode = 'fullName',
   size = 'md',
   animated = true 
 }: LabeledAvatarProps) => {

@@ -96,6 +96,8 @@ const AgentResultCard = ({ result, index, isMobile, isLightMode = false }: Agent
             color={result.color}
             size="sm"
             animated={true}
+            displayMode="fullName"
+            showLabel={false}
           />
           <div className="ml-3">
             <h4 className={`font-semibold text-sm md:text-base ${getTextColor(isLightMode)}`}>{result.agent}</h4>

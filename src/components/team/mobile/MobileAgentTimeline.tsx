@@ -35,7 +35,8 @@ const MobileAgentTimeline = ({
             phase={phases[index]}
             index={index}
             isActive={activeIndex === index}
-            onSelect={onAgentSelect}
+            onSelect={onAgentSelect ? () => onAgentSelect(index) : undefined}
+            displayMode="fullName"
           />
         ))}
       </div>
