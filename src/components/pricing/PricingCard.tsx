@@ -2,9 +2,15 @@
 import React from 'react';
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Calendar, Clipboard, MessageCircle, RefreshCcw, DollarSign, Briefcase, Network, Star, UserSquare2, Files } from "lucide-react";
-import AgentAvatar from '../AgentAvatar';
 import RainbowButton from '../ui/rainbow-button';
 import { cn } from "@/lib/utils";
+import AgentStackDisplay from './AgentStackDisplay';
+
+interface AgentInfo {
+  name: string;
+  role: string;
+  color: string;
+}
 
 interface PricingCardProps {
   name: string;
@@ -12,11 +18,7 @@ interface PricingCardProps {
   bestFor: string;
   features: string[];
   tagline?: string;
-  agent: {
-    name: string;
-    role: string;
-    color: string;
-  };
+  agents: AgentInfo[];
   ctaText: string;
   isPopular?: boolean;
   isMastery?: boolean;
@@ -77,14 +79,16 @@ const PricingCard = ({
   bestFor,
   features,
   tagline,
-  agent,
+  agents,
   ctaText,
   isPopular,
   isMastery,
   includesText
 }: PricingCardProps) => {
-  const agentHexColor = getAgentHexColor(agent.name);
-  const agentColorName = getAgentColor(agent.name);
+  if (!agents || agents.length === 0) return null;
+  
+  const primaryAgent = agents[0];
+  const agentHexColor = getAgentHexColor(primaryAgent.name);
   
   const handleChatOpen = () => {
     try {
@@ -109,6 +113,17 @@ const PricingCard = ({
     }
   };
   
+  // Generate appropriate text based on the number of agents
+  const getAgentCountText = () => {
+    if (agents.length === 1) {
+      return `Unlocks ${primaryAgent.name}`;
+    } else if (agents.length === 4) {
+      return "Unlocks Full AI Team";
+    } else {
+      return `Unlocks ${agents.length} AI Agents`;
+    }
+  };
+
   return (
     <Card 
       className={cn(
@@ -138,15 +153,15 @@ const PricingCard = ({
           <p className="text-sm text-white/60 italic">{includesText}</p>
         )}
 
-        <div className="flex items-center gap-3">
-          <AgentAvatar
-            name={agent.name}
-            role={agent.role}
-            color={agentColorName}
-          />
-          <div>
-            <p className="text-sm text-white/90">Unlocks</p>
-            <p className="text-white font-medium">{agent.name}</p>
+        <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-1">
+            <p className="text-sm text-white/90">{getAgentCountText()}</p>
+          </div>
+          <div className="flex items-end">
+            <AgentStackDisplay 
+              agents={agents} 
+              isPrimary={isMastery}
+            />
           </div>
         </div>
       </CardHeader>

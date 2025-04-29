@@ -15,11 +15,13 @@ const packages = [
       "Empower your team with ready-to-use front office SOP templates",
       "Get live setup support with a 1:1 onboarding session tailored to your practice"
     ],
-    agent: {
-      name: "Miles",
-      role: "Practice Management",
-      color: "blue"
-    },
+    agents: [
+      {
+        name: "Miles",
+        role: "Practice Management",
+        color: "blue"
+      }
+    ],
     ctaText: "Talk to Miles"
   },
   {
@@ -34,11 +36,18 @@ const packages = [
       "Strengthen your team with SOPs and onboarding templates designed to drive performance",
       "Accelerate your results with a 1:1 Strategic Success Planning Session"
     ],
-    agent: {
-      name: "Giselle",
-      role: "Marketing",
-      color: "green"
-    },
+    agents: [
+      {
+        name: "Giselle",
+        role: "Marketing",
+        color: "green"
+      },
+      {
+        name: "Miles",
+        role: "Practice Management",
+        color: "blue"
+      }
+    ],
     ctaText: "Talk to Miles",
     isPopular: true
   },
@@ -54,11 +63,23 @@ const packages = [
       "Maximize team performance with advanced training modules",
       "(Optional) Add a Dedicated Strategic Success Manager"
     ],
-    agent: {
-      name: "Devon",
-      role: "Sales",
-      color: "purple"
-    },
+    agents: [
+      {
+        name: "Devon",
+        role: "Sales",
+        color: "purple"
+      },
+      {
+        name: "Giselle",
+        role: "Marketing",
+        color: "green"
+      },
+      {
+        name: "Miles",
+        role: "Practice Management",
+        color: "blue"
+      }
+    ],
     ctaText: "Talk to Miles"
   },
   {
@@ -74,11 +95,28 @@ const packages = [
       "Complete SOP Library & Staff Communication Playbooks",
       "Continuing Education Tracking & Reminders"
     ],
-    agent: {
-      name: "Alma",
-      role: "Academy Director",
-      color: "gold"
-    },
+    agents: [
+      {
+        name: "Alma",
+        role: "Academy Director",
+        color: "gold"
+      },
+      {
+        name: "Devon",
+        role: "Sales",
+        color: "purple"
+      },
+      {
+        name: "Giselle",
+        role: "Marketing",
+        color: "green"
+      },
+      {
+        name: "Miles",
+        role: "Practice Management",
+        color: "blue"
+      }
+    ],
     ctaText: "Talk to Miles",
     isMastery: true
   }

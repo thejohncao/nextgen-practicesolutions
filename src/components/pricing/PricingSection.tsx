@@ -1,14 +1,12 @@
 
 import React from 'react';
 import { cn } from "@/lib/utils";
+import BackgroundEffect from '../roi/BackgroundEffect';
 
 const PricingSection = () => {
   return (
     <section id="pricing" className="relative py-20 overflow-hidden bg-nextgen-dark text-white">
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-nextgen-purple/10 blur-[100px] rounded-full animate-pulse-slow"></div>
-        <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-[#E87C7C]/10 blur-[100px] rounded-full animate-pulse-slow" style={{animationDelay: '1s'}}></div>
-      </div>
+      <BackgroundEffect />
       
       <div className="container mx-auto px-4 text-center mb-20">
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold mb-6 text-gradient">
@@ -19,19 +17,18 @@ const PricingSection = () => {
         </p>
       </div>
       
-      <div className="container mx-auto px-4 mb-20">
+      <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* PricingPackages component will go here */}
+          <PricingPackages />
         </div>
       </div>
       
       <div className="container mx-auto px-4 text-center mt-20">
         <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
-          Still have questions?
+          Still deciding? Let Miles recommend your plan.
         </h2>
         <p className="text-xl md:text-2xl font-medium text-white/80 mb-8 max-w-3xl mx-auto">
-          Let's design your custom NextGen Operating System together —<br />
-          Book a free demo and meet your future AI Executive Team.
+          Not sure where to start? Miles can help you figure it out in 60 seconds or less.
         </p>
       </div>
     </section>

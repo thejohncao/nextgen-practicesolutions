@@ -9,7 +9,6 @@ import HealthcareSecuritySection from '../components/HealthcareSecuritySection';
 import AcademyOverviewSection from '../components/AcademyOverviewSection';
 import FooterCTA from '../components/FooterCTA';
 import PricingSection from '../components/pricing/PricingSection';
-import PricingPackages from '../components/pricing/PricingPackages';
 import IntegrationsSection from '../components/IntegrationsSection';
 import SuccessGuarantee from '../components/SuccessGuarantee';
 import ResourcesSection from '../components/ResourcesSection';
@@ -45,11 +44,6 @@ const Index = () => {
       
       {/* Unified Pricing/Unlock Section */}
       <PricingSection />
-      <div className="bg-nextgen-dark">
-        <div className="container mx-auto px-4">
-          <PricingPackages />
-        </div>
-      </div>
       
       <IntegrationsSection />
       <SuccessGuarantee />
