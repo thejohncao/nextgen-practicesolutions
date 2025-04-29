@@ -69,7 +69,7 @@ const EnhancedAiChat = ({ showPaths = ['/', '/solutions', '/academy', '/features
         text: initialMessage,
         isUser: false,
         agent: agentName,
-        timestamp: new Date(),
+        timestamp: new Date().toISOString(),
       }]);
       setIsTyping(false);
     }, 1000);
@@ -98,7 +98,7 @@ const EnhancedAiChat = ({ showPaths = ['/', '/solutions', '/academy', '/features
       text: userMessage,
       isUser: true,
       agent: currentAgent || 'miles',
-      timestamp: new Date(),
+      timestamp: new Date().toISOString(),
     };
     
     setMessages(prev => [...prev, newUserMessage]);
@@ -121,7 +121,7 @@ const EnhancedAiChat = ({ showPaths = ['/', '/solutions', '/academy', '/features
         text: agentResponse,
         isUser: false,
         agent: currentAgent || 'miles',
-        timestamp: new Date(),
+        timestamp: new Date().toISOString(),
       }]);
       
       setIsTyping(false);
