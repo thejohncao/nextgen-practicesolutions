@@ -3,7 +3,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Agent } from '@/types/agent';
-import { Fuel, Calendar, Handshake, GraduationCap } from 'lucide-react';
+import { Sprout, Calendar, Handshake, GraduationCap } from 'lucide-react';
 
 interface TabItemProps {
   agent: Agent;
@@ -57,7 +57,7 @@ const TabItem = ({ agent, index, activeTab, onClick }: TabItemProps) => {
   // Get agent icon based on agent name
   const getAgentIcon = (agentName: string) => {
     switch(agentName) {
-      case 'Giselle': return <Fuel className={`w-5 h-5 ${isActive ? 'text-green-400' : 'text-white/60'}`} />;
+      case 'Giselle': return <Sprout className={`w-5 h-5 ${isActive ? 'text-green-400' : 'text-white/60'}`} />;
       case 'Miles': return <Calendar className={`w-5 h-5 ${isActive ? 'text-blue-400' : 'text-white/60'}`} />;
       case 'Devon': return <Handshake className={`w-5 h-5 ${isActive ? 'text-purple-400' : 'text-white/60'}`} />;
       case 'Alma': return <GraduationCap className={`w-5 h-5 ${isActive ? 'text-amber-400' : 'text-white/60'}`} />;

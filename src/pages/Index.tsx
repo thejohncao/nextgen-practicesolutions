@@ -5,11 +5,10 @@ import HeroSection from '../components/HeroSection';
 import GooeyFilterTabs from '../components/team/GooeyFilterTabs';
 import DemoResultsSection from '../components/DemoResultsSection';
 import ROISection from '../components/ROISection';
-import HealthcareSecuritySection from '../components/HealthcareSecuritySection';
 import AcademyOverviewSection from '../components/AcademyOverviewSection';
 import FooterCTA from '../components/FooterCTA';
 import PricingSection from '../components/pricing/PricingSection';
-import IntegrationsSection from '../components/IntegrationsSection';
+import CombinedSecurityIntegrationsSection from '../components/CombinedSecurityIntegrationsSection';
 import SuccessGuarantee from '../components/SuccessGuarantee';
 import ResourcesSection from '../components/ResourcesSection';
 import TestimonialsSection from '../components/TestimonialsSection';
@@ -38,14 +37,16 @@ const Index = () => {
       
       {/* ROI section that consolidates the emotional benefits */}
       <ROISection />
-      <HealthcareSecuritySection />
+      
+      {/* Combined Security & Integrations Section */}
+      <CombinedSecurityIntegrationsSection />
+      
       <AcademyOverviewSection />
       <FooterCTA />
       
       {/* Unified Pricing/Unlock Section */}
       <PricingSection />
       
-      <IntegrationsSection />
       <SuccessGuarantee />
       <ResourcesSection />
       <TestimonialsSection />

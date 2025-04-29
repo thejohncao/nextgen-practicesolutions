@@ -1,5 +1,4 @@
-
-import { Calendar, MessageCircle, Headset, ChartLine, Fuel, DollarSign, Handshake, Check, Clipboard, GraduationCap, Play, ListCheck } from 'lucide-react';
+import { Calendar, MessageCircle, Headset, ChartLine, Sprout, DollarSign, Handshake, Check, Clipboard, GraduationCap, Play, ListCheck } from 'lucide-react';
 import { Agent } from '@/types/agent';
 
 export const agents: Agent[] = [
@@ -39,7 +38,7 @@ export const agents: Agent[] = [
     title: "Practice Growth",
     tagline: "Turns leads into loyal patients by nurturing every opportunity from first click to lifelong care.",
     color: "green",
-    icon: Fuel,
+    icon: Sprout,
     description: "Your AI growth specialist focused on attracting and converting new patients.",
     avatarImage: "/assets/avatars/giselle-avatar.png", // Path to custom illustrated avatar
     animatedAvatar: true,
@@ -58,7 +57,7 @@ export const agents: Agent[] = [
       "Membership Growth Automation - Sell and manage in-house membership plans without the paperwork"
     ],
     tools: [
-      { name: "Funnels", icon: Fuel, description: "Lead Generation" },
+      { name: "Funnels", icon: Sprout, description: "Lead Generation" },
       { name: "Growth", icon: ChartLine, description: "Growth Analytics" },
       { name: "Payments", icon: DollarSign, description: "Payment Processing" },
       { name: "Partnerships", icon: Handshake, description: "Referral System" }

@@ -9,7 +9,7 @@ import AgentProfile from './AgentProfile';
 import TypingIndicator from './TypingIndicator';
 import ChatSimulation from './ChatSimulation';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Calendar, Magnet, Handshake, Sprout } from 'lucide-react';
+import { Sprout, Calendar, Handshake, Sprout as GrowthIcon } from 'lucide-react';
 import JourneyStageIcon from '../JourneyStageIcon';
 
 const TabbedAgentSection = () => {
@@ -34,10 +34,10 @@ const TabbedAgentSection = () => {
   // Map stages to their appropriate icons
   const getStageIcon = (index: number) => {
     switch(index) {
-      case 0: return <Magnet size={18} className="text-green-500" />;
+      case 0: return <Sprout size={18} className="text-green-500" />;
       case 1: return <Calendar size={18} className="text-blue-500" />;
       case 2: return <Handshake size={18} className="text-purple-500" />;
-      case 3: return <Sprout size={18} className="text-amber-400" />;
+      case 3: return <GrowthIcon size={18} className="text-amber-400" />;
       default: return null;
     }
   };
