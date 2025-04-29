@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Calendar, Clipboard, MessageCircle, RefreshCcw, DollarSign, Briefcase, Network, Star, UserSquare2, Files } from "lucide-react";
@@ -126,7 +127,7 @@ const PricingCard = ({
   return (
     <Card 
       className={cn(
-        "glass-card border-white/10 relative group animate-fade-in",
+        "glass-card border-white/10 relative group animate-fade-in h-full flex flex-col",
         isMastery ? "border-amber-400/50" : ""
       )}
     >
@@ -165,8 +166,8 @@ const PricingCard = ({
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-6">
-        <div>
+      <CardContent className="space-y-6 flex-grow flex flex-col">
+        <div className="flex-grow">
           <p className="text-white/80 text-sm font-medium mb-2">Includes:</p>
           <ul className="space-y-3">
             {features.map((feature, index) => (
@@ -198,12 +199,14 @@ const PricingCard = ({
           </div>
         )}
 
-        <RainbowButton 
-          onClick={handleChatOpen}
-          className="w-full"
-        >
-          Talk to Miles
-        </RainbowButton>
+        <div className="mt-auto">
+          <RainbowButton 
+            onClick={handleChatOpen}
+            className="w-full"
+          >
+            Talk to Miles
+          </RainbowButton>
+        </div>
       </CardContent>
     </Card>
   );

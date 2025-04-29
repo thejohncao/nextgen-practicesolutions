@@ -124,10 +124,36 @@ const packages = [
 
 const PricingPackages = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      {packages.map((pkg, index) => (
-        <PricingCard key={index} {...pkg} />
-      ))}
+    <div className="flex flex-col space-y-6 lg:space-y-0">
+      {/* Heading Section */}
+      <div className="text-center mb-12">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-6 text-gradient">
+          Choose Your Growth Stage
+        </h2>
+        <p className="text-xl md:text-2xl font-medium text-white/80 mb-8 max-w-3xl mx-auto">
+          NextGen grows with you — unlocking powerful AI teammates at every stage of your practice's journey.
+          Start where you are. Scale into who you're meant to become.
+        </p>
+      </div>
+      
+      {/* Cards Section - Responsive layout */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+        {packages.map((pkg, index) => (
+          <div key={index} className="flex flex-col h-full">
+            <PricingCard {...pkg} />
+          </div>
+        ))}
+      </div>
+      
+      {/* Bottom Section */}
+      <div className="text-center mt-16">
+        <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gradient">
+          Still deciding? Let Miles recommend your plan.
+        </h2>
+        <p className="text-lg md:text-xl font-medium text-white/80 mb-8 max-w-3xl mx-auto">
+          Not sure where to start? Miles can help you figure it out in 60 seconds or less.
+        </p>
+      </div>
     </div>
   );
 };
