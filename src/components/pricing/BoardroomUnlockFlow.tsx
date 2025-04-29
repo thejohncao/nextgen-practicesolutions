@@ -66,7 +66,7 @@ const BoardroomUnlockFlow = () => {
         </h3>
       </div>
 
-      <ScrollArea className="w-full pb-6" orientation="horizontal">
+      <ScrollArea className="w-full pb-6">
         <div className="flex space-x-4 md:space-x-6 pb-4 px-2 min-w-max">
           {/* Horizontal timeline with cards */}
           {stages.map((stage, index) => (
