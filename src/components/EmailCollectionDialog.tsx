@@ -16,6 +16,8 @@ interface EmailCollectionDialogProps {
   buttonSize?: "default" | "sm" | "lg" | "icon";
   buttonVariant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
   style?: React.CSSProperties;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 const EmailCollectionDialog = ({ 
@@ -23,10 +25,12 @@ const EmailCollectionDialog = ({
   buttonClassName,
   buttonSize = "default",
   buttonVariant = "default",
-  style
+  style,
+  open,
+  onOpenChange
 }: EmailCollectionDialogProps) => {
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button 
           size={buttonSize}
