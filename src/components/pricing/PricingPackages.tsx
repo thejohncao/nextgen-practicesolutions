@@ -1,6 +1,7 @@
 
 import React from 'react';
-import PricingCard from './PricingCard';
+import EnhancedPricingCard from './EnhancedPricingCard';
+import ScrollRevealWrapper from '@/components/animation/ScrollRevealWrapper';
 
 const packages = [
   {
@@ -123,10 +124,19 @@ const packages = [
 ];
 
 const PricingPackages = () => {
+  const handleChatOpen = () => {
+    try {
+      const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
+      if (chatButton) chatButton.click();
+    } catch (error) {
+      console.error('Error opening chat:', error);
+    }
+  };
+
   return (
     <div className="flex flex-col space-y-6 lg:space-y-0">
       {/* Heading Section */}
-      <div className="text-center mb-12">
+      <ScrollRevealWrapper animation="fade-up" className="text-center mb-12">
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-6 text-gradient">
           Choose Your Growth Stage
         </h2>
@@ -134,14 +144,22 @@ const PricingPackages = () => {
           NextGen grows with you — unlocking powerful AI teammates at every stage of your practice's journey.
           Start where you are. Scale into who you're meant to become.
         </p>
-      </div>
+      </ScrollRevealWrapper>
       
-      {/* Cards Section - Responsive layout */}
+      {/* Cards Section - Responsive layout with staggered animation */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
         {packages.map((pkg, index) => (
-          <div key={index} className="flex flex-col h-full">
-            <PricingCard {...pkg} />
-          </div>
+          <ScrollRevealWrapper 
+            key={index} 
+            animation="fade-up"
+            delay={0.1 * index}
+            className="flex flex-col h-full"
+          >
+            <EnhancedPricingCard 
+              {...pkg}
+              onOpen={handleChatOpen}
+            />
+          </ScrollRevealWrapper>
         ))}
       </div>
     </div>

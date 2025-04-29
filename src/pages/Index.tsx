@@ -1,7 +1,7 @@
 
-import React from 'react';
+import React, { useRef } from 'react';
 import Layout from '../components/Layout';
-import HeroSection from '../components/HeroSection';
+import EnhancedHero from '../components/hero/EnhancedHero';
 import GooeyFilterTabs from '../components/team/GooeyFilterTabs';
 import DemoResultsSection from '../components/DemoResultsSection';
 import ROISection from '../components/ROISection';
@@ -15,8 +15,19 @@ import AgentResultsSection from '../components/results/AgentResultsSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import AnimatedGrainOverlay from '../components/effects/AnimatedGrainOverlay';
 import PricingSection from '../components/pricing/PricingSection';
+import SectionTransition from '../components/effects/SectionTransition';
+import ParallaxSection from '../components/effects/ParallaxSection';
+import ScrollRevealWrapper from '../components/animation/ScrollRevealWrapper';
 
 const Index = () => {
+  const sectionRefs = {
+    hero: useRef<HTMLDivElement>(null),
+    team: useRef<HTMLDivElement>(null),
+    results: useRef<HTMLDivElement>(null),
+    testimonials: useRef<HTMLDivElement>(null),
+    pricing: useRef<HTMLDivElement>(null)
+  };
+
   return (
     <Layout>
       <div className="relative">
@@ -25,70 +36,109 @@ const Index = () => {
           <AnimatedGrainOverlay opacity={0.03} />
         </div>
         
-        <HeroSection />
-        
-        {/* Meet the AI Team section with improved folder-style UI */}
-        <div className="relative">
-          <GooeyFilterTabs />
+        {/* Enhanced Hero Section */}
+        <div ref={sectionRefs.hero}>
+          <EnhancedHero />
         </div>
         
-        {/* Visual separator between dark sections */}
-        <div className="h-8 bg-gradient-to-b from-black/80 to-[#121212] relative"></div>
+        {/* Meet the AI Team section with improved folder-style UI */}
+        <div ref={sectionRefs.team} className="relative">
+          <ParallaxSection>
+            <ScrollRevealWrapper animation="fade-up">
+              <GooeyFilterTabs />
+            </ScrollRevealWrapper>
+          </ParallaxSection>
+        </div>
+        
+        {/* Visual separator with enhanced transition */}
+        <div className="h-8 relative">
+          <SectionTransition type="gradient" position="both" height={24} color="nextgen-dark" />
+        </div>
         
         {/* Enhanced Demo + Results section with dark mode */}
         <div className="relative">
-          <DemoResultsSection />
+          <ScrollRevealWrapper animation="fade-up">
+            <DemoResultsSection />
+          </ScrollRevealWrapper>
         </div>
         
         {/* Visual separator between dark sections */}
-        <div className="h-8 bg-gradient-to-b from-[#121212] to-nextgen-dark relative"></div>
+        <div className="h-8 relative">
+          <SectionTransition type="parallax" position="both" height={24} />
+        </div>
         
         {/* New Results section with vertical sliders */}
-        <div className="relative">
-          <AgentResultsSection />
+        <div ref={sectionRefs.results} className="relative">
+          <ParallaxSection>
+            <ScrollRevealWrapper animation="fade-up">
+              <AgentResultsSection />
+            </ScrollRevealWrapper>
+          </ParallaxSection>
         </div>
         
         {/* Testimonials section with Bento grid layout */}
-        <TestimonialsSection />
+        <div ref={sectionRefs.testimonials} className="relative">
+          <ScrollRevealWrapper animation="fade-in">
+            <TestimonialsSection />
+          </ScrollRevealWrapper>
+        </div>
         
         {/* Moved ROI section after Connected AI Team section */}
         <div className="relative">
-          <ROISection />
+          <ScrollRevealWrapper animation="fade-up">
+            <ROISection />
+          </ScrollRevealWrapper>
         </div>
         
         {/* Combined Security & Integrations Section - now with enhanced design */}
         <div className="relative">
-          <CombinedSecurityIntegrationsSection />
+          <ParallaxSection>
+            <ScrollRevealWrapper animation="fade-up">
+              <CombinedSecurityIntegrationsSection />
+            </ScrollRevealWrapper>
+          </ParallaxSection>
         </div>
         
         {/* Pricing Section added back to the homepage */}
-        <div className="relative">
-          <PricingSection />
+        <div ref={sectionRefs.pricing} className="relative">
+          <ScrollRevealWrapper animation="fade-up">
+            <PricingSection />
+          </ScrollRevealWrapper>
         </div>
         
         {/* Footer CTA moved above Pricing section */}
         <div className="relative">
-          <FooterCTA />
+          <ScrollRevealWrapper animation="fade-up">
+            <FooterCTA />
+          </ScrollRevealWrapper>
         </div>
         
         {/* Resources Section */}
         <div className="relative">
-          <ResourcesSection />
+          <ScrollRevealWrapper animation="fade-up">
+            <ResourcesSection />
+          </ScrollRevealWrapper>
         </div>
         
         {/* Moved Academy section below Resources */}
         <div className="relative">
-          <AcademyOverviewSection />
+          <ScrollRevealWrapper animation="fade-up">
+            <AcademyOverviewSection />
+          </ScrollRevealWrapper>
         </div>
         
         {/* Success Guarantee moved above FAQ */}
         <div className="relative">
-          <SuccessGuarantee />
+          <ScrollRevealWrapper animation="fade-up">
+            <SuccessGuarantee />
+          </ScrollRevealWrapper>
         </div>
         
         {/* FAQ Section */}
         <div className="relative">
-          <FAQSection />
+          <ScrollRevealWrapper animation="fade-up">
+            <FAQSection />
+          </ScrollRevealWrapper>
         </div>
       </div>
     </Layout>

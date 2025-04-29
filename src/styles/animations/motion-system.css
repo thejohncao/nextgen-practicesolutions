@@ -1,0 +1,257 @@
+
+/* 
+ * NextGen Motion Choreography System
+ * A unified animation language that guides user attention and creates a premium experience
+ */
+
+/* Base animation variables */
+:root {
+  --animation-timing-fast: 200ms;
+  --animation-timing-medium: 400ms;
+  --animation-timing-slow: 700ms;
+  --animation-timing-extra-slow: 1200ms;
+  
+  --animation-easing-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --animation-easing-bouncy: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --animation-easing-emphatic: cubic-bezier(0.22, 1, 0.36, 1);
+  --animation-easing-snappy: cubic-bezier(0, 0.95, 0.53, 1);
+}
+
+/* 
+ * Core Animation Patterns - designed to be combined and sequenced
+ */
+
+/* Fade animations - the foundation */
+.fade-in {
+  animation: fadeIn var(--animation-timing-medium) var(--animation-easing-smooth) forwards;
+}
+
+.fade-out {
+  animation: fadeOut var(--animation-timing-medium) var(--animation-easing-smooth) forwards;
+}
+
+.fade-up {
+  animation: fadeUp var(--animation-timing-medium) var(--animation-easing-emphatic) forwards;
+}
+
+.fade-down {
+  animation: fadeDown var(--animation-timing-medium) var(--animation-easing-emphatic) forwards;
+}
+
+/* Transform animations - create dimensional movement */
+.scale-in {
+  animation: scaleIn var(--animation-timing-medium) var(--animation-easing-bouncy) forwards;
+}
+
+.scale-out {
+  animation: scaleOut var(--animation-timing-medium) var(--animation-easing-smooth) forwards;
+}
+
+.slide-in-right {
+  animation: slideInRight var(--animation-timing-slow) var(--animation-easing-emphatic) forwards;
+}
+
+.slide-in-left {
+  animation: slideInLeft var(--animation-timing-slow) var(--animation-easing-emphatic) forwards;
+}
+
+/* Cinematic animations - create atmosphere */
+.reveal {
+  animation: reveal var(--animation-timing-slow) var(--animation-easing-emphatic) forwards;
+}
+
+.blur-in {
+  animation: blurIn var(--animation-timing-slow) var(--animation-easing-smooth) forwards;
+}
+
+.blur-out {
+  animation: blurOut var(--animation-timing-medium) var(--animation-easing-smooth) forwards;
+}
+
+/* Premium hover effects */
+.hover-lift {
+  transition: transform var(--animation-timing-fast) var(--animation-easing-bouncy);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
+.hover-scale {
+  transition: transform var(--animation-timing-fast) var(--animation-easing-bouncy);
+}
+
+.hover-scale:hover {
+  transform: scale(1.03);
+}
+
+.hover-glow {
+  transition: box-shadow var(--animation-timing-medium) var(--animation-easing-smooth);
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(155, 135, 245, 0.3);
+}
+
+/* Staggered animation delays */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-700 { animation-delay: 700ms; }
+.delay-1000 { animation-delay: 1000ms; }
+
+/* Scroll-driven animations */
+.scroll-fade {
+  opacity: 0;
+  transition: opacity var(--animation-timing-slow) var(--animation-easing-smooth), 
+              transform var(--animation-timing-slow) var(--animation-easing-emphatic);
+  transform: translateY(20px);
+}
+
+.scroll-fade.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-reveal {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path var(--animation-timing-slow) var(--animation-easing-emphatic);
+}
+
+.scroll-reveal.visible {
+  clip-path: inset(0 0 0 0);
+}
+
+.scroll-scale {
+  transform: scale(0.95);
+  opacity: 0;
+  transition: transform var(--animation-timing-slow) var(--animation-easing-bouncy), 
+              opacity var(--animation-timing-slow) var(--animation-easing-smooth);
+}
+
+.scroll-scale.visible {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Parallax effects */
+.parallax-slow {
+  transition: transform 1s var(--animation-easing-smooth);
+  will-change: transform;
+}
+
+.parallax-medium {
+  transition: transform 0.5s var(--animation-easing-smooth);
+  will-change: transform;
+}
+
+.parallax-fast {
+  transition: transform 0.3s var(--animation-easing-smooth);
+  will-change: transform;
+}
+
+/* Animation keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes fadeUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeDown {
+  from { 
+    opacity: 0; 
+    transform: translateY(-20px);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from { 
+    opacity: 0; 
+    transform: scale(0.95);
+  }
+  to { 
+    opacity: 1; 
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleOut {
+  from { 
+    opacity: 1; 
+    transform: scale(1);
+  }
+  to { 
+    opacity: 0; 
+    transform: scale(0.95);
+  }
+}
+
+@keyframes slideInRight {
+  from { 
+    opacity: 0; 
+    transform: translateX(30px);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from { 
+    opacity: 0; 
+    transform: translateX(-30px);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateX(0);
+  }
+}
+
+@keyframes reveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes blurIn {
+  from { 
+    opacity: 0; 
+    filter: blur(10px);
+  }
+  to { 
+    opacity: 1; 
+    filter: blur(0);
+  }
+}
+
+@keyframes blurOut {
+  from { 
+    opacity: 1; 
+    filter: blur(0);
+  }
+  to { 
+    opacity: 0; 
+    filter: blur(10px);
+  }
+}
