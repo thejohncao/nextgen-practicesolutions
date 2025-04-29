@@ -11,6 +11,9 @@ interface AgentAvatarProps {
   animated?: boolean;
   isTyping?: boolean;
   isPrimary?: boolean;
+  displayMode?: 'initial' | 'fullName';
+  showLabel?: boolean;
+  isCompactView?: boolean;
 }
 
 const AgentAvatar = ({ 
@@ -20,7 +23,10 @@ const AgentAvatar = ({
   size = 'md', 
   animated = true,
   isTyping = false,
-  isPrimary = false
+  isPrimary = false,
+  displayMode = 'initial',
+  showLabel = false,
+  isCompactView = false
 }: AgentAvatarProps) => {
   // Try to find agent's custom avatar if available
   const agent = agents.find(a => a.name.toLowerCase() === name.toLowerCase());
@@ -37,6 +43,9 @@ const AgentAvatar = ({
       animated={isAnimatedAvatar}
       isTyping={isTyping}
       isPrimary={isPrimary}
+      displayMode={displayMode}
+      showLabel={showLabel}
+      isCompactView={isCompactView}
     />
   );
 };

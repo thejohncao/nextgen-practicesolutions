@@ -45,6 +45,8 @@ const TimelineAgentItem = ({
           tooltipText={getTooltipText(agent.name)}
           isActive={isActive}
           onClick={handleOrbClick}
+          displayMode="fullName" // Use full name in team timeline
+          showLabel={false} // Don't need label since name is shown below
         />
         
         <div className={`

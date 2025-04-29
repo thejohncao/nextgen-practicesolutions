@@ -11,9 +11,10 @@ interface AgentInfo {
 interface AgentStackDisplayProps {
   agents: AgentInfo[];
   isPrimary?: boolean;
+  showLabels?: boolean;
 }
 
-const AgentStackDisplay = ({ agents, isPrimary = false }: AgentStackDisplayProps) => {
+const AgentStackDisplay = ({ agents, isPrimary = false, showLabels = false }: AgentStackDisplayProps) => {
   if (!agents || agents.length === 0) return null;
 
   // Primary agent is always the first in the array
@@ -32,6 +33,9 @@ const AgentStackDisplay = ({ agents, isPrimary = false }: AgentStackDisplayProps
             size={isPrimary ? "md" : "sm"}
             animated={true}
             isPrimary={isPrimary}
+            displayMode="initial"
+            isCompactView={true}
+            showLabel={showLabels}
           />
         </div>
       </div>
@@ -55,6 +59,9 @@ const AgentStackDisplay = ({ agents, isPrimary = false }: AgentStackDisplayProps
                 color={agent.color}
                 size="sm"
                 animated={false}
+                displayMode="initial"
+                isCompactView={true}
+                showLabel={false}
               />
             </div>
           ))}

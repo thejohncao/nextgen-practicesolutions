@@ -17,6 +17,8 @@ interface AgentOrbProps {
   animated?: boolean;
   isActive?: boolean;
   onClick?: () => void;
+  displayMode?: 'initial' | 'fullName';
+  showLabel?: boolean;
 }
 
 const getGlowColor = (color: string) => {
@@ -29,7 +31,17 @@ const getGlowColor = (color: string) => {
   }
 };
 
-const AgentOrb = ({ name, role, color, tooltipText, animated, isActive, onClick }: AgentOrbProps) => {
+const AgentOrb = ({ 
+  name, 
+  role, 
+  color, 
+  tooltipText, 
+  animated, 
+  isActive, 
+  onClick,
+  displayMode = 'initial',
+  showLabel = false
+}: AgentOrbProps) => {
   const isMobile = useIsMobile();
   const glowColor = getGlowColor(color);
   
@@ -77,6 +89,8 @@ const AgentOrb = ({ name, role, color, tooltipText, animated, isActive, onClick 
             color={color}
             size="lg"
             animated={animated}
+            displayMode={displayMode}
+            showLabel={showLabel}
           />
         </button>
       </TooltipTrigger>

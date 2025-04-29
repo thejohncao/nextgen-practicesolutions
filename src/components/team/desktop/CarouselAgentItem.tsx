@@ -40,6 +40,8 @@ const CarouselAgentItem = ({
           tooltipText={getTooltipText(agent.name)}
           isActive={isActive}
           onClick={onSelect}
+          displayMode="fullName" // Use full name in team section
+          showLabel={true} // Show the label
         />
         <CarouselAgentCard 
           agent={agent} 
