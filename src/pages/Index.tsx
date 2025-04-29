@@ -16,6 +16,7 @@ import ResourcesSection from '../components/ResourcesSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import FAQSection from '../components/FAQSection';
 import MicroCarouselSection from '../components/team/micro-carousel/MicroCarouselSection';
+import AgentResultsSection from '../components/results/AgentResultsSection';
 
 const Index = () => {
   return (
@@ -28,8 +29,14 @@ const Index = () => {
       {/* Visual separator between dark sections */}
       <div className="h-8 bg-gradient-to-b from-black/80 to-[#121212]"></div>
       
-      {/* Enhanced Demo + Results section with unified experience */}
+      {/* Enhanced Demo + Results section with dark mode */}
       <DemoResultsSection />
+      
+      {/* Visual separator between dark sections */}
+      <div className="h-8 bg-gradient-to-b from-[#121212] to-nextgen-dark"></div>
+      
+      {/* New Results section with vertical sliders */}
+      <AgentResultsSection />
       
       {/* What Your AI Team Can Do For You */}
       <MicroCarouselSection />

@@ -95,7 +95,7 @@ section {
   animation: pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* Vertical slider animations - kept for backwards compatibility */
+/* Vertical slider animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -105,23 +105,6 @@ section {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-/* New unified grid animations */
-@keyframes fadeInStaggered {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-section-transition {
-  opacity: 0;
-  animation: fadeInStaggered 0.7s ease-out forwards;
 }
 
 .vertical-slider-item-enter {

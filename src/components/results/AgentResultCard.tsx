@@ -26,11 +26,11 @@ const AgentResultCard = ({ result, index, isMobile, isLightMode = false }: Agent
       }
     } else {
       switch(color) {
-        case 'green': return "bg-gradient-to-br from-green-500/20 to-black/80";
-        case 'blue': return "bg-gradient-to-br from-blue-500/20 to-black/80";
-        case 'purple': return "bg-gradient-to-br from-purple-500/20 to-black/80";
-        case 'gold': return "bg-gradient-to-br from-amber-500/20 to-black/80";
-        default: return "bg-gradient-to-br from-white/10 to-black/80";
+        case 'green': return "bg-gradient-to-br from-green-500/20 to-black/50";
+        case 'blue': return "bg-gradient-to-br from-blue-500/20 to-black/50";
+        case 'purple': return "bg-gradient-to-br from-purple-500/20 to-black/50";
+        case 'gold': return "bg-gradient-to-br from-amber-500/20 to-black/50";
+        default: return "bg-gradient-to-br from-white/10 to-black/50";
       }
     }
   };
@@ -80,10 +80,14 @@ const AgentResultCard = ({ result, index, isMobile, isLightMode = false }: Agent
         ${getEnhancedCardBg(result.color, isLightMode)} 
         border ${getEnhancedCardBorder(result.color, isLightMode)}
         overflow-hidden relative ${isLightMode ? "shadow-sm" : "backdrop-blur-md"}
-        ${shimmerClass()} hover:shadow-lg hover:scale-[1.01] transition-all duration-300
+        vertical-slider-item-enter ${shimmerClass()}
       `}
+      style={{
+        animationDelay: `${index * 0.1}s`,
+        animationFillMode: 'both'
+      }}
     >
-      <CardContent className="p-5 md:p-6">
+      <CardContent className="p-4 md:p-5">
         {/* Agent info row */}
         <div className="flex items-center mb-3">
           <AgentAvatar 
@@ -101,7 +105,7 @@ const AgentResultCard = ({ result, index, isMobile, isLightMode = false }: Agent
         
         {/* Result content */}
         <div>
-          <h3 className={`text-base md:text-lg font-bold mb-2 flex items-center ${getTextColor(isLightMode)}`}>
+          <h3 className={`text-base md:text-lg font-bold mb-1 flex items-center ${getTextColor(isLightMode)}`}>
             <Sparkle className={`w-3 h-3 mr-1 md:w-4 md:h-4 md:mr-2 ${isLightMode ? "text-indigo-500" : "text-white/90"}`} />
             {result.title}
           </h3>
