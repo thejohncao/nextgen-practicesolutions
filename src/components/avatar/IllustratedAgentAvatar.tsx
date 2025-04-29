@@ -86,11 +86,11 @@ const IllustratedAgentAvatar = ({
       className={`flex items-center ${isTyping ? 'animate-pulse-slow' : 'animate-fade-in'} relative avatar-${name.toLowerCase()}`}
       style={{ animationDelay: getAnimationDelay() }}
     >
-      <div className={`relative ${orbClass}`}>
+      <div className={`relative ${orbClass} bg-transparent`}>
         <AvatarRings color={color} isAnimating={isAnimating || isTyping || isPrimary} />
         <AvatarOverlay isAnimating={isAnimating || isTyping || isPrimary} />
         
-        <Avatar className={`${sizeClasses[size]} border-2 border-white/10 relative z-10 transition-all duration-300 ${(isAnimating || isTyping || isPrimary) ? 'scale-105' : ''}`}>
+        <Avatar className={`${sizeClasses[size]} border-2 border-white/10 relative z-10 transition-all duration-300 ${(isAnimating || isTyping || isPrimary) ? 'scale-105' : ''} bg-transparent`}>
           {imagePath ? (
             <AvatarImage src={imagePath} alt={`${name} avatar`} className="object-cover" />
           ) : (

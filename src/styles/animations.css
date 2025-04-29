@@ -1,220 +1,35 @@
 
-@import './animations/base-animations.css';
-@import './animations/chat-animations.css';
-@import './animations/gooey-effects.css';
-@import './animations/hero-animations.css';
-@import './animations/hover-effects.css';
-@import './animations/movement-animations.css';
-@import './animations/sparkle-effects.css';
-
-/* Mega menu animation */
-@keyframes mega-menu-fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
+/* Base animations */
+@keyframes pulse-slow {
+  0%, 100% {
     opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-mega-menu {
-  animation: mega-menu-fade-in 0.2s ease-out forwards;
-}
-
-/* Rainbow button shimmer animation */
-@keyframes rainbow-shimmer {
-  0% {
-    background-position: 100% 50%;
-    opacity: 0.5;
-  }
-  100% {
-    background-position: 0% 50%;
-    opacity: 0.8;
-  }
-}
-
-.animate-shimmer {
-  animation: rainbow-shimmer 3s linear infinite;
-}
-
-/* Agent message shimmer animations */
-@keyframes shimmer-blue {
-  0% { background-position: 200% 50%; }
-  100% { background-position: -200% 50%; }
-}
-
-@keyframes shimmer-green {
-  0% { background-position: 200% 50%; }
-  100% { background-position: -200% 50%; }
-}
-
-@keyframes shimmer-purple {
-  0% { background-position: 200% 50%; }
-  100% { background-position: -200% 50%; }
-}
-
-@keyframes shimmer-amber {
-  0% { background-position: 200% 50%; }
-  100% { background-position: -200% 50%; }
-}
-
-.shimmer-blue {
-  background: linear-gradient(90deg, rgba(59, 130, 246, 0.2), rgba(127, 219, 255, 0.4), rgba(59, 130, 246, 0.2));
-  background-size: 200% 100%;
-  animation: shimmer-blue 10s ease-in-out infinite;
-}
-
-.shimmer-green {
-  background: linear-gradient(90deg, rgba(0, 200, 150, 0.2), rgba(0, 255, 178, 0.4), rgba(0, 200, 150, 0.2));
-  background-size: 200% 100%;
-  animation: shimmer-green 10s ease-in-out infinite;
-}
-
-.shimmer-purple {
-  background: linear-gradient(90deg, rgba(123, 44, 191, 0.2), rgba(179, 136, 235, 0.4), rgba(123, 44, 191, 0.2));
-  background-size: 200% 100%;
-  animation: shimmer-purple 10s ease-in-out infinite;
-}
-
-.shimmer-amber {
-  background: linear-gradient(90deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.4), rgba(251, 191, 36, 0.2));
-  background-size: 200% 100%;
-  animation: shimmer-amber 10s ease-in-out infinite;
-}
-
-/* Section transitions */
-@keyframes smooth-section-transition {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-section-transition {
-  animation: smooth-section-transition 0.7s ease-out forwards;
-}
-
-/* Results carousel animations */
-@keyframes carousel-fade-in {
-  0% {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.carousel-item-enter {
-  opacity: 0;
-  animation: carousel-fade-in 0.5s ease-out forwards;
-}
-
-/* Stagger animation for results cards */
-@keyframes stagger-in {
-  0% {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.stagger-item {
-  opacity: 0;
-}
-
-.stagger-item-visible {
-  animation: stagger-in 0.6s ease-out forwards;
-}
-
-/* Smooth scroll behavior */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Chat message spacing adjustments */
-.chat-container .message {
-  margin-bottom: 12px;
-}
-
-.chat-container .message:last-child {
-  margin-bottom: 0;
-}
-
-/* Background circles animation */
-@keyframes float {
-  0% {
-    transform: translateY(0) scale(1);
-    opacity: 0.6;
   }
   50% {
-    transform: translateY(-20px) scale(1.05);
-    opacity: 0.8;
-  }
-  100% {
-    transform: translateY(0) scale(1);
-    opacity: 0.6;
-  }
-}
-
-/* Subtle glow animation */
-@keyframes glow {
-  0%, 100% {
     opacity: 0.7;
-    filter: brightness(1);
-  }
-  50% {
-    opacity: 1;
-    filter: brightness(1.2);
   }
 }
 
-.shadow-glow {
-  box-shadow: 0 0 15px rgba(155, 135, 245, 0.5);
-  animation: glow 4s ease-in-out infinite;
-}
-
-/* Vertical slide animations */
-@keyframes slide-up {
+@keyframes flow {
   0% {
-    transform: translateY(0);
+    transform: translateX(-100%);
   }
   100% {
-    transform: translateY(-100%);
+    transform: translateX(100%);
   }
 }
 
-.vertical-scroll {
-  animation: slide-up 30s linear infinite;
-}
-
-/* Breathing animation for orbs in results */
-@keyframes breathe {
+@keyframes pulse-glow {
   0%, 100% {
+    opacity: 0.2;
     transform: scale(1);
-    opacity: 0.8;
   }
   50% {
+    opacity: 0.4;
     transform: scale(1.05);
-    opacity: 1;
   }
 }
 
-.breathe {
-  animation: breathe 4s ease-in-out infinite;
-}
-
-/* Agent orb animation states */
+/* Agent orb animations */
 @keyframes orbPulsePrimary {
   0% {
     transform: scale(1);
@@ -245,45 +60,24 @@ html {
   }
 }
 
+.orb {
+  @apply bg-transparent;
+}
+
 .orb-primary {
   animation: orbPulsePrimary 6s ease-in-out infinite;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
   transform-origin: center;
+  @apply bg-transparent;
 }
 
 .orb-secondary {
   animation: orbPulseSecondary 8s ease-in-out infinite;
   box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
   transform-origin: center;
+  @apply bg-transparent;
 }
 
-.orb-inactive {
-  filter: grayscale(1) opacity(0.4);
-  box-shadow: none;
-  animation: none;
-}
-
-/* Agent-specific glows */
-.orb-blue { box-shadow: 0 0 20px rgba(93, 176, 255, 0.6); }
-.orb-green { box-shadow: 0 0 20px rgba(102, 255, 204, 0.6); }
-.orb-purple { box-shadow: 0 0 20px rgba(196, 120, 255, 0.6); }
-.orb-orange, .orb-gold { box-shadow: 0 0 20px rgba(255, 186, 90, 0.6); }
-
-/* Hover effects for agent orbs */
-.orb:hover {
-  transform: scale(1.08);
-  box-shadow: 0 0 32px rgba(255, 255, 255, 0.8);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-@media (hover: none) {
-  .orb:active {
-    transform: scale(1.08);
-    box-shadow: 0 0 32px rgba(255, 255, 255, 0.8);
-  }
-}
-
-/* In-view animation for agent orbs */
 .orb.in-view {
   animation: orbGlowSync 1.2s ease-out;
 }
@@ -303,10 +97,35 @@ html {
   }
 }
 
-/* Mobile optimizations */
+.orb:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 32px rgba(255, 255, 255, 0.8);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+@media (hover: none) {
+  .orb:active {
+    transform: scale(1.08);
+    box-shadow: 0 0 32px rgba(255, 255, 255, 0.8);
+  }
+}
+
 @media (max-width: 768px) {
   .orb-primary,
   .orb-secondary {
     animation-duration: 10s;
   }
+}
+
+/* Other animations */
+.animate-pulse-slow {
+  animation: pulse-slow 3s infinite ease-in-out;
+}
+
+.animate-flow {
+  animation: flow 3s infinite ease-in-out;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 4s infinite ease-in-out;
 }

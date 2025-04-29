@@ -26,6 +26,6 @@
   }
   
   .neo-blur {
-    @apply backdrop-blur-xl bg-black/40 border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)];
+    @apply backdrop-blur-xl bg-transparent border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)];
   }
 }

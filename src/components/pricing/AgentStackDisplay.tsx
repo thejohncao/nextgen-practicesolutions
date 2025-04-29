@@ -21,27 +21,28 @@ const AgentStackDisplay = ({ agents, isPrimary = false }: AgentStackDisplayProps
   const secondaryAgents = agents.slice(1);
 
   return (
-    <div className="relative">
+    <div className="relative bg-transparent">
       {/* Primary Agent */}
-      <div className="relative z-10">
-        <div className={`${isPrimary ? 'animate-pulse-slow' : ''}`}>
+      <div className="relative z-10 bg-transparent">
+        <div className={`${isPrimary ? 'animate-pulse-slow' : ''} bg-transparent`}>
           <AgentAvatar
             name={primaryAgent.name}
             role={primaryAgent.role}
             color={primaryAgent.color}
             size={isPrimary ? "md" : "sm"}
             animated={true}
+            isPrimary={isPrimary}
           />
         </div>
       </div>
 
       {/* Secondary Agents (if any) */}
       {secondaryAgents.length > 0 && (
-        <div className="flex -space-x-3 mt-2">
+        <div className="flex -space-x-3 mt-2 bg-transparent">
           {secondaryAgents.map((agent, index) => (
             <div 
               key={agent.name} 
-              className="relative" 
+              className="relative bg-transparent" 
               style={{ 
                 zIndex: 9 - index,
                 opacity: 0.9 - (index * 0.1),
