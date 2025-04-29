@@ -4,7 +4,7 @@ import { Shield } from 'lucide-react';
 import { Button } from './ui/button';
 import { Dialog, DialogContent } from './ui/dialog';
 import IntegrationsGrid from './integrations/IntegrationsGrid';
-import ComplianceSection from './integrations/ComplianceSection';
+import SecurityAccordion from './security/SecurityAccordion';
 import PhoneDeviceMockup from './integrations/PhoneDeviceMockup';
 import IntegrationIcons from './integrations/IntegrationIcons';
 
@@ -32,15 +32,6 @@ const CombinedSecurityIntegrationsSection = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Mock compliance checklist - using the security badge descriptions
-  const complianceChecklist = [
-    "Enterprise-grade security and privacy protocols",
-    "Rigorous security controls and data protection",
-    "Patient data protected at every touchpoint",
-    "Data hosted exclusively on secure U.S. infrastructure",
-    "Built following latest healthcare guidelines"
-  ];
-
   return (
     <section id="combined-section" className="py-20 bg-gradient-to-b from-nextgen-dark/95 to-nextgen-dark">
       <div className="container mx-auto px-4">
@@ -58,13 +49,30 @@ const CombinedSecurityIntegrationsSection = () => {
           </p>
         </div>
 
-        {/* Two Column Layout - 60/40 split */}
+        {/* Two Column Layout - 40/60 split (swapped order) */}
         <div className={`grid md:grid-cols-5 gap-8 mt-12 transition-all duration-700 ${
           isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
         }`}>
-          {/* Left Column - Security Cards (60%) */}
+          {/* Left Column - Phone Mockup (40%) */}
+          <div className="md:col-span-2 flex flex-col items-center justify-start space-y-6">
+            <div className="text-center mb-2">
+              <h3 className="text-white/80 text-lg">Connected Services with NextGen AI</h3>
+            </div>
+            
+            {/* Enlarged Phone Mockup (1.3x) */}
+            <div className="scale-130 transform-gpu">
+              <PhoneDeviceMockup />
+            </div>
+            
+            {/* Integration Icons (moved below phone) */}
+            <div className="w-full mt-6">
+              <IntegrationIcons />
+            </div>
+          </div>
+          
+          {/* Right Column - Security Accordion (60%) */}
           <div className="md:col-span-3 space-y-4">
-            <ComplianceSection complianceChecklist={complianceChecklist} />
+            <SecurityAccordion />
             
             {/* Quote Card */}
             <div className="p-4 flex flex-col justify-center mt-6">
@@ -78,25 +86,16 @@ const CombinedSecurityIntegrationsSection = () => {
               </div>
             </div>
           </div>
-          
-          {/* Right Column - Phone Mockup and Integration Icons (40%) */}
-          <div className="md:col-span-2 flex flex-col items-center justify-start space-y-6">
-            {/* Phone Mockup */}
-            <PhoneDeviceMockup />
-            
-            {/* Integration Icons */}
-            <div className="w-full">
-              <IntegrationIcons />
-            </div>
-            
-            {/* CTA Button */}
-            <Button 
-              className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white mt-4"
-              onClick={() => setDialogOpen(true)}
-            >
-              Explore All Integrations
-            </Button>
-          </div>
+        </div>
+        
+        {/* CTA Button - centered under both columns */}
+        <div className="flex justify-center mt-12">
+          <Button 
+            className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white"
+            onClick={() => setDialogOpen(true)}
+          >
+            Explore All Integrations
+          </Button>
         </div>
       </div>
       

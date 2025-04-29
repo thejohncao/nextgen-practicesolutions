@@ -11,8 +11,8 @@ interface PhoneDeviceMockupProps extends React.HTMLAttributes<HTMLDivElement> {
 const PhoneDeviceMockup = ({ className, ...props }: PhoneDeviceMockupProps) => {
   return (
     <div className={cn("relative flex justify-center", className)} {...props}>
-      {/* Phone Frame */}
-      <div className="relative w-64 h-[500px] rounded-[40px] bg-black border-[8px] border-nextgen-dark shadow-2xl animate-float">
+      {/* Phone Frame - Enlarged by adjusting dimensions */}
+      <div className="relative w-72 h-[560px] rounded-[40px] bg-black border-[8px] border-nextgen-dark shadow-2xl animate-float">
         {/* Inner Screen */}
         <div className="absolute inset-0 rounded-[32px] overflow-hidden bg-gradient-to-b from-gray-900 to-nextgen-dark">
           {/* Screen Content - Integration App UI */}
@@ -91,8 +91,8 @@ const PhoneDeviceMockup = ({ className, ...props }: PhoneDeviceMockupProps) => {
         {/* Home Indicator */}
         <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-white/50 rounded-full"></div>
         
-        {/* Glow Effect */}
-        <div className="absolute -inset-4 bg-nextgen-purple/10 rounded-[50px] filter blur-xl opacity-60 animate-pulse-slow"></div>
+        {/* Enhanced Glow Effect */}
+        <div className="absolute -inset-4 bg-nextgen-purple/15 rounded-[50px] filter blur-xl opacity-70 animate-pulse-slow"></div>
       </div>
     </div>
   );
