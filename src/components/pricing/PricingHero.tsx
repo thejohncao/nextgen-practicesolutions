@@ -15,9 +15,9 @@ const PricingHero = () => {
         
         <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8">
           <EmailCollectionDialog 
-            buttonText="Get Started" 
+            triggerText="Get Started" 
             buttonVariant="default"
-            className="bg-gradient-to-r from-nextgen-purple to-nextgen-blue hover:opacity-90 text-white font-medium"
+            buttonClassName="bg-gradient-to-r from-nextgen-purple to-nextgen-blue hover:opacity-90 text-white font-medium"
           />
           <button className="px-6 py-2.5 border border-white/20 bg-white/5 hover:bg-white/10 rounded-md transition-colors">
             Talk to Miles
