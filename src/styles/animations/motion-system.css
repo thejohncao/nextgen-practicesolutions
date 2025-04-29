@@ -1,4 +1,3 @@
-
 /* 
  * NextGen Motion Choreography System
  * A unified animation language that guides user attention and creates a premium experience
@@ -253,5 +252,61 @@
   to { 
     opacity: 0; 
     filter: blur(10px);
+  }
+}
+
+/* Reduced Motion Media Query Support */
+@media (prefers-reduced-motion: reduce) {
+  /* Reset all animations to minimal or no motion */
+  .fade-in,
+  .fade-out,
+  .fade-up,
+  .fade-down,
+  .scale-in,
+  .scale-out,
+  .slide-in-right,
+  .slide-in-left,
+  .reveal,
+  .blur-in,
+  .blur-out,
+  .animate-fade-in-staggered,
+  .animate-pulse-slow,
+  .animate-spin-slow,
+  .animate-flow,
+  .animate-pulse-glow,
+  .orb-primary,
+  .orb-secondary,
+  .animate-hero-float,
+  .animate-hero-glow {
+    animation: none !important;
+    transition: opacity var(--animation-timing-fast) linear !important;
+    transform: none !important;
+  }
+  
+  /* Maintain visibility for elements that should be visible */
+  .fade-in,
+  .scale-in,
+  .slide-in-right,
+  .slide-in-left,
+  .reveal,
+  .blur-in,
+  .animate-fade-in-staggered,
+  .scroll-fade.visible,
+  .scroll-reveal.visible,
+  .scroll-scale.visible {
+    opacity: 1 !important;
+  }
+  
+  /* Maintain invisibility for elements that should be hidden */
+  .fade-out,
+  .scale-out,
+  .blur-out {
+    opacity: 0 !important;
+  }
+  
+  /* Remove hover animations */
+  .hover-lift:hover,
+  .hover-scale:hover {
+    transform: none !important;
   }
 }

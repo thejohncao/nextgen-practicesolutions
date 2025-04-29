@@ -30,9 +30,23 @@ const ProgressiveCounter: React.FC<ProgressiveCounterProps> = ({
     });
   };
   
+  // Check for reduced motion preference
+  const prefersReducedMotion = useRef(false);
+  
   useEffect(() => {
+    // Check for reduced motion preference
+    if (typeof window !== 'undefined' && window.matchMedia) {
+      prefersReducedMotion.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+    
     if (!active) {
       setDisplayValue(0);
+      return;
+    }
+    
+    // If reduced motion is preferred, just set the final value
+    if (prefersReducedMotion.current) {
+      setDisplayValue(value);
       return;
     }
     
