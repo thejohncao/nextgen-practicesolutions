@@ -39,6 +39,9 @@ const Index = () => {
       {/* Connected AI Team Section - NEW */}
       <ConnectedAITeamSection />
       
+      {/* Moved ROI section after Connected AI Team section */}
+      <ROISection />
+      
       {/* Combined Security & Integrations Section - now with enhanced design */}
       <CombinedSecurityIntegrationsSection />
       
@@ -47,9 +50,6 @@ const Index = () => {
       
       {/* Unified Pricing/Unlock Section */}
       <PricingSection />
-      
-      {/* Moved ROI section below Pricing section */}
-      <ROISection />
       
       {/* Resources Section */}
       <ResourcesSection />
