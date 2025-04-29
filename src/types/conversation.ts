@@ -4,8 +4,8 @@ export type MessageRole = 'user' | 'assistant' | 'system';
 export interface AiMessage {
   text: string;
   isUser: boolean;
-  agent: string;
-  timestamp: Date;
+  agent?: string;
+  timestamp: string;
 }
 
 export interface ConversationState {
