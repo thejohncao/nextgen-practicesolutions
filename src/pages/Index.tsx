@@ -15,7 +15,6 @@ import ResourcesSection from '../components/ResourcesSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import FAQSection from '../components/FAQSection';
 import AgentResultsSection from '../components/results/AgentResultsSection';
-import PrePricingCTA from '../components/PrePricingCTA';
 
 const Index = () => {
   return (
@@ -42,9 +41,6 @@ const Index = () => {
       
       {/* Combined Security & Integrations Section - now with enhanced design */}
       <CombinedSecurityIntegrationsSection />
-      
-      {/* Pre-Pricing CTA Section - Now using only the bottom version with dotted texture */}
-      <PrePricingCTA />
       
       {/* Footer CTA moved above Pricing section */}
       <FooterCTA />
