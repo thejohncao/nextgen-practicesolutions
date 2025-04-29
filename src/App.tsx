@@ -24,8 +24,6 @@ import Watch from './pages/Watch'
 import './App.css'
 
 function App() {
-  const [useVoiceAssistant, setUseVoiceAssistant] = useState(true);
-
   return (
     <LenisProvider>
       <Routes>
