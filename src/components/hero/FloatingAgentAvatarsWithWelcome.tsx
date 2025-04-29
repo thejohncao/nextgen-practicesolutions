@@ -13,13 +13,15 @@ interface FloatingAgentAvatarsWithWelcomeProps {
   onAgentSelect?: (agentName: string) => void;
   mousePosition?: { x: number; y: number };
   welcomeComplete?: boolean;
+  showFullNames?: boolean;
 }
 
 const FloatingAgentAvatarsWithWelcome = ({
   staggered = false,
   onAgentSelect,
   mousePosition = { x: 0, y: 0 },
-  welcomeComplete = false
+  welcomeComplete = false,
+  showFullNames = false
 }: FloatingAgentAvatarsWithWelcomeProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState<string | null>(null);
@@ -174,8 +176,8 @@ const FloatingAgentAvatarsWithWelcome = ({
                 animationIntensity={animationIntensity}
                 isActive={selectedAgent === agent.name}
                 onClick={() => handleAgentClick(agent.name)}
-                displayMode="initial"
-                showLabel={isPoweredUp} // Only show labels after power up
+                displayMode={showFullNames ? "fullName" : "initial"}
+                showLabel={showFullNames || isPoweredUp} // Show labels when full names are requested
                 poweredUp={isPoweredUp}
               />
             </motion.div>

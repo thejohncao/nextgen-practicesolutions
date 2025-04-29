@@ -2,29 +2,29 @@
 import React, { useRef } from 'react';
 import Layout from '../components/Layout';
 import EnhancedHero from '../components/hero/EnhancedHero';
-import GooeyFilterTabs from '../components/team/GooeyFilterTabs';
-import DemoResultsSection from '../components/DemoResultsSection';
-import ROISection from '../components/ROISection';
-import AcademyOverviewSection from '../components/AcademyOverviewSection';
+import TimelineScroll from '../components/team/TimelineScroll';
+import { agents } from '@/data/agents';
+import PricingSection from '../components/pricing/PricingSection';
+import DemoStickyScroll from '../components/demo/DemoStickyScroll';
+import ResultsSection from '../components/results/ResultsSection';
+import FounderSection from '../components/FounderSection';
 import FooterCTA from '../components/FooterCTA';
-import CombinedSecurityIntegrationsSection from '../components/CombinedSecurityIntegrationsSection';
 import SuccessGuarantee from '../components/SuccessGuarantee';
 import ResourcesSection from '../components/ResourcesSection';
 import FAQSection from '../components/FAQSection';
-import AgentResultsSection from '../components/results/AgentResultsSection';
+import AcademyOverviewSection from '../components/AcademyOverviewSection';
 import TestimonialsSectionEnhanced from '../components/TestimonialsSectionEnhanced';
 import AnimatedGrainOverlay from '../components/effects/AnimatedGrainOverlay';
-import PricingSection from '../components/pricing/PricingSection';
 import SectionTransition from '../components/effects/SectionTransition';
-import ParallaxSection from '../components/effects/ParallaxSection';
 import ScrollRevealWrapper from '../components/animation/ScrollRevealWrapper';
+import CombinedSecurityIntegrationsSection from '../components/CombinedSecurityIntegrationsSection';
 
 const Index = () => {
   const sectionRefs = {
     hero: useRef<HTMLDivElement>(null),
+    demo: useRef<HTMLDivElement>(null),
     team: useRef<HTMLDivElement>(null),
     results: useRef<HTMLDivElement>(null),
-    testimonials: useRef<HTMLDivElement>(null),
     pricing: useRef<HTMLDivElement>(null)
   };
 
@@ -41,15 +41,9 @@ const Index = () => {
           <EnhancedHero />
         </div>
         
-        {/* Removed EnhancedAiChat component here to prevent duplicate chat interfaces */}
-        
-        {/* Meet the AI Team section with improved folder-style UI */}
-        <div ref={sectionRefs.team} className="relative">
-          <ParallaxSection>
-            <ScrollRevealWrapper animation="fade-up">
-              <GooeyFilterTabs />
-            </ScrollRevealWrapper>
-          </ParallaxSection>
+        {/* Demo Section with StickyScroll */}
+        <div ref={sectionRefs.demo}>
+          <DemoStickyScroll />
         </div>
         
         {/* Visual separator with enhanced transition */}
@@ -57,61 +51,57 @@ const Index = () => {
           <SectionTransition type="gradient" position="both" height={24} color="nextgen-dark" />
         </div>
         
-        {/* Enhanced Demo + Results section with dark mode */}
-        <div className="relative">
+        {/* Team Section with TimelineScroll */}
+        <div ref={sectionRefs.team}>
           <ScrollRevealWrapper animation="fade-up">
-            <DemoResultsSection />
+            <TimelineScroll agents={agents} />
           </ScrollRevealWrapper>
         </div>
         
-        {/* Visual separator between dark sections */}
-        <div className="h-8 relative">
-          <SectionTransition type="parallax" position="both" height={24} />
+        {/* Results section with DisplayCards */}
+        <div ref={sectionRefs.results}>
+          <ScrollRevealWrapper animation="fade-up">
+            <ResultsSection />
+          </ScrollRevealWrapper>
         </div>
         
-        {/* New Results section with vertical sliders */}
-        <div ref={sectionRefs.results} className="relative">
-          <ParallaxSection>
-            <ScrollRevealWrapper animation="fade-up">
-              <AgentResultsSection />
-            </ScrollRevealWrapper>
-          </ParallaxSection>
-        </div>
-        
-        {/* Testimonials section with Bento grid layout - Enhanced with scroll animations */}
-        <div ref={sectionRefs.testimonials} className="relative">
+        {/* Testimonials section */}
+        <div className="relative">
           <ScrollRevealWrapper animation="fade-in">
             <TestimonialsSectionEnhanced />
           </ScrollRevealWrapper>
         </div>
         
-        {/* Moved ROI section after Connected AI Team section */}
+        {/* Founder Section */}
+        <ScrollRevealWrapper animation="fade-up">
+          <FounderSection />
+        </ScrollRevealWrapper>
+        
+        {/* Combined Security & Integrations Section */}
         <div className="relative">
           <ScrollRevealWrapper animation="fade-up">
-            <ROISection />
+            <CombinedSecurityIntegrationsSection />
           </ScrollRevealWrapper>
         </div>
         
-        {/* Combined Security & Integrations Section - now with enhanced design */}
-        <div className="relative">
-          <ParallaxSection>
-            <ScrollRevealWrapper animation="fade-up">
-              <CombinedSecurityIntegrationsSection />
-            </ScrollRevealWrapper>
-          </ParallaxSection>
-        </div>
-        
-        {/* Pricing Section added back to the homepage */}
+        {/* Pricing Section */}
         <div ref={sectionRefs.pricing} className="relative">
           <ScrollRevealWrapper animation="fade-up">
             <PricingSection />
           </ScrollRevealWrapper>
         </div>
         
-        {/* Footer CTA moved above Pricing section */}
+        {/* Footer CTA */}
         <div className="relative">
           <ScrollRevealWrapper animation="fade-up">
             <FooterCTA />
+          </ScrollRevealWrapper>
+        </div>
+        
+        {/* Academy Section */}
+        <div className="relative">
+          <ScrollRevealWrapper animation="fade-up">
+            <AcademyOverviewSection />
           </ScrollRevealWrapper>
         </div>
         
@@ -122,14 +112,7 @@ const Index = () => {
           </ScrollRevealWrapper>
         </div>
         
-        {/* Moved Academy section below Resources */}
-        <div className="relative">
-          <ScrollRevealWrapper animation="fade-up">
-            <AcademyOverviewSection />
-          </ScrollRevealWrapper>
-        </div>
-        
-        {/* Success Guarantee moved above FAQ */}
+        {/* Success Guarantee */}
         <div className="relative">
           <ScrollRevealWrapper animation="fade-up">
             <SuccessGuarantee />

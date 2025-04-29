@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -18,6 +19,7 @@ const EnhancedHero = () => {
   const [showWelcomeMessage, setShowWelcomeMessage] = useState(false);
   const [welcomeComplete, setWelcomeComplete] = useState(false);
   const sequence = createSequence(0.3, 0.1);
+  const demoSectionRef = useRef<HTMLDivElement>(null);
   
   // Mouse parallax effect
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -60,6 +62,12 @@ const EnhancedHero = () => {
       }
     } catch (error) {
       console.error('Error opening chat from hero:', error);
+    }
+  };
+
+  const scrollToDemo = () => {
+    if (demoSectionRef.current) {
+      demoSectionRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
   
@@ -133,7 +141,7 @@ const EnhancedHero = () => {
             
             <ScrollRevealWrapper animation="fade-up" delay={welcomeComplete ? 0.2 : sequence.next()}>
               <p className="text-xl md:text-2xl text-white/70 leading-relaxed max-w-2xl mb-8">
-                Deploy your Dream Team. Operate smarter. Grow faster. Lead effortlessly.
+                Scale your practice without the stress. Our intelligent agents run your front desk, nurture your leads, close your cases, and train your staff — all while you sleep.
               </p>
             </ScrollRevealWrapper>
             
@@ -153,15 +161,13 @@ const EnhancedHero = () => {
               <Button
                 variant="outline"
                 size="lg"
-                className="border border-white/10 bg-white/5 text-white hover:bg-white/10 transition-all duration-300"
-                asChild
+                className="border border-white/10 bg-white/5 text-white hover:bg-white/10 transition-all duration-300 group"
+                onClick={scrollToDemo}
               >
-                <Link to="/solutions">
-                  <span className="flex items-center">
-                    See How It Works
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                  </span>
-                </Link>
+                <span className="flex items-center">
+                  See How It Works
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </span>
               </Button>
             </ScrollRevealWrapper>
           </div>
@@ -173,6 +179,7 @@ const EnhancedHero = () => {
               onAgentSelect={handleAgentSelect}
               mousePosition={mousePosition}
               welcomeComplete={welcomeComplete}
+              showFullNames={true}
             />
           </div>
         </div>
@@ -181,7 +188,7 @@ const EnhancedHero = () => {
       {/* Scroll indicator */}
       <div className="absolute bottom-10 left-0 right-0 flex justify-center">
         <ScrollRevealWrapper animation="fade-in" delay={welcomeComplete ? 0.5 : 1.5}>
-          <div className="animate-bounce opacity-50">
+          <div className="animate-bounce opacity-50 cursor-pointer" onClick={scrollToDemo}>
             <ArrowRight className="h-5 w-5 transform rotate-90" />
           </div>
         </ScrollRevealWrapper>

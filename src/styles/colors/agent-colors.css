@@ -16,6 +16,19 @@
   /* Default color fallback */
   --agent-color: var(--miles-color);
   --agent-color-rgb: var(--miles-color-rgb);
+
+  /* Agent colors mapped to regular colors */
+  --blue-color: var(--miles-color);
+  --blue-color-rgb: var(--miles-color-rgb);
+  
+  --green-color: var(--giselle-color);
+  --green-color-rgb: var(--giselle-color-rgb);
+  
+  --purple-color: var(--devon-color);
+  --purple-color-rgb: var(--devon-color-rgb);
+  
+  --gold-color: var(--alma-color);
+  --gold-color-rgb: var(--alma-color-rgb);
 }
 
 /* Agent color utility classes */
@@ -37,4 +50,21 @@
 .alma-color {
   --agent-color: var(--alma-color);
   --agent-color-rgb: var(--alma-color-rgb);
+}
+
+/* Text gradient variants for each agent */
+.text-gradient-blue {
+  @apply bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 bg-clip-text text-transparent;
+}
+
+.text-gradient-green {
+  @apply bg-gradient-to-br from-green-400 via-green-500 to-green-600 bg-clip-text text-transparent;
+}
+
+.text-gradient-purple {
+  @apply bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 bg-clip-text text-transparent;
+}
+
+.text-gradient-gold {
+  @apply bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 bg-clip-text text-transparent;
 }
