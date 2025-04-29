@@ -115,6 +115,8 @@ const BoardroomUnlockFlow = () => {
                           role={agent.role} 
                           color={agent.color}
                           size="sm"
+                          displayMode="fullName"
+                          showLabel={true}
                         />
                         <div 
                           className="absolute -bottom-1 -right-1 bg-white/10 rounded-full p-1"
