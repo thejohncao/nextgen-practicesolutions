@@ -2,11 +2,9 @@
 import React from 'react';
 import { Shield, LockKeyhole, Lock, Server, FileCheck, Link as LinkIcon } from 'lucide-react';
 import { Button } from './ui/button';
-import { Link } from 'react-router-dom';
-import { cn } from '@/lib/utils';
-import IntegrationsList from './integrations/IntegrationsList';
 import { Dialog, DialogContent } from './ui/dialog';
 import IntegrationsGrid from './integrations/IntegrationsGrid';
+import IntegrationsList from './integrations/IntegrationsList';
 
 const securityCards = [
   {
@@ -105,10 +103,7 @@ const CombinedSecurityIntegrationsSection = () => {
             {securityCards.map((card, index) => (
               <div 
                 key={card.title}
-                className={cn(
-                  "p-6 glass-card animate-fade-in flex items-start gap-4",
-                  "transform transition-all duration-300 hover:scale-[1.02] hover:shadow-glow"
-                )}
+                className="p-6 glass-card animate-fade-in flex items-start gap-4 transform transition-all duration-300 hover:scale-[1.02] hover:shadow-glow"
                 style={{ animationDelay: `${index * 150}ms` }}
               >
                 <div className="rounded-full p-2 bg-white/5">
@@ -122,26 +117,18 @@ const CombinedSecurityIntegrationsSection = () => {
             ))}
           </div>
           
-          {/* Right Column - Benefits */}
-          <div className="space-y-6">
-            <p className="text-lg text-white/70">
-              NextGen Practice Solutions was engineered for the unique demands of healthcare providers — not generic SaaS workflows.
-              With HIPAA-compliant data protocols, SOC 2 Certification, and seamless integrations with platforms like Salesforce, Meta, and Google Ads, your practice runs smarter, safer, and faster.
-            </p>
-
-            <div className="p-6 glass-card bg-white/5">
-              <h3 className="text-xl font-bold mb-4">Streamlined Compliance</h3>
-              <p className="text-white/70">
-                Our platform helps you maintain compliance with healthcare regulations while providing advanced AI automation for your practice. Ensure you're meeting industry standards without the added stress.
-              </p>
-            </div>
-            
-            <div className="text-center mt-8">
-              <Button asChild className="bg-nextgen-purple hover:bg-nextgen-purple/90">
-                <Link to="/security">
-                  Learn About Our Security
-                </Link>
-              </Button>
+          {/* Right Column - Integration Pills (repeat) */}
+          <div className="flex items-center justify-center">
+            <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 w-full">
+              {integrations.map((integration, index) => (
+                <div 
+                  key={integration + "-right"}
+                  className="px-4 py-3 glass-card rounded-lg text-center text-white/70 hover:text-white/90 transition-all duration-300 transform hover:scale-105"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <span className="text-sm font-medium">{integration}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>

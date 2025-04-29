@@ -35,22 +35,29 @@ const Index = () => {
       {/* New Results section with vertical sliders */}
       <AgentResultsSection />
       
-      {/* ROI section that consolidates the emotional benefits */}
-      <ROISection />
-      
       {/* Combined Security & Integrations Section */}
       <CombinedSecurityIntegrationsSection />
-      
-      <AcademyOverviewSection />
-      <FooterCTA />
       
       {/* Unified Pricing/Unlock Section */}
       <PricingSection />
       
-      <SuccessGuarantee />
+      {/* Moved ROI section below Pricing section */}
+      <ROISection />
+      
+      {/* Resources Section */}
       <ResourcesSection />
-      <TestimonialsSection />
+      
+      {/* Moved Academy section below Resources */}
+      <AcademyOverviewSection />
+      
+      {/* Success Guarantee moved above FAQ */}
+      <SuccessGuarantee />
+      
+      {/* FAQ Section */}
       <FAQSection />
+      
+      <TestimonialsSection />
+      <FooterCTA />
     </Layout>
   );
 };
