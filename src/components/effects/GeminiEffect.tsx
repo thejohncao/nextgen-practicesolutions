@@ -29,8 +29,16 @@ const GeminiEffect: React.FC = () => {
     if (!ctx) return;
 
     const resizeCanvas = () => {
-      canvas.width = canvas.clientWidth;
-      canvas.height = canvas.clientHeight;
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      
+      ctx.scale(dpr, dpr);
+      
+      // Recreate points after resize
+      createPoints();
     };
 
     // Initialize on mount
@@ -40,14 +48,14 @@ const GeminiEffect: React.FC = () => {
     // Create points
     const createPoints = () => {
       const points: Point[] = [];
-      const pointCount = Math.floor(canvas.width * canvas.height / 20000);
+      const pointCount = Math.min(100, Math.floor(canvas.width * canvas.height / 15000));
       
       for (let i = 0; i < pointCount; i++) {
         points.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          vx: (Math.random() - 0.5) * 0.5,
-          vy: (Math.random() - 0.5) * 0.5,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.3,
           opacity: 0.2 + Math.random() * 0.3,
         });
       }
@@ -68,13 +76,13 @@ const GeminiEffect: React.FC = () => {
         point.x += point.vx;
         point.y += point.vy;
         
-        // Bounce off edges
-        if (point.x < 0 || point.x > canvas.width) point.vx *= -1;
-        if (point.y < 0 || point.y > canvas.height) point.vy *= -1;
+        // Bounce off edges with normalized coordinates
+        if (point.x < 0 || point.x > rect.width) point.vx *= -1;
+        if (point.y < 0 || point.y > rect.height) point.vy *= -1;
         
         // Keep points in bounds
-        point.x = Math.max(0, Math.min(canvas.width, point.x));
-        point.y = Math.max(0, Math.min(canvas.height, point.y));
+        point.x = Math.max(0, Math.min(rect.width, point.x));
+        point.y = Math.max(0, Math.min(rect.height, point.y));
       });
       
       // Create connections between points
@@ -85,14 +93,14 @@ const GeminiEffect: React.FC = () => {
           const distance = Math.sqrt(dx * dx + dy * dy);
           
           if (distance < connectionDistance) {
-            const opacity = (1 - distance / connectionDistance) * 0.15 * 
+            const opacity = (1 - distance / connectionDistance) * 0.2 * 
                             points[i].opacity * points[j].opacity;
             
             lines.push({
               start: points[i],
               end: points[j],
               opacity,
-              width: 1 * (1 - distance / connectionDistance)
+              width: 0.8 * (1 - distance / connectionDistance)
             });
           }
         }
@@ -100,9 +108,11 @@ const GeminiEffect: React.FC = () => {
       
       linesRef.current = lines;
     };
+    
+    const rect = canvas.getBoundingClientRect();
 
     const render = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, rect.width, rect.height);
       
       // Draw lines
       linesRef.current.forEach(line => {
@@ -128,7 +138,7 @@ const GeminiEffect: React.FC = () => {
       // Draw points
       pointsRef.current.forEach(point => {
         ctx.beginPath();
-        ctx.arc(point.x, point.y, 1, 0, Math.PI * 2);
+        ctx.arc(point.x, point.y, 1.2, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(155, 135, 245, ${point.opacity})`;
         ctx.fill();
       });
@@ -154,7 +164,13 @@ const GeminiEffect: React.FC = () => {
     <canvas 
       ref={canvasRef} 
       className="absolute inset-0 w-full h-full -z-10"
-      style={{ willChange: 'transform', opacity: 0.8 }}
+      style={{ 
+        width: '100%', 
+        height: '100%', 
+        display: 'block',
+        willChange: 'transform', 
+        opacity: 1 
+      }}
     />
   );
 };
