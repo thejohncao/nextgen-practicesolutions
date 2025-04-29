@@ -12,7 +12,7 @@ import SuccessGuarantee from '../components/SuccessGuarantee';
 import ResourcesSection from '../components/ResourcesSection';
 import FAQSection from '../components/FAQSection';
 import AgentResultsSection from '../components/results/AgentResultsSection';
-import TestimonialsSection from '../components/TestimonialsSection';
+import TestimonialsSectionEnhanced from '../components/TestimonialsSectionEnhanced';
 import AnimatedGrainOverlay from '../components/effects/AnimatedGrainOverlay';
 import PricingSection from '../components/pricing/PricingSection';
 import SectionTransition from '../components/effects/SectionTransition';
@@ -76,10 +76,10 @@ const Index = () => {
           </ParallaxSection>
         </div>
         
-        {/* Testimonials section with Bento grid layout */}
+        {/* Testimonials section with Bento grid layout - Enhanced with scroll animations */}
         <div ref={sectionRefs.testimonials} className="relative">
           <ScrollRevealWrapper animation="fade-in">
-            <TestimonialsSection />
+            <TestimonialsSectionEnhanced />
           </ScrollRevealWrapper>
         </div>
         

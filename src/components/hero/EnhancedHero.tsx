@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -7,12 +7,38 @@ import RainbowButton from '@/components/ui/rainbow-button';
 import SparkleText from '@/components/effects/SparkleText';
 import ParallaxSection, { ParallaxLayer } from '@/components/effects/ParallaxSection';
 import ScrollRevealWrapper from '@/components/animation/ScrollRevealWrapper';
+import FloatingAgentAvatarsWithWelcome from './FloatingAgentAvatarsWithWelcome';
 import { agents } from '@/data/agents';
 import { createSequence } from '@/lib/animationUtils';
+import { useTimeout } from '@/hooks/useTimeout';
+import TypingIndicator from '../ui/TypingIndicator';
 
 const EnhancedHero = () => {
   const [selectedAgent, setSelectedAgent] = useState<string | null>(null);
+  const [showWelcomeMessage, setShowWelcomeMessage] = useState(false);
+  const [welcomeComplete, setWelcomeComplete] = useState(false);
   const sequence = createSequence(0.3, 0.1);
+  
+  // Mouse parallax effect
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  
+  // Reference to the hero section for scroll tracking
+  const heroRef = useRef<HTMLDivElement>(null);
+  
+  // Handle agent selection
+  const handleAgentSelect = (agentName: string) => {
+    setSelectedAgent(prevSelected => prevSelected === agentName ? null : agentName);
+  };
+  
+  // Show welcome message after a delay
+  useTimeout(() => {
+    setShowWelcomeMessage(true);
+  }, 1800);
+  
+  // Mark welcome as complete after typing finishes
+  const handleTypingComplete = () => {
+    setWelcomeComplete(true);
+  };
   
   const handleChatOpen = () => {
     try {
@@ -42,9 +68,6 @@ const EnhancedHero = () => {
     ? agents.find(a => a.name === selectedAgent) 
     : null;
     
-  // Mouse parallax effect
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       // Calculate mouse position relative to the center of the window
@@ -59,7 +82,7 @@ const EnhancedHero = () => {
   }, []);
 
   return (
-    <ParallaxSection className="min-h-[90vh] flex items-center justify-center">
+    <ParallaxSection className="min-h-[90vh] flex items-center justify-center" ref={heroRef}>
       {/* Background layers - parallax effect */}
       <ParallaxLayer className="absolute inset-0 z-0" speed={-0.1}>
         <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-nextgen-purple/10 blur-[120px] rounded-full animate-pulse-slow"></div>
@@ -71,7 +94,25 @@ const EnhancedHero = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left side content */}
           <div className="relative">
-            <ScrollRevealWrapper animation="fade-up" delay={sequence.next()}>
+            {/* Initial welcome typing effect */}
+            {showWelcomeMessage && !welcomeComplete && (
+              <ScrollRevealWrapper animation="fade-in" delay={0.1} className="mb-8 bg-black/30 backdrop-blur-md rounded-lg p-4 border border-white/10">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-nextgen-blue flex-shrink-0 flex items-center justify-center">
+                    <span className="text-white font-bold">M</span>
+                  </div>
+                  <div>
+                    <TypingIndicator 
+                      text="Hello, I'm Miles. Welcome to NextGen Practice Solutions."
+                      speed={40}
+                      onComplete={handleTypingComplete}
+                    />
+                  </div>
+                </div>
+              </ScrollRevealWrapper>
+            )}
+            
+            <ScrollRevealWrapper animation="fade-up" delay={welcomeComplete ? 0 : sequence.next()}>
               <div className="inline-block px-3 py-1 rounded-full backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)] text-sm mb-6">
                 <SparkleText delay={300}>
                   <span className="text-gradient-primary font-medium flex items-center gap-2">
@@ -82,7 +123,7 @@ const EnhancedHero = () => {
               </div>
             </ScrollRevealWrapper>
             
-            <ScrollRevealWrapper animation="fade-up" delay={sequence.next()}>
+            <ScrollRevealWrapper animation="fade-up" delay={welcomeComplete ? 0.1 : sequence.next()}>
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold leading-tight mb-6">
                 <span className="text-gradient">The World's First</span><br />
                 <span className="text-gradient">AI Team for</span><br />
@@ -90,7 +131,7 @@ const EnhancedHero = () => {
               </h1>
             </ScrollRevealWrapper>
             
-            <ScrollRevealWrapper animation="fade-up" delay={sequence.next()}>
+            <ScrollRevealWrapper animation="fade-up" delay={welcomeComplete ? 0.2 : sequence.next()}>
               <p className="text-xl md:text-2xl text-white/70 leading-relaxed max-w-2xl mb-8">
                 Deploy your Dream Team. Operate smarter. Grow faster. Lead effortlessly.
               </p>
@@ -106,7 +147,7 @@ const EnhancedHero = () => {
               </ScrollRevealWrapper>
             )}
             
-            <ScrollRevealWrapper animation="fade-up" delay={sequence.next()} className="flex flex-col sm:flex-row gap-4">
+            <ScrollRevealWrapper animation="fade-up" delay={welcomeComplete ? 0.3 : sequence.next()} className="flex flex-col sm:flex-row gap-4">
               <RainbowButton 
                 size="lg"
                 onClick={handleChatOpen}
@@ -134,64 +175,21 @@ const EnhancedHero = () => {
             </ScrollRevealWrapper>
           </div>
           
-          {/* Right side - Agent display area with subtle mouse parallax */}
+          {/* Right side - Agent display area with enhanced animations */}
           <div className="relative h-[500px] z-30">
-            <div className="absolute inset-0 flex items-center justify-center">
-              {/* Floating orb elements that respond to mouse position */}
-              <div 
-                className="absolute w-[250px] h-[250px] bg-nextgen-blue/20 rounded-full blur-[40px]"
-                style={{
-                  transform: `translate(${mousePosition.x * -20}px, ${mousePosition.y * -20}px)`,
-                  transition: 'transform 0.6s cubic-bezier(0.33, 1, 0.68, 1)'
-                }}
-              ></div>
-              <div 
-                className="absolute w-[200px] h-[200px] bg-nextgen-purple/25 rounded-full blur-[30px]" 
-                style={{
-                  transform: `translate(${mousePosition.x * 15}px, ${mousePosition.y * 15}px)`,
-                  transition: 'transform 0.4s cubic-bezier(0.33, 1, 0.68, 1)'
-                }}
-              ></div>
-              <div 
-                className="absolute w-[150px] h-[150px] bg-white/5 rounded-full blur-[20px]"
-                style={{
-                  transform: `translate(${mousePosition.x * -10}px, ${mousePosition.y * -10}px)`,
-                  transition: 'transform 0.5s cubic-bezier(0.33, 1, 0.68, 1)'
-                }}
-              ></div>
-              
-              {/* Subtle dots grid with perspective */}
-              <div className="absolute inset-0">
-                <div className="grid grid-cols-6 gap-4 h-full w-full opacity-30">
-                  {Array.from({ length: 36 }).map((_, i) => (
-                    <div 
-                      key={i}
-                      className="w-1 h-1 rounded-full bg-white/30"
-                      style={{
-                        transform: `translate(${mousePosition.x * ((i % 6) - 3) * 2}px, ${mousePosition.y * (Math.floor(i / 6) - 3) * 2}px)`,
-                        transition: 'transform 0.3s ease-out'
-                      }}
-                    ></div>
-                  ))}
-                </div>
-              </div>
-              
-              {/* Agent avatars would be inserted here */}
-              <div className="relative z-10">
-                {/* We'd integrate with FloatingAgentAvatars here */}
-                <div className="text-center text-white/60">
-                  <p>AI Agents Display</p>
-                  {/* This is a placeholder - the actual avatars component would be used here */}
-                </div>
-              </div>
-            </div>
+            <FloatingAgentAvatarsWithWelcome
+              staggered={true}
+              onAgentSelect={handleAgentSelect}
+              mousePosition={mousePosition}
+              welcomeComplete={welcomeComplete}
+            />
           </div>
         </div>
       </div>
       
       {/* Scroll indicator */}
       <div className="absolute bottom-10 left-0 right-0 flex justify-center">
-        <ScrollRevealWrapper animation="fade-in" delay={1.5}>
+        <ScrollRevealWrapper animation="fade-in" delay={welcomeComplete ? 0.5 : 1.5}>
           <div className="animate-bounce opacity-50">
             <ArrowRight className="h-5 w-5 transform rotate-90" />
           </div>

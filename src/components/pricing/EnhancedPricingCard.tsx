@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Check, ChevronRight, Crown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import AgentStackDisplay from './AgentStackDisplay';
+import { motion } from 'framer-motion';
 
 interface AgentInfo {
   name: string;
@@ -21,6 +22,10 @@ interface PricingCardProps {
   isPopular?: boolean;
   isMastery?: boolean;
   onOpen?: () => void;
+  nextTier?: string;
+  onFeatureHover?: (feature: string) => void;
+  onFeatureLeave?: () => void;
+  highlightedFeature?: string | null;
 }
 
 const EnhancedPricingCard = ({
@@ -34,6 +39,10 @@ const EnhancedPricingCard = ({
   isPopular = false,
   isMastery = false,
   onOpen,
+  nextTier,
+  onFeatureHover,
+  onFeatureLeave,
+  highlightedFeature,
 }: PricingCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -64,9 +73,23 @@ const EnhancedPricingCard = ({
       if (onOpen) onOpen();
     }
   };
+  
+  // Handle feature hover
+  const handleFeatureHover = (feature: string) => {
+    if (onFeatureHover) {
+      onFeatureHover(feature);
+    }
+  };
+  
+  // Handle feature leave
+  const handleFeatureLeave = () => {
+    if (onFeatureLeave) {
+      onFeatureLeave();
+    }
+  };
 
   return (
-    <div 
+    <motion.div 
       className={cn(
         "relative h-full rounded-xl border backdrop-blur-sm p-6 transition-all duration-500 flex flex-col",
         getCardStyle(),
@@ -76,16 +99,43 @@ const EnhancedPricingCard = ({
       )}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      animate={{
+        y: isPopular && !isHovered ? [0, -5, 0] : 0
+      }}
+      transition={{
+        y: {
+          duration: 4,
+          repeat: Infinity,
+          repeatType: "reverse",
+          ease: "easeInOut",
+        }
+      }}
+      initial={false}
     >
       {/* Popular/Master badge */}
       {(isPopular || isMastery) && (
-        <div className={cn(
-          "absolute -top-4 right-4 px-4 py-1 rounded-full text-xs font-bold",
-          isPopular ? "bg-nextgen-purple text-white" : "bg-[#FFD700] text-nextgen-dark"
-        )}>
+        <motion.div 
+          className={cn(
+            "absolute -top-4 right-4 px-4 py-1 rounded-full text-xs font-bold",
+            isPopular ? "bg-nextgen-purple text-white" : "bg-[#FFD700] text-nextgen-dark"
+          )}
+          animate={{
+            scale: [1, 1.05, 1],
+            boxShadow: [
+              "0 0 0 rgba(155, 135, 245, 0.4)",
+              "0 0 10px rgba(155, 135, 245, 0.6)",
+              "0 0 0 rgba(155, 135, 245, 0.4)"
+            ]
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            repeatType: "reverse"
+          }}
+        >
           {isPopular && "MOST POPULAR"}
           {isMastery && "MASTERY TIER"}
-        </div>
+        </motion.div>
       )}
 
       {/* Glow effect based on tier */}
@@ -110,9 +160,20 @@ const EnhancedPricingCard = ({
 
           {/* Crown for Mastery tier */}
           {isMastery && (
-            <div className="flex-shrink-0">
+            <motion.div 
+              className="flex-shrink-0"
+              animate={{
+                rotate: [0, 5, -5, 0],
+                y: [0, -2, 2, 0]
+              }}
+              transition={{
+                duration: 6,
+                repeat: Infinity,
+                repeatType: "reverse"
+              }}
+            >
               <Crown className="w-6 h-6 text-[#FFD700]" />
-            </div>
+            </motion.div>
           )}
         </div>
 
@@ -127,6 +188,7 @@ const EnhancedPricingCard = ({
             agents={agents} 
             isPrimary={isPopular || isMastery} 
             displayMode="fullName"
+            animated={isHovered}
           />
         </div>
       </div>
@@ -136,34 +198,50 @@ const EnhancedPricingCard = ({
         <p className="text-white/70 mb-6 text-sm italic">"{tagline}"</p>
       )}
 
-      {/* Features list */}
+      {/* Features list - now with interactive highlighting */}
       <div className="flex-grow">
         <ul className="space-y-3">
-          {features.map((feature, index) => (
-            <li 
-              key={index} 
-              className={cn(
-                "flex items-start gap-2 text-sm",
-                isHovered ? "text-white" : "text-white/80"
-              )}
-              style={{
-                transitionDelay: `${index * 50}ms`,
-                transition: "color 0.3s ease"
-              }}
-            >
-              <Check className={cn(
-                "w-4 h-4 mt-1 flex-shrink-0", 
-                isPopular ? "text-nextgen-purple" : isMastery ? "text-[#FFD700]" : "text-white/70"
-              )} />
-              <span>{feature}</span>
-            </li>
-          ))}
+          {features.map((feature, index) => {
+            const isHighlighted = highlightedFeature === feature;
+            
+            return (
+              <motion.li 
+                key={index} 
+                className={cn(
+                  "flex items-start gap-2 text-sm p-1 rounded-lg",
+                  isHovered ? "text-white" : "text-white/80",
+                  isHighlighted && "bg-white/5"
+                )}
+                style={{
+                  transitionDelay: `${index * 50}ms`,
+                  transition: "all 0.3s ease"
+                }}
+                onMouseEnter={() => handleFeatureHover(feature)}
+                onMouseLeave={handleFeatureLeave}
+                whileHover={{ x: 2 }}
+                animate={{
+                  scale: isHighlighted ? 1.02 : 1,
+                  backgroundColor: isHighlighted ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0)"
+                }}
+                transition={{
+                  duration: 0.2,
+                  ease: [0.25, 1, 0.5, 1]
+                }}
+              >
+                <Check className={cn(
+                  "w-4 h-4 mt-1 flex-shrink-0", 
+                  isPopular ? "text-nextgen-purple" : isMastery ? "text-[#FFD700]" : "text-white/70"
+                )} />
+                <span>{feature}</span>
+              </motion.li>
+            );
+          })}
         </ul>
       </div>
 
-      {/* CTA button */}
+      {/* CTA button with enhanced animation */}
       <div className="mt-8">
-        <button
+        <motion.button
           onClick={handleChatOpen}
           className={cn(
             "w-full py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-all duration-300 font-medium",
@@ -173,10 +251,21 @@ const EnhancedPricingCard = ({
                 ? "bg-gradient-to-r from-[#FFD700]/90 to-[#FFC800] text-nextgen-dark hover:from-[#FFD700] hover:to-[#FFD700]" 
                 : "bg-white/10 hover:bg-white/20 text-white"
           )}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.98 }}
         >
           {ctaText}
-          <ChevronRight className="w-4 h-4" />
-        </button>
+          <motion.div
+            animate={{ x: isHovered ? [0, 5, 0] : 0 }}
+            transition={{
+              duration: 1,
+              repeat: isHovered ? Infinity : 0,
+              repeatType: "reverse"
+            }}
+          >
+            <ChevronRight className="w-4 h-4" />
+          </motion.div>
+        </motion.button>
       </div>
 
       {/* Upgrade suggestion */}
@@ -192,7 +281,7 @@ const EnhancedPricingCard = ({
       )}
       
       {/* Floating comparison indicator that appears on hover */}
-      {!isMastery && (
+      {nextTier && (
         <div 
           className={cn(
             "absolute -right-2 top-1/2 transform -translate-y-1/2 transition-all duration-300 p-1 rounded-full bg-black/50 backdrop-blur-sm",
@@ -202,7 +291,7 @@ const EnhancedPricingCard = ({
           <ChevronRight className="w-4 h-4 text-white/70" />
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };
 
