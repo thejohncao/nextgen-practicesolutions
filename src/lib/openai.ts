@@ -1,15 +1,27 @@
 
+// This file serves as the main entry point for AI-related functionality
+// It centralizes imports/exports to provide a clean API for components
+
 import { toast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { Message } from "@/types/conversation";
 
-// Define types for OpenAI API requests and responses
-export interface Message {
-  role: "system" | "user" | "assistant";
-  content: string;
-}
+// Re-export the necessary types and functions from utility modules
+export type { Message };
 
-// Export the interfaces and functions that other files might still need
-export { FALLBACK_TRIGGERS } from '../utils/fallbackUtils';
-export { isVagueInput, getAgentFallbackResponse } from '../utils/fallbackUtils';
-export { detectAgentFromMessage, getAgentSystemPrompt, AGENT_SUGGESTIONS } from '../utils/agentUtils';
+// Re-export agent utilities
+export { 
+  detectAgentFromMessage, 
+  getAgentSystemPrompt, 
+  AGENT_SUGGESTIONS 
+} from '../utils/agentUtils';
+
+// Re-export fallback utilities
+export { 
+  isVagueInput, 
+  getAgentFallbackResponse,
+  FALLBACK_TRIGGERS 
+} from '../utils/fallbackUtils';
+
+// Re-export AI service functions
 export { callOpenAI } from '../utils/aiService';
