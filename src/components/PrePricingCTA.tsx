@@ -31,16 +31,16 @@ const PrePricingCTA = () => {
 
   return (
     <section className="py-20 px-4 relative overflow-hidden">
-      {/* Background gradient effect */}
+      {/* Background with dots texture */}
       <div className="absolute inset-0 bg-gradient-to-b from-nextgen-dark/90 to-nextgen-dark/95 z-0"></div>
       
-      {/* Subtle background animation */}
+      {/* Subtle dots background pattern */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute w-full h-full bg-[radial-gradient(#9b87f5_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
       </div>
 
       <div className="container mx-auto relative z-10">
-        <div className="max-w-4xl mx-auto text-center glass-card p-8 sm:p-12 rounded-2xl border border-white/10 shadow-glow">
+        <div className="max-w-4xl mx-auto text-center glass-card p-8 sm:p-12 rounded-2xl border border-white/10 shadow-glow bg-gradient-to-br from-nextgen-purple/10 to-nextgen-blue/5">
           <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-gradient">
             Ready to Run Your Practice Like a Fortune 500?
           </h2>
@@ -65,7 +65,7 @@ const PrePricingCTA = () => {
           <div className="flex flex-col items-center gap-6">
             <Button 
               variant="ghost" 
-              className="bg-gradient-to-r from-nextgen-purple/80 to-nextgen-purple text-white rounded-full px-8 py-6 h-auto text-lg hover:from-nextgen-purple hover:to-nextgen-purple/80"
+              className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white rounded-full px-8 py-6 h-auto text-lg"
             >
               Talk to Miles
             </Button>

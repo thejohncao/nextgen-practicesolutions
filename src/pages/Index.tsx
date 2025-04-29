@@ -43,7 +43,7 @@ const Index = () => {
       {/* Combined Security & Integrations Section - now with enhanced design */}
       <CombinedSecurityIntegrationsSection />
       
-      {/* Pre-Pricing CTA Section */}
+      {/* Pre-Pricing CTA Section - Now using only the bottom version with dotted texture */}
       <PrePricingCTA />
       
       {/* Footer CTA moved above Pricing section */}
