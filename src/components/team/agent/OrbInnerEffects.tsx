@@ -4,9 +4,10 @@ import React from 'react';
 interface OrbInnerEffectsProps {
   color: string;
   isActive: boolean;
+  intensity?: "low" | "medium" | "high";
 }
 
-const OrbInnerEffects = ({ color, isActive }: OrbInnerEffectsProps) => {
+const OrbInnerEffects = ({ color, isActive, intensity = "medium" }: OrbInnerEffectsProps) => {
   // Map color names to gradient values with increased opacity and saturation
   const getGradientColors = (baseColor: string) => {
     switch (baseColor) {
@@ -45,6 +46,20 @@ const OrbInnerEffects = ({ color, isActive }: OrbInnerEffectsProps) => {
 
   const { center, edge, glow } = getGradientColors(color);
 
+  // Adjust effects based on intensity
+  const getIntensityMultiplier = () => {
+    switch (intensity) {
+      case 'low': return 0.7;
+      case 'high': return 1.3;
+      default: return 1.0;
+    }
+  };
+
+  const intensityFactor = getIntensityMultiplier();
+  const animationDuration = isActive ? 
+    (2.5 / intensityFactor) : 
+    (4 / intensityFactor);
+
   return (
     <div className="absolute inset-0 rounded-full overflow-hidden bg-transparent">
       {/* Enhanced radial gradient core with higher opacity */}
@@ -65,8 +80,8 @@ const OrbInnerEffects = ({ color, isActive }: OrbInnerEffectsProps) => {
         style={{
           background: `radial-gradient(circle at center, ${glow} 0%, transparent 70%)`,
           animation: isActive ? 
-            'pulse 2.5s ease-in-out infinite, rotate 8s linear infinite' : 
-            'pulse 4s ease-in-out infinite'
+            `pulse ${animationDuration}s ease-in-out infinite, rotate 8s linear infinite` : 
+            `pulse ${animationDuration}s ease-in-out infinite`
         }}
       />
 

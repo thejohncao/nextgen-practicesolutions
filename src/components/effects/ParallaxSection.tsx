@@ -50,8 +50,19 @@ const ParallaxSection = forwardRef<HTMLDivElement, ParallaxSectionProps>(({
   const internalRef = useRef<HTMLDivElement>(null);
   const sectionRef = ref || internalRef;
   
-  // Get scroll progress using the ref
-  const progress = useSectionScrollProgress(sectionRef);
+  // Use a consistent ref object to track scroll progress
+  // This is needed because forwarded refs can be callback functions
+  const scrollTrackingRef = useRef<HTMLDivElement>(null);
+  
+  // Get current element from whichever ref is being used
+  React.useEffect(() => {
+    if (typeof sectionRef !== 'function' && sectionRef.current) {
+      scrollTrackingRef.current = sectionRef.current;
+    }
+  }, [sectionRef]);
+  
+  // Get scroll progress using the consistent ref
+  const progress = useSectionScrollProgress(scrollTrackingRef);
   
   return (
     <Component
