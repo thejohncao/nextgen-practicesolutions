@@ -24,14 +24,14 @@ const Index = () => {
       {/* Meet the AI Team section with improved folder-style UI */}
       <GooeyFilterTabs />
       
-      {/* Visual separator between dark and light sections */}
-      <div className="h-8 bg-gradient-to-b from-black/60 to-white"></div>
+      {/* Visual separator between dark sections */}
+      <div className="h-8 bg-gradient-to-b from-black/80 to-[#121212]"></div>
       
-      {/* Enhanced Demo + Results section */}
+      {/* Enhanced Demo + Results section with dark mode */}
       <DemoResultsSection />
       
-      {/* Visual separator between light and dark sections */}
-      <div className="h-8 bg-gradient-to-b from-white to-nextgen-dark"></div>
+      {/* Visual separator between dark sections */}
+      <div className="h-8 bg-gradient-to-b from-[#121212] to-nextgen-dark"></div>
       
       {/* ROI section that consolidates the emotional benefits */}
       <ROISection />

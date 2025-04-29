@@ -90,19 +90,40 @@ const DemoResultsSection = () => {
   };
 
   return (
-    <section className="py-16 relative overflow-hidden scroll-transition bg-white" id="experience">
-      {/* Subtle background effects */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-1/3 left-1/4 w-[400px] h-[400px] bg-blue-100/40 blur-[120px] rounded-full animate-pulse-slow"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] bg-purple-100/40 blur-[100px] rounded-full animate-pulse-slow" style={{animationDelay: '1.5s'}}></div>
+    <section className="py-16 relative overflow-hidden bg-[#121212] text-white" id="experience">
+      {/* Animated background circles */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        {/* Blue circle - Miles */}
+        <div 
+          className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-[120px]"
+          style={{ animation: 'float 20s ease-in-out infinite' }}
+        ></div>
+        
+        {/* Green circle - Giselle */}
+        <div 
+          className="absolute bottom-1/4 right-1/3 w-[350px] h-[350px] bg-green-500/10 rounded-full blur-[120px]"
+          style={{ animation: 'float 24s ease-in-out infinite', animationDelay: '5s' }}
+        ></div>
+        
+        {/* Purple circle - Devon */}
+        <div 
+          className="absolute top-2/3 left-1/3 w-[300px] h-[300px] bg-purple-500/10 rounded-full blur-[100px]"
+          style={{ animation: 'float 18s ease-in-out infinite', animationDelay: '3s' }}
+        ></div>
+        
+        {/* Amber circle - Alma */}
+        <div 
+          className="absolute top-1/4 right-1/4 w-[280px] h-[280px] bg-amber-500/10 rounded-full blur-[90px]"
+          style={{ animation: 'float 22s ease-in-out infinite', animationDelay: '8s' }}
+        ></div>
       </div>
 
       <div className="container mx-auto px-4">
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-heading font-bold mb-3 text-gray-800">
+          <h2 className="text-3xl md:text-4xl font-heading font-bold mb-3 text-white">
             Experience the Power of Your AI Team
           </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto animate-fade-in" 
+          <p className="text-lg text-gray-300 max-w-3xl mx-auto animate-fade-in" 
              style={{animationDelay: '100ms'}}>
             See how your AI Executive Team transforms daily operations, drives growth, and scales your practice with precision.
           </p>
@@ -111,9 +132,9 @@ const DemoResultsSection = () => {
         {/* Two column layout for desktop, stacked for mobile */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
           {/* Left side - Demo conversation */}
-          <div className="animate-fade-in-up border border-gray-200 bg-white rounded-xl shadow-md p-4 md:p-5" style={{animationDelay: '200ms'}}>
-            <div className="mb-4 text-lg font-medium text-gray-800">
-              <span className="bg-indigo-100 text-indigo-800 py-1 px-3 rounded-full text-sm mr-2">Demo</span>
+          <div className="animate-fade-in-up glass-card bg-black/50 rounded-xl shadow-lg p-4 md:p-5 border border-white/10" style={{animationDelay: '200ms'}}>
+            <div className="mb-4 text-lg font-medium text-white">
+              <span className="bg-indigo-900/50 text-indigo-200 py-1 px-3 rounded-full text-sm mr-2">Demo</span>
               How Your AI Team Works
             </div>
             
@@ -135,8 +156,8 @@ const DemoResultsSection = () => {
           <div className="animate-fade-in-up space-y-6" style={{animationDelay: '300ms'}}>
             <div>
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-medium text-gray-800">
-                  <span className="bg-purple-100 text-purple-800 py-1 px-3 rounded-full text-sm mr-2">Results</span>
+                <h3 className="text-lg font-medium text-white">
+                  <span className="bg-purple-900/50 text-purple-200 py-1 px-3 rounded-full text-sm mr-2">Results</span>
                   Real Practice Transformations
                 </h3>
                 
@@ -145,15 +166,15 @@ const DemoResultsSection = () => {
                   <div className="flex space-x-2">
                     <button 
                       onClick={scrollPrevFirst}
-                      className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                      className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
                     >
-                      <ArrowLeft size={16} />
+                      <ArrowLeft size={16} className="text-white" />
                     </button>
                     <button 
                       onClick={scrollNextFirst}
-                      className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                      className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
                     >
-                      <ArrowRight size={16} />
+                      <ArrowRight size={16} className="text-white" />
                     </button>
                   </div>
                 )}
@@ -171,7 +192,7 @@ const DemoResultsSection = () => {
                         result={result}
                         index={index}
                         isMobile={isMobile}
-                        isLightMode={true}
+                        isLightMode={false}
                       />
                     </div>
                   ))}
@@ -187,15 +208,15 @@ const DemoResultsSection = () => {
                   <div className="flex space-x-2">
                     <button 
                       onClick={scrollPrevSecond}
-                      className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                      className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
                     >
-                      <ArrowLeft size={16} />
+                      <ArrowLeft size={16} className="text-white" />
                     </button>
                     <button 
                       onClick={scrollNextSecond}
-                      className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                      className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
                     >
-                      <ArrowRight size={16} />
+                      <ArrowRight size={16} className="text-white" />
                     </button>
                   </div>
                 </div>
@@ -212,7 +233,7 @@ const DemoResultsSection = () => {
                           result={result}
                           index={index + 6}
                           isMobile={isMobile}
-                          isLightMode={true}
+                          isLightMode={false}
                         />
                       </div>
                     ))}

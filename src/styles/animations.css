@@ -105,3 +105,36 @@ html {
 .chat-container .message:last-child {
   margin-bottom: 0;
 }
+
+/* Background circles animation */
+@keyframes float {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-20px) scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.6;
+  }
+}
+
+/* Subtle glow animation */
+@keyframes glow {
+  0%, 100% {
+    opacity: 0.7;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 1;
+    filter: brightness(1.2);
+  }
+}
+
+.shadow-glow {
+  box-shadow: 0 0 15px rgba(155, 135, 245, 0.5);
+  animation: glow 4s ease-in-out infinite;
+}
