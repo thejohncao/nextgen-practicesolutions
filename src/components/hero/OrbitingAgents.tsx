@@ -155,9 +155,7 @@ const OrbitingAgents = ({
           >
             {/* Orbital motion animation */}
             <motion.div
-              animate={!isMobile ? {
-                rotate: [0, 360]
-              } : undefined}
+              animate={!isMobile ? { rotate: [0, 360] } : undefined}
               transition={!isMobile ? {
                 duration: 60 + index * 10, // Slow rotation
                 repeat: Infinity,
@@ -167,9 +165,7 @@ const OrbitingAgents = ({
             >
               {/* Agent floating animation */}
               <motion.div
-                animate={{
-                  y: [0, -8, 0]
-                }}
+                animate={{ y: [0, -8, 0] }}
                 transition={{
                   duration: 6, 
                   repeat: Infinity,
