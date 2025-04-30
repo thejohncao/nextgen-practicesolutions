@@ -18,6 +18,7 @@ import Privacy from './pages/Privacy';
 import NotFound from './pages/NotFound';
 import NextGenHomeV2 from './pages/NextGenHomeV2';
 import AiTeam from './pages/AiTeam';
+import AiDemo from './pages/AiDemo';
 import Animations from './pages/Animations';
 import Features from './pages/Features';
 
@@ -57,6 +58,7 @@ function App() {
                 onOpenChange={(open) => {
                   if (!open) handleEmailCollectionComplete();
                 }}
+                onComplete={handleEmailCollectionComplete}
               />
             ) : (
               <>
@@ -77,7 +79,9 @@ function App() {
                     <Route path="/privacy" element={<Privacy />} />
                     <Route path="/nextgen-home-v2" element={<NextGenHomeV2 />} />
                     <Route path="/ai-team" element={<AiTeam />} />
+                    <Route path="/ai-demo" element={<AiDemo />} />
                     <Route path="/animations" element={<Animations />} />
+                    <Route path="/features" element={<Features />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </Router>

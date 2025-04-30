@@ -19,12 +19,14 @@ interface EmailCollectionFormProps {
   buttonText?: string;
   placeholder?: string;
   className?: string;
+  onSubmit?: () => void;
 }
 
 const EmailCollectionForm = ({
   buttonText = "Get Started",
   placeholder = "Enter your email",
-  className = ""
+  className = "",
+  onSubmit
 }: EmailCollectionFormProps) => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -36,7 +38,7 @@ const EmailCollectionForm = ({
     },
   });
 
-  const onSubmit = (data: FormValues) => {
+  const handleSubmit = (data: FormValues) => {
     setIsSubmitting(true);
     
     // Simulate API call
@@ -47,13 +49,18 @@ const EmailCollectionForm = ({
       });
       form.reset();
       setIsSubmitting(false);
+      
+      // Call the onSubmit callback if provided
+      if (onSubmit) {
+        onSubmit();
+      }
     }, 1000);
   };
 
   return (
     <div className={`glass-card p-3 backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)] rounded-lg animate-fade-in ${className}`}>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-2 items-center">
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="flex gap-2 items-center">
           <FormField
             control={form.control}
             name="email"
