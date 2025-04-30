@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'sonner';
 import LenisProvider from './components/providers/LenisProvider';
+import { TooltipProvider } from '@/components/ui/tooltip';
 
 // Pages
 import Index from './pages/Index';
@@ -47,56 +48,58 @@ function App() {
   
   return (
     <QueryClientProvider client={queryClient}>
-      <LenisProvider>
-        <Router>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/ai-team" element={<AiTeam />} />
-            <Route path="/solutions" element={<Solutions />} />
-            <Route path="/features" element={<Features />} />
-            <Route path="/academy" element={<Academy />} />
-            <Route path="/academy/curriculum" element={<AcademyCurriculum />} />
-            <Route path="/academy/certification" element={<AcademyCertification />} />
-            <Route path="/certifications" element={<Certifications />} />
-            <Route path="/story" element={<Story />} />
-            <Route path="/security" element={<Security />} />
-            <Route path="/pricing" element={<Pricing />} />
-            <Route path="/integrations" element={<Integrations />} />
-            <Route path="/animations" element={<Animations />} />
-            <Route path="/nextgen-home-v2" element={<NextGenHomeV2 />} />
-            <Route path="/resources" element={<Resources />} />
-            <Route path="/watch" element={<Watch />} />
-            <Route path="/join" element={<Join />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/ai-demo" element={<AiDemo />} />
-            <Route path="/boardroom" element={<Boardroom />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          
-          <AiAssistant />
-          <EmailCollectionDialog 
-            open={showEmailDialog} 
-            onOpenChange={setShowEmailDialog}
-            triggerText=""
-            buttonClassName="hidden"
-          />
-          <ChatDialog 
-            isOpen={isChatOpen}
-            isMinimized={isChatMinimized}
-            setIsMinimized={setIsChatMinimized}
-            onOpenChange={setIsChatOpen}
-            messages={[]}
-            onSendMessage={() => {}}
-            currentAgent="miles"
-            isTyping={false}
-            isTimedOut={false}
-            timeoutLevel="none"
-            handleRetry={() => {}}
-            handleStartOver={() => {}}
-            onChangeAgent={() => {}}
-          />
-        </Router>
-      </LenisProvider>
+      <TooltipProvider>
+        <LenisProvider>
+          <Router>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/ai-team" element={<AiTeam />} />
+              <Route path="/solutions" element={<Solutions />} />
+              <Route path="/features" element={<Features />} />
+              <Route path="/academy" element={<Academy />} />
+              <Route path="/academy/curriculum" element={<AcademyCurriculum />} />
+              <Route path="/academy/certification" element={<AcademyCertification />} />
+              <Route path="/certifications" element={<Certifications />} />
+              <Route path="/story" element={<Story />} />
+              <Route path="/security" element={<Security />} />
+              <Route path="/pricing" element={<Pricing />} />
+              <Route path="/integrations" element={<Integrations />} />
+              <Route path="/animations" element={<Animations />} />
+              <Route path="/nextgen-home-v2" element={<NextGenHomeV2 />} />
+              <Route path="/resources" element={<Resources />} />
+              <Route path="/watch" element={<Watch />} />
+              <Route path="/join" element={<Join />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/ai-demo" element={<AiDemo />} />
+              <Route path="/boardroom" element={<Boardroom />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+            
+            <AiAssistant />
+            <EmailCollectionDialog 
+              open={showEmailDialog} 
+              onOpenChange={setShowEmailDialog}
+              triggerText=""
+              buttonClassName="hidden"
+            />
+            <ChatDialog 
+              isOpen={isChatOpen}
+              isMinimized={isChatMinimized}
+              setIsMinimized={setIsChatMinimized}
+              onOpenChange={setIsChatOpen}
+              messages={[]}
+              onSendMessage={() => {}}
+              currentAgent="miles"
+              isTyping={false}
+              isTimedOut={false}
+              timeoutLevel="none"
+              handleRetry={() => {}}
+              handleStartOver={() => {}}
+              onChangeAgent={() => {}}
+            />
+          </Router>
+        </LenisProvider>
+      </TooltipProvider>
       <Toaster position="top-center" />
     </QueryClientProvider>
   );

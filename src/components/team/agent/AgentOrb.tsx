@@ -1,7 +1,8 @@
+
 import React from 'react';
 import OrbInnerEffects from './OrbInnerEffects';
 import AgentOrbInnerIcon from './AgentOrbInnerIcon';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 
 export interface AgentOrbProps {
@@ -57,54 +58,52 @@ const AgentOrb: React.FC<AgentOrbProps> = ({
   }[color];
 
   return (
-    <TooltipProvider>
-      <div className="relative inline-flex flex-col items-center">
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button 
-              onClick={onClick}
-              className={cn(
-                "relative rounded-full border transition-all duration-300",
-                sizeClasses,
-                isActive ? `${activeClasses} shadow-glow` : baseClasses,
-                onClick ? "cursor-pointer" : "cursor-default"
-              )}
-              aria-label={`Select ${name}`}
-            >
-              {/* Orb inner elements */}
-              <div className={`absolute inset-0 rounded-full overflow-hidden bg-gradient-to-b ${gradientClass}`}>
-                {animated && (
-                  <OrbInnerEffects 
-                    color={color}
-                    intensity={animationIntensity}
-                    poweredUp={poweredUp}
-                  />
-                )}
-                {/* Agent initial or icon */}
-                <AgentOrbInnerIcon 
-                  name={name}
-                  agent={name}
-                  displayMode={displayMode}
-                  isActive={isActive}
+    <div className="relative inline-flex flex-col items-center">
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <button 
+            onClick={onClick}
+            className={cn(
+              "relative rounded-full border transition-all duration-300",
+              sizeClasses,
+              isActive ? `${activeClasses} shadow-glow` : baseClasses,
+              onClick ? "cursor-pointer" : "cursor-default"
+            )}
+            aria-label={`Select ${name}`}
+          >
+            {/* Orb inner elements */}
+            <div className={`absolute inset-0 rounded-full overflow-hidden bg-gradient-to-b ${gradientClass}`}>
+              {animated && (
+                <OrbInnerEffects 
+                  color={color}
+                  intensity={animationIntensity}
+                  poweredUp={poweredUp}
                 />
-              </div>
-            </button>
-          </TooltipTrigger>
-          {tooltipText && (
-            <TooltipContent side="top" className="bg-nextgen-dark/95 border-nextgen-purple/20">
-              <p className="text-sm">{tooltipText}</p>
-            </TooltipContent>
-          )}
-        </Tooltip>
-        
-        {showLabel && (
-          <div className="mt-2 text-center">
-            <div className="text-sm font-medium text-white">{name}</div>
-            <div className="text-xs text-white/60">{role}</div>
-          </div>
+              )}
+              {/* Agent initial or icon */}
+              <AgentOrbInnerIcon 
+                name={name}
+                agent={name}
+                displayMode={displayMode}
+                isActive={isActive}
+              />
+            </div>
+          </button>
+        </TooltipTrigger>
+        {tooltipText && (
+          <TooltipContent side="top" className="bg-nextgen-dark/95 border-nextgen-purple/20">
+            <p className="text-sm">{tooltipText}</p>
+          </TooltipContent>
         )}
-      </div>
-    </TooltipProvider>
+      </Tooltip>
+      
+      {showLabel && (
+        <div className="mt-2 text-center">
+          <div className="text-sm font-medium text-white">{name}</div>
+          <div className="text-xs text-white/60">{role}</div>
+        </div>
+      )}
+    </div>
   );
 };
 
