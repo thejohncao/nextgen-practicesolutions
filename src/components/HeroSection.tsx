@@ -15,11 +15,13 @@ import BackgroundCircles from './effects/BackgroundCircles';
 import AnimatedGrainOverlay from './effects/AnimatedGrainOverlay';
 import AnimatedHeading from './ui/animated-heading';
 import FadeInSection from './ui/fade-in-section';
+import HeroVerticalChatPreview from './hero/HeroVerticalChatPreview';
 
 const HeroSection = () => {
   const [selectedAgent, setSelectedAgent] = useState<string | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [welcomeComplete, setWelcomeComplete] = useState(false);
+  const [showChatPreview, setShowChatPreview] = useState(false);
   
   // Track mouse position for subtle orb movement
   useEffect(() => {
@@ -35,6 +37,8 @@ const HeroSection = () => {
     // Set welcome as complete after 2.5s for full animation sequence
     const timer = setTimeout(() => {
       setWelcomeComplete(true);
+      // Show the chat preview after the welcome animation is complete
+      setShowChatPreview(true);
     }, 2500);
     
     return () => {
@@ -68,6 +72,14 @@ const HeroSection = () => {
   
   const handleAgentSelect = (agentName: string) => {
     setSelectedAgent(prevSelected => prevSelected === agentName ? null : agentName);
+  };
+  
+  const handleTeamButtonClick = () => {
+    // Find the team section in the document and scroll to it
+    const teamSection = document.getElementById('team');
+    if (teamSection) {
+      teamSection.scrollIntoView({ behavior: 'smooth' });
+    }
   };
   
   // Get information about the selected agent for the spotlight effect
@@ -163,15 +175,21 @@ const HeroSection = () => {
             </div>
           </LampEffect>
 
-          {/* Right Side: Enhanced Floating Avatars with higher z-index */}
+          {/* Right Side: Floating Avatars or Chat Preview */}
           <div className="relative h-[500px] bg-transparent z-30">
-            <FloatingAgentAvatarsWithWelcome 
-              staggered={true}
-              onAgentSelect={handleAgentSelect}
-              mousePosition={mousePosition}
-              welcomeComplete={welcomeComplete}
-              showFullNames={true}
-            />
+            {showChatPreview ? (
+              <div className="h-full flex items-center justify-center">
+                <HeroVerticalChatPreview onTeamButtonClick={handleTeamButtonClick} />
+              </div>
+            ) : (
+              <FloatingAgentAvatarsWithWelcome 
+                staggered={true}
+                onAgentSelect={handleAgentSelect}
+                mousePosition={mousePosition}
+                welcomeComplete={welcomeComplete}
+                showFullNames={true}
+              />
+            )}
           </div>
         </div>
       </div>

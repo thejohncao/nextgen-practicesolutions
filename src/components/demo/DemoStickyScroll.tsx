@@ -1,12 +1,25 @@
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { User, UserPlus, BarChart3, GraduationCap } from 'lucide-react';
 import StickyScroll from '../motion/StickyScroll';
 import { agents } from '@/data/agents';
 import AgentAvatar from '../AgentAvatar';
 import PatientJourneyTimeline from '../journey/PatientJourneyTimeline';
+import HeroVerticalChatPreview from '../hero/HeroVerticalChatPreview';
 
 const DemoStickyScroll = () => {
+  // Reference to the team section
+  const teamSectionRef = useRef<HTMLDivElement>(null);
+  
+  // Handle click on the "Meet Your AI Team" button
+  const handleTeamButtonClick = () => {
+    // Find the team section in the document and scroll to it
+    const teamSection = document.getElementById('team');
+    if (teamSection) {
+      teamSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   // Demo items based on the patient journey stages
   const demoItems = [
     {
@@ -49,13 +62,9 @@ const DemoStickyScroll = () => {
 
   return (
     <section id="demo" className="bg-nextgen-dark">
-      <div className="container mx-auto px-4 py-12 text-center">
-        <h2 className="text-4xl md:text-5xl font-heading font-bold mb-6 text-gradient">
-          Built to Run the Full Patient Journey
-        </h2>
-        <p className="text-xl text-white/60 max-w-3xl mx-auto mb-12">
-          Your all-in-one AI team, trained to run your practice from first click to lifetime loyalty.
-        </p>
+      <div className="container mx-auto px-4 py-12">
+        {/* Hero Vertical Chat Preview */}
+        <HeroVerticalChatPreview onTeamButtonClick={handleTeamButtonClick} />
       </div>
 
       {/* Replace StickyScroll with the PatientJourneyTimeline component */}

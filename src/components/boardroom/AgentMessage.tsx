@@ -33,10 +33,10 @@ const AgentMessage = ({ agent, role, message, bgColorClass }: AgentMessageProps)
   };
   
   return (
-    <div className={`p-2.5 md:p-3 rounded-lg backdrop-blur-[2px] bg-[#000000] ${getGlowColor()}`}>
+    <div className={`p-2.5 md:p-3 rounded-lg backdrop-blur-md bg-[#000000] ${getGlowColor()}`}>
       <div className="flex items-center">
         <div className="flex-shrink-0">
-          <AgentChatAvatar agent={agent} hideDetails={true} />
+          <AgentChatAvatar agent={agent} hideDetails={false} />
         </div>
         <div className="ml-2 md:ml-3">
           <div className="text-xs font-medium text-white/90">{role}</div>

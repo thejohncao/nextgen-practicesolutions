@@ -1,0 +1,42 @@
+
+/* Text shimmer effects for agent messages */
+@keyframes shimmer {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.text-shimmer {
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: shimmer 4s linear infinite;
+}
+
+.text-shimmer-blue {
+  background-image: linear-gradient(90deg, #4A8CFF 0%, #ffffff 50%, #4A8CFF 100%);
+}
+
+.text-shimmer-green {
+  background-image: linear-gradient(90deg, #3FC6A0 0%, #ffffff 50%, #3FC6A0 100%);
+}
+
+.text-shimmer-purple {
+  background-image: linear-gradient(90deg, #8B5CF6 0%, #ffffff 50%, #8B5CF6 100%);
+}
+
+.text-shimmer-amber {
+  background-image: linear-gradient(90deg, #F59E0B 0%, #ffffff 50%, #F59E0B 100%);
+}
+
+/* Reduce motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .text-shimmer {
+    animation: none;
+    background-position: 0 0;
+  }
+}

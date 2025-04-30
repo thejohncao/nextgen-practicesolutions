@@ -19,6 +19,7 @@ import ScrollRevealWrapper from '../components/animation/ScrollRevealWrapper';
 import CombinedSecurityIntegrationsSection from '../components/CombinedSecurityIntegrationsSection';
 import AITeamSection from '../components/team/AiTeamSection';
 import CinematicJourneySection from '../components/journey/CinematicJourneySection';
+import HeroSection from '../components/HeroSection';
 
 const Index = () => {
   const sectionRefs = {
@@ -39,7 +40,7 @@ const Index = () => {
         
         {/* Enhanced Hero Section */}
         <div ref={sectionRefs.hero} className="min-h-screen">
-          <EnhancedHero />
+          <HeroSection />
         </div>
         
         {/* Demo Section with StickyScroll */}
@@ -53,7 +54,7 @@ const Index = () => {
         </div>
         
         {/* Team Section with AITeamSection */}
-        <div ref={sectionRefs.team} className="pt-20">
+        <div ref={sectionRefs.team} id="team" className="pt-20">
           <ScrollRevealWrapper animation="fade-up">
             <AITeamSection />
           </ScrollRevealWrapper>

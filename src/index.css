@@ -1,20 +1,69 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
-@import './styles/base.css';
-@import './styles/colors.css';
-@import './styles/colors/agent-colors.css';
-@import './styles/utilities.css';
 @import './styles/animations.css';
-@import './styles/animations/base-animations.css';
+@import './styles/utilities.css';
+@import './styles/colors/agent-colors.css';
 @import './styles/animations/hero-animations.css';
-@import './styles/animations/hover-effects.css';
-@import './styles/animations/sparkle-effects.css';
-@import './styles/animations/gooey-effects.css';
-@import './styles/animations/chat-animations.css';
-@import './styles/animations/movement-animations.css';
-@import './styles/animations/display-card.css';
-@import './styles/animations/grain-effects.css';
 @import './styles/animations/motion-system.css';
+@import './styles/animations/text-effects.css';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Base styles and resets */
+@layer base {
+  body {
+    @apply bg-nextgen-dark text-white;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+}
+
+/* Component styles */
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none data-[state=open]:bg-secondary/50;
+  }
+}
+
+/* Utility styles */
+@layer utilities {
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .glass-card {
+    @apply backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)] rounded-2xl;
+  }
+  
+  .text-gradient {
+    @apply bg-gradient-to-br from-white via-white/90 to-white/70 bg-clip-text text-transparent;
+  }
+  
+  .text-gradient-primary {
+    @apply bg-gradient-to-br from-nextgen-purple via-nextgen-purple/80 to-nextgen-blue bg-clip-text text-transparent;
+  }
+  
+  .section-padding {
+    @apply py-16 px-6 md:px-12 lg:px-24;
+  }
+  
+  .neo-blur {
+    @apply backdrop-blur-xl bg-transparent border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)];
+  }
+}
