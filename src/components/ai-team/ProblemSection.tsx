@@ -5,10 +5,10 @@ import { Check } from 'lucide-react';
 
 const ProblemSection = () => {
   const problems = [
-    'Leads aren't followed up on',
-    'Treatment plans go cold',
-    'Staff is overwhelmed or undertrained',
-    'CRMs are underutilized'
+    "Leads aren't followed up on",
+    "Treatment plans go cold",
+    "Staff is overwhelmed or undertrained",
+    "CRMs are underutilized"
   ];
   
   return (

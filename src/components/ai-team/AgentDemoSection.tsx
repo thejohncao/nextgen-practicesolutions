@@ -14,7 +14,7 @@ const AgentDemoSection = () => {
   const agentScripts = {
     miles: "Meet Miles, your AI front office concierge. He handles all your scheduling, confirmations, and no-show recovery — 24/7. With Miles, no patient gets missed, and your team never wastes time chasing appointments. He integrates directly with your calendar, sends reminders, and reports back every week.",
     giselle: "This is Giselle, your always-on lead nurturer. She instantly follows up with every lead — via quiz, text, or email — and guides them from ad to consult. She never forgets to follow up, never hesitates, and converts cold traffic into real appointments. It's like having a high-performing SDR in your CRM.",
-    devon: "Devon is your treatment closer. He follows up on unscheduled treatment plans with persuasive, high-converting messages. Whether it's a patient who ghosted after the consult, or one who said "I need to think about it," Devon handles the conversation — and brings them back.",
+    devon: "Devon is your treatment closer. He follows up on unscheduled treatment plans with persuasive, high-converting messages. Whether it's a patient who ghosted after the consult, or one who said \"I need to think about it,\" Devon handles the conversation — and brings them back.",
     alma: "Alma makes sure your team is trained, aligned, and consistent. She delivers SOPs, onboarding workflows, and even certification programs through your Academy. When you hire someone new, Alma takes over. When you update a workflow, Alma ensures everyone sees it."
   };
   
