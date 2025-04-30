@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { agents } from '@/data/agents';
 import AgentOrb from '../team/agent/AgentOrb';
 import { getTooltipText } from '../team/utils/getTooltipText';
@@ -10,6 +10,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 interface OrbitingAgentsProps {
   onAgentSelect?: (agentName: string) => void;
   mousePosition?: { x: number; y: number };
+  arrangeVertically?: boolean;
 }
 
 interface OrbitPosition {
@@ -22,7 +23,8 @@ interface OrbitPosition {
 
 const OrbitingAgents = ({
   onAgentSelect,
-  mousePosition = { x: 0, y: 0 }
+  mousePosition = { x: 0, y: 0 },
+  arrangeVertically = false
 }: OrbitingAgentsProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState<string | null>(null);
@@ -68,9 +70,18 @@ const OrbitingAgents = ({
     if (onAgentSelect) onAgentSelect(agentName);
   };
   
-  // Define orbit positions for each agent - using a diamond/circular layout
+  // Define orbit positions for each agent - using a diamond/circular layout for normal mode
+  // or a vertical layout for the boardroom experience
   const getOrbitPositions = (): OrbitPosition[] => {
-    if (isMobile) {
+    if (arrangeVertically) {
+      // Vertical alignment for boardroom mode
+      return [
+        { cx: '50%', cy: '15%', radius: '0%', delay: 0.2 },  // Miles (top)
+        { cx: '50%', cy: '35%', radius: '0%', delay: 0.4 },  // Giselle (second)
+        { cx: '50%', cy: '55%', radius: '0%', delay: 0.6 },  // Devon (third)
+        { cx: '50%', cy: '75%', radius: '0%', delay: 0.8 },  // Alma (bottom)
+      ];
+    } else if (isMobile) {
       // 2x2 grid for mobile
       return [
         { cx: '25%', cy: '25%', radius: '0%', delay: 0.2 },  // Top-left (Giselle)
@@ -110,8 +121,8 @@ const OrbitingAgents = ({
         // Calculate position based on orbit or grid
         let positionStyle: React.CSSProperties = {};
         
-        if (isMobile) {
-          // Grid positioning for mobile
+        if (arrangeVertically || isMobile) {
+          // Grid or vertical positioning
           positionStyle = {
             left: orbitPositions[index].cx,
             top: orbitPositions[index].cy,
@@ -155,8 +166,8 @@ const OrbitingAgents = ({
           >
             {/* Orbital motion animation */}
             <motion.div
-              animate={!isMobile ? { rotate: [0, 360] } : undefined}
-              transition={!isMobile ? {
+              animate={!isMobile && !arrangeVertically ? { rotate: [0, 360] } : undefined}
+              transition={!isMobile && !arrangeVertically ? {
                 duration: 60 + index * 10, // Slow rotation
                 repeat: Infinity,
                 ease: "linear"

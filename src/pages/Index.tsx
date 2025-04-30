@@ -16,8 +16,7 @@ import SectionTransition from '../components/effects/SectionTransition';
 import ScrollRevealWrapper from '../components/animation/ScrollRevealWrapper';
 import CombinedSecurityIntegrationsSection from '../components/CombinedSecurityIntegrationsSection';
 import AITeamSection from '../components/team/AiTeamSection';
-import CinematicJourneySection from '../components/journey/CinematicJourneySection';
-import HeroSection from '../components/HeroSection';
+import HeroWithScrollReveal from '../components/hero/HeroWithScrollReveal';
 
 const Index = () => {
   const sectionRefs = {
@@ -35,9 +34,9 @@ const Index = () => {
           <AnimatedGrainOverlay opacity={0.03} />
         </div>
         
-        {/* Enhanced Hero Section - now integrated with BoardroomDemo */}
+        {/* Enhanced Hero Section with scroll-triggered Boardroom experience */}
         <div ref={sectionRefs.hero} className="min-h-screen">
-          <HeroSection />
+          <HeroWithScrollReveal />
         </div>
         
         {/* Visual separator with enhanced transition */}
@@ -49,13 +48,6 @@ const Index = () => {
         <div ref={sectionRefs.team} id="team" className="pt-20">
           <ScrollRevealWrapper animation="fade-up">
             <AITeamSection />
-          </ScrollRevealWrapper>
-        </div>
-        
-        {/* Patient Journey Section - Using CinematicJourneySection only */}
-        <div className="relative">
-          <ScrollRevealWrapper animation="fade-up">
-            <CinematicJourneySection />
           </ScrollRevealWrapper>
         </div>
         
