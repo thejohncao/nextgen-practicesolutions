@@ -1,4 +1,5 @@
-import React, { useRef } from 'react';
+
+import React, { useRef, useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import { agents } from '@/data/agents';
 import PricingSection from '../components/pricing/PricingSection';
@@ -15,14 +16,25 @@ import SectionTransition from '../components/effects/SectionTransition';
 import ScrollRevealWrapper from '../components/animation/ScrollRevealWrapper';
 import CombinedSecurityIntegrationsSection from '../components/CombinedSecurityIntegrationsSection';
 import AITeamSection from '../components/team/AiTeamSection';
-import HeroWithScrollReveal from '../components/hero/HeroWithScrollReveal';
+import EnhancedHeroSection from '../components/hero/EnhancedHeroSection';
+import PatientJourney from '../components/patient-journey/PatientJourney';
+import BoardroomDemo from '../components/boardroom/BoardroomDemo';
+import { useSectionScrollProgress } from '../hooks/useIntersectionAnimation';
 
 const Index = () => {
-  const sectionRefs = {
-    hero: useRef<HTMLDivElement>(null),
-    team: useRef<HTMLDivElement>(null),
-    results: useRef<HTMLDivElement>(null),
-    pricing: useRef<HTMLDivElement>(null)
+  const [showBoardroom, setShowBoardroom] = useState(false);
+  const [sectionRef, progress] = useSectionScrollProgress<HTMLDivElement>();
+  
+  // Show boardroom when scrolled to a certain point
+  useEffect(() => {
+    setShowBoardroom(progress > 0.3);
+  }, [progress]);
+  
+  const handleScrollToTeam = () => {
+    const teamSection = document.getElementById('team');
+    if (teamSection) {
+      teamSection.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -34,8 +46,25 @@ const Index = () => {
         </div>
         
         {/* Enhanced Hero Section with scroll-triggered Boardroom experience */}
-        <div ref={sectionRefs.hero} className="min-h-screen">
-          <HeroWithScrollReveal />
+        <div ref={sectionRef} className="min-h-[150vh]">
+          {/* Initial hero view */}
+          <div className={`min-h-screen sticky top-0 transition-opacity duration-700 ${showBoardroom ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+            <EnhancedHeroSection />
+          </div>
+          
+          {/* Boardroom experience - revealed on scroll */}
+          <div 
+            className={`min-h-screen sticky top-0 flex items-center transition-opacity duration-700 ${showBoardroom ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+          >
+            <div className="container mx-auto px-4 pt-16 pb-4 relative z-10">
+              <ScrollRevealWrapper animation="fade-up">
+                <BoardroomDemo 
+                  activated={showBoardroom} 
+                  onTeamButtonClick={handleScrollToTeam}
+                />
+              </ScrollRevealWrapper>
+            </div>
+          </div>
         </div>
         
         {/* Visual separator with enhanced transition */}
@@ -44,18 +73,21 @@ const Index = () => {
         </div>
         
         {/* Team Section with AITeamSection */}
-        <div ref={sectionRefs.team} id="team" className="pt-20">
+        <div id="team" className="pt-20">
           <ScrollRevealWrapper animation="fade-up">
             <AITeamSection />
           </ScrollRevealWrapper>
         </div>
         
+        {/* Patient Journey - unified component */}
+        <ScrollRevealWrapper animation="fade-up">
+          <PatientJourney variant="timeline" />
+        </ScrollRevealWrapper>
+        
         {/* Results section with DisplayCards */}
-        <div ref={sectionRefs.results}>
-          <ScrollRevealWrapper animation="fade-up">
-            <ResultsSection />
-          </ScrollRevealWrapper>
-        </div>
+        <ScrollRevealWrapper animation="fade-up">
+          <ResultsSection />
+        </ScrollRevealWrapper>
         
         {/* Testimonials section */}
         <div className="relative">
@@ -77,7 +109,7 @@ const Index = () => {
         </div>
         
         {/* Pricing Section */}
-        <div ref={sectionRefs.pricing} className="relative">
+        <div className="relative">
           <ScrollRevealWrapper animation="fade-up">
             <PricingSection />
           </ScrollRevealWrapper>
