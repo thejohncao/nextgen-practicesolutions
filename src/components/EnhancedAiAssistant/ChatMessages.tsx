@@ -93,13 +93,6 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
         </div>
       )}
       
-      {/* Email notification - disabled per user request */}
-      {/* <EmailNotification
-        sessionMessageCount={sessionMessageCount}
-        showEmailDialog={showEmailDialog}
-        onRequestEmail={() => setShowEmailDialog(true)}
-      /> */}
-      
       <div ref={messagesEndRef} />
     </div>
   );

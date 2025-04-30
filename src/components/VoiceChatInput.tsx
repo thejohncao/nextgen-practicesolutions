@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { Mic, MicOff, Send, Volume2, VolumeX } from 'lucide-react';
@@ -39,8 +40,8 @@ const VoiceChatInput: React.FC<VoiceChatInputProps> = ({
   onToggleMute
 }) => {
   const [input, setInput] = useState("");
-  // Always show suggestions instead of conditional display
-  const [showQuickReplies, setShowQuickReplies] = useState(true);
+  // Always show suggestions - set to true and never change
+  const [showQuickReplies] = useState(true);
   const [suggestionsList, setSuggestionsList] = useState<string[]>([]);
   const [isPermissionGranted, setIsPermissionGranted] = useState<boolean | null>(null);
 

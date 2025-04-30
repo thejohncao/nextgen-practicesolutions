@@ -15,7 +15,6 @@ import AgentTabs from '../chat/AgentTabs';
 import VoiceChatInput from '../VoiceChatInput';
 import VoiceToggle from './VoiceToggle';
 import ChatMessages from './ChatMessages';
-import EmailCollectionDialog from '../EmailCollectionDialog';
 
 interface EnhancedAiAssistantProps {
   showPaths?: string[];
@@ -218,12 +217,7 @@ const EnhancedAiAssistant = ({
         </DialogContent>
       </Dialog>
       
-      <EmailCollectionDialog
-        triggerText=""
-        buttonClassName="hidden"
-        open={showEmailDialog}
-        onOpenChange={setShowEmailDialog}
-      />
+      {/* Remove EmailCollectionDialog completely */}
     </>
   );
 };
