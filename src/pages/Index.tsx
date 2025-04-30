@@ -2,7 +2,6 @@
 import React, { useRef } from 'react';
 import Layout from '../components/Layout';
 import EnhancedHero from '../components/hero/EnhancedHero';
-import TimelineScroll from '../components/team/TimelineScroll';
 import { agents } from '@/data/agents';
 import PricingSection from '../components/pricing/PricingSection';
 import DemoStickyScroll from '../components/demo/DemoStickyScroll';
@@ -18,6 +17,8 @@ import AnimatedGrainOverlay from '../components/effects/AnimatedGrainOverlay';
 import SectionTransition from '../components/effects/SectionTransition';
 import ScrollRevealWrapper from '../components/animation/ScrollRevealWrapper';
 import CombinedSecurityIntegrationsSection from '../components/CombinedSecurityIntegrationsSection';
+import AITeamSection from '../components/team/AiTeamSection';
+import CinematicJourneySection from '../components/journey/CinematicJourneySection';
 
 const Index = () => {
   const sectionRefs = {
@@ -51,10 +52,17 @@ const Index = () => {
           <SectionTransition type="gradient" position="both" height={24} color="nextgen-dark" />
         </div>
         
-        {/* Team Section with TimelineScroll */}
+        {/* Team Section with AITeamSection */}
         <div ref={sectionRefs.team} className="pt-20">
           <ScrollRevealWrapper animation="fade-up">
-            <TimelineScroll agents={agents} />
+            <AITeamSection />
+          </ScrollRevealWrapper>
+        </div>
+        
+        {/* Patient Journey Section with CinematicJourneySection */}
+        <div className="relative">
+          <ScrollRevealWrapper animation="fade-up">
+            <CinematicJourneySection />
           </ScrollRevealWrapper>
         </div>
         
