@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 
-export const useChatTimeout = (isTyping: boolean, timeoutDuration: number = 10000) => {
+export const useChatTimeout = (isTyping: boolean, timeoutDuration: number = 4000) => {
   const [timeoutId, setTimeoutId] = useState<number | null>(null);
   const [showTimeout, setShowTimeout] = useState(false);
 
@@ -12,7 +12,7 @@ export const useChatTimeout = (isTyping: boolean, timeoutDuration: number = 1000
         clearTimeout(timeoutId);
       }
       
-      // Set a new timeout for 10 seconds
+      // Set a new timeout for 4 seconds (as requested for the MVP)
       const newTimeoutId = window.setTimeout(() => {
         setShowTimeout(true);
       }, timeoutDuration);

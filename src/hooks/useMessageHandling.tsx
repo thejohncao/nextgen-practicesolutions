@@ -4,35 +4,6 @@ import { AiMessage } from '@/types/conversation';
 import { toast } from 'sonner';
 import { AGENT_WELCOME_MESSAGES } from './useAgentContent';
 
-// Mock response generator for development
-const getMockResponse = (message: string, agent: string = 'miles'): string => {
-  const agentResponses: Record<string, string[]> = {
-    miles: [
-      "I can help streamline your front desk operations. What specific area are you looking to improve?",
-      "Automating your scheduling can save your team 15-20 hours per week. Would you like to see how?",
-      "I notice many practices struggle with patient cancellations. I can reduce those by 35% using our automated follow-up system."
-    ],
-    giselle: [
-      "Let's boost your practice growth! I can help with marketing campaigns that actually convert.",
-      "Did you know personalized patient outreach can increase your case acceptance by 27%?",
-      "I specialize in helping practices acquire new patients through digital channels. Where are you currently finding most of your patients?"
-    ],
-    devon: [
-      "I can help your team convert more treatment plans. What's your current acceptance rate?",
-      "Large case financing is often a barrier. I can implement automated payment plan systems.",
-      "Many practices leave money on the table with collections. I can automate your AR follow-up."
-    ],
-    alma: [
-      "Training new team members is critical. I can create custom onboarding protocols for your practice.",
-      "I specialize in staff development and retention strategies. What's your current turnover rate?",
-      "Let me help implement performance metrics that motivate your team while delivering better patient care."
-    ]
-  };
-
-  const responses = agentResponses[agent.toLowerCase()] || agentResponses.miles;
-  return responses[Math.floor(Math.random() * responses.length)];
-};
-
 export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent: string) => void) => {
   const [messages, setMessages] = useState<AiMessage[]>([]);
   const [isTyping, setIsTyping] = useState(false);
@@ -64,16 +35,29 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
     setMessages(prev => [...prev, userMessage]);
     setIsTyping(true);
     
-    // Add to processing queue
-    setMessageQueue(prev => [...prev, {text, agent: currentAgent}]);
+    // For the MVP, we'll use a fixed response after 1.5 seconds
+    setTimeout(() => {
+      const responseText = "Looks like your schedule is clear this afternoon. Want to add a recall block?";
+      
+      const newMessage: AiMessage = {
+        text: responseText,
+        isUser: false,
+        timestamp: new Date().toISOString(),
+        agent: currentAgent
+      };
+      
+      setMessages(prev => [...prev, newMessage]);
+      setIsTyping(false);
+    }, 1500); // Exactly 1.5 seconds as specified
   }, [currentAgent]);
 
-  // Handle mock response generation for development
+  // This is kept for compatibility but not used in the MVP
   const handleMockResponse = useCallback((userMessage: string, agent: string) => {
-    const typingDelay = 1000 + Math.random() * 2000; 
+    setIsTyping(true);
     
+    // MVP fixed response
     setTimeout(() => {
-      const responseText = getMockResponse(userMessage, agent);
+      const responseText = "Looks like your schedule is clear this afternoon. Want to add a recall block?";
       
       const newMessage: AiMessage = {
         text: responseText,
@@ -84,8 +68,7 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
       
       setMessages(prev => [...prev, newMessage]);
       setIsTyping(false);
-      
-    }, typingDelay);
+    }, 1500);
   }, []);
 
   // Toggle message expansion

@@ -1,57 +1,40 @@
 
-import { useState, useCallback } from 'react';
-import { useTimeout } from './useTimeout';
+import { useState } from 'react';
 import { AiMessage } from '@/types/conversation';
 
 export const useConversationErrors = (
-  isTyping: boolean, 
-  currentAgent: string,
-  setMessages: (updater: (prevMessages: AiMessage[]) => AiMessage[]) => void
+  isTyping: boolean,
+  currentAgent: string, 
+  setMessages: React.Dispatch<React.SetStateAction<AiMessage[]>>
 ) => {
   const [isTimedOut, setIsTimedOut] = useState(false);
   
-  // Timeout effect to simulate connection issues occasionally
-  useTimeout(() => {
-    // Simulate timeout after a random long response time
-    if (isTyping && Math.random() < 0.05) { // 5% chance of timeout
-      setIsTimedOut(true);
-    }
-  }, isTyping ? Math.random() * 10000 + 5000 : null); // Random timeout between 5-15 seconds
-
-  // Retry after timeout
-  const handleRetry = useCallback(() => {
+  const handleRetry = () => {
     setIsTimedOut(false);
+    // Generate a fallback response
+    const fallback: AiMessage = {
+      text: "Let me continue where we left off. What specific information would you like about your schedule?",
+      isUser: false,
+      timestamp: new Date().toISOString(),
+      agent: currentAgent
+    };
     
-    // Generate a recovery message
-    setTimeout(() => {
-      const recoveryMessage: AiMessage = {
-        text: "I apologize for the connection issue. Let's continue our conversation. What else would you like to know?",
-        isUser: false,
-        timestamp: new Date().toISOString(),
-        agent: currentAgent
-      };
-      
-      setMessages(prevMessages => [...prevMessages, recoveryMessage]);
-    }, 1500);
-  }, [currentAgent, setMessages]);
-
-  // Start over after timeout
-  const handleStartOver = useCallback(() => {
+    setMessages(prev => [...prev, fallback]);
+  };
+  
+  const handleStartOver = () => {
     setIsTimedOut(false);
+    // Clear messages and add a new welcome message
+    const welcomeBack: AiMessage = {
+      text: "Let's start fresh. How can I help you with your practice management today?",
+      isUser: false,
+      timestamp: new Date().toISOString(),
+      agent: currentAgent
+    };
     
-    // Add a welcome message from the current agent using the agent-specific welcome message
-    setTimeout(() => {
-      const welcomeMessage: AiMessage = {
-        text: "Let's start fresh. How can I help you today?",
-        isUser: false,
-        timestamp: new Date().toISOString(),
-        agent: currentAgent
-      };
-      
-      setMessages(() => [welcomeMessage]);
-    }, 1000);
-  }, [currentAgent, setMessages]);
-
+    setMessages([welcomeBack]);
+  };
+  
   return {
     isTimedOut,
     setIsTimedOut,

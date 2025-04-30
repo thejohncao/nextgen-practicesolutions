@@ -68,6 +68,13 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
         <TypingIndicator agent={currentAgent} />
       )}
       
+      {/* Show the timeout message after 4 seconds of typing */}
+      {showTimeout && isTyping && (
+        <div className="p-4 mb-4 bg-[#000000] border border-blue-900/30 rounded-lg">
+          <p className="text-white/90 mb-3">Still thinking… I'll have something for you shortly.</p>
+        </div>
+      )}
+      
       {/* Connection error notification - keeping this per requirements */}
       {isTimedOut && (
         <div className="p-4 mb-4 bg-[#000000] border border-red-900/30 rounded-lg">
