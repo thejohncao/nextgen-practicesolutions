@@ -1,81 +1,84 @@
+import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ThemeProvider } from 'next-themes';
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import { useEffect } from "react";
-import Index from "./pages/Index";
-import Solutions from "./pages/Solutions";
-import Academy from "./pages/Academy";
-import AcademyCurriculum from "./pages/AcademyCurriculum";
-import Features from "./pages/Features";
-import Join from "./pages/Join";
-import Integrations from "./pages/Integrations";
-import Security from "./pages/Security";
-import Privacy from "./pages/Privacy";
-import Watch from "./pages/Watch";
-import Resources from "./pages/Resources";
-import Story from "./pages/Story";
-import Animations from "./pages/Animations";
-import NotFound from "./pages/NotFound";
-import Pricing from "./pages/Pricing";
-import AiAssistant from "./components/AiAssistant";
-import AvatarManager from "./components/admin/AvatarManager";
-import LenisProvider from "./components/providers/LenisProvider";
-import NextGenHomeV2 from "./pages/NextGenHomeV2";
+import Index from './pages/Index';
+import Solutions from './pages/Solutions';
+import Academy from './pages/Academy';
+import AcademyCurriculum from './pages/AcademyCurriculum';
+import Integrations from './pages/Integrations';
+import Resources from './pages/Resources';
+import Pricing from './pages/Pricing';
+import Join from './pages/Join';
+import Watch from './pages/Watch';
+import Story from './pages/Story';
+import Security from './pages/Security';
+import Privacy from './pages/Privacy';
+import NotFound from './pages/NotFound';
+import NextGenHomeV2 from './pages/NextGenHomeV2';
+import AiTeam from './pages/AiTeam';
+import Animations from './pages/Animations';
+import Features from './pages/Features';
+
+import { LenisProvider } from './components/providers/LenisProvider';
+import ChatDialog from './components/chat/ChatDialog';
+import EmailCollection from './components/EmailCollectionDialog';
+import { TooltipProvider } from './components/ui/tooltip';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import './App.css';
 
 const queryClient = new QueryClient();
 
-// Create a ScrollToTop component to reset scroll position on navigation
-const ScrollToTop = () => {
-  const { pathname } = useLocation();
-  
+function App() {
+  const [isEmailCollected, setIsEmailCollected] = useState<boolean | null>(null);
+
   useEffect(() => {
-    // Use standard window.scrollTo without smooth behavior for consistent experience
-    window.scrollTo(0, 0);
-  }, [pathname]);
-  
-  return null;
-};
+    const emailCollected = localStorage.getItem('emailCollected');
+    setIsEmailCollected(emailCollected === 'true');
+  }, []);
 
-const AiAssistantWrapper = () => {
-  const showAiAssistantPaths = ['/', '/solutions', '/academy', '/academy/curriculum', '/features', '/pricing', '/nextgen-home-v2'];
-  
-  return <AiAssistant showPaths={showAiAssistantPaths} />;
-};
+  const handleEmailCollectionComplete = () => {
+    localStorage.setItem('emailCollected', 'true');
+    setIsEmailCollected(true);
+  };
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
+  return (
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <LenisProvider>
-        <Router>
-          <ScrollToTop />
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/watch" element={<Watch />} />
-            <Route path="/story" element={<Story />} />
-            <Route path="/join" element={<Join />} />
-            <Route path="/features" element={<Features />} />
-            <Route path="/integrations" element={<Integrations />} />
-            <Route path="/academy" element={<Academy />} />
-            <Route path="/academy/curriculum" element={<AcademyCurriculum />} />
-            <Route path="/solutions" element={<Solutions />} />
-            <Route path="/pricing" element={<Pricing />} />
-            <Route path="/resources/*" element={<Resources />} />
-            <Route path="/security" element={<Security />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/admin/avatars" element={<AvatarManager />} />
-            <Route path="/nextgen-home-v2" element={<NextGenHomeV2 />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <AiAssistantWrapper />
-        </Router>
-      </LenisProvider>
+      <ThemeProvider defaultTheme="dark" attribute="class">
+        <LenisProvider>
+          <QueryClientProvider client={queryClient}>
+            {isEmailCollected === null ? (
+              <EmailCollection onComplete={handleEmailCollectionComplete} />
+            ) : (
+              <>
+                <ChatDialog />
+                <Router>
+                  <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/solutions" element={<Solutions />} />
+                    <Route path="/academy" element={<Academy />} />
+                    <Route path="/academy/curriculum" element={<AcademyCurriculum />} />
+                    <Route path="/integrations" element={<Integrations />} />
+                    <Route path="/resources" element={<Resources />} />
+                    <Route path="/pricing" element={<Pricing />} />
+                    <Route path="/join" element={<Join />} />
+                    <Route path="/watch" element={<Watch />} />
+                    <Route path="/story" element={<Story />} />
+                    <Route path="/security" element={<Security />} />
+                    <Route path="/privacy" element={<Privacy />} />
+                    <Route path="/nextgen-home-v2" element={<NextGenHomeV2 />} />
+                    <Route path="/ai-team" element={<AiTeam />} />
+                    <Route path="/animations" element={<Animations />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </Router>
+              </>
+            )}
+          </QueryClientProvider>
+        </LenisProvider>
+      </ThemeProvider>
     </TooltipProvider>
-  </QueryClientProvider>
-);
+  );
+}
 
 export default App;
