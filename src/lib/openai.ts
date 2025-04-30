@@ -21,9 +21,7 @@ export async function callOpenAI(
         
         // Call our Edge Function, which will handle streaming
         const response = await supabase.functions.invoke('chat', {
-          body,
-          // Important: we need to set responseType to 'arraybuffer' for binary data
-          responseType: 'arraybuffer',
+          body
         });
         
         // If we got an error response, throw it
@@ -32,7 +30,13 @@ export async function callOpenAI(
           throw response.error;
         }
         
-        return new Response(response.data as ArrayBuffer, {
+        // In streaming mode, we return the Response object
+        if (!response.data) {
+          throw new Error("No response data received");
+        }
+        
+        const blob = new Blob([response.data], { type: 'text/event-stream' });
+        return new Response(blob, {
           headers: {
             'Content-Type': 'text/event-stream',
             'Cache-Control': 'no-cache',
