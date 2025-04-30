@@ -22,6 +22,7 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [showEmailDialog, setShowEmailDialog] = useState(false);
+  const [hasShownEmailPrompt, setHasShownEmailPrompt] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { 
     messages, 
@@ -60,6 +61,24 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
   // Handle agent change
   const handleAgentChange = (agentName: string) => {
     changeAgent(agentName);
+  };
+
+  // Modified function to only trigger email dialog in certain scenarios
+  const handleSendMessage = (message: string) => {
+    // We only potentially show email dialog for explicit "get started" or "sign up" messages
+    const isExplicitSignupRequest = 
+      message.toLowerCase().includes('get started') || 
+      message.toLowerCase().includes('sign up') ||
+      message.toLowerCase().includes('register') ||
+      message.toLowerCase().includes('join');
+      
+    // Show email dialog only on explicit signup request and if never shown before
+    if (isExplicitSignupRequest && !hasShownEmailPrompt) {
+      setHasShownEmailPrompt(true);
+      setTimeout(() => setShowEmailDialog(true), 2000);
+    }
+    
+    sendMessage(message);
   };
 
   // Return null if we shouldn't show on this path
@@ -135,13 +154,7 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
             <ChatInput 
               isTyping={isTyping || isTimedOut}
               currentAgent={currentAgent}
-              onSendMessage={(message) => {
-                if (messages.length === 0 || (messages.length === 1 && !messages[0].isUser)) {
-                  // This is the first message, show email dialog after sending
-                  setTimeout(() => setShowEmailDialog(true), 2000);
-                }
-                sendMessage(message);
-              }}
+              onSendMessage={handleSendMessage}
               messages={messages}
             />
           </div>

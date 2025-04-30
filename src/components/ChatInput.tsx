@@ -25,14 +25,17 @@ type AgentKey = keyof typeof agentColors;
 
 const ChatInput: React.FC<ChatInputProps> = ({ isTyping, currentAgent, onSendMessage, messages = [] }) => {
   const [input, setInput] = useState("");
-  const [showSuggestions, setShowSuggestions] = useState(true);
+  const [showSuggestions, setShowSuggestions] = useState(false); // Set to false by default
   const chatData = getAgentChatData(currentAgent);
   const agent = agents.find(a => a.name.toLowerCase() === currentAgent.toLowerCase());
 
   useEffect(() => {
-    // Show suggestions again when changing agents or when it's a new conversation
-    const isNewConversation = messages.filter(msg => msg.isUser).length < 2;
-    setShowSuggestions(isNewConversation);
+    // Only show suggestions when it's a new conversation and no welcome message has been shown yet
+    const hasWelcomeMessage = messages.length > 0 && !messages[0].isUser;
+    const isNewConversation = messages.filter(msg => msg.isUser).length === 0;
+    
+    // Only show suggestions if there's no welcome message shown yet
+    setShowSuggestions(isNewConversation && !hasWelcomeMessage);
   }, [currentAgent, messages]);
 
   const handleSendMessage = (text: string = input) => {
@@ -56,7 +59,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ isTyping, currentAgent, onSendMes
 
   return (
     <div className="p-3 border-t border-white/10 bg-nextgen-dark/80">
-      {showSuggestions && messages.length < 3 && (
+      {showSuggestions && messages.length < 2 && (
         <div className="mb-3 space-y-2">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {chatData.suggestions.slice(0, 4).map((suggestion, idx) => (
