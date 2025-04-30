@@ -22,7 +22,8 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
     messages, 
     sendMessage, 
     isTyping, 
-    currentAgent, 
+    currentAgent,
+    timeoutLevel,
     isTimedOut,
     handleRetry,
     handleStartOver,
@@ -61,6 +62,7 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
         messages={messages}
         isTyping={isTyping}
         isTimedOut={isTimedOut}
+        timeoutLevel={timeoutLevel}
         currentAgent={currentAgent}
         handleRetry={handleRetry}
         handleStartOver={handleStartOver}

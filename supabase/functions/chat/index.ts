@@ -19,7 +19,8 @@ serve(async (req) => {
       throw new Error('OpenAI API key not configured or invalid. Please check your configuration.')
     }
 
-    const { messages, systemPrompt } = await req.json()
+    const requestData = await req.json()
+    const { messages, systemPrompt, stream = false } = requestData
     
     // Validate request data with detailed error messages
     if (!Array.isArray(messages)) {
@@ -34,7 +35,7 @@ serve(async (req) => {
       throw new Error(error);
     }
 
-    console.log(`OpenAI API call: Processing ${messages.length} messages with system prompt`)
+    console.log(`OpenAI API call: Processing ${messages.length} messages with system prompt${stream ? ' (streaming)' : ''}`)
 
     const fullMessages = [
       {
@@ -46,9 +47,19 @@ serve(async (req) => {
 
     console.log("Making request to OpenAI API...")
     
+    const openAIRequestBody = {
+      model: "gpt-4o-mini", // Using gpt-4o-mini for faster responses
+      messages: fullMessages,
+      temperature: 0.7,
+      max_tokens: 1800, // Increased from 800 to 1800 for longer responses
+      presence_penalty: 0.1, // Slight penalty to encourage diverse responses
+      frequency_penalty: 0.1, // Slight penalty to discourage repetition
+      stream: stream, // Enable streaming if requested
+    }
+    
     // Use AbortController for timeout management
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout (increased from 7.5s)
+    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout (increased from 10s)
     
     try {
       const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -57,14 +68,7 @@ serve(async (req) => {
           "Authorization": `Bearer ${openAiKey}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          model: "gpt-4o-mini", // Using gpt-4o-mini for faster responses
-          messages: fullMessages,
-          temperature: 0.7,
-          max_tokens: 1800, // Increased from 800 to 1800 for longer responses
-          presence_penalty: 0.1, // Slight penalty to encourage diverse responses
-          frequency_penalty: 0.1, // Slight penalty to discourage repetition
-        }),
+        body: JSON.stringify(openAIRequestBody),
         signal: controller.signal,
       });
       
@@ -76,6 +80,44 @@ serve(async (req) => {
         throw new Error(error.error?.message || 'Error communicating with OpenAI API')
       }
 
+      // Handle streaming responses differently
+      if (stream) {
+        // Return the response as-is for streaming
+        console.log("Returning streamed response from OpenAI");
+        
+        // We need to create a new Response with the original body and CORS headers
+        const { readable, writable } = new TransformStream();
+        const writer = writable.getWriter();
+        const reader = response.body?.getReader();
+        
+        // Pipe the response to our new stream with cors headers
+        if (reader) {
+          (async () => {
+            try {
+              while (true) {
+                const { value, done } = await reader.read();
+                if (done) break;
+                await writer.write(value);
+              }
+            } catch (err) {
+              console.error("Error streaming response:", err);
+            } finally {
+              writer.close();
+            }
+          })();
+        }
+        
+        return new Response(readable, {
+          headers: { 
+            ...corsHeaders,
+            'Content-Type': 'text/event-stream',
+            'Cache-Control': 'no-cache',
+            'Connection': 'keep-alive',
+          }
+        });
+      }
+      
+      // For non-streaming responses, return the complete data
       const data = await response.json()
       console.log("Successfully received response from OpenAI")
       
@@ -86,7 +128,7 @@ serve(async (req) => {
       clearTimeout(timeoutId);
       
       if (fetchError.name === "AbortError") {
-        throw new Error("Request timed out after 10 seconds");
+        throw new Error("Request timed out after 15 seconds");
       }
       throw fetchError;
     }

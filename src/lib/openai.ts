@@ -7,10 +7,45 @@ import { Message } from "./aiTypes";
 // Add timeout for OpenAI API calls with automatic retry
 export async function callOpenAI(
   messages: Message[],
-  systemPrompt: string
-): Promise<string | null> {
+  systemPrompt: string,
+  stream: boolean = false
+): Promise<Response | string | null> {
   try {
-    // Call the Supabase edge function with retry logic
+    console.log(`Calling OpenAI API with ${messages.length} messages, streaming: ${stream}`);
+    
+    // For streaming responses, we need to return the response object directly
+    if (stream) {
+      try {
+        // Create the body for the Edge Function
+        const body = { messages, systemPrompt, stream: true };
+        
+        // Call our Edge Function, which will handle streaming
+        const response = await supabase.functions.invoke('chat', {
+          body,
+          // Important: we need to set responseType to 'arraybuffer' for binary data
+          responseType: 'arraybuffer',
+        });
+        
+        // If we got an error response, throw it
+        if (response.error) {
+          console.error("Edge function error in streaming mode:", response.error);
+          throw response.error;
+        }
+        
+        return new Response(response.data as ArrayBuffer, {
+          headers: {
+            'Content-Type': 'text/event-stream',
+            'Cache-Control': 'no-cache',
+            'Connection': 'keep-alive',
+          }
+        });
+      } catch (err) {
+        console.error("Streaming error:", err);
+        throw err;
+      }
+    } 
+    
+    // Non-streaming mode (legacy)
     const maxRetries = 3;
     let attempt = 0;
     let lastError: any = null;

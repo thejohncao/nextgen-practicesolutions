@@ -27,6 +27,7 @@ type AgentKey = keyof typeof agentColors;
 const ChatInput: React.FC<ChatInputProps> = ({ isTyping, currentAgent, onSendMessage, messages = [] }) => {
   const [input, setInput] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
   const chatData = getAgentChatData(currentAgent);
   const agent = agents.find(a => a.name.toLowerCase() === currentAgent.toLowerCase());
 
@@ -37,14 +38,24 @@ const ChatInput: React.FC<ChatInputProps> = ({ isTyping, currentAgent, onSendMes
     const isNewConversation = messages.filter(msg => msg.isUser).length === 0;
     
     // Only show suggestions in ChatInput if we're not showing welcome message
-    setShowSuggestions(isNewConversation && !hasWelcomeMessage && messages.length > 1);
-  }, [currentAgent, messages]);
+    const shouldShowSuggestions = isNewConversation && !hasWelcomeMessage && messages.length > 1;
+    
+    setShowSuggestions(shouldShowSuggestions);
+    
+    if (shouldShowSuggestions) {
+      setSuggestions(chatData.suggestions.slice(0, 4));
+    }
+  }, [currentAgent, messages, chatData.suggestions]);
 
   const handleSendMessage = (text: string = input) => {
     if (!text.trim()) return;
+    
+    // Immediately hide suggestions after sending
+    setSuggestions([]);
+    setShowSuggestions(false);
+    
     onSendMessage(text);
     setInput("");
-    setShowSuggestions(false);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -55,6 +66,8 @@ const ChatInput: React.FC<ChatInputProps> = ({ isTyping, currentAgent, onSendMes
   };
 
   const handleSuggestionClick = (suggestion: string) => {
+    // Immediately hide all suggestions to prevent duplicate clicks
+    setSuggestions([]);
     setInput(suggestion);
     handleSendMessage(suggestion);
   };
@@ -69,10 +82,10 @@ const ChatInput: React.FC<ChatInputProps> = ({ isTyping, currentAgent, onSendMes
   return (
     <div className="p-3 border-t border-white/10 bg-nextgen-dark/80">
       {/* Only show these suggestions if we're NOT showing the welcome message with its own suggestions */}
-      {showSuggestions && (
+      {showSuggestions && suggestions.length > 0 && (
         <div className="mb-3 space-y-2">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {chatData.suggestions.slice(0, 4).map((suggestion, idx) => (
+            {suggestions.map((suggestion, idx) => (
               <AgentSuggestionChip
                 key={idx}
                 suggestion={suggestion}

@@ -60,14 +60,17 @@ export function useAgentManagement() {
     }
   }, []);
 
-  // Initialize conversations for agents
+  // Initialize conversations for agents (only once at start)
   useEffect(() => {
-    setAgentConversations(prev => {
-      const updatedConversations = { ...prev };
-      
-      // For each agent, initialize with welcome message if empty
-      ['miles', 'giselle', 'devon', 'alma'].forEach(agentName => {
-        if (!updatedConversations[agentName as AgentName] || updatedConversations[agentName as AgentName].length === 0) {
+    // Check if we've already initialized
+    const hasInitialized = Object.values(agentConversations).some(messages => messages.length > 0);
+    
+    if (!hasInitialized) {
+      setAgentConversations(prev => {
+        const updatedConversations = { ...prev };
+        
+        // For each agent, initialize with welcome message if empty
+        ['miles', 'giselle', 'devon', 'alma'].forEach(agentName => {
           const chatData = getAgentChatData(agentName);
           updatedConversations[agentName as AgentName] = [{
             text: chatData.welcomeMessage,
@@ -75,11 +78,11 @@ export function useAgentManagement() {
             agent: agentName,
             timestamp: new Date()
           }];
-        }
+        });
+        
+        return updatedConversations;
       });
-      
-      return updatedConversations;
-    });
+    }
   }, []);
 
   // Save messages to session storage

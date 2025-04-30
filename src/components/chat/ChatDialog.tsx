@@ -6,7 +6,7 @@ import ChatHeader from '../ChatHeader';
 import ChatInput from '../ChatInput';
 import AiMessageBubble from '../AiMessageBubble';
 import AgentChatPreview from '../agent-launcher/AgentChatPreview';
-import TypingIndicator from '../TypingIndicator';
+import AgentLoadingIndicator from '../AgentLoadingIndicator';
 import { Button } from '../ui/button';
 import { RefreshCw, ArrowRight } from 'lucide-react';
 import { AiMessage } from '@/hooks/useAiConversation';
@@ -19,6 +19,7 @@ interface ChatDialogProps {
   messages: AiMessage[];
   isTyping: boolean;
   isTimedOut: boolean;
+  timeoutLevel: 'none' | 'warning' | 'error';
   currentAgent: string;
   handleRetry: () => void;
   handleStartOver: () => void;
@@ -34,6 +35,7 @@ const ChatDialog: React.FC<ChatDialogProps> = ({
   messages,
   isTyping,
   isTimedOut,
+  timeoutLevel,
   currentAgent,
   handleRetry,
   handleStartOver,
@@ -44,6 +46,7 @@ const ChatDialog: React.FC<ChatDialogProps> = ({
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
   // Check if we should show the welcome message with agent preview
+  // Show agent preview for first message only if it's the AI welcome message
   const showAgentPreview = messages.length === 1 && !messages[0].isUser;
 
   // Scroll to bottom when messages change
@@ -51,7 +54,7 @@ const ChatDialog: React.FC<ChatDialogProps> = ({
     if (isOpen && messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [messages, isOpen, isTyping]);
+  }, [messages, isOpen, isTyping, timeoutLevel]);
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -82,8 +85,8 @@ const ChatDialog: React.FC<ChatDialogProps> = ({
               />
             )}
             
-            {isTyping && (
-              <TypingIndicator agent={currentAgent} />
+            {isTyping && !isTimedOut && (
+              <AgentLoadingIndicator agent={currentAgent} timeoutLevel={timeoutLevel} />
             )}
             
             {isTimedOut && (
