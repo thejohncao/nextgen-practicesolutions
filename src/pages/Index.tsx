@@ -37,7 +37,7 @@ const Index = () => {
         </div>
         
         {/* Enhanced Hero Section */}
-        <div ref={sectionRefs.hero}>
+        <div ref={sectionRefs.hero} className="min-h-screen">
           <EnhancedHero />
         </div>
         
@@ -52,7 +52,7 @@ const Index = () => {
         </div>
         
         {/* Team Section with TimelineScroll */}
-        <div ref={sectionRefs.team}>
+        <div ref={sectionRefs.team} className="pt-20">
           <ScrollRevealWrapper animation="fade-up">
             <TimelineScroll agents={agents} />
           </ScrollRevealWrapper>

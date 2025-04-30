@@ -24,6 +24,7 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
   const [isMinimized, setIsMinimized] = useState(false);
   const [showEmailDialog, setShowEmailDialog] = useState(false);
   const [showAgentSelection, setShowAgentSelection] = useState(true);
+  const [bannerVisible, setBannerVisible] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { 
     messages, 
@@ -43,6 +44,27 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
   
   // Determine if we should show the assistant based on current path
   const shouldShow = showPaths.includes(location.pathname);
+
+  // Monitor if MilesBanner is visible to avoid duplicate headers
+  useEffect(() => {
+    const checkBannerVisibility = () => {
+      // Check if MilesBanner is visible (not translated down)
+      const banner = document.querySelector('[data-testid="miles-banner"]');
+      if (banner) {
+        const style = window.getComputedStyle(banner);
+        const isVisible = style.opacity !== '0' && style.display !== 'none';
+        setBannerVisible(isVisible);
+      }
+    };
+    
+    // Check on initial load and when scrolling
+    checkBannerVisibility();
+    window.addEventListener('scroll', checkBannerVisibility);
+    
+    return () => {
+      window.removeEventListener('scroll', checkBannerVisibility);
+    };
+  }, []);
 
   useEffect(() => {
     const listener = () => {

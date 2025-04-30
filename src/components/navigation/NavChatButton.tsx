@@ -18,6 +18,9 @@ const NavChatButton = () => {
             delayedChatButton.click();
           } else {
             console.warn('Chat button still not found in DOM after navbar click');
+            // Try to dispatch a custom event as a fallback
+            const event = new Event('open-miles-chat');
+            document.dispatchEvent(event);
           }
         }, 200);
       }

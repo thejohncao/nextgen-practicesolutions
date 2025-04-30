@@ -34,8 +34,8 @@ const AgentCarousel = ({
           carouselRef={carouselRef}
         />
       ) : (
-        <div className="w-full max-w-5xl mx-auto" ref={carouselRef}>
-          <div className="grid grid-cols-4 gap-6">
+        <div className="w-full max-w-6xl mx-auto" ref={carouselRef}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {agents.map((agent, index) => (
               <div 
                 key={agent.name}

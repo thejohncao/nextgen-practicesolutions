@@ -78,12 +78,13 @@ const FloatingAgentAvatarsWithWelcome = ({
     return order[a.name] - order[b.name];
   });
   
-  // Define positions for each agent with more space between them
+  // Define positions for each agent with MORE SPACE between them
+  // Spreading them further apart to avoid clumping
   const positions = [
-    { x: '20%', y: '25%', delay: 0.2 }, // Top left (Giselle)
-    { x: '80%', y: '25%', delay: 0.4 }, // Top right (Miles)
-    { x: '80%', y: '75%', delay: 0.6 }, // Bottom right (Devon)
-    { x: '20%', y: '75%', delay: 0.8 }, // Bottom left (Alma)
+    { x: '15%', y: '25%', delay: 0.2 }, // Top left (Giselle) - moved further left
+    { x: '85%', y: '25%', delay: 0.4 }, // Top right (Miles) - moved further right
+    { x: '85%', y: '75%', delay: 0.6 }, // Bottom right (Devon) - moved further right
+    { x: '15%', y: '75%', delay: 0.8 }, // Bottom left (Alma) - moved further left
   ];
 
   const handleAgentClick = (agentName: string) => {
@@ -113,7 +114,8 @@ const FloatingAgentAvatarsWithWelcome = ({
         const baseY = parseFloat(positions[index].y) / 100;
         
         // Adjust sensitivity based on agent - Miles is more responsive to mouse
-        const sensitivity = agent.name === 'Miles' ? 0.03 : 0.02;
+        // Reduced sensitivity to prevent agents from getting too close to each other
+        const sensitivity = agent.name === 'Miles' ? 0.02 : 0.015;
         
         // Calculate position with mouse influence - creates a sense that agents are aware of user
         const x = `${(baseX * 100) + (mousePosition.x * sensitivity * 100)}%`;
