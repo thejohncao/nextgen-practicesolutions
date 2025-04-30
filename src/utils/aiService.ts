@@ -56,3 +56,6 @@ export const fetchAgentReply = async (
     throw error;
   }
 };
+
+// Add this to export the function with both names for compatibility
+export const callOpenAI = fetchAgentReply;

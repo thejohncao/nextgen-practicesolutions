@@ -24,4 +24,4 @@ export {
 } from '../utils/fallbackUtils';
 
 // Re-export AI service functions
-export { callOpenAI } from '../utils/aiService';
+export { fetchAgentReply as callOpenAI } from '../utils/aiService';
