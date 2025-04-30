@@ -7,6 +7,9 @@ export function useIsMobile() {
   const [isMobile, setIsMobile] = React.useState<boolean>(false)
 
   React.useEffect(() => {
+    // Check if window exists (important for SSR/browser contexts)
+    if (typeof window === 'undefined') return;
+    
     // Set initial value
     setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
     

@@ -15,7 +15,7 @@ const TubelightNavLink = ({ to, children, className, forceActive }: TubelightNav
   let isActive = forceActive || false;
   
   try {
-    // Safely use useLocation only if we're in a Router context
+    // Try to use useLocation, but don't crash if not in router context
     const location = useLocation();
     isActive = forceActive || location.pathname === to;
   } catch (e) {
