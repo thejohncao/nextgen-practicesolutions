@@ -26,6 +26,7 @@ import Privacy from './pages/Privacy';
 import NotFound from './pages/NotFound';
 import AiDemo from './pages/AiDemo';
 import Boardroom from './pages/Boardroom';
+import Certifications from './pages/Certifications';
 
 // Components
 import AiAssistant from './components/AiAssistant';
@@ -54,6 +55,7 @@ function App() {
             <Route path="/academy" element={<Academy />} />
             <Route path="/academy/curriculum" element={<AcademyCurriculum />} />
             <Route path="/academy/certification" element={<AcademyCertification />} />
+            <Route path="/certifications" element={<Certifications />} />
             <Route path="/story" element={<Story />} />
             <Route path="/security" element={<Security />} />
             <Route path="/pricing" element={<Pricing />} />
@@ -73,6 +75,8 @@ function App() {
           <EmailCollectionDialog 
             open={showEmailDialog} 
             onOpenChange={setShowEmailDialog}
+            triggerText=""
+            buttonClassName="hidden"
           />
           <ChatDialog />
         </Router>

@@ -18,8 +18,6 @@ const RainbowButton = ({
   asChild = false, 
   ...props 
 }: RainbowButtonProps) => {
-  const Comp = asChild ? Slot : "button";
-  
   return (
     <Button
       asChild={true}
@@ -38,9 +36,7 @@ const RainbowButton = ({
       )}
       {...props}
     >
-      {asChild ? children : (
-        <Comp>{children}</Comp>
-      )}
+      {asChild ? children : <span>{children}</span>}
     </Button>
   );
 };
