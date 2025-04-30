@@ -13,7 +13,6 @@ import { toast } from 'sonner';
 import ChatHeader from '../ChatHeader';
 import AgentTabs from '../chat/AgentTabs';
 import VoiceChatInput from '../VoiceChatInput';
-import EmailCollectionDialog from '../EmailCollectionDialog';
 import VoiceToggle from './VoiceToggle';
 import ChatMessages from './ChatMessages';
 
@@ -225,12 +224,10 @@ const EnhancedAiAssistant = ({
               showTimeout={showTimeout}
               isTimedOut={isTimedOut}
               sessionMessageCount={sessionMessageCount}
-              showEmailDialog={showEmailDialog}
               onContinueAnyway={handleContinueAnyway}
               onSummarizeResponse={handleSummarizeResponse}
               onRetry={handleRetry}
               onStartOver={handleStartOver}
-              onRequestEmail={() => setShowEmailDialog(true)}
               onQuickReply={handleQuickReplyAction}
             />
             
@@ -248,13 +245,6 @@ const EnhancedAiAssistant = ({
           </div>
         </DialogContent>
       </Dialog>
-      
-      <EmailCollectionDialog
-        triggerText=""
-        buttonClassName="hidden"
-        open={showEmailDialog}
-        onOpenChange={setShowEmailDialog}
-      />
     </>
   );
 };

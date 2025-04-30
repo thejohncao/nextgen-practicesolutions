@@ -1,9 +1,9 @@
+
 import React, { useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { AiMessage } from '@/types/conversation';
 import VoiceMessageBubble from '../VoiceMessageBubble';
 import TypingIndicator from '../TypingIndicator';
-import EmailNotification from './EmailNotification';
 import AgentFallbackMessage from './AgentFallbackMessage';
 
 interface ChatMessagesProps {
@@ -17,12 +17,9 @@ interface ChatMessagesProps {
   showTimeout: boolean;
   isTimedOut: boolean;
   sessionMessageCount: number;
-  showEmailDialog: boolean;
   onContinueAnyway: () => void;
-  onSummarizeResponse: () => void;
   onRetry: () => void;
   onStartOver: () => void;
-  onRequestEmail: () => void;
   onQuickReply?: (action: string) => void;
 }
 
@@ -37,12 +34,9 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
   showTimeout,
   isTimedOut,
   sessionMessageCount,
-  showEmailDialog,
   onContinueAnyway,
-  onSummarizeResponse,
   onRetry,
   onStartOver,
-  onRequestEmail,
   onQuickReply = () => {}
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -79,9 +73,6 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
         />
       )}
       
-      {/* Timeout notification (will be hidden since we're using agent-specific fallbacks) */}
-      
-      
       {/* Connection error notification */}
       {isTimedOut && (
         <div className="p-4 mb-4 bg-[#000000] border border-red-900/30 rounded-lg">
@@ -106,13 +97,6 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
           </div>
         </div>
       )}
-      
-      {/* Session limit notification */}
-      <EmailNotification
-        sessionMessageCount={sessionMessageCount}
-        showEmailDialog={showEmailDialog}
-        onRequestEmail={onRequestEmail}
-      />
       
       <div ref={messagesEndRef} />
     </div>

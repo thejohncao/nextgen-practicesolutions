@@ -13,7 +13,7 @@ export const useChatTimeout = (isTyping: boolean, timeoutDuration: number = 3500
         clearTimeout(timeoutId);
       }
       
-      // Set a new timeout - reduced to 3.5 seconds from original 10 seconds
+      // Set a new timeout - 3.5 seconds
       const newTimeoutId = window.setTimeout(() => {
         setShowTimeout(true);
         setIsFallbackActive(true);

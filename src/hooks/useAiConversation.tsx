@@ -19,6 +19,34 @@ export const AGENT_ROLES = {
   alma: "Academy Director"
 };
 
+// Agent-specific prompt suggestions for immediate display
+export const AGENT_SUGGESTIONS = {
+  miles: [
+    "What's on today's schedule?",
+    "Reschedule a patient",
+    "Send appointment reminders",
+    "Handle incoming calls for me"
+  ],
+  giselle: [
+    "Help me get more veneer patients",
+    "Show my active campaigns",
+    "Follow up with leads",
+    "How can I reduce no-shows?"
+  ],
+  devon: [
+    "Recover unscheduled treatment",
+    "Send a quote with financing",
+    "Follow up with Ashley from yesterday",
+    "What scripts work best for closing implants?"
+  ],
+  alma: [
+    "Train my new front desk",
+    "Show me SOPs for phone calls",
+    "Role-play a treatment presentation",
+    "How do I train my treatment coordinator?"
+  ]
+};
+
 // Mock response generator for development
 const getMockResponse = (message: string, agent: string = 'miles'): string => {
   const agentResponses: Record<string, string[]> = {
@@ -50,34 +78,7 @@ const getMockResponse = (message: string, agent: string = 'miles'): string => {
 
 // Generate suggestions based on current agent
 const getAgentSuggestionsByName = (agent: string): string[] => {
-  const suggestions: Record<string, string[]> = {
-    miles: [
-      "How can you reduce no-shows?",
-      "What's the best way to handle schedule gaps?",
-      "Can you automate appointment reminders?",
-      "Fix my scheduling gaps"
-    ],
-    giselle: [
-      "How do I get more Google reviews?",
-      "What marketing channels work best for dental?",
-      "How can I reactivate dormant patients?",
-      "Get more veneer patients"
-    ],
-    devon: [
-      "How do I improve case acceptance?",
-      "What financing options should we offer?",
-      "How can we increase our average treatment value?",
-      "Patients ghost after consults"
-    ],
-    alma: [
-      "How do I train a new treatment coordinator?",
-      "What are the best metrics for staff performance?",
-      "How do we create effective training materials?",
-      "Create team SOPs"
-    ]
-  };
-
-  return suggestions[agent.toLowerCase()] || suggestions.miles;
+  return AGENT_SUGGESTIONS[agent.toLowerCase() as keyof typeof AGENT_SUGGESTIONS] || AGENT_SUGGESTIONS.miles;
 };
 
 export const useAiConversation = () => {
@@ -223,7 +224,7 @@ export const useAiConversation = () => {
 
   // Get agent role based on name
   const getAgentRole = (agent: string): string => {
-    return AGENT_ROLES[agent.toLowerCase()] || "Assistant";
+    return AGENT_ROLES[agent.toLowerCase() as keyof typeof AGENT_ROLES] || "Assistant";
   };
 
   return {
