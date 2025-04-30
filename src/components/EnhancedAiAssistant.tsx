@@ -34,6 +34,7 @@ const EnhancedAiAssistant = ({
   const [sessionMessageCount, setSessionMessageCount] = useState(0);
   const [timeoutId, setTimeoutId] = useState<number | null>(null);
   const [showTimeout, setShowTimeout] = useState(false);
+  const [localTypingState, setLocalTypingState] = useState(false); // Added local typing state
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
   const { 
@@ -90,7 +91,7 @@ const EnhancedAiAssistant = ({
 
   // Handle typing timeout
   useEffect(() => {
-    if (isTyping) {
+    if (isTyping || localTypingState) { // Updated to include localTypingState
       // Clear any existing timeout
       if (timeoutId) {
         clearTimeout(timeoutId);
@@ -116,7 +117,7 @@ const EnhancedAiAssistant = ({
         clearTimeout(timeoutId);
       }
     };
-  }, [isTyping]);
+  }, [isTyping, localTypingState]); // Updated dependencies
 
   // Track message count to show email dialog when session limit is reached
   useEffect(() => {
@@ -128,18 +129,28 @@ const EnhancedAiAssistant = ({
     }
   }, [messages]);
 
-  const handleSendMessage = (message: string) => {
-    // If this is the first user message or the second with the first being from the assistant
-    const isFirstUserMessage = 
-      messages.length === 0 || 
-      (messages.length === 1 && !messages[0].isUser);
+  const handleSendMessage = async (message: string) => {
+    try {
+      // Set local typing state to indicate we're processing
+      setLocalTypingState(true);
       
-    // Show email dialog after a delay for the first message
-    if (isFirstUserMessage) {
-      setTimeout(() => setShowEmailDialog(true), 5000);
+      // If this is the first user message or the second with the first being from the assistant
+      const isFirstUserMessage = 
+        messages.length === 0 || 
+        (messages.length === 1 && !messages[0].isUser);
+        
+      // Show email dialog after a delay for the first message
+      if (isFirstUserMessage) {
+        setTimeout(() => setShowEmailDialog(true), 5000);
+      }
+      
+      await sendMessage(message);
+    } catch (err) {
+      console.error("Error sending message:", err);
+      toast.error("Failed to send message. Please try again.");
+    } finally {
+      setLocalTypingState(false);
     }
-    
-    sendMessage(message);
   };
 
   const toggleVoiceMode = () => {
@@ -155,20 +166,19 @@ const EnhancedAiAssistant = ({
     // Let the AI continue processing
   };
 
-  const handleSummarizeResponse = () => {
-    setShowTimeout(false);
-    setIsTyping(false);
-    
-    // Add a summary message from the agent
-    const summaryMessage: AiMessage = {
-      text: `I'm still processing your request. Here's what I understand so far: You're asking about ${messages[messages.length - 1]?.text?.slice(0, 30)}... Let me continue working on a complete response.`,
-      isUser: false,
-      timestamp: new Date().toISOString(),
-      agent: currentAgent
-    };
-    
-    // Manually add the summary message
-    sendMessage(`Could you summarize what you know so far about ${messages[messages.length - 1]?.text?.slice(0, 30)}...`);
+  const handleSummarizeResponse = async () => {
+    try {
+      setLocalTypingState(true);
+      setShowTimeout(false);
+      
+      // Add a summary message from the agent
+      await sendMessage(`Could you summarize what you know so far about ${messages[messages.length - 1]?.text?.slice(0, 30)}...`);
+    } catch (err) {
+      console.error("Error sending summary request:", err);
+      toast.error("Failed to summarize. Please try again.");
+    } finally {
+      setLocalTypingState(false);
+    }
   };
 
   // Return null if we shouldn't show on this path
@@ -182,7 +192,7 @@ const EnhancedAiAssistant = ({
         data-testid="chat-toggle"
       >
         <MessageSquare className="h-6 w-6 text-white" />
-        {isTyping && (
+        {(isTyping || localTypingState) && (
           <span className="absolute top-0 right-0 h-3 w-3 rounded-full bg-red-500 animate-pulse"></span>
         )}
       </Button>
@@ -245,12 +255,12 @@ const EnhancedAiAssistant = ({
                 />
               ))}
               
-              {isTyping && (
+              {(isTyping || localTypingState) && (
                 <TypingIndicator agent={currentAgent} />
               )}
               
               {/* Timeout notification */}
-              {showTimeout && isTyping && (
+              {showTimeout && (isTyping || localTypingState) && (
                 <div className="p-4 mb-4 bg-[#000000] border border-amber-700/30 rounded-lg">
                   <p className="text-white/90 mb-3">Still working on your request. Would you like me to:</p>
                   <div className="flex gap-2 flex-wrap">
@@ -320,7 +330,7 @@ const EnhancedAiAssistant = ({
             </div>
             
             <VoiceChatInput 
-              isTyping={isTyping || isTimedOut}
+              isTyping={(isTyping || localTypingState || isTimedOut)}
               currentAgent={currentAgent}
               onSendMessage={handleSendMessage}
               messages={messages}
