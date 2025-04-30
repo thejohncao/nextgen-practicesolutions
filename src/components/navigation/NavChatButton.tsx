@@ -3,7 +3,7 @@ import React from 'react';
 import { MessageSquare } from "lucide-react";
 
 const NavChatButton = () => {
-  const handleChatOpen = () => {
+  const handleChatOpen = React.useCallback(() => {
     try {
       const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
       if (chatButton) {
@@ -27,7 +27,7 @@ const NavChatButton = () => {
     } catch (error) {
       console.error('Error opening chat from navbar:', error);
     }
-  };
+  }, []);
 
   return (
     <button

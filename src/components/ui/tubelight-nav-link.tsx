@@ -11,15 +11,16 @@ interface TubelightNavLinkProps {
 }
 
 const TubelightNavLink = ({ to, children, className, forceActive }: TubelightNavLinkProps) => {
-  let isActive = false;
+  // Initialize isActive with forceActive value or false
+  let isActive = forceActive || false;
   
   try {
-    // Only use useLocation if we're in a Router context
+    // Safely use useLocation only if we're in a Router context
     const location = useLocation();
     isActive = forceActive || location.pathname === to;
   } catch (e) {
-    // If we're not in a Router context, default to not active
-    console.log("TubelightNavLink rendered outside Router, defaulting to inactive state");
+    // If we're not in a Router context, we'll just use the forceActive prop
+    console.log("TubelightNavLink rendered outside Router context");
   }
 
   return (
