@@ -3,64 +3,62 @@ import React from 'react';
 
 interface OrbGlowEffectProps {
   color: string;
-  intensity?: "none" | "low" | "medium" | "high";
+  intensity: "none" | "low" | "medium" | "high";
+  size?: "small" | "medium" | "large";
 }
 
-const OrbGlowEffect: React.FC<OrbGlowEffectProps> = ({ color = "purple", intensity = "medium" }) => {
-  // Skip rendering if intensity is none
-  if (intensity === "none") return null;
-  
-  // Map color names to RGB values for dynamic CSS
+const OrbGlowEffect = ({ color, intensity, size = "medium" }: OrbGlowEffectProps) => {
+  // Map colors to CSS classes
   const colorMap: Record<string, string> = {
-    blue: "74, 140, 255", // Miles
-    green: "63, 198, 160", // Giselle
-    purple: "139, 92, 246", // Devon
-    gold: "245, 158, 11", // Alma
-    red: "239, 68, 68"
+    blue: 'bg-blue-500',
+    green: 'bg-green-500',
+    purple: 'bg-purple-500',
+    gold: 'bg-amber-500',
+  };
+
+  // Map colors to opacity values based on intensity
+  const getOpacities = () => {
+    switch (intensity) {
+      case "high": return { inner: "opacity-25", outer: "opacity-15" };
+      case "medium": return { inner: "opacity-15", outer: "opacity-10" };
+      case "low": return { inner: "opacity-10", outer: "opacity-5" };
+      case "none": 
+      default: return { inner: "opacity-0", outer: "opacity-0" };
+    }
   };
   
-  // Map intensity to visual properties
-  const intensityMap: Record<string, { opacity: number, scale: number, blurSize: number }> = {
-    low: { opacity: 0.3, scale: 1.2, blurSize: 15 },
-    medium: { opacity: 0.4, scale: 1.5, blurSize: 20 },
-    high: { opacity: 0.5, scale: 1.8, blurSize: 25 },
+  // Map sizes to CSS classes
+  const getSizeClasses = () => {
+    switch (size) {
+      case "small": return { 
+        outer: "w-14 h-14 -top-3 -left-3", 
+        inner: "w-10 h-10 -top-1.5 -left-1.5" 
+      };
+      case "large": return { 
+        outer: "w-24 h-24 -top-6 -left-6", 
+        inner: "w-16 h-16 -top-3 -left-3" 
+      };
+      case "medium":
+      default: return { 
+        outer: "w-20 h-20 -top-5 -left-5", 
+        inner: "w-14 h-14 -top-2 -left-2" 
+      };
+    }
   };
-  
-  const { opacity, scale, blurSize } = intensityMap[intensity] || intensityMap.medium;
-  const rgbColor = colorMap[color] || colorMap.purple;
-  
+
+  const { inner: innerOpacity, outer: outerOpacity } = getOpacities();
+  const { inner: innerSize, outer: outerSize } = getSizeClasses();
+  const colorClass = colorMap[color] || 'bg-blue-500';
+
   return (
-    <div className="absolute inset-0 -z-10 pointer-events-none">
-      {/* Outer glow effect */}
-      <div 
-        className="absolute inset-0 rounded-full animate-pulse-slow"
-        style={{ 
-          opacity: opacity,
-          transform: `scale(${scale})`,
-          background: `radial-gradient(circle, rgba(${rgbColor}, 0.3) 0%, rgba(${rgbColor}, 0) 70%)`,
-          filter: `blur(${blurSize}px)`,
-        }}
-      />
+    <>
+      {/* Outer glow - larger and more diffuse */}
+      <div className={`absolute ${outerSize} rounded-full blur-xl ${colorClass} ${outerOpacity} animate-pulse-slow pointer-events-none`}></div>
       
-      {/* Inner particles/sparks (for high and medium intensities) */}
-      {intensity !== "low" && (
-        <div className="absolute inset-0">
-          {[...Array(intensity === "high" ? 8 : 5)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-1 rounded-full bg-white"
-              style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                opacity: Math.random() * 0.5 + 0.3,
-                animation: `float ${Math.random() * 3 + 2}s infinite alternate ease-in-out`,
-                animationDelay: `${Math.random() * 2}s`,
-              }}
-            />
-          ))}
-        </div>
-      )}
-    </div>
+      {/* Inner glow - smaller and more concentrated */}
+      <div className={`absolute ${innerSize} rounded-full blur-md ${colorClass} ${innerOpacity} animate-pulse-slow pointer-events-none`} 
+        style={{animationDelay: '0.5s'}}></div>
+    </>
   );
 };
 

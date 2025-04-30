@@ -15,6 +15,7 @@
   -webkit-background-clip: text;
   color: transparent;
   animation: shimmer 4s linear infinite;
+  will-change: background-position; /* Performance optimization */
 }
 
 .text-shimmer-blue {
@@ -33,6 +34,13 @@
   background-image: linear-gradient(90deg, #F59E0B 0%, #ffffff 50%, #F59E0B 100%);
 }
 
+/* Improved responsive handling */
+@media (max-width: 768px) {
+  .text-shimmer {
+    animation-duration: 6s; /* Slower on mobile for better performance */
+  }
+}
+
 /* Reduce motion preferences */
 @media (prefers-reduced-motion: reduce) {
   .text-shimmer {
@@ -40,3 +48,26 @@
     background-position: 0 0;
   }
 }
+
+/* Enhanced animations for chat bubbles */
+.message-animate-in {
+  animation: messageSlideIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Staggered message timing classes */
+.message-delay-1 { animation-delay: 0.1s; }
+.message-delay-2 { animation-delay: 0.3s; }
+.message-delay-3 { animation-delay: 0.5s; }
+.message-delay-4 { animation-delay: 0.7s; }
+.message-delay-5 { animation-delay: 0.9s; }

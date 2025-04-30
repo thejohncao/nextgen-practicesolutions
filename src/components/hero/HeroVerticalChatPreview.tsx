@@ -6,6 +6,7 @@ import FadeInSection from '@/components/ui/fade-in-section';
 import AgentChatAvatar from '../AgentChatAvatar';
 import CEOMessage from '../boardroom/CEOMessage';
 import AgentMessage from '../boardroom/AgentMessage';
+import { useInView } from 'react-intersection-observer';
 
 interface HeroVerticalChatPreviewProps {
   onTeamButtonClick: () => void;
@@ -13,87 +14,88 @@ interface HeroVerticalChatPreviewProps {
 
 const HeroVerticalChatPreview: React.FC<HeroVerticalChatPreviewProps> = ({ onTeamButtonClick }) => {
   const [visibleMessages, setVisibleMessages] = useState<number>(0);
+  const { ref, inView } = useInView({
+    threshold: 0.3,
+    triggerOnce: true
+  });
   
-  // Simulate typing effect by progressively revealing messages
+  // When component comes into view, begin message sequence
   useEffect(() => {
-    const maxMessages = 6; // Total number of messages (title + 5 messages)
-    
-    if (visibleMessages < maxMessages) {
-      const timer = setTimeout(() => {
-        setVisibleMessages(prev => prev + 1);
-      }, 1000); // Show a new message every second
+    if (inView) {
+      // Reset and start the sequence
+      setVisibleMessages(0);
       
-      return () => clearTimeout(timer);
+      const maxMessages = 6; // Total number of messages (title + 5 messages)
+      
+      // Show each message with proper timing
+      for (let i = 1; i <= maxMessages; i++) {
+        setTimeout(() => {
+          setVisibleMessages(i);
+        }, i * 800); // Progressive delay for each message
+      }
     }
-  }, [visibleMessages]);
+  }, [inView]);
 
   return (
-    <div className="flex flex-col w-full max-w-md mx-auto">
+    <div 
+      ref={ref}
+      className="flex flex-col w-full max-w-md mx-auto"
+    >
       {/* Title and Subtitle */}
-      <FadeInSection delay={0.1} direction="up" className="text-center mb-8">
-        <h2 className="text-3xl md:text-4xl font-heading font-bold mb-2 text-gradient-primary">
+      <FadeInSection delay={0.1} direction="up" className="text-center mb-6 sm:mb-8">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold mb-2 text-gradient-primary">
           Built to Run the Full Patient Journey
         </h2>
-        <p className="text-lg text-white/70">
+        <p className="text-base sm:text-lg text-white/70">
           One decision. Four agents. Everything in motion — powered by AI.
         </p>
       </FadeInSection>
       
       {/* Chat Messages Container */}
-      <div className="space-y-4 mb-8">
+      <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
         {/* Practice Owner Message */}
         {visibleMessages >= 1 && (
-          <FadeInSection delay={0.2} direction="up">
-            <CEOMessage />
-          </FadeInSection>
+          <CEOMessage delay={0.1} />
         )}
         
         {/* Miles Response */}
         {visibleMessages >= 2 && (
-          <FadeInSection delay={0.3} direction="up">
-            <AgentMessage 
-              agent="miles" 
-              role="Practice Manager" 
-              message="Optimizing schedule: 15 new consult slots created. Front desk team notified."
-              bgColorClass="bg-blue-500/10"
-            />
-          </FadeInSection>
+          <AgentMessage 
+            agent="miles" 
+            role="Practice Manager" 
+            message="Optimizing schedule: 15 new consult slots created. Front desk team notified."
+            delay={1}
+          />
         )}
         
         {/* Giselle Response */}
         {visibleMessages >= 3 && (
-          <FadeInSection delay={0.4} direction="up">
-            <AgentMessage 
-              agent="giselle" 
-              role="Growth Strategist" 
-              message="Launching targeted campaign. Facebook and Google Ads going live in 30 minutes."
-              bgColorClass="bg-green-500/10"
-            />
-          </FadeInSection>
+          <AgentMessage 
+            agent="giselle" 
+            role="Growth Strategist" 
+            message="Launching targeted campaign. Facebook and Google Ads going live in 30 minutes."
+            delay={2}
+          />
         )}
         
         {/* Devon Response */}
         {visibleMessages >= 4 && (
-          <FadeInSection delay={0.5} direction="up">
-            <AgentMessage 
-              agent="devon" 
-              role="Practice Development" 
-              message="Reactivating past veneer leads. 28 high-value prospects identified."
-              bgColorClass="bg-purple-500/10"
-            />
-          </FadeInSection>
+          <AgentMessage 
+            agent="devon" 
+            role="Practice Development" 
+            message="Reactivating past veneer leads. 28 high-value prospects identified."
+            delay={3}
+          />
         )}
         
         {/* Alma Response */}
         {visibleMessages >= 5 && (
-          <FadeInSection delay={0.6} direction="up">
-            <AgentMessage 
-              agent="alma" 
-              role="Academy Director" 
-              message="Team training scheduled: New veneer consultation script ready for tomorrow."
-              bgColorClass="bg-amber-500/10"
-            />
-          </FadeInSection>
+          <AgentMessage 
+            agent="alma" 
+            role="Academy Director" 
+            message="Team training scheduled: New veneer consultation script ready for tomorrow."
+            delay={4}
+          />
         )}
       </div>
       

@@ -22,12 +22,13 @@ const FloatingAgentAvatarsWithWelcome = ({
   onAgentSelect,
   mousePosition = { x: 0, y: 0 },
   welcomeComplete = false,
-  showFullNames = true // Always show full names
+  showFullNames = true
 }: FloatingAgentAvatarsWithWelcomeProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState<string | null>(null);
   const [agentsPoweredUp, setAgentsPoweredUp] = useState<{ [key: string]: boolean }>({});
   const [orbAnimations, setOrbAnimations] = useState<{ [key: string]: "none" | "low" | "medium" | "high" }>({});
+  const [expandedAgent, setExpandedAgent] = useState<string | null>(null);
   const isMobile = useIsMobile();
   
   useEffect(() => {
@@ -84,12 +85,12 @@ const FloatingAgentAvatarsWithWelcome = ({
   // Using a diamond layout for desktop and a 2x2 grid for mobile
   const getPositions = () => {
     if (isMobile) {
-      // Grid layout with more vertical space for text below orbs
+      // Improved grid layout with much more spacing for mobile
       return [
-        { x: '25%', y: '25%', delay: 0.2 }, // Top left (Giselle)
-        { x: '75%', y: '25%', delay: 0.4 }, // Top right (Miles) 
-        { x: '25%', y: '65%', delay: 0.6 }, // Bottom left (Devon)
-        { x: '75%', y: '65%', delay: 0.8 }, // Bottom right (Alma)
+        { x: '25%', y: '20%', delay: 0.2 }, // Top left (Giselle)
+        { x: '75%', y: '20%', delay: 0.4 }, // Top right (Miles)
+        { x: '25%', y: '70%', delay: 0.6 }, // Bottom left (Devon)
+        { x: '75%', y: '70%', delay: 0.8 }, // Bottom right (Alma)
       ];
     } else {
       // Diamond distribution for desktop - more spread out
@@ -105,8 +106,28 @@ const FloatingAgentAvatarsWithWelcome = ({
   const positions = getPositions();
 
   const handleAgentClick = (agentName: string) => {
+    // Mobile: toggle expanded agent details
+    if (isMobile) {
+      setExpandedAgent(expandedAgent === agentName ? null : agentName);
+    }
+    
+    // General selection behavior for both mobile/desktop
     setSelectedAgent(agentName === selectedAgent ? null : agentName);
     if (onAgentSelect) onAgentSelect(agentName);
+  };
+  
+  // Get abbreviated role for mobile display
+  const getAbbreviatedRole = (role: string): string => {
+    if (!isMobile) return role;
+    
+    const abbreviations: {[key: string]: string} = {
+      "Practice Manager": "PM",
+      "Growth Strategist": "GS",
+      "Treatment Closer": "TC",
+      "Academy Director": "AD"
+    };
+    
+    return abbreviations[role] || role;
   };
   
   return (
@@ -132,7 +153,7 @@ const FloatingAgentAvatarsWithWelcome = ({
         
         // Adjust sensitivity based on agent - Miles is more responsive to mouse
         // Reduced sensitivity to prevent agents from getting too close to each other
-        const sensitivity = agent.name === 'Miles' ? 0.01 : 0.008;
+        const sensitivity = isMobile ? 0 : (agent.name === 'Miles' ? 0.01 : 0.008);
         
         // Calculate position with mouse influence - creates a sense that agents are aware of user
         const x = `${(baseX * 100) + (mousePosition.x * sensitivity * 100)}%`;
@@ -141,6 +162,7 @@ const FloatingAgentAvatarsWithWelcome = ({
         // Determine if this agent is powered up
         const isPoweredUp = agentsPoweredUp[agent.name] || false;
         const animationIntensity = orbAnimations[agent.name] || "none";
+        const isExpanded = expandedAgent === agent.name;
         
         return (
           <motion.div
@@ -170,7 +192,7 @@ const FloatingAgentAvatarsWithWelcome = ({
             {/* Agent orb with sequential glow/power-up animation */}
             <motion.div
               animate={{
-                y: [0, -8, 0],
+                y: isMobile ? 0 : [0, -8, 0], // Disable floating on mobile
               }}
               transition={{
                 duration: 6, // Shorter duration for smoother floating
@@ -184,7 +206,11 @@ const FloatingAgentAvatarsWithWelcome = ({
             >
               {/* Enhanced particle/glow effect when "powering up" */}
               {isPoweredUp && (
-                <OrbGlowEffect color={agent.color} intensity={animationIntensity} />
+                <OrbGlowEffect 
+                  color={agent.color} 
+                  intensity={animationIntensity}
+                  size={isMobile ? "small" : "medium"} 
+                />
               )}
               
               {/* Agent orb with proper label positioning */}
@@ -195,7 +221,7 @@ const FloatingAgentAvatarsWithWelcome = ({
                   color={agent.color}
                   tooltipText={getTooltipText(agent.name)}
                   animated={isPoweredUp}
-                  animationIntensity={animationIntensity}
+                  animationIntensity={isMobile ? "low" : animationIntensity}
                   isActive={selectedAgent === agent.name}
                   onClick={() => handleAgentClick(agent.name)}
                   displayMode="initial"
@@ -204,21 +230,30 @@ const FloatingAgentAvatarsWithWelcome = ({
                 />
                 
                 {/* Label positioned below orb with spacing and no wrapping */}
-                <div 
-                  className={`
-                    mt-4
-                    text-center
-                    max-w-[80px]
-                    transition-opacity duration-300
-                    ${isPoweredUp ? 'opacity-100' : 'opacity-0'}
-                  `}
-                >
+                {/* Enhanced mobile layout with tap-to-expand details */}
+                <div className={`
+                  mt-3 md:mt-4
+                  text-center
+                  transition-all duration-300
+                  ${isPoweredUp ? 'opacity-100' : 'opacity-0'}
+                  ${isMobile ? 'max-w-[60px]' : 'max-w-[80px]'}
+                  ${isExpanded ? 'scale-110 bg-black/30 p-2 rounded-lg' : ''}
+                `}>
                   <div className="font-medium text-sm text-white whitespace-nowrap">
                     {agent.name}
                   </div>
                   <div className="text-white/80 text-xs truncate">
-                    {agent.title}
+                    {isMobile && !isExpanded 
+                      ? getAbbreviatedRole(agent.title)
+                      : agent.title}
                   </div>
+                  
+                  {/* Expanded details on mobile tap */}
+                  {isMobile && isExpanded && (
+                    <div className="mt-1 text-xs text-white/70 animate-fade-in max-w-[120px]">
+                      {getTooltipText(agent.name).slice(0, 60)}...
+                    </div>
+                  )}
                 </div>
               </div>
             </motion.div>
