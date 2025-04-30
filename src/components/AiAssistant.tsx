@@ -7,7 +7,6 @@ import ChatInput from './ChatInput';
 import AiMessageBubble from './AiMessageBubble';
 import { useAiConversation } from '../hooks/useAiConversation';
 import { Dialog, DialogContent } from './ui/dialog';
-import EmailCollectionDialog from './EmailCollectionDialog';
 import { useIsMobile } from "../hooks/use-mobile";
 import TypingIndicator from './TypingIndicator';
 import { Button } from './ui/button';
@@ -22,7 +21,6 @@ interface AiAssistantProps {
 const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] }: AiAssistantProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
-  const [showEmailDialog, setShowEmailDialog] = useState(false);
   const [showAgentSelection, setShowAgentSelection] = useState(true);
   const [bannerVisible, setBannerVisible] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -181,10 +179,7 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
                 isTyping={isTyping || isTimedOut}
                 currentAgent={currentAgent}
                 onSendMessage={(message) => {
-                  if (messages.length === 0 || (messages.length === 1 && !messages[0].isUser)) {
-                    // This is the first message, show email dialog after sending
-                    setTimeout(() => setShowEmailDialog(true), 2000);
-                  }
+                  // Removed the email dialog display logic
                   sendMessage(message);
                 }}
                 messages={messages}
@@ -195,12 +190,7 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
         </DialogContent>
       </Dialog>
       
-      <EmailCollectionDialog
-        triggerText=""
-        buttonClassName="hidden"
-        open={showEmailDialog}
-        onOpenChange={setShowEmailDialog}
-      />
+      {/* Removed EmailCollectionDialog component */}
     </>
   );
 };

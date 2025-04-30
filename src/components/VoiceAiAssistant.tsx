@@ -7,7 +7,6 @@ import VoiceChatInput from './VoiceChatInput';
 import VoiceMessageBubble from './VoiceMessageBubble';
 import { useAiConversation } from '../hooks/useAiConversation';
 import { Dialog, DialogContent } from './ui/dialog';
-import EmailCollectionDialog from './EmailCollectionDialog';
 import { useIsMobile } from "../hooks/use-mobile";
 import TypingIndicator from './TypingIndicator';
 import { Button } from './ui/button';
@@ -86,14 +85,10 @@ const VoiceAiAssistant = ({
     }
   }, [messages, isOpen, isTyping, showExpandedMessage]);
 
-  // Track message count to show email dialog when session limit is reached
+  // Track message count but don't show email dialog
   useEffect(() => {
     setSessionMessageCount(messages.filter(m => m.isUser).length);
-    
-    // Show email dialog after ~8-10 messages (counting user messages)
-    if (messages.filter(m => m.isUser).length >= 8) {
-      setShowEmailDialog(true);
-    }
+    // Removed the email dialog display logic
   }, [messages]);
 
   const handleSendMessage = (message: string) => {
@@ -102,9 +97,9 @@ const VoiceAiAssistant = ({
       messages.length === 0 || 
       (messages.length === 1 && !messages[0].isUser);
       
-    // Show email dialog after a delay for the first message
+    // No longer show email dialog after the first message
     if (isFirstUserMessage) {
-      console.log('First user message, will show email dialog later');
+      console.log('First user message received');
     }
     
     sendMessage(message);
@@ -211,23 +206,7 @@ const VoiceAiAssistant = ({
                 </div>
               )}
               
-              {/* Session limit notification */}
-              {sessionMessageCount >= 7 && !showEmailDialog && (
-                <div className="p-3 mb-4 bg-black/30 border border-white/10 rounded-lg">
-                  <p className="text-white/80 text-sm">
-                    You're approaching the end of your voice chat preview. 
-                    Would you like to receive a full resource pack?
-                  </p>
-                  <Button
-                    variant="default"
-                    size="sm"
-                    className="mt-2 bg-gradient-to-r from-blue-500 to-purple-500"
-                    onClick={() => setShowEmailDialog(true)}
-                  >
-                    Get Resource Pack
-                  </Button>
-                </div>
-              )}
+              {/* Removed the session limit notification */}
               
               <div ref={messagesEndRef} />
             </div>
@@ -247,12 +226,7 @@ const VoiceAiAssistant = ({
         </DialogContent>
       </Dialog>
       
-      <EmailCollectionDialog
-        triggerText=""
-        buttonClassName="hidden"
-        open={showEmailDialog}
-        onOpenChange={setShowEmailDialog}
-      />
+      {/* Removed EmailCollectionDialog component */}
     </>
   );
 };

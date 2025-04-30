@@ -31,14 +31,13 @@ export const useConversationErrors = (
         agent: currentAgent
       };
       
-      setMessages(prev => [...prev, recoveryMessage]);
+      setMessages(prevMessages => [...prevMessages, recoveryMessage]);
     }, 1500);
   }, [currentAgent, setMessages]);
 
   // Start over after timeout
   const handleStartOver = useCallback(() => {
     setIsTimedOut(false);
-    setMessages([]);
     
     // Add a welcome message from the current agent using the agent-specific welcome message
     setTimeout(() => {
@@ -49,7 +48,7 @@ export const useConversationErrors = (
         agent: currentAgent
       };
       
-      setMessages([welcomeMessage]);
+      setMessages(() => [welcomeMessage]);
     }, 1000);
   }, [currentAgent, setMessages]);
 

@@ -126,6 +126,7 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
     sendMessage,
     processQueue,
     toggleMessageExpansion,
-    selectAgent
+    selectAgent,
+    setMessages
   };
 };

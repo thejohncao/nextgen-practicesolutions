@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { Mic, MicOff, Send, Volume2, VolumeX } from 'lucide-react';
@@ -40,6 +39,7 @@ const VoiceChatInput: React.FC<VoiceChatInputProps> = ({
   onToggleMute
 }) => {
   const [input, setInput] = useState("");
+  // Always show suggestions instead of conditional display
   const [showQuickReplies, setShowQuickReplies] = useState(true);
   const [suggestionsList, setSuggestionsList] = useState<string[]>([]);
   const [isPermissionGranted, setIsPermissionGranted] = useState<boolean | null>(null);
@@ -148,7 +148,8 @@ const VoiceChatInput: React.FC<VoiceChatInputProps> = ({
     if (!text.trim()) return;
     onSendMessage(text);
     setInput("");
-    setShowQuickReplies(false);
+    // Don't hide quick replies, keep them visible
+    // setShowQuickReplies(false);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -160,8 +161,8 @@ const VoiceChatInput: React.FC<VoiceChatInputProps> = ({
 
   return (
     <div className={cn("p-3 border-t border-white/10 bg-nextgen-dark/80", currentAgent.toLowerCase() + "-color")}>
-      {showQuickReplies && (messages.length === 1 || 
-       (messages.length >= 2 && !messages[messages.length - 2].isUser && messages[messages.length - 1].isUser)) && (
+      {/* Always show suggestions - removed conditional rendering */}
+      {showQuickReplies && (
         <div className="grid grid-cols-2 gap-2 mb-3 animate-fade-in">
           {suggestionsList.map((suggestion) => (
             <button
