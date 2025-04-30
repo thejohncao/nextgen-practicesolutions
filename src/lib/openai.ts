@@ -2,12 +2,7 @@
 import { toast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { getAgentChatData } from "@/data/agentChatData";
-
-// Define types for OpenAI API requests and responses
-export interface Message {
-  role: "system" | "user" | "assistant";
-  content: string;
-}
+import { Message } from "./aiTypes";
 
 // Add timeout for OpenAI API calls with automatic retry
 export async function callOpenAI(

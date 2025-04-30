@@ -5,12 +5,13 @@ import { Send } from 'lucide-react';
 import { getAgentChatData } from '@/data/agentChatData';
 import AgentSuggestionChip from './agent-launcher/AgentSuggestionChip';
 import { agents } from '@/data/agents';
+import { AiMessage } from '@/hooks/useAiConversation';
 
 interface ChatInputProps {
   isTyping: boolean;
   currentAgent: string;
   onSendMessage: (message: string) => void;
-  messages?: Array<any>;
+  messages?: Array<AiMessage>;
 }
 
 // Define the AI agents with their color properties
