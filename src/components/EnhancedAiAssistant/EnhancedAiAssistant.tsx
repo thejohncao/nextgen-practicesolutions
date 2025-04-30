@@ -26,7 +26,7 @@ const EnhancedAiAssistant = ({
   initialAgent = 'miles',
   initialVoiceMode = false
 }: EnhancedAiAssistantProps) => {
-  // For MVP, we don't need voice mode, so setting it to false
+  // Voice functionality is disabled for MVP
   const [isVoiceEnabled, setIsVoiceEnabled] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   // Add local typing state
@@ -178,7 +178,7 @@ const EnhancedAiAssistant = ({
               onStartOver={handleStartOver}
             />
             
-            {/* Chat input - Using VoiceChatInput but with voice disabled */}
+            {/* Chat input - Always showing suggestions and hiding voice mode for MVP */}
             <VoiceChatInput 
               isTyping={(isTyping || localTypingState || isTimedOut)}
               currentAgent={currentAgent}

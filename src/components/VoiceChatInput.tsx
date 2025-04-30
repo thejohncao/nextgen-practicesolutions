@@ -40,10 +40,8 @@ const VoiceChatInput: React.FC<VoiceChatInputProps> = ({
   onToggleMute
 }) => {
   const [input, setInput] = useState("");
-  // Always show suggestions for the MVP
-  const [showQuickReplies] = useState(true);
+  const [suggestionsVisible, setSuggestionsVisible] = useState(true); // Always show by default
   const [suggestionsList, setSuggestionsList] = useState<string[]>([]);
-  const [isPermissionGranted, setIsPermissionGranted] = useState<boolean | null>(null);
 
   // Check if browser supports speech recognition
   const isSpeechRecognitionSupported = 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
@@ -73,10 +71,11 @@ const VoiceChatInput: React.FC<VoiceChatInputProps> = ({
     }
   });
 
-  // Update suggestions when agent changes
+  // Update suggestions when agent changes or suggestions are passed
   useEffect(() => {
     if (suggestions && suggestions.length > 0) {
       setSuggestionsList(suggestions);
+      setSuggestionsVisible(true); // Always show suggestions
     }
   }, [suggestions, currentAgent]);
 
@@ -84,7 +83,6 @@ const VoiceChatInput: React.FC<VoiceChatInputProps> = ({
   const requestMicrophonePermission = async () => {
     try {
       await navigator.mediaDevices.getUserMedia({ audio: true });
-      setIsPermissionGranted(true);
       return true;
     } catch (error) {
       console.error("Error requesting microphone permission:", error);
@@ -93,7 +91,6 @@ const VoiceChatInput: React.FC<VoiceChatInputProps> = ({
         description: "Please enable microphone access in your browser settings to use voice chat.",
         variant: "destructive",
       });
-      setIsPermissionGranted(false);
       return false;
     }
   };
@@ -115,11 +112,9 @@ const VoiceChatInput: React.FC<VoiceChatInputProps> = ({
       return;
     }
     
-    // Request permission if not yet granted
-    if (isPermissionGranted !== true) {
-      const granted = await requestMicrophonePermission();
-      if (!granted) return;
-    }
+    // Request permission
+    const granted = await requestMicrophonePermission();
+    if (!granted) return;
     
     // Start listening
     startListening();
@@ -132,8 +127,6 @@ const VoiceChatInput: React.FC<VoiceChatInputProps> = ({
     if (!text.trim()) return;
     onSendMessage(text);
     setInput("");
-    // Don't hide quick replies anymore
-    // setShowQuickReplies(false);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -145,21 +138,24 @@ const VoiceChatInput: React.FC<VoiceChatInputProps> = ({
 
   return (
     <div className={cn("p-3 border-t border-white/10 bg-nextgen-dark/80", currentAgent.toLowerCase() + "-color")}>
-      {/* Always show suggestions - don't use conditional rendering */}
-      <div className="grid grid-cols-2 gap-2 mb-3 animate-fade-in">
-        {suggestionsList.map((suggestion) => (
-          <button
-            key={suggestion}
-            onClick={() => handleSendMessage(suggestion)}
-            className={cn(
-              "prompt-button p-2 text-sm text-white/90 hover:bg-white/10 border rounded-lg transition-all duration-200",
-              "hover:scale-[1.02] border-white/10 bg-white/5"
-            )}
-          >
-            {suggestion}
-          </button>
-        ))}
-      </div>
+      {/* Always show suggestions / prompt chips */}
+      {suggestionsList.length > 0 && (
+        <div className="grid grid-cols-2 gap-2 mb-3 animate-fade-in">
+          {suggestionsList.map((suggestion) => (
+            <button
+              key={suggestion}
+              onClick={() => handleSendMessage(suggestion)}
+              className={cn(
+                "prompt-button p-2 text-sm text-white/90 hover:bg-white/10 rounded-lg transition-all duration-200",
+                "hover:scale-[1.02] bg-white/5 border",
+                currentAgent === 'miles' ? "border-[#3A86FF]/30" : "border-white/10"
+              )}
+            >
+              {suggestion}
+            </button>
+          ))}
+        </div>
+      )}
       
       <div className="relative">
         <textarea

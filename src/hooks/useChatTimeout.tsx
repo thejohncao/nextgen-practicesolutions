@@ -12,7 +12,7 @@ export const useChatTimeout = (isTyping: boolean, timeoutDuration: number = 4000
         clearTimeout(timeoutId);
       }
       
-      // Set a new timeout for 4 seconds (as requested for the MVP)
+      // Set a new timeout for 4 seconds for the timeout message
       const newTimeoutId = window.setTimeout(() => {
         setShowTimeout(true);
       }, timeoutDuration);
@@ -34,10 +34,12 @@ export const useChatTimeout = (isTyping: boolean, timeoutDuration: number = 4000
     };
   }, [isTyping, timeoutDuration]);
 
+  // Reset the timeout status
   const resetTimeout = () => {
     setShowTimeout(false);
   };
 
+  // Handle action from quick reply buttons
   const handleQuickReply = (action: string) => {
     resetTimeout();
     return action;

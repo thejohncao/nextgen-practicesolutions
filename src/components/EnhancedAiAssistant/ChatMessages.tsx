@@ -70,8 +70,8 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
       
       {/* Show the timeout message after 4 seconds of typing */}
       {showTimeout && isTyping && (
-        <div className="p-4 mb-4 bg-[#000000] border border-blue-900/30 rounded-lg">
-          <p className="text-white/90 mb-3">Still thinking… I'll have something for you shortly.</p>
+        <div className="p-4 mb-4 bg-[#000000] border border-blue-900/30 rounded-lg animate-fade-in">
+          <p className="text-white/90 mb-3">Let me pull that up for you... one moment.</p>
         </div>
       )}
       

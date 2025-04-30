@@ -4,6 +4,14 @@ import { AiMessage } from '@/types/conversation';
 import { toast } from 'sonner';
 import { AGENT_WELCOME_MESSAGES } from './useAgentContent';
 
+// Miles-specific fallback responses
+const MILES_FALLBACK_RESPONSES = [
+  "Let me pull that up for you... one moment.",
+  "I'm looking into that for you. Just a moment please.",
+  "Let me check our practice records on that. One moment.",
+  "Retrieving that information for you now..."
+];
+
 export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent: string) => void) => {
   const [messages, setMessages] = useState<AiMessage[]>([]);
   const [isTyping, setIsTyping] = useState(false);
@@ -11,6 +19,7 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
   const [messageQueue, setMessageQueue] = useState<{text: string, agent: string}[]>([]);
   const [isFirstUserMessage, setIsFirstUserMessage] = useState(true);
   const [lastResponseText, setLastResponseText] = useState<string>("");
+  const [fallbackResponseIndex, setFallbackResponseIndex] = useState(0);
 
   // Process the message queue
   const processQueue = useCallback(() => {
@@ -22,6 +31,13 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
       handleMockResponse(nextMessage.text, nextMessage.agent);
     }
   }, [messageQueue, isTyping]);
+
+  // Get next fallback response and rotate through the available responses
+  const getNextFallbackResponse = useCallback(() => {
+    const response = MILES_FALLBACK_RESPONSES[fallbackResponseIndex];
+    setFallbackResponseIndex((prev) => (prev + 1) % MILES_FALLBACK_RESPONSES.length);
+    return response;
+  }, [fallbackResponseIndex]);
 
   // Send a message and get a response
   const sendMessage = useCallback((text: string) => {
@@ -37,13 +53,13 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
     setMessages(prev => [...prev, userMessage]);
     setIsTyping(true);
     
-    // For the MVP, we'll use a fixed response after 1.5 seconds
+    // For the MVP, we'll use a fixed response with appropriate delay
     setTimeout(() => {
       // For first message, use the clear schedule response
-      // For subsequent messages, use the thinking response
+      // For subsequent messages, use the fallback response with Miles tone
       const responseText = isFirstUserMessage 
         ? "Looks like your schedule is clear this afternoon. Want to add a recall block?"
-        : "Still thinking… I'll have something for you shortly.";
+        : getNextFallbackResponse();
       
       // Prevent duplicate consecutive messages
       if (responseText === lastResponseText) {
@@ -77,20 +93,20 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
       }
       
       setIsTyping(false);
-    }, 1500); // Exactly 1.5 seconds as specified
-  }, [currentAgent, isFirstUserMessage, lastResponseText]);
+    }, isFirstUserMessage ? 1500 : 2000); // Longer delay for follow-up messages to improve realism
+  }, [currentAgent, isFirstUserMessage, lastResponseText, getNextFallbackResponse]);
 
-  // This is kept for compatibility but not used in the MVP
+  // This is kept for compatibility but updated for MVP requirements
   const handleMockResponse = useCallback((userMessage: string, agent: string) => {
     setIsTyping(true);
     
-    // MVP fixed response
+    // MVP fixed response with appropriate delay
     setTimeout(() => {
       // For first message, use the clear schedule response
-      // For subsequent messages, use the thinking response
+      // For subsequent messages, use the fallback response with Miles tone
       const responseText = isFirstUserMessage 
-        ? "Looks like your schedule is clear this afternoon. Want to add a recall block?"
-        : "Still thinking… I'll have something for you shortly.";
+        ? "Looks like your schedule is clear this afternoon. Want to add a recall block?" 
+        : getNextFallbackResponse();
       
       const newMessage: AiMessage = {
         text: responseText,
@@ -107,8 +123,8 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
       }
       
       setIsTyping(false);
-    }, 1500);
-  }, [isFirstUserMessage]);
+    }, isFirstUserMessage ? 1500 : 2000); // Different delay based on message position
+  }, [isFirstUserMessage, getNextFallbackResponse]);
 
   // Toggle message expansion
   const toggleMessageExpansion = useCallback((index: number) => {
