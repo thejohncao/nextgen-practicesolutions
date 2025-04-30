@@ -79,13 +79,31 @@ const FloatingAgentAvatarsWithWelcome = ({
   });
   
   // Define positions for each agent with MORE SPACE between them
-  // Spreading them further apart to avoid clumping
-  const positions = [
-    { x: '15%', y: '25%', delay: 0.2 }, // Top left (Giselle) - moved further left
-    { x: '85%', y: '25%', delay: 0.4 }, // Top right (Miles) - moved further right
-    { x: '85%', y: '75%', delay: 0.6 }, // Bottom right (Devon) - moved further right
-    { x: '15%', y: '75%', delay: 0.8 }, // Bottom left (Alma) - moved further left
-  ];
+  // Using a true radial layout with 2x2 grid for mobile responsiveness
+  const getPositions = () => {
+    // Check if we're on mobile
+    const isMobile = window.innerWidth < 768;
+    
+    if (isMobile) {
+      // 2x2 grid layout for mobile
+      return [
+        { x: '25%', y: '30%', delay: 0.2 }, // Top left (Giselle)
+        { x: '75%', y: '30%', delay: 0.4 }, // Top right (Miles) 
+        { x: '25%', y: '70%', delay: 0.6 }, // Bottom left (Devon)
+        { x: '75%', y: '70%', delay: 0.8 }, // Bottom right (Alma)
+      ];
+    } else {
+      // Radial distribution for desktop - more spread out
+      return [
+        { x: '20%', y: '30%', delay: 0.2 }, // Top left (Giselle)
+        { x: '80%', y: '30%', delay: 0.4 }, // Top right (Miles)
+        { x: '80%', y: '70%', delay: 0.6 }, // Bottom right (Devon)
+        { x: '20%', y: '70%', delay: 0.8 }, // Bottom left (Alma)
+      ];
+    }
+  };
+  
+  const positions = getPositions();
 
   const handleAgentClick = (agentName: string) => {
     setSelectedAgent(agentName === selectedAgent ? null : agentName);
@@ -115,7 +133,7 @@ const FloatingAgentAvatarsWithWelcome = ({
         
         // Adjust sensitivity based on agent - Miles is more responsive to mouse
         // Reduced sensitivity to prevent agents from getting too close to each other
-        const sensitivity = agent.name === 'Miles' ? 0.02 : 0.015;
+        const sensitivity = agent.name === 'Miles' ? 0.015 : 0.01;
         
         // Calculate position with mouse influence - creates a sense that agents are aware of user
         const x = `${(baseX * 100) + (mousePosition.x * sensitivity * 100)}%`;

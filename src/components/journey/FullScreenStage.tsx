@@ -67,8 +67,9 @@ const FullScreenStage = ({ stage, isActive, onInView }: FullScreenStageProps) =>
   return (
     <div 
       ref={stageRef}
-      className={`min-h-screen w-full snap-start py-24 ${stage.gradientClass} flex items-center relative`}
+      className={`min-h-screen w-full snap-start py-24 ${stage.gradientClass} flex items-center relative journey-stage`}
       id={`journey-stage-${stage.number}`}
+      data-stage={stage.number}
     >
       <div className="container mx-auto px-4 relative">
         <div className="animate-fade-in-up max-w-4xl mx-auto" style={{animationDelay: "0.2s"}}>

@@ -59,7 +59,7 @@ const Index = () => {
           </ScrollRevealWrapper>
         </div>
         
-        {/* Patient Journey Section with CinematicJourneySection */}
+        {/* Patient Journey Section - Using CinematicJourneySection only */}
         <div className="relative">
           <ScrollRevealWrapper animation="fade-up">
             <CinematicJourneySection />

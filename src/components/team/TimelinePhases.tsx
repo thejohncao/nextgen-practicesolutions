@@ -24,9 +24,34 @@ const TimelinePhases = ({ phases, activeIndex, onPhaseClick }: TimelinePhasesPro
     }
   };
 
-  // On mobile, we'll just hide the timeline since we'll show individual phase cards
-  if (isMobile) return null;
+  // On mobile, show a simplified version
+  if (isMobile) {
+    return (
+      <div className="flex justify-center mb-8 overflow-x-auto hide-scrollbar">
+        <div className="flex space-x-4 px-4">
+          {phases.map((phase, index) => (
+            <div 
+              key={phase.agent}
+              className={`
+                py-2 px-4 rounded-full cursor-pointer whitespace-nowrap flex items-center gap-2
+                ${activeIndex === index 
+                  ? `${phase.color} ${phase.borderColor} border shadow-[0_0_10px_rgba(255,255,255,0.2)]` 
+                  : 'border border-white/10 bg-white/5'}
+              `}
+              onClick={() => onPhaseClick(index)}
+            >
+              {getPhaseIcon(index)}
+              <span className={`text-sm font-medium ${activeIndex === index ? 'text-white' : 'text-white/70'}`}>
+                {`Phase ${index + 1}`}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
+  // Desktop view with horizontal connector line
   return (
     <div className="max-w-4xl mx-auto mb-12">
       <div className="relative flex items-center justify-between">

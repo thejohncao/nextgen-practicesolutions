@@ -51,7 +51,7 @@ const AITeamSection = () => {
   }, []);
 
   return (
-    <section id="ai-team" className="section-padding py-12 sm:py-20 overflow-hidden">
+    <section id="ai-team" className="section-padding py-12 sm:py-20 overflow-hidden bg-nextgen-dark">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
@@ -85,7 +85,7 @@ const AITeamSection = () => {
           <Button 
             asChild
             variant="default"
-            className="bg-[#6C63FF] hover:bg-[#5a52e0] text-white font-bold py-3 px-8 rounded-lg text-lg"
+            className="bg-[#6C63FF] hover:bg-[#5a52e0] text-white font-bold py-3 px-8 rounded-lg text-lg shadow-glow"
           >
             <Link to="/solutions">Meet Your Executive Team</Link>
           </Button>
