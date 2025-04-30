@@ -10,15 +10,15 @@ import { FadeInSection } from "@/components/ui/fade-in-section";
 const StaffTrainingSection = () => {
   const improvementPoints = [
     {
-      before: ""Let me know if you have any questions…"",
+      before: "\"Let me know if you have any questions…\"",
       after: "Becomes confident call-to-action language"
     },
     {
-      before: ""They ghosted us again…"",
+      before: "\"They ghosted us again…\"",
       after: "Becomes high-converting reactivation flows"
     },
     {
-      before: ""She's still training..."",
+      before: "\"She's still training...\"",
       after: "Becomes plug-and-play onboarding"
     }
   ];

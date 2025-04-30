@@ -12,6 +12,7 @@ import Solutions from './pages/Solutions';
 import Features from './pages/Features';
 import Academy from './pages/Academy';
 import AcademyCurriculum from './pages/AcademyCurriculum';
+import AcademyCertification from './pages/AcademyCertification';
 import Story from './pages/Story';
 import Security from './pages/Security';
 import Pricing from './pages/Pricing';
@@ -52,6 +53,7 @@ function App() {
             <Route path="/features" element={<Features />} />
             <Route path="/academy" element={<Academy />} />
             <Route path="/academy/curriculum" element={<AcademyCurriculum />} />
+            <Route path="/academy/certification" element={<AcademyCertification />} />
             <Route path="/story" element={<Story />} />
             <Route path="/security" element={<Security />} />
             <Route path="/pricing" element={<Pricing />} />
