@@ -85,7 +85,6 @@ function App() {
             onOpenChange={setIsChatOpen}
             isMinimized={isChatMinimized}
             setIsMinimized={setIsChatMinimized}
-            agentId="miles"
             messages={[]}
             onSendMessage={() => {}}
             isLoading={false}
@@ -93,6 +92,13 @@ function App() {
             setInputValue={() => {}}
             handleInputChange={() => {}}
             handleSubmit={() => {}}
+            currentAgent="miles"
+            isTyping={false}
+            isTimedOut={false}
+            timeoutLevel="none"
+            handleRetry={() => {}}
+            handleStartOver={() => {}}
+            onChangeAgent={() => {}}
           />
         </Router>
       </LenisProvider>

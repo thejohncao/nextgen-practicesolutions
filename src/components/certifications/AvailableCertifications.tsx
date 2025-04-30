@@ -1,9 +1,19 @@
+
 import React from 'react';
 import { FadeInSection } from '@/components/ui/fade-in-section';
 import { Check, Award, BookOpen, Briefcase, Trophy } from 'lucide-react';
 import RainbowButton from '@/components/ui/rainbow-button';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+
+interface CertificationBlockProps {
+  title: string;
+  subtitle: string;
+  icon: React.ReactElement;
+  items: Record<string, string[]>;
+  color?: string;
+  delay?: number;
+}
 
 const CertificationBlock = ({ 
   title, 
@@ -12,8 +22,8 @@ const CertificationBlock = ({
   items, 
   color = "nextgen-purple",
   delay = 0 
-}) => {
-  const getColorClasses = (colorName) => {
+}: CertificationBlockProps) => {
+  const getColorClasses = (colorName: string) => {
     const colorMap = {
       "nextgen-purple": "text-nextgen-purple bg-nextgen-purple/10 border-nextgen-purple/30",
       "nextgen-blue": "text-nextgen-blue bg-nextgen-blue/10 border-nextgen-blue/30",
