@@ -30,6 +30,8 @@ const EnhancedAiAssistant = ({
   const [isVoiceEnabled, setIsVoiceEnabled] = useState(initialVoiceMode);
   const [isMuted, setIsMuted] = useState(false);
   const [isVoiceAvailable, setIsVoiceAvailable] = useState(false); // Set to false to show "Coming Soon"
+  // Add local typing state
+  const [localTypingState, setLocalTypingState] = useState(false);
   
   const { 
     messages, 
@@ -64,7 +66,7 @@ const EnhancedAiAssistant = ({
     showTimeout, 
     resetTimeout, 
     handleQuickReply 
-  } = useChatTimeout(isTyping);
+  } = useChatTimeout(isTyping || localTypingState);
   
   const isMobile = useIsMobile();
 
@@ -102,9 +104,23 @@ const EnhancedAiAssistant = ({
     };
   }, [selectAgent, setIsOpen, messages.length]);
 
-  const handleSendMessage = (message: string) => {
-    handleFirstUserMessage();
-    sendMessage(message);
+  const handleSendMessage = async (message: string) => {
+    try {
+      // Set local typing state to indicate we're processing
+      setLocalTypingState(true);
+      
+      // Handle email collection if needed
+      handleFirstUserMessage();
+      
+      // Send the message
+      await sendMessage(message);
+    } catch (err) {
+      console.error("Error sending message:", err);
+      toast.error("Failed to send message. Please try again.");
+    } finally {
+      // Ensure typing state is reset regardless of success/failure
+      setLocalTypingState(false);
+    }
   };
 
   const toggleVoiceMode = () => {
@@ -159,7 +175,15 @@ const EnhancedAiAssistant = ({
     resetTimeout();
     
     // Add a summary message from the agent
-    sendMessage(`Could you summarize what you know so far about ${messages[messages.length - 1]?.text?.slice(0, 30)}...`);
+    try {
+      setLocalTypingState(true);
+      sendMessage(`Could you summarize what you know so far about ${messages[messages.length - 1]?.text?.slice(0, 30)}...`);
+    } catch (err) {
+      console.error("Error sending summary request:", err);
+      toast.error("Failed to summarize. Please try again.");
+    } finally {
+      setLocalTypingState(false);
+    }
   };
 
   // Return null if we shouldn't show on this path
@@ -173,7 +197,7 @@ const EnhancedAiAssistant = ({
         data-testid="chat-toggle"
       >
         <MessageSquare className="h-6 w-6 text-white" />
-        {isTyping && (
+        {(isTyping || localTypingState) && (
           <span className="absolute top-0 right-0 h-3 w-3 rounded-full bg-red-500 animate-pulse"></span>
         )}
       </Button>
@@ -215,7 +239,7 @@ const EnhancedAiAssistant = ({
             
             <ChatMessages 
               messages={messages}
-              isTyping={isTyping}
+              isTyping={isTyping || localTypingState}
               currentAgent={currentAgent}
               showExpandedMessage={showExpandedMessage}
               toggleMessageExpansion={toggleMessageExpansion}
@@ -231,7 +255,7 @@ const EnhancedAiAssistant = ({
             />
             
             <VoiceChatInput 
-              isTyping={isTyping || isTimedOut}
+              isTyping={isTyping || localTypingState || isTimedOut}
               currentAgent={currentAgent}
               onSendMessage={handleSendMessage}
               messages={messages}
