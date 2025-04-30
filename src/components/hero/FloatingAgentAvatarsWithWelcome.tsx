@@ -121,10 +121,10 @@ const FloatingAgentAvatarsWithWelcome = ({
     if (!isMobile) return role;
     
     const abbreviations: {[key: string]: string} = {
-      "Practice Manager": "PM",
-      "Growth Strategist": "GS",
-      "Treatment Closer": "TC",
-      "Academy Director": "AD"
+      "Practice Management": "PM",
+      "Practice Growth": "PG",
+      "Practice Development": "PD",
+      "Practice Academy": "PA"
     };
     
     return abbreviations[role] || role;

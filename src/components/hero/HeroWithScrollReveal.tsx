@@ -9,7 +9,7 @@ import RainbowButton from '../ui/rainbow-button';
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 import AnimatedHeading from '../ui/animated-heading';
-import OrbitingAgents from './OrbitingAgents';
+import FloatingAgentAvatarsWithWelcome from './FloatingAgentAvatarsWithWelcome';
 import CEOMessage from '../boardroom/CEOMessage';
 import AgentMessage from '../boardroom/AgentMessage';
 import PatientJourneyTimeline from '../journey/PatientJourneyTimeline';
@@ -17,11 +17,13 @@ import HeroQuantumGrid from '../effects/HeroQuantumGrid';
 import PulseBeams from '../effects/PulseBeams';
 import BackgroundCircles from '../effects/BackgroundCircles';
 import AnimatedGrainOverlay from '../effects/AnimatedGrainOverlay';
+import { agents } from '@/data/agents';
 
 const HeroWithScrollReveal = () => {
   const [selectedAgent, setSelectedAgent] = useState<string | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [visibleMessages, setVisibleMessages] = useState<number>(0);
+  const [showBoardroomDemo, setShowBoardroomDemo] = useState(false);
   
   // Refs for scrolling sections
   const heroContentRef = useRef<HTMLDivElement>(null);
@@ -53,6 +55,7 @@ const HeroWithScrollReveal = () => {
     if (boardroomInView) {
       // Reset and then start showing messages sequentially
       setVisibleMessages(0);
+      setShowBoardroomDemo(true);
       
       const maxMessages = 5; // CEO + 4 agents
       
@@ -196,11 +199,12 @@ const HeroWithScrollReveal = () => {
               </FadeInSection>
             </div>
 
-            {/* Right Side: Orbiting Agents */}
+            {/* Right Side: Agent avatars in floating welcome layout */}
             <div className="relative h-[500px] bg-transparent z-30">
-              <OrbitingAgents 
+              <FloatingAgentAvatarsWithWelcome 
                 onAgentSelect={handleAgentSelect}
                 mousePosition={mousePosition}
+                welcomeComplete={true}
               />
             </div>
           </div>

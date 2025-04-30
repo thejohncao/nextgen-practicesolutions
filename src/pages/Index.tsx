@@ -1,4 +1,3 @@
-
 import React, { useRef } from 'react';
 import Layout from '../components/Layout';
 import { agents } from '@/data/agents';
