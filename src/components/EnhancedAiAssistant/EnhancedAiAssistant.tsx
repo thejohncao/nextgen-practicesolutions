@@ -126,13 +126,6 @@ const EnhancedAiAssistant = ({
     // Let the AI continue processing
   };
 
-  const handleSummarizeResponse = () => {
-    resetTimeout();
-    
-    // Add a summary message from the agent
-    sendMessage(`Could you summarize what you know so far about ${messages[messages.length - 1]?.text?.slice(0, 30)}...`);
-  };
-
   const handleQuickReplyAction = (action: string) => {
     resetTimeout();
     
@@ -160,6 +153,13 @@ const EnhancedAiAssistant = ({
       default:
         handleContinueAnyway();
     }
+  };
+
+  const handleSummarizeResponse = () => {
+    resetTimeout();
+    
+    // Add a summary message from the agent
+    sendMessage(`Could you summarize what you know so far about ${messages[messages.length - 1]?.text?.slice(0, 30)}...`);
   };
 
   // Return null if we shouldn't show on this path
@@ -225,7 +225,6 @@ const EnhancedAiAssistant = ({
               isTimedOut={isTimedOut}
               sessionMessageCount={sessionMessageCount}
               onContinueAnyway={handleContinueAnyway}
-              onSummarizeResponse={handleSummarizeResponse}
               onRetry={handleRetry}
               onStartOver={handleStartOver}
               onQuickReply={handleQuickReplyAction}
