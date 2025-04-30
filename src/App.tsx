@@ -38,6 +38,8 @@ const queryClient = new QueryClient();
 
 function App() {
   const [showEmailDialog, setShowEmailDialog] = useState<boolean>(false);
+  const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
+  const [isChatMinimized, setIsChatMinimized] = useState<boolean>(false);
   
   const handleCompleteDemo = () => {
     setShowEmailDialog(true);
@@ -78,7 +80,20 @@ function App() {
             triggerText=""
             buttonClassName="hidden"
           />
-          <ChatDialog />
+          <ChatDialog 
+            isOpen={isChatOpen}
+            onOpenChange={setIsChatOpen}
+            isMinimized={isChatMinimized}
+            setIsMinimized={setIsChatMinimized}
+            agentId="miles"
+            messages={[]}
+            onSendMessage={() => {}}
+            isLoading={false}
+            inputValue=""
+            setInputValue={() => {}}
+            handleInputChange={() => {}}
+            handleSubmit={() => {}}
+          />
         </Router>
       </LenisProvider>
       <Toaster position="top-center" />
