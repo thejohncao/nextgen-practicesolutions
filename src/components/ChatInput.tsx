@@ -25,7 +25,7 @@ type AgentKey = keyof typeof agentColors;
 
 const ChatInput: React.FC<ChatInputProps> = ({ isTyping, currentAgent, onSendMessage, messages = [] }) => {
   const [input, setInput] = useState("");
-  const [showSuggestions, setShowSuggestions] = useState(false); // Set to false by default
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const chatData = getAgentChatData(currentAgent);
   const agent = agents.find(a => a.name.toLowerCase() === currentAgent.toLowerCase());
 
@@ -57,6 +57,13 @@ const ChatInput: React.FC<ChatInputProps> = ({ isTyping, currentAgent, onSendMes
     handleSendMessage(suggestion);
   };
 
+  // Auto-resize the textarea based on content
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInput(e.target.value);
+    e.target.style.height = 'auto';
+    e.target.style.height = `${Math.min(e.target.scrollHeight, 120)}px`; // Max 120px height
+  };
+
   return (
     <div className="p-3 border-t border-white/10 bg-nextgen-dark/80">
       {showSuggestions && messages.length < 2 && (
@@ -77,11 +84,11 @@ const ChatInput: React.FC<ChatInputProps> = ({ isTyping, currentAgent, onSendMes
       <div className="relative">
         <textarea
           className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-white/90 
-            placeholder-white/40 focus:outline-none focus:ring-1 resize-none"
+            placeholder-white/40 focus:outline-none focus:ring-1 resize-none min-h-[42px]"
           placeholder="Ask a question..."
           rows={1}
           value={input}
-          onChange={(e) => setInput(e.target.value)}
+          onChange={handleInputChange}
           onKeyPress={handleKeyPress}
           disabled={isTyping}
         />

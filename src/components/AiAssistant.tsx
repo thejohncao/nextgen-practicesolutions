@@ -63,7 +63,7 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
     changeAgent(agentName);
   };
 
-  // Modified function to only trigger email dialog in certain scenarios
+  // Modified function to only trigger email dialog for explicit signup requests
   const handleSendMessage = (message: string) => {
     // We only potentially show email dialog for explicit "get started" or "sign up" messages
     const isExplicitSignupRequest = 

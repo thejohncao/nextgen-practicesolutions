@@ -48,7 +48,7 @@ serve(async (req) => {
     
     // Use AbortController for timeout management
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 7500); // 7.5 second timeout
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout (increased from 7.5s)
     
     try {
       const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -61,7 +61,7 @@ serve(async (req) => {
           model: "gpt-4o-mini", // Using gpt-4o-mini for faster responses
           messages: fullMessages,
           temperature: 0.7,
-          max_tokens: 800,
+          max_tokens: 1800, // Increased from 800 to 1800 for longer responses
           presence_penalty: 0.1, // Slight penalty to encourage diverse responses
           frequency_penalty: 0.1, // Slight penalty to discourage repetition
         }),
@@ -86,7 +86,7 @@ serve(async (req) => {
       clearTimeout(timeoutId);
       
       if (fetchError.name === "AbortError") {
-        throw new Error("Request timed out after 7.5 seconds");
+        throw new Error("Request timed out after 10 seconds");
       }
       throw fetchError;
     }

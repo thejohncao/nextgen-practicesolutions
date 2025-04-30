@@ -92,21 +92,53 @@ export function useAiConversation() {
 
   // Define a function to detect and save user intent from message
   const detectAndSaveUserIntent = useCallback((message: string) => {
-    // Simple intent detection logic
+    // Enhanced intent detection logic with more specific keywords
     let detectedIntent: string | undefined;
     
-    if (message.toLowerCase().includes('patient') || 
-        message.toLowerCase().includes('growth') ||
-        message.toLowerCase().includes('marketing')) {
+    const lowerMessage = message.toLowerCase();
+    
+    // Marketing/Growth intent
+    if (lowerMessage.includes('patient acquisition') || 
+        lowerMessage.includes('growth') ||
+        lowerMessage.includes('marketing') ||
+        lowerMessage.includes('leads') ||
+        lowerMessage.includes('advertising') ||
+        lowerMessage.includes('campaign') ||
+        lowerMessage.includes('social media') ||
+        lowerMessage.includes('facebook') ||
+        lowerMessage.includes('google ads')) {
       detectedIntent = 'marketing';
-    } else if (message.toLowerCase().includes('treatment') || 
-               message.toLowerCase().includes('case acceptance') ||
-               message.toLowerCase().includes('conversion')) {
+    } 
+    // Treatment intent
+    else if (lowerMessage.includes('treatment') || 
+             lowerMessage.includes('case acceptance') ||
+             lowerMessage.includes('conversion') ||
+             lowerMessage.includes('follow-up') ||
+             lowerMessage.includes('patient education') ||
+             lowerMessage.includes('consultation') ||
+             lowerMessage.includes('close cases')) {
       detectedIntent = 'treatment';
-    } else if (message.toLowerCase().includes('team') || 
-               message.toLowerCase().includes('staff') ||
-               message.toLowerCase().includes('training')) {
+    } 
+    // Training/system intent
+    else if (lowerMessage.includes('team') || 
+             lowerMessage.includes('staff') ||
+             lowerMessage.includes('training') ||
+             lowerMessage.includes('sop') ||
+             lowerMessage.includes('onboarding') ||
+             lowerMessage.includes('systems') ||
+             lowerMessage.includes('workflow') ||
+             lowerMessage.includes('protocol')) {
       detectedIntent = 'training';
+    }
+    // Scheduling/operations intent
+    else if (lowerMessage.includes('schedule') || 
+             lowerMessage.includes('appointment') ||
+             lowerMessage.includes('front desk') ||
+             lowerMessage.includes('no-show') ||
+             lowerMessage.includes('cancellation') ||
+             lowerMessage.includes('reschedule') ||
+             lowerMessage.includes('booking')) {
+      detectedIntent = 'operations';
     }
     
     if (detectedIntent) {
@@ -146,12 +178,12 @@ export function useAiConversation() {
       clearTimeout(timeoutRef.current);
     }
     
-    // Set new timeout for 10 seconds
+    // Set new timeout for 12 seconds (increased from 10)
     timeoutRef.current = setTimeout(() => {
       setIsTimedOut(true);
       setIsTyping(false);
       console.log("Response timeout triggered - showing fallback message");
-    }, 10000);
+    }, 12000);
   }, []);
   
   // Clear timeout when response is received
@@ -191,8 +223,29 @@ export function useAiConversation() {
 
     // Don't add user message again if this is a retry
     if (!isRetry) {
-      // Detect user intent from message
-      detectAndSaveUserIntent(userMessage);
+      // Enhanced: Detect user intent from message for better agent routing
+      const detectedIntent = detectAndSaveUserIntent(userMessage);
+      
+      // Potentially switch agent based on detected intent (if intent is strong)
+      if (detectedIntent) {
+        const shouldSwitchAgent = userMessage.length > 20; // Only consider switching for longer messages
+        if (shouldSwitchAgent) {
+          // Map intent to agent
+          let suggestedAgent = currentAgent;
+          switch(detectedIntent) {
+            case 'marketing': suggestedAgent = 'giselle'; break;
+            case 'treatment': suggestedAgent = 'devon'; break; 
+            case 'training': suggestedAgent = 'alma'; break;
+            case 'operations': suggestedAgent = 'miles'; break;
+          }
+          
+          // Only switch if we're not already using that agent
+          if (suggestedAgent !== currentAgent) {
+            console.log(`Intent suggests switching from ${currentAgent} to ${suggestedAgent}`);
+            // We could auto-switch here, but for now just log it
+          }
+        }
+      }
       
       // Add user message to current agent's conversation
       setAgentConversations(prev => {
@@ -221,30 +274,34 @@ export function useAiConversation() {
     startResponseTimeout(); // Start timeout tracking
 
     try {
-      // Get current agent's messages
+      // Get current agent's messages - ensure we send full history for context
       const agentMessages = agentConversations[currentAgent] || [];
+      
+      // Transform to OpenAI message format, preserving all conversation history
       const messageHistory: Message[] = agentMessages.map(msg => ({
         role: msg.isUser ? "user" : "assistant",
         content: msg.text,
       }));
 
-      if (!isRetry) {
-        messageHistory.push({
-          role: "user",
-          content: userMessage,
-        });
-      } else {
-        // If retry, find the last user message
+      // For retry, we find the last user message and use that
+      if (isRetry) {
         const lastUserMessage = [...agentMessages].reverse().find(msg => msg.isUser);
         if (lastUserMessage) {
+          // We add it explicitly to make sure it's the last message
           messageHistory.push({
             role: "user",
             content: lastUserMessage.text,
           });
         }
+      } else {
+        // Not a retry, so we add the new user message
+        messageHistory.push({
+          role: "user",
+          content: userMessage,
+        });
       }
       
-      // Use agent-specific system prompt
+      // Use agent-specific system prompt with the enhanced prompts
       const agentData = getAgentChatData(currentAgent);
       const systemPrompt = agentData.systemPrompt || SYSTEM_PROMPT;
 
@@ -254,6 +311,7 @@ export function useAiConversation() {
 
       if (response) {
         setAgentConversations(prev => {
+          // If retry, we don't add the user message again
           const agentMessages = isRetry 
             ? [...(prev[currentAgent] || [])]
             : [...(prev[currentAgent] || []), {
@@ -263,7 +321,7 @@ export function useAiConversation() {
                 timestamp: new Date()
               }];
           
-          // Add AI response
+          // Add AI response with full content (no truncation)
           agentMessages.push({
             text: response,
             isUser: false,
@@ -276,7 +334,7 @@ export function useAiConversation() {
             [currentAgent]: agentMessages
           };
           
-          // Save to session storage
+          // Save updated conversation to session storage
           saveMessagesToSession(currentAgent, agentMessages);
           
           return updatedConversations;
