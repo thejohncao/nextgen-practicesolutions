@@ -37,7 +37,10 @@ const AgentResultsSection = () => {
   return (
     <section className="py-24 bg-nextgen-dark overflow-hidden">
       <div className="container mx-auto px-4">
-        <SectionHeader />
+        <SectionHeader 
+          title="Real Results from Your AI Team" 
+          subtitle="Practices using NextGen agents scale faster, close more, and reclaim their time."
+        />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* We'll create three columns of vertical sliders with shuffled data */}
