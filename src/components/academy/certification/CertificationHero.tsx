@@ -2,11 +2,17 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
-import { Link as ScrollLink } from 'react-scroll';
 import AnimatedHeading from '@/components/ui/animated-heading';
 import { FadeInSection } from '@/components/ui/fade-in-section';
 
 const CertificationHero = () => {
+  const scrollToCertificationPathway = () => {
+    const element = document.getElementById('certification-pathway');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+    }
+  };
+
   return (
     <section className="py-24 md:py-32 relative bg-gradient-to-b from-nextgen-dark to-nextgen-dark/95 overflow-hidden">
       <div className="absolute inset-0 -z-10">
@@ -30,20 +36,12 @@ const CertificationHero = () => {
               </p>
 
               <Button
-                asChild
                 size="lg"
                 className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white"
+                onClick={scrollToCertificationPathway}
               >
-                <ScrollLink 
-                  to="certification-pathway" 
-                  smooth={true} 
-                  offset={-100} 
-                  duration={800}
-                  className="flex items-center cursor-pointer"
-                >
-                  Start Certification
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </ScrollLink>
+                Start Certification
+                <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </FadeInSection>
           </div>

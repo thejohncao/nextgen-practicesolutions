@@ -28,9 +28,9 @@ import AiDemo from './pages/AiDemo';
 import Boardroom from './pages/Boardroom';
 
 // Components
-import { AiAssistant } from './components/AiAssistant';
-import { EmailCollectionDialog } from './components/EmailCollectionDialog';
-import { ChatDialog } from './components/chat/ChatDialog';
+import AiAssistant from './components/AiAssistant';
+import EmailCollectionDialog from './components/EmailCollectionDialog';
+import ChatDialog from './components/chat/ChatDialog';
 
 // Create a client
 const queryClient = new QueryClient();
@@ -73,7 +73,6 @@ function App() {
           <EmailCollectionDialog 
             open={showEmailDialog} 
             onOpenChange={setShowEmailDialog}
-            onComplete={() => setShowEmailDialog(false)}
           />
           <ChatDialog />
         </Router>
