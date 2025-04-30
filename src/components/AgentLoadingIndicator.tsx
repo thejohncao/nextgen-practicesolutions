@@ -51,11 +51,11 @@ const AgentLoadingIndicator: React.FC<AgentLoadingIndicatorProps> = ({ agent, ti
     >
       <div className="flex flex-col space-y-2">
         <div className="flex items-center">
-          <AgentChatAvatar agent={agent} size="sm" className="mr-2" />
+          <AgentChatAvatar agent={agent} className="mr-2" />
           <span className="text-white font-medium">{agent.charAt(0).toUpperCase() + agent.slice(1)}</span>
         </div>
         {message && <div className="text-sm text-white/70">{message}</div>}
-        <TypingIndicator />
+        <TypingIndicator agent={agent} />
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ interface FadeInSectionProps {
   };
 }
 
-const FadeInSection: React.FC<FadeInSectionProps> = ({
+export const FadeInSection: React.FC<FadeInSectionProps> = ({
   className,
   children,
   direction = 'up',

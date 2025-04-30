@@ -23,6 +23,7 @@ import Pricing from "./pages/Pricing";
 import AiAssistant from "./components/AiAssistant";
 import AvatarManager from "./components/admin/AvatarManager";
 import LenisProvider from "./components/providers/LenisProvider";
+import NextGenHomeV2 from "./pages/NextGenHomeV2";
 
 const queryClient = new QueryClient();
 
@@ -39,7 +40,7 @@ const ScrollToTop = () => {
 };
 
 const AiAssistantWrapper = () => {
-  const showAiAssistantPaths = ['/', '/solutions', '/academy', '/academy/curriculum', '/features', '/pricing'];
+  const showAiAssistantPaths = ['/', '/solutions', '/academy', '/academy/curriculum', '/features', '/pricing', '/nextgen-home-v2'];
   
   return <AiAssistant showPaths={showAiAssistantPaths} />;
 };
@@ -67,6 +68,7 @@ const App = () => (
             <Route path="/security" element={<Security />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/admin/avatars" element={<AvatarManager />} />
+            <Route path="/nextgen-home-v2" element={<NextGenHomeV2 />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <AiAssistantWrapper />
