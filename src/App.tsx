@@ -82,16 +82,11 @@ function App() {
           />
           <ChatDialog 
             isOpen={isChatOpen}
-            onOpenChange={setIsChatOpen}
             isMinimized={isChatMinimized}
             setIsMinimized={setIsChatMinimized}
+            onOpenChange={setIsChatOpen}
             messages={[]}
             onSendMessage={() => {}}
-            isLoading={false}
-            inputValue=""
-            setInputValue={() => {}}
-            handleInputChange={() => {}}
-            handleSubmit={() => {}}
             currentAgent="miles"
             isTyping={false}
             isTimedOut={false}
