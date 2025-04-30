@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { agents } from '@/data/agents';
@@ -118,7 +119,7 @@ const OrbitingAgents = ({
         const animationIntensity = orbAnimations[agent.name] || "none";
         
         // Calculate position based on orbit or grid
-        let positionStyle: React.CSSProperties = {};
+        let positionStyle = {};
         
         if (arrangeVertically || isMobile) {
           // Grid or vertical positioning
@@ -154,7 +155,7 @@ const OrbitingAgents = ({
             animate={{ 
               opacity: isVisible ? 1 : 0,
               scale: isVisible ? 1 : 0.8,
-              ...positionStyle
+              ...(positionStyle as any)
             }}
             transition={{ 
               duration: 0.8, 
