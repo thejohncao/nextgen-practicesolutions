@@ -2,17 +2,18 @@
 import React from 'react';
 import AgentChatAvatar from '../AgentChatAvatar';
 
-interface AgentMessageProps {
+export interface AgentMessageProps {
   agent: string;
   role: string;
   message: string;
-  bgColorClass: string;
+  bgColorClass?: string;
+  delay?: number;
 }
 
-const AgentMessage = ({ agent, role, message, bgColorClass }: AgentMessageProps) => {
+const AgentMessage = ({ agent, role, message, bgColorClass, delay = 0 }: AgentMessageProps) => {
   // Get shimmer effect class based on agent
   const getTextShimmerClass = () => {
-    switch(agent) {
+    switch(agent.toLowerCase()) {
       case 'miles': return 'text-shimmer text-shimmer-blue';
       case 'giselle': return 'text-shimmer text-shimmer-green';
       case 'devon': return 'text-shimmer text-shimmer-purple';
@@ -23,7 +24,7 @@ const AgentMessage = ({ agent, role, message, bgColorClass }: AgentMessageProps)
   
   // Get subtle glow effect based on agent color
   const getGlowColor = () => {
-    switch(agent) {
+    switch(agent.toLowerCase()) {
       case 'miles': return 'border border-blue-900/20 shadow-[0_0_6px_rgba(59,130,246,0.2)]';
       case 'giselle': return 'border border-green-900/20 shadow-[0_0_6px_rgba(34,197,94,0.2)]';
       case 'devon': return 'border border-purple-900/20 shadow-[0_0_6px_rgba(168,85,247,0.2)]';
@@ -33,7 +34,13 @@ const AgentMessage = ({ agent, role, message, bgColorClass }: AgentMessageProps)
   };
   
   return (
-    <div className={`p-2.5 md:p-3 rounded-lg backdrop-blur-[2px] bg-[#000000] ${getGlowColor()}`}>
+    <div 
+      className={`p-2.5 md:p-3 rounded-lg backdrop-blur-[2px] bg-[#000000] ${getGlowColor()}`}
+      style={{ 
+        opacity: delay > 0 ? 0 : 1,
+        animation: delay > 0 ? `fadeIn 0.5s ease-out ${delay}s forwards` : 'none'
+      }}
+    >
       <div className="flex items-center">
         <div className="flex-shrink-0">
           <AgentChatAvatar agent={agent} hideDetails={true} />

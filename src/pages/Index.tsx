@@ -18,6 +18,7 @@ import PricingSection from '../components/pricing/PricingSection';
 import SectionTransition from '../components/effects/SectionTransition';
 import ParallaxSection from '../components/effects/ParallaxSection';
 import ScrollRevealWrapper from '../components/animation/ScrollRevealWrapper';
+import AIBoardroomTimeline from '../components/boardroom/AIBoardroomTimeline';
 
 const Index = () => {
   const sectionRefs = {
@@ -48,6 +49,13 @@ const Index = () => {
               <GooeyFilterTabs />
             </ScrollRevealWrapper>
           </ParallaxSection>
+        </div>
+        
+        {/* AI Boardroom Timeline Section */}
+        <div className="relative">
+          <ScrollRevealWrapper animation="fade-up">
+            <AIBoardroomTimeline />
+          </ScrollRevealWrapper>
         </div>
         
         {/* Visual separator with enhanced transition */}

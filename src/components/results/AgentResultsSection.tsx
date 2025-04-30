@@ -1,70 +1,45 @@
 
-import React, { useEffect, useState } from 'react';
-import { getDuplicatedResults } from '@/data/agentResults';
+import React from 'react';
+import { agents } from '@/data/agents';
+import { agentResults } from '@/data/agentResults';
 import SectionHeader from './SectionHeader';
 import VerticalSlider from './VerticalSlider';
+import { getAgentResult } from '@/lib/utils';
+
+const groupedResults = agentResults.reduce((acc, result) => {
+  const agent = result.agentName.toLowerCase();
+  if (!acc[agent]) {
+    acc[agent] = [];
+  }
+  acc[agent].push(result);
+  return acc;
+}, {} as Record<string, typeof agentResults>);
 
 const AgentResultsSection = () => {
-  const [isMobile, setIsMobile] = useState(false);
-  const [shuffledResults, setShuffledResults] = useState([]);
-  
-  // Get results and shuffle them on component mount
-  useEffect(() => {
-    const duplicatedResults = getDuplicatedResults();
-    setShuffledResults(shuffleArray(duplicatedResults));
-  }, []);
-
-  // Fisher-Yates shuffle algorithm
-  const shuffleArray = (array) => {
-    const shuffled = [...array];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled;
-  };
-
-  useEffect(() => {
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    checkIfMobile();
-    window.addEventListener('resize', checkIfMobile);
-    return () => window.removeEventListener('resize', checkIfMobile);
-  }, []);
-
   return (
-    <section className="py-24 bg-nextgen-dark overflow-hidden">
+    <section className="py-20 bg-nextgen-dark text-white overflow-hidden">
       <div className="container mx-auto px-4">
-        <SectionHeader />
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* We'll create three columns of vertical sliders with shuffled data */}
-          <div className="h-[500px] md:h-[700px]">
-            <VerticalSlider 
-              items={shuffledResults.slice(0, 6)} 
-              isMobile={isMobile} 
-            />
-          </div>
-          
-          {/* Only show additional columns on desktop */}
-          {!isMobile && (
-            <>
-              <div className="h-[700px]">
+        <SectionHeader 
+          title="Real Results from Your AI Team"
+          subtitle="While you focus on patient care, your team delivers measurable wins across your practice."
+        />
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+          {agents.map((agent) => {
+            // Get results for this agent or an empty array
+            const agentResultsData = groupedResults[agent.name.toLowerCase()] || [];
+            
+            return (
+              <div key={agent.name} className="h-[500px] md:h-[600px]">
                 <VerticalSlider 
-                  items={shuffledResults.slice(6, 12).reverse()} 
-                  isMobile={isMobile} 
+                  agentName={agent.name} 
+                  results={agentResultsData}
+                  agentRole={agent.title}
+                  agentColor={agent.color}
                 />
               </div>
-              <div className="h-[700px]">
-                <VerticalSlider 
-                  items={shuffledResults.slice(12, 18)} 
-                  isMobile={isMobile} 
-                />
-              </div>
-            </>
-          )}
+            );
+          })}
         </div>
       </div>
     </section>
