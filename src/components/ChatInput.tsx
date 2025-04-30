@@ -31,12 +31,13 @@ const ChatInput: React.FC<ChatInputProps> = ({ isTyping, currentAgent, onSendMes
   const agent = agents.find(a => a.name.toLowerCase() === currentAgent.toLowerCase());
 
   useEffect(() => {
-    // Only show suggestions when it's a new conversation and no welcome message has been shown yet
-    const hasWelcomeMessage = messages.length > 0 && !messages[0].isUser;
+    // Don't show additional suggestions in input area when welcome message is showing
+    // The welcome message in AgentChatPreview already has suggestions
+    const hasWelcomeMessage = messages.length === 1 && !messages[0].isUser;
     const isNewConversation = messages.filter(msg => msg.isUser).length === 0;
     
-    // Only show suggestions if there's no welcome message shown yet
-    setShowSuggestions(isNewConversation && !hasWelcomeMessage);
+    // Only show suggestions in ChatInput if we're not showing welcome message
+    setShowSuggestions(isNewConversation && !hasWelcomeMessage && messages.length > 1);
   }, [currentAgent, messages]);
 
   const handleSendMessage = (text: string = input) => {
@@ -67,7 +68,8 @@ const ChatInput: React.FC<ChatInputProps> = ({ isTyping, currentAgent, onSendMes
 
   return (
     <div className="p-3 border-t border-white/10 bg-nextgen-dark/80">
-      {showSuggestions && messages.length < 2 && (
+      {/* Only show these suggestions if we're NOT showing the welcome message with its own suggestions */}
+      {showSuggestions && (
         <div className="mb-3 space-y-2">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {chatData.suggestions.slice(0, 4).map((suggestion, idx) => (

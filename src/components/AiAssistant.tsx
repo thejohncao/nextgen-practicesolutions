@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import ChatToggleButton from './ChatToggleButton';
@@ -83,6 +84,9 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
   // Return null if we shouldn't show on this path
   if (!shouldShow) return null;
 
+  // Check if we should show the welcome message with agent preview
+  const showAgentPreview = messages.length === 1 && !messages[0].isUser;
+
   return (
     <>
       <ChatToggleButton 
@@ -103,19 +107,21 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
             />
             
             <div className="flex-1 overflow-y-auto p-4 scrollbar-none">
-              {messages.length === 1 && !messages[0].isUser && (
-                <AgentChatPreview
-                  agentName={currentAgent}
-                  onSelectSuggestion={(suggestion) => sendMessage(suggestion)}
-                />
-              )}
-              
+              {/* Show conversation messages */}
               {messages.map((message, index) => (
                 <AiMessageBubble
                   key={index}
                   message={message}
                 />
               ))}
+              
+              {/* Show agent welcome & suggestions only for new conversations */}
+              {showAgentPreview && (
+                <AgentChatPreview
+                  agentName={currentAgent}
+                  onSelectSuggestion={(suggestion) => sendMessage(suggestion)}
+                />
+              )}
               
               {isTyping && (
                 <TypingIndicator agent={currentAgent} />
