@@ -7,6 +7,7 @@ import { getTooltipText } from '@/components/team/utils/getTooltipText';
 import ConnectingLines from '../integrations/ConnectedTeam/ConnectingLines';
 import CentralGlow from '../integrations/ConnectedTeam/CentralGlow';
 import OrbGlowEffect from '../effects/OrbGlowEffect';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface FloatingAgentAvatarsWithWelcomeProps {
   staggered?: boolean;
@@ -21,12 +22,13 @@ const FloatingAgentAvatarsWithWelcome = ({
   onAgentSelect,
   mousePosition = { x: 0, y: 0 },
   welcomeComplete = false,
-  showFullNames = false
+  showFullNames = true // Always show full names
 }: FloatingAgentAvatarsWithWelcomeProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState<string | null>(null);
   const [agentsPoweredUp, setAgentsPoweredUp] = useState<{ [key: string]: boolean }>({});
   const [orbAnimations, setOrbAnimations] = useState<{ [key: string]: "none" | "low" | "medium" | "high" }>({});
+  const isMobile = useIsMobile();
   
   useEffect(() => {
     // Initial delay to start the welcome sequence
@@ -79,26 +81,23 @@ const FloatingAgentAvatarsWithWelcome = ({
   });
   
   // Define positions for each agent with MORE SPACE between them
-  // Using a true radial layout with 2x2 grid for mobile responsiveness
+  // Using a diamond layout for desktop and a 2x2 grid for mobile
   const getPositions = () => {
-    // Check if we're on mobile
-    const isMobile = window.innerWidth < 768;
-    
     if (isMobile) {
-      // 2x2 grid layout for mobile
+      // Grid layout with more vertical space for text below orbs
       return [
-        { x: '25%', y: '30%', delay: 0.2 }, // Top left (Giselle)
-        { x: '75%', y: '30%', delay: 0.4 }, // Top right (Miles) 
-        { x: '25%', y: '70%', delay: 0.6 }, // Bottom left (Devon)
-        { x: '75%', y: '70%', delay: 0.8 }, // Bottom right (Alma)
+        { x: '25%', y: '25%', delay: 0.2 }, // Top left (Giselle)
+        { x: '75%', y: '25%', delay: 0.4 }, // Top right (Miles) 
+        { x: '25%', y: '65%', delay: 0.6 }, // Bottom left (Devon)
+        { x: '75%', y: '65%', delay: 0.8 }, // Bottom right (Alma)
       ];
     } else {
-      // Radial distribution for desktop - more spread out
+      // Diamond distribution for desktop - more spread out
       return [
-        { x: '20%', y: '30%', delay: 0.2 }, // Top left (Giselle)
-        { x: '80%', y: '30%', delay: 0.4 }, // Top right (Miles)
-        { x: '80%', y: '70%', delay: 0.6 }, // Bottom right (Devon)
-        { x: '20%', y: '70%', delay: 0.8 }, // Bottom left (Alma)
+        { x: '30%', y: '25%', delay: 0.2 }, // Top left (Giselle)
+        { x: '70%', y: '25%', delay: 0.4 }, // Top right (Miles)
+        { x: '70%', y: '65%', delay: 0.6 }, // Bottom right (Devon)
+        { x: '30%', y: '65%', delay: 0.8 }, // Bottom left (Alma)
       ];
     }
   };
@@ -133,7 +132,7 @@ const FloatingAgentAvatarsWithWelcome = ({
         
         // Adjust sensitivity based on agent - Miles is more responsive to mouse
         // Reduced sensitivity to prevent agents from getting too close to each other
-        const sensitivity = agent.name === 'Miles' ? 0.015 : 0.01;
+        const sensitivity = agent.name === 'Miles' ? 0.01 : 0.008;
         
         // Calculate position with mouse influence - creates a sense that agents are aware of user
         const x = `${(baseX * 100) + (mousePosition.x * sensitivity * 100)}%`;
@@ -171,35 +170,57 @@ const FloatingAgentAvatarsWithWelcome = ({
             {/* Agent orb with sequential glow/power-up animation */}
             <motion.div
               animate={{
-                y: [0, -10, 0],
+                y: [0, -8, 0],
               }}
               transition={{
-                duration: 8, // Longer duration for more premium feel
+                duration: 6, // Shorter duration for smoother floating
                 repeat: Infinity,
                 repeatType: 'reverse',
                 ease: "easeInOut",
                 delay: index * 0.6,
               }}
-              className="animate-hero-float relative"
+              className="relative"
+              aria-label={`${agent.name} - ${agent.title}`}
             >
               {/* Enhanced particle/glow effect when "powering up" */}
               {isPoweredUp && (
                 <OrbGlowEffect color={agent.color} intensity={animationIntensity} />
               )}
               
-              <AgentOrb 
-                name={agent.name}
-                role={agent.title}
-                color={agent.color}
-                tooltipText={getTooltipText(agent.name)}
-                animated={isPoweredUp}
-                animationIntensity={animationIntensity}
-                isActive={selectedAgent === agent.name}
-                onClick={() => handleAgentClick(agent.name)}
-                displayMode={showFullNames ? "fullName" : "initial"}
-                showLabel={showFullNames || isPoweredUp} // Show labels when full names are requested
-                poweredUp={isPoweredUp}
-              />
+              {/* Agent orb with proper label positioning */}
+              <div className="flex flex-col items-center">
+                <AgentOrb 
+                  name={agent.name}
+                  role={agent.title}
+                  color={agent.color}
+                  tooltipText={getTooltipText(agent.name)}
+                  animated={isPoweredUp}
+                  animationIntensity={animationIntensity}
+                  isActive={selectedAgent === agent.name}
+                  onClick={() => handleAgentClick(agent.name)}
+                  displayMode="initial"
+                  showLabel={false} // Don't use internal labels
+                  poweredUp={isPoweredUp}
+                />
+                
+                {/* Label positioned below orb with spacing and no wrapping */}
+                <div 
+                  className={`
+                    mt-4
+                    text-center
+                    max-w-[80px]
+                    transition-opacity duration-300
+                    ${isPoweredUp ? 'opacity-100' : 'opacity-0'}
+                  `}
+                >
+                  <div className="font-medium text-sm text-white whitespace-nowrap">
+                    {agent.name}
+                  </div>
+                  <div className="text-white/80 text-xs truncate">
+                    {agent.title}
+                  </div>
+                </div>
+              </div>
             </motion.div>
           </motion.div>
         );

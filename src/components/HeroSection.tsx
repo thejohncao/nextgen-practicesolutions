@@ -1,8 +1,9 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowRight, Sparkles } from "lucide-react";
 import PulseBeams from './effects/PulseBeams';
 import FloatingAgentAvatars from './hero/FloatingAgentAvatars';
+import FloatingAgentAvatarsWithWelcome from './hero/FloatingAgentAvatarsWithWelcome';
 import HeroQuantumGrid from './effects/HeroQuantumGrid';
 import LampEffect from './effects/LampEffect';
 import SparkleText from './effects/SparkleText';
@@ -17,6 +18,30 @@ import FadeInSection from './ui/fade-in-section';
 
 const HeroSection = () => {
   const [selectedAgent, setSelectedAgent] = useState<string | null>(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [welcomeComplete, setWelcomeComplete] = useState(false);
+  
+  // Track mouse position for subtle orb movement
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      // Calculate normalized mouse position (-0.5 to 0.5)
+      const x = (e.clientX / window.innerWidth) - 0.5;
+      const y = (e.clientY / window.innerHeight) - 0.5;
+      setMousePosition({ x, y });
+    };
+    
+    window.addEventListener('mousemove', handleMouseMove);
+    
+    // Set welcome as complete after 2.5s for full animation sequence
+    const timer = setTimeout(() => {
+      setWelcomeComplete(true);
+    }, 2500);
+    
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      clearTimeout(timer);
+    };
+  }, []);
   
   const handleChatOpen = () => {
     try {
@@ -140,9 +165,12 @@ const HeroSection = () => {
 
           {/* Right Side: Enhanced Floating Avatars with higher z-index */}
           <div className="relative h-[500px] bg-transparent z-30">
-            <FloatingAgentAvatars 
+            <FloatingAgentAvatarsWithWelcome 
               staggered={true}
               onAgentSelect={handleAgentSelect}
+              mousePosition={mousePosition}
+              welcomeComplete={welcomeComplete}
+              showFullNames={true}
             />
           </div>
         </div>
