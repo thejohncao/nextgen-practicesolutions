@@ -1,12 +1,9 @@
 
 import React, { useEffect, useState, useRef } from 'react';
-import { motion, useInView, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { agents } from '@/data/agents';
 import FloatingAgentAvatarsWithWelcome from './FloatingAgentAvatarsWithWelcome';
-import PatientJourneyTimeline from '../journey/PatientJourneyTimeline';
-import { Button } from "../ui/button";
 import { useIsMobile } from '@/hooks/use-mobile';
-import OrbitingAgents from './OrbitingAgents';
 import BoardroomDemo from '../boardroom/BoardroomDemo';
 import HeroContent from './HeroContent';
 import ScrollDownIndicator from './ScrollDownIndicator';
