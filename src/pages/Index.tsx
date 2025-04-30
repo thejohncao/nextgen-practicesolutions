@@ -1,10 +1,8 @@
 
 import React, { useRef } from 'react';
 import Layout from '../components/Layout';
-import EnhancedHero from '../components/hero/EnhancedHero';
 import { agents } from '@/data/agents';
 import PricingSection from '../components/pricing/PricingSection';
-import DemoStickyScroll from '../components/demo/DemoStickyScroll';
 import ResultsSection from '../components/results/ResultsSection';
 import FounderSection from '../components/FounderSection';
 import FooterCTA from '../components/FooterCTA';
@@ -24,7 +22,6 @@ import HeroSection from '../components/HeroSection';
 const Index = () => {
   const sectionRefs = {
     hero: useRef<HTMLDivElement>(null),
-    demo: useRef<HTMLDivElement>(null),
     team: useRef<HTMLDivElement>(null),
     results: useRef<HTMLDivElement>(null),
     pricing: useRef<HTMLDivElement>(null)
@@ -38,14 +35,9 @@ const Index = () => {
           <AnimatedGrainOverlay opacity={0.03} />
         </div>
         
-        {/* Enhanced Hero Section */}
+        {/* Enhanced Hero Section - now integrated with BoardroomDemo */}
         <div ref={sectionRefs.hero} className="min-h-screen">
           <HeroSection />
-        </div>
-        
-        {/* Demo Section with StickyScroll */}
-        <div ref={sectionRefs.demo}>
-          <DemoStickyScroll />
         </div>
         
         {/* Visual separator with enhanced transition */}
