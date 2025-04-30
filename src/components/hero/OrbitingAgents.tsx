@@ -12,6 +12,14 @@ interface OrbitingAgentsProps {
   mousePosition?: { x: number; y: number };
 }
 
+interface OrbitPosition {
+  cx: string;
+  cy: string;
+  radius: string;
+  angle?: number; // Make angle optional
+  delay: number;
+}
+
 const OrbitingAgents = ({
   onAgentSelect,
   mousePosition = { x: 0, y: 0 }
@@ -61,7 +69,7 @@ const OrbitingAgents = ({
   };
   
   // Define orbit positions for each agent - using a diamond/circular layout
-  const getOrbitPositions = () => {
+  const getOrbitPositions = (): OrbitPosition[] => {
     if (isMobile) {
       // 2x2 grid for mobile
       return [
@@ -110,6 +118,7 @@ const OrbitingAgents = ({
           };
         } else {
           // Calculate orbital position for desktop
+          // Check if angle exists first to avoid TypeScript error
           const angle = (orbitPositions[index].angle || 0) + (mousePosition.x * 15);
           const radius = orbitPositions[index].radius;
           const radians = (angle * Math.PI) / 180;
@@ -159,7 +168,7 @@ const OrbitingAgents = ({
               {/* Agent floating animation */}
               <motion.div
                 animate={{
-                  y: [0, -8, 0], 
+                  y: [0, -8, 0]
                 }}
                 transition={{
                   duration: 6, 
