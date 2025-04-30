@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { MessageSquare, Wand2 } from 'lucide-react';
+import { MessageSquare, Mic } from 'lucide-react';
 import { AiMessage } from '@/types/conversation';
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useAiConversation } from '@/hooks/useAiConversation';
@@ -130,14 +129,11 @@ const EnhancedAiAssistant = ({
     }
   };
 
-  // Toggle GPT responses
+  // Toggle GPT responses (keep function but hide UI toggle)
   const toggleGptMode = () => {
     setUseGptEnabled(prev => {
       const newState = !prev;
-      toast.success(
-        newState ? "AI responses enabled" : "Fallback responses enabled", 
-        { description: newState ? "Using OpenAI API" : "Using pre-defined responses" }
-      );
+      // Maintain functionality but hide UI
       return newState;
     });
   };
@@ -168,29 +164,19 @@ const EnhancedAiAssistant = ({
               onClose={() => setIsOpen(false)} 
             />
             
-            {/* AI Mode Toggle (Dev Only) */}
-            <div className="px-3 py-1.5 bg-black/20 flex justify-between items-center">
-              <div className="text-xs text-white/60">
-                {useGptEnabled 
-                  ? "Using OpenAI API" 
-                  : "Using fallback responses"}
-              </div>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="h-7 px-2 text-xs border-white/10 hover:bg-white/5 flex items-center gap-1"
-                onClick={toggleGptMode}
-              >
-                <Wand2 className="h-3.5 w-3.5 mr-1" />
-                {useGptEnabled ? "Disable AI" : "Enable AI"}
-              </Button>
-            </div>
-            
             {/* Agent selection tabs */}
             <AgentTabs 
               currentAgent={currentAgent}
               onSelectAgent={selectAgent}
             />
+            
+            {/* Voice Coming Soon indicator */}
+            <div className="px-3 py-1.5 bg-black/20 flex justify-center items-center">
+              <div className="text-xs text-white/60 flex items-center gap-1">
+                <Mic className="h-3.5 w-3.5 opacity-60" />
+                <span>Voice Mode Coming Soon</span>
+              </div>
+            </div>
             
             {/* Chat messages */}
             <ChatMessages 

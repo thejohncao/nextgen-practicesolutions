@@ -45,7 +45,8 @@ const VoiceChatInput: React.FC<VoiceChatInputProps> = ({
   onToggleMute
 }) => {
   const [input, setInput] = useState("");
-  const [suggestionsVisible, setSuggestionsVisible] = useState(true); // Always show by default
+  // Always show suggestions, don't toggle based on conditions
+  const [suggestionsVisible, setSuggestionsVisible] = useState(true);
   const [suggestionsList, setSuggestionsList] = useState<string[]>([]);
 
   // Check if browser supports speech recognition
@@ -55,7 +56,6 @@ const VoiceChatInput: React.FC<VoiceChatInputProps> = ({
   useEffect(() => {
     if (suggestions && suggestions.length > 0) {
       setSuggestionsList(suggestions);
-      setSuggestionsVisible(true); // Always show suggestions
     }
   }, [suggestions, currentAgent]);
 
@@ -63,6 +63,8 @@ const VoiceChatInput: React.FC<VoiceChatInputProps> = ({
     if (!text.trim()) return;
     onSendMessage(text);
     setInput("");
+    // Don't hide suggestions after sending a message
+    // setSuggestionsVisible(false);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

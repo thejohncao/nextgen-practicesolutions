@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AgentAvatar from '../AgentAvatar';
 import { cn } from '@/lib/utils';
@@ -17,9 +17,17 @@ const AgentTabs: React.FC<AgentTabsProps> = ({ currentAgent, onSelectAgent }) =>
     { id: 'devon', name: 'Devon', role: AGENT_ROLES.devon, color: 'purple' },
     { id: 'alma', name: 'Alma', role: AGENT_ROLES.alma, color: 'gold' }
   ];
+  
+  const handleAgentChange = useCallback((agentId: string) => {
+    // Prevent redundant state updates if clicking the current agent
+    if (agentId === currentAgent) return;
+    
+    // Pass the agent ID to the parent handler
+    onSelectAgent(agentId);
+  }, [currentAgent, onSelectAgent]);
 
   return (
-    <Tabs value={currentAgent} onValueChange={onSelectAgent} className="w-full">
+    <Tabs value={currentAgent} onValueChange={handleAgentChange} className="w-full">
       <TabsList className="w-full grid grid-cols-4 bg-black/20 p-1">
         {agents.map((agent) => (
           <TabsTrigger

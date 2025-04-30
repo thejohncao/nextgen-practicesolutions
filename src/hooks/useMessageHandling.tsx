@@ -56,6 +56,14 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
   const isPendingGptResponse = useRef(false);
   const [isApiFailure, setIsApiFailure] = useState(false);
 
+  // Store the active agent for sending messages to prevent race conditions
+  const activeAgentRef = useRef(currentAgent);
+
+  // Update the ref when currentAgent changes
+  useEffect(() => {
+    activeAgentRef.current = currentAgent;
+  }, [currentAgent]);
+
   // Keyboard shortcut to toggle GPT mode
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -91,9 +99,11 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
 
   // Get next fallback response based on current agent
   const getNextFallbackResponse = useCallback(() => {
+    // Use the stored agent ref to prevent race conditions
+    const agent = activeAgentRef.current.toLowerCase();
     let responses;
     
-    switch(currentAgent.toLowerCase()) {
+    switch(agent) {
       case 'devon':
         responses = DEVON_FALLBACK_RESPONSES;
         break;
@@ -111,17 +121,22 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
     const response = responses[fallbackResponseIndex];
     setFallbackResponseIndex((prev) => (prev + 1) % responses.length);
     return response;
-  }, [currentAgent, fallbackResponseIndex]);
+  }, [fallbackResponseIndex]);
 
   // Get first response for new conversations
   const getFirstResponse = useCallback(() => {
-    return AGENT_FIRST_RESPONSES[currentAgent.toLowerCase() as keyof typeof AGENT_FIRST_RESPONSES] 
+    // Use the stored agent ref to prevent race conditions
+    const agent = activeAgentRef.current.toLowerCase();
+    return AGENT_FIRST_RESPONSES[agent as keyof typeof AGENT_FIRST_RESPONSES] 
       || AGENT_FIRST_RESPONSES.miles;
-  }, [currentAgent]);
+  }, []);
 
   // Send a message and get a response
   const sendMessage = useCallback(async (text: string) => {
     if (!text.trim()) return;
+    
+    // Lock in the current agent at the time of sending to avoid race conditions
+    const selectedAgent = activeAgentRef.current;
     
     // Add user message
     const userMessage: AiMessage = {
@@ -146,7 +161,7 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
         await new Promise(resolve => setTimeout(resolve, typingDelay));
         
         // Try to get response from GPT
-        const gptResponse = await fetchAgentReply(text, currentAgent, useGptEnabled);
+        const gptResponse = await fetchAgentReply(text, selectedAgent, useGptEnabled);
         
         // If GPT response failed or returned empty, use fallback
         if (!gptResponse) {
@@ -158,12 +173,12 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
           text: gptResponse,
           isUser: false,
           timestamp: new Date().toISOString(),
-          agent: currentAgent
+          agent: selectedAgent
         };
         
         setMessages(prev => [...prev, newMessage]);
         setLastResponseText(gptResponse);
-        console.log(`GPT response for ${currentAgent}: ${gptResponse.substring(0, 50)}...`);
+        console.log(`GPT response for ${selectedAgent}: ${gptResponse.substring(0, 50)}...`);
       } 
       catch (error) {
         console.error("Error getting GPT response:", error);
@@ -183,7 +198,7 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
             text: altResponse,
             isUser: false,
             timestamp: new Date().toISOString(),
-            agent: currentAgent
+            agent: selectedAgent
           };
           
           setMessages(prev => [...prev, newMessage]);
@@ -194,7 +209,7 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
             text: fallbackText,
             isUser: false,
             timestamp: new Date().toISOString(),
-            agent: currentAgent
+            agent: selectedAgent
           };
           
           setMessages(prev => [...prev, newMessage]);
@@ -228,7 +243,7 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
             text: altResponse,
             isUser: false,
             timestamp: new Date().toISOString(),
-            agent: currentAgent
+            agent: selectedAgent
           };
           
           setMessages(prev => [...prev, newMessage]);
@@ -239,7 +254,7 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
             text: responseText,
             isUser: false,
             timestamp: new Date().toISOString(),
-            agent: currentAgent
+            agent: selectedAgent
           };
           
           setMessages(prev => [...prev, newMessage]);
@@ -254,7 +269,6 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
       }, isFirstUserMessage ? 1500 : 2000);
     }
   }, [
-    currentAgent, 
     isFirstUserMessage, 
     lastResponseText, 
     getNextFallbackResponse, 
@@ -265,6 +279,9 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
   // This is kept for compatibility but updated to support GPT
   const handleMockResponse = useCallback(async (userMessage: string, agent: string) => {
     setIsTyping(true);
+    
+    // Lock in the agent at the time of the mock response
+    const selectedAgent = agent;
     
     // Choose between GPT and fallback responses
     if (useGptEnabled) {
@@ -278,7 +295,7 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
         await new Promise(resolve => setTimeout(resolve, typingDelay));
         
         // Try to get response from GPT
-        const gptResponse = await fetchAgentReply(userMessage, agent, useGptEnabled);
+        const gptResponse = await fetchAgentReply(userMessage, selectedAgent, useGptEnabled);
         
         // If GPT response failed or returned empty, use fallback
         if (!gptResponse) {
@@ -290,7 +307,7 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
           text: gptResponse,
           isUser: false,
           timestamp: new Date().toISOString(),
-          agent: agent
+          agent: selectedAgent
         };
         
         setMessages(prev => [...prev, newMessage]);
@@ -302,14 +319,14 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
         
         // Use fallback for first message or regular fallback for subsequent messages
         const fallbackText = isFirstUserMessage 
-          ? AGENT_FIRST_RESPONSES[agent.toLowerCase() as keyof typeof AGENT_FIRST_RESPONSES] || AGENT_FIRST_RESPONSES.miles
+          ? AGENT_FIRST_RESPONSES[selectedAgent.toLowerCase() as keyof typeof AGENT_FIRST_RESPONSES] || AGENT_FIRST_RESPONSES.miles
           : getNextFallbackResponse();
           
         const newMessage: AiMessage = {
           text: fallbackText,
           isUser: false,
           timestamp: new Date().toISOString(),
-          agent: agent
+          agent: selectedAgent
         };
         
         setMessages(prev => [...prev, newMessage]);
@@ -330,14 +347,14 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
         // For first message, use agent-specific first response
         // For subsequent messages, use the fallback response with agent tone
         const responseText = isFirstUserMessage 
-          ? AGENT_FIRST_RESPONSES[agent.toLowerCase() as keyof typeof AGENT_FIRST_RESPONSES] || AGENT_FIRST_RESPONSES.miles
+          ? AGENT_FIRST_RESPONSES[selectedAgent.toLowerCase() as keyof typeof AGENT_FIRST_RESPONSES] || AGENT_FIRST_RESPONSES.miles
           : getNextFallbackResponse();
         
         const newMessage: AiMessage = {
           text: responseText,
           isUser: false,
           timestamp: new Date().toISOString(),
-          agent: agent
+          agent: selectedAgent
         };
         
         setMessages(prev => [...prev, newMessage]);
@@ -360,6 +377,11 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
   // Select specific agent
   const selectAgent = useCallback((agent: string) => {
     const normalizedAgent = agent.toLowerCase();
+    
+    // Update the active agent ref immediately to prevent race conditions
+    activeAgentRef.current = normalizedAgent;
+    
+    // Then update the state
     setCurrentAgent(normalizedAgent);
     setMessages([]);
     setIsFirstUserMessage(true); // Reset first message flag when changing agents
