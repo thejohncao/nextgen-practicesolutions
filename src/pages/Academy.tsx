@@ -16,6 +16,7 @@ import AcademyTestimonials from '../components/academy/AcademyTestimonials';
 import SectionTransition from '../components/effects/SectionTransition';
 import { GraduationCap, BookCheck, Handshake } from 'lucide-react';
 import ScrollRevealWrapper from '../components/animation/ScrollRevealWrapper';
+import StaffTrainingSection from '../components/academy/StaffTrainingSection';
 
 const Academy = () => {
   return (
@@ -23,6 +24,9 @@ const Academy = () => {
       <AcademyHero />
       
       <IntroSection />
+
+      {/* New Staff Training Section */}
+      <StaffTrainingSection />
       
       <FeaturesSection />
       
