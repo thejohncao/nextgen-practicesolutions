@@ -2,19 +2,19 @@
 import React, { useCallback, useState } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import AutoPlay from 'embla-carousel-autoplay';
-import { AgentResultItem } from '@/types/agentResults';
+import { AgentResult } from '@/types/agentResults';
 import { useIsMobile } from '@/hooks/use-mobile';
 import AgentAvatar from '../AgentAvatar';
 
 interface CarouselContainerProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   isPaused?: boolean;
   setIsPaused?: (isPaused: boolean) => void;
   isMobile?: boolean;
-  agentName?: string; // Added to resolve type errors
+  agentName?: string;
   agentRole?: string;
   agentColor?: 'blue' | 'green' | 'purple' | 'red' | 'gold';
-  results?: AgentResultItem[];
+  results?: AgentResult[];
   direction?: string;
 }
 
@@ -86,7 +86,11 @@ const CarouselContainer: React.FC<CarouselContainerProps> = ({
       {/* Carousel container */}
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex gap-6 scrollbar-none">
-          {children}
+          {children || results?.map((result, index) => (
+            <div key={`result-${index}`} className="flex-none w-[300px]">
+              {/* Render result cards if children not provided */}
+            </div>
+          ))}
         </div>
       </div>
 

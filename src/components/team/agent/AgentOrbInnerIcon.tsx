@@ -4,20 +4,26 @@ import { Sprout, Handshake, GraduationCap, Briefcase } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface AgentOrbInnerIconProps {
-  agent: string;
+  agent?: string;
+  name?: string; // Added name as an optional prop
   isActive?: boolean;
   className?: string;
   size?: number;
+  displayMode?: 'initial' | 'fullName';
 }
 
 const AgentOrbInnerIcon: React.FC<AgentOrbInnerIconProps> = ({
   agent,
+  name,
   isActive = false,
   className,
-  size = 16
+  size = 16,
+  displayMode = 'initial'
 }) => {
+  const agentName = name || agent || ''; // Use name or agent prop
+  
   const getIconByAgent = () => {
-    switch (agent.toLowerCase()) {
+    switch (agentName.toLowerCase()) {
       case 'giselle':
         return <Sprout size={size} className="text-green-300" />;
       case 'devon':
@@ -31,7 +37,7 @@ const AgentOrbInnerIcon: React.FC<AgentOrbInnerIconProps> = ({
   };
   
   const getDepartmentName = () => {
-    switch (agent.toLowerCase()) {
+    switch (agentName.toLowerCase()) {
       case 'giselle':
         return 'Practice Growth';
       case 'devon':

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useRef } from 'react';
 import { AgentResult } from '@/types/agentResults';
 import AgentResultCard from './AgentResultCard';
@@ -5,13 +6,15 @@ import AgentAvatar from '../AgentAvatar';
 
 interface VerticalSliderProps {
   results: AgentResult[];
-  agentName: string; // Added to resolve type errors
+  agent?: string; // Changed from agentName to agent for consistency
+  agentName?: string; // Added as an optional prop
   agentRole: string;
   agentColor: 'blue' | 'green' | 'purple' | 'red' | 'gold';
 }
 
 const VerticalSlider: React.FC<VerticalSliderProps> = ({ 
   results, 
+  agent,
   agentName,
   agentRole,
   agentColor
@@ -19,6 +22,7 @@ const VerticalSlider: React.FC<VerticalSliderProps> = ({
   const [activeIndex, setActiveIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const displayName = agentName || agent; // Use either agentName or agent
 
   useEffect(() => {
     if (!results || results.length <= 1) return;
@@ -49,13 +53,13 @@ const VerticalSlider: React.FC<VerticalSliderProps> = ({
       {/* Agent header */}
       <div className="flex items-center gap-3 mb-5">
         <AgentAvatar
-          name={agentName} 
+          name={displayName || ''} 
           role={agentRole}
           color={agentColor}
           size="sm"
         />
         <div>
-          <h3 className="text-lg font-bold text-white">{agentName}</h3>
+          <h3 className="text-lg font-bold text-white">{displayName}</h3>
           <p className="text-sm text-white/60">{agentRole}</p>
         </div>
       </div>
@@ -70,9 +74,14 @@ const VerticalSlider: React.FC<VerticalSliderProps> = ({
             }`}
           >
             <AgentResultCard 
-              result={result} 
-              agent={agentName}
-              color={agentColor}
+              result={{
+                ...result,
+                agent: displayName,
+                role: agentRole,
+                color: agentColor
+              }}
+              index={index}
+              isMobile={false}
             />
           </div>
         ))}

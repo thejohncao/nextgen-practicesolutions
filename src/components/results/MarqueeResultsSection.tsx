@@ -4,10 +4,11 @@ import { agents } from '@/data/agents';
 import { agentResults } from '@/data/agentResults';
 import CarouselContainer from './CarouselContainer';
 import SectionHeader from './SectionHeader';
+import AgentResultCard from './AgentResultCard';
 
 // Group results by agent name
 const groupedResults = agentResults.reduce((acc, result) => {
-  const agent = result.agentName.toLowerCase();
+  const agent = (result.agentName || result.agent || '').toLowerCase();
   if (!acc[agent]) {
     acc[agent] = [];
   }
@@ -37,7 +38,17 @@ const MarqueeResultsSection = () => {
                   agentColor={agent.color}
                   results={agentResultsData} 
                   direction={index % 2 === 0 ? 'ltr' : 'rtl'}
-                />
+                >
+                  {agentResultsData.map((result, idx) => (
+                    <div key={`${agent.name}-${idx}`} className="flex-none w-[300px]">
+                      <AgentResultCard 
+                        result={result}
+                        index={idx}
+                        isMobile={false}
+                      />
+                    </div>
+                  ))}
+                </CarouselContainer>
               </div>
             );
           })}

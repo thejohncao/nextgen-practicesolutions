@@ -1,7 +1,7 @@
 
 export interface AgentResult {
   agent?: string;
-  agentName?: string; // Added to resolve type errors
+  agentName?: string;
   title: string;
   value: string;
   prefix?: string;
@@ -11,10 +11,19 @@ export interface AgentResult {
   trendPercentage?: number;
   isPrimary?: boolean;
   description?: string;
+  role?: string;
+  color?: string;
+  results?: AgentResult[];
 }
 
 export interface AgentResultCardProps {
   result: AgentResult;
   agent?: string;
-  color?: 'blue' | 'green' | 'purple' | 'gold';
+  color?: 'blue' | 'green' | 'purple' | 'gold' | 'red';
+  index?: number;
+  isMobile?: boolean;
+  isLightMode?: boolean;
 }
+
+// Add the missing interface that's being referenced
+export type AgentResultItem = AgentResult;

@@ -82,7 +82,8 @@ const AgentOrb: React.FC<AgentOrbProps> = ({
                 )}
                 {/* Agent initial or icon */}
                 <AgentOrbInnerIcon 
-                  name={name} 
+                  name={name}
+                  agent={name}
                   displayMode={displayMode}
                   isActive={isActive}
                 />

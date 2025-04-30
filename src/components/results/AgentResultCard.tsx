@@ -1,19 +1,18 @@
-
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import AgentAvatar from '../AgentAvatar';
 import { Sparkle } from 'lucide-react';
-import { AgentResultItem } from '@/types/agentResults';
+import { AgentResult, AgentResultItem } from '@/types/agentResults';
 import { getAgentCardColor, getAgentBorderColor } from '@/utils/colorUtils';
 
 interface AgentResultCardProps {
-  result: AgentResultItem;
-  index: number;
-  isMobile: boolean;
+  result: AgentResult | AgentResultItem;
+  index?: number;
+  isMobile?: boolean;
   isLightMode?: boolean;
 }
 
-const AgentResultCard = ({ result, index, isMobile, isLightMode = false }: AgentResultCardProps) => {
+const AgentResultCard = ({ result, index = 0, isMobile = false, isLightMode = false }: AgentResultCardProps) => {
   // Enhanced card color functions
   const getEnhancedCardBg = (color: string, isLightMode: boolean) => {
     if (isLightMode) {
@@ -77,8 +76,8 @@ const AgentResultCard = ({ result, index, isMobile, isLightMode = false }: Agent
     <Card 
       className={`
         h-full transition-all duration-500 
-        ${getEnhancedCardBg(result.color, isLightMode)} 
-        border ${getEnhancedCardBorder(result.color, isLightMode)}
+        ${getEnhancedCardBg(result.color || 'blue', isLightMode)} 
+        border ${getEnhancedCardBorder(result.color || 'blue', isLightMode)}
         overflow-hidden relative ${isLightMode ? "shadow-sm" : "backdrop-blur-md"}
         vertical-slider-item-enter ${shimmerClass()}
       `}
@@ -91,16 +90,16 @@ const AgentResultCard = ({ result, index, isMobile, isLightMode = false }: Agent
         {/* Agent info row */}
         <div className="flex items-center mb-3">
           <AgentAvatar 
-            name={result.agent} 
-            role={result.role}
-            color={result.color}
+            name={result.agent || result.agentName || ''} 
+            role={result.role || ''}
+            color={result.color as any || 'blue'}
             size="sm"
             animated={true}
             displayMode="fullName"
             showLabel={false}
           />
           <div className="ml-3">
-            <h4 className={`font-semibold text-sm md:text-base ${getTextColor(isLightMode)}`}>{result.agent}</h4>
+            <h4 className={`font-semibold text-sm md:text-base ${getTextColor(isLightMode)}`}>{result.agent || result.agentName}</h4>
             <p className={`text-xs md:text-sm ${isLightMode ? "text-gray-500" : "text-white/80"}`}>{result.role}</p>
           </div>
         </div>
