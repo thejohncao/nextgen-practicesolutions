@@ -3,6 +3,7 @@ import React from 'react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AgentAvatar from '../AgentAvatar';
 import { cn } from '@/lib/utils';
+import { AGENT_ROLES } from '@/hooks/useAiConversation';
 
 interface AgentTabsProps {
   currentAgent: string;
@@ -11,10 +12,10 @@ interface AgentTabsProps {
 
 const AgentTabs: React.FC<AgentTabsProps> = ({ currentAgent, onSelectAgent }) => {
   const agents = [
-    { id: 'miles', name: 'Miles', role: 'Practice Manager', color: 'blue' },
-    { id: 'giselle', name: 'Giselle', role: 'Growth Strategist', color: 'green' },
-    { id: 'devon', name: 'Devon', role: 'Treatment Closer', color: 'purple' },
-    { id: 'alma', name: 'Alma', role: 'Academy Director', color: 'gold' }
+    { id: 'miles', name: 'Miles', role: AGENT_ROLES.miles, color: 'blue' },
+    { id: 'giselle', name: 'Giselle', role: AGENT_ROLES.giselle, color: 'green' },
+    { id: 'devon', name: 'Devon', role: AGENT_ROLES.devon, color: 'purple' },
+    { id: 'alma', name: 'Alma', role: AGENT_ROLES.alma, color: 'gold' }
   ];
 
   return (

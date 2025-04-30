@@ -1,6 +1,7 @@
 
 import React from 'react';
 import AgentAvatar from './AgentAvatar';
+import { AGENT_ROLES } from '@/hooks/useAiConversation';
 
 interface AgentChatAvatarProps {
   agent: string;
@@ -13,15 +14,15 @@ const AgentChatAvatar: React.FC<AgentChatAvatarProps> = ({ agent, hideDetails = 
   const getAgentProps = () => {
     switch (agent.toLowerCase()) {
       case 'miles':
-        return { name: 'Miles', role: 'Practice Manager', color: 'blue' };
+        return { name: 'Miles', role: AGENT_ROLES.miles, color: 'blue' };
       case 'giselle':
-        return { name: 'Giselle', role: 'Growth Strategist', color: 'green' };
+        return { name: 'Giselle', role: AGENT_ROLES.giselle, color: 'green' };
       case 'devon':
-        return { name: 'Devon', role: 'Patient Experience Coach', color: 'purple' };
+        return { name: 'Devon', role: AGENT_ROLES.devon, color: 'purple' };
       case 'alma':
-        return { name: 'Alma', role: 'Academy Director', color: 'gold' };
+        return { name: 'Alma', role: AGENT_ROLES.alma, color: 'gold' };
       default:
-        return { name: 'Miles', role: 'Practice Manager', color: 'blue' };
+        return { name: 'Miles', role: AGENT_ROLES.miles, color: 'blue' };
     }
   };
 

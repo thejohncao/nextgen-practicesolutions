@@ -68,7 +68,7 @@ const EnhancedAiAssistant = ({
     if (initialAgent && messages.length === 0) {
       selectAgent(initialAgent);
     }
-  }, [initialAgent]);
+  }, [initialAgent, selectAgent, messages.length]);
 
   // Listen for custom events with agent selection
   useEffect(() => {
@@ -88,7 +88,7 @@ const EnhancedAiAssistant = ({
     return () => {
       document.removeEventListener('open-miles-chat', listener as EventListener);
     };
-  }, []);
+  }, [selectAgent, setIsOpen]);
 
   const handleSendMessage = (message: string) => {
     handleFirstUserMessage();
@@ -110,15 +110,8 @@ const EnhancedAiAssistant = ({
 
   const handleSummarizeResponse = () => {
     resetTimeout();
-    // Add a summary message from the agent
-    const summaryMessage: AiMessage = {
-      text: `I'm still processing your request. Here's what I understand so far: You're asking about ${messages[messages.length - 1]?.text?.slice(0, 30)}... Let me continue working on a complete response.`,
-      isUser: false,
-      timestamp: new Date().toISOString(),
-      agent: currentAgent
-    };
     
-    // Manually add the summary message
+    // Add a summary message from the agent
     sendMessage(`Could you summarize what you know so far about ${messages[messages.length - 1]?.text?.slice(0, 30)}...`);
   };
 

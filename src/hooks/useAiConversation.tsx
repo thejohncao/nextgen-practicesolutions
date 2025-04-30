@@ -1,8 +1,23 @@
-
 import { useState, useCallback, useEffect } from 'react';
 import { AiMessage } from '@/types/conversation';
 import { toast } from 'sonner';
 import { useTimeout } from './useTimeout';
+
+// Agent-specific welcome messages according to requirements
+export const AGENT_WELCOME_MESSAGES = {
+  miles: "Hi, I'm Miles — I keep your schedule full and your team focused. What do you need help with today?",
+  giselle: "Hey there! I'm Giselle — your go-to for leads, follow-ups, and growth strategy. Want to boost your pipeline?",
+  devon: "I'm Devon — your AI closer. If you're trying to get more patients to say yes, you're in the right place.",
+  alma: "Welcome! I'm Alma — here to train your team with scripts, SOPs, and support so you can scale confidently."
+};
+
+// Agent roles mapping
+export const AGENT_ROLES = {
+  miles: "Practice Manager",
+  giselle: "Growth Strategist",
+  devon: "Treatment Closer",
+  alma: "Academy Director"
+};
 
 // Mock response generator for development
 const getMockResponse = (message: string, agent: string = 'miles'): string => {
@@ -39,22 +54,26 @@ const getAgentSuggestionsByName = (agent: string): string[] => {
     miles: [
       "How can you reduce no-shows?",
       "What's the best way to handle schedule gaps?",
-      "Can you automate appointment reminders?"
+      "Can you automate appointment reminders?",
+      "Fix my scheduling gaps"
     ],
     giselle: [
       "How do I get more Google reviews?",
       "What marketing channels work best for dental?",
-      "How can I reactivate dormant patients?"
+      "How can I reactivate dormant patients?",
+      "Get more veneer patients"
     ],
     devon: [
       "How do I improve case acceptance?",
       "What financing options should we offer?",
-      "How can we increase our average treatment value?"
+      "How can we increase our average treatment value?",
+      "Patients ghost after consults"
     ],
     alma: [
       "How do I train a new treatment coordinator?",
       "What are the best metrics for staff performance?",
-      "How do we create effective training materials?"
+      "How do we create effective training materials?",
+      "Create team SOPs"
     ]
   };
 
@@ -151,11 +170,11 @@ export const useAiConversation = () => {
     setIsTimedOut(false);
     setMessages([]);
     
-    // Add a welcome message from the current agent
+    // Add a welcome message from the current agent using the agent-specific welcome message
     setIsTyping(true);
     setTimeout(() => {
       const welcomeMessage: AiMessage = {
-        text: `Hi, I'm ${currentAgent}. How can I help your practice today?`,
+        text: AGENT_WELCOME_MESSAGES[currentAgent.toLowerCase()] || AGENT_WELCOME_MESSAGES.miles,
         isUser: false,
         timestamp: new Date().toISOString(),
         agent: currentAgent
@@ -182,13 +201,12 @@ export const useAiConversation = () => {
     setCurrentAgent(normalizedAgent);
     setMessages([]);
     
-    // Add welcome message from this agent
+    // Add welcome message from this agent using the agent-specific message
     setIsTyping(true);
     setTimeout(() => {
-      const agentName = normalizedAgent.charAt(0).toUpperCase() + normalizedAgent.slice(1);
-      
+      // Use agent-specific welcome message
       const welcomeMessage: AiMessage = {
-        text: `Hi, I'm ${agentName}. How can I help your practice today?`,
+        text: AGENT_WELCOME_MESSAGES[normalizedAgent] || AGENT_WELCOME_MESSAGES.miles,
         isUser: false,
         timestamp: new Date().toISOString(),
         agent: normalizedAgent
@@ -197,7 +215,7 @@ export const useAiConversation = () => {
       setMessages([welcomeMessage]);
       setIsTyping(false);
       
-      toast.success(`Now chatting with ${agentName}`, {
+      toast.success(`Now chatting with ${normalizedAgent.charAt(0).toUpperCase() + normalizedAgent.slice(1)}`, {
         description: `Your AI ${getAgentRole(normalizedAgent)} specialist`
       });
     }, 1000);
@@ -205,13 +223,7 @@ export const useAiConversation = () => {
 
   // Get agent role based on name
   const getAgentRole = (agent: string): string => {
-    switch(agent.toLowerCase()) {
-      case 'miles': return 'Operations';
-      case 'giselle': return 'Growth';
-      case 'devon': return 'Treatment';
-      case 'alma': return 'Training';
-      default: return 'Assistant';
-    }
+    return AGENT_ROLES[agent.toLowerCase()] || "Assistant";
   };
 
   return {
