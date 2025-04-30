@@ -9,6 +9,8 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
   const [isTyping, setIsTyping] = useState(false);
   const [showExpandedMessage, setShowExpandedMessage] = useState<number | null>(null);
   const [messageQueue, setMessageQueue] = useState<{text: string, agent: string}[]>([]);
+  const [isFirstUserMessage, setIsFirstUserMessage] = useState(true);
+  const [lastResponseText, setLastResponseText] = useState<string>("");
 
   // Process the message queue
   const processQueue = useCallback(() => {
@@ -37,19 +39,46 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
     
     // For the MVP, we'll use a fixed response after 1.5 seconds
     setTimeout(() => {
-      const responseText = "Looks like your schedule is clear this afternoon. Want to add a recall block?";
+      // For first message, use the clear schedule response
+      // For subsequent messages, use the thinking response
+      const responseText = isFirstUserMessage 
+        ? "Looks like your schedule is clear this afternoon. Want to add a recall block?"
+        : "Still thinking… I'll have something for you shortly.";
       
-      const newMessage: AiMessage = {
-        text: responseText,
-        isUser: false,
-        timestamp: new Date().toISOString(),
-        agent: currentAgent
-      };
+      // Prevent duplicate consecutive messages
+      if (responseText === lastResponseText) {
+        const altResponse = "I understand. Let me think about how best to help with your practice management needs.";
+        setLastResponseText(altResponse);
+        
+        const newMessage: AiMessage = {
+          text: altResponse,
+          isUser: false,
+          timestamp: new Date().toISOString(),
+          agent: currentAgent
+        };
+        
+        setMessages(prev => [...prev, newMessage]);
+      } else {
+        setLastResponseText(responseText);
+        
+        const newMessage: AiMessage = {
+          text: responseText,
+          isUser: false,
+          timestamp: new Date().toISOString(),
+          agent: currentAgent
+        };
+        
+        setMessages(prev => [...prev, newMessage]);
+      }
       
-      setMessages(prev => [...prev, newMessage]);
+      // Set first message flag to false after first message exchange
+      if (isFirstUserMessage) {
+        setIsFirstUserMessage(false);
+      }
+      
       setIsTyping(false);
     }, 1500); // Exactly 1.5 seconds as specified
-  }, [currentAgent]);
+  }, [currentAgent, isFirstUserMessage, lastResponseText]);
 
   // This is kept for compatibility but not used in the MVP
   const handleMockResponse = useCallback((userMessage: string, agent: string) => {
@@ -57,7 +86,11 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
     
     // MVP fixed response
     setTimeout(() => {
-      const responseText = "Looks like your schedule is clear this afternoon. Want to add a recall block?";
+      // For first message, use the clear schedule response
+      // For subsequent messages, use the thinking response
+      const responseText = isFirstUserMessage 
+        ? "Looks like your schedule is clear this afternoon. Want to add a recall block?"
+        : "Still thinking… I'll have something for you shortly.";
       
       const newMessage: AiMessage = {
         text: responseText,
@@ -67,9 +100,15 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
       };
       
       setMessages(prev => [...prev, newMessage]);
+      
+      // Set first message flag to false after first message exchange
+      if (isFirstUserMessage) {
+        setIsFirstUserMessage(false);
+      }
+      
       setIsTyping(false);
     }, 1500);
-  }, []);
+  }, [isFirstUserMessage]);
 
   // Toggle message expansion
   const toggleMessageExpansion = useCallback((index: number) => {
@@ -81,6 +120,7 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
     const normalizedAgent = agent.toLowerCase();
     setCurrentAgent(normalizedAgent);
     setMessages([]);
+    setIsFirstUserMessage(true); // Reset first message flag when changing agents
     
     // Add welcome message from this agent using the agent-specific message
     setIsTyping(true);

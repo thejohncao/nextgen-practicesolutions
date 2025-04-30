@@ -40,7 +40,7 @@ const VoiceChatInput: React.FC<VoiceChatInputProps> = ({
   onToggleMute
 }) => {
   const [input, setInput] = useState("");
-  // Always show suggestions - set to true and never change
+  // Always show suggestions for the MVP
   const [showQuickReplies] = useState(true);
   const [suggestionsList, setSuggestionsList] = useState<string[]>([]);
   const [isPermissionGranted, setIsPermissionGranted] = useState<boolean | null>(null);
@@ -79,23 +79,6 @@ const VoiceChatInput: React.FC<VoiceChatInputProps> = ({
       setSuggestionsList(suggestions);
     }
   }, [suggestions, currentAgent]);
-
-  // Check microphone permissions
-  useEffect(() => {
-    if (!isSpeechRecognitionSupported) {
-      console.warn("Speech recognition is not supported in this browser");
-      return;
-    }
-    
-    // Check if permission was previously granted
-    navigator.permissions.query({ name: 'microphone' as PermissionName })
-      .then((permissionStatus) => {
-        setIsPermissionGranted(permissionStatus.state === 'granted');
-      })
-      .catch((err) => {
-        console.error("Error checking microphone permission:", err);
-      });
-  }, []);
 
   // Handle microphone permission request
   const requestMicrophonePermission = async () => {
@@ -149,7 +132,7 @@ const VoiceChatInput: React.FC<VoiceChatInputProps> = ({
     if (!text.trim()) return;
     onSendMessage(text);
     setInput("");
-    // Don't hide quick replies, keep them visible
+    // Don't hide quick replies anymore
     // setShowQuickReplies(false);
   };
 
@@ -162,95 +145,45 @@ const VoiceChatInput: React.FC<VoiceChatInputProps> = ({
 
   return (
     <div className={cn("p-3 border-t border-white/10 bg-nextgen-dark/80", currentAgent.toLowerCase() + "-color")}>
-      {/* Always show suggestions - removed conditional rendering */}
-      {showQuickReplies && (
-        <div className="grid grid-cols-2 gap-2 mb-3 animate-fade-in">
-          {suggestionsList.map((suggestion) => (
-            <button
-              key={suggestion}
-              onClick={() => handleSendMessage(suggestion)}
-              className={cn(
-                "prompt-button p-2 text-sm text-white/90 hover:bg-white/10 border rounded-lg transition-all duration-200",
-                "hover:scale-[1.02] border-white/10 bg-white/5"
-              )}
-            >
-              {suggestion}
-            </button>
-          ))}
-        </div>
-      )}
-      
-      <div className="flex gap-2 items-center">
-        {/* Voice input button */}
-        {isSpeechRecognitionSupported && (
-          <Button
-            onClick={handleToggleVoice}
-            disabled={isTyping}
-            variant="ghost"
-            size="icon"
+      {/* Always show suggestions - don't use conditional rendering */}
+      <div className="grid grid-cols-2 gap-2 mb-3 animate-fade-in">
+        {suggestionsList.map((suggestion) => (
+          <button
+            key={suggestion}
+            onClick={() => handleSendMessage(suggestion)}
             className={cn(
-              "rounded-full w-10 h-10 flex items-center justify-center transition-all",
-              isListening ? 
-                "bg-red-500/20 text-red-400 border border-red-500/50 animate-pulse" : 
-                "text-white/60 hover:text-white/90 hover:bg-white/10"
+              "prompt-button p-2 text-sm text-white/90 hover:bg-white/10 border rounded-lg transition-all duration-200",
+              "hover:scale-[1.02] border-white/10 bg-white/5"
             )}
           >
-            {isListening ? <Mic className="h-5 w-5" /> : <MicOff className="h-5 w-5" />}
-            {/* Ripple animation when listening */}
-            {isListening && (
-              <>
-                <div className="absolute inset-0 rounded-full border-2 border-red-400/30 animate-[ripple_2s_ease-out_infinite]"></div>
-                <div className="absolute inset-0 rounded-full border-2 border-red-400/20 animate-[ripple_2s_ease-out_1s_infinite]"></div>
-              </>
-            )}
-          </Button>
-        )}
-
-        {/* Voice output toggle button */}
-        {isVoiceEnabled && onToggleMute && (
-          <Button
-            onClick={onToggleMute}
-            disabled={isTyping}
-            variant="ghost"
-            size="icon"
-            className="rounded-full w-10 h-10 text-white/60 hover:text-white/90 hover:bg-white/10"
-          >
-            {isMuted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
-          </Button>
-        )}
-        
-        {/* Text input area */}
-        <div className="relative flex-grow">
-          {/* Transcript display when listening */}
-          {isListening && transcript && (
-            <div className="absolute top-0 left-0 right-0 transform -translate-y-full mb-2 p-2 rounded-lg bg-black/40 text-white text-sm">
-              {transcript || "Listening..."}
-            </div>
-          )}
-          
-          <textarea
-            className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-white/90 
-              placeholder-white/40 focus:outline-none focus:ring-1 resize-none"
-            placeholder={isListening ? "Listening..." : "Ask a question..."}
-            rows={1}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyPress={handleKeyPress}
-            disabled={isTyping || isListening}
-          />
-          <button 
-            className={cn(
-              "absolute right-2 top-[50%] translate-y-[-50%] p-2 rounded-full",
-              "bg-gradient-to-r", 
-              agentColors[currentAgent.toLowerCase() as AgentKey],
-              (input.trim() || isListening) && !isTyping ? "opacity-100" : "opacity-50"
-            )}
-            onClick={() => handleSendMessage()}
-            disabled={(!input.trim() && !isListening) || isTyping}
-          >
-            <Send className="h-4 w-4 text-white" />
+            {suggestion}
           </button>
-        </div>
+        ))}
+      </div>
+      
+      <div className="relative">
+        <textarea
+          className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-white/90 
+            placeholder-white/40 focus:outline-none focus:ring-1 resize-none"
+          placeholder={isListening ? "Listening..." : "Ask a question..."}
+          rows={1}
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyPress={handleKeyPress}
+          disabled={isTyping || isListening}
+        />
+        <button 
+          className={cn(
+            "absolute right-2 top-[50%] translate-y-[-50%] p-2 rounded-full",
+            "bg-gradient-to-r", 
+            agentColors[currentAgent.toLowerCase() as AgentKey],
+            (input.trim() || isListening) && !isTyping ? "opacity-100" : "opacity-50"
+          )}
+          onClick={() => handleSendMessage()}
+          disabled={(!input.trim() && !isListening) || isTyping}
+        >
+          <Send className="h-4 w-4 text-white" />
+        </button>
       </div>
     </div>
   );

@@ -13,7 +13,6 @@ import { toast } from 'sonner';
 import ChatHeader from '../ChatHeader';
 import AgentTabs from '../chat/AgentTabs';
 import VoiceChatInput from '../VoiceChatInput';
-import VoiceToggle from './VoiceToggle';
 import ChatMessages from './ChatMessages';
 
 interface EnhancedAiAssistantProps {
@@ -27,7 +26,8 @@ const EnhancedAiAssistant = ({
   initialAgent = 'miles',
   initialVoiceMode = false
 }: EnhancedAiAssistantProps) => {
-  const [isVoiceEnabled, setIsVoiceEnabled] = useState(initialVoiceMode);
+  // For MVP, we don't need voice mode, so setting it to false
+  const [isVoiceEnabled, setIsVoiceEnabled] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   // Add local typing state
   const [localTypingState, setLocalTypingState] = useState(false);
@@ -68,7 +68,7 @@ const EnhancedAiAssistant = ({
   
   const isMobile = useIsMobile();
 
-  // Initialize with the selected agent if provided
+  // Initialize with Miles as the selected agent
   useEffect(() => {
     if (initialAgent && messages.length === 0) {
       selectAgent(initialAgent);
@@ -83,10 +83,6 @@ const EnhancedAiAssistant = ({
       if (customEvent.detail?.agent) {
         selectAgent(customEvent.detail.agent);
       }
-      
-      if (customEvent.detail?.voiceMode !== undefined) {
-        setIsVoiceEnabled(customEvent.detail.voiceMode);
-      }
     };
     
     document.addEventListener('open-miles-chat', listener as EventListener);
@@ -100,9 +96,6 @@ const EnhancedAiAssistant = ({
       // Set local typing state to indicate we're processing
       setLocalTypingState(true);
       
-      // Handle email collection if needed
-      handleFirstUserMessage();
-      
       // Send the message
       await sendMessage(message);
     } catch (err) {
@@ -111,14 +104,6 @@ const EnhancedAiAssistant = ({
     } finally {
       setLocalTypingState(false);
     }
-  };
-
-  const toggleVoiceMode = () => {
-    setIsVoiceEnabled(!isVoiceEnabled);
-  };
-
-  const toggleMute = () => {
-    setIsMuted(!isMuted);
   };
 
   const handleContinueAnyway = () => {
@@ -173,14 +158,6 @@ const EnhancedAiAssistant = ({
               onSelectAgent={selectAgent}
             />
             
-            {/* Voice mode toggle */}
-            <VoiceToggle 
-              isVoiceEnabled={isVoiceEnabled}
-              isMuted={isMuted}
-              onToggleVoice={toggleVoiceMode}
-              onToggleMute={toggleMute}
-            />
-            
             {/* Chat messages */}
             <ChatMessages 
               messages={messages}
@@ -201,23 +178,19 @@ const EnhancedAiAssistant = ({
               onStartOver={handleStartOver}
             />
             
-            {/* Chat input */}
+            {/* Chat input - Using VoiceChatInput but with voice disabled */}
             <VoiceChatInput 
               isTyping={(isTyping || localTypingState || isTimedOut)}
               currentAgent={currentAgent}
               onSendMessage={handleSendMessage}
               messages={messages}
               suggestions={getAgentSuggestions()}
-              isVoiceEnabled={isVoiceEnabled}
-              onToggleVoice={toggleVoiceMode}
+              isVoiceEnabled={false} // Voice disabled for MVP
               isMuted={isMuted}
-              onToggleMute={toggleMute}
             />
           </div>
         </DialogContent>
       </Dialog>
-      
-      {/* Remove EmailCollectionDialog completely */}
     </>
   );
 };
