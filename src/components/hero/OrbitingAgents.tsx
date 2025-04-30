@@ -47,7 +47,10 @@ const OrbitingAgents = ({
         const animationIntensity = orbAnimations[agent.name] || "none";
         
         // Calculate position based on orbit or grid
-        let positionStyle = {};
+        let positionStyle: { left: string | number; top: string | number } = {
+          left: "50%",
+          top: "50%"
+        };
         
         if (arrangeVertically || isMobile) {
           // Grid or vertical positioning
