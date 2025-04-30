@@ -16,213 +16,140 @@ interface AgentOrbProps {
   color: string;
   tooltipText: string;
   animated?: boolean;
-  animationIntensity?: "none" | "low" | "medium" | "high";
   isActive?: boolean;
   onClick?: () => void;
   displayMode?: 'initial' | 'fullName';
   showLabel?: boolean;
-  poweredUp?: boolean;
 }
 
-const AgentOrb = ({
-  name,
-  role,
-  color,
-  tooltipText,
-  animated = true,
-  animationIntensity = "medium",
-  isActive = false,
-  onClick,
-  displayMode = 'initial',
-  showLabel = false,
-  poweredUp = false,
-}: AgentOrbProps) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const isMobile = useIsMobile();
-  
-  // Handle clicks on the orb
-  const handleClick = () => {
-    if (onClick) onClick();
-  };
-
-  // Size for the orb
-  const orbSize = "w-16 h-16 sm:w-20 sm:h-20";
-  
-  // Base classes for the orb container
-  const containerClasses = `
-    relative 
-    rounded-full 
-    overflow-visible 
-    cursor-pointer 
-    transition-all 
-    duration-300
-    ${isActive ? 'z-10' : 'z-0'}
-  `;
-
-  // Get the name to display based on displayMode
-  const displayName = displayMode === 'initial' ? name.charAt(0) : name;
-  
-  // Only show tooltip if not showing the label and not on mobile
-  const shouldShowTooltip = !showLabel && !isMobile;
-
-  return (
-    <div className="relative">
-      {shouldShowTooltip ? (
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <OrbElement 
-              name={name}
-              role={role}
-              color={color}
-              orbSize={orbSize}
-              isActive={isActive}
-              isHovered={isHovered}
-              animated={animated}
-              animationIntensity={animationIntensity}
-              poweredUp={poweredUp}
-              displayMode={displayMode}
-              handleClick={handleClick}
-              setIsHovered={setIsHovered}
-            />
-          </TooltipTrigger>
-          <TooltipContent 
-            side="bottom" 
-            className="bg-black/80 border-white/10 text-white text-xs"
-          >
-            <div className="flex flex-col">
-              <span className="font-bold">{name}</span>
-              <span className="text-white/70">{role}</span>
-              {tooltipText && <span className="mt-1 max-w-60">{tooltipText}</span>}
-            </div>
-          </TooltipContent>
-        </Tooltip>
-      ) : (
-        <OrbElement 
-          name={name}
-          role={role}
-          color={color}
-          orbSize={orbSize}
-          isActive={isActive}
-          isHovered={isHovered}
-          animated={animated}
-          animationIntensity={animationIntensity}
-          poweredUp={poweredUp}
-          displayMode={displayMode}
-          handleClick={handleClick}
-          setIsHovered={setIsHovered}
-        />
-      )}
-      
-      {/* Agent label that appears when powered up */}
-      {showLabel && (
-        <div 
-          className={`
-            absolute 
-            -bottom-6
-            left-1/2 
-            transform 
-            -translate-x-1/2
-            whitespace-nowrap
-            text-center
-            animate-name-reveal
-          `}
-        >
-          <div className="font-medium text-white text-sm">{name}</div>
-          <div className="text-white/70 text-xs">{role}</div>
-        </div>
-      )}
-    </div>
-  );
+const getAgentColorClass = (color: string) => {
+  switch (color) {
+    case 'red': return 'red-color';
+    case 'green': return 'giselle-color';
+    case 'blue': return 'miles-color';
+    case 'gold': return 'alma-color';
+    case 'purple': return 'devon-color';
+    default: return 'miles-color';
+  }
 };
 
-// Extracted orb element to avoid code duplication between Tooltip and non-tooltip versions
-const OrbElement = ({ 
+const getGlowColor = (color: string) => {
+  switch (color) {
+    case 'red': return 'rgb(234, 56, 76)';
+    case 'green': return 'rgb(63, 198, 160)'; 
+    case 'blue': return 'rgb(74, 140, 255)';  
+    case 'gold': return 'rgb(245, 158, 11)';  
+    case 'purple': return 'rgb(139, 92, 246)'; 
+    default: return 'rgb(155, 135, 245)';
+  }
+};
+
+const AgentOrb = ({ 
   name, 
   role, 
   color, 
-  orbSize, 
-  isActive, 
-  isHovered, 
-  animated, 
-  animationIntensity,
-  poweredUp,
-  displayMode,
-  handleClick, 
-  setIsHovered 
-}: { 
-  name: string;
-  role: string;
-  color: string;
-  orbSize: string;
-  isActive: boolean;
-  isHovered: boolean;
-  animated: boolean;
-  animationIntensity: "none" | "low" | "medium" | "high";
-  poweredUp?: boolean;
-  displayMode: 'initial' | 'fullName';
-  handleClick: () => void;
-  setIsHovered: (value: boolean) => void;
-}) => {
+  tooltipText, 
+  animated = true, 
+  isActive = false, 
+  onClick,
+  displayMode = 'initial', 
+  showLabel = false
+}: AgentOrbProps) => {
+  const isMobile = useIsMobile();
+  const glowColor = getGlowColor(color);
+  const colorClass = getAgentColorClass(color);
+  const [isHovering, setIsHovering] = useState(false);
+  
+  const handleMouseEnter = () => {
+    if (!isMobile) {
+      setIsHovering(true);
+    }
+  };
+  
+  const handleMouseLeave = () => {
+    if (!isMobile) {
+      setIsHovering(false);
+    }
+  };
+  
+  const handleTap = () => {
+    if (isMobile) {
+      setIsHovering(prev => !prev);
+    }
+    if (onClick) onClick();
+  };
+  
+  // Determine if we should show the label based on hover state
+  const effectiveShowLabel = showLabel || isHovering || isActive;
+  
   return (
-    <div
-      className={`
-        relative 
-        rounded-full 
-        overflow-visible 
-        cursor-pointer 
-        transition-all 
-        duration-300
-        ${isActive ? 'z-10' : 'z-0'}
-      `}
-      onClick={handleClick}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* The outer orb container with hover effects */}
-      <div
-        className={`
-          ${orbSize}
-          relative 
-          rounded-full 
-          flex 
-          items-center 
-          justify-center
-          transition-all
-          duration-300
-          ${isActive || isHovered ? 'transform scale-110' : ''}
-          orb ${isActive ? 'orb-primary' : 'orb-secondary'}
-        `}
-      >
-        {/* Enhanced inner glow/energy effect */}
-        {animated && (
-          <OrbInnerEffects 
-            color={color} 
-            isActive={isActive || isHovered}
-            intensity={animationIntensity}
-          />
-        )}
-        
-        {/* Illustrated agent avatar or letter */}
-        <div className="relative z-10">
-          {isActive || poweredUp ? (
-            <IllustratedAgentAvatar
-              name={name}
-              role={role}
-              color={color}
-              size="sm"
-              animated={animated}
-              displayMode={displayMode}
-              showLabel={false}
-            />
-          ) : (
-            <AgentOrbInnerIcon 
-              agent={name} 
-              color={color} 
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <button
+          onClick={handleTap}
+          className={`
+            relative group transition-all duration-300 animate-hover-pop
+            focus:outline-none bg-transparent overflow-visible rounded-full
+            ${isActive ? 'scale-105' : ''}
+            ${colorClass}
+          `}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          {/* Active agent pulse animation */}
+          {isActive && (
+            <div
+              className="absolute inset-0 rounded-full animate-pulse-slow opacity-40 bg-transparent overflow-visible"
+              style={{ 
+                backgroundColor: glowColor,
+                animation: 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+              }}
             />
           )}
-        </div>
-      </div>
-    </div>
+          
+          {/* Enhanced inner effects with proper z-index */}
+          <div className="relative z-10 bg-transparent overflow-visible rounded-full">
+            <OrbInnerEffects color={color} isActive={isActive} />
+          </div>
+          
+          {/* Agent-specific icon and tooltip */}
+          <AgentOrbInnerIcon 
+            agent={name}
+            isActive={isActive || isHovering}
+          />
+          
+          {/* Hover glow effect - enhanced with new animation */}
+          <div 
+            className={`
+              absolute inset-0 rounded-full opacity-0
+              transition-all duration-500 blur-xl
+              group-hover:opacity-60 z-20 bg-transparent overflow-visible
+              ${isActive ? 'opacity-60 animate-hero-glow' : ''}
+              ${isHovering ? 'opacity-60' : ''}
+            `}
+            style={{ backgroundColor: glowColor }}
+          />
+          
+          <IllustratedAgentAvatar
+            name={name}
+            role={role}
+            color={color}
+            size="lg"
+            animated={animated}
+            displayMode={displayMode}
+            showLabel={effectiveShowLabel}
+          />
+        </button>
+      </TooltipTrigger>
+      {!isMobile && !effectiveShowLabel && (
+        <TooltipContent 
+          side="top"
+          className="bg-black/80 text-white text-sm py-2 px-3 animate-in fade-in-0 zoom-in-95"
+        >
+          {tooltipText}
+        </TooltipContent>
+      )}
+    </Tooltip>
   );
 };
 

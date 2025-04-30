@@ -3,7 +3,7 @@ import React from 'react';
 import { MessageSquare } from "lucide-react";
 
 const NavChatButton = () => {
-  const handleChatOpen = React.useCallback(() => {
+  const handleChatOpen = () => {
     try {
       const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
       if (chatButton) {
@@ -18,16 +18,13 @@ const NavChatButton = () => {
             delayedChatButton.click();
           } else {
             console.warn('Chat button still not found in DOM after navbar click');
-            // Try to dispatch a custom event as a fallback
-            const event = new Event('open-miles-chat');
-            document.dispatchEvent(event);
           }
         }, 200);
       }
     } catch (error) {
       console.error('Error opening chat from navbar:', error);
     }
-  }, []);
+  };
 
   return (
     <button

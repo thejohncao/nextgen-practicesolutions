@@ -1,9 +1,10 @@
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { ArrowRight, Sparkles } from "lucide-react";
 import PulseBeams from './effects/PulseBeams';
-import OrbitingAgents from './hero/OrbitingAgents';
+import FloatingAgentAvatars from './hero/FloatingAgentAvatars';
 import HeroQuantumGrid from './effects/HeroQuantumGrid';
+import LampEffect from './effects/LampEffect';
 import SparkleText from './effects/SparkleText';
 import RainbowButton from './ui/rainbow-button';
 import { Button } from "./ui/button";
@@ -13,54 +14,9 @@ import BackgroundCircles from './effects/BackgroundCircles';
 import AnimatedGrainOverlay from './effects/AnimatedGrainOverlay';
 import AnimatedHeading from './ui/animated-heading';
 import FadeInSection from './ui/fade-in-section';
-import BoardroomDemo from './boardroom/BoardroomDemo';
-import { useInView } from 'react-intersection-observer';
 
 const HeroSection = () => {
   const [selectedAgent, setSelectedAgent] = useState<string | null>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [showBoardroomDemo, setShowBoardroomDemo] = useState(false);
-  
-  // Create refs for scroll tracking and animation
-  const heroContentRef = useRef<HTMLDivElement>(null);
-  
-  // Use Intersection Observer to trigger the boardroom demo when scrolled to
-  const { ref: boardroomTriggerRef, inView } = useInView({
-    threshold: 0.2,
-    triggerOnce: false,
-    rootMargin: '-100px 0px'
-  });
-  
-  // Track mouse position for subtle orb movement
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      // Calculate normalized mouse position (-0.5 to 0.5)
-      const x = (e.clientX / window.innerWidth) - 0.5;
-      const y = (e.clientY / window.innerHeight) - 0.5;
-      setMousePosition({ x, y });
-    };
-    
-    window.addEventListener('mousemove', handleMouseMove);
-    
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, []);
-
-  // Show the boardroom demo when scrolled into view
-  useEffect(() => {
-    if (inView) {
-      setTimeout(() => {
-        setShowBoardroomDemo(true);
-      }, 300);
-    } else {
-      setShowBoardroomDemo(false);
-    }
-  }, [inView]);
-  
-  const handleAgentSelect = (agentName: string) => {
-    setSelectedAgent(prevSelected => prevSelected === agentName ? null : agentName);
-  };
   
   const handleChatOpen = () => {
     try {
@@ -85,12 +41,8 @@ const HeroSection = () => {
     }
   };
   
-  const handleTeamButtonClick = () => {
-    // Find the team section in the document and scroll to it
-    const teamSection = document.getElementById('team');
-    if (teamSection) {
-      teamSection.scrollIntoView({ behavior: 'smooth' });
-    }
+  const handleAgentSelect = (agentName: string) => {
+    setSelectedAgent(prevSelected => prevSelected === agentName ? null : agentName);
   };
   
   // Get information about the selected agent for the spotlight effect
@@ -99,22 +51,18 @@ const HeroSection = () => {
     : null;
 
   return (
-    <section className="relative min-h-[100vh] flex flex-col overflow-hidden">
-      {/* Above the fold hero section */}
-      <div className="min-h-[90vh] flex items-center justify-center">
-        {/* Background effects layering */}
-        <HeroQuantumGrid />
-        <PulseBeams opacity={0.06} />
-        <BackgroundCircles variant="default" primaryColor="rgba(155, 135, 245, 0.12)" secondaryColor="rgba(30, 174, 219, 0.08)" />
-        <AnimatedGrainOverlay opacity={0.05} />
-        
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Left Side: Content Block */}
-            <div 
-              ref={heroContentRef} 
-              className="text-left space-y-8"
-            >
+    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+      {/* Background effects layering */}
+      <HeroQuantumGrid />
+      <PulseBeams opacity={0.06} />
+      <BackgroundCircles variant="default" primaryColor="rgba(155, 135, 245, 0.12)" secondaryColor="rgba(30, 174, 219, 0.08)" />
+      <AnimatedGrainOverlay opacity={0.05} />
+      
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Left Side: Enhanced Copy Block */}
+          <LampEffect>
+            <div className="text-left space-y-8">
               <FadeInSection delay={0.1} direction="up">
                 <div className="inline-block px-3 py-1 rounded-full backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)] text-sm mb-6">
                   <SparkleText delay={300}>
@@ -137,7 +85,7 @@ const HeroSection = () => {
               
               <FadeInSection delay={0.7} direction="up">
                 <p className="text-xl md:text-2xl text-white/70 leading-relaxed max-w-2xl">
-                  Scale without the stress. Our agents run your front desk, nurture leads, close treatment, and train your staff — while you sleep.
+                  Deploy your Dream Team. Operate smarter. Grow faster. Lead effortlessly.
                 </p>
               </FadeInSection>
               
@@ -188,37 +136,15 @@ const HeroSection = () => {
                 </div>
               </FadeInSection>
             </div>
+          </LampEffect>
 
-            {/* Right Side: Orbiting Agents */}
-            <div className="relative h-[500px] bg-transparent z-30">
-              <OrbitingAgents 
-                onAgentSelect={handleAgentSelect}
-                mousePosition={mousePosition}
-              />
-            </div>
+          {/* Right Side: Enhanced Floating Avatars with higher z-index */}
+          <div className="relative h-[500px] bg-transparent z-30">
+            <FloatingAgentAvatars 
+              staggered={true}
+              onAgentSelect={handleAgentSelect}
+            />
           </div>
-        </div>
-      </div>
-      
-      {/* Scroll-triggered boardroom demo section */}
-      <div 
-        ref={boardroomTriggerRef}
-        className="min-h-[100vh] pt-24 pb-16 flex items-center justify-center"
-      >
-        <div className="container mx-auto px-4">
-          <FadeInSection delay={0.1} direction="up" className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold mb-2 text-gradient-primary">
-              Built to Run the Full Patient Journey
-            </h2>
-            <p className="text-base sm:text-lg text-white/70">
-              One decision. Four agents. Everything in motion — powered by AI.
-            </p>
-          </FadeInSection>
-          
-          <BoardroomDemo 
-            activated={showBoardroomDemo}
-            onTeamButtonClick={handleTeamButtonClick}
-          />
         </div>
       </div>
     </section>

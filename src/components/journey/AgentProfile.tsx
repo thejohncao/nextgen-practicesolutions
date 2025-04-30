@@ -25,6 +25,17 @@ const AgentProfile = ({ agent }: AgentProfileProps) => {
     }
   };
 
+  // Get color class based on agent
+  const getAgentColorClass = (name: string) => {
+    switch (name) {
+      case 'Giselle': return 'text-green-500';
+      case 'Miles': return 'text-blue-500';
+      case 'Devon': return 'text-purple-500';
+      case 'Alma': return 'text-amber-500';
+      default: return 'text-white';
+    }
+  };
+
   return (
     <div className="flex flex-col">
       <div className="mb-4">
@@ -34,7 +45,7 @@ const AgentProfile = ({ agent }: AgentProfileProps) => {
           color={agent.color}
           size="md"
           animated={true}
-          displayMode="fullName"
+          displayMode="initial"
           showLabel={true}
         />
       </div>

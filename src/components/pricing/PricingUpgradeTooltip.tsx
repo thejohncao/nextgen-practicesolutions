@@ -33,25 +33,22 @@ const PricingUpgradeTooltip: React.FC<PricingUpgradeTooltipProps> = ({
     }
   };
   
-  // The specific cubic-bezier requested for premium motion feel
-  const premiumEasing = [0.25, 1, 0.5, 1];
-  
   return (
     <AnimatePresence>
       {visible && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 10 }}
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ 
             opacity: active ? [0.9, 1] : 1,
             scale: active ? [1, 1.02, 1] : 1,
             y: 0
           }}
-          exit={{ opacity: 0, scale: 0.98, y: 5 }}
+          exit={{ opacity: 0, scale: 0.95, y: 10 }}
           transition={{ 
             duration: active ? 1 : 0.25,
             repeat: active ? Infinity : 0,
             repeatType: "reverse",
-            ease: premiumEasing
+            ease: [0.25, 1, 0.5, 1]
           }}
           className={`fixed py-2 px-3 rounded-md shadow-xl backdrop-blur-sm z-50 ${getBgClass()}`}
           style={{
@@ -63,21 +60,10 @@ const PricingUpgradeTooltip: React.FC<PricingUpgradeTooltipProps> = ({
         >
           <div className="flex items-center gap-2 text-white">
             <span className="font-medium text-sm">{message}</span>
-            <motion.div
-              animate={{ x: [0, 3, 0] }}
-              transition={{ 
-                duration: 1.5, 
-                repeat: Infinity, 
-                repeatType: "reverse",
-                ease: "easeInOut",
-                delay: 0.5
-              }}
-            >
-              <ArrowRight className="h-4 w-4" />
-            </motion.div>
+            <ArrowRight className="h-4 w-4" />
           </div>
           
-          {/* Triangle pointer with matching gradient */}
+          {/* Triangle pointer */}
           <div 
             className="absolute left-0 top-1/2 transform -translate-x-2 -translate-y-1/2" 
             style={{

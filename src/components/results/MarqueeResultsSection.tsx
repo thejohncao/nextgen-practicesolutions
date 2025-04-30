@@ -26,10 +26,7 @@ const MarqueeResultsSection = () => {
   return (
     <section className="py-20 bg-nextgen-dark overflow-hidden" ref={containerRef}>
       <div className="container mx-auto px-4 mb-12">
-        <SectionHeader 
-          title="Real Results from Your AI Team" 
-          subtitle="Practices using NextGen agents scale faster, close more, and reclaim their time."
-        />
+        <SectionHeader />
       </div>
       
       {/* Marquee Row 1 - Moving left */}

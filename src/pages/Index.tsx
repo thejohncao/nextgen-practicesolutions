@@ -1,36 +1,31 @@
 
-import React from 'react';
+import React, { useRef } from 'react';
 import Layout from '../components/Layout';
-import PricingSection from '../components/pricing/PricingSection';
-import FounderSection from '../components/FounderSection';
+import EnhancedHero from '../components/hero/EnhancedHero';
+import GooeyFilterTabs from '../components/team/GooeyFilterTabs';
+import DemoResultsSection from '../components/DemoResultsSection';
+import ROISection from '../components/ROISection';
+import AcademyOverviewSection from '../components/AcademyOverviewSection';
 import FooterCTA from '../components/FooterCTA';
+import CombinedSecurityIntegrationsSection from '../components/CombinedSecurityIntegrationsSection';
 import SuccessGuarantee from '../components/SuccessGuarantee';
 import ResourcesSection from '../components/ResourcesSection';
 import FAQSection from '../components/FAQSection';
-import AcademyOverviewSection from '../components/AcademyOverviewSection';
+import AgentResultsSection from '../components/results/AgentResultsSection';
 import TestimonialsSectionEnhanced from '../components/TestimonialsSectionEnhanced';
 import AnimatedGrainOverlay from '../components/effects/AnimatedGrainOverlay';
+import PricingSection from '../components/pricing/PricingSection';
 import SectionTransition from '../components/effects/SectionTransition';
+import ParallaxSection from '../components/effects/ParallaxSection';
 import ScrollRevealWrapper from '../components/animation/ScrollRevealWrapper';
-import CombinedSecurityIntegrationsSection from '../components/CombinedSecurityIntegrationsSection';
-import AITeamSection from '../components/team/AiTeamSection';
-import EnhancedHeroSection from '../components/hero/EnhancedHeroSection';
-import PatientJourney from '../components/patient-journey/PatientJourney';
-import BoardroomDemo from '../components/boardroom/BoardroomDemo';
-import ResultsSection from '../components/results/ResultsSection';
-import { useIntersectionAnimation } from '../hooks/useIntersectionAnimation';
 
 const Index = () => {
-  const [boardroomRef, isBoardroomVisible] = useIntersectionAnimation<HTMLDivElement>({
-    threshold: 0.3,
-    triggerOnce: true
-  });
-  
-  const handleScrollToTeam = () => {
-    const teamSection = document.getElementById('team');
-    if (teamSection) {
-      teamSection.scrollIntoView({ behavior: 'smooth' });
-    }
+  const sectionRefs = {
+    hero: useRef<HTMLDivElement>(null),
+    team: useRef<HTMLDivElement>(null),
+    results: useRef<HTMLDivElement>(null),
+    testimonials: useRef<HTMLDivElement>(null),
+    pricing: useRef<HTMLDivElement>(null)
   };
 
   return (
@@ -42,70 +37,79 @@ const Index = () => {
         </div>
         
         {/* Enhanced Hero Section */}
-        <EnhancedHeroSection />
-        
-        {/* Inside the Boardroom Section */}
-        <div ref={boardroomRef} className="bg-black relative">
-          <SectionTransition type="wave" position="top" height={64} color="transparent" />
-          <BoardroomDemo 
-            activated={isBoardroomVisible} 
-            onTeamButtonClick={handleScrollToTeam}
-          />
-          <SectionTransition type="gradient" position="bottom" height={24} color="nextgen-dark" />
+        <div ref={sectionRefs.hero}>
+          <EnhancedHero />
         </div>
         
-        {/* Team Section with AITeamSection */}
-        <div id="team" className="pt-20">
+        {/* Meet the AI Team section with improved folder-style UI */}
+        <div ref={sectionRefs.team} className="relative">
+          <ParallaxSection>
+            <ScrollRevealWrapper animation="fade-up">
+              <GooeyFilterTabs />
+            </ScrollRevealWrapper>
+          </ParallaxSection>
+        </div>
+        
+        {/* Visual separator with enhanced transition */}
+        <div className="h-8 relative">
+          <SectionTransition type="gradient" position="both" height={24} color="nextgen-dark" />
+        </div>
+        
+        {/* Enhanced Demo + Results section with dark mode */}
+        <div className="relative">
           <ScrollRevealWrapper animation="fade-up">
-            <AITeamSection />
+            <DemoResultsSection />
           </ScrollRevealWrapper>
         </div>
         
-        {/* Patient Journey - unified component */}
-        <ScrollRevealWrapper animation="fade-up">
-          <PatientJourney variant="timeline" />
-        </ScrollRevealWrapper>
+        {/* Visual separator between dark sections */}
+        <div className="h-8 relative">
+          <SectionTransition type="parallax" position="both" height={24} />
+        </div>
         
-        {/* Results section with DisplayCards */}
-        <ResultsSection />
+        {/* New Results section with vertical sliders */}
+        <div ref={sectionRefs.results} className="relative">
+          <ParallaxSection>
+            <ScrollRevealWrapper animation="fade-up">
+              <AgentResultsSection />
+            </ScrollRevealWrapper>
+          </ParallaxSection>
+        </div>
         
-        {/* Testimonials section */}
-        <div className="relative">
+        {/* Testimonials section with Bento grid layout - Enhanced with scroll animations */}
+        <div ref={sectionRefs.testimonials} className="relative">
           <ScrollRevealWrapper animation="fade-in">
             <TestimonialsSectionEnhanced />
           </ScrollRevealWrapper>
         </div>
         
-        {/* Founder Section */}
-        <ScrollRevealWrapper animation="fade-up">
-          <FounderSection />
-        </ScrollRevealWrapper>
-        
-        {/* Combined Security & Integrations Section */}
+        {/* Moved ROI section after Connected AI Team section */}
         <div className="relative">
           <ScrollRevealWrapper animation="fade-up">
-            <CombinedSecurityIntegrationsSection />
+            <ROISection />
           </ScrollRevealWrapper>
         </div>
         
-        {/* Pricing Section */}
+        {/* Combined Security & Integrations Section - now with enhanced design */}
         <div className="relative">
+          <ParallaxSection>
+            <ScrollRevealWrapper animation="fade-up">
+              <CombinedSecurityIntegrationsSection />
+            </ScrollRevealWrapper>
+          </ParallaxSection>
+        </div>
+        
+        {/* Pricing Section added back to the homepage */}
+        <div ref={sectionRefs.pricing} className="relative">
           <ScrollRevealWrapper animation="fade-up">
             <PricingSection />
           </ScrollRevealWrapper>
         </div>
         
-        {/* Footer CTA */}
+        {/* Footer CTA moved above Pricing section */}
         <div className="relative">
           <ScrollRevealWrapper animation="fade-up">
             <FooterCTA />
-          </ScrollRevealWrapper>
-        </div>
-        
-        {/* Academy Section */}
-        <div className="relative">
-          <ScrollRevealWrapper animation="fade-up">
-            <AcademyOverviewSection />
           </ScrollRevealWrapper>
         </div>
         
@@ -116,7 +120,14 @@ const Index = () => {
           </ScrollRevealWrapper>
         </div>
         
-        {/* Success Guarantee */}
+        {/* Moved Academy section below Resources */}
+        <div className="relative">
+          <ScrollRevealWrapper animation="fade-up">
+            <AcademyOverviewSection />
+          </ScrollRevealWrapper>
+        </div>
+        
+        {/* Success Guarantee moved above FAQ */}
         <div className="relative">
           <ScrollRevealWrapper animation="fade-up">
             <SuccessGuarantee />

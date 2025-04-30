@@ -1,15 +1,10 @@
 
-export function getTooltipText(agentName: string): string {
-  switch (agentName.toLowerCase()) {
-    case 'miles':
-      return 'Your AI Practice Manager handling scheduling & communication';
-    case 'giselle':
-      return 'Your AI Growth Specialist focused on leads & growth';
-    case 'devon':
-      return 'Your AI Treatment Closer boosting case acceptance';
-    case 'alma':
-      return 'Your AI Academy Director for training & onboarding';
-    default:
-      return '';
+export const getTooltipText = (name: string) => {
+  switch (name) {
+    case 'Miles': return 'Front Office Automation';
+    case 'Giselle': return 'Lead Growth Engine';
+    case 'Devon': return 'Treatment Closer';
+    case 'Alma': return 'Team Training AI';
+    default: return '';
   }
-}
+};

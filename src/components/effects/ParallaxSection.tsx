@@ -1,5 +1,5 @@
 
-import React, { useRef, forwardRef } from 'react';
+import React, { useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { useSectionScrollProgress } from '@/lib/animationUtils';
 
@@ -38,31 +38,15 @@ interface ParallaxSectionProps {
   preserveHeight?: boolean;
 }
 
-// Use forwardRef to pass refs through to the component
-const ParallaxSection = forwardRef<HTMLDivElement, ParallaxSectionProps>(({
+const ParallaxSection: React.FC<ParallaxSectionProps> = ({
   children,
   className,
   backgroundColor = "bg-nextgen-dark",
   as: Component = "section",
   preserveHeight = true,
-}, ref) => {
-  // Use the passed ref or create our own if none was provided
-  const internalRef = useRef<HTMLDivElement>(null);
-  const sectionRef = ref || internalRef;
-  
-  // Use a consistent ref object to track scroll progress
-  // This is needed because forwarded refs can be callback functions
-  const scrollTrackingRef = useRef<HTMLDivElement>(null);
-  
-  // Get current element from whichever ref is being used
-  React.useEffect(() => {
-    if (typeof sectionRef !== 'function' && sectionRef.current) {
-      scrollTrackingRef.current = sectionRef.current;
-    }
-  }, [sectionRef]);
-  
-  // Get scroll progress using the consistent ref
-  const progress = useSectionScrollProgress(scrollTrackingRef);
+}) => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const progress = useSectionScrollProgress(sectionRef);
   
   return (
     <Component
@@ -86,9 +70,6 @@ const ParallaxSection = forwardRef<HTMLDivElement, ParallaxSectionProps>(({
       })}
     </Component>
   );
-});
-
-// Add display name for better debugging
-ParallaxSection.displayName = 'ParallaxSection';
+};
 
 export default ParallaxSection;

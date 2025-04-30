@@ -4,7 +4,6 @@ import { Agent } from '@/types/agent';
 import { Phase } from './PhaseData';
 import { useIsMobile } from '@/hooks/use-mobile';
 import CarouselAgentItem from './desktop/CarouselAgentItem';
-import MobileAgentTimeline from './mobile/MobileAgentTimeline';
 
 interface AgentCarouselProps {
   agents: Agent[];
@@ -24,37 +23,33 @@ const AgentCarousel = ({
   const isMobile = useIsMobile();
   
   return (
-    <div className="mb-12">
-      {isMobile ? (
-        <MobileAgentTimeline
-          agents={agents}
-          phases={phases}
-          activeIndex={activeIndex}
-          onAgentSelect={onSlideChange}
-          carouselRef={carouselRef}
-        />
-      ) : (
-        <div className="w-full max-w-6xl mx-auto" ref={carouselRef}>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {agents.map((agent, index) => (
-              <div 
-                key={agent.name}
-                className="carousel-agent-item"
-                data-index={index}
-              >
-                <CarouselAgentItem
-                  agent={agent}
-                  index={index}
-                  isActive={activeIndex === index}
-                  phaseDescription={phases[index].story}
-                  phaseColor={phases[index].color}
-                  onSelect={() => onSlideChange(index)}
-                />
-              </div>
-            ))}
-          </div>
+    <div className="mb-12" ref={carouselRef}>
+      <div className={`w-full max-w-5xl mx-auto ${isMobile ? 'space-y-6' : ''}`}>
+        <div className={isMobile ? 'space-y-6' : 'grid grid-cols-4 gap-4'}>
+          {agents.map((agent, index) => (
+            <div 
+              key={agent.name}
+              className={`
+                opacity-0 animate-fade-in
+                ${!isMobile && 'transition-all duration-300'}
+              `}
+              style={{ 
+                animationDelay: `${index * 0.1}s`,
+                animationFillMode: 'forwards'
+              }}
+            >
+              <CarouselAgentItem
+                agent={agent}
+                index={index}
+                isActive={isMobile || activeIndex === index}
+                phaseDescription={phases[index].story}
+                phaseColor={phases[index].color}
+                onSelect={() => onSlideChange(index)}
+              />
+            </div>
+          ))}
         </div>
-      )}
+      </div>
     </div>
   );
 };

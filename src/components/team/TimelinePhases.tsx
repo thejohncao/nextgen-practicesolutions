@@ -24,37 +24,12 @@ const TimelinePhases = ({ phases, activeIndex, onPhaseClick }: TimelinePhasesPro
     }
   };
 
-  // On mobile, show a simplified version
-  if (isMobile) {
-    return (
-      <div className="flex justify-center mb-8 overflow-x-auto hide-scrollbar">
-        <div className="flex space-x-4 px-4">
-          {phases.map((phase, index) => (
-            <div 
-              key={phase.agent}
-              className={`
-                py-2 px-4 rounded-full cursor-pointer whitespace-nowrap flex items-center gap-2
-                ${activeIndex === index 
-                  ? `${phase.color} ${phase.borderColor} border shadow-[0_0_10px_rgba(255,255,255,0.2)]` 
-                  : 'border border-white/10 bg-white/5'}
-              `}
-              onClick={() => onPhaseClick(index)}
-            >
-              {getPhaseIcon(index)}
-              <span className={`text-sm font-medium ${activeIndex === index ? 'text-white' : 'text-white/70'}`}>
-                {`Phase ${index + 1}`}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
+  // On mobile, we'll hide the timeline if it would clutter the UI
+  if (isMobile) return null;
 
-  // Desktop view with horizontal connector line
   return (
-    <div className="max-w-4xl mx-auto mb-12">
-      <div className="relative flex items-center justify-between">
+    <div className="max-w-4xl mx-auto mb-8 sm:mb-12">
+      <div className="relative hidden sm:flex items-center justify-between">
         {/* Horizontal Connector Line */}
         <div className="absolute h-1 bg-gradient-to-r from-white/10 via-white/30 to-white/10 left-0 right-0 top-1/2 transform -translate-y-1/2 z-0" />
         
@@ -69,12 +44,12 @@ const TimelinePhases = ({ phases, activeIndex, onPhaseClick }: TimelinePhasesPro
               className={`
                 w-12 h-12 rounded-full border
                 transition-all duration-300 ease-in-out
-                flex items-center justify-center mb-3
+                flex items-center justify-center mb-2
                 hover:scale-105 hover:shadow-[0_0_15px_rgba(255,255,255,0.3)]
                 ${activeIndex === index ? phase.color : 'bg-white/5'}
                 ${activeIndex === index ? phase.borderColor : 'border-white/10'}
                 ${activeIndex === index ? 'shadow-[0_0_15px_rgba(255,255,255,0.2)]' : ''}
-                ${activeIndex === index ? 'scale-110' : 'scale-100'}
+                ${activeIndex === index ? 'animate-pulse-slow' : ''}
               `}
             >
               <span 
@@ -86,7 +61,7 @@ const TimelinePhases = ({ phases, activeIndex, onPhaseClick }: TimelinePhasesPro
                 {index + 1}
               </span>
             </div>
-            <div className="text-center w-40 flex flex-col items-center gap-1">
+            <div className="text-center w-36 flex flex-col items-center gap-1">
               {getPhaseIcon(index)}
               <span className={`
                 text-sm font-medium transition-colors duration-300

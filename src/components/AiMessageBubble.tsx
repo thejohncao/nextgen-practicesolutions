@@ -1,9 +1,8 @@
 
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import { cn } from '@/lib/utils';
 import AgentChatAvatar from './AgentChatAvatar';
-import { AiMessage } from '@/types/conversation';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { AiMessage } from '@/hooks/useAiConversation';
 
 // Define the AI agents with their properties
 const agents = {
@@ -30,28 +29,9 @@ type AgentKey = keyof typeof agents;
 interface AiMessageBubbleProps {
   message: AiMessage;
   isTyping?: boolean;
-  isExpanded?: boolean;
-  onToggleExpansion?: () => void;
 }
 
-const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({ 
-  message, 
-  isTyping = false,
-  isExpanded = false,
-  onToggleExpansion
-}) => {
-  const [shouldShowExpandButton, setShouldShowExpandButton] = useState(false);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const MAX_HEIGHT = 300; // Maximum height before showing "Read More" button
-  
-  useEffect(() => {
-    // Check if content exceeds max height and should show expand button
-    if (contentRef.current) {
-      const shouldExpand = contentRef.current.scrollHeight > MAX_HEIGHT;
-      setShouldShowExpandButton(shouldExpand);
-    }
-  }, [message.text]);
-
+const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({ message, isTyping = false }) => {
   return (
     <div 
       className={cn(
@@ -61,43 +41,13 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
       )}
     >
       {!message.isUser && (
-        <div className="flex items-center gap-2 mb-2">
-          <AgentChatAvatar agent={message.agent} hideDetails={false} />
-          <div className="font-semibold text-sm text-white/90">
-            {agents[message.agent as AgentKey].name}
-          </div>
+        <div className="font-semibold text-sm mb-1 text-white/90">
+          {agents[message.agent as AgentKey].name}
         </div>
       )}
-      
-      <div 
-        ref={contentRef}
-        className={cn(
-          "whitespace-pre-wrap text-white/90 overflow-hidden",
-          !isExpanded && shouldShowExpandButton && "max-h-[300px]",
-          isExpanded ? "max-h-full" : ""
-        )}
-      >
+      <div className="whitespace-pre-wrap text-white/90">
         {message.text}
       </div>
-      
-      {shouldShowExpandButton && onToggleExpansion && (
-        <button 
-          onClick={onToggleExpansion}
-          className="flex items-center gap-1 mt-2 text-xs text-white/50 hover:text-white/80 transition-colors"
-        >
-          {isExpanded ? (
-            <>
-              <ChevronUp className="h-3 w-3" />
-              Show less
-            </>
-          ) : (
-            <>
-              <ChevronDown className="h-3 w-3" />
-              Read more
-            </>
-          )}
-        </button>
-      )}
     </div>
   );
 };

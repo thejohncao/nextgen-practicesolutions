@@ -1,64 +1,79 @@
 
 import React from 'react';
+import { motion } from 'framer-motion';
 
 interface OrbGlowEffectProps {
   color: string;
-  intensity: "none" | "low" | "medium" | "high";
-  size?: "small" | "medium" | "large";
+  intensity?: 'low' | 'medium' | 'high';
 }
 
-const OrbGlowEffect = ({ color, intensity, size = "medium" }: OrbGlowEffectProps) => {
-  // Map colors to CSS classes
-  const colorMap: Record<string, string> = {
-    blue: 'bg-blue-500',
-    green: 'bg-green-500',
-    purple: 'bg-purple-500',
-    gold: 'bg-amber-500',
-  };
+const getColorValues = (color: string) => {
+  switch (color) {
+    case 'purple':
+      return 'rgba(139, 92, 246, 0.6)';
+    case 'blue':
+      return 'rgba(14, 165, 233, 0.6)';
+    case 'green':
+      return 'rgba(34, 197, 94, 0.6)';
+    case 'gold':
+      return 'rgba(234, 179, 8, 0.6)';
+    default:
+      return 'rgba(155, 135, 245, 0.6)';
+  }
+};
 
-  // Map colors to opacity values based on intensity
-  const getOpacities = () => {
+const OrbGlowEffect: React.FC<OrbGlowEffectProps> = ({ color, intensity = 'medium' }) => {
+  const glowColor = getColorValues(color);
+  
+  // Scale based on intensity
+  const getScale = () => {
     switch (intensity) {
-      case "high": return { inner: "opacity-25", outer: "opacity-15" };
-      case "medium": return { inner: "opacity-15", outer: "opacity-10" };
-      case "low": return { inner: "opacity-10", outer: "opacity-5" };
-      case "none": 
-      default: return { inner: "opacity-0", outer: "opacity-0" };
+      case 'low': return [1, 1.2, 1];
+      case 'high': return [1, 1.5, 1];
+      default: return [1, 1.3, 1];
     }
   };
   
-  // Map sizes to CSS classes
-  const getSizeClasses = () => {
-    switch (size) {
-      case "small": return { 
-        outer: "w-14 h-14 -top-3 -left-3", 
-        inner: "w-10 h-10 -top-1.5 -left-1.5" 
-      };
-      case "large": return { 
-        outer: "w-24 h-24 -top-6 -left-6", 
-        inner: "w-16 h-16 -top-3 -left-3" 
-      };
-      case "medium":
-      default: return { 
-        outer: "w-20 h-20 -top-5 -left-5", 
-        inner: "w-14 h-14 -top-2 -left-2" 
-      };
-    }
-  };
-
-  const { inner: innerOpacity, outer: outerOpacity } = getOpacities();
-  const { inner: innerSize, outer: outerSize } = getSizeClasses();
-  const colorClass = colorMap[color] || 'bg-blue-500';
-
   return (
-    <>
-      {/* Outer glow - larger and more diffuse */}
-      <div className={`absolute ${outerSize} rounded-full blur-xl ${colorClass} ${outerOpacity} animate-pulse-slow pointer-events-none`}></div>
+    <div className="absolute inset-0 z-0 pointer-events-none">
+      {/* Inner glow */}
+      <motion.div
+        className="absolute inset-0 rounded-full"
+        style={{ backgroundColor: glowColor, opacity: 0 }}
+        animate={{ 
+          opacity: [0, 0.6, 0],
+          scale: getScale()
+        }}
+        transition={{ 
+          duration: 1.5,
+          ease: [0.25, 1, 0.5, 1],
+          repeat: 0
+        }}
+      />
       
-      {/* Inner glow - smaller and more concentrated */}
-      <div className={`absolute ${innerSize} rounded-full blur-md ${colorClass} ${innerOpacity} animate-pulse-slow pointer-events-none`} 
-        style={{animationDelay: '0.5s'}}></div>
-    </>
+      {/* Orbiting particles */}
+      {[...Array(8)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-1 h-1 rounded-full bg-white"
+          style={{ 
+            top: '50%', 
+            left: '50%',
+            opacity: 0
+          }}
+          animate={{ 
+            opacity: [0, 0.8, 0],
+            x: [0, Math.cos(i * Math.PI / 4) * 30],
+            y: [0, Math.sin(i * Math.PI / 4) * 30]
+          }}
+          transition={{ 
+            duration: 1 + (i % 3) * 0.2,
+            delay: i * 0.05,
+            ease: "easeOut"
+          }}
+        />
+      ))}
+    </div>
   );
 };
 

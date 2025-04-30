@@ -31,12 +31,12 @@ const JourneyStage = ({ stage, isActive }: JourneyStageProps) => {
   
   return (
     <div className="h-full flex flex-col">
-      <div className="mb-4 flex items-center">
-        <span className="text-2xl sm:text-3xl font-bold text-white/40 font-heading mr-2">{stage.number}</span>
-        <h3 className="text-lg sm:text-xl font-bold text-white">{stage.name}</h3>
+      <div className="mb-4">
+        <span className="text-2xl sm:text-3xl font-bold text-white/40 font-heading">{stage.number}</span>
+        <h3 className="text-lg sm:text-xl font-bold text-white mt-1">{stage.name}</h3>
       </div>
       
-      <div className="flex-grow mb-4">
+      <div className="flex-grow mb-6">
         <AgentProfile agent={stage.agent} />
       </div>
       

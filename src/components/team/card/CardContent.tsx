@@ -1,7 +1,8 @@
 
 import React from 'react';
 import { Agent } from '@/types/agent';
-import { Check } from 'lucide-react';
+import AgentAvatar from '../../AgentAvatar';
+import { getAgentBlurb } from '../utils/getAgentBlurb';
 
 interface CardContentProps {
   agent: Agent;
@@ -9,35 +10,27 @@ interface CardContentProps {
 
 const CardContent = ({ agent }: CardContentProps) => {
   return (
-    <div className="space-y-4">
-      <div>
-        <h3 className="text-xl font-bold text-white mb-1">{agent.name}</h3>
-        <p className="text-sm text-white/80">{agent.title}</p>
+    <div className="flex flex-col items-center gap-6">
+      <div className="relative">
+        <AgentAvatar 
+          name={agent.name}
+          role={agent.title}
+          color={agent.color}
+          displayMode="initial"
+          showLabel={true}
+        />
       </div>
-      
-      <p className="text-white/90 leading-relaxed">{agent.tagline}</p>
-      
-      <div className="text-left">
-        <ul className="space-y-3">
-          {agent.features.slice(0, 3).map((feature, i) => {
-            // Split feature text if it has a separator
-            const parts = feature.split(' - ');
-            const title = parts[0];
-            const description = parts.length > 1 ? parts[1] : null;
-            
-            return (
-              <li key={i} className="flex items-start gap-3 text-sm">
-                <Check className={`h-4 w-4 mt-1 text-${agent.color}-500 flex-shrink-0`} />
-                <span>
-                  <span className="font-medium">{title}</span>
-                  {description && (
-                    <span className="text-white/70"> — {description}</span>
-                  )}
-                </span>
-              </li>
-            );
-          })}
-        </ul>
+
+      <div className="space-y-3">
+        <h3 className="text-2xl font-bold text-white">
+          {agent.name}
+        </h3>
+        <p className="text-white/70">
+          {agent.title}
+        </p>
+        <p className="text-lg text-white/90">
+          {getAgentBlurb(agent.name)}
+        </p>
       </div>
     </div>
   );

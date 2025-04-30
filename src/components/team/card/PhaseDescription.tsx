@@ -2,7 +2,7 @@
 import React from 'react';
 
 interface PhaseDescriptionProps {
-  description?: string;
+  description: string;
 }
 
 const PhaseDescription = ({ description }: PhaseDescriptionProps) => {
@@ -10,7 +10,9 @@ const PhaseDescription = ({ description }: PhaseDescriptionProps) => {
   
   return (
     <div className="mt-4 pt-4 border-t border-white/10">
-      <p className="text-sm text-white/80 italic leading-relaxed">{description}</p>
+      <p className="text-sm italic text-white/80">
+        "{description}"
+      </p>
     </div>
   );
 };
