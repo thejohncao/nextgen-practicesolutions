@@ -104,16 +104,6 @@ const EnhancedHero = () => {
               </p>
             </ScrollRevealWrapper>
             
-            {/* Agent spotlight content */}
-            {spotlightAgent && (
-              <ScrollRevealWrapper animation="fade-in" delay={0.1}>
-                <div className="bg-black/30 backdrop-blur-md rounded-lg p-4 border border-white/10 mb-8">
-                  <h3 className="font-bold text-lg mb-1">{spotlightAgent.name} – {spotlightAgent.title}</h3>
-                  <p className="text-white/80 text-sm">{spotlightAgent.tagline}</p>
-                </div>
-              </ScrollRevealWrapper>
-            )}
-            
             <ScrollRevealWrapper animation="fade-up" delay={sequence.next()} className="flex flex-col sm:flex-row gap-4">
               <RainbowButton 
                 size="lg"
@@ -148,6 +138,16 @@ const EnhancedHero = () => {
               onAgentSelect={handleAgentSelect}
               selectedAgent={selectedAgent}
             />
+            
+            {/* Agent spotlight content - MOVED HERE from left column */}
+            {spotlightAgent && (
+              <ScrollRevealWrapper animation="fade-in" delay={0.1}>
+                <div className="bg-black/30 backdrop-blur-md rounded-lg p-4 border border-white/10 mt-4">
+                  <h3 className="font-bold text-lg mb-1">{spotlightAgent.name} – {spotlightAgent.title}</h3>
+                  <p className="text-white/80 text-sm">{spotlightAgent.tagline}</p>
+                </div>
+              </ScrollRevealWrapper>
+            )}
           </div>
         </div>
       </div>

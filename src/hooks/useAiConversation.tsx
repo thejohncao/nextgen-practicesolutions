@@ -6,6 +6,7 @@ import { getAgentChatData } from '@/data/agentChatData';
 import { useAgentManagement } from './ai-chat/useAgentManagement';
 import { useIntentDetection } from './ai-chat/useIntentDetection';
 import { useResponseTimeout } from './ai-chat/useResponseTimeout';
+import { Message } from '@/lib/aiTypes';
 
 export interface AiMessage {
   text: string;
@@ -130,7 +131,7 @@ export function useAiConversation() {
       const agentMessages = agentConversations[currentAgent] || [];
       
       // Transform to OpenAI message format, preserving all conversation history
-      const messageHistory = agentMessages.map(msg => ({
+      const messageHistory: Message[] = agentMessages.map(msg => ({
         role: msg.isUser ? "user" : "assistant",
         content: msg.text,
       }));
