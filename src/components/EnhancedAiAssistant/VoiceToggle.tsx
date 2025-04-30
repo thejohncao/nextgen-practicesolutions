@@ -2,6 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Volume2, VolumeX } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface VoiceToggleProps {
   isVoiceEnabled: boolean;
@@ -16,7 +17,7 @@ const VoiceToggle: React.FC<VoiceToggleProps> = ({
   isMuted,
   onToggleVoice,
   onToggleMute,
-  isVoiceAvailable = false // Default to false to show "Coming Soon"
+  isVoiceAvailable = true
 }) => {
   return (
     <div className="px-3 py-1.5 bg-black/20 flex justify-between items-center">
@@ -40,12 +41,10 @@ const VoiceToggle: React.FC<VoiceToggleProps> = ({
         <Button 
           variant="outline" 
           size="sm" 
-          className={`h-7 px-2 text-xs border-white/10 hover:bg-white/5 ${!isVoiceAvailable ? 'opacity-70' : ''}`}
-          onClick={isVoiceAvailable ? onToggleVoice : () => {}}
+          className="h-7 px-2 text-xs border-white/10 hover:bg-white/5"
+          onClick={onToggleVoice}
         >
-          {isVoiceAvailable 
-            ? (isVoiceEnabled ? "Disable Voice" : "Enable Voice") 
-            : "Voice Mode Coming Soon"}
+          {isVoiceEnabled ? "Disable Voice" : "Enable Voice"}
         </Button>
       </div>
     </div>

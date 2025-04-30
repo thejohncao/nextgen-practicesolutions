@@ -10,20 +10,6 @@ export const useChatVisibility = (showPaths: string[] = ['/', '/solutions', '/ac
   // Determine if we should show the assistant based on current path
   const shouldShow = showPaths.includes(location.pathname);
 
-  // Event listener for opening the chat
-  useEffect(() => {
-    const listener = (e: Event) => {
-      setIsOpen(true);
-      const customEvent = e as CustomEvent;
-      return { customEvent };
-    };
-    
-    document.addEventListener('open-miles-chat', listener as EventListener);
-    return () => {
-      document.removeEventListener('open-miles-chat', listener as EventListener);
-    };
-  }, []);
-
   return {
     isOpen,
     setIsOpen,

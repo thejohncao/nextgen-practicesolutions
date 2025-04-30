@@ -18,7 +18,7 @@ const EmailNotification: React.FC<EmailNotificationProps> = ({
   if (sessionMessageCount < 7 || showEmailDialog) return null;
   
   return (
-    <div className="p-4 mb-4 animate-fade-in bg-black/30 border border-white/10 rounded-lg">
+    <div className="p-3 mb-4 animate-fade-in bg-black/30 border border-white/10 rounded-lg">
       <p className="text-white/80 text-sm">
         You're approaching the end of your chat preview. 
         Would you like to receive a full resource pack?

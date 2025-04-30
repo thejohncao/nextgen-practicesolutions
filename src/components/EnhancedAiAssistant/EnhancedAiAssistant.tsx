@@ -15,6 +15,7 @@ import AgentTabs from '../chat/AgentTabs';
 import VoiceChatInput from '../VoiceChatInput';
 import VoiceToggle from './VoiceToggle';
 import ChatMessages from './ChatMessages';
+import EmailCollectionDialog from '../EmailCollectionDialog';
 
 interface EnhancedAiAssistantProps {
   showPaths?: string[];
@@ -29,7 +30,6 @@ const EnhancedAiAssistant = ({
 }: EnhancedAiAssistantProps) => {
   const [isVoiceEnabled, setIsVoiceEnabled] = useState(initialVoiceMode);
   const [isMuted, setIsMuted] = useState(false);
-  const [isVoiceAvailable, setIsVoiceAvailable] = useState(false); // Set to false to show "Coming Soon"
   // Add local typing state
   const [localTypingState, setLocalTypingState] = useState(false);
   
@@ -64,8 +64,7 @@ const EnhancedAiAssistant = ({
   
   const { 
     showTimeout, 
-    resetTimeout, 
-    handleQuickReply 
+    resetTimeout
   } = useChatTimeout(isTyping || localTypingState);
   
   const isMobile = useIsMobile();
@@ -84,13 +83,6 @@ const EnhancedAiAssistant = ({
       const customEvent = e as CustomEvent;
       if (customEvent.detail?.agent) {
         selectAgent(customEvent.detail.agent);
-        
-        // Show toast message when switching agents
-        if (messages.length > 0) {
-          toast.success(`Switched to ${customEvent.detail.agent}`, {
-            description: "Let me know if you'd like to pick up where we left off."
-          });
-        }
       }
       
       if (customEvent.detail?.voiceMode !== undefined) {
@@ -102,7 +94,7 @@ const EnhancedAiAssistant = ({
     return () => {
       document.removeEventListener('open-miles-chat', listener as EventListener);
     };
-  }, [selectAgent, setIsOpen, messages.length]);
+  }, [selectAgent, setIsOpen]);
 
   const handleSendMessage = async (message: string) => {
     try {
@@ -118,18 +110,11 @@ const EnhancedAiAssistant = ({
       console.error("Error sending message:", err);
       toast.error("Failed to send message. Please try again.");
     } finally {
-      // Ensure typing state is reset regardless of success/failure
       setLocalTypingState(false);
     }
   };
 
   const toggleVoiceMode = () => {
-    if (!isVoiceAvailable) {
-      toast.info("Voice Mode Coming Soon", {
-        description: "We're working on voice capabilities for a future update!"
-      });
-      return;
-    }
     setIsVoiceEnabled(!isVoiceEnabled);
   };
 
@@ -142,42 +127,13 @@ const EnhancedAiAssistant = ({
     // Let the AI continue processing
   };
 
-  const handleQuickReplyAction = (action: string) => {
-    resetTimeout();
-    
-    // Handle different quick reply actions based on agent
-    switch(action) {
-      case 'check_schedule':
-        sendMessage("Please check today's schedule");
-        break;
-      case 'show_leads':
-        sendMessage("Show me early leads");
-        break;
-      case 'show_scripts':
-        sendMessage("Show me your top 3 scripts");
-        break;
-      case 'preview_sops':
-        sendMessage("Preview SOPs");
-        break;
-      case 'summarize_progress':
-        handleSummarizeResponse();
-        break;
-      case 'try_again':
-      case 'continue':
-        handleContinueAnyway();
-        break;
-      default:
-        handleContinueAnyway();
-    }
-  };
-
-  const handleSummarizeResponse = () => {
-    resetTimeout();
-    
-    // Add a summary message from the agent
+  const handleSummarizeResponse = async () => {
     try {
       setLocalTypingState(true);
-      sendMessage(`Could you summarize what you know so far about ${messages[messages.length - 1]?.text?.slice(0, 30)}...`);
+      resetTimeout();
+      
+      // Add a summary message from the agent
+      await sendMessage(`Could you summarize what you know so far about ${messages[messages.length - 1]?.text?.slice(0, 30)}...`);
     } catch (err) {
       console.error("Error sending summary request:", err);
       toast.error("Failed to summarize. Please try again.");
@@ -215,17 +171,7 @@ const EnhancedAiAssistant = ({
             {/* Agent selection tabs */}
             <AgentTabs 
               currentAgent={currentAgent}
-              onSelectAgent={(agent) => {
-                const prevAgent = currentAgent;
-                selectAgent(agent);
-                
-                // Show toast when switching agents if we have messages
-                if (messages.length > 0 && prevAgent !== agent) {
-                  toast.success(`Switched to ${agent}`, {
-                    description: "Let me know if you'd like to pick up where we left off."
-                  });
-                }
-              }}
+              onSelectAgent={selectAgent}
             />
             
             {/* Voice mode toggle */}
@@ -234,9 +180,9 @@ const EnhancedAiAssistant = ({
               isMuted={isMuted}
               onToggleVoice={toggleVoiceMode}
               onToggleMute={toggleMute}
-              isVoiceAvailable={isVoiceAvailable}
             />
             
+            {/* Chat messages */}
             <ChatMessages 
               messages={messages}
               isTyping={isTyping || localTypingState}
@@ -248,14 +194,17 @@ const EnhancedAiAssistant = ({
               showTimeout={showTimeout}
               isTimedOut={isTimedOut}
               sessionMessageCount={sessionMessageCount}
+              showEmailDialog={showEmailDialog}
+              setShowEmailDialog={setShowEmailDialog}
               onContinueAnyway={handleContinueAnyway}
+              onSummarizeResponse={handleSummarizeResponse}
               onRetry={handleRetry}
               onStartOver={handleStartOver}
-              onQuickReply={handleQuickReplyAction}
             />
             
+            {/* Chat input */}
             <VoiceChatInput 
-              isTyping={isTyping || localTypingState || isTimedOut}
+              isTyping={(isTyping || localTypingState || isTimedOut)}
               currentAgent={currentAgent}
               onSendMessage={handleSendMessage}
               messages={messages}
@@ -268,6 +217,13 @@ const EnhancedAiAssistant = ({
           </div>
         </DialogContent>
       </Dialog>
+      
+      <EmailCollectionDialog
+        triggerText=""
+        buttonClassName="hidden"
+        open={showEmailDialog}
+        onOpenChange={setShowEmailDialog}
+      />
     </>
   );
 };

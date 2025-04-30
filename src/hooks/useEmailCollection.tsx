@@ -10,23 +10,22 @@ export const useEmailCollection = (messages: AiMessage[]) => {
   useEffect(() => {
     setSessionMessageCount(messages.filter(m => m.isUser).length);
     
-    // We're no longer showing the email dialog automatically
-    // Left commented for future reference
-    // if (messages.filter(m => m.isUser).length >= 8) {
-    //   setShowEmailDialog(true);
-    // }
+    // Show email dialog after 8 messages (counting user messages)
+    if (messages.filter(m => m.isUser).length >= 8) {
+      setShowEmailDialog(true);
+    }
   }, [messages]);
 
   const handleFirstUserMessage = () => {
-    // No longer triggering email dialog on first message
-    // Left commented for future reference
-    // const isFirstUserMessage = 
-    //   messages.length === 0 || 
-    //   (messages.length === 1 && !messages[0].isUser);
-    //   
-    // if (isFirstUserMessage) {
-    //   setTimeout(() => setShowEmailDialog(true), 5000);
-    // }
+    // If this is the first user message or the second with the first being from the assistant
+    const isFirstUserMessage = 
+      messages.length === 0 || 
+      (messages.length === 1 && !messages[0].isUser);
+      
+    // Show email dialog after a delay for the first message
+    if (isFirstUserMessage) {
+      setTimeout(() => setShowEmailDialog(true), 5000);
+    }
   };
 
   return {

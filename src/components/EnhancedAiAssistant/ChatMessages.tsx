@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { AiMessage } from '@/types/conversation';
 import VoiceMessageBubble from '../VoiceMessageBubble';
 import TypingIndicator from '../TypingIndicator';
-import AgentFallbackMessage from './AgentFallbackMessage';
+import EmailNotification from './EmailNotification';
 
 interface ChatMessagesProps {
   messages: AiMessage[];
@@ -17,10 +17,12 @@ interface ChatMessagesProps {
   showTimeout: boolean;
   isTimedOut: boolean;
   sessionMessageCount: number;
+  showEmailDialog: boolean;
+  setShowEmailDialog: (show: boolean) => void;
   onContinueAnyway: () => void;
+  onSummarizeResponse: () => void;
   onRetry: () => void;
   onStartOver: () => void;
-  onQuickReply?: (action: string) => void;
 }
 
 const ChatMessages: React.FC<ChatMessagesProps> = ({
@@ -34,10 +36,12 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
   showTimeout,
   isTimedOut,
   sessionMessageCount,
+  showEmailDialog,
+  setShowEmailDialog,
   onContinueAnyway,
+  onSummarizeResponse,
   onRetry,
-  onStartOver,
-  onQuickReply = () => {}
+  onStartOver
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
@@ -65,12 +69,29 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
         <TypingIndicator agent={currentAgent} />
       )}
       
-      {/* Agent Fallback Message */}
+      {/* Timeout notification */}
       {showTimeout && isTyping && (
-        <AgentFallbackMessage 
-          agent={currentAgent}
-          onQuickReply={onQuickReply}
-        />
+        <div className="p-4 mb-4 bg-[#000000] border border-amber-700/30 rounded-lg">
+          <p className="text-white/90 mb-3">Still working on your request. Would you like me to:</p>
+          <div className="flex gap-2 flex-wrap">
+            <Button 
+              variant="outline" 
+              size="sm"
+              className="flex items-center gap-1 border-white/20 hover:bg-white/5"
+              onClick={onContinueAnyway}
+            >
+              Continue processing
+            </Button>
+            <Button 
+              variant="default"
+              size="sm"
+              className="flex items-center gap-1 bg-gradient-to-r from-blue-500 to-indigo-500"
+              onClick={onSummarizeResponse}
+            >
+              Summarize what you know so far
+            </Button>
+          </div>
+        </div>
       )}
       
       {/* Connection error notification */}
@@ -97,6 +118,13 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
           </div>
         </div>
       )}
+      
+      {/* Email notification */}
+      <EmailNotification
+        sessionMessageCount={sessionMessageCount}
+        showEmailDialog={showEmailDialog}
+        onRequestEmail={() => setShowEmailDialog(true)}
+      />
       
       <div ref={messagesEndRef} />
     </div>
