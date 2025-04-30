@@ -21,6 +21,7 @@ import Privacy from './pages/Privacy'
 import Integrations from './pages/Integrations'
 import AcademyCurriculum from './pages/AcademyCurriculum'
 import Watch from './pages/Watch'
+import EnhancedAiAssistant from './components/EnhancedAiAssistant'
 import './App.css'
 
 function App() {

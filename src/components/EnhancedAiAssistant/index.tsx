@@ -1,3 +1,3 @@
 
-import EnhancedAiAssistant from '../EnhancedAiAssistant';
+import EnhancedAiAssistant from './EnhancedAiAssistant';
 export default EnhancedAiAssistant;
