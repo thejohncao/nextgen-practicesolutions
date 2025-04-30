@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from 'next-themes';
@@ -20,12 +21,13 @@ import AiTeam from './pages/AiTeam';
 import Animations from './pages/Animations';
 import Features from './pages/Features';
 
-import { LenisProvider } from './components/providers/LenisProvider';
+import LenisProvider from './components/providers/LenisProvider';
 import ChatDialog from './components/chat/ChatDialog';
-import EmailCollection from './components/EmailCollectionDialog';
+import EmailCollectionDialog from './components/EmailCollectionDialog';
 import { TooltipProvider } from './components/ui/tooltip';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import './App.css';
+import AiAssistant from './components/AiAssistant';
 
 const queryClient = new QueryClient();
 
@@ -48,10 +50,17 @@ function App() {
         <LenisProvider>
           <QueryClientProvider client={queryClient}>
             {isEmailCollected === null ? (
-              <EmailCollection onComplete={handleEmailCollectionComplete} />
+              <EmailCollectionDialog
+                triggerText=""
+                buttonClassName="hidden"
+                open={true}
+                onOpenChange={(open) => {
+                  if (!open) handleEmailCollectionComplete();
+                }}
+              />
             ) : (
               <>
-                <ChatDialog />
+                <AiAssistant />
                 <Router>
                   <Routes>
                     <Route path="/" element={<Index />} />

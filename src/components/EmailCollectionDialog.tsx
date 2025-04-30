@@ -18,6 +18,7 @@ interface EmailCollectionDialogProps {
   style?: React.CSSProperties;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  onComplete?: () => void;
 }
 
 const EmailCollectionDialog = ({ 
@@ -27,8 +28,15 @@ const EmailCollectionDialog = ({
   buttonVariant = "default",
   style,
   open,
-  onOpenChange
+  onOpenChange,
+  onComplete
 }: EmailCollectionDialogProps) => {
+  const handleFormSubmit = () => {
+    if (onComplete) {
+      onComplete();
+    }
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
@@ -53,6 +61,7 @@ const EmailCollectionDialog = ({
         <EmailCollectionForm 
           buttonText="Get Started"
           placeholder="Enter your work email"
+          onSubmit={handleFormSubmit}
         />
       </DialogContent>
     </Dialog>

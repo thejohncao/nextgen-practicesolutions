@@ -2,16 +2,27 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Slot } from "@radix-ui/react-slot";
 
 interface RainbowButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   size?: "default" | "sm" | "lg" | "icon";
   className?: string;
+  asChild?: boolean;
 }
 
-const RainbowButton = ({ children, size = "default", className, ...props }: RainbowButtonProps) => {
+const RainbowButton = ({ 
+  children, 
+  size = "default", 
+  className, 
+  asChild = false, 
+  ...props 
+}: RainbowButtonProps) => {
+  const Comp = asChild ? Slot : "button";
+  
   return (
     <Button
+      asChild={true}
       className={cn(
         "relative overflow-hidden bg-gradient-to-r from-[#8B5CF6] via-[#D946EF] to-[#F97316]",
         "font-medium text-white rounded-full shadow-lg",
@@ -27,7 +38,9 @@ const RainbowButton = ({ children, size = "default", className, ...props }: Rain
       )}
       {...props}
     >
-      {children}
+      {asChild ? children : (
+        <Comp>{children}</Comp>
+      )}
     </Button>
   );
 };
