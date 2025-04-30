@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { ArrowRight, Sparkles, CheckCircle, Brain, Users, Lightning, Clock, BadgeDollarSign, Award } from 'lucide-react';
+import { ArrowRight, Sparkles, CheckCircle, Brain, Users, BadgeDollarSign, Award, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import Layout from '@/components/Layout';

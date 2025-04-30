@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Link2, Users, Award, LineChart, HeadsetMic } from 'lucide-react';
+import { Link2, Users, Award, LineChart, Headset } from 'lucide-react';
 import ScrollRevealWrapper from '@/components/animation/ScrollRevealWrapper';
 import GlowingCard from '@/components/effects/GlowingCard';
 import { cn } from '@/lib/utils';
@@ -49,7 +49,7 @@ const DifferentiatorsSection = () => {
       description: "Built from the ground up with a deep understanding of dental workflows and challenges."
     },
     {
-      icon: <HeadsetMic className="h-5 w-5" />,
+      icon: <Headset className="h-5 w-5" />,
       title: "Dedicated Support & Partnership",
       description: "We're invested in your success beyond the initial setup."
     }
