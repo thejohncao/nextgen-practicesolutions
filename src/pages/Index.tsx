@@ -18,7 +18,7 @@ import PricingSection from '../components/pricing/PricingSection';
 import SectionTransition from '../components/effects/SectionTransition';
 import ParallaxSection from '../components/effects/ParallaxSection';
 import ScrollRevealWrapper from '../components/animation/ScrollRevealWrapper';
-import AIBoardroomTimeline from '../components/boardroom/AIBoardroomTimeline';
+import BoardroomTimeline from '../components/boardroom/BoardroomTimeline';
 
 const Index = () => {
   const sectionRefs = {
@@ -42,6 +42,13 @@ const Index = () => {
           <EnhancedHero />
         </div>
         
+        {/* New Boardroom Timeline Section */}
+        <div className="relative">
+          <ScrollRevealWrapper animation="fade-up">
+            <BoardroomTimeline />
+          </ScrollRevealWrapper>
+        </div>
+        
         {/* Meet the AI Team section with improved folder-style UI */}
         <div ref={sectionRefs.team} className="relative">
           <ParallaxSection>
@@ -49,13 +56,6 @@ const Index = () => {
               <GooeyFilterTabs />
             </ScrollRevealWrapper>
           </ParallaxSection>
-        </div>
-        
-        {/* AI Boardroom Timeline Section */}
-        <div className="relative">
-          <ScrollRevealWrapper animation="fade-up">
-            <AIBoardroomTimeline />
-          </ScrollRevealWrapper>
         </div>
         
         {/* Visual separator with enhanced transition */}

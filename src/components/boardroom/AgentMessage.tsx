@@ -22,33 +22,26 @@ const AgentMessage = ({ agent, role, message, bgColorClass, delay = 0 }: AgentMe
     }
   };
   
-  // Get subtle glow effect based on agent color
-  const getGlowColor = () => {
+  // Get message bubble style based on agent
+  const getMessageBubbleClass = () => {
     switch(agent.toLowerCase()) {
-      case 'miles': return 'border border-blue-900/20 shadow-[0_0_6px_rgba(59,130,246,0.2)]';
-      case 'giselle': return 'border border-green-900/20 shadow-[0_0_6px_rgba(34,197,94,0.2)]';
-      case 'devon': return 'border border-purple-900/20 shadow-[0_0_6px_rgba(168,85,247,0.2)]';
-      case 'alma': return 'border border-amber-900/20 shadow-[0_0_6px_rgba(251,191,36,0.2)]';
-      default: return 'border border-blue-900/20 shadow-[0_0_6px_rgba(59,130,246,0.2)]';
+      case 'miles': return 'bg-blue-900/20 border-blue-500/30';
+      case 'giselle': return 'bg-green-900/20 border-green-500/30';
+      case 'devon': return 'bg-purple-900/20 border-purple-500/30';
+      case 'alma': return 'bg-amber-900/20 border-amber-500/30';
+      default: return 'bg-blue-900/20 border-blue-500/30';
     }
   };
   
   return (
-    <div 
-      className={`p-2.5 md:p-3 rounded-lg backdrop-blur-[2px] bg-[#000000] ${getGlowColor()}`}
-      style={{ 
-        opacity: delay > 0 ? 0 : 1,
-        animation: delay > 0 ? `fadeIn 0.5s ease-out ${delay}s forwards` : 'none'
-      }}
-    >
-      <div className="flex items-center">
-        <div className="flex-shrink-0">
-          <AgentChatAvatar agent={agent} hideDetails={true} />
-        </div>
-        <div className="ml-2 md:ml-3">
-          <div className="text-xs font-medium text-white/90">{role}</div>
-          <div className={`text-sm font-medium ${getTextShimmerClass()}`}>{message}</div>
-        </div>
+    <div className="flex items-start gap-3 pl-12 md:pl-16 pr-4 py-3">
+      <div className="flex-shrink-0">
+        <AgentChatAvatar agent={agent} hideDetails={true} />
+      </div>
+      
+      <div className={`relative p-3 rounded-lg border ${getMessageBubbleClass()}`}>
+        <div className="text-xs font-medium text-white/70 mb-1">{role}</div>
+        <div className={`text-sm font-medium text-white ${getTextShimmerClass()}`}>{message}</div>
       </div>
     </div>
   );

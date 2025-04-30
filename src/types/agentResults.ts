@@ -25,5 +25,5 @@ export interface AgentResultCardProps {
   isLightMode?: boolean;
 }
 
-// Add the missing interface that's being referenced
+// Used for consistency with existing components
 export type AgentResultItem = AgentResult;
