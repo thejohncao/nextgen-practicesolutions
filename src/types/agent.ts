@@ -15,7 +15,7 @@ export interface Agent {
   animatedAvatar?: boolean;
   tools?: {
     name: string;
-    icon: LucideIcon;
+    icon: string;
     description: string;
   }[];
 }

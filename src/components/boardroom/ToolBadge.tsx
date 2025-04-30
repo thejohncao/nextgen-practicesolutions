@@ -5,11 +5,11 @@ import * as Icons from 'lucide-react';
 
 interface ToolBadgeProps {
   name: string;
-  icon: keyof typeof Icons;
+  icon: string;
 }
 
 const ToolBadge = ({ name, icon }: ToolBadgeProps) => {
-  const IconComponent = Icons[icon] ?? Icons.Zap;
+  const IconComponent = Icons[icon as keyof typeof Icons] || Icons.Zap;
   
   return (
     <TooltipProvider>

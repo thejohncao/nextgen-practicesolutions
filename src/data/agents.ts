@@ -1,3 +1,4 @@
+
 import { Calendar, MessageCircle, Headset, ChartLine, Sprout, DollarSign, Handshake, Check, Clipboard, GraduationCap, Play, ListCheck } from 'lucide-react';
 import { Agent } from '@/types/agent';
 
@@ -26,11 +27,12 @@ export const agents: Agent[] = [
       "No-Show Rescue Automations - Reach out automatically after missed appointments to rebook quickly",
       "Daily Operational KPI Dashboards - Track front office performance with real-time analytics"
     ],
+    quote: "Efficiency creates growth. Let's automate what drains your team so they can shine where it matters.",
     tools: [
-      { name: "Calendar", icon: Calendar, description: "Smart Scheduling" },
-      { name: "Messaging", icon: MessageCircle, description: "Patient Communication" },
-      { name: "Support", icon: Headset, description: "24/7 AI Reception" },
-      { name: "Analytics", icon: ChartLine, description: "Performance Tracking" }
+      { name: "Calendar", icon: "Calendar", description: "Smart Scheduling" },
+      { name: "Messaging", icon: "MessageCircle", description: "Patient Communication" },
+      { name: "Support", icon: "Headset", description: "24/7 AI Reception" },
+      { name: "Analytics", icon: "ChartLine", description: "Performance Tracking" }
     ]
   },
   {
@@ -56,11 +58,12 @@ export const agents: Agent[] = [
       "Paid Ads Lead Pipeline Integrations - Capture and nurture leads from Facebook, Google, and Instagram ads automatically",
       "Membership Growth Automation - Sell and manage in-house membership plans without the paperwork"
     ],
+    quote: "Let's go where the demand is and make sure they never forget your name.",
     tools: [
-      { name: "Funnels", icon: Sprout, description: "Lead Generation" },
-      { name: "Growth", icon: ChartLine, description: "Growth Analytics" },
-      { name: "Payments", icon: DollarSign, description: "Payment Processing" },
-      { name: "Partnerships", icon: Handshake, description: "Referral System" }
+      { name: "Funnels", icon: "Sprout", description: "Lead Generation" },
+      { name: "Growth", icon: "ChartLine", description: "Growth Analytics" },
+      { name: "Payments", icon: "DollarSign", description: "Payment Processing" },
+      { name: "Partnerships", icon: "Handshake", description: "Referral System" }
     ]
   },
   {
@@ -86,11 +89,12 @@ export const agents: Agent[] = [
       "Membership Retention Automations - Keep members active and renewing with proactive engagement sequences",
       "Patient Education Drip Campaigns - Educate patients over time about their treatment needs, increasing acceptance"
     ],
+    quote: "Most patients are one follow-up away from saying yes. I make sure they hear from us — the right way, at the right time.",
     tools: [
-      { name: "Planning", icon: Clipboard, description: "Treatment Planning" },
-      { name: "Verify", icon: Check, description: "Acceptance Tracking" },
-      { name: "Finance", icon: DollarSign, description: "Payment Options" },
-      { name: "Education", icon: Play, description: "Patient Education" }
+      { name: "Planning", icon: "Clipboard", description: "Treatment Planning" },
+      { name: "Verify", icon: "Check", description: "Acceptance Tracking" },
+      { name: "Finance", icon: "DollarSign", description: "Payment Options" },
+      { name: "Education", icon: "Play", description: "Patient Education" }
     ]
   },
   {
@@ -116,11 +120,12 @@ export const agents: Agent[] = [
       "Front Desk Communication Scripts - Equip your team with proven scripts for handling calls, objections, and scheduling",
       "Best Practices Playbooks - Offer reference guides for daily operations, emergencies, and patient experience"
     ],
+    quote: "Your practice doesn't need more people. It needs better systems. Let's build them — together.",
     tools: [
-      { name: "Education", icon: GraduationCap, description: "Team Training" },
-      { name: "Tasks", icon: ListCheck, description: "Onboarding Tasks" },
-      { name: "Library", icon: Clipboard, description: "SOP Library" },
-      { name: "Support", icon: Headset, description: "24/7 Support" }
+      { name: "Education", icon: "GraduationCap", description: "Team Training" },
+      { name: "Tasks", icon: "ListCheck", description: "Onboarding Tasks" },
+      { name: "Library", icon: "Clipboard", description: "SOP Library" },
+      { name: "Support", icon: "Headset", description: "24/7 Support" }
     ]
   }
 ];
