@@ -3,13 +3,22 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import AgentChatAvatar from '../AgentChatAvatar';
 import { AiMessage } from '@/types/conversation';
+import { AlertCircle, RefreshCcw } from 'lucide-react';
+import { Button } from '../ui/button';
 
 interface ChatBubbleProps {
   message: AiMessage;
   isTyping?: boolean;
+  isApiFailure?: boolean; 
+  onRetry?: () => void;
 }
 
-const ChatBubble: React.FC<ChatBubbleProps> = ({ message, isTyping = false }) => {
+const ChatBubble: React.FC<ChatBubbleProps> = ({ 
+  message, 
+  isTyping = false, 
+  isApiFailure = false,
+  onRetry
+}) => {
   // Get agent-specific gradient class
   const getBubbleClass = () => {
     if (message.isUser) {
@@ -41,6 +50,24 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message, isTyping = false }) =>
       <div className="whitespace-pre-wrap text-white/90">
         {message.text}
       </div>
+      
+      {/* Show API failure recovery option */}
+      {!message.isUser && isApiFailure && onRetry && (
+        <div className="mt-3 flex items-center gap-2">
+          <div className="text-xs text-amber-400 flex items-center gap-1">
+            <AlertCircle className="h-3 w-3" />
+            <span>AI service issue</span>
+          </div>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={onRetry}
+            className="ml-auto h-6 px-2 py-0 text-xs border-white/10 hover:bg-white/5 flex items-center gap-1"
+          >
+            <RefreshCcw className="h-3 w-3 mr-1" /> Retry with AI
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

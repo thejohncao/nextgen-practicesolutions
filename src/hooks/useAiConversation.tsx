@@ -23,7 +23,11 @@ export const useAiConversation = () => {
     processQueue, 
     toggleMessageExpansion, 
     selectAgent,
-    setMessages
+    setMessages,
+    useGptEnabled,
+    setUseGptEnabled,
+    isApiFailure,
+    handleRetryAfterFailure
   } = useMessageHandling(currentAgent, setCurrentAgent);
   
   const { 
@@ -50,6 +54,10 @@ export const useAiConversation = () => {
     showExpandedMessage,
     toggleMessageExpansion,
     selectAgent,
+    useGptEnabled,
+    setUseGptEnabled,
+    isApiFailure,
+    handleRetryAfterFailure,
     
     // From conversation errors hook
     isTimedOut,

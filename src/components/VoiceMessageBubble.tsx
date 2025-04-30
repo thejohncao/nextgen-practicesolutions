@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import AgentChatAvatar from './AgentChatAvatar';
 import { AiMessage } from '@/types/conversation';
-import { ChevronDown, ChevronUp, Volume2, VolumeX } from 'lucide-react';
+import { ChevronDown, ChevronUp, Volume2, VolumeX, RefreshCcw, AlertCircle } from 'lucide-react';
 import { useTextToSpeech } from '@/hooks/useTextToSpeech';
 import { Button } from './ui/button';
 
@@ -36,6 +36,8 @@ interface VoiceMessageBubbleProps {
   onToggleExpansion?: () => void;
   isVoiceEnabled?: boolean;
   isMuted?: boolean;
+  isApiFailure?: boolean;
+  onRetry?: () => void;
 }
 
 const VoiceMessageBubble: React.FC<VoiceMessageBubbleProps> = ({ 
@@ -44,7 +46,9 @@ const VoiceMessageBubble: React.FC<VoiceMessageBubbleProps> = ({
   isExpanded = false,
   onToggleExpansion,
   isVoiceEnabled = false,
-  isMuted = false
+  isMuted = false,
+  isApiFailure = false,
+  onRetry
 }) => {
   const [shouldShowExpandButton, setShouldShowExpandButton] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -182,6 +186,24 @@ const VoiceMessageBubble: React.FC<VoiceMessageBubbleProps> = ({
             </>
           )}
         </button>
+      )}
+      
+      {/* Show API failure retry button */}
+      {!message.isUser && isApiFailure && onRetry && (
+        <div className="mt-3 flex items-center gap-2">
+          <div className="text-xs text-amber-400 flex items-center gap-1">
+            <AlertCircle className="h-3 w-3" />
+            <span>AI service issue</span>
+          </div>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={onRetry}
+            className="ml-auto h-6 px-2 py-0 text-xs border-white/10 hover:bg-white/5 flex items-center gap-1"
+          >
+            <RefreshCcw className="h-3 w-3 mr-1" /> Retry with AI
+          </Button>
+        </div>
       )}
       
       {/* Audio loading indicator - hidden for MVP */}

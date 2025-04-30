@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { MessageSquare } from 'lucide-react';
+import { MessageSquare, Wand2 } from 'lucide-react';
 import { AiMessage } from '@/types/conversation';
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useAiConversation } from '@/hooks/useAiConversation';
@@ -43,7 +43,11 @@ const EnhancedAiAssistant = ({
     showExpandedMessage,
     toggleMessageExpansion,
     getAgentSuggestions,
-    selectAgent
+    selectAgent,
+    useGptEnabled,
+    setUseGptEnabled,
+    isApiFailure,
+    handleRetryAfterFailure
   } = useAiConversation();
   
   const {
@@ -126,6 +130,18 @@ const EnhancedAiAssistant = ({
     }
   };
 
+  // Toggle GPT responses
+  const toggleGptMode = () => {
+    setUseGptEnabled(prev => {
+      const newState = !prev;
+      toast.success(
+        newState ? "AI responses enabled" : "Fallback responses enabled", 
+        { description: newState ? "Using OpenAI API" : "Using pre-defined responses" }
+      );
+      return newState;
+    });
+  };
+
   // Return null if we shouldn't show on this path
   if (!shouldShow) return null;
 
@@ -152,6 +168,24 @@ const EnhancedAiAssistant = ({
               onClose={() => setIsOpen(false)} 
             />
             
+            {/* AI Mode Toggle (Dev Only) */}
+            <div className="px-3 py-1.5 bg-black/20 flex justify-between items-center">
+              <div className="text-xs text-white/60">
+                {useGptEnabled 
+                  ? "Using OpenAI API" 
+                  : "Using fallback responses"}
+              </div>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="h-7 px-2 text-xs border-white/10 hover:bg-white/5 flex items-center gap-1"
+                onClick={toggleGptMode}
+              >
+                <Wand2 className="h-3.5 w-3.5 mr-1" />
+                {useGptEnabled ? "Disable AI" : "Enable AI"}
+              </Button>
+            </div>
+            
             {/* Agent selection tabs */}
             <AgentTabs 
               currentAgent={currentAgent}
@@ -169,6 +203,7 @@ const EnhancedAiAssistant = ({
               isMuted={isMuted}
               showTimeout={showTimeout}
               isTimedOut={isTimedOut}
+              isApiFailure={isApiFailure}
               sessionMessageCount={sessionMessageCount}
               showEmailDialog={showEmailDialog}
               setShowEmailDialog={setShowEmailDialog}
@@ -176,6 +211,7 @@ const EnhancedAiAssistant = ({
               onSummarizeResponse={handleSummarizeResponse}
               onRetry={handleRetry}
               onStartOver={handleStartOver}
+              onRetryWithAi={handleRetryAfterFailure}
             />
             
             {/* Chat input - Always showing suggestions and hiding voice mode for MVP */}

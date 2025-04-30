@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { AiMessage } from '@/types/conversation';
@@ -15,6 +16,7 @@ interface ChatMessagesProps {
   isMuted: boolean;
   showTimeout: boolean;
   isTimedOut: boolean;
+  isApiFailure?: boolean;
   sessionMessageCount: number;
   showEmailDialog: boolean;
   setShowEmailDialog: (show: boolean) => void;
@@ -22,6 +24,7 @@ interface ChatMessagesProps {
   onSummarizeResponse: () => void;
   onRetry: () => void;
   onStartOver: () => void;
+  onRetryWithAi?: () => void;
 }
 
 // Agent-specific timeout messages
@@ -45,13 +48,15 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
   isMuted,
   showTimeout,
   isTimedOut,
+  isApiFailure = false,
   sessionMessageCount,
   showEmailDialog,
   setShowEmailDialog,
   onContinueAnyway,
   onSummarizeResponse,
   onRetry,
-  onStartOver
+  onStartOver,
+  onRetryWithAi
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
@@ -72,6 +77,8 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
           onToggleExpansion={() => toggleMessageExpansion(index)}
           isVoiceEnabled={isVoiceEnabled}
           isMuted={isMuted}
+          isApiFailure={isApiFailure && index === messages.length - 1 && !message.isUser}
+          onRetry={onRetryWithAi}
         />
       ))}
       

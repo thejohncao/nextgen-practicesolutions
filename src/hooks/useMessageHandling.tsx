@@ -1,8 +1,9 @@
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { AiMessage } from '@/types/conversation';
 import { toast } from 'sonner';
 import { AGENT_WELCOME_MESSAGES } from './useAgentContent';
+import { fetchAgentReply } from '@/utils/aiService';
 
 // Agent-specific fallback responses
 const MILES_FALLBACK_RESPONSES = [
@@ -49,10 +50,37 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
   const [isFirstUserMessage, setIsFirstUserMessage] = useState(true);
   const [lastResponseText, setLastResponseText] = useState<string>("");
   const [fallbackResponseIndex, setFallbackResponseIndex] = useState(0);
+  
+  // New settings for GPT integration
+  const [useGptEnabled, setUseGptEnabled] = useState(true); // Enable by default for testing
+  const isPendingGptResponse = useRef(false);
+  const [isApiFailure, setIsApiFailure] = useState(false);
+
+  // Keyboard shortcut to toggle GPT mode
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Shift + G to toggle GPT mode (for dev/testing)
+      if (e.shiftKey && e.key === 'G') {
+        setUseGptEnabled(prev => {
+          const newState = !prev;
+          toast.info(
+            newState ? "GPT responses enabled" : "GPT responses disabled", 
+            { description: newState ? "Using OpenAI API" : "Using fallback responses" }
+          );
+          return newState;
+        });
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   // Process the message queue
   const processQueue = useCallback(() => {
-    if (messageQueue.length > 0 && !isTyping) {
+    if (messageQueue.length > 0 && !isTyping && !isPendingGptResponse.current) {
       const nextMessage = messageQueue[0];
       setMessageQueue(prev => prev.slice(1));
       
@@ -85,8 +113,14 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
     return response;
   }, [currentAgent, fallbackResponseIndex]);
 
+  // Get first response for new conversations
+  const getFirstResponse = useCallback(() => {
+    return AGENT_FIRST_RESPONSES[currentAgent.toLowerCase() as keyof typeof AGENT_FIRST_RESPONSES] 
+      || AGENT_FIRST_RESPONSES.miles;
+  }, [currentAgent]);
+
   // Send a message and get a response
-  const sendMessage = useCallback((text: string) => {
+  const sendMessage = useCallback(async (text: string) => {
     if (!text.trim()) return;
     
     // Add user message
@@ -98,79 +132,225 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
     
     setMessages(prev => [...prev, userMessage]);
     setIsTyping(true);
+    setIsApiFailure(false);
     
-    // For the MVP, we'll use a fixed response with appropriate delay
-    setTimeout(() => {
-      // For first message, use the agent-specific first response
-      // For subsequent messages, use the fallback response with agent-specific tone
-      const responseText = isFirstUserMessage 
-        ? AGENT_FIRST_RESPONSES[currentAgent.toLowerCase() as keyof typeof AGENT_FIRST_RESPONSES] || AGENT_FIRST_RESPONSES.miles
-        : getNextFallbackResponse();
-      
-      // Prevent duplicate consecutive messages
-      if (responseText === lastResponseText) {
-        const altResponse = "I understand. Let me think about how best to help with your practice management needs.";
-        setLastResponseText(altResponse);
+    // Choose between GPT and fallback responses
+    if (useGptEnabled) {
+      try {
+        isPendingGptResponse.current = true;
         
+        // Use different timing for first vs. subsequent messages
+        const typingDelay = isFirstUserMessage ? 1500 : 2000;
+        
+        // Wait a short time to show typing indicator
+        await new Promise(resolve => setTimeout(resolve, typingDelay));
+        
+        // Try to get response from GPT
+        const gptResponse = await fetchAgentReply(text, currentAgent, useGptEnabled);
+        
+        // If GPT response failed or returned empty, use fallback
+        if (!gptResponse) {
+          throw new Error("Failed to get GPT response");
+        }
+        
+        // Add GPT response to messages
         const newMessage: AiMessage = {
-          text: altResponse,
+          text: gptResponse,
           isUser: false,
           timestamp: new Date().toISOString(),
           agent: currentAgent
         };
         
         setMessages(prev => [...prev, newMessage]);
-      } else {
-        setLastResponseText(responseText);
+        setLastResponseText(gptResponse);
+        console.log(`GPT response for ${currentAgent}: ${gptResponse.substring(0, 50)}...`);
+      } 
+      catch (error) {
+        console.error("Error getting GPT response:", error);
+        setIsApiFailure(true);
+        
+        // Use fallback for first message or regular fallback for subsequent messages
+        const fallbackText = isFirstUserMessage 
+          ? getFirstResponse()
+          : getNextFallbackResponse();
+          
+        // Prevent duplicate consecutive messages
+        if (fallbackText === lastResponseText) {
+          const altResponse = "I understand. Let me think about how best to help with your practice management needs.";
+          setLastResponseText(altResponse);
+          
+          const newMessage: AiMessage = {
+            text: altResponse,
+            isUser: false,
+            timestamp: new Date().toISOString(),
+            agent: currentAgent
+          };
+          
+          setMessages(prev => [...prev, newMessage]);
+        } else {
+          setLastResponseText(fallbackText);
+          
+          const newMessage: AiMessage = {
+            text: fallbackText,
+            isUser: false,
+            timestamp: new Date().toISOString(),
+            agent: currentAgent
+          };
+          
+          setMessages(prev => [...prev, newMessage]);
+        }
+      }
+      finally {
+        isPendingGptResponse.current = false;
+        setIsTyping(false);
+        
+        // Set first message flag to false after first message exchange
+        if (isFirstUserMessage) {
+          setIsFirstUserMessage(false);
+        }
+      }
+    } 
+    else {
+      // For the MVP fallback mode, use a fixed response with appropriate delay
+      setTimeout(() => {
+        // For first message, use the agent-specific first response
+        // For subsequent messages, use the fallback response with agent-specific tone
+        const responseText = isFirstUserMessage 
+          ? getFirstResponse()
+          : getNextFallbackResponse();
+        
+        // Prevent duplicate consecutive messages
+        if (responseText === lastResponseText) {
+          const altResponse = "I understand. Let me think about how best to help with your practice management needs.";
+          setLastResponseText(altResponse);
+          
+          const newMessage: AiMessage = {
+            text: altResponse,
+            isUser: false,
+            timestamp: new Date().toISOString(),
+            agent: currentAgent
+          };
+          
+          setMessages(prev => [...prev, newMessage]);
+        } else {
+          setLastResponseText(responseText);
+          
+          const newMessage: AiMessage = {
+            text: responseText,
+            isUser: false,
+            timestamp: new Date().toISOString(),
+            agent: currentAgent
+          };
+          
+          setMessages(prev => [...prev, newMessage]);
+        }
+        
+        // Set first message flag to false after first message exchange
+        if (isFirstUserMessage) {
+          setIsFirstUserMessage(false);
+        }
+        
+        setIsTyping(false);
+      }, isFirstUserMessage ? 1500 : 2000);
+    }
+  }, [
+    currentAgent, 
+    isFirstUserMessage, 
+    lastResponseText, 
+    getNextFallbackResponse, 
+    getFirstResponse, 
+    useGptEnabled
+  ]);
+
+  // This is kept for compatibility but updated to support GPT
+  const handleMockResponse = useCallback(async (userMessage: string, agent: string) => {
+    setIsTyping(true);
+    
+    // Choose between GPT and fallback responses
+    if (useGptEnabled) {
+      try {
+        isPendingGptResponse.current = true;
+        
+        // Use different timing for first vs. subsequent messages
+        const typingDelay = isFirstUserMessage ? 1500 : 2000;
+        
+        // Wait a short time to show typing indicator
+        await new Promise(resolve => setTimeout(resolve, typingDelay));
+        
+        // Try to get response from GPT
+        const gptResponse = await fetchAgentReply(userMessage, agent, useGptEnabled);
+        
+        // If GPT response failed or returned empty, use fallback
+        if (!gptResponse) {
+          throw new Error("Failed to get GPT response");
+        }
+        
+        // Add GPT response to messages
+        const newMessage: AiMessage = {
+          text: gptResponse,
+          isUser: false,
+          timestamp: new Date().toISOString(),
+          agent: agent
+        };
+        
+        setMessages(prev => [...prev, newMessage]);
+        setLastResponseText(gptResponse);
+      } 
+      catch (error) {
+        console.error("Error getting GPT response:", error);
+        setIsApiFailure(true);
+        
+        // Use fallback for first message or regular fallback for subsequent messages
+        const fallbackText = isFirstUserMessage 
+          ? AGENT_FIRST_RESPONSES[agent.toLowerCase() as keyof typeof AGENT_FIRST_RESPONSES] || AGENT_FIRST_RESPONSES.miles
+          : getNextFallbackResponse();
+          
+        const newMessage: AiMessage = {
+          text: fallbackText,
+          isUser: false,
+          timestamp: new Date().toISOString(),
+          agent: agent
+        };
+        
+        setMessages(prev => [...prev, newMessage]);
+      }
+      finally {
+        isPendingGptResponse.current = false;
+        setIsTyping(false);
+        
+        // Set first message flag to false after first message exchange
+        if (isFirstUserMessage) {
+          setIsFirstUserMessage(false);
+        }
+      }
+    }
+    else {
+      // MVP fixed response with appropriate delay
+      setTimeout(() => {
+        // For first message, use agent-specific first response
+        // For subsequent messages, use the fallback response with agent tone
+        const responseText = isFirstUserMessage 
+          ? AGENT_FIRST_RESPONSES[agent.toLowerCase() as keyof typeof AGENT_FIRST_RESPONSES] || AGENT_FIRST_RESPONSES.miles
+          : getNextFallbackResponse();
         
         const newMessage: AiMessage = {
           text: responseText,
           isUser: false,
           timestamp: new Date().toISOString(),
-          agent: currentAgent
+          agent: agent
         };
         
         setMessages(prev => [...prev, newMessage]);
-      }
-      
-      // Set first message flag to false after first message exchange
-      if (isFirstUserMessage) {
-        setIsFirstUserMessage(false);
-      }
-      
-      setIsTyping(false);
-    }, isFirstUserMessage ? 1500 : 2000); // 1.5s for first message, 2s for follow-up messages
-  }, [currentAgent, isFirstUserMessage, lastResponseText, getNextFallbackResponse]);
-
-  // This is kept for compatibility but updated for MVP requirements
-  const handleMockResponse = useCallback((userMessage: string, agent: string) => {
-    setIsTyping(true);
-    
-    // MVP fixed response with appropriate delay
-    setTimeout(() => {
-      // For first message, use agent-specific first response
-      // For subsequent messages, use the fallback response with agent tone
-      const responseText = isFirstUserMessage 
-        ? AGENT_FIRST_RESPONSES[agent.toLowerCase() as keyof typeof AGENT_FIRST_RESPONSES] || AGENT_FIRST_RESPONSES.miles
-        : getNextFallbackResponse();
-      
-      const newMessage: AiMessage = {
-        text: responseText,
-        isUser: false,
-        timestamp: new Date().toISOString(),
-        agent: agent
-      };
-      
-      setMessages(prev => [...prev, newMessage]);
-      
-      // Set first message flag to false after first message exchange
-      if (isFirstUserMessage) {
-        setIsFirstUserMessage(false);
-      }
-      
-      setIsTyping(false);
-    }, isFirstUserMessage ? 1500 : 2000); // 1.5s for first message, 2s for follow-ups
-  }, [isFirstUserMessage, getNextFallbackResponse]);
+        
+        // Set first message flag to false after first message exchange
+        if (isFirstUserMessage) {
+          setIsFirstUserMessage(false);
+        }
+        
+        setIsTyping(false);
+      }, isFirstUserMessage ? 1500 : 2000);
+    }
+  }, [isFirstUserMessage, getNextFallbackResponse, useGptEnabled]);
 
   // Toggle message expansion
   const toggleMessageExpansion = useCallback((index: number) => {
@@ -204,6 +384,18 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
     }, 1000);
   }, []);
 
+  // Handle API failure recovery
+  const handleRetryAfterFailure = useCallback(() => {
+    setIsApiFailure(false);
+    
+    // Get the last user message
+    const lastUserMessage = messages.filter(m => m.isUser).pop();
+    
+    if (lastUserMessage) {
+      sendMessage(lastUserMessage.text);
+    }
+  }, [messages, sendMessage]);
+
   return {
     messages,
     isTyping,
@@ -212,6 +404,12 @@ export const useMessageHandling = (currentAgent: string, setCurrentAgent: (agent
     processQueue,
     toggleMessageExpansion,
     selectAgent,
-    setMessages
+    setMessages,
+    useGptEnabled,
+    setUseGptEnabled,
+    isApiFailure,
+    handleRetryAfterFailure
   };
 };
+
+export default useMessageHandling;
