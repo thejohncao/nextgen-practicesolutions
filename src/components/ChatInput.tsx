@@ -1,13 +1,16 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { Send } from 'lucide-react';
+import { getAgentChatData } from '@/data/agentChatData';
+import AgentSuggestionChip from './agent-launcher/AgentSuggestionChip';
+import { agents } from '@/data/agents';
 
 interface ChatInputProps {
   isTyping: boolean;
   currentAgent: string;
   onSendMessage: (message: string) => void;
-  messages?: Array<any>; // Add optional messages prop
+  messages?: Array<any>;
 }
 
 // Define the AI agents with their color properties
@@ -20,22 +23,23 @@ const agentColors = {
 
 type AgentKey = keyof typeof agentColors;
 
-const QUICK_REPLIES = [
-  "Learn about Solutions",
-  "Explore the Academy",
-  "Schedule a Demo",
-  "Ask a Question"
-];
-
 const ChatInput: React.FC<ChatInputProps> = ({ isTyping, currentAgent, onSendMessage, messages = [] }) => {
   const [input, setInput] = useState("");
-  const [showQuickReplies, setShowQuickReplies] = useState(true);
+  const [showSuggestions, setShowSuggestions] = useState(true);
+  const chatData = getAgentChatData(currentAgent);
+  const agent = agents.find(a => a.name.toLowerCase() === currentAgent.toLowerCase());
+
+  useEffect(() => {
+    // Show suggestions again when changing agents or when it's a new conversation
+    const isNewConversation = messages.filter(msg => msg.isUser).length < 2;
+    setShowSuggestions(isNewConversation);
+  }, [currentAgent, messages]);
 
   const handleSendMessage = (text: string = input) => {
     if (!text.trim()) return;
     onSendMessage(text);
     setInput("");
-    setShowQuickReplies(false);
+    setShowSuggestions(false);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -45,22 +49,28 @@ const ChatInput: React.FC<ChatInputProps> = ({ isTyping, currentAgent, onSendMes
     }
   };
 
+  const handleSuggestionClick = (suggestion: string) => {
+    setInput(suggestion);
+    handleSendMessage(suggestion);
+  };
+
   return (
     <div className="p-3 border-t border-white/10 bg-nextgen-dark/80">
-      {showQuickReplies && messages.length === 1 && (
-        <div className="grid grid-cols-2 gap-2 mb-3">
-          {QUICK_REPLIES.map((reply) => (
-            <button
-              key={reply}
-              onClick={() => handleSendMessage(reply)}
-              className="p-2 text-sm text-white/90 bg-white/5 hover:bg-white/10 
-                       border border-white/10 rounded-lg transition-colors"
-            >
-              {reply}
-            </button>
-          ))}
+      {showSuggestions && messages.length < 3 && (
+        <div className="mb-3 space-y-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {chatData.suggestions.slice(0, 4).map((suggestion, idx) => (
+              <AgentSuggestionChip
+                key={idx}
+                suggestion={suggestion}
+                color={agent?.color || 'blue'}
+                onClick={() => handleSuggestionClick(suggestion)}
+              />
+            ))}
+          </div>
         </div>
       )}
+
       <div className="relative">
         <textarea
           className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-white/90 
@@ -76,7 +86,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ isTyping, currentAgent, onSendMes
           className={cn(
             "absolute right-2 top-[50%] translate-y-[-50%] p-2 rounded-full",
             "bg-gradient-to-r", 
-            agentColors[currentAgent as AgentKey],
+            agentColors[currentAgent as AgentKey] || agentColors.miles,
             input.trim() && !isTyping ? "opacity-100" : "opacity-50"
           )}
           onClick={() => handleSendMessage()}

@@ -4,9 +4,11 @@ import { Link } from 'react-router-dom';
 import EmailCollectionForm from './EmailCollectionForm';
 import { useIsMobile } from '@/hooks/use-mobile';
 import RainbowButton from './ui/rainbow-button';
+import AgentLauncherModal from './agent-launcher/AgentLauncherModal';
 
 const FooterCTA = () => {
   const [showMobileCTA, setShowMobileCTA] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const isMobile = useIsMobile();
   
   useEffect(() => {
@@ -22,8 +24,11 @@ const FooterCTA = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleChatOpen = () => {
+  const handleAgentSelect = (agentName: string) => {
     try {
+      // Store the selected agent in sessionStorage
+      sessionStorage.setItem('nextgen_selected_agent', agentName);
+      
       setTimeout(() => {
         const chatButton = document.querySelector('[data-testid="chat-toggle"]') as HTMLButtonElement;
         if (chatButton) {
@@ -64,10 +69,10 @@ const FooterCTA = () => {
             
             <div className="flex justify-center mb-6">
               <RainbowButton 
-                onClick={handleChatOpen}
+                onClick={() => setIsModalOpen(true)}
                 size="lg"
               >
-                Talk to Miles
+                Talk to the AI Team
               </RainbowButton>
             </div>
             
@@ -102,21 +107,27 @@ const FooterCTA = () => {
         </div>
       </div>
       
-      {/* Mobile Meet Miles CTA */}
+      {/* Mobile Meet AI Team CTA */}
       {isMobile && showMobileCTA && (
         <button
-          onClick={handleChatOpen}
+          onClick={() => setIsModalOpen(true)}
           className="fixed bottom-0 left-0 w-full h-[40px] bg-[#F0F8FF] border-t border-blue-100/50 
                  flex items-center justify-center text-sm font-semibold text-slate-800 z-50 
                  animate-fade-in"
         >
-          Meet Miles — Your Always-On AI Concierge
+          Meet Your AI Team
           <span className="inline-flex animate-shimmer bg-gradient-to-r from-[#a3c9f9] via-white to-[#a3c9f9] 
                       bg-[length:400%_100%] bg-clip-text text-transparent ml-1">
             ✨
           </span>
         </button>
       )}
+      
+      <AgentLauncherModal
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        onSelectAgent={handleAgentSelect}
+      />
     </section>
   );
 };

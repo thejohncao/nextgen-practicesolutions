@@ -2,10 +2,12 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { X, MinusIcon } from 'lucide-react';
+import AgentTabHeader from './agent-launcher/AgentTabHeader';
 
 interface ChatHeaderProps {
   isMinimized: boolean;
   currentAgent: string;
+  onChangeAgent: (agentName: string) => void;
   onMinimize: (e: React.MouseEvent) => void;
   onClose: () => void;
 }
@@ -32,40 +34,50 @@ const agents = {
 
 type AgentKey = keyof typeof agents;
 
-const ChatHeader: React.FC<ChatHeaderProps> = ({ isMinimized, currentAgent, onMinimize, onClose }) => {
+const ChatHeader: React.FC<ChatHeaderProps> = ({ 
+  isMinimized, 
+  currentAgent, 
+  onChangeAgent,
+  onMinimize, 
+  onClose 
+}) => {
   return (
-    <div 
-      className={cn(
-        "flex items-center justify-between px-4 py-3 rounded-t-xl bg-gradient-to-r",
-        `${agents[currentAgent as AgentKey].color}`,
-        isMinimized && "rounded-full"
-      )}
-    >
-      {!isMinimized && (
-        <>
-          <div className="flex items-center gap-3">
-            <div className={`h-8 w-8 rounded-full bg-gradient-radial ${agents[currentAgent as AgentKey].color} animate-pulse-slow`}>
-              <div className="h-full w-full flex items-center justify-center">
-                <div className="h-2 w-2 rounded-full bg-white animate-pulse"></div>
-              </div>
+    <div className="flex flex-col">
+      <div 
+        className={cn(
+          "flex items-center justify-between px-4 py-3 rounded-t-xl bg-gradient-to-r",
+          `${agents[currentAgent as AgentKey]?.color || agents.miles.color}`,
+          isMinimized && "rounded-full"
+        )}
+      >
+        {!isMinimized && (
+          <>
+            <div className="flex flex-col">
+              <div className="text-white font-medium">Your AI Team Is Here</div>
+              <div className="text-white/80 text-xs">Choose an agent to get help on any part of your practice</div>
             </div>
-            <div className="text-white font-medium">{agents[currentAgent as AgentKey].name}</div>
-          </div>
-          <div className="flex gap-2">
-            <button 
-              onClick={onMinimize} 
-              className="text-white/80 hover:text-white transition-colors"
-            >
-              <MinusIcon className="h-5 w-5" />
-            </button>
-            <button 
-              onClick={onClose} 
-              className="text-white/80 hover:text-white transition-colors"
-            >
-              <X className="h-5 w-5" />
-            </button>
-          </div>
-        </>
+            <div className="flex gap-2">
+              <button 
+                onClick={onMinimize} 
+                className="text-white/80 hover:text-white transition-colors"
+              >
+                <MinusIcon className="h-5 w-5" />
+              </button>
+              <button 
+                onClick={onClose} 
+                className="text-white/80 hover:text-white transition-colors"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+      
+      {!isMinimized && (
+        <div className="p-2 bg-[#151719] border-b border-white/10">
+          <AgentTabHeader activeAgent={currentAgent} onAgentChange={onChangeAgent} />
+        </div>
       )}
     </div>
   );

@@ -12,6 +12,7 @@ import { useIsMobile } from "../hooks/use-mobile";
 import TypingIndicator from './TypingIndicator';
 import { Button } from './ui/button';
 import { RefreshCw, ArrowRight } from 'lucide-react';
+import AgentChatPreview from './agent-launcher/AgentChatPreview';
 
 interface AiAssistantProps {
   showPaths?: string[];
@@ -29,7 +30,9 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
     currentAgent, 
     isTimedOut,
     handleRetry,
-    handleStartOver
+    handleStartOver,
+    changeAgent,
+    clearConversation
   } = useAiConversation();
   const isMobile = useIsMobile();
   const location = useLocation();
@@ -54,6 +57,11 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
     }
   }, [messages, isOpen, isTyping]);
 
+  // Handle agent change
+  const handleAgentChange = (agentName: string) => {
+    changeAgent(agentName);
+  };
+
   // Return null if we shouldn't show on this path
   if (!shouldShow) return null;
 
@@ -71,11 +79,19 @@ const AiAssistant = ({ showPaths = ['/', '/solutions', '/academy', '/features'] 
             <ChatHeader 
               isMinimized={isMinimized} 
               currentAgent={currentAgent} 
+              onChangeAgent={handleAgentChange}
               onMinimize={(e) => setIsMinimized(!isMinimized)}
               onClose={() => setIsOpen(false)} 
             />
             
             <div className="flex-1 overflow-y-auto p-4 scrollbar-none">
+              {messages.length === 1 && !messages[0].isUser && (
+                <AgentChatPreview
+                  agentName={currentAgent}
+                  onSelectSuggestion={(suggestion) => sendMessage(suggestion)}
+                />
+              )}
+              
               {messages.map((message, index) => (
                 <AiMessageBubble
                   key={index}

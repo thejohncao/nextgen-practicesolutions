@@ -2,6 +2,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { callOpenAI, SYSTEM_PROMPT, detectAgentFromMessage, Message } from '@/lib/openai';
 import { toast } from '@/components/ui/use-toast';
+import { getAgentChatData } from '@/data/agentChatData';
 
 type MessageRole = 'user' | 'assistant' | 'system';
 
@@ -20,28 +21,74 @@ export interface ConversationState {
 
 // Keys for local storage
 const CURRENT_AGENT_KEY = 'nextgen_current_agent';
+const SELECTED_AGENT_KEY = 'nextgen_selected_agent';
 const USER_INTENT_KEY = 'nextgen_user_intent';
 
 export function useAiConversation() {
-  const [messages, setMessages] = useState<AiMessage[]>([]);
+  // Store conversations by agent
+  const [agentConversations, setAgentConversations] = useState<Record<string, AiMessage[]>>({
+    miles: [],
+    giselle: [],
+    devon: [],
+    alma: []
+  });
+  
   const [isTyping, setIsTyping] = useState(false);
   const [currentAgent, setCurrentAgent] = useState<string>(() => {
-    // Try to restore the current agent from session storage
+    // Try to restore the selected agent from session storage, fall back to current agent
+    const selectedAgent = sessionStorage.getItem(SELECTED_AGENT_KEY);
+    if (selectedAgent) {
+      sessionStorage.removeItem(SELECTED_AGENT_KEY); // Clear after reading
+      return selectedAgent;
+    }
+    
+    // Fall back to the last used agent
     const savedAgent = sessionStorage.getItem(CURRENT_AGENT_KEY);
     return savedAgent || "miles";
   });
+  
   const [userIntent, setUserIntent] = useState<string | undefined>(() => {
     // Try to restore user intent from session storage
     return sessionStorage.getItem(USER_INTENT_KEY) || undefined;
   });
+  
   const [error, setError] = useState<string | null>(null);
   const [isTimedOut, setIsTimedOut] = useState(false);
   const [conversationId, setConversationId] = useState<string>(
     () => `conversation-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
   );
   
+  // Get current messages for the current agent
+  const messages = agentConversations[currentAgent] || [];
+  
   // Timeout reference for response waiting
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Change the current agent
+  const changeAgent = useCallback((agentName: string) => {
+    const lowerCaseName = agentName.toLowerCase();
+    if (['miles', 'giselle', 'devon', 'alma'].includes(lowerCaseName)) {
+      setCurrentAgent(lowerCaseName);
+      sessionStorage.setItem(CURRENT_AGENT_KEY, lowerCaseName);
+      
+      // Initialize conversation for this agent if needed
+      setAgentConversations(prev => {
+        if (!prev[lowerCaseName] || prev[lowerCaseName].length === 0) {
+          const chatData = getAgentChatData(lowerCaseName);
+          return {
+            ...prev,
+            [lowerCaseName]: [{
+              text: chatData.welcomeMessage,
+              isUser: false,
+              agent: lowerCaseName,
+              timestamp: new Date()
+            }]
+          };
+        }
+        return prev;
+      });
+    }
+  }, []);
 
   // Define a function to detect and save user intent from message
   const detectAndSaveUserIntent = useCallback((message: string) => {
@@ -70,87 +117,27 @@ export function useAiConversation() {
     return detectedIntent;
   }, []);
 
+  // Initialize conversations for agents
   useEffect(() => {
-    if (messages.length === 0) {
-      // Check if returning user with saved intent
-      if (userIntent) {
-        setMessages([
-          {
-            text: `Welcome back — I remember you were exploring ${userIntent}. Would you like to continue from there?`,
+    setAgentConversations(prev => {
+      const updatedConversations = { ...prev };
+      
+      // For each agent, initialize with welcome message if empty
+      ['miles', 'giselle', 'devon', 'alma'].forEach(agentName => {
+        if (!updatedConversations[agentName] || updatedConversations[agentName].length === 0) {
+          const chatData = getAgentChatData(agentName);
+          updatedConversations[agentName] = [{
+            text: chatData.welcomeMessage,
             isUser: false,
-            agent: "miles",
-            timestamp: new Date(),
-          },
-        ]);
-      } else {
-        // First-time greeting
-        setMessages([
-          {
-            text: "Hey, I'm Miles — your AI Concierge here at NextGen.\nWhat can I help you with today?",
-            isUser: false,
-            agent: "miles",
-            timestamp: new Date(),
-          },
-        ]);
-      }
-    }
-  }, [messages.length, userIntent]);
-
-  useEffect(() => {
-    if (messages.length > 0) {
-      const lastMessage = messages[messages.length - 1];
-      if (!lastMessage.isUser) {
-        // Update agent based on response content
-        if (lastMessage.text.includes("Let me bring in Giselle") || 
-            lastMessage.text.includes("Giselle here") ||
-            lastMessage.text.includes("Introducing Giselle")) {
-          setCurrentAgent("giselle");
-          sessionStorage.setItem(CURRENT_AGENT_KEY, "giselle");
-        } else if (lastMessage.text.includes("Let me bring in Devon") || 
-                  lastMessage.text.includes("Devon here") ||
-                  lastMessage.text.includes("I'm Devon") ||
-                  lastMessage.text.includes("Introducing Devon")) {
-          setCurrentAgent("devon");
-          sessionStorage.setItem(CURRENT_AGENT_KEY, "devon");
-        } else if (lastMessage.text.includes("Let me bring in Alma") || 
-                  lastMessage.text.includes("Alma here") ||
-                  lastMessage.text.includes("I'm Alma") ||
-                  lastMessage.text.includes("Introducing Alma")) {
-          setCurrentAgent("alma");
-          sessionStorage.setItem(CURRENT_AGENT_KEY, "alma");
-        } else if (lastMessage.text.includes("Back to Miles") || 
-                  lastMessage.text.includes("Miles here") ||
-                  lastMessage.text.includes("Introducing Miles")) {
-          setCurrentAgent("miles");
-          sessionStorage.setItem(CURRENT_AGENT_KEY, "miles");
+            agent: agentName,
+            timestamp: new Date()
+          }];
         }
-      }
-    }
-  }, [messages]);
-
-  const saveMessagesToSession = useCallback((newMessages: AiMessage[]) => {
-    try {
-      sessionStorage.setItem(conversationId, JSON.stringify(newMessages));
-    } catch (err) {
-      console.error("Error saving messages to sessionStorage:", err);
-    }
-  }, [conversationId]);
-
-  useEffect(() => {
-    try {
-      const savedMessages = sessionStorage.getItem(conversationId);
-      if (savedMessages) {
-        const parsedMessages = JSON.parse(savedMessages) as AiMessage[];
-        const messagesWithDates = parsedMessages.map(msg => ({
-          ...msg,
-          timestamp: new Date(msg.timestamp)
-        }));
-        setMessages(messagesWithDates);
-      }
-    } catch (err) {
-      console.error("Error loading messages from sessionStorage:", err);
-    }
-  }, [conversationId]);
+      });
+      
+      return updatedConversations;
+    });
+  }, []);
 
   // Handle timeout 
   const startResponseTimeout = useCallback(() => {
@@ -191,6 +178,14 @@ export function useAiConversation() {
     clearConversation();
   }, []);
 
+  const saveMessagesToSession = useCallback((agent: string, newMessages: AiMessage[]) => {
+    try {
+      sessionStorage.setItem(`${conversationId}-${agent}`, JSON.stringify(newMessages));
+    } catch (err) {
+      console.error(`Error saving messages for ${agent} to sessionStorage:`, err);
+    }
+  }, [conversationId]);
+
   const sendMessage = useCallback(async (userMessage: string, isRetry: boolean = false) => {
     if (!userMessage.trim()) return;
 
@@ -199,19 +194,25 @@ export function useAiConversation() {
       // Detect user intent from message
       detectAndSaveUserIntent(userMessage);
       
-      // Detect suggested agent
-      const suggestedAgent = detectAgentFromMessage(userMessage);
-
-      const newUserMessage = {
-        text: userMessage,
-        isUser: true,
-        agent: currentAgent,
-        timestamp: new Date(),
-      };
-
-      const updatedMessages = [...messages, newUserMessage];
-      setMessages(updatedMessages);
-      saveMessagesToSession(updatedMessages);
+      // Add user message to current agent's conversation
+      setAgentConversations(prev => {
+        const agentMessages = [...(prev[currentAgent] || [])];
+        agentMessages.push({
+          text: userMessage,
+          isUser: true,
+          agent: currentAgent,
+          timestamp: new Date()
+        });
+        const updatedConversations = {
+          ...prev,
+          [currentAgent]: agentMessages
+        };
+        
+        // Save to session storage
+        saveMessagesToSession(currentAgent, agentMessages);
+        
+        return updatedConversations;
+      });
     }
     
     setIsTimedOut(false); // Reset timeout status
@@ -220,7 +221,9 @@ export function useAiConversation() {
     startResponseTimeout(); // Start timeout tracking
 
     try {
-      const messageHistory: Message[] = messages.map(msg => ({
+      // Get current agent's messages
+      const agentMessages = agentConversations[currentAgent] || [];
+      const messageHistory: Message[] = agentMessages.map(msg => ({
         role: msg.isUser ? "user" : "assistant",
         content: msg.text,
       }));
@@ -232,7 +235,7 @@ export function useAiConversation() {
         });
       } else {
         // If retry, find the last user message
-        const lastUserMessage = [...messages].reverse().find(msg => msg.isUser);
+        const lastUserMessage = [...agentMessages].reverse().find(msg => msg.isUser);
         if (lastUserMessage) {
           messageHistory.push({
             role: "user",
@@ -241,38 +244,43 @@ export function useAiConversation() {
         }
       }
       
-      // Add routing hint for agent specialization
-      const suggestedAgent = detectAgentFromMessage(isRetry ? 
-        [...messages].reverse().find(msg => msg.isUser)?.text || "" : userMessage);
-        
-      if (suggestedAgent !== currentAgent && messages.length > 1) {
-        messageHistory.push({
-          role: "system",
-          content: `The user's question seems to be about ${suggestedAgent}'s specialty. Consider handing off to ${suggestedAgent}.`
-        });
-      }
+      // Use agent-specific system prompt
+      const agentData = getAgentChatData(currentAgent);
+      const systemPrompt = agentData.systemPrompt || SYSTEM_PROMPT;
 
-      const response = await callOpenAI(messageHistory, SYSTEM_PROMPT);
+      const response = await callOpenAI(messageHistory, systemPrompt);
 
       clearResponseTimeout(); // Clear timeout since we received a response
 
       if (response) {
-        const aiMessage = {
-          text: response,
-          isUser: false,
-          agent: currentAgent,
-          timestamp: new Date(),
-        };
-        
-        const newMessages = [...(isRetry ? messages : messages.concat({
-          text: userMessage,
-          isUser: true,
-          agent: currentAgent,
-          timestamp: new Date(),
-        })), aiMessage];
-        
-        setMessages(newMessages);
-        saveMessagesToSession(newMessages);
+        setAgentConversations(prev => {
+          const agentMessages = isRetry 
+            ? [...(prev[currentAgent] || [])]
+            : [...(prev[currentAgent] || []), {
+                text: userMessage,
+                isUser: true,
+                agent: currentAgent,
+                timestamp: new Date()
+              }];
+          
+          // Add AI response
+          agentMessages.push({
+            text: response,
+            isUser: false,
+            agent: currentAgent,
+            timestamp: new Date()
+          });
+          
+          const updatedConversations = {
+            ...prev,
+            [currentAgent]: agentMessages
+          };
+          
+          // Save to session storage
+          saveMessagesToSession(currentAgent, agentMessages);
+          
+          return updatedConversations;
+        });
       } else {
         setError("Failed to get response from AI. Please try again.");
         setIsTimedOut(true); // Show timeout UI if response failed
@@ -285,18 +293,56 @@ export function useAiConversation() {
       setIsTyping(false);
       clearResponseTimeout(); // Clear timeout just in case
     }
-  }, [messages, currentAgent, saveMessagesToSession, startResponseTimeout, clearResponseTimeout, detectAndSaveUserIntent]);
+  }, [
+    currentAgent, 
+    agentConversations, 
+    saveMessagesToSession, 
+    startResponseTimeout, 
+    clearResponseTimeout, 
+    detectAndSaveUserIntent
+  ]);
 
   // Clear conversation and reset state
   const clearConversation = useCallback(() => {
-    setMessages([]);
+    // Reset all agent conversations
+    setAgentConversations({
+      miles: [],
+      giselle: [],
+      devon: [],
+      alma: []
+    });
+    
     setUserIntent(undefined);
     setCurrentAgent("miles");
     sessionStorage.removeItem(USER_INTENT_KEY);
     sessionStorage.removeItem(CURRENT_AGENT_KEY);
+    
+    // Generate new conversation ID
     const newConversationId = `conversation-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     setConversationId(newConversationId);
-    sessionStorage.removeItem(conversationId);
+    
+    // Clean up old conversation data from session storage
+    Object.keys(sessionStorage).forEach(key => {
+      if (key.startsWith(conversationId)) {
+        sessionStorage.removeItem(key);
+      }
+    });
+    
+    // Initialize new welcome messages
+    setTimeout(() => {
+      ['miles', 'giselle', 'devon', 'alma'].forEach(agentName => {
+        const chatData = getAgentChatData(agentName);
+        setAgentConversations(prev => ({
+          ...prev,
+          [agentName]: [{
+            text: chatData.welcomeMessage,
+            isUser: false,
+            agent: agentName,
+            timestamp: new Date()
+          }]
+        }));
+      });
+    }, 100);
   }, [conversationId]);
 
   return {
@@ -307,6 +353,7 @@ export function useAiConversation() {
     error,
     isTimedOut,
     sendMessage,
+    changeAgent,
     handleRetry,
     handleStartOver,
     clearConversation
