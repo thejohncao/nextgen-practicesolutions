@@ -24,9 +24,7 @@ const AgentChatPreview = ({ agentName, onSelectSuggestion }: AgentChatPreviewPro
   
   return (
     <div className="space-y-6">
-      <div className="bg-white/5 p-4 rounded-lg border border-white/10">
-        <p className="text-white">{chatData.welcomeMessage}</p>
-      </div>
+      {/* Welcome message is already shown in the message bubble, no need to repeat it here */}
       
       {suggestions.length > 0 && (
         <div className="space-y-3">

@@ -72,12 +72,15 @@ export function useAgentManagement() {
         // For each agent, initialize with welcome message if empty
         ['miles', 'giselle', 'devon', 'alma'].forEach(agentName => {
           const chatData = getAgentChatData(agentName);
-          updatedConversations[agentName as AgentName] = [{
-            text: chatData.welcomeMessage,
-            isUser: false,
-            agent: agentName,
-            timestamp: new Date()
-          }];
+          // Only add if the agent conversation is empty
+          if (!updatedConversations[agentName as AgentName]?.length) {
+            updatedConversations[agentName as AgentName] = [{
+              text: chatData.welcomeMessage,
+              isUser: false,
+              agent: agentName,
+              timestamp: new Date()
+            }];
+          }
         });
         
         return updatedConversations;

@@ -1,88 +1,62 @@
 
-import React, { useState, useEffect } from 'react';
-import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
-import { TooltipProvider } from '@radix-ui/react-tooltip';
+import React from 'react';
 import TypingIndicator from './TypingIndicator';
+import { cn } from '@/lib/utils';
+import AgentChatAvatar from './AgentChatAvatar';
 
 interface AgentLoadingIndicatorProps {
   agent: string;
-  timeoutLevel: 'none' | 'warning' | 'error';
+  timeoutLevel?: 'none' | 'warning' | 'error';
 }
 
-const AgentLoadingIndicator: React.FC<AgentLoadingIndicatorProps> = ({ 
-  agent,
-  timeoutLevel
-}) => {
-  const [loadingMessage, setLoadingMessage] = useState('');
-  const [tooltipMessage, setTooltipMessage] = useState('');
-  
-  // Update loading message based on agent and timeout level
-  useEffect(() => {
-    if (timeoutLevel === 'none') {
-      return;
-    }
-    
-    const messages = {
-      miles: {
-        loading: [
-          "Syncing your schedule…",
-          "Checking for open consult slots…",
-          "Handling that task…"
-        ],
-        tooltip: "I'm reorganizing your day for max efficiency. Hang tight."
-      },
-      giselle: {
-        loading: [
-          "Running campaign analytics…",
-          "Targeting your ideal patients…",
-          "Mapping your funnel strategy…"
-        ],
-        tooltip: "I'm pulling some data from our latest high-converting campaigns. Give me just a sec."
-      },
-      devon: {
-        loading: [
-          "Following up with your leads…",
-          "Drafting a persuasive message…",
-          "Checking your unscheduled cases…"
-        ],
-        tooltip: "Just pulling up the best script for that kind of case. One moment."
-      },
-      alma: {
-        loading: [
-          "Organizing your SOPs…",
-          "Drafting a new checklist…",
-          "Reviewing your team's playbook…"
-        ],
-        tooltip: "I'm just putting the final touches on your system template. Be right with you."
-      }
-    };
-    
-    const agentMessages = messages[agent as keyof typeof messages] || messages.miles;
-    const randomIndex = Math.floor(Math.random() * agentMessages.loading.length);
-    
-    setLoadingMessage(agentMessages.loading[randomIndex]);
-    setTooltipMessage(agentMessages.tooltip);
-  }, [agent, timeoutLevel]);
-  
-  if (timeoutLevel === 'none') {
-    return <TypingIndicator agent={agent} />;
-  }
-  
+const AgentLoadingIndicator: React.FC<AgentLoadingIndicatorProps> = ({ agent, timeoutLevel = 'none' }) => {
+  // Messages to show while agent is "thinking"
+  const agentLoadingMessages = {
+    miles: [
+      "Looking up your scheduling data...",
+      "Analyzing your front desk workflows...",
+      "Checking optimization opportunities..."
+    ],
+    giselle: [
+      "Analyzing your marketing strategy...",
+      "Reviewing your growth metrics...",
+      "Checking latest lead generation trends..."
+    ],
+    devon: [
+      "Reviewing case follow-up options...",
+      "Analyzing treatment acceptance rates...",
+      "Finding patient conversion opportunities..."
+    ],
+    alma: [
+      "Checking team training resources...",
+      "Preparing SOP recommendations...",
+      "Finding best practices for your staff..."
+    ]
+  };
+
+  // Get random message for the current agent
+  const messages = agentLoadingMessages[agent as keyof typeof agentLoadingMessages] || [];
+  const randomIndex = React.useMemo(() => {
+    return Math.floor(Math.random() * messages.length);
+  }, [messages.length]);
+  const message = messages[randomIndex];
+
   return (
-    <div className="flex flex-col space-y-1 my-3 ml-2">
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <div className="flex items-center text-sm text-white/70 animate-pulse">
-              <TypingIndicator agent={agent} />
-              <span className="ml-2">{loadingMessage}</span>
-            </div>
-          </TooltipTrigger>
-          <TooltipContent side="top" className="bg-gray-800 text-white p-2 text-sm">
-            {tooltipMessage}
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+    <div 
+      className={cn(
+        "flex items-center mb-4 max-w-[85%] p-3 bg-nextgen-dark/60 rounded-xl mr-auto",
+        timeoutLevel === 'warning' && "border border-amber-500/20",
+        timeoutLevel === 'error' && "border border-red-500/20",
+      )}
+    >
+      <div className="flex flex-col space-y-2">
+        <div className="flex items-center">
+          <AgentChatAvatar agent={agent} size="sm" className="mr-2" />
+          <span className="text-white font-medium">{agent.charAt(0).toUpperCase() + agent.slice(1)}</span>
+        </div>
+        {message && <div className="text-sm text-white/70">{message}</div>}
+        <TypingIndicator />
+      </div>
     </div>
   );
 };

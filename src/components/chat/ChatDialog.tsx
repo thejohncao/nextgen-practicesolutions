@@ -1,4 +1,3 @@
-
 import React, { useRef } from 'react';
 import { Dialog, DialogContent } from '../ui/dialog';
 import { useIsMobile } from "../../hooks/use-mobile";
@@ -45,16 +44,36 @@ const ChatDialog: React.FC<ChatDialogProps> = ({
   const isMobile = useIsMobile();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
-  // Check if we should show the welcome message with agent preview
-  // Show agent preview for first message only if it's the AI welcome message
-  const showAgentPreview = messages.length === 1 && !messages[0].isUser;
+  // Show agent preview only if there are no user messages yet
+  // This prevents showing welcome suggestions after a conversation has started
+  const userMessages = messages.filter(msg => msg.isUser);
+  const showAgentPreview = userMessages.length === 0;
+  
+  // Filter out duplicate welcome messages
+  // If we have more than one AI message at the start without user messages in between, only keep the latest
+  const filteredMessages = React.useMemo(() => {
+    let result = [...messages];
+    
+    // If we have no user messages yet and multiple AI messages, only keep the last one
+    if (userMessages.length === 0 && result.filter(m => !m.isUser).length > 1) {
+      const lastAiMessageIndex = result.map(m => !m.isUser).lastIndexOf(true);
+      if (lastAiMessageIndex >= 0) {
+        result = [result[lastAiMessageIndex]];
+      }
+    }
+    
+    return result;
+  }, [messages, userMessages.length]);
+
+  // Check if the agent is "stuck" - when there's a message with empty content
+  const hasEmptyResponse = filteredMessages.some(msg => !msg.isUser && msg.text.trim() === '');
 
   // Scroll to bottom when messages change
   React.useEffect(() => {
     if (isOpen && messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [messages, isOpen, isTyping, timeoutLevel]);
+  }, [filteredMessages, isOpen, isTyping, timeoutLevel]);
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -69,8 +88,8 @@ const ChatDialog: React.FC<ChatDialogProps> = ({
           />
           
           <div className="flex-1 overflow-y-auto p-4 scrollbar-none">
-            {/* Show conversation messages */}
-            {messages.map((message, index) => (
+            {/* Show conversation messages - filtered to remove duplicates */}
+            {filteredMessages.map((message, index) => (
               <AiMessageBubble
                 key={index}
                 message={message}
@@ -85,10 +104,30 @@ const ChatDialog: React.FC<ChatDialogProps> = ({
               />
             )}
             
+            {/* Show loading indicator when typing */}
             {isTyping && !isTimedOut && (
               <AgentLoadingIndicator agent={currentAgent} timeoutLevel={timeoutLevel} />
             )}
             
+            {/* Handle empty responses with a helpful message */}
+            {hasEmptyResponse && !isTyping && !isTimedOut && (
+              <div className="p-4 mb-4 bg-[#000000] border border-amber-900/30 rounded-lg">
+                <p className="text-white/90 mb-3">Sorry, it looks like {currentAgent.charAt(0).toUpperCase() + currentAgent.slice(1)} is having trouble responding. Would you like to try again?</p>
+                <div className="flex gap-2">
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className="flex items-center gap-1 border-white/20 hover:bg-white/5"
+                    onClick={handleRetry}
+                  >
+                    <RefreshCw className="h-3.5 w-3.5 mr-1" />
+                    Try again
+                  </Button>
+                </div>
+              </div>
+            )}
+            
+            {/* Show timeout error message */}
             {isTimedOut && (
               <div className="p-4 mb-4 bg-[#000000] border border-red-900/30 rounded-lg">
                 <p className="text-white/90 mb-3">Sorry about that — I may have lost connection for a moment. Want to continue where we left off or start over?</p>
@@ -122,7 +161,7 @@ const ChatDialog: React.FC<ChatDialogProps> = ({
             isTyping={isTyping || isTimedOut}
             currentAgent={currentAgent}
             onSendMessage={onSendMessage}
-            messages={messages}
+            messages={filteredMessages}
           />
         </div>
       </DialogContent>
