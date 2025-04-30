@@ -157,6 +157,8 @@ const EnhancedAiAssistant = ({
 
   const handleSummarizeResponse = () => {
     setShowTimeout(false);
+    // Remove the line that was causing the error
+    // setIsTyping(false); <- This line was causing the error
     
     // Add a summary message from the agent
     const summaryMessage: AiMessage = {
