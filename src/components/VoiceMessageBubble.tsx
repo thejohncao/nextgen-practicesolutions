@@ -15,15 +15,15 @@ const agents = {
   },
   giselle: {
     name: "Giselle",
-    color: "from-[#00C896] to-[#00FFB2]",
+    color: "from-[#00D26A] to-[#00FFB2]",
   },
   devon: {
     name: "Devon",
-    color: "from-[#7B2CBF] to-[#B388EB]",
+    color: "from-[#A259FF] to-[#C299FF]",
   },
   alma: {
     name: "Alma", 
-    color: "from-[#00B4D8] to-[#90E0EF]",
+    color: "from-[#FFA928] to-[#FFCC80]",
   }
 };
 
@@ -113,7 +113,7 @@ const VoiceMessageBubble: React.FC<VoiceMessageBubbleProps> = ({
       className={cn(
         "mb-4 max-w-[85%] rounded-xl p-3",
         message.isUser ? "bg-nextgen-dark/60 ml-auto" : 
-        `bg-gradient-to-br ${agents[message.agent as AgentKey].color}/10 mr-auto`
+        `bg-gradient-to-br ${agents[message.agent as AgentKey]?.color || agents.miles.color}/10 mr-auto`
       )}
     >
       {!message.isUser && (
@@ -121,12 +121,12 @@ const VoiceMessageBubble: React.FC<VoiceMessageBubbleProps> = ({
           <div className="flex items-center gap-2">
             <AgentChatAvatar agent={message.agent} hideDetails={false} isTyping={isSpeaking} />
             <div className="font-semibold text-sm text-white/90">
-              {agents[message.agent as AgentKey].name}
+              {agents[message.agent as AgentKey]?.name || "Assistant"}
             </div>
           </div>
           
-          {/* Voice controls for AI messages */}
-          {isVoiceEnabled && !message.isUser && (
+          {/* Voice controls for AI messages - hidden for MVP */}
+          {false && isVoiceEnabled && !message.isUser && (
             <Button
               variant="ghost"
               size="sm"
@@ -184,8 +184,8 @@ const VoiceMessageBubble: React.FC<VoiceMessageBubbleProps> = ({
         </button>
       )}
       
-      {/* Audio loading indicator */}
-      {isLoading && !message.isUser && isVoiceEnabled && !isMuted && (
+      {/* Audio loading indicator - hidden for MVP */}
+      {false && isLoading && !message.isUser && isVoiceEnabled && !isMuted && (
         <div className="mt-2 text-xs text-white/50 flex items-center gap-1">
           <span className="block w-2 h-2 bg-white/50 rounded-full animate-pulse"></span>
           Generating audio...

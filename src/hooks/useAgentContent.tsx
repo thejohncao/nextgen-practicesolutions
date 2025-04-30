@@ -25,17 +25,17 @@ export const AGENT_SUGGESTIONS = {
     "Send appointment reminders",
     "Handle incoming calls for me"
   ],
-  giselle: [
-    "Help me get more veneer patients",
-    "Show my active campaigns",
-    "Follow up with leads",
-    "How can I reduce no-shows?"
-  ],
   devon: [
     "Recover unscheduled treatment",
     "Send a quote with financing",
     "Follow up with Ashley from yesterday",
     "What scripts work best for closing implants?"
+  ],
+  giselle: [
+    "Help me get more veneer patients",
+    "Show my active campaigns",
+    "Follow up with leads",
+    "How can I reduce no-shows?"
   ],
   alma: [
     "Train my new front desk",

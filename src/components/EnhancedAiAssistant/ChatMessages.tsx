@@ -24,6 +24,17 @@ interface ChatMessagesProps {
   onStartOver: () => void;
 }
 
+// Agent-specific timeout messages
+const getTimeoutMessage = (agent: string) => {
+  switch(agent.toLowerCase()) {
+    case 'devon': return "Reviewing treatment options... one moment please.";
+    case 'giselle': return "Analyzing your growth opportunities... just a moment.";
+    case 'alma': return "Preparing training materials... one moment please.";
+    case 'miles': 
+    default: return "Let me pull that up for you... one moment.";
+  }
+};
+
 const ChatMessages: React.FC<ChatMessagesProps> = ({
   messages,
   isTyping,
@@ -71,7 +82,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
       {/* Show the timeout message after 4 seconds of typing */}
       {showTimeout && isTyping && (
         <div className="p-4 mb-4 bg-[#000000] border border-blue-900/30 rounded-lg animate-fade-in">
-          <p className="text-white/90 mb-3">Let me pull that up for you... one moment.</p>
+          <p className="text-white/90 mb-3">{getTimeoutMessage(currentAgent)}</p>
         </div>
       )}
       

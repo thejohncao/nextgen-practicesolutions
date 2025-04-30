@@ -16,7 +16,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message, isTyping = false }) =>
       return 'bg-nextgen-purple/20 text-white';
     }
     
-    switch(message.agent.toLowerCase()) {
+    switch(message.agent?.toLowerCase()) {
       case 'giselle': return 'bg-green-500/10 text-white border border-green-500/20';
       case 'miles': return 'bg-blue-500/10 text-white border border-blue-500/20';
       case 'devon': return 'bg-purple-500/10 text-white border border-purple-500/20';
