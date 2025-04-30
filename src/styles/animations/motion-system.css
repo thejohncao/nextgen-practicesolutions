@@ -42,7 +42,7 @@
   }
   
   .hover-glow:hover {
-    box-shadow: 0 0 20px rgba(var(--color-primary-rgb), 0.4);
+    box-shadow: 0 0 20px rgba(var(--agent-color-rgb), 0.4);
   }
   
   /* Scroll animations */
@@ -61,6 +61,22 @@
   .scroll-progress-line {
     transform-origin: top left;
     transition: transform 0.1s ease-out;
+  }
+  
+  /* Typing indicator animations */
+  .animate-typing-dot-1 {
+    animation: typing-dot 1.4s infinite;
+    animation-delay: 0s;
+  }
+  
+  .animate-typing-dot-2 {
+    animation: typing-dot 1.4s infinite;
+    animation-delay: 0.2s;
+  }
+  
+  .animate-typing-dot-3 {
+    animation: typing-dot 1.4s infinite;
+    animation-delay: 0.4s;
   }
 }
 
@@ -126,6 +142,17 @@
   }
 }
 
+@keyframes typing-dot {
+  0%, 60%, 100% {
+    transform: scale(0.8);
+    opacity: 0.6;
+  }
+  30% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
 /* Support reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
@@ -137,7 +164,16 @@
   
   .animate-float,
   .animate-pulse-slow,
-  .animate-spin-slow {
+  .animate-spin-slow,
+  .animate-typing-dot-1,
+  .animate-typing-dot-2,
+  .animate-typing-dot-3 {
     animation: none !important;
+  }
+  
+  .scroll-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }

@@ -14,11 +14,16 @@ import AnimatedGrainOverlay from '../effects/AnimatedGrainOverlay';
 import { useAgentAnimation } from '@/hooks/useAgentAnimation';
 import HeroGrid, { HeroContent, HeroVisual } from './HeroGrid';
 import { useIntersectionAnimation } from '@/hooks/useIntersectionAnimation';
+import AgentOrb from '../team/agent/AgentOrb';
+import { Agent } from '@/types/agent';
+import OrbGlowEffect from '../effects/OrbGlowEffect';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { getTooltipText } from '../team/utils/getTooltipText';
 
 // Reordering agents to match patient journey
 const orderedAgents = [...agents].sort((a, b) => {
   const order = { 'Miles': 0, 'Giselle': 1, 'Devon': 2, 'Alma': 3 };
-  return order[a.name] - order[b.name];
+  return order[a.name as keyof typeof order] - order[b.name as keyof typeof order];
 });
 
 interface EnhancedHeroSectionProps {
@@ -31,8 +36,9 @@ const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
   const [selectedAgent, setSelectedAgent] = useState<string | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [heroRef, isHeroVisible] = useIntersectionAnimation<HTMLElement>();
+  const isMobile = useIsMobile();
   
-  // Use our new unified agent animation hook
+  // Use our unified agent animation hook
   const { isVisible, agentStates } = useAgentAnimation(orderedAgents, {
     staggered: true,
     initialDelay: 600,
@@ -235,6 +241,8 @@ const OrbitingAgentsGrid: React.FC<OrbitingAgentsGridProps> = ({
   selectedAgent,
   onAgentSelect
 }) => {
+  const isMobile = useIsMobile();
+  
   // Grid positions for each agent
   const getAgentPosition = (index: number) => {
     const basePositions = [
@@ -289,7 +297,6 @@ const OrbitingAgentsGrid: React.FC<OrbitingAgentsGridProps> = ({
               damping: 12
             }}
           >
-            {/* Use the existing AgentFloatingContent component */}
             <EnhancedAgentDisplay
               agent={agent}
               isPoweredUp={agentState.isPoweredUp}
@@ -323,6 +330,8 @@ const EnhancedAgentDisplay: React.FC<EnhancedAgentDisplayProps> = ({
   onClick,
   index
 }) => {
+  const isMobile = useIsMobile();
+  
   return (
     <motion.div
       animate={{ y: [0, -8, 0] }}
@@ -336,16 +345,22 @@ const EnhancedAgentDisplay: React.FC<EnhancedAgentDisplayProps> = ({
       className="relative flex flex-col items-center"
       aria-label={`${agent.name} - ${agent.title}`}
     >
-      {/* Import existing AgentOrb component */}
-      <div 
-        onClick={onClick}
-        className="cursor-pointer relative"
-      >
+      {/* Enhanced glow effect */}
+      {isPoweredUp && (
+        <OrbGlowEffect 
+          color={agent.color} 
+          intensity={animationIntensity}
+          size={isMobile ? "small" : "medium"} 
+        />
+      )}
+      
+      {/* Agent orb with name label */}
+      <div className="cursor-pointer relative" onClick={onClick}>
         <AgentOrb
           name={agent.name}
           role={agent.title}
           color={agent.color}
-          tooltipText={agent.tagline}
+          tooltipText={getTooltipText(agent.name)}
           animated={isPoweredUp}
           animationIntensity={animationIntensity}
           isActive={isSelected}

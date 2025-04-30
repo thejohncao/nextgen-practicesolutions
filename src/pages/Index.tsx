@@ -1,9 +1,7 @@
 
-import React, { useRef, useEffect, useState } from 'react';
+import React from 'react';
 import Layout from '../components/Layout';
-import { agents } from '@/data/agents';
 import PricingSection from '../components/pricing/PricingSection';
-import ResultsSection from '../components/results/ResultsSection';
 import FounderSection from '../components/FounderSection';
 import FooterCTA from '../components/FooterCTA';
 import SuccessGuarantee from '../components/SuccessGuarantee';
@@ -19,16 +17,14 @@ import AITeamSection from '../components/team/AiTeamSection';
 import EnhancedHeroSection from '../components/hero/EnhancedHeroSection';
 import PatientJourney from '../components/patient-journey/PatientJourney';
 import BoardroomDemo from '../components/boardroom/BoardroomDemo';
-import { useSectionScrollProgress } from '../hooks/useIntersectionAnimation';
+import ResultsSection from '../components/results/ResultsSection';
+import { useIntersectionAnimation } from '../hooks/useIntersectionAnimation';
 
 const Index = () => {
-  const [showBoardroom, setShowBoardroom] = useState(false);
-  const [sectionRef, progress] = useSectionScrollProgress<HTMLDivElement>();
-  
-  // Show boardroom when scrolled to a certain point
-  useEffect(() => {
-    setShowBoardroom(progress > 0.3);
-  }, [progress]);
+  const [boardroomRef, isBoardroomVisible] = useIntersectionAnimation<HTMLDivElement>({
+    threshold: 0.3,
+    triggerOnce: true
+  });
   
   const handleScrollToTeam = () => {
     const teamSection = document.getElementById('team');
@@ -45,31 +41,17 @@ const Index = () => {
           <AnimatedGrainOverlay opacity={0.03} />
         </div>
         
-        {/* Enhanced Hero Section with scroll-triggered Boardroom experience */}
-        <div ref={sectionRef} className="min-h-[150vh]">
-          {/* Initial hero view */}
-          <div className={`min-h-screen sticky top-0 transition-opacity duration-700 ${showBoardroom ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-            <EnhancedHeroSection />
-          </div>
-          
-          {/* Boardroom experience - revealed on scroll */}
-          <div 
-            className={`min-h-screen sticky top-0 flex items-center transition-opacity duration-700 ${showBoardroom ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-          >
-            <div className="container mx-auto px-4 pt-16 pb-4 relative z-10">
-              <ScrollRevealWrapper animation="fade-up">
-                <BoardroomDemo 
-                  activated={showBoardroom} 
-                  onTeamButtonClick={handleScrollToTeam}
-                />
-              </ScrollRevealWrapper>
-            </div>
-          </div>
-        </div>
+        {/* Enhanced Hero Section */}
+        <EnhancedHeroSection />
         
-        {/* Visual separator with enhanced transition */}
-        <div className="h-8 relative">
-          <SectionTransition type="gradient" position="both" height={24} color="nextgen-dark" />
+        {/* Inside the Boardroom Section */}
+        <div ref={boardroomRef} className="bg-black relative">
+          <SectionTransition type="wave" position="top" height={64} color="transparent" />
+          <BoardroomDemo 
+            activated={isBoardroomVisible} 
+            onTeamButtonClick={handleScrollToTeam}
+          />
+          <SectionTransition type="gradient" position="bottom" height={24} color="nextgen-dark" />
         </div>
         
         {/* Team Section with AITeamSection */}
@@ -85,9 +67,7 @@ const Index = () => {
         </ScrollRevealWrapper>
         
         {/* Results section with DisplayCards */}
-        <ScrollRevealWrapper animation="fade-up">
-          <ResultsSection />
-        </ScrollRevealWrapper>
+        <ResultsSection />
         
         {/* Testimonials section */}
         <div className="relative">

@@ -1,148 +1,103 @@
 
 import { useState, useEffect } from 'react';
 import { Agent } from '@/types/agent';
+import { useReducedMotion } from './use-reduced-motion';
 
-export type AnimationIntensity = "none" | "low" | "medium" | "high";
-
-export interface AgentAnimationState {
-  isVisible: boolean;
-  isPoweredUp: boolean;
-  animationIntensity: AnimationIntensity;
-}
-
-export interface AgentAnimationOptions {
+interface UseAgentAnimationOptions {
   staggered?: boolean;
   initialDelay?: number;
-  staggerDelay?: number;
   welcomeComplete?: boolean;
-  reduceMotion?: boolean;
+  orbitDelay?: number;
 }
 
 /**
- * Unified hook for handling agent animations throughout the application
+ * Unified hook for agent animations that handles:
+ * - Visibility state
+ * - Power up sequences
+ * - Animation intensity based on user preferences
+ * - Different animation patterns (staggered, simultaneous)
  */
-export const useAgentAnimation = (
-  agents: Agent[], 
-  options: AgentAnimationOptions = {}
-) => {
-  const { 
+export function useAgentAnimation(agents: Agent[], options: UseAgentAnimationOptions = {}) {
+  const {
     staggered = true,
     initialDelay = 500,
-    staggerDelay = 400,
     welcomeComplete = false,
-    reduceMotion = false,
+    orbitDelay = 200
   } = options;
   
   const [isVisible, setIsVisible] = useState(false);
-  const [agentStates, setAgentStates] = useState<{[key: string]: AgentAnimationState}>({});
+  const [agentStates, setAgentStates] = useState<{ [key: string]: {
+    isVisible: boolean;
+    isPoweredUp: boolean;
+    animationIntensity: "none" | "low" | "medium" | "high";
+  } }>({});
   
-  // Initialize agent states
-  useEffect(() => {
-    const initialStates: {[key: string]: AgentAnimationState} = {};
-    
-    agents.forEach(agent => {
-      initialStates[agent.name] = {
-        isVisible: false,
-        isPoweredUp: false,
-        animationIntensity: "none"
-      };
-    });
-    
-    setAgentStates(initialStates);
-  }, [agents]);
+  const prefersReducedMotion = useReducedMotion();
   
-  // Handle animation sequence
+  // Initial agent appearance and power up sequence
   useEffect(() => {
-    if (reduceMotion) {
-      // For users who prefer reduced motion, skip animations
-      const finalStates: {[key: string]: AgentAnimationState} = {};
-      agents.forEach(agent => {
-        finalStates[agent.name] = {
-          isVisible: true,
-          isPoweredUp: true,
-          animationIntensity: "low"
-        };
-      });
-      
-      // Short timeout to ensure component has mounted
-      const timer = setTimeout(() => {
-        setIsVisible(true);
-        setAgentStates(finalStates);
-      }, 100);
-      
-      return () => clearTimeout(timer);
-    }
-    
-    // Normal animation sequence
+    // Initial delay before starting animations
     const visibilityTimer = setTimeout(() => {
       setIsVisible(true);
       
-      // Wake up sequence for each agent
-      agents.forEach((agent, index) => {
-        const delay = staggered ? (staggerDelay * (index + 1)) : staggerDelay;
+      // Get all agent names for the sequence
+      const agentNames = agents.map(a => a.name);
+      
+      // For each agent in sequence
+      agentNames.forEach((name, index) => {
+        // Calculate delay based on whether staggered or not
+        const appearDelay = staggered ? initialDelay + (orbitDelay * index) : initialDelay;
         
-        // First show the agent with low energy
+        // First appearance - low energy
         setTimeout(() => {
           setAgentStates(prev => ({
             ...prev,
-            [agent.name]: {
-              ...prev[agent.name],
+            [name]: {
               isVisible: true,
               isPoweredUp: true,
-              animationIntensity: "low"
+              animationIntensity: prefersReducedMotion ? "none" : "low"
             }
           }));
-        }, delay);
+        }, appearDelay);
         
-        // Then increase energy to medium
+        // Second phase - medium energy after short delay
         setTimeout(() => {
           setAgentStates(prev => ({
             ...prev,
-            [agent.name]: {
-              ...prev[agent.name],
-              animationIntensity: "medium"
+            [name]: {
+              ...prev[name],
+              animationIntensity: prefersReducedMotion ? "none" : "medium"
             }
           }));
-        }, delay + 800);
-        
-        // Finally reach full energy if welcome is complete
-        setTimeout(() => {
-          if (welcomeComplete) {
-            setAgentStates(prev => ({
-              ...prev,
-              [agent.name]: {
-                ...prev[agent.name],
-                animationIntensity: "high"
-              }
-            }));
-          }
-        }, delay + 1600);
+        }, appearDelay + 600);
       });
       
     }, initialDelay);
     
     return () => clearTimeout(visibilityTimer);
-  }, [agents, initialDelay, staggerDelay, staggered, welcomeComplete, reduceMotion]);
+  }, [agents, staggered, initialDelay, orbitDelay, prefersReducedMotion]);
   
-  // Update agent animation intensity when welcome completes
+  // Handle welcome completion - bring agents to full power
   useEffect(() => {
     if (welcomeComplete) {
-      agents.forEach(agent => {
-        setAgentStates(prev => ({
-          ...prev,
-          [agent.name]: {
-            ...prev[agent.name],
-            animationIntensity: "high"
-          }
-        }));
+      const agentNames = agents.map(a => a.name);
+      
+      agentNames.forEach((name, index) => {
+        // Stagger the full power up
+        const powerUpDelay = staggered ? 100 * index : 0;
+        
+        setTimeout(() => {
+          setAgentStates(prev => ({
+            ...prev,
+            [name]: {
+              ...prev[name],
+              animationIntensity: prefersReducedMotion ? "low" : "high"
+            }
+          }));
+        }, powerUpDelay);
       });
     }
-  }, [welcomeComplete, agents]);
+  }, [welcomeComplete, agents, staggered, prefersReducedMotion]);
   
-  return {
-    isVisible,
-    agentStates,
-    getAgentState: (agentName: string): AgentAnimationState => 
-      agentStates[agentName] || { isVisible: false, isPoweredUp: false, animationIntensity: "none" }
-  };
-};
+  return { isVisible, agentStates };
+}

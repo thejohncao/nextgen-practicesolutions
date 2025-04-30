@@ -1,5 +1,6 @@
 
 import { useState, useEffect, useRef, RefObject } from 'react';
+import { useReducedMotion } from './use-reduced-motion';
 
 export type AnimationTriggerOptions = {
   threshold?: number;
@@ -24,10 +25,18 @@ export const useIntersectionAnimation = <T extends HTMLElement>(
   const elementRef = useRef<T>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [hasTriggered, setHasTriggered] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
   
   useEffect(() => {
     const currentElement = elementRef.current;
     if (!currentElement || (triggerOnce && hasTriggered)) return;
+    
+    // Always show content immediately for users who prefer reduced motion
+    if (prefersReducedMotion) {
+      setIsVisible(true);
+      if (triggerOnce) setHasTriggered(true);
+      return;
+    }
     
     const observer = new IntersectionObserver(
       (entries) => {
@@ -58,7 +67,7 @@ export const useIntersectionAnimation = <T extends HTMLElement>(
         observer.unobserve(currentElement);
       }
     };
-  }, [threshold, rootMargin, triggerOnce, hasTriggered, delay]);
+  }, [threshold, rootMargin, triggerOnce, hasTriggered, delay, prefersReducedMotion]);
   
   return [elementRef, isVisible];
 };
@@ -69,8 +78,15 @@ export const useIntersectionAnimation = <T extends HTMLElement>(
 export const useSectionScrollProgress = <T extends HTMLElement>(): [RefObject<T>, number] => {
   const sectionRef = useRef<T>(null);
   const [progress, setProgress] = useState(0);
+  const prefersReducedMotion = useReducedMotion();
   
   useEffect(() => {
+    // If user prefers reduced motion, don't track scroll progress
+    if (prefersReducedMotion) {
+      setProgress(1); // Set to complete state
+      return;
+    }
+    
     const calculateProgress = () => {
       if (!sectionRef.current) return;
       
@@ -96,7 +112,7 @@ export const useSectionScrollProgress = <T extends HTMLElement>(): [RefObject<T>
     return () => {
       window.removeEventListener('scroll', calculateProgress);
     };
-  }, []);
+  }, [prefersReducedMotion]);
   
   return [sectionRef, progress];
 };

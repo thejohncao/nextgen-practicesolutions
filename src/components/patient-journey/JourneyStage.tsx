@@ -1,141 +1,130 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { JourneyStage as JourneyStageType } from '@/data/patientJourney';
-import AgentOrb from '../team/agent/AgentOrb';
-import { getTooltipText } from '../team/utils/getTooltipText';
+import AgentAvatar from '../AgentAvatar';
+import { Check, ChevronRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { useIntersectionAnimation } from '@/hooks/useIntersectionAnimation';
-import TypingIndicator from '../journey/TypingIndicator';
 import ChatSimulation from '../journey/ChatSimulation';
+import { TypingIndicator } from '../ui/TypingIndicator';
 
 interface JourneyStageProps {
   stage: JourneyStageType;
-  isActive: boolean;
+  isActive?: boolean;
   onActivate?: () => void;
   compact?: boolean;
 }
 
 const JourneyStage: React.FC<JourneyStageProps> = ({
   stage,
-  isActive,
-  onActivate,
-  compact = false
+  isActive = false,
+  onActivate = () => {},
+  compact = false,
 }) => {
-  const [isTyping, setIsTyping] = useState(false);
   const [showChat, setShowChat] = useState(false);
-  const [containerRef, isVisible] = useIntersectionAnimation<HTMLDivElement>({
-    threshold: 0.7,
-    triggerOnce: true
-  });
   
-  // Handle chat animation sequence
-  useEffect(() => {
-    if (isActive && isVisible) {
-      // First show typing indicator
-      setIsTyping(true);
-      setShowChat(false);
-      
-      // After delay, hide typing and show chat
-      const typingTimer = setTimeout(() => {
-        setIsTyping(false);
-        setShowChat(true);
-        
-        if (onActivate) {
-          onActivate();
-        }
-      }, 1500);
-      
-      return () => clearTimeout(typingTimer);
-    }
-  }, [isActive, isVisible, onActivate]);
-  
-  const handleStageClick = () => {
-    if (onActivate) {
-      onActivate();
+  // Helper to get agent-specific gradient
+  const getAgentGradient = (color: string) => {
+    switch(color) {
+      case 'blue': return 'from-blue-500/20 to-transparent';
+      case 'green': return 'from-green-500/20 to-transparent';
+      case 'purple': return 'from-purple-500/20 to-transparent';
+      case 'gold': 
+      case 'red': return 'from-amber-500/20 to-transparent';
+      default: return 'from-white/10 to-transparent';
     }
   };
   
-  if (compact) {
-    // Compact version for grid layouts
-    return (
-      <div 
-        ref={containerRef}
-        onClick={handleStageClick}
-        className={cn(
-          "cursor-pointer transition-all duration-300",
-          "flex flex-col items-center text-center gap-3",
-          isActive ? "opacity-100" : "opacity-80 hover:opacity-100"
-        )}
-      >
-        <div className="mb-1">
-          <span className="text-sm font-medium text-white/60">{stage.number}</span>
-        </div>
-        
-        <AgentOrb 
-          name={stage.agent.name}
-          role={stage.agent.title}
-          color={stage.agent.color}
-          tooltipText={getTooltipText(stage.agent.name)}
-          isActive={isActive}
-          displayMode="initial"
-          showLabel={true}
-        />
-        
-        <h3 className="text-base font-bold text-white">{stage.name}</h3>
-        
-        {isTyping && (
-          <div className="h-6 w-full">
-            <TypingIndicator agent={stage.agent.name} small={true} />
-          </div>
-        )}
-      </div>
-    );
-  }
+  const handleCardClick = () => {
+    onActivate();
+  };
   
-  // Full version
+  const toggleChat = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setShowChat(prev => !prev);
+  };
+
   return (
-    <div 
-      ref={containerRef}
+    <motion.div
+      initial={{ opacity: 0.8, y: 10 }}
+      animate={{ 
+        opacity: 1, 
+        y: 0,
+        scale: isActive ? 1 : 0.98
+      }}
+      whileHover={{ scale: 1.01 }}
+      transition={{ duration: 0.3 }}
       className={cn(
-        "p-6 rounded-xl transition-all duration-300",
-        isActive ? "shadow-lg" : ""
+        "relative rounded-xl overflow-hidden transition-all duration-300 cursor-pointer",
+        compact ? "p-4" : "p-5 md:p-6",
+        isActive ? "bg-black/30 shadow-lg border border-white/10" : "bg-black/10 hover:bg-black/20"
       )}
-      onClick={handleStageClick}
+      onClick={handleCardClick}
     >
-      <div className="flex flex-col md:flex-row gap-6 items-center md:items-start">
-        <div className="flex-shrink-0">
-          <AgentOrb 
+      {/* Stage indicator */}
+      <div className="flex items-center gap-4 mb-4">
+        <div className={cn(
+          "w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold",
+          `bg-${stage.agent.color}-500/20 text-${stage.agent.color}-400`
+        )}>
+          {isActive ? <Check className="w-5 h-5" /> : stage.number}
+        </div>
+        <h3 className={cn(
+          "text-xl font-bold",
+          compact ? "text-lg" : "text-xl md:text-2xl"
+        )}>
+          {stage.name}
+        </h3>
+      </div>
+      
+      {/* Agent info */}
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-3">
+          <AgentAvatar
             name={stage.agent.name}
             role={stage.agent.title}
             color={stage.agent.color}
-            tooltipText={getTooltipText(stage.agent.name)}
-            isActive={isActive}
-            displayMode="fullName"
-            showLabel={true}
+            size={compact ? "sm" : "md"}
+            showLabel
           />
         </div>
         
-        <div className="flex-grow">
-          <div className="flex items-center mb-3 gap-2">
-            <span className="text-2xl font-bold text-white/40 font-heading">{stage.number}</span>
-            <h3 className="text-xl font-bold text-white">{stage.name}</h3>
-          </div>
-          
-          <div className="relative min-h-[100px]">
-            {isTyping && <TypingIndicator agent={stage.agent.name} />}
-            
-            {showChat && (
-              <ChatSimulation
-                agentName={stage.agent.name}
-                agentRole={stage.agent.title}
-                messages={stage.sampleChat}
-                onClose={() => setShowChat(false)}
-              />
-            )}
-          </div>
-        </div>
+        {!compact && (
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={toggleChat}
+            className="border border-white/10 bg-white/5 hover:bg-white/10"
+          >
+            {showChat ? 'Hide Example' : 'See Example'} <ChevronRight className="ml-1 w-4 h-4" />
+          </Button>
+        )}
       </div>
-    </div>
+      
+      {/* Chat preview */}
+      {showChat && !compact && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
+          transition={{ duration: 0.3 }}
+          className="mt-4"
+        >
+          <ChatSimulation
+            agentName={stage.agent.name}
+            agentRole={stage.agent.title}
+            messages={stage.sampleChat}
+            onClose={() => setShowChat(false)}
+          />
+          
+          <div className="flex items-center mt-3 text-sm text-white/60">
+            <TypingIndicator agent={stage.agent.name} />
+            <span className="ml-2">AI assistant is ready to help</span>
+          </div>
+        </motion.div>
+      )}
+    </motion.div>
   );
 };
 
