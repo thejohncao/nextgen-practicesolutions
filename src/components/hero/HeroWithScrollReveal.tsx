@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { agents } from '@/data/agents';
@@ -6,330 +7,120 @@ import PatientJourneyTimeline from '../journey/PatientJourneyTimeline';
 import { Button } from "../ui/button";
 import { useIsMobile } from '@/hooks/use-mobile';
 import OrbitingAgents from './OrbitingAgents';
+import BoardroomDemo from '../boardroom/BoardroomDemo';
+import HeroContent from './HeroContent';
+import ScrollDownIndicator from './ScrollDownIndicator';
 
 const HeroWithScrollReveal = () => {
   const [welcomeComplete, setWelcomeComplete] = useState(false);
   const [showBoardroom, setShowBoardroom] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState<string | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isTimelineVisible, setIsTimelineVisible] = useState(false);
-  const [isScrollable, setIsScrollable] = useState(true);
-  const [isFooterVisible, setIsFooterVisible] = useState(false);
-  const [footerOpacity, setFooterOpacity] = useState(0);
-  const [footerY, setFooterY] = useState(50);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [isLogoVisible, setIsLogoVisible] = useState(true);
-  const [isHeroTextVisible, setIsHeroTextVisible] = useState(true);
-  const [isSubheaderVisible, setIsSubheaderVisible] = useState(true);
-  const [isButtonVisible, setIsButtonVisible] = useState(true);
-  const [isAgentAvatarsVisible, setIsAgentAvatarsVisible] = useState(true);
-  const [isBoardroomTextVisible, setIsBoardroomTextVisible] = useState(false);
-  const [isBoardroomSubheaderVisible, setIsBoardroomSubheaderVisible] = useState(false);
-  const [isBoardroomButtonVisible, setIsBoardroomButtonVisible] = useState(false);
-  const [isBoardroomAgentsVisible, setIsBoardroomAgentsVisible] = useState(false);
   const [isScrollDownVisible, setIsScrollDownVisible] = useState(true);
-  const [isScrollDownFading, setIsScrollDownFading] = useState(false);
-  const [isScrollDownHidden, setIsScrollDownHidden] = useState(false);
-  const [isScrollDownTransitioning, setIsScrollDownTransitioning] = useState(false);
-  const [isScrollDownTextVisible, setIsScrollDownTextVisible] = useState(true);
-  const [isScrollDownIconVisible, setIsScrollDownIconVisible] = useState(true);
-  const [isScrollDownIconFading, setIsScrollDownIconFading] = useState(false);
-  const [isScrollDownIconHidden, setIsScrollDownIconHidden] = useState(false);
-  const [isScrollDownIconTransitioning, setIsScrollDownIconTransitioning] = useState(false);
-  const [isScrollDownTextFading, setIsScrollDownTextFading] = useState(false);
-  const [isScrollDownTextHidden, setIsScrollDownTextHidden] = useState(false);
-  const [isScrollDownTextTransitioning, setIsScrollDownTextTransitioning] = useState(false);
-  const [isScrollDownTextOpacity, setIsScrollDownTextOpacity] = useState(1);
-  const [isScrollDownIconOpacity, setIsScrollDownIconOpacity] = useState(1);
-  const [isScrollDownTextY, setIsScrollDownTextY] = useState(0);
-  const [isScrollDownIconY, setIsScrollDownIconY] = useState(0);
-  const [isScrollDownTextScale, setIsScrollDownTextScale] = useState(1);
-  const [isScrollDownIconScale, setIsScrollDownIconScale] = useState(1);
-  const [isScrollDownTextBlur, setIsScrollDownTextBlur] = useState(0);
-  const [isScrollDownIconBlur, setIsScrollDownIconBlur] = useState(0);
-  const [isScrollDownTextRotate, setIsScrollDownTextRotate] = useState(0);
-  const [isScrollDownIconRotate, setIsScrollDownIconRotate] = useState(0);
-  const [isScrollDownTextSkewX, setIsScrollDownTextSkewX] = useState(0);
-  const [isScrollDownIconSkewX, setIsScrollDownIconSkewX] = useState(0);
-  const [isScrollDownTextSkewY, setIsScrollDownTextSkewY] = useState(0);
-  const [isScrollDownIconSkewY, setIsScrollDownIconSkewY] = useState(0);
-  const [isScrollDownTextOriginX, setIsScrollDownTextOriginX] = useState('center');
-  const [isScrollDownIconOriginX, setIsScrollDownIconOriginX] = useState('center');
-  const [isScrollDownTextOriginY, setIsScrollDownTextOriginY] = useState('center');
-  const [isScrollDownIconOriginY, setIsScrollDownIconOriginY] = useState('center');
-  const [isScrollDownTextZ, setIsScrollDownTextZ] = useState(0);
-  const [isScrollDownIconZ, setIsScrollDownIconZ] = useState(0);
-  const [isScrollDownTextPerspective, setIsScrollDownTextPerspective] = useState(0);
-  const [isScrollDownIconPerspective, setIsScrollDownIconPerspective] = useState(0);
-  const [isScrollDownTextTransformStyle, setIsScrollDownTextTransformStyle] = useState('flat');
-  const [isScrollDownIconTransformStyle, setIsScrollDownIconTransformStyle] = useState('flat');
-  const [isScrollDownTextTransformBox, setIsScrollDownTextTransformBox] = useState('border-box');
-  const [isScrollDownIconTransformBox, setIsScrollDownIconTransformBox] = useState('border-box');
-  const [isScrollDownTextTransformOrigin, setIsScrollDownTextTransformOrigin] = useState('center');
-  const [isScrollDownIconTransformOrigin, setIsScrollDownIconTransformOrigin] = useState('center');
-  const [isScrollDownTextTransform, setIsScrollDownTextTransform] = useState('');
-  const [isScrollDownIconTransform, setIsScrollDownIconTransform] = useState('');
-  const [isScrollDownTextFilter, setIsScrollDownTextFilter] = useState('');
-  const [isScrollDownIconFilter, setIsScrollDownIconFilter] = useState('');
-  const [isScrollDownTextBackdropFilter, setIsScrollDownTextBackdropFilter] = useState('');
-  const [isScrollDownIconBackdropFilter, setIsScrollDownIconBackdropFilter] = useState('');
-  const [isScrollDownTextClipPath, setIsScrollDownTextClipPath] = useState('');
-  const [isScrollDownIconClipPath, setIsScrollDownIconClipPath] = useState('');
-  const [isScrollDownTextMask, setIsScrollDownTextMask] = useState('');
-  const [isScrollDownIconMask, setIsScrollDownIconMask] = useState('');
-  const [isScrollDownTextMixBlendMode, setIsScrollDownTextMixBlendMode] = useState('normal');
-  const [isScrollDownIconMixBlendMode, setIsScrollDownIconMixBlendMode] = useState('normal');
-  const [isScrollDownTextIsolation, setIsScrollDownTextIsolation] = useState('auto');
-  const [isScrollDownIconIsolation, setIsScrollDownIconIsolation] = useState('auto');
-  const [isScrollDownTextWillChange, setIsScrollDownTextWillChange] = useState('auto');
-  const [isScrollDownIconWillChange, setIsScrollDownIconWillChange] = useState('auto');
-  const [isScrollDownTextPointerEvents, setIsScrollDownTextPointerEvents] = useState('auto');
-  const [isScrollDownIconPointerEvents, setIsScrollDownIconPointerEvents] = useState('auto');
-  const [isScrollDownTextCursor, setIsScrollDownTextCursor] = useState('auto');
-  const [isScrollDownIconCursor, setIsScrollDownIconCursor] = useState('auto');
-  const [isScrollDownTextTouchAction, setIsScrollDownTextTouchAction] = useState('auto');
-  const [isScrollDownIconTouchAction, setIsScrollDownIconTouchAction] = useState('auto');
-  const [isScrollDownTextUserSelect, setIsScrollDownTextUserSelect] = useState('auto');
-  const [isScrollDownIconUserSelect, setIsScrollDownIconUserSelect] = useState('auto');
-  const [isScrollDownTextResize, setIsScrollDownTextResize] = useState('none');
-  const [isScrollDownIconResize, setIsScrollDownIconResize] = useState('none');
-  const [isScrollDownTextOverflow, setIsScrollDownTextOverflow] = useState('visible');
-  const [isScrollDownIconOverflow, setIsScrollDownIconOverflow] = useState('visible');
-  const [isScrollDownTextWhiteSpace, setIsScrollDownTextWhiteSpace] = useState('normal');
-  const [isScrollDownIconWhiteSpace, setIsScrollDownIconWhiteSpace] = useState('normal');
-  const [isScrollDownTextWordBreak, setIsScrollDownTextWordBreak] = useState('normal');
-  const [isScrollDownIconWordBreak, setIsScrollDownIconWordBreak] = useState('normal');
-  const [isScrollDownTextWordWrap, setIsScrollDownTextWordWrap] = useState('normal');
-  const [isScrollDownIconWordWrap, setIsScrollDownIconWordWrap] = useState('normal');
-  const [isScrollDownTextTextOverflow, setIsScrollDownTextTextOverflow] = useState('clip');
-  const [isScrollDownIconTextOverflow, setIsScrollDownIconTextOverflow] = useState('clip');
-  const [isScrollDownTextTextTransform, setIsScrollDownTextTextTransform] = useState('none');
-  const [isScrollDownIconTextTransform, setIsScrollDownIconTextTransform] = useState('none');
-  const [isScrollDownTextTextDecoration, setIsScrollDownTextTextDecoration] = useState('none');
-  const [isScrollDownIconTextDecoration, setIsScrollDownIconTextDecoration] = useState('none');
-  const [isScrollDownTextTextShadow, setIsScrollDownTextTextShadow] = useState('none');
-  const [isScrollDownIconTextShadow, setIsScrollDownIconTextShadow] = useState('none');
-  const [isScrollDownTextTextIndent, setIsScrollDownTextTextIndent] = useState('0');
-  const [isScrollDownIconTextIndent, setIsScrollDownIconTextIndent] = useState('0');
-  const [isScrollDownTextLetterSpacing, setIsScrollDownTextLetterSpacing] = useState('normal');
-  const [isScrollDownIconLetterSpacing, setIsScrollDownIconLetterSpacing] = useState('normal');
-  const [isScrollDownTextLineHeight, setIsScrollDownTextLineHeight] = useState('normal');
-  const [isScrollDownIconLineHeight, setIsScrollDownIconLineHeight] = useState('normal');
-  const [isScrollDownTextTextAlign, setIsScrollDownTextTextAlign] = useState('center');
-  const [isScrollDownIconTextAlign, setIsScrollDownIconTextAlign] = useState('center');
-  const [isScrollDownTextVerticalAlign, setIsScrollDownTextVerticalAlign] = useState('middle');
-  const [isScrollDownIconVerticalAlign, setIsScrollDownIconVerticalAlign] = useState('middle');
-  const [isScrollDownTextDirection, setIsScrollDownTextDirection] = useState('ltr');
-  const [isScrollDownIconDirection, setIsScrollDownIconDirection] = useState('ltr');
-  const [isScrollDownTextUnicodeBidi, setIsScrollDownTextUnicodeBidi] = useState('normal');
-  const [isScrollDownIconUnicodeBidi, setIsScrollDownIconUnicodeBidi] = useState('normal');
-  const [isScrollDownTextWritingMode, setIsScrollDownTextWritingMode] = useState('horizontal-tb');
-  const [isScrollDownIconWritingMode, setIsScrollDownIconWritingMode] = useState('horizontal-tb');
-  const [isScrollDownTextTextOrientation, setIsScrollDownTextTextOrientation] = useState('mixed');
-  const [isScrollDownIconTextOrientation, setIsScrollDownIconTextOrientation] = useState('mixed');
-  const [isScrollDownTextTextCombineUpright, setIsScrollDownTextTextCombineUpright] = useState('none');
-  const [isScrollDownIconTextCombineUpright, setIsScrollDownIconTextCombineUpright] = useState('none');
-  const [isScrollDownTextTextRendering, setIsScrollDownTextTextRendering] = useState('auto');
-  const [isScrollDownIconTextRendering, setIsScrollDownIconTextRendering] = useState('auto');
-  const [isScrollDownTextFontFamily, setIsScrollDownTextFontFamily] = useState('sans-serif');
-  const [isScrollDownIconFontFamily, setIsScrollDownIconFontFamily] = useState('sans-serif');
-  const [isScrollDownTextFontSize, setIsScrollDownTextFontSize] = useState('1rem');
-  const [isScrollDownIconFontSize, setIsScrollDownIconFontSize] = useState('1rem');
-  const [isScrollDownTextFontStyle, setIsScrollDownTextFontStyle] = useState('normal');
-  const [isScrollDownIconFontStyle, setIsScrollDownIconFontStyle] = useState('normal');
-  const [isScrollDownTextFontWeight, setIsScrollDownTextFontWeight] = useState('normal');
-  const [isScrollDownIconFontWeight, setIsScrollDownIconFontWeight] = useState('normal');
-  const [isScrollDownTextFontStretch, setIsScrollDownTextFontStretch] = useState('normal');
-  const [isScrollDownIconFontStretch, setIsScrollDownIconFontStretch] = useState('normal');
-  const [isScrollDownTextFontVariant, setIsScrollDownTextFontVariant] = useState('normal');
-  const [isScrollDownIconFontVariant, setIsScrollDownIconFontVariant] = useState('normal');
-  const [isScrollDownTextFontFeatureSettings, setIsScrollDownTextFontFeatureSettings] = useState('normal');
-  const [isScrollDownIconFontFeatureSettings, setIsScrollDownIconFontFeatureSettings] = useState('normal');
-  const [isScrollDownTextFontVariationSettings, setIsScrollDownTextFontVariationSettings] = useState('normal');
-  const [isScrollDownIconFontVariationSettings, setIsScrollDownIconFontVariationSettings] = useState('normal');
-  const [isScrollDownTextFontKerning, setIsScrollDownTextFontKerning] = useState('auto');
-  const [isScrollDownIconFontKerning, setIsScrollDownIconKerning] = useState('auto');
-  const [isScrollDownTextFontOpticalSizing, setIsScrollDownTextFontOpticalSizing] = useState('auto');
-  const [isScrollDownIconFontOpticalSizing, setIsScrollDownIconFontOpticalSizing] = useState('auto');
-  const [isScrollDownTextFontPalette, setIsScrollDownTextFontPalette] = useState('normal');
-  const [isScrollDownIconFontPalette, setIsScrollDownIconFontPalette] = useState('normal');
-  const [isScrollDownTextFontSynthesis, setIsScrollDownTextFontSynthesis] = useState('auto');
-  const [isScrollDownIconFontSynthesis, setIsScrollDownIconFontSynthesis] = useState('auto');
-  const [isScrollDownTextFontVariantAlternates, setIsScrollDownTextFontVariantAlternates] = useState('normal');
-  const [isScrollDownIconFontVariantAlternates, setIsScrollDownIconFontVariantAlternates] = useState('normal');
-  const [isScrollDownTextFontVariantCaps, setIsScrollDownTextFontVariantCaps] = useState('normal');
-  const [isScrollDownIconFontVariantCaps, setIsScrollDownIconFontVariantCaps] = useState('normal');
-  const [isScrollDownTextFontVariantEastAsian, setIsScrollDownTextFontVariantEastAsian] = useState('normal');
-  const [isScrollDownIconFontVariantEastAsian, setIsScrollDownIconFontVariantEastAsian] = useState('normal');
-  const [isScrollDownTextFontVariantLigatures, setIsScrollDownTextFontVariantLigatures] = useState('normal');
-  const [isScrollDownIconFontVariantLigatures, setIsScrollDownIconFontVariantLigatures] = useState('normal');
-  const [isScrollDownTextFontVariantNumeric, setIsScrollDownTextFontVariantNumeric] = useState('normal');
-  const [isScrollDownIconFontVariantNumeric, setIsScrollDownIconFontVariantNumeric] = useState('normal');
-  const [isScrollDownTextFontVariantPosition, setIsScrollDownTextFontVariantPosition] = useState('normal');
-  const [isScrollDownIconFontVariantPosition, setIsScrollDownIconFontVariantPosition] = useState('normal');
-  const [isScrollDownTextFontDisplay, setIsScrollDownTextFontDisplay] = useState('auto');
-  const [isScrollDownIconFontDisplay, setIsScrollDownIconFontDisplay] = useState('auto');
-  const [isScrollDownTextFontSmoothing, setIsScrollDownTextFontSmoothing] = useState('auto');
-  const [isScrollDownIconFontSmoothing, setIsScrollDownIconFontSmoothing] = useState('auto');
-  const [isScrollDownTextFontLanguageOverride, setIsScrollDownTextFontLanguageOverride] = useState('normal');
-  const [isScrollDownIconFontLanguageOverride, setIsScrollDownIconFontLanguageOverride] = useState('normal');
-  const [isScrollDownTextFontShorthand, setIsScrollDownTextFontShorthand] = useState('normal');
-  const [isScrollDownIconFontShorthand, setIsScrollDownIconFontShorthand] = useState('normal');
-  const [isScrollDownTextFont, setIsScrollDownTextFont] = useState('normal');
-  const [isScrollDownIconFont, setIsScrollDownIconFont] = useState('normal');
-  const [isScrollDownTextAnimation, setIsScrollDownTextAnimation] = useState('normal');
-  const [isScrollDownIconAnimation, setIsScrollDownIconAnimation] = useState('normal');
-  const [isScrollDownTextTransition, setIsScrollDownTextTransition] = useState('normal');
-  const [isScrollDownIconTransition, setIsScrollDownIconTransition] = useState('normal');
-  const [isScrollDownTextTransformOriginX, setIsScrollDownTextTransformOriginX] = useState('center');
-  const [isScrollDownIconTransformOriginX, setIsScrollDownIconTransformOriginX] = useState('center');
-  const [isScrollDownTextTransformOriginY, setIsScrollDownTextTransformOriginY] = useState('center');
-  const [isScrollDownIconTransformOriginY, setIsScrollDownIconTransformOriginY] = useState('center');
-  const [isScrollDownTextTransformOriginZ, setIsScrollDownTextTransformOriginZ] = useState('center');
-  const [isScrollDownIconTransformOriginZ, setIsScrollDownIconTransformOriginZ] = useState('center');
-  const [isScrollDownTextTransformStyle3D, setIsScrollDownTextTransformStyle3D] = useState('flat');
-  const [isScrollDownIconTransformStyle3D, setIsScrollDownIconTransformStyle3D] = useState('flat');
-  const [isScrollDownTextTransformBox3D, setIsScrollDownTextTransformBox3D] = useState('border-box');
-  const [isScrollDownIconTransformBox3D, setIsScrollDownIconTransformBox3D] = useState('border-box');
-  const [isScrollDownTextTransformOrigin3D, setIsScrollDownTextTransformOrigin3D] = useState('center');
-  const [isScrollDownIconTransformOrigin3D, setIsScrollDownIconTransformOrigin3D] = useState('center');
-  const [isScrollDownTextTransform3D, setIsScrollDownTextTransform3D] = useState('normal');
-  const [isScrollDownIconTransform3D, setIsScrollDownIconTransform3D] = useState('normal');
-  const [isScrollDownTextFilter3D, setIsScrollDownTextFilter3D] = useState('normal');
-  const [isScrollDownIconFilter3D, setIsScrollDownIconFilter3D] = useState('normal');
-  const [isScrollDownTextBackdropFilter3D, setIsScrollDownTextBackdropFilter3D] = useState('normal');
-  const [isScrollDownIconBackdropFilter3D, setIsScrollDownIconBackdropFilter3D] = useState('normal');
-  const [isScrollDownTextClipPath3D, setIsScrollDownTextClipPath3D] = useState('normal');
-  const [isScrollDownIconClipPath3D, setIsScrollDownIconClipPath3D] = useState('normal');
-  const [isScrollDownTextMask3D, setIsScrollDownTextMask3D] = useState('normal');
-  const [isScrollDownIconMask3D, setIsScrollDownIconMask3D] = useState('normal');
-  const [isScrollDownTextMixBlendMode3D, setIsScrollDownTextMixBlendMode3D] = useState('normal');
-  const [isScrollDownIconMixBlendMode3D, setIsScrollDownIconMixBlendMode3D] = useState('normal');
-  const [isScrollDownTextIsolation3D, setIsScrollDownTextIsolation3D] = useState('normal');
-  const [isScrollDownIconIsolation3D, setIsScrollDownIconIsolation3D] = useState('normal');
-  const [isScrollDownTextWillChange3D, setIsScrollDownTextWillChange3D] = useState('normal');
-  const [isScrollDownIconWillChange3D, setIsScrollDownIconWillChange3D] = useState('normal');
-  const [isScrollDownTextPointerEvents3D, setIsScrollDownTextPointerEvents3D] = useState('normal');
-  const [isScrollDownIconPointerEvents3D, setIsScrollDownIconPointerEvents3D] = useState('normal');
-  const [isScrollDownTextCursor3D, setIsScrollDownTextCursor3D] = useState('normal');
-  const [isScrollDownIconCursor3D, setIsScrollDownIconCursor3D] = useState('normal');
-  const [isScrollDownTextTouchAction3D, setIsScrollDownTextTouchAction3D] = useState('normal');
-  const [isScrollDownIconTouchAction3D, setIsScrollDownIconTouchAction3D] = useState('normal');
-  const [isScrollDownTextUserSelect3D, setIsScrollDownTextUserSelect3D] = useState('normal');
-  const [isScrollDownIconUserSelect3D, setIsScrollDownIconUserSelect3D] = useState('normal');
-  const [isScrollDownTextResize3D, setIsScrollDownTextResize3D] = useState('normal');
-  const [isScrollDownIconResize3D, setIsScrollDownIconResize3D] = useState('normal');
-  const [isScrollDownTextOverflow3D, setIsScrollDownTextOverflow3D] = useState('normal');
-  const [isScrollDownIconOverflow3D, setIsScrollDownIconOverflow3D] = useState('normal');
-  const [isScrollDownTextWhiteSpace3D, setIsScrollDownTextWhiteSpace3D] = useState('normal');
-  const [isScrollDownIconWhiteSpace3D, setIsScrollDownIconWhiteSpace3D] = useState('normal');
-  const [isScrollDownTextWordBreak3D, setIsScrollDownTextWordBreak3D] = useState('normal');
-  const [isScrollDownIconWordBreak3D, setIsScrollDownIconWordBreak3D] = useState('normal');
-  const [isScrollDownTextWordWrap3D, setIsScrollDownTextWordWrap3D] = useState('normal');
-  const [isScrollDownIconWordWrap3D, setIsScrollDownIconWordWrap3D] = useState('normal');
-  const [isScrollDownTextTextOverflow3D, setIsScrollDownTextTextOverflow3D] = useState('normal');
-  const [isScrollDownIconTextOverflow3D, setIsScrollDownIconTextOverflow3D] = useState('normal');
-  const [isScrollDownTextTextTransform3D, setIsScrollDownTextTextTransform3D] = useState('normal');
-  const [isScrollDownIconTextTransform3D, setIsScrollDownIconTextTransform3D] = useState('normal');
-  const [isScrollDownTextTextDecoration3D, setIsScrollDownTextTextDecoration3D] = useState('normal');
-  const [isScrollDownIconTextDecoration3D, setIsScrollDownIconTextDecoration3D] = useState('normal');
-  const [isScrollDownTextTextShadow3D, setIsScrollDownTextTextShadow3D] = useState('normal');
-  const [isScrollDownIconTextShadow3D, setIsScrollDownIconTextShadow3D] = useState('normal');
-  const [isScrollDownTextTextIndent3D, setIsScrollDownTextTextIndent3D] = useState('normal');
-  const [isScrollDownIconTextIndent3D, setIsScrollDownIconTextIndent3D] = useState('normal');
-  const [isScrollDownTextLetterSpacing3D, setIsScrollDownTextLetterSpacing3D] = useState('normal');
-  const [isScrollDownIconLetterSpacing3D, setIsScrollDownIconLetterSpacing3D] = useState('normal');
-  const [isScrollDownTextLineHeight3D, setIsScrollDownTextLineHeight3D] = useState('normal');
-  const [isScrollDownIconLineHeight3D, setIsScrollDownIconLineHeight3D] = useState('normal');
-  const [isScrollDownTextTextAlign3D, setIsScrollDownTextTextAlign3D] = useState('normal');
-  const [isScrollDownIconTextAlign3D, setIsScrollDownIconTextAlign3D] = useState('normal');
-  const [isScrollDownTextVerticalAlign3D, setIsScrollDownTextVerticalAlign3D] = useState('normal');
-  const [isScrollDownIconVerticalAlign3D, setIsScrollDownIconVerticalAlign3D] = useState('normal');
-  const [isScrollDownTextDirection3D, setIsScrollDownTextDirection3D] = useState('normal');
-  const [isScrollDownIconDirection3D, setIsScrollDownIconDirection3D] = useState('normal');
-  const [isScrollDownTextUnicodeBidi3D, setIsScrollDownTextUnicodeBidi3D] = useState('normal');
-  const [isScrollDownIconUnicodeBidi3D, setIsScrollDownIconUnicodeBidi3D] = useState('normal');
-  const [isScrollDownTextWritingMode3D, setIsScrollDownTextWritingMode3D] = useState('normal');
-  const [isScrollDownIconWritingMode3D, setIsScrollDownIconWritingMode3D] = useState('normal');
-  const [isScrollDownTextTextOrientation3D, setIsScrollDownTextTextOrientation3D] = useState('normal');
-  const [isScrollDownIconTextOrientation3D, setIsScrollDownIconTextOrientation3D] = useState('normal');
-  const [isScrollDownTextTextCombineUpright3D, setIsScrollDownTextTextCombineUpright3D] = useState('normal');
-  const [isScrollDownIconTextCombineUpright3D, setIsScrollDownIconTextCombineUpright3D] = useState('normal');
-  const [isScrollDownTextTextRendering3D, setIsScrollDownTextTextRendering3D] = useState('normal');
-  const [isScrollDownIconTextRendering3D, setIsScrollDownIconTextRendering3D] = useState('normal');
-  const [isScrollDownTextFontFamily3D, setIsScrollDownTextFontFamily3D] = useState('normal');
-  const [isScrollDownIconFontFamily3D, setIsScrollDownIconFontFamily3D] = useState('normal');
-  const [isScrollDownTextFontSize3D, setIsScrollDownTextFontSize3D] = useState('normal');
-  const [isScrollDownIconFontSize3D, setIsScrollDownIconFontSize3D] = useState('normal');
-  const [isScrollDownTextFontStyle3D, setIsScrollDownTextFontStyle3D] = useState('normal');
-  const [isScrollDownIconFontStyle3D, setIsScrollDownIconFontStyle3D] = useState('normal');
-  const [isScrollDownTextFontWeight3D, setIsScrollDownTextFontWeight3D] = useState('normal');
-  const [isScrollDownIconFontWeight3D, setIsScrollDownIconFontWeight3D] = useState('normal');
-  const [isScrollDownTextFontStretch3D, setIsScrollDownTextFontStretch3D] = useState('normal');
-  const [isScrollDownIconFontStretch3D, setIsScrollDownIconFontStretch3D] = useState('normal');
-  const [isScrollDownTextFontVariant3D, setIsScrollDownTextFontVariant3D] = useState('normal');
-  const [isScrollDownIconFontVariant3D, setIsScrollDownIconFontVariant3D] = useState('normal');
-  const [isScrollDownTextFontFeatureSettings3D, setIsScrollDownTextFontFeatureSettings3D] = useState('normal');
-  const [isScrollDownIconFontFeatureSettings3D, setIsScrollDownIconFontFeatureSettings3D] = useState('normal');
-  const [isScrollDownTextFontVariationSettings3D, setIsScrollDownTextFontVariationSettings3D] = useState('normal');
-  const [isScrollDownIconFontVariationSettings3D, setIsScrollDownIconFontVariationSettings3D] = useState('normal');
-  const [isScrollDownTextFontKerning3D, setIsScrollDownTextFontKerning3D] = useState('normal');
-  const [isScrollDownIconFontKerning3D, setIsScrollDownIconFontKerning3D] = useState('normal');
-  const [isScrollDownTextFontOpticalSizing3D, setIsScrollDownTextFontOpticalSizing3D] = useState('normal');
-  const [isScrollDownIconFontOpticalSizing3D, setIsScrollDownIconFontOpticalSizing3D] = useState('normal');
-  const [isScrollDownTextFontPalette3D, setIsScrollDownTextFontPalette3D] = useState('normal');
-  const [isScrollDownIconFontPalette3D, setIsScrollDownIconFontPalette3D] = useState('normal');
-  const [isScrollDownTextFontSynthesis3D, setIsScrollDownTextFontSynthesis3D] = useState('normal');
-  const [isScrollDownIconFontSynthesis3D, setIsScrollDownIconFontSynthesis3D] = useState('normal');
-  const [isScrollDownTextFontVariantAlternates3D, setIsScrollDownTextFontVariantAlternates3D] = useState('normal');
-  const [isScrollDownIconFontVariantAlternates3D, setIsScrollDownIconFontVariantAlternates3D] = useState('normal');
-  const [isScrollDownTextFontVariantCaps3D, setIsScrollDownTextFontVariantCaps3D] = useState('normal');
-  const [isScrollDownIconFontVariantCaps3D, setIsScrollDownIconFontVariantCaps3D] = useState('normal');
-  const [isScrollDownTextFontVariantEastAsian3D, setIsScrollDownTextFontVariantEastAsian3D] = useState('normal');
-  const [isScrollDownIconFontVariantEastAsian3D, setIsScrollDownIconFontVariantEastAsian3D] = useState('normal');
-  const [isScrollDownTextFontVariantLigatures3D, setIsScrollDownTextFontVariantLigatures3D] = useState('normal');
-  const [isScrollDownIconFontVariantLigatures3D, setIsScrollDownIconFontVariantLigatures3D] = useState('normal');
-  const [isScrollDownTextFontVariantNumeric3D, setIsScrollDownTextFontVariantNumeric3D] = useState('normal');
-  const [isScrollDownIconFontVariantNumeric3D, setIsScrollDownIconFontVariantNumeric3D] = useState('normal');
-  const [isScrollDownTextFontVariantPosition3D, setIsScrollDownTextFontVariantPosition3D] = useState('normal');
-  const [isScrollDownIconFontVariantPosition3D, setIsScrollDownIconFontVariantPosition3D] = useState('normal');
-  const [isScrollDownTextFontDisplay3D, setIsScrollDownTextFontDisplay3D] = useState('normal');
-  const [isScrollDownIconFontDisplay3D, setIsScrollDownIconFontDisplay3D] = useState('normal');
-  const [isScrollDownTextFontSmoothing3D, setIsScrollDownTextFontSmoothing3D] = useState('normal');
-  const [isScrollDownIconFontSmoothing3D, setIsScrollDownIconFontSmoothing3D] = useState('normal');
-  const [isScrollDownTextFontLanguageOverride3D, setIsScrollDownTextFontLanguageOverride3D] = useState('normal');
-  const [isScrollDownIconFontLanguageOverride3D, setIsScrollDownIconFontLanguageOverride3D] = useState('normal');
-  const [isScrollDownTextFontShorthand3D, setIsScrollDownTextFontShorthand3D] = useState('normal');
-  const [isScrollDownIconFontShorthand3D, setIsScrollDownIconFontShorthand3D] = useState('normal');
-  const [isScrollDownTextFont3D, setIsScrollDownTextFont3D] = useState('normal');
-  const [isScrollDownIconFont3D, setIsScrollDownIconFont3D] = useState('normal');
-  const [isScrollDownTextAnimation3D, setIsScrollDownTextAnimation3D] = useState('normal');
-  const [isScrollDownIconAnimation3D, setIsScrollDownIconAnimation3D] = useState('normal');
-  const [isScrollDownTextTransition3D, setIsScrollDownTextTransition3D] = useState('normal');
-  const [isScrollDownIconTransition3D, setIsScrollDownIconTransition3D] = useState('normal');
-  const [isScrollDownTextTransformOriginX3D, setIsScrollDownTextTransformOriginX3D] = useState('normal');
-  const [isScrollDownIconTransformOriginX3D, setIsScrollDownIconTransformOriginX3D] = useState('normal');
-  const [isScrollDownTextTransformOriginY3D, setIsScrollDownTextTransformOriginY3D] = useState('normal');
-  const [isScrollDownIconTransformOriginY3D, setIsScrollDownIconTransformOriginY3D] = useState('normal');
-  const [isScrollDownTextTransformOriginZ3D, setIsScrollDownTextTransformOriginZ3D] = useState('normal');
-  const [isScrollDownIconTransformOriginZ3D, setIsScrollDownIconTransformOriginZ3D] = useState('normal');
-  const [isScrollDownTextTransformStyle3D3D, setIsScrollDownTextTransformStyle3D3D] = useState('normal');
-  const [isScrollDownIconTransformStyle3D3D, setIsScrollDownIconTransformStyle3D3D] = useState('normal');
-  const [isScrollDownTextTransformBox3D3D, setIsScrollDownTextTransformBox3D3D] = useState('normal');
-  const [isScrollDownIconTransformBox3D3D, setIsScrollDownIconTransformBox3D3D] = useState('normal');
-  const [isScrollDownTextTransformOrigin3D3D, setIsScrollDownTextTransformOrigin3D3D] = useState('normal');
-  const [isScrollDownIconTransformOrigin3D3D, setIsScrollDownIconTransformOrigin3D3D] = useState('normal');
-  const [isScrollDownTextTransform3D3D, setIsScrollDownTextTransform3D3D] = useState('normal');
-  const [isScrollDownIconTransform3D3D, setIsScrollDownIconTransform3D3D] = useState('normal');
-  const [isScrollDownTextFilter3D3D, setIsScrollDownTextFilter3D3D] = useState('normal');
-  const [isScrollDownIconFilter3D3D, setIsScrollDownIconFilter3D3D] = useState('normal');
-  const [isScrollDownTextBackdropFilter3D3D, setIsScrollDownTextBackdropFilter3D3D] = useState('normal');
-  const [isScrollDownIconBackdropFilter3D3D, setIsScrollDownIconBackdropFilter3D3D] = useState('normal');
-  const [isScrollDownTextClipPath3D3D, setIsScrollDownTextClipPath3D3D] = useState('normal');
-  const [isScrollDownIconClipPath3D3D, setIsScrollDownIconClipPath3D3D] = useState('normal');
-  const [isScrollDownTextMask3D3D, setIsScrollDownTextMask3D3D] = useState('normal');
-  const [isScrollDownIconMask3D3D, setIsScrollDownIconMask3D3D] = useState('normal');
-  const [isScrollDownTextMixBlendMode3D3D, setIsScrollDownTextMixBlendMode3D3D] = useState('normal');
-  const [isScrollDownIconMixBlendMode3D3D, setIsScrollDownIconMixBlendMode3D3D] = useState('normal');
-  const [isScrollDownTextIsolation3D3D, setIsScrollDownTextIsolation3D3D] = useState('normal');
-  const [isScrollDownIconIsolation3D3D, setIs
+  
+  // Refs for scroll detection
+  const heroRef = useRef<HTMLDivElement>(null);
+  const boardroomRef = useRef<HTMLDivElement>(null);
+  
+  // Handle mouse movement for interactive effects
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!heroRef.current) return;
+    
+    const rect = heroRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 to 0.5
+    const y = (e.clientY - rect.top) / rect.height - 0.5; // -0.5 to 0.5
+    
+    setMousePosition({ x, y });
+  };
+  
+  // Handle scroll to detect when to show boardroom experience
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!heroRef.current) return;
+      
+      const scrollY = window.scrollY;
+      const heroHeight = heroRef.current.offsetHeight;
+      
+      // Show boardroom when scrolled 30% of hero height
+      const shouldShowBoardroom = scrollY > heroHeight * 0.3;
+      setShowBoardroom(shouldShowBoardroom);
+      
+      // Hide scroll indicator after scrolling starts
+      if (scrollY > 100 && isScrollDownVisible) {
+        setIsScrollDownVisible(false);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isScrollDownVisible]);
+  
+  // Complete the welcome sequence after a delay
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setWelcomeComplete(true);
+    }, 4000);
+    
+    return () => clearTimeout(timer);
+  }, []);
+  
+  // Handle agent selection
+  const handleAgentSelect = (agentName: string) => {
+    setSelectedAgent(agentName === selectedAgent ? null : agentName);
+  };
+  
+  // Handle click on the "Meet Your Team" button
+  const handleTeamButtonClick = () => {
+    // Find the team section in the document and scroll to it
+    const teamSection = document.getElementById('team');
+    if (teamSection) {
+      teamSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+  
+  return (
+    <section 
+      className="relative min-h-[150vh] bg-nextgen-dark overflow-hidden"
+      onMouseMove={handleMouseMove}
+      ref={heroRef}
+    >
+      {/* Main hero content - initial state */}
+      <div className={`min-h-screen sticky top-0 flex items-center transition-opacity duration-700 ${showBoardroom ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+        <div className="container mx-auto px-4 pt-16 pb-4 relative z-10">
+          <HeroContent 
+            welcomeComplete={welcomeComplete}
+            isVisible={!showBoardroom}
+          />
+          
+          {/* Floating agents with welcome animation */}
+          <div className="w-full aspect-square max-w-3xl mx-auto mt-8">
+            <FloatingAgentAvatarsWithWelcome
+              staggered={true}
+              onAgentSelect={handleAgentSelect}
+              mousePosition={mousePosition}
+              welcomeComplete={welcomeComplete}
+            />
+          </div>
+        </div>
+        
+        {/* Scroll down indicator */}
+        <ScrollDownIndicator isVisible={isScrollDownVisible} />
+      </div>
+      
+      {/* Boardroom experience - revealed on scroll */}
+      <div 
+        ref={boardroomRef}
+        className={`min-h-screen sticky top-0 flex items-center transition-opacity duration-700 ${showBoardroom ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+      >
+        <div className="container mx-auto px-4 pt-16 pb-4 relative z-10">
+          <BoardroomDemo 
+            activated={showBoardroom} 
+            onTeamButtonClick={handleTeamButtonClick}
+          />
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default HeroWithScrollReveal;
