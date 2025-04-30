@@ -5,15 +5,16 @@ import { cn } from '@/lib/utils';
 import ScrollRevealWrapper from '../animation/ScrollRevealWrapper';
 
 export interface DisplayCardItem {
-  stat: string;
-  subText: string;
-  icon?: React.ReactNode;
-  agent?: string;
-  agentColor?: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  agentName: string;
+  agentRole: string;
+  agentColor: string;
 }
 
-interface DisplayCardsProps {
-  items: DisplayCardItem[];
+export interface DisplayCardsProps {
+  cards: DisplayCardItem[];
   title?: string;
   description?: string;
   className?: string;
@@ -21,7 +22,7 @@ interface DisplayCardsProps {
 }
 
 const DisplayCards: React.FC<DisplayCardsProps> = ({
-  items,
+  cards,
   title,
   description,
   className,
@@ -47,8 +48,8 @@ const DisplayCards: React.FC<DisplayCardsProps> = ({
         )}
         
         {/* Cards grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {items.map((item, idx) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {cards.map((item, idx) => (
             <ScrollRevealWrapper
               key={idx}
               animation="fade-up"
@@ -66,29 +67,27 @@ const DisplayCards: React.FC<DisplayCardsProps> = ({
                 }}
               >
                 {/* Agent indicator in corner */}
-                {item.agent && (
+                {item.agentName && (
                   <div className={`absolute top-4 right-4 h-6 w-6 rounded-full bg-${item.agentColor || 'purple'}-500/20 flex items-center justify-center`}>
                     <span className={`text-${item.agentColor || 'purple'}-500 text-xs font-medium`}>
-                      {item.agent[0]}
+                      {item.agentName[0]}
                     </span>
-                  </div>
-                )}
-                
-                {/* Icon */}
-                {item.icon && (
-                  <div className="mb-4 text-white">
-                    {item.icon}
                   </div>
                 )}
                 
                 {/* Stat */}
                 <h3 className={`text-3xl md:text-4xl font-bold mb-2 text-${item.agentColor || 'white'} group-hover:text-gradient-${item.agentColor || 'primary'}`}>
-                  {item.stat}
+                  {item.title}
                 </h3>
+                
+                {/* Subtitle */}
+                <p className={`font-medium text-white mb-3`}>
+                  {item.subtitle}
+                </p>
                 
                 {/* Description */}
                 <p className="text-white/70">
-                  {item.subText}
+                  {item.description}
                 </p>
                 
                 {/* Card glow effect on hover */}

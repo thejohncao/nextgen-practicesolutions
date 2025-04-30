@@ -8,13 +8,15 @@ interface AgentMessageProps {
   role: string;
   message: string;
   bgColorClass?: string;
+  delay?: number;
 }
 
 const AgentMessage: React.FC<AgentMessageProps> = ({ 
   agent, 
   role, 
   message,
-  bgColorClass = "bg-blue-500/30 dark:bg-blue-500/20" 
+  bgColorClass = "bg-blue-500/30 dark:bg-blue-500/20",
+  delay = 0 
 }) => {
   return (
     <div className="p-3 flex">
@@ -33,6 +35,7 @@ const AgentMessage: React.FC<AgentMessageProps> = ({
           <motion.div 
             initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay }}
             className={`${bgColorClass} p-3 rounded-lg text-white backdrop-blur-sm`}
           >
             {message}

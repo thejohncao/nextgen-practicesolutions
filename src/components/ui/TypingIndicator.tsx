@@ -1,13 +1,25 @@
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 export interface TypingIndicatorProps {
-  agent: string;
+  agent?: string;
+  text?: string;
+  speed?: number;
+  onComplete?: () => void;
 }
 
-export const TypingIndicator: React.FC<TypingIndicatorProps> = ({ agent }) => {
+export const TypingIndicator: React.FC<TypingIndicatorProps> = ({ 
+  agent,
+  text,
+  speed = 50,
+  onComplete
+}) => {
+  const [displayedText, setDisplayedText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+  
   // Function to get agent-specific colors
-  const getAgentColor = (name: string) => {
+  const getAgentColor = (name?: string) => {
+    if (!name) return 'bg-white';
+    
     switch (name.toLowerCase()) {
       case 'miles':
         return 'bg-blue-400';
@@ -24,6 +36,29 @@ export const TypingIndicator: React.FC<TypingIndicatorProps> = ({ agent }) => {
   
   const dotColor = getAgentColor(agent);
   
+  // Text typing animation effect
+  useEffect(() => {
+    if (!text) return;
+    
+    if (currentIndex < text.length) {
+      const timeout = setTimeout(() => {
+        setDisplayedText(prev => prev + text[currentIndex]);
+        setCurrentIndex(prevIndex => prevIndex + 1);
+      }, speed);
+      
+      return () => clearTimeout(timeout);
+    } else if (onComplete) {
+      // Animation is complete
+      onComplete();
+    }
+  }, [currentIndex, text, speed, onComplete]);
+  
+  // If text prop is provided, show the typing animation
+  if (text) {
+    return <span>{displayedText}</span>;
+  }
+  
+  // Otherwise show the bouncing dots
   return (
     <div className="flex items-center">
       <div className="flex space-x-1">

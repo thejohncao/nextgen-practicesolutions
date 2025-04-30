@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 
 interface SectionTransitionProps {
   className?: string;
-  type?: 'fade' | 'blur' | 'gradient' | 'parallax';
+  type?: 'fade' | 'blur' | 'gradient' | 'parallax' | 'wave';
   position?: 'top' | 'bottom' | 'both';
   height?: number;
   color?: string;
@@ -47,6 +47,12 @@ const SectionTransition: React.FC<SectionTransitionProps> = ({
       return pos === 'top'
         ? `bg-gradient-to-b from-${color} via-${color}/70 to-transparent backdrop-filter backdrop-blur-[2px]`
         : `bg-gradient-to-t from-${color} via-${color}/70 to-transparent backdrop-filter backdrop-blur-[2px]`;
+    }
+    
+    if (type === 'wave') {
+      return pos === 'top'
+        ? `bg-gradient-to-b from-${color} via-${color}/80 to-transparent`
+        : `bg-gradient-to-t from-${color} via-${color}/80 to-transparent`;
     }
     
     return pos === 'top'
