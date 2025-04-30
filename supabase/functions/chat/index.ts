@@ -36,6 +36,7 @@ serve(async (req) => {
     }
 
     console.log(`OpenAI API call: Processing ${messages.length} messages with system prompt${stream ? ' (streaming)' : ''}`)
+    console.log(`Last user message: ${JSON.stringify(messages[messages.length - 1])}`)
 
     const fullMessages = [
       {
@@ -59,7 +60,8 @@ serve(async (req) => {
     
     // Use AbortController for timeout management
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout (increased from 10s)
+    // Increased timeout to 20 seconds as requested in the debug notes
+    const timeoutId = setTimeout(() => controller.abort(), 20000);
     
     try {
       const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -121,14 +123,24 @@ serve(async (req) => {
       const data = await response.json()
       console.log("Successfully received response from OpenAI")
       
-      return new Response(JSON.stringify({ response: data.choices[0].message.content }), {
+      // Validate that the response contains actual content
+      const content = data.choices[0].message.content;
+      if (!content || content.trim() === '') {
+        console.error("Empty response received from OpenAI");
+        throw new Error("Empty response received from OpenAI");
+      }
+      
+      // Log the first 100 characters of the response for debugging
+      console.log(`Response preview: ${content.substring(0, 100)}...`);
+      
+      return new Response(JSON.stringify({ response: content }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       })
     } catch (fetchError) {
       clearTimeout(timeoutId);
       
       if (fetchError.name === "AbortError") {
-        throw new Error("Request timed out after 15 seconds");
+        throw new Error("Request timed out after 20 seconds");
       }
       throw fetchError;
     }

@@ -13,6 +13,11 @@ export async function callOpenAI(
 ): Promise<Response | string | null> {
   try {
     console.log(`Calling OpenAI API with ${messages.length} messages, streaming: ${stream}`);
+    // Log the last user message for debugging
+    const lastUserMessage = messages.filter(m => m.role === 'user').pop();
+    if (lastUserMessage) {
+      console.log(`Last user message: "${lastUserMessage.content.substring(0, 50)}${lastUserMessage.content.length > 50 ? '...' : ''}"`);
+    }
     
     // For streaming responses, we need to return the response object directly
     if (stream) {
@@ -59,9 +64,9 @@ export async function callOpenAI(
       try {
         console.log(`Attempt ${attempt + 1} of ${maxRetries + 1} to call OpenAI`);
         
-        // Create a timeout promise that rejects after 8 seconds
+        // Create a timeout promise that rejects after 25 seconds (increased from 8 seconds)
         const timeoutPromise = new Promise((_, reject) => {
-          setTimeout(() => reject(new Error("Request timed out")), 8000);
+          setTimeout(() => reject(new Error("Request timed out")), 25000);
         });
         
         // Create the actual API call promise
@@ -81,7 +86,14 @@ export async function callOpenAI(
           throw new Error("Invalid response from AI service");
         }
 
-        return result.data.response;
+        // Check for empty response content and retry if empty
+        const response = result.data.response;
+        if (!response || response.trim() === '') {
+          console.warn("Empty response received, will retry");
+          throw new Error("Empty response received");
+        }
+
+        return response;
       } catch (err) {
         lastError = err;
         console.error(`AI call attempt ${attempt + 1} failed:`, err);
@@ -104,6 +116,8 @@ export async function callOpenAI(
       errorMessage = "OpenAI service error. Please try again later.";
     } else if (lastError?.message?.includes("timed out")) {
       errorMessage = "Request timed out. The AI service is taking too long to respond.";
+    } else if (lastError?.message?.includes("Empty response")) {
+      errorMessage = "The AI service returned an empty response. Please try again.";
     }
 
     toast({

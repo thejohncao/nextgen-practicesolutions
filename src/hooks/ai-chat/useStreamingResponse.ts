@@ -1,117 +1,155 @@
 
-import { useState, useCallback, useRef } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { AiMessage } from '../useAiConversation';
-import { Message } from '@/lib/aiTypes';
+import { toast } from '@/components/ui/use-toast';
 
 /**
- * Hook for handling streaming responses from OpenAI
+ * Hook for handling streaming responses from the OpenAI API
  */
 export function useStreamingResponse() {
-  // Ref to track active streaming response
   const streamingResponseRef = useRef<Response | null>(null);
-  
-  // Process a streamed response chunk
+  const [streamedText, setStreamedText] = useState<string>("");
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  // Process the streamed response from the OpenAI API
   const processStreamedResponse = useCallback(async (
     reader: ReadableStreamDefaultReader<Uint8Array>,
     decoder: TextDecoder,
-    agentMessages: AiMessage[],
+    currentAgentMessages: AiMessage[],
     currentAgent: string,
-    setAgentConversations: React.Dispatch<React.SetStateAction<Record<string, AiMessage[]>>>,
-    saveMessagesToSession: (conversationId: string, agent: string, messages: AiMessage[]) => void,
-    conversationId: string
+    setAgentConversations: (callback: (prev: Record<string, AiMessage[]>) => Record<string, AiMessage[]>) => void,
+    saveMessagesToSession: (conversationId: string, agentName: string, messages: AiMessage[]) => void,
+    conversationId: string,
   ) => {
     let fullResponse = '';
-    let partialResponse = '';
-    
+    let isEmptyResponse = true;
+
     try {
+      abortControllerRef.current = new AbortController();
+      const signal = abortControllerRef.current.signal;
+
       while (true) {
-        const { done, value } = await reader.read();
-        
-        if (done) {
+        if (signal.aborted) {
+          console.log("Streaming response aborted");
           break;
         }
         
-        // Decode the chunk and add to the partial response
-        const chunk = decoder.decode(value, { stream: true });
-        partialResponse += chunk;
+        const { value, done } = await reader.read();
+        if (done) break;
         
-        // Check for complete line (OpenAI sends "data: " prefixed chunks)
-        if (partialResponse.includes('\n\n')) {
-          const lines = partialResponse.split('\n\n');
-          partialResponse = lines.pop() || ''; // Keep the last incomplete chunk
-          
-          for (const line of lines) {
-            if (line.startsWith('data: ')) {
-              const data = line.slice(6); // Remove "data: " prefix
+        const chunkValue = decoder.decode(value, { stream: true });
+        
+        // Try to parse the chunk as a Server-Sent Event
+        const lines = chunkValue.trim().split('\n');
+        let textChunk = '';
+        
+        for (const line of lines) {
+          if (line.startsWith('data:')) {
+            try {
+              const jsonData = line.slice(5).trim();
+              if (jsonData === '[DONE]') continue;
               
-              if (data === '[DONE]') {
-                // Stream is complete
-                break;
+              const data = JSON.parse(jsonData);
+              const content = data.choices?.[0]?.delta?.content || '';
+              if (content) {
+                textChunk += content;
+                isEmptyResponse = false;
               }
-              
-              try {
-                const parsed = JSON.parse(data);
-                const content = parsed.choices[0]?.delta?.content;
-                
-                if (content) {
-                  fullResponse += content;
-                  
-                  // Update the AI response in the conversation
-                  setAgentConversations(prev => {
-                    const updatedConversations = { ...prev };
-                    const currentAgentMessages = [...agentMessages];
-                    
-                    // Update or add the AI message
-                    const lastMessageIndex = currentAgentMessages.length - 1;
-                    if (lastMessageIndex >= 0 && !currentAgentMessages[lastMessageIndex].isUser) {
-                      // Update existing AI message
-                      currentAgentMessages[lastMessageIndex] = {
-                        ...currentAgentMessages[lastMessageIndex],
-                        text: fullResponse
-                      };
-                    } else {
-                      // Add new AI message
-                      currentAgentMessages.push({
-                        text: fullResponse,
-                        isUser: false,
-                        agent: currentAgent,
-                        timestamp: new Date()
-                      });
-                    }
-                    
-                    updatedConversations[currentAgent] = currentAgentMessages;
-                    
-                    // Save to session storage
-                    saveMessagesToSession(conversationId, currentAgent, currentAgentMessages);
-                    
-                    return updatedConversations;
-                  });
-                }
-              } catch (e) {
-                console.error('Error parsing streaming response:', e);
+            } catch (e) {
+              // Ignore parsing errors, just try to extract text
+              const content = line.slice(5).trim();
+              if (content && content !== '[DONE]') {
+                textChunk += content;
+                isEmptyResponse = false;
               }
             }
           }
+        }
+
+        // Update the fullResponse with the new chunk
+        fullResponse += textChunk;
+        
+        // Update the UI with the new text immediately
+        setStreamedText(fullResponse);
+        
+        // Update the agent conversations with the current streaming response
+        if (textChunk.length > 0) {
+          setAgentConversations(prev => {
+            const updatedMessages = [...currentAgentMessages];
+            
+            // Check if we already have an AI response message at the end
+            const lastMsg = updatedMessages[updatedMessages.length - 1];
+            
+            if (!lastMsg || lastMsg.isUser) {
+              // Add a new AI message if the last message was from the user
+              updatedMessages.push({
+                text: fullResponse,
+                isUser: false,
+                agent: currentAgent,
+                timestamp: new Date()
+              });
+            } else {
+              // Update the existing AI message
+              lastMsg.text = fullResponse;
+              lastMsg.timestamp = new Date();
+            }
+            
+            const updatedConversations = {
+              ...prev,
+              [currentAgent]: updatedMessages
+            };
+            
+            // Save to session storage
+            saveMessagesToSession(conversationId, currentAgent, updatedMessages);
+            
+            return updatedConversations;
+          });
+        }
+      }
+      
+      // Check for empty responses and log warning
+      if (isEmptyResponse || fullResponse.trim() === '') {
+        console.warn("Empty or invalid response received from OpenAI");
+        
+        // If empty, trigger an alert
+        if (fullResponse.trim() === '') {
+          toast({
+            title: "Empty Response",
+            description: `The AI responded with an empty message. This could be due to content filtering or a server issue.`,
+            variant: "warning",
+          });
         }
       }
       
       return fullResponse;
     } catch (err) {
-      console.error('Stream processing error:', err);
-      return fullResponse; // Return what we've accumulated so far
+      console.error("Error processing streaming response:", err);
+      return fullResponse || "An error occurred while processing the response.";
     }
   }, []);
 
-  // Cancel an active streaming response
+  // Cancel the streaming response if needed
   const cancelStreamingResponse = useCallback(() => {
-    if (streamingResponseRef.current) {
-      // This will trigger the catch block in the fetch promise chain
-      streamingResponseRef.current = null;
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
     }
+    
+    if (streamingResponseRef.current && streamingResponseRef.current.body) {
+      try {
+        streamingResponseRef.current.body.cancel();
+      } catch (e) {
+        console.error("Error cancelling streaming response:", e);
+      }
+    }
+    
+    streamingResponseRef.current = null;
+    setStreamedText("");
   }, []);
 
   return {
     streamingResponseRef,
+    streamedText,
+    setStreamedText,
     processStreamedResponse,
     cancelStreamingResponse
   };
