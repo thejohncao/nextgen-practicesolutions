@@ -8,6 +8,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 
 // Pages
 import Index from './pages/Index';
+import NewHomepage from './pages/NewHomepage'; // New homepage
 import AiTeam from './pages/AiTeam';
 import Solutions from './pages/Solutions';
 import Features from './pages/Features';
@@ -53,6 +54,7 @@ function App() {
           <Router>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/new-homepage" element={<NewHomepage />} />
               <Route path="/ai-team" element={<AiTeam />} />
               <Route path="/solutions" element={<Solutions />} />
               <Route path="/features" element={<Features />} />

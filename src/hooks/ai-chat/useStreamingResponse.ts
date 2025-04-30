@@ -116,7 +116,7 @@ export function useStreamingResponse() {
           toast({
             title: "Empty Response",
             description: `The AI responded with an empty message. This could be due to content filtering or a server issue.`,
-            variant: "warning",
+            variant: "destructive", // Changed from "warning" to "destructive" to match allowed variants
           });
         }
       }
