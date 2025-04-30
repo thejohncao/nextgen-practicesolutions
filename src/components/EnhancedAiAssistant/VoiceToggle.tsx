@@ -8,13 +8,15 @@ interface VoiceToggleProps {
   isMuted: boolean;
   onToggleVoice: () => void;
   onToggleMute: () => void;
+  isVoiceAvailable?: boolean;
 }
 
 const VoiceToggle: React.FC<VoiceToggleProps> = ({
   isVoiceEnabled,
   isMuted,
   onToggleVoice,
-  onToggleMute
+  onToggleMute,
+  isVoiceAvailable = false // Default to false to show "Coming Soon"
 }) => {
   return (
     <div className="px-3 py-1.5 bg-black/20 flex justify-between items-center">
@@ -38,10 +40,12 @@ const VoiceToggle: React.FC<VoiceToggleProps> = ({
         <Button 
           variant="outline" 
           size="sm" 
-          className="h-7 px-2 text-xs border-white/10 hover:bg-white/5"
-          onClick={onToggleVoice}
+          className={`h-7 px-2 text-xs border-white/10 hover:bg-white/5 ${!isVoiceAvailable ? 'opacity-70' : ''}`}
+          onClick={isVoiceAvailable ? onToggleVoice : () => {}}
         >
-          {isVoiceEnabled ? "Disable Voice" : "Enable Voice"}
+          {isVoiceAvailable 
+            ? (isVoiceEnabled ? "Disable Voice" : "Enable Voice") 
+            : "Voice Mode Coming Soon"}
         </Button>
       </div>
     </div>

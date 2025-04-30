@@ -1,9 +1,10 @@
 
 import { useState, useEffect } from 'react';
 
-export const useChatTimeout = (isTyping: boolean, timeoutDuration: number = 10000) => {
+export const useChatTimeout = (isTyping: boolean, timeoutDuration: number = 3500) => {
   const [timeoutId, setTimeoutId] = useState<number | null>(null);
   const [showTimeout, setShowTimeout] = useState(false);
+  const [isFallbackActive, setIsFallbackActive] = useState(false);
 
   useEffect(() => {
     if (isTyping) {
@@ -12,9 +13,10 @@ export const useChatTimeout = (isTyping: boolean, timeoutDuration: number = 1000
         clearTimeout(timeoutId);
       }
       
-      // Set a new timeout
+      // Set a new timeout - reduced to 3.5 seconds from original 10 seconds
       const newTimeoutId = window.setTimeout(() => {
         setShowTimeout(true);
+        setIsFallbackActive(true);
       }, timeoutDuration);
       
       setTimeoutId(Number(newTimeoutId));
@@ -25,6 +27,7 @@ export const useChatTimeout = (isTyping: boolean, timeoutDuration: number = 1000
         setTimeoutId(null);
       }
       setShowTimeout(false);
+      setIsFallbackActive(false);
     }
     
     return () => {
@@ -36,7 +39,18 @@ export const useChatTimeout = (isTyping: boolean, timeoutDuration: number = 1000
 
   const resetTimeout = () => {
     setShowTimeout(false);
+    setIsFallbackActive(false);
   };
 
-  return { showTimeout, resetTimeout };
+  const handleQuickReply = (action: string) => {
+    resetTimeout();
+    return action;
+  };
+
+  return { 
+    showTimeout, 
+    isFallbackActive,
+    resetTimeout,
+    handleQuickReply
+  };
 };

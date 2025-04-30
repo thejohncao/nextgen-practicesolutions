@@ -1,10 +1,10 @@
-
 import React, { useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { AiMessage } from '@/types/conversation';
 import VoiceMessageBubble from '../VoiceMessageBubble';
 import TypingIndicator from '../TypingIndicator';
 import EmailNotification from './EmailNotification';
+import AgentFallbackMessage from './AgentFallbackMessage';
 
 interface ChatMessagesProps {
   messages: AiMessage[];
@@ -23,6 +23,7 @@ interface ChatMessagesProps {
   onRetry: () => void;
   onStartOver: () => void;
   onRequestEmail: () => void;
+  onQuickReply?: (action: string) => void;
 }
 
 const ChatMessages: React.FC<ChatMessagesProps> = ({
@@ -41,7 +42,8 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
   onSummarizeResponse,
   onRetry,
   onStartOver,
-  onRequestEmail
+  onRequestEmail,
+  onQuickReply = () => {}
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
@@ -69,31 +71,18 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
         <TypingIndicator agent={currentAgent} />
       )}
       
-      {/* Timeout notification */}
+      {/* Agent Fallback Message */}
       {showTimeout && isTyping && (
-        <div className="p-4 mb-4 bg-[#000000] border border-amber-700/30 rounded-lg">
-          <p className="text-white/90 mb-3">Still working on your request. Would you like me to:</p>
-          <div className="flex gap-2 flex-wrap">
-            <Button 
-              variant="outline" 
-              size="sm"
-              className="flex items-center gap-1 border-white/20 hover:bg-white/5"
-              onClick={onContinueAnyway}
-            >
-              Continue processing
-            </Button>
-            <Button 
-              variant="default"
-              size="sm"
-              className="flex items-center gap-1 bg-gradient-to-r from-blue-500 to-indigo-500"
-              onClick={onSummarizeResponse}
-            >
-              Summarize what you know so far
-            </Button>
-          </div>
-        </div>
+        <AgentFallbackMessage 
+          agent={currentAgent}
+          onQuickReply={onQuickReply}
+        />
       )}
       
+      {/* Timeout notification (will be hidden since we're using agent-specific fallbacks) */}
+      
+      
+      {/* Connection error notification */}
       {isTimedOut && (
         <div className="p-4 mb-4 bg-[#000000] border border-red-900/30 rounded-lg">
           <p className="text-white/90 mb-3">Sorry about that — I may have lost connection for a moment. Want to continue where we left off or start over?</p>

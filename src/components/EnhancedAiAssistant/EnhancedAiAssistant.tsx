@@ -9,6 +9,7 @@ import { useAiConversation } from '@/hooks/useAiConversation';
 import { useChatTimeout } from '@/hooks/useChatTimeout';
 import { useChatVisibility } from '@/hooks/useChatVisibility';
 import { useEmailCollection } from '@/hooks/useEmailCollection';
+import { toast } from 'sonner';
 import ChatHeader from '../ChatHeader';
 import AgentTabs from '../chat/AgentTabs';
 import VoiceChatInput from '../VoiceChatInput';
@@ -29,6 +30,7 @@ const EnhancedAiAssistant = ({
 }: EnhancedAiAssistantProps) => {
   const [isVoiceEnabled, setIsVoiceEnabled] = useState(initialVoiceMode);
   const [isMuted, setIsMuted] = useState(false);
+  const [isVoiceAvailable, setIsVoiceAvailable] = useState(false); // Set to false to show "Coming Soon"
   
   const { 
     messages, 
@@ -59,7 +61,11 @@ const EnhancedAiAssistant = ({
     handleFirstUserMessage
   } = useEmailCollection(messages);
   
-  const { showTimeout, resetTimeout } = useChatTimeout(isTyping);
+  const { 
+    showTimeout, 
+    resetTimeout, 
+    handleQuickReply 
+  } = useChatTimeout(isTyping);
   
   const isMobile = useIsMobile();
 
@@ -77,6 +83,13 @@ const EnhancedAiAssistant = ({
       const customEvent = e as CustomEvent;
       if (customEvent.detail?.agent) {
         selectAgent(customEvent.detail.agent);
+        
+        // Show toast message when switching agents
+        if (messages.length > 0) {
+          toast.success(`Switched to ${customEvent.detail.agent}`, {
+            description: "Let me know if you'd like to pick up where we left off."
+          });
+        }
       }
       
       if (customEvent.detail?.voiceMode !== undefined) {
@@ -88,7 +101,7 @@ const EnhancedAiAssistant = ({
     return () => {
       document.removeEventListener('open-miles-chat', listener as EventListener);
     };
-  }, [selectAgent, setIsOpen]);
+  }, [selectAgent, setIsOpen, messages.length]);
 
   const handleSendMessage = (message: string) => {
     handleFirstUserMessage();
@@ -96,6 +109,12 @@ const EnhancedAiAssistant = ({
   };
 
   const toggleVoiceMode = () => {
+    if (!isVoiceAvailable) {
+      toast.info("Voice Mode Coming Soon", {
+        description: "We're working on voice capabilities for a future update!"
+      });
+      return;
+    }
     setIsVoiceEnabled(!isVoiceEnabled);
   };
 
@@ -113,6 +132,35 @@ const EnhancedAiAssistant = ({
     
     // Add a summary message from the agent
     sendMessage(`Could you summarize what you know so far about ${messages[messages.length - 1]?.text?.slice(0, 30)}...`);
+  };
+
+  const handleQuickReplyAction = (action: string) => {
+    resetTimeout();
+    
+    // Handle different quick reply actions based on agent
+    switch(action) {
+      case 'check_schedule':
+        sendMessage("Please check today's schedule");
+        break;
+      case 'show_leads':
+        sendMessage("Show me early leads");
+        break;
+      case 'show_scripts':
+        sendMessage("Show me your top 3 scripts");
+        break;
+      case 'preview_sops':
+        sendMessage("Preview SOPs");
+        break;
+      case 'summarize_progress':
+        handleSummarizeResponse();
+        break;
+      case 'try_again':
+      case 'continue':
+        handleContinueAnyway();
+        break;
+      default:
+        handleContinueAnyway();
+    }
   };
 
   // Return null if we shouldn't show on this path
@@ -144,7 +192,17 @@ const EnhancedAiAssistant = ({
             {/* Agent selection tabs */}
             <AgentTabs 
               currentAgent={currentAgent}
-              onSelectAgent={selectAgent}
+              onSelectAgent={(agent) => {
+                const prevAgent = currentAgent;
+                selectAgent(agent);
+                
+                // Show toast when switching agents if we have messages
+                if (messages.length > 0 && prevAgent !== agent) {
+                  toast.success(`Switched to ${agent}`, {
+                    description: "Let me know if you'd like to pick up where we left off."
+                  });
+                }
+              }}
             />
             
             {/* Voice mode toggle */}
@@ -153,6 +211,7 @@ const EnhancedAiAssistant = ({
               isMuted={isMuted}
               onToggleVoice={toggleVoiceMode}
               onToggleMute={toggleMute}
+              isVoiceAvailable={isVoiceAvailable}
             />
             
             <ChatMessages 
@@ -172,6 +231,7 @@ const EnhancedAiAssistant = ({
               onRetry={handleRetry}
               onStartOver={handleStartOver}
               onRequestEmail={() => setShowEmailDialog(true)}
+              onQuickReply={handleQuickReplyAction}
             />
             
             <VoiceChatInput 
