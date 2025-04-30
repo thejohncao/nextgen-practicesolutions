@@ -17,9 +17,9 @@ export interface JourneyStage {
 
 export const patientJourney: JourneyStage[] = [
   {
-    number: '01',
-    name: 'Attract & Engage',
-    gradientClass: 'bg-gradient-to-br from-green-50/20 to-green-100/30',
+    number: "01",
+    name: "Attract & Engage",
+    gradientClass: "bg-gradient-to-br from-green-50/20 to-green-100/30",
     agent: agents.find(a => a.name === 'Giselle')!,
     sampleChat: [
       { sender: 'visitor', message: "I'm interested in a whitening treatment." },
@@ -27,9 +27,9 @@ export const patientJourney: JourneyStage[] = [
     ]
   },
   {
-    number: '02',
-    name: 'Convert & Schedule',
-    gradientClass: 'bg-gradient-to-br from-blue-50/20 to-blue-100/30',
+    number: "02",
+    name: "Convert & Schedule",
+    gradientClass: "bg-gradient-to-br from-blue-50/20 to-blue-100/30",
     agent: agents.find(a => a.name === 'Miles')!,
     sampleChat: [
       { sender: 'visitor', message: "Hi, I need to reschedule my appointment." },
@@ -37,9 +37,9 @@ export const patientJourney: JourneyStage[] = [
     ]
   },
   {
-    number: '03',
-    name: 'Accept & Onboard',
-    gradientClass: 'bg-gradient-to-br from-purple-50/20 to-purple-100/30',
+    number: "03",
+    name: "Close & Grow",
+    gradientClass: "bg-gradient-to-br from-purple-50/20 to-purple-100/30",
     agent: agents.find(a => a.name === 'Devon')!,
     sampleChat: [
       { sender: 'visitor', message: "I'm still thinking about the implant procedure…" },
@@ -47,9 +47,9 @@ export const patientJourney: JourneyStage[] = [
     ]
   },
   {
-    number: '04',
-    name: 'Retain & Grow',
-    gradientClass: 'bg-gradient-to-br from-amber-50/20 to-amber-100/30',
+    number: "04",
+    name: "Train & Scale",
+    gradientClass: "bg-gradient-to-br from-amber-50/20 to-amber-100/30",
     agent: agents.find(a => a.name === 'Alma')!,
     sampleChat: [
       { sender: 'visitor', message: "How do I train my new front desk team?" },

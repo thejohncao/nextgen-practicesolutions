@@ -4,6 +4,7 @@ import { User, UserPlus, BarChart3, GraduationCap } from 'lucide-react';
 import StickyScroll from '../motion/StickyScroll';
 import { agents } from '@/data/agents';
 import AgentAvatar from '../AgentAvatar';
+import PatientJourneyTimeline from '../journey/PatientJourneyTimeline';
 
 const DemoStickyScroll = () => {
   // Demo items based on the patient journey stages
@@ -57,15 +58,9 @@ const DemoStickyScroll = () => {
         </p>
       </div>
 
-      <StickyScroll 
-        items={demoItems} 
-        height="100vh"
-        className="bg-gradient-to-b from-nextgen-dark to-black"
-        stickyClassName="bg-gradient-to-b from-nextgen-dark to-black"
-        titleClassName="text-white text-3xl md:text-4xl leading-tight"
-        descriptionClassName="text-white/70 text-lg"
-      />
-
+      {/* Replace StickyScroll with the PatientJourneyTimeline component */}
+      <PatientJourneyTimeline />
+      
       <div className="container mx-auto px-4 py-12 text-center">
         <a href="#team" className="inline-flex items-center gap-2 text-white/80 hover:text-white transition-colors">
           <span>Meet Your AI Team</span>
