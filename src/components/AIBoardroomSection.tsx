@@ -34,7 +34,10 @@ const AIBoardroomSection = () => {
       className="section-padding py-20 bg-[#F1F3F6] dark:bg-nextgen-dark/70"
     >
       <div className="container mx-auto px-4 max-w-6xl">
-        <SectionHeader />
+        <SectionHeader 
+          title="Your AI Executive Team" 
+          subtitle="Meet the specialized AI agents that power your practice"
+        />
         <ChatConversation />
         <div className="text-center mt-12">
           <RainbowButton 

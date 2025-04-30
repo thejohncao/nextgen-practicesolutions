@@ -1,124 +1,98 @@
-
-import React, { useEffect, useRef, useState } from 'react';
-import { AgentResultItem } from '@/types/agentResults';
+import React, { useEffect, useState, useRef } from 'react';
+import { AgentResult } from '@/types/agentResults';
 import AgentResultCard from './AgentResultCard';
+import AgentAvatar from '../AgentAvatar';
 
 interface VerticalSliderProps {
-  items: AgentResultItem[];
-  isMobile: boolean;
+  results: AgentResult[];
+  agentName: string; // Added to resolve type errors
+  agentRole: string;
+  agentColor: 'blue' | 'green' | 'purple' | 'red' | 'gold';
 }
 
-const VerticalSlider: React.FC<VerticalSliderProps> = ({ items, isMobile }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [isPaused, setIsPaused] = useState(false);
-  const animationRef = useRef<number | null>(null);
-  const scrollPosRef = useRef(0);
-  const scrollSpeed = 0.5; // slower speed for premium feel
+const VerticalSlider: React.FC<VerticalSliderProps> = ({ 
+  results, 
+  agentName,
+  agentRole,
+  agentColor
+}) => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Setup the scrolling animation
-  const scrollItems = () => {
-    if (!containerRef.current || isPaused) return;
-
-    const container = containerRef.current;
-    
-    // Check if container has children before trying to access them
-    if (!container.children.length) {
-      console.log('No children found in vertical slider container');
-      return;
-    }
-    
-    scrollPosRef.current += scrollSpeed;
-    
-    // Safe access to first child with null check
-    const firstChildHeight = container.children[0]?.clientHeight;
-    
-    // If we couldn't get the height or there's no first child, don't proceed
-    if (!firstChildHeight) {
-      console.log('Could not determine height of first child in vertical slider');
-      return;
-    }
-    
-    // If we've scrolled past the first item, reset position to create infinite loop
-    if (scrollPosRef.current >= firstChildHeight) {
-      // Check if the first child exists before operating on it
-      const firstItem = container.children[0];
-      if (firstItem) {
-        container.appendChild(firstItem);
-      }
-      
-      // Reset scroll position
-      scrollPosRef.current = 0;
-      container.style.transform = `translateY(0px)`;
-    } else {
-      // Apply the scroll position
-      container.style.transform = `translateY(-${scrollPosRef.current}px)`;
-    }
-    
-    animationRef.current = requestAnimationFrame(scrollItems);
-  };
-
-  // Initialize and clean up animation
   useEffect(() => {
-    // Don't start animation if we're on mobile or if items array is empty
-    if (isMobile || !items || items.length === 0) return;
+    if (!results || results.length <= 1) return;
     
-    // Give DOM time to render before starting animation
-    const timeout = setTimeout(() => {
-      animationRef.current = requestAnimationFrame(scrollItems);
-    }, 500);
+    if (!paused) {
+      timerRef.current = setInterval(() => {
+        setActiveIndex(prev => (prev + 1) % results.length);
+      }, 5000);
+    }
     
     return () => {
-      clearTimeout(timeout);
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
+      if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [isMobile, isPaused, items]);
+  }, [paused, results]);
 
-  // Handle mouse interactions
-  const handleMouseEnter = () => setIsPaused(true);
-  const handleMouseLeave = () => setIsPaused(false);
+  const handleMouseEnter = () => setPaused(true);
+  const handleMouseLeave = () => setPaused(false);
+  const handleDotClick = (index: number) => setActiveIndex(index);
+
+  if (!results || results.length === 0) return null;
 
   return (
     <div 
-      className="vertical-slider-container overflow-hidden relative"
+      className="h-full w-full rounded-xl bg-black/40 border border-white/10 backdrop-blur-sm p-4 sm:p-5"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Gradient fade effect at top */}
-      <div className="absolute top-0 w-full h-16 bg-gradient-to-b from-nextgen-dark to-transparent z-10"></div>
-      
-      {/* Scrolling content */}
-      <div 
-        ref={containerRef} 
-        className="vertical-slider-content transition-transform duration-300 ease-out will-change-transform"
-        style={{ 
-          display: 'flex', 
-          flexDirection: 'column',
-        }}
-      >
-        {/* Only render items if we have them */}
-        {items && items.length > 0 ? (
-          items.map((result, index) => (
-            <div 
-              key={`${result.agent}-${result.title}-${index}`} 
-              className="py-3"
-            >
-              <AgentResultCard 
-                result={result}
-                index={index}
-                isMobile={isMobile}
-                isLightMode={false}
-              />
-            </div>
-          ))
-        ) : (
-          <div className="py-3 text-center text-white/60">No result data available</div>
-        )}
+      {/* Agent header */}
+      <div className="flex items-center gap-3 mb-5">
+        <AgentAvatar
+          name={agentName} 
+          role={agentRole}
+          color={agentColor}
+          size="sm"
+        />
+        <div>
+          <h3 className="text-lg font-bold text-white">{agentName}</h3>
+          <p className="text-sm text-white/60">{agentRole}</p>
+        </div>
       </div>
       
-      {/* Gradient fade effect at bottom */}
-      <div className="absolute bottom-0 w-full h-16 bg-gradient-to-t from-nextgen-dark to-transparent z-10"></div>
+      {/* Result cards */}
+      <div className="relative h-[calc(100%-80px)] overflow-hidden">
+        {results.map((result, index) => (
+          <div
+            key={index}
+            className={`absolute w-full transition-all duration-500 ease-in-out ${
+              index === activeIndex ? 'opacity-100 translate-y-0 z-10' : 'opacity-0 translate-y-8 -z-10'
+            }`}
+          >
+            <AgentResultCard 
+              result={result} 
+              agent={agentName}
+              color={agentColor}
+            />
+          </div>
+        ))}
+      </div>
+      
+      {/* Navigation dots */}
+      {results.length > 1 && (
+        <div className="flex justify-center gap-2 mt-4">
+          {results.map((_, index) => (
+            <button
+              key={index}
+              className={`w-2 h-2 rounded-full ${
+                index === activeIndex ? 'bg-white' : 'bg-white/30'
+              }`}
+              onClick={() => handleDotClick(index)}
+              aria-label={`Go to result ${index + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

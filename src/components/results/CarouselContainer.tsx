@@ -1,21 +1,33 @@
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import AutoPlay from 'embla-carousel-autoplay';
 import { AgentResultItem } from '@/types/agentResults';
+import { useIsMobile } from '@/hooks/use-mobile';
+import AgentAvatar from '../AgentAvatar';
 
 interface CarouselContainerProps {
   children: React.ReactNode;
-  isPaused: boolean;
-  setIsPaused: (isPaused: boolean) => void;
-  isMobile: boolean;
+  isPaused?: boolean;
+  setIsPaused?: (isPaused: boolean) => void;
+  isMobile?: boolean;
+  agentName?: string; // Added to resolve type errors
+  agentRole?: string;
+  agentColor?: 'blue' | 'green' | 'purple' | 'red' | 'gold';
+  results?: AgentResultItem[];
+  direction?: string;
 }
 
 const CarouselContainer: React.FC<CarouselContainerProps> = ({ 
   children, 
-  isPaused, 
-  setIsPaused,
-  isMobile 
+  isPaused = false, 
+  setIsPaused = () => {},
+  agentName,
+  agentRole,
+  agentColor = 'blue',
+  results = [],
+  direction = 'ltr',
+  isMobile = false
 }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { 
@@ -23,6 +35,7 @@ const CarouselContainer: React.FC<CarouselContainerProps> = ({
       align: "start",
       slidesToScroll: 1,
       dragFree: true,
+      direction: direction as 'ltr' | 'rtl',
     },
     [
       AutoPlay({ 
@@ -50,6 +63,22 @@ const CarouselContainer: React.FC<CarouselContainerProps> = ({
       onMouseEnter={!isMobile ? handleMouseEnter : undefined}
       onMouseLeave={!isMobile ? handleMouseLeave : undefined}
     >
+      {/* Agent header if agent info is provided */}
+      {agentName && agentRole && (
+        <div className="flex items-center gap-3 mb-5">
+          <AgentAvatar
+            name={agentName} 
+            role={agentRole}
+            color={agentColor}
+            size="sm"
+          />
+          <div>
+            <h3 className="text-lg font-bold text-white">{agentName}</h3>
+            <p className="text-sm text-white/60">{agentRole}</p>
+          </div>
+        </div>
+      )}
+
       {/* Edge fading effect containers */}
       <div className="absolute left-0 top-0 bottom-0 w-12 z-10 bg-gradient-to-r from-nextgen-dark to-transparent pointer-events-none"></div>
       <div className="absolute right-0 top-0 bottom-0 w-12 z-10 bg-gradient-to-l from-nextgen-dark to-transparent pointer-events-none"></div>

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Agent } from '@/types/agent';
 import AgentAvatar from '../AgentAvatar';
 import { Check, LucideIcon } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 
 interface AgentCardProps {
   agent: Agent;
@@ -88,7 +89,11 @@ const AgentCard = ({ agent }: AgentCardProps) => {
             <h4 className="text-sm text-white/60 uppercase tracking-wider">Tools & Integrations</h4>
             <div className="flex flex-wrap gap-3">
               {agent.tools.map((tool, index) => {
-                const IconComponent = tool.icon as LucideIcon;
+                // Get the icon component from Lucide icons using the string name
+                const IconComponent = tool.icon && typeof tool.icon === 'string' && tool.icon in LucideIcons 
+                  ? LucideIcons[tool.icon as keyof typeof LucideIcons] as LucideIcon
+                  : LucideIcons.Zap;
+                
                 return (
                   <div 
                     key={index} 

@@ -13,13 +13,15 @@ interface AgentStackDisplayProps {
   isPrimary?: boolean;
   showLabels?: boolean;
   displayMode?: 'initial' | 'fullName';
+  animated?: boolean;
 }
 
 const AgentStackDisplay = ({ 
   agents, 
   isPrimary = false, 
   showLabels = true,
-  displayMode = 'initial'
+  displayMode = 'initial',
+  animated = true
 }: AgentStackDisplayProps) => {
   if (!agents || agents.length === 0) return null;
 
@@ -37,7 +39,7 @@ const AgentStackDisplay = ({
             role={primaryAgent.role}
             color={primaryAgent.color}
             size={isPrimary ? "md" : "sm"}
-            animated={true}
+            animated={animated}
             isPrimary={isPrimary}
             displayMode={displayMode}
             showLabel={showLabels}
