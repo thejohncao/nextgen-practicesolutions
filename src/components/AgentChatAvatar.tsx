@@ -6,9 +6,10 @@ interface AgentChatAvatarProps {
   agent: string;
   hideDetails?: boolean;
   isTyping?: boolean;
+  className?: string; // Added className prop to the interface
 }
 
-const AgentChatAvatar: React.FC<AgentChatAvatarProps> = ({ agent, hideDetails = false, isTyping = false }) => {
+const AgentChatAvatar: React.FC<AgentChatAvatarProps> = ({ agent, hideDetails = false, isTyping = false, className = '' }) => {
   // Map agent names to their properties
   const getAgentProps = () => {
     switch (agent.toLowerCase()) {
@@ -28,7 +29,7 @@ const AgentChatAvatar: React.FC<AgentChatAvatarProps> = ({ agent, hideDetails = 
   const { name, role, color } = getAgentProps();
 
   return (
-    <div className="flex items-center gap-2">
+    <div className={`flex items-center gap-2 ${className}`}>
       <AgentAvatar 
         name={name} 
         role={role} 
