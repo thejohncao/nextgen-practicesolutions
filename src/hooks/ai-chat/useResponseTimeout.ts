@@ -21,18 +21,18 @@ export function useResponseTimeout() {
     setTimeoutLevel('none');
     setIsTimedOut(false);
     
-    // Set warning timeout after 5 seconds
+    // Set warning timeout after 8 seconds (was 5)
     warningTimeoutRef.current = setTimeout(() => {
       setTimeoutLevel('warning');
       console.log("Warning timeout triggered - showing indicator");
-    }, 5000);
+    }, 8000);
     
-    // Set error timeout after 12 seconds
+    // Set error timeout after 18 seconds (was 12)
     timeoutRef.current = setTimeout(() => {
       setTimeoutLevel('error');
       setIsTimedOut(true);
       console.log("Response timeout triggered - showing fallback message");
-    }, 12000);
+    }, 18000);
   }, []);
   
   // Clear timeout when response is received

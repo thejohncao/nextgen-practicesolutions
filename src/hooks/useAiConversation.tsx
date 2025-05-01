@@ -159,6 +159,14 @@ export function useAiConversation() {
       
       // Use agent-specific system prompt with the enhanced prompts
       const agentData = getAgentChatData(currentAgent);
+      console.log(`Using agent: ${currentAgent}, prompt length: ${agentData.systemPrompt?.length || 0}`);
+      
+      if (!agentData.systemPrompt) {
+        console.error(`Missing system prompt for agent: ${currentAgent}`);
+        // Apply a fallback prompt
+        agentData.systemPrompt = "You are a helpful assistant for NextGen Practice Solutions.";
+      }
+      
       const systemPrompt = agentData.systemPrompt;
       
       // Use streaming for faster initial response
@@ -224,11 +232,66 @@ export function useAiConversation() {
         resetRetries();
       } else {
         // No response returned - handle error case
-        handleRetry();
+        console.error("Empty or null response received from OpenAI");
+        
+        // If this is the first attempt, retry silently
+        if (!isRetry) {
+          console.log("Retrying message once silently...");
+          setIsTyping(false);
+          return sendMessage(userMessage, true);
+        }
+        
+        // Show branded fallback message after retry attempt
+        setAgentConversations(prev => {
+          const updated = [...(prev[currentAgent] || [])];
+          updated.push({
+            text: `I'm having trouble accessing my tools right now — possibly due to high demand. Want to try a different approach to your question?`,
+            isUser: false,
+            agent: currentAgent,
+            timestamp: new Date()
+          });
+          
+          const updatedConversations = {
+            ...prev,
+            [currentAgent]: updated
+          };
+          
+          // Save updated conversation to session storage
+          saveMessagesToSession(conversationId, currentAgent, updated);
+          
+          return updatedConversations;
+        });
       }
     } catch (err) {
       console.error("Error in AI conversation:", err);
-      handleRetry();
+      
+      // If this is the first attempt, retry silently
+      if (!isRetry) {
+        console.log("Error occurred, retrying message once...");
+        setIsTyping(false);
+        return sendMessage(userMessage, true);
+      }
+      
+      // Show branded fallback after retry attempt
+      setAgentConversations(prev => {
+        const updated = [...(prev[currentAgent] || [])];
+        updated.push({
+          text: `I'm having trouble accessing my tools right now — possibly due to high demand. Want to try a different approach to your question?`,
+          isUser: false,
+          agent: currentAgent,
+          timestamp: new Date()
+        });
+        
+        const updatedConversations = {
+          ...prev,
+          [currentAgent]: updated
+        };
+        
+        // Save updated conversation to session storage
+        saveMessagesToSession(conversationId, currentAgent, updated);
+        
+        return updatedConversations;
+      });
     } finally {
       setIsTyping(false);
       streamingResponseRef.current = null;
@@ -242,8 +305,7 @@ export function useAiConversation() {
     startResponseTimeout,
     clearResponseTimeout,
     processStreamedResponse,
-    resetRetries,
-    handleRetry
+    resetRetries
   ]);
 
   // Clear conversation and reset state

@@ -36,6 +36,8 @@ serve(async (req) => {
     }
 
     console.log(`OpenAI API call: Processing ${messages.length} messages with system prompt${stream ? ' (streaming)' : ''}`)
+    console.log(`System prompt length: ${systemPrompt.length}`)
+    console.log(`Full message payload size: ${JSON.stringify(messages).length}`)
     console.log(`Last user message: ${JSON.stringify(messages[messages.length - 1])}`)
 
     const fullMessages = [
@@ -60,8 +62,8 @@ serve(async (req) => {
     
     // Use AbortController for timeout management
     const controller = new AbortController();
-    // Increased timeout to 20 seconds as requested in the debug notes
-    const timeoutId = setTimeout(() => controller.abort(), 20000);
+    // Increased timeout to 30 seconds for better reliability
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
     
     try {
       const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -140,7 +142,7 @@ serve(async (req) => {
       clearTimeout(timeoutId);
       
       if (fetchError.name === "AbortError") {
-        throw new Error("Request timed out after 20 seconds");
+        throw new Error("Request timed out after 30 seconds");
       }
       throw fetchError;
     }

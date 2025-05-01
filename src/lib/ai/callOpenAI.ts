@@ -13,6 +13,20 @@ export async function callOpenAI(
 ): Promise<Response | string | null> {
   try {
     console.log(`Calling OpenAI API with ${messages.length} messages, streaming: ${stream}`);
+    console.log("Full messages payload size:", JSON.stringify(messages).length);
+    console.log("System prompt length:", systemPrompt.length);
+    
+    // Input validation
+    if (!messages || messages.length === 0) {
+      console.error("No messages provided to OpenAI");
+      throw new Error("Invalid input: No messages provided");
+    }
+
+    if (!systemPrompt || systemPrompt.trim() === '') {
+      console.error("Missing system prompt — applying default");
+      systemPrompt = "You are Miles, the helpful AI assistant for NextGen Practice Solutions.";
+    }
+    
     // Log the last user message for debugging
     const lastUserMessage = messages.filter(m => m.role === 'user').pop();
     if (lastUserMessage) {
