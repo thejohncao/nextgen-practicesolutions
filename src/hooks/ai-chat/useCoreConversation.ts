@@ -3,59 +3,22 @@ import { useState, useCallback, useRef } from 'react';
 import { callOpenAI } from '@/lib/openai';
 import { toast } from '@/components/ui/use-toast';
 import { getAgentChatData } from '@/data/agentChatData';
-import { useAgentManagement } from './ai-chat/useAgentManagement';
-import { useIntentDetection } from './ai-chat/useIntentDetection';
-import { useResponseTimeout } from './ai-chat/useResponseTimeout';
-import { useStreamingResponse } from './ai-chat/useStreamingResponse';
-import { useRetryLogic } from './ai-chat/useRetryLogic';
+import { useAgentManagement } from './useAgentManagement';
+import { useResponseTimeout } from './useResponseTimeout';
+import { useStreamingResponse } from './useStreamingResponse';
+import { useRetryLogic } from './useRetryLogic';
+import { AiMessage } from './types';
 import { Message } from '@/lib/aiTypes';
 
-export interface AiMessage {
-  text: string;
-  isUser: boolean;
-  agent: string;
-  timestamp: Date;
-}
-
-export interface ConversationState {
-  messages: AiMessage[];
-  currentAgent: string;
-  userIntent?: string;
-}
-
-export function useAiConversation() {
+export function useCoreConversation(
+  currentAgent: string,
+  agentConversations: Record<string, AiMessage[]>,
+  setAgentConversations: (callback: (prev: Record<string, AiMessage[]>) => Record<string, AiMessage[]>) => void,
+  saveMessagesToSession: (conversationId: string, agentName: string, messages: AiMessage[]) => void,
+  conversationId: string,
+  resetRetries: () => void
+) {
   const [isTyping, setIsTyping] = useState(false);
-  const [conversationId, setConversationId] = useState<string>(
-    () => `conversation-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
-  );
-  
-  // Import sub-hooks
-  const { 
-    agentConversations, 
-    setAgentConversations, 
-    currentAgent, 
-    messages, 
-    changeAgent, 
-    saveMessagesToSession, 
-    clearAgentConversations, 
-    resetCurrentAgent 
-  } = useAgentManagement();
-  
-  const { 
-    userIntent, 
-    setUserIntent, 
-    detectAndSaveUserIntent, 
-    clearUserIntent 
-  } = useIntentDetection();
-  
-  const { 
-    isTimedOut, 
-    setIsTimedOut,
-    timeoutLevel,
-    setTimeoutLevel, 
-    startResponseTimeout, 
-    clearResponseTimeout 
-  } = useResponseTimeout();
   
   const {
     streamingResponseRef,
@@ -64,30 +27,20 @@ export function useAiConversation() {
   } = useStreamingResponse();
   
   const {
+    isTimedOut,
+    setIsTimedOut,
+    timeoutLevel,
+    setTimeoutLevel,
+    startResponseTimeout,
+    clearResponseTimeout
+  } = useResponseTimeout();
+
+  const {
     error,
     setError,
-    retryAttemptsRef,
     handleRetryWithBackoff,
-    resetRetries
+    resetRetries: resetRetryLogic
   } = useRetryLogic();
-
-  // Handle retry after timeout
-  const handleRetry = useCallback(() => {
-    setIsTimedOut(false);
-    setTimeoutLevel('none');
-    // Restart the last message exchange
-    const lastUserMessage = [...messages].reverse().find(msg => msg.isUser);
-    if (lastUserMessage) {
-      sendMessage(lastUserMessage.text, true);
-    }
-  }, [messages]);
-  
-  // Handle start over after timeout
-  const handleStartOver = useCallback(() => {
-    setIsTimedOut(false);
-    setTimeoutLevel('none');
-    clearConversation();
-  }, []);
 
   // Send a message to the AI
   const sendMessage = useCallback(async (userMessage: string, isRetry: boolean = false) => {
@@ -96,13 +49,11 @@ export function useAiConversation() {
     // Reset retries if this is not a retry
     if (!isRetry) {
       resetRetries();
+      resetRetryLogic();
     }
     
     // Don't add user message again if this is a retry
     if (!isRetry) {
-      // Enhanced: Detect user intent from message for better agent routing
-      detectAndSaveUserIntent(userMessage);
-      
       // Add user message to current agent's conversation
       setAgentConversations(prev => {
         const agentMessages = [...(prev[currentAgent] || [])];
@@ -230,6 +181,7 @@ export function useAiConversation() {
         
         // Reset retry counter on success
         resetRetries();
+        resetRetryLogic();
       } else {
         // No response returned - handle error case
         console.error("Empty or null response received from OpenAI");
@@ -300,38 +252,24 @@ export function useAiConversation() {
     currentAgent, 
     agentConversations,
     conversationId,
-    detectAndSaveUserIntent,
     saveMessagesToSession,
     startResponseTimeout,
     clearResponseTimeout,
     processStreamedResponse,
-    resetRetries
+    resetRetries,
+    resetRetryLogic,
+    setError,
+    setIsTimedOut,
+    streamingResponseRef,
+    setAgentConversations
   ]);
 
-  // Clear conversation and reset state
-  const clearConversation = useCallback(() => {
-    clearAgentConversations(conversationId);
-    clearUserIntent();
-    resetCurrentAgent();
-    
-    // Generate new conversation ID
-    const newConversationId = `conversation-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-    setConversationId(newConversationId);
-  }, [conversationId, clearAgentConversations, clearUserIntent, resetCurrentAgent]);
-
   return {
-    messages,
+    sendMessage,
     isTyping,
-    currentAgent,
-    userIntent,
-    error,
     isTimedOut,
     timeoutLevel,
-    sendMessage,
-    changeAgent,
-    handleRetry,
-    handleStartOver,
-    clearConversation,
+    error,
     cancelStreamingResponse
   };
 }
