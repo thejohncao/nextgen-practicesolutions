@@ -12,6 +12,7 @@ import InvestmentSection from '@/components/new-homepage/InvestmentSection';
 import SocialProofSection from '@/components/new-homepage/SocialProofSection';
 import PrimaryCTASection from '@/components/new-homepage/PrimaryCTASection';
 import ExploreMoreSection from '@/components/new-homepage/ExploreMoreSection';
+import DifferentiatorsSection from '@/components/new-homepage/DifferentiatorsSection';
 
 const NewHomepage = () => {
   return (
@@ -30,6 +31,9 @@ const NewHomepage = () => {
       
       {/* Benefits & Outcomes Section */}
       <BenefitsSection />
+      
+      {/* Differentiators Section */}
+      <DifferentiatorsSection />
       
       {/* Investment Section */}
       <InvestmentSection />

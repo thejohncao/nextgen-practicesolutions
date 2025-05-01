@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import FloatingAgentAvatars from '@/components/hero/FloatingAgentAvatars';
 import ScrollRevealWrapper from '@/components/animation/ScrollRevealWrapper';
 import { cn } from '@/lib/utils';
+import HeroBackground from '@/components/hero/HeroBackground';
 
 const HeroSection = () => {
   const handleOpenChat = () => {
@@ -33,10 +34,7 @@ const HeroSection = () => {
   return (
     <section className="min-h-[90vh] flex items-center relative overflow-hidden">
       {/* Background elements */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-nextgen-purple/10 blur-[120px] rounded-full animate-pulse-slow"></div>
-        <div className="absolute bottom-1/3 left-1/3 w-[500px] h-[500px] bg-nextgen-blue/10 blur-[100px] rounded-full animate-pulse-slow" style={{animationDelay: '1.5s'}}></div>
-      </div>
+      <HeroBackground />
       
       {/* Content container */}
       <div className="container mx-auto px-4 pt-20 relative z-10">

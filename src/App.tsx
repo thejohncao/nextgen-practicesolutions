@@ -53,7 +53,9 @@ function App() {
         <LenisProvider>
           <Router>
             <Routes>
-              <Route path="/" element={<Index />} />
+              {/* Use the NewHomepage as the main index page */}
+              <Route path="/" element={<NewHomepage />} />
+              <Route path="/legacy" element={<Index />} />
               <Route path="/new-homepage" element={<NewHomepage />} />
               <Route path="/ai-team" element={<AiTeam />} />
               <Route path="/solutions" element={<Solutions />} />
