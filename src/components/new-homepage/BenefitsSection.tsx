@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Clock, Award, TrendingUp, ShieldCheck, Heart, PhoneCall, LineChart } from 'lucide-react';
+import { Globe, Shield, TrendingUp, Zap, Server, BarChart3 } from 'lucide-react';
 import ScrollRevealWrapper from '@/components/animation/ScrollRevealWrapper';
 import { cn } from '@/lib/utils';
 
@@ -31,41 +31,52 @@ const BenefitCard = ({ title, description, icon, delay }: BenefitCardProps) => (
 );
 
 const BenefitsSection = () => {
-  const benefits = [
+  const platformBenefits = [
     {
-      icon: <Clock className="h-5 w-5" />,
-      title: "Slash Onboarding Time",
-      description: "Reduce new hire training duration by up to 50%."
+      icon: <Globe className="h-5 w-5" />,
+      title: "Unified OS",
+      description: "Training, automation, talent — all in one seamless system"
+    },
+    {
+      icon: <Zap className="h-5 w-5" />,
+      title: "Works With Your Tools",
+      description: "Built on GoHighLevel. Integrates with Google, Stripe, Meta Ads, and more"
+    },
+    {
+      icon: <Server className="h-5 w-5" />,
+      title: "Fast Setup",
+      description: "Most practices go live in under 7 days"
+    },
+  ];
+  
+  const securityBenefits = [
+    {
+      icon: <Shield className="h-5 w-5" />,
+      title: "SOC 2 Certified, HIPAA-Ready",
+      description: "Enterprise-grade encryption and role-based access"
+    },
+    {
+      icon: <Shield className="h-5 w-5" />,
+      title: "HITECH & ADA Compliant",
+      description: "Built for healthcare-grade privacy and accessibility"
+    }
+  ];
+  
+  const outcomeBenefits = [
+    {
+      icon: <BarChart3 className="h-5 w-5" />,
+      title: "Boost Case Acceptance",
+      description: "Increase treatment acceptance by 10–15% with AI-driven follow-up"
     },
     {
       icon: <TrendingUp className="h-5 w-5" />,
-      title: "Boost Treatment Acceptance",
-      description: "Increase case acceptance and production with automated, effective follow-up."
+      title: "Reduce No-Shows",
+      description: "Smart confirmations + reminders minimize appointment gaps"
     },
     {
-      icon: <Clock className="h-5 w-5" />,
-      title: "Reclaim Countless Hours",
-      description: "Save an average of 15 hours per team member weekly by eliminating repetitive tasks."
-    },
-    {
-      icon: <ShieldCheck className="h-5 w-5" />,
-      title: "Reduce Costly Errors",
-      description: "Minimize mistakes in scheduling, confirmations, and follow-ups."
-    },
-    {
-      icon: <Heart className="h-5 w-5" />,
-      title: "Decrease Staff Burnout",
-      description: "Improve team morale and retention by providing tools that empower, not overwhelm."
-    },
-    {
-      icon: <PhoneCall className="h-5 w-5" />,
-      title: "Capture Every Lead",
-      description: "Ensure rapid, consistent follow-up for all new patient inquiries."
-    },
-    {
-      icon: <LineChart className="h-5 w-5" />,
-      title: "Achieve Scalable Growth",
-      description: "Expand your practice without the usual operational headaches."
+      icon: <TrendingUp className="h-5 w-5" />,
+      title: "Accelerate Onboarding",
+      description: "Cut new hire ramp-up time by up to 50%"
     }
   ];
 
@@ -74,26 +85,64 @@ const BenefitsSection = () => {
       <div className="container mx-auto px-4">
         <ScrollRevealWrapper animation="fade-up">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center text-gradient">
-            Expect More: Tangible Results for Your Practice
+            Engineered for Performance, Security, and Growth
           </h2>
         </ScrollRevealWrapper>
         
-        <ScrollRevealWrapper animation="fade-up" delay={0.1}>
-          <p className="text-xl text-white/80 text-center mb-12 max-w-3xl mx-auto">
-            NextGen delivers measurable improvements across your practice operations
-          </p>
-        </ScrollRevealWrapper>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {benefits.map((benefit, index) => (
-            <BenefitCard
-              key={index}
-              icon={benefit.icon}
-              title={benefit.title}
-              description={benefit.description}
-              delay={0.2 + (index * 0.1)}
-            />
-          ))}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mt-16">
+          {/* Platform Benefits */}
+          <ScrollRevealWrapper animation="fade-up" delay={0.1}>
+            <div>
+              <h3 className="text-2xl font-bold mb-6 text-white">Platform Benefits</h3>
+              <div className="space-y-4">
+                {platformBenefits.map((benefit, index) => (
+                  <BenefitCard
+                    key={index}
+                    icon={benefit.icon}
+                    title={benefit.title}
+                    description={benefit.description}
+                    delay={0.1 + (index * 0.1)}
+                  />
+                ))}
+              </div>
+            </div>
+          </ScrollRevealWrapper>
+          
+          {/* Security & Compliance */}
+          <ScrollRevealWrapper animation="fade-up" delay={0.2}>
+            <div>
+              <h3 className="text-2xl font-bold mb-6 text-white">Security & Compliance</h3>
+              <div className="space-y-4">
+                {securityBenefits.map((benefit, index) => (
+                  <BenefitCard
+                    key={index}
+                    icon={benefit.icon}
+                    title={benefit.title}
+                    description={benefit.description}
+                    delay={0.2 + (index * 0.1)}
+                  />
+                ))}
+              </div>
+            </div>
+          </ScrollRevealWrapper>
+          
+          {/* Outcomes & ROI */}
+          <ScrollRevealWrapper animation="fade-up" delay={0.3}>
+            <div>
+              <h3 className="text-2xl font-bold mb-6 text-white">Outcomes & ROI</h3>
+              <div className="space-y-4">
+                {outcomeBenefits.map((benefit, index) => (
+                  <BenefitCard
+                    key={index}
+                    icon={benefit.icon}
+                    title={benefit.title}
+                    description={benefit.description}
+                    delay={0.3 + (index * 0.1)}
+                  />
+                ))}
+              </div>
+            </div>
+          </ScrollRevealWrapper>
         </div>
       </div>
     </section>

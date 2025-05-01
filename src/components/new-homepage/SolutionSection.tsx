@@ -25,37 +25,44 @@ const SolutionSection = () => {
               </div>
               
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-center text-gradient">
-                The Solution: NextGen – Your Practice's AI Operating System
+                The Shift: Meet the NextGen AI Operating System
               </h2>
             </ScrollRevealWrapper>
             
             <ScrollRevealWrapper animation="fade-up" delay={0.2}>
-              <p className="text-xl text-white/80 text-center mb-8 max-w-3xl mx-auto">
-                NextGen isn't just another app; it's a comprehensive operating system engineered specifically for the demands of modern dentistry. We replace chaos and complexity with one unified platform that intelligently combines:
-              </p>
-            </ScrollRevealWrapper>
-            
-            <ScrollRevealWrapper animation="fade-up" delay={0.3}>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div className="p-6 rounded-xl bg-white/5 border border-white/10 backdrop-blur-md text-center">
-                  <h3 className="text-lg font-medium text-nextgen-purple mb-2">AI-Powered Training</h3>
-                  <p className="text-white/70">Practice Academy</p>
-                </div>
-                <div className="p-6 rounded-xl bg-white/5 border border-white/10 backdrop-blur-md text-center">
-                  <h3 className="text-lg font-medium text-nextgen-blue mb-2">AI-Driven Automation</h3>
-                  <p className="text-white/70">AI Agent Team</p>
-                </div>
-                <div className="p-6 rounded-xl bg-white/5 border border-white/10 backdrop-blur-md text-center">
-                  <h3 className="text-lg font-medium text-nextgen-green mb-2">AI-Ready Talent</h3>
-                  <p className="text-white/70">Talent Network</p>
-                </div>
+              <div className="space-y-6 text-white/80 text-lg max-w-3xl mx-auto">
+                <p>
+                  NextGen is engineered to fundamentally change how your dental practice operates. 
+                  Built on proven automation infrastructure (GoHighLevel), we wrapped it in a proprietary 
+                  dental workflow framework that delivers true leverage.
+                </p>
+                
+                <p>
+                  It's not just software — it's a unified operating system that merges AI-powered training, 
+                  intelligent automation, and playbook-ready talent into one powerful solution.
+                </p>
+                
+                <p className="font-medium text-xl text-white/90 text-center">
+                  This is how modern dental work gets done.
+                </p>
               </div>
             </ScrollRevealWrapper>
             
-            <ScrollRevealWrapper animation="fade-up" delay={0.4}>
-              <p className="text-lg text-white/90 text-center font-medium max-w-3xl mx-auto">
-                This integrated approach finally delivers the efficiency, consistency, and scalability your practice needs to thrive.
-              </p>
+            <ScrollRevealWrapper animation="fade-up" delay={0.3}>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+                <div className="p-6 rounded-xl bg-white/5 border border-white/10 backdrop-blur-md text-center">
+                  <h3 className="text-lg font-medium text-nextgen-purple mb-2">AI-Powered Training</h3>
+                  <p className="text-white/70">Standardized SOPs and certifications</p>
+                </div>
+                <div className="p-6 rounded-xl bg-white/5 border border-white/10 backdrop-blur-md text-center">
+                  <h3 className="text-lg font-medium text-nextgen-blue mb-2">Intelligent Automation</h3>
+                  <p className="text-white/70">AI-driven workflow optimization</p>
+                </div>
+                <div className="p-6 rounded-xl bg-white/5 border border-white/10 backdrop-blur-md text-center">
+                  <h3 className="text-lg font-medium text-nextgen-green mb-2">Pre-Certified Talent</h3>
+                  <p className="text-white/70">System-ready professionals</p>
+                </div>
+              </div>
             </ScrollRevealWrapper>
           </div>
         </GlowingCard>

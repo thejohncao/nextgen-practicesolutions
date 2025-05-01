@@ -54,17 +54,17 @@ const HeroSection = () => {
             
             <ScrollRevealWrapper animation="fade-up" delay={0.2}>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold leading-tight mb-6 text-gradient">
-                Stop Drowning in Dental Practice Chaos. Start Growing with Less Burnout.
+                Less Burnout. More Growth.
               </h1>
             </ScrollRevealWrapper>
             
             <ScrollRevealWrapper animation="fade-up" delay={0.3}>
               <h2 className="text-xl md:text-2xl text-white/80 font-medium mb-4">
-                NextGen Practice Solutions integrates AI Automation, AI-Powered Training, and Pre-Certified Talent to streamline your operations, boost revenue, and empower your team.
+                The AI Operating System for Modern Dental Practices
               </h2>
               
               <p className="text-lg text-white/70 leading-relaxed mb-8">
-                Imagine your front office running like clockwork. Appointments confirmed, leads nurtured, follow-ups handled seamlessly, and a fully trained team focused on high-value patient interactions – not administrative overload. That's the future NextGen delivers.
+                NextGen integrates AI-powered training, automation, and certified talent to streamline operations, empower your team, and unlock predictable growth — all while preserving your unique practice identity.
               </p>
             </ScrollRevealWrapper>
             
@@ -75,7 +75,7 @@ const HeroSection = () => {
                 asChild
               >
                 <Link to="/join" className="flex items-center">
-                  Schedule Your Personalized Demo
+                  Request a Demo
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </RainbowButton>
@@ -88,7 +88,7 @@ const HeroSection = () => {
               >
                 <Link to="/watch" className="flex items-center">
                   <Play className="mr-2 h-4 w-4" />
-                  Watch 2-Min Overview Video
+                  See How It Works
                 </Link>
               </Button>
             </ScrollRevealWrapper>

@@ -16,13 +16,13 @@ const PrimaryCTASection = () => {
         <div className="max-w-4xl mx-auto text-center">
           <ScrollRevealWrapper animation="fade-up">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-gradient">
-              Ready to See How NextGen Can Transform Your Practice?
+              Ready to Modernize Your Practice Operations?
             </h2>
           </ScrollRevealWrapper>
           
           <ScrollRevealWrapper animation="fade-up" delay={0.1}>
             <p className="text-xl text-white/80 mb-12 max-w-3xl mx-auto">
-              Stop letting operational drag limit your potential. Schedule a personalized demo today and discover how the NextGen AI Operating System can unlock new levels of efficiency, profitability, and team satisfaction for your dental practice.
+              Let us show you how the NextGen AI Operating System can bring structure, automation, and predictable growth to your dental practice.
             </p>
           </ScrollRevealWrapper>
           
@@ -33,15 +33,15 @@ const PrimaryCTASection = () => {
               asChild
             >
               <Link to="/join" className="flex items-center">
-                Schedule My Personalized Demo
+                Request Your Personalized Demo
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </RainbowButton>
           </ScrollRevealWrapper>
           
           <ScrollRevealWrapper animation="fade-up" delay={0.3}>
-            <p className="text-white/60 mt-4">
-              Get a tailored walkthrough. No obligation. See the ROI potential.
+            <p className="text-white/60 mt-8">
+              Contact: support@nextgenpractice.org
             </p>
           </ScrollRevealWrapper>
         </div>

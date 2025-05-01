@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Book, BrainCircuit, Users, ArrowRight } from 'lucide-react';
+import { GraduationCap, Robot, Users, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ScrollRevealWrapper from '@/components/animation/ScrollRevealWrapper';
 import { cn } from '@/lib/utils';
@@ -10,7 +10,7 @@ interface PillarCardProps {
   icon: React.ReactNode;
   iconColor: string;
   description: string;
-  benefit: string;
+  outcome: string;
   linkText: string;
   linkTo: string;
   delay: number;
@@ -21,7 +21,7 @@ const PillarCard = ({
   icon,
   iconColor,
   description,
-  benefit,
+  outcome,
   linkText,
   linkTo,
   delay
@@ -43,8 +43,8 @@ const PillarCard = ({
       <p className="text-white/80 mb-4">{description}</p>
       
       <div className="bg-white/5 border border-white/10 rounded-lg p-4 mb-6">
-        <p className="text-white/90 font-medium">Benefit:</p>
-        <p className="text-white/70">{benefit}</p>
+        <p className="text-white/90 font-medium">Outcome:</p>
+        <p className="text-white/70">{outcome}</p>
       </div>
       
       <Link to={linkTo} className="inline-flex items-center text-nextgen-purple hover:text-nextgen-purple/80 font-medium transition-colors">
@@ -61,46 +61,46 @@ const PillarsSection = () => {
       <div className="container mx-auto px-4">
         <ScrollRevealWrapper animation="fade-up">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-gradient">
-            Transform Your Operations with the 3 Pillars of NextGen
+            Train. Automate. Scale. Seamlessly Integrated.
           </h2>
         </ScrollRevealWrapper>
         
         <ScrollRevealWrapper animation="fade-up" delay={0.1}>
           <p className="text-xl text-white/80 text-center mb-12 max-w-3xl mx-auto">
-            An integrated approach to solving your practice's operational challenges
+            An integrated approach to creating a more efficient, profitable practice
           </p>
         </ScrollRevealWrapper>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <PillarCard
-            title="Practice Academy"
-            icon={<Book className="h-6 w-6 text-white" />}
+            title="Standardize Team Excellence"
+            icon={<GraduationCap className="h-6 w-6 text-white" />}
             iconColor="bg-nextgen-purple"
-            description="Standardize skills and slash onboarding time. Access role-based certifications (TC, Systems Operator, Exec Op), SOPs, checklists, and best practices delivered via Alma, our AI training assistant."
-            benefit="Faster onboarding, reduced errors, empowered & consistent team performance."
-            linkText="Learn More About Practice Academy"
+            description="Role-based certifications and SOPs delivered via Alma, our AI training assistant. Consistent skills. Faster onboarding."
+            outcome="Onboard new hires up to 50% faster"
+            linkText="Explore Practice Academy"
             linkTo="/academy"
             delay={0.2}
           />
           
           <PillarCard
-            title="AI Agent Team"
-            icon={<BrainCircuit className="h-6 w-6 text-white" />}
+            title="Automate Routine Tasks"
+            icon={<Robot className="h-6 w-6 text-white" />}
             iconColor="bg-nextgen-blue"
-            description="Deploy specialized AI agents integrated with your systems. Giselle nurtures leads 24/7, Miles handles scheduling & confirmations intelligently, Devon ensures timely treatment & recall follow-ups."
-            benefit="Reclaim hours daily, capture more revenue, reduce manual errors, free staff for patient care."
-            linkText="Meet Your AI Agent Team"
+            description="AI agents (Giselle, Miles, Devon) handle lead nurture, scheduling, follow-ups, and more. Integrated with your CRM, site, and phone system."
+            outcome="Reclaim 15+ hours per week from admin work"
+            linkText="Meet Your AI Team"
             linkTo="/ai-team"
             delay={0.3}
           />
           
           <PillarCard
-            title="Talent Network"
+            title="Scale with Certified Talent"
             icon={<Users className="h-6 w-6 text-white" />}
             iconColor="bg-nextgen-green"
-            description="Need skilled front-office help? Access our network of AI-ready professionals (remote or in-office) already proficient in the NextGen OS. Hire talent ready to contribute from Day 1."
-            benefit="Eliminate ramp-up time, reduce hiring costs, fill gaps quickly, scale flexibly."
-            linkText="Explore the Talent Network"
+            description="Hire pre-certified, NextGen-trained front office professionals ready to contribute from Day 1. Remote, hybrid, or in-office."
+            outcome="Fill staffing gaps instantly with system-ready team members"
+            linkText="Access the Talent Network"
             linkTo="/join"
             delay={0.4}
           />
