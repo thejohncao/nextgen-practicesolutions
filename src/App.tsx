@@ -29,6 +29,7 @@ import NotFound from './pages/NotFound';
 import AiDemo from './pages/AiDemo';
 import Boardroom from './pages/Boardroom';
 import Certifications from './pages/Certifications';
+import AITeamOrbitalPage from './pages/AITeamOrbitalPage';
 
 // Components
 import AiAssistant from './components/AiAssistant';
@@ -76,6 +77,7 @@ function App() {
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/ai-demo" element={<AiDemo />} />
               <Route path="/boardroom" element={<Boardroom />} />
+              <Route path="/ai-team-orbital" element={<AITeamOrbitalPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
             
