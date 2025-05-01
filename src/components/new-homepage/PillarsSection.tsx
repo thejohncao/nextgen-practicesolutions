@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { GraduationCap, Robot, Users, ArrowRight } from 'lucide-react';
+import { GraduationCap, Bot, Users, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ScrollRevealWrapper from '@/components/animation/ScrollRevealWrapper';
 import { cn } from '@/lib/utils';
@@ -85,7 +85,7 @@ const PillarsSection = () => {
           
           <PillarCard
             title="Automate Routine Tasks"
-            icon={<Robot className="h-6 w-6 text-white" />}
+            icon={<Bot className="h-6 w-6 text-white" />}
             iconColor="bg-nextgen-blue"
             description="AI agents (Giselle, Miles, Devon) handle lead nurture, scheduling, follow-ups, and more. Integrated with your CRM, site, and phone system."
             outcome="Reclaim 15+ hours per week from admin work"
