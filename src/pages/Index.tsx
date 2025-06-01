@@ -20,6 +20,16 @@ import ParallaxSection from '../components/effects/ParallaxSection';
 import ScrollRevealWrapper from '../components/animation/ScrollRevealWrapper';
 import BoardroomTimeline from '../components/boardroom/BoardroomTimeline';
 
+// Import new homepage sections
+import WhoWeHelpSection from '../components/new-homepage/WhoWeHelpSection';
+import WhatWeOfferSection from '../components/new-homepage/WhatWeOfferSection';
+import InsideAcademySection from '../components/new-homepage/InsideAcademySection';
+import PartnerPracticesSection from '../components/new-homepage/PartnerPracticesSection';
+import PatientJourneySection from '../components/new-homepage/PatientJourneySection';
+import SuccessMetricsSection from '../components/new-homepage/SuccessMetricsSection';
+import JobBoardSection from '../components/new-homepage/JobBoardSection';
+import PrimaryCTASection from '../components/new-homepage/PrimaryCTASection';
+
 const Index = () => {
   const sectionRefs = {
     hero: useRef<HTMLDivElement>(null),
@@ -40,6 +50,55 @@ const Index = () => {
         {/* Enhanced Hero Section */}
         <div ref={sectionRefs.hero}>
           <EnhancedHero />
+        </div>
+        
+        {/* Who We Help Section */}
+        <div className="relative">
+          <ScrollRevealWrapper animation="fade-up">
+            <WhoWeHelpSection />
+          </ScrollRevealWrapper>
+        </div>
+        
+        {/* What We Offer Section */}
+        <div className="relative">
+          <ScrollRevealWrapper animation="fade-up">
+            <WhatWeOfferSection />
+          </ScrollRevealWrapper>
+        </div>
+        
+        {/* Inside the Academy Section */}
+        <div className="relative">
+          <ScrollRevealWrapper animation="fade-up">
+            <InsideAcademySection />
+          </ScrollRevealWrapper>
+        </div>
+        
+        {/* Patient Journey Timeline */}
+        <div className="relative">
+          <ScrollRevealWrapper animation="fade-up">
+            <PatientJourneySection />
+          </ScrollRevealWrapper>
+        </div>
+        
+        {/* Success Metrics / ROI Snapshot */}
+        <div className="relative">
+          <ScrollRevealWrapper animation="fade-up">
+            <SuccessMetricsSection />
+          </ScrollRevealWrapper>
+        </div>
+        
+        {/* Partner Practices Section */}
+        <div className="relative">
+          <ScrollRevealWrapper animation="fade-up">
+            <PartnerPracticesSection />
+          </ScrollRevealWrapper>
+        </div>
+        
+        {/* Job Board Section */}
+        <div className="relative">
+          <ScrollRevealWrapper animation="fade-up">
+            <JobBoardSection />
+          </ScrollRevealWrapper>
         </div>
         
         {/* New Boardroom Timeline Section */}
@@ -111,6 +170,13 @@ const Index = () => {
         <div ref={sectionRefs.pricing} className="relative">
           <ScrollRevealWrapper animation="fade-up">
             <PricingSection />
+          </ScrollRevealWrapper>
+        </div>
+        
+        {/* Primary CTA Section */}
+        <div className="relative">
+          <ScrollRevealWrapper animation="fade-up">
+            <PrimaryCTASection />
           </ScrollRevealWrapper>
         </div>
         
