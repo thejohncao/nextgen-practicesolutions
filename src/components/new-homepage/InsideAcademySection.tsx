@@ -1,13 +1,12 @@
-
 import React from 'react';
-import { Foundation, Trophy, Crown } from 'lucide-react';
+import { Building2, Trophy, Crown } from 'lucide-react';
 import ScrollRevealWrapper from '@/components/animation/ScrollRevealWrapper';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const InsideAcademySection = () => {
   const tracks = [
     {
-      icon: <Foundation className="h-6 w-6" />,
+      icon: <Building2 className="h-6 w-6" />,
       title: "Foundation",
       description: "Master the essentials of front office operations, including scheduling and patient communication.",
       color: "text-blue-500",
