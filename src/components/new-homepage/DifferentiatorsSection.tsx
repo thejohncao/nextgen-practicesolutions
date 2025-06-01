@@ -5,94 +5,87 @@ import ScrollRevealWrapper from '@/components/animation/ScrollRevealWrapper';
 import GlowingCard from '@/components/effects/GlowingCard';
 import { cn } from '@/lib/utils';
 
-interface DifferentiatorCardProps {
+interface DifferentiatorProps {
   title: string;
   description: string;
   icon: React.ReactNode;
-  color: string;
   delay: number;
-  className?: string;
 }
 
-const DifferentiatorCard = ({ title, description, icon, color, delay, className }: DifferentiatorCardProps) => (
-  <ScrollRevealWrapper animation="fade-up" delay={delay} className="h-full">
-    <div className={cn(
-      "p-6 rounded-xl backdrop-blur-md",
-      "bg-white/5 border border-white/10 h-full",
-      "transition-all duration-300 hover:bg-white/10",
-      className
-    )}>
-      <div className={`p-3 rounded-full ${color} mb-4 inline-block`}>
+const Differentiator = ({ title, description, icon, delay }: DifferentiatorProps) => (
+  <ScrollRevealWrapper animation="fade-up" delay={delay}>
+    <div className="flex items-start gap-4">
+      <div className="p-2 rounded-full bg-nextgen-purple/20 text-nextgen-purple shrink-0">
         {icon}
       </div>
-      <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
-      <p className="text-white/80">{description}</p>
+      <div>
+        <h3 className="text-white font-medium text-lg mb-2">{title}</h3>
+        <p className="text-white/70">{description}</p>
+      </div>
     </div>
   </ScrollRevealWrapper>
 );
 
 const DifferentiatorsSection = () => {
+  const differentiators = [
+    {
+      icon: <Link2 className="h-5 w-5" />,
+      title: "Truly Unified Platform",
+      description: "Stop juggling multiple vendors. Get training, automation, and talent in one seamless OS."
+    },
+    {
+      icon: <Users className="h-5 w-5" />,
+      title: "AI That Empowers, Not Replaces",
+      description: "Our tools augment your team's abilities, reducing tedious work and freeing them for meaningful interaction."
+    },
+    {
+      icon: <Award className="h-5 w-5" />,
+      title: "Preserve Your Independence",
+      description: "Grow efficiently and modernize without needing to adopt a restrictive franchise model or change your brand."
+    },
+    {
+      icon: <LineChart className="h-5 w-5" />,
+      title: "Dental-Specific Expertise",
+      description: "Built from the ground up with a deep understanding of dental workflows and challenges."
+    },
+    {
+      icon: <Headset className="h-5 w-5" />,
+      title: "Dedicated Support & Partnership",
+      description: "We're invested in your success beyond the initial setup."
+    }
+  ];
+
   return (
-    <section className="py-24 bg-black/40 relative overflow-hidden">
+    <section className="py-24 bg-black/20 relative overflow-hidden">
       <div className="container mx-auto px-4">
-        <ScrollRevealWrapper animation="fade-up">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center text-gradient">
-            What Makes NextGen Different
-          </h2>
-        </ScrollRevealWrapper>
-        
-        <ScrollRevealWrapper animation="fade-up" delay={0.1}>
-          <p className="text-xl text-white/80 text-center mb-12 max-w-3xl mx-auto">
-            We don't just give you another tool — we provide a complete operating system for your practice
-          </p>
-        </ScrollRevealWrapper>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
-          <DifferentiatorCard 
-            title="Unified Experience"
-            description="One seamless system that handles training, automation, and talent acquisition."
-            icon={<Link2 className="h-6 w-6 text-white" />}
-            color="bg-nextgen-purple/20"
-            delay={0.2}
-          />
+        <GlowingCard 
+          className="p-8 md:p-12 backdrop-blur-xl"
+          glowColor="rgba(155, 135, 245, 0.2)"
+        >
+          <ScrollRevealWrapper animation="fade-up">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gradient">
+              The NextGen Advantage: Beyond Fragmented Tools
+            </h2>
+          </ScrollRevealWrapper>
           
-          <DifferentiatorCard 
-            title="Industry-Specific"
-            description="Built exclusively for dental practices with tailored workflows."
-            icon={<Award className="h-6 w-6 text-white" />}
-            color="bg-nextgen-blue/20"
-            delay={0.3}
-          />
-          
-          <DifferentiatorCard 
-            title="Human + AI Approach"
-            description="AI automation with human oversight where it matters most."
-            icon={<Users className="h-6 w-6 text-white" />}
-            color="bg-nextgen-green/20"
-            delay={0.4}
-          />
-          
-          <DifferentiatorCard 
-            title="Measurable Results"
-            description="Clear metrics showing reduced costs and improved patient experience."
-            icon={<LineChart className="h-6 w-6 text-white" />}
-            color="bg-nextgen-orange/20"
-            delay={0.5}
-          />
-        </div>
-        
-        <ScrollRevealWrapper animation="fade-up" delay={0.6} className="mt-16">
-          <GlowingCard className="p-6 max-w-3xl mx-auto text-center">
-            <div className="flex items-center justify-center gap-4 mb-4">
-              <div className="p-2 rounded-full bg-nextgen-purple/20">
-                <Headset className="h-5 w-5 text-nextgen-purple" />
-              </div>
-            </div>
-            <p className="text-lg text-white/90">
-              "Our support team consists of actual dental practice managers who understand your challenges."
+          <ScrollRevealWrapper animation="fade-up" delay={0.1}>
+            <p className="text-xl text-white/80 mb-12 max-w-3xl">
+              We've built NextGen from the ground up to address the specific challenges dental practices face
             </p>
-          </GlowingCard>
-        </ScrollRevealWrapper>
+          </ScrollRevealWrapper>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+            {differentiators.map((item, index) => (
+              <Differentiator
+                key={index}
+                icon={item.icon}
+                title={item.title}
+                description={item.description}
+                delay={0.2 + (index * 0.1)}
+              />
+            ))}
+          </div>
+        </GlowingCard>
       </div>
     </section>
   );

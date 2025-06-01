@@ -9,7 +9,6 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 // Pages
 import Index from './pages/Index';
 import NewHomepage from './pages/NewHomepage'; // New homepage
-import About from './pages/About';
 import AiTeam from './pages/AiTeam';
 import Solutions from './pages/Solutions';
 import Features from './pages/Features';
@@ -30,7 +29,6 @@ import NotFound from './pages/NotFound';
 import AiDemo from './pages/AiDemo';
 import Boardroom from './pages/Boardroom';
 import Certifications from './pages/Certifications';
-import AITeamOrbitalPage from './pages/AITeamOrbitalPage';
 
 // Components
 import AiAssistant from './components/AiAssistant';
@@ -55,11 +53,8 @@ function App() {
         <LenisProvider>
           <Router>
             <Routes>
-              {/* Use the NewHomepage as the main index page */}
-              <Route path="/" element={<NewHomepage />} />
-              <Route path="/legacy" element={<Index />} />
+              <Route path="/" element={<Index />} />
               <Route path="/new-homepage" element={<NewHomepage />} />
-              <Route path="/about" element={<About />} />
               <Route path="/ai-team" element={<AiTeam />} />
               <Route path="/solutions" element={<Solutions />} />
               <Route path="/features" element={<Features />} />
@@ -79,7 +74,6 @@ function App() {
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/ai-demo" element={<AiDemo />} />
               <Route path="/boardroom" element={<Boardroom />} />
-              <Route path="/ai-team-orbital" element={<AITeamOrbitalPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
             

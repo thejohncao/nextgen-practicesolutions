@@ -1,5 +1,6 @@
+
 import { useState, useRef, useCallback } from 'react';
-import { AiMessage } from './types';
+import { AiMessage } from '../useAiConversation';
 import { toast } from '@/components/ui/use-toast';
 
 /**

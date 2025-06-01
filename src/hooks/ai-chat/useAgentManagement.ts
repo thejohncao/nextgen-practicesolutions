@@ -1,6 +1,7 @@
+
 import { useState, useCallback, useEffect } from 'react';
 import { getAgentChatData } from '@/data/agentChatData';
-import { AiMessage } from './types';
+import { AiMessage } from '../useAiConversation';
 
 // Valid agent names
 export type AgentName = 'miles' | 'giselle' | 'devon' | 'alma';
