@@ -9,6 +9,14 @@ const MainNavLinks: React.FC = () => {
   return (
     <>
       <Link 
+        to="/about" 
+        className={`px-3 py-2 text-sm font-medium transition-colors ${
+          isActive('/about') ? 'text-white' : 'text-white/70 hover:text-white'
+        }`}
+      >
+        About
+      </Link>
+      <Link 
         to="/solutions" 
         className={`px-3 py-2 text-sm font-medium transition-colors ${
           isActive('/solutions') ? 'text-white' : 'text-white/70 hover:text-white'
