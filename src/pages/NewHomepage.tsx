@@ -4,11 +4,13 @@ import Layout from '@/components/Layout';
 
 // Import components
 import HeroSection from '@/components/new-homepage/HeroSection';
-import ProblemSection from '@/components/new-homepage/ProblemSection';
-import SolutionSection from '@/components/new-homepage/SolutionSection';
-import PillarsSection from '@/components/new-homepage/PillarsSection';
-import BenefitsSection from '@/components/new-homepage/BenefitsSection';
-import InvestmentSection from '@/components/new-homepage/InvestmentSection';
+import WhoWeHelpSection from '@/components/new-homepage/WhoWeHelpSection';
+import WhatWeOfferSection from '@/components/new-homepage/WhatWeOfferSection';
+import InsideAcademySection from '@/components/new-homepage/InsideAcademySection';
+import PartnerPracticesSection from '@/components/new-homepage/PartnerPracticesSection';
+import PatientJourneySection from '@/components/new-homepage/PatientJourneySection';
+import SuccessMetricsSection from '@/components/new-homepage/SuccessMetricsSection';
+import JobBoardSection from '@/components/new-homepage/JobBoardSection';
 import SocialProofSection from '@/components/new-homepage/SocialProofSection';
 import PrimaryCTASection from '@/components/new-homepage/PrimaryCTASection';
 import ExploreMoreSection from '@/components/new-homepage/ExploreMoreSection';
@@ -19,20 +21,26 @@ const NewHomepage = () => {
       {/* Hero Section */}
       <HeroSection />
       
-      {/* Problem Section */}
-      <ProblemSection />
+      {/* Who We Help Section */}
+      <WhoWeHelpSection />
       
-      {/* Solution Section */}
-      <SolutionSection />
+      {/* What We Offer Section */}
+      <WhatWeOfferSection />
       
-      {/* The Pillars Section */}
-      <PillarsSection />
+      {/* Inside the Academy Section */}
+      <InsideAcademySection />
       
-      {/* Benefits & Outcomes Section */}
-      <BenefitsSection />
+      {/* Patient Journey Timeline */}
+      <PatientJourneySection />
       
-      {/* Investment Section */}
-      <InvestmentSection />
+      {/* Success Metrics / ROI Snapshot */}
+      <SuccessMetricsSection />
+      
+      {/* Partner Practices Section */}
+      <PartnerPracticesSection />
+      
+      {/* Job Board Section */}
+      <JobBoardSection />
       
       {/* Social Proof & Credibility Section */}
       <SocialProofSection />
