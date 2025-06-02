@@ -4,6 +4,7 @@ import Layout from '../components/Layout';
 import DemoHero from '../components/demo/DemoHero';
 import ProblemSection from '../components/demo/ProblemSection';
 import GooeyFilterTabs from '../components/team/GooeyFilterTabs';
+import BoardroomTimeline from '../components/boardroom/BoardroomTimeline';
 import WhoWeHelpDemo from '../components/demo/WhoWeHelpDemo';
 import WhatWeOfferDemo from '../components/demo/WhatWeOfferDemo';
 import AcademyOverview from '../components/demo/AcademyOverview';
@@ -33,6 +34,11 @@ const Demo = () => {
       {/* Meet the AI Team - Interactive Tabs - Moved here after Problem Section */}
       <ScrollRevealWrapper animation="fade-up">
         <GooeyFilterTabs />
+      </ScrollRevealWrapper>
+      
+      {/* Boardroom Timeline */}
+      <ScrollRevealWrapper animation="fade-up">
+        <BoardroomTimeline />
       </ScrollRevealWrapper>
       
       {/* Who We Help */}
