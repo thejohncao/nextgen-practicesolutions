@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -15,6 +14,7 @@ import Features from './pages/Features';
 import Academy from './pages/Academy';
 import AcademyCurriculum from './pages/AcademyCurriculum';
 import AcademyCertification from './pages/AcademyCertification';
+import AcademyBusinessModel from './pages/AcademyBusinessModel';
 import Story from './pages/Story';
 import Security from './pages/Security';
 import Pricing from './pages/Pricing';
@@ -62,6 +62,7 @@ function App() {
               <Route path="/academy" element={<Academy />} />
               <Route path="/academy/curriculum" element={<AcademyCurriculum />} />
               <Route path="/academy/certification" element={<AcademyCertification />} />
+              <Route path="/academy/business-model" element={<AcademyBusinessModel />} />
               <Route path="/certifications" element={<Certifications />} />
               <Route path="/story" element={<Story />} />
               <Route path="/security" element={<Security />} />
