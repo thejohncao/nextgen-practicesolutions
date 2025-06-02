@@ -15,6 +15,7 @@ import ScrollRevealWrapper from '../components/animation/ScrollRevealWrapper';
 import ROISection from '../components/ROISection';
 import HealthcareSecuritySection from '../components/HealthcareSecuritySection';
 import GooeyFilterTabs from '../components/team/GooeyFilterTabs';
+import BoardroomUnlockFlow from '../components/pricing/BoardroomUnlockFlow';
 
 const Demo = () => {
   return (
@@ -40,6 +41,11 @@ const Demo = () => {
       {/* Meet the AI Team - Interactive Tabs */}
       <ScrollRevealWrapper animation="fade-up">
         <GooeyFilterTabs />
+      </ScrollRevealWrapper>
+      
+      {/* AI Boardroom Unlock Flow */}
+      <ScrollRevealWrapper animation="fade-up">
+        <BoardroomUnlockFlow />
       </ScrollRevealWrapper>
       
       {/* NextGen Academy */}
