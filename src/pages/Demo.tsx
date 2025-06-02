@@ -17,6 +17,7 @@ import HealthcareSecuritySection from '../components/HealthcareSecuritySection';
 import GooeyFilterTabs from '../components/team/GooeyFilterTabs';
 import BoardroomUnlockFlow from '../components/pricing/BoardroomUnlockFlow';
 import AcademyOverviewSection from '../components/AcademyOverviewSection';
+import CombinedSecurityIntegrationsSection from '../components/CombinedSecurityIntegrationsSection';
 
 const Demo = () => {
   return (
@@ -72,6 +73,11 @@ const Demo = () => {
       {/* Tools We Replace */}
       <ScrollRevealWrapper animation="fade-up">
         <ToolsWeReplace />
+      </ScrollRevealWrapper>
+      
+      {/* Combined Security & Integrations Section */}
+      <ScrollRevealWrapper animation="fade-up">
+        <CombinedSecurityIntegrationsSection />
       </ScrollRevealWrapper>
       
       {/* Security & Compliance - Enhanced version from home page */}
