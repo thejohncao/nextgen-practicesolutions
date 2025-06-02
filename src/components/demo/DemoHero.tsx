@@ -1,13 +1,10 @@
-
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import RainbowButton from '@/components/ui/rainbow-button';
 import ScrollRevealWrapper from '@/components/animation/ScrollRevealWrapper';
-
 const DemoHero = () => {
-  return (
-    <section className="relative min-h-screen bg-gradient-to-br from-nextgen-dark via-nextgen-dark to-nextgen-dark/80 pt-20 pb-12 overflow-hidden">
+  return <section className="relative min-h-screen bg-gradient-to-br from-nextgen-dark via-nextgen-dark to-nextgen-dark/80 pt-20 pb-12 overflow-hidden">
       {/* Background effects */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-nextgen-purple/5 to-transparent"></div>
       <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-nextgen-purple/10 rounded-full blur-3xl"></div>
@@ -17,9 +14,7 @@ const DemoHero = () => {
         <div className="max-w-4xl mx-auto text-center">
           {/* Headline */}
           <ScrollRevealWrapper animation="fade-up">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold mb-6 text-gradient leading-tight">
-              AI + Certified Talent for the Modern Dental Practice
-            </h1>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold mb-6 text-gradient leading-tight">The AI-Powered Operating System for Modern Dental Practices</h1>
           </ScrollRevealWrapper>
 
           {/* Subheadline */}
@@ -40,8 +35,6 @@ const DemoHero = () => {
           </ScrollRevealWrapper>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default DemoHero;
