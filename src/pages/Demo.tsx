@@ -14,6 +14,7 @@ import DemoFinalCTA from '../components/demo/DemoFinalCTA';
 import ScrollRevealWrapper from '../components/animation/ScrollRevealWrapper';
 import ROISection from '../components/ROISection';
 import HealthcareSecuritySection from '../components/HealthcareSecuritySection';
+import GooeyFilterTabs from '../components/team/GooeyFilterTabs';
 
 const Demo = () => {
   return (
@@ -34,6 +35,11 @@ const Demo = () => {
       {/* What We Offer */}
       <ScrollRevealWrapper animation="fade-up">
         <WhatWeOfferDemo />
+      </ScrollRevealWrapper>
+      
+      {/* Meet the AI Team - Interactive Tabs */}
+      <ScrollRevealWrapper animation="fade-up">
+        <GooeyFilterTabs />
       </ScrollRevealWrapper>
       
       {/* NextGen Academy */}
