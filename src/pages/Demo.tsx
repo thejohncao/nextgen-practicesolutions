@@ -3,6 +3,7 @@ import React from 'react';
 import Layout from '../components/Layout';
 import DemoHero from '../components/demo/DemoHero';
 import ProblemSection from '../components/demo/ProblemSection';
+import GooeyFilterTabs from '../components/team/GooeyFilterTabs';
 import WhoWeHelpDemo from '../components/demo/WhoWeHelpDemo';
 import WhatWeOfferDemo from '../components/demo/WhatWeOfferDemo';
 import AcademyOverview from '../components/demo/AcademyOverview';
@@ -14,7 +15,6 @@ import DemoFinalCTA from '../components/demo/DemoFinalCTA';
 import ScrollRevealWrapper from '../components/animation/ScrollRevealWrapper';
 import ROISection from '../components/ROISection';
 import HealthcareSecuritySection from '../components/HealthcareSecuritySection';
-import GooeyFilterTabs from '../components/team/GooeyFilterTabs';
 import BoardroomUnlockFlow from '../components/pricing/BoardroomUnlockFlow';
 import AcademyOverviewSection from '../components/AcademyOverviewSection';
 import CombinedSecurityIntegrationsSection from '../components/CombinedSecurityIntegrationsSection';
@@ -30,6 +30,11 @@ const Demo = () => {
         <ProblemSection />
       </ScrollRevealWrapper>
       
+      {/* Meet the AI Team - Interactive Tabs - Moved here after Problem Section */}
+      <ScrollRevealWrapper animation="fade-up">
+        <GooeyFilterTabs />
+      </ScrollRevealWrapper>
+      
       {/* Who We Help */}
       <ScrollRevealWrapper animation="fade-up">
         <WhoWeHelpDemo />
@@ -38,11 +43,6 @@ const Demo = () => {
       {/* What We Offer */}
       <ScrollRevealWrapper animation="fade-up">
         <WhatWeOfferDemo />
-      </ScrollRevealWrapper>
-      
-      {/* Meet the AI Team - Interactive Tabs */}
-      <ScrollRevealWrapper animation="fade-up">
-        <GooeyFilterTabs />
       </ScrollRevealWrapper>
       
       {/* AI Boardroom Unlock Flow */}

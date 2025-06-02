@@ -14,7 +14,6 @@ const PricingPlans = () => {
       tcAccess: "LMS Only",
       support: "Email",
       idealFor: "Solo Docs",
-      price: "$497/month",
       features: [
         "Academy access",
         "Email support",
@@ -30,7 +29,6 @@ const PricingPlans = () => {
       tcAccess: "+ Job Placement",
       support: "Priority Chat",
       idealFor: "Growing Teams",
-      price: "$997/month",
       features: [
         "Everything in Spark",
         "Miles AI assistant",
@@ -47,7 +45,6 @@ const PricingPlans = () => {
       tcAccess: "+ Real-Time AI Integration",
       support: "Dedicated Success Lead",
       idealFor: "DSOs",
-      price: "Custom",
       features: [
         "Everything in Ignite",
         "All AI agents",
@@ -81,8 +78,7 @@ const PricingPlans = () => {
               )}
               
               <CardContent className="p-8 text-center">
-                <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
-                <div className="text-3xl font-bold text-white mb-6">{plan.price}</div>
+                <h3 className="text-2xl font-bold text-white mb-6">{plan.name}</h3>
                 
                 <div className="space-y-4 mb-8 text-left">
                   <div>
