@@ -7,13 +7,13 @@ import WhoWeHelpDemo from '../components/demo/WhoWeHelpDemo';
 import WhatWeOfferDemo from '../components/demo/WhatWeOfferDemo';
 import AcademyOverview from '../components/demo/AcademyOverview';
 import HowItWorksDemo from '../components/demo/HowItWorksDemo';
-import ROICalculator from '../components/demo/ROICalculator';
 import ToolsWeReplace from '../components/demo/ToolsWeReplace';
-import SecurityCompliance from '../components/demo/SecurityCompliance';
 import FounderStory from '../components/demo/FounderStory';
 import PricingPlans from '../components/demo/PricingPlans';
 import DemoFinalCTA from '../components/demo/DemoFinalCTA';
 import ScrollRevealWrapper from '../components/animation/ScrollRevealWrapper';
+import ROISection from '../components/ROISection';
+import HealthcareSecuritySection from '../components/HealthcareSecuritySection';
 
 const Demo = () => {
   return (
@@ -46,9 +46,9 @@ const Demo = () => {
         <HowItWorksDemo />
       </ScrollRevealWrapper>
       
-      {/* ROI Calculator */}
+      {/* ROI Section - Enhanced version from home page */}
       <ScrollRevealWrapper animation="fade-up">
-        <ROICalculator />
+        <ROISection />
       </ScrollRevealWrapper>
       
       {/* Tools We Replace */}
@@ -56,9 +56,9 @@ const Demo = () => {
         <ToolsWeReplace />
       </ScrollRevealWrapper>
       
-      {/* Security & Compliance */}
+      {/* Security & Compliance - Enhanced version from home page */}
       <ScrollRevealWrapper animation="fade-up">
-        <SecurityCompliance />
+        <HealthcareSecuritySection />
       </ScrollRevealWrapper>
       
       {/* About the Founder */}
