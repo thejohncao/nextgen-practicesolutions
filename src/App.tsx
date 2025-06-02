@@ -24,6 +24,7 @@ import NextGenHomeV2 from './pages/NextGenHomeV2';
 import Resources from './pages/Resources';
 import Watch from './pages/Watch';
 import Join from './pages/Join';
+import Demo from './pages/Demo';
 import Privacy from './pages/Privacy';
 import NotFound from './pages/NotFound';
 import AiDemo from './pages/AiDemo';
@@ -71,6 +72,7 @@ function App() {
               <Route path="/resources" element={<Resources />} />
               <Route path="/watch" element={<Watch />} />
               <Route path="/join" element={<Join />} />
+              <Route path="/demo" element={<Demo />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/ai-demo" element={<AiDemo />} />
               <Route path="/boardroom" element={<Boardroom />} />

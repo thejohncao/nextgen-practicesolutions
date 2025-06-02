@@ -1,0 +1,82 @@
+
+import React from 'react';
+import Layout from '../components/Layout';
+import DemoHero from '../components/demo/DemoHero';
+import ProblemSection from '../components/demo/ProblemSection';
+import WhoWeHelpDemo from '../components/demo/WhoWeHelpDemo';
+import WhatWeOfferDemo from '../components/demo/WhatWeOfferDemo';
+import AcademyOverview from '../components/demo/AcademyOverview';
+import HowItWorksDemo from '../components/demo/HowItWorksDemo';
+import ROICalculator from '../components/demo/ROICalculator';
+import ToolsWeReplace from '../components/demo/ToolsWeReplace';
+import SecurityCompliance from '../components/demo/SecurityCompliance';
+import FounderStory from '../components/demo/FounderStory';
+import PricingPlans from '../components/demo/PricingPlans';
+import DemoFinalCTA from '../components/demo/DemoFinalCTA';
+import ScrollRevealWrapper from '../components/animation/ScrollRevealWrapper';
+
+const Demo = () => {
+  return (
+    <Layout>
+      {/* Hero Section */}
+      <DemoHero />
+      
+      {/* The Problem We Solve */}
+      <ScrollRevealWrapper animation="fade-up">
+        <ProblemSection />
+      </ScrollRevealWrapper>
+      
+      {/* Who We Help */}
+      <ScrollRevealWrapper animation="fade-up">
+        <WhoWeHelpDemo />
+      </ScrollRevealWrapper>
+      
+      {/* What We Offer */}
+      <ScrollRevealWrapper animation="fade-up">
+        <WhatWeOfferDemo />
+      </ScrollRevealWrapper>
+      
+      {/* NextGen Academy */}
+      <ScrollRevealWrapper animation="fade-up">
+        <AcademyOverview />
+      </ScrollRevealWrapper>
+      
+      {/* How It Works */}
+      <ScrollRevealWrapper animation="fade-up">
+        <HowItWorksDemo />
+      </ScrollRevealWrapper>
+      
+      {/* ROI Calculator */}
+      <ScrollRevealWrapper animation="fade-up">
+        <ROICalculator />
+      </ScrollRevealWrapper>
+      
+      {/* Tools We Replace */}
+      <ScrollRevealWrapper animation="fade-up">
+        <ToolsWeReplace />
+      </ScrollRevealWrapper>
+      
+      {/* Security & Compliance */}
+      <ScrollRevealWrapper animation="fade-up">
+        <SecurityCompliance />
+      </ScrollRevealWrapper>
+      
+      {/* About the Founder */}
+      <ScrollRevealWrapper animation="fade-up">
+        <FounderStory />
+      </ScrollRevealWrapper>
+      
+      {/* Pricing Plans */}
+      <ScrollRevealWrapper animation="fade-up">
+        <PricingPlans />
+      </ScrollRevealWrapper>
+      
+      {/* Final CTA */}
+      <ScrollRevealWrapper animation="fade-up">
+        <DemoFinalCTA />
+      </ScrollRevealWrapper>
+    </Layout>
+  );
+};
+
+export default Demo;
