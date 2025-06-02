@@ -16,6 +16,7 @@ import ROISection from '../components/ROISection';
 import HealthcareSecuritySection from '../components/HealthcareSecuritySection';
 import GooeyFilterTabs from '../components/team/GooeyFilterTabs';
 import BoardroomUnlockFlow from '../components/pricing/BoardroomUnlockFlow';
+import AcademyOverviewSection from '../components/AcademyOverviewSection';
 
 const Demo = () => {
   return (
@@ -46,6 +47,11 @@ const Demo = () => {
       {/* AI Boardroom Unlock Flow */}
       <ScrollRevealWrapper animation="fade-up">
         <BoardroomUnlockFlow />
+      </ScrollRevealWrapper>
+      
+      {/* NextGen Academy Overview */}
+      <ScrollRevealWrapper animation="fade-up">
+        <AcademyOverviewSection />
       </ScrollRevealWrapper>
       
       {/* NextGen Academy */}
