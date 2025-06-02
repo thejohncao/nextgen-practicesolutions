@@ -20,6 +20,12 @@ import BoardroomUnlockFlow from '../components/pricing/BoardroomUnlockFlow';
 import AcademyOverviewSection from '../components/AcademyOverviewSection';
 import CombinedSecurityIntegrationsSection from '../components/CombinedSecurityIntegrationsSection';
 
+// Import Academy sections
+import CertificationSection from '../components/academy/CertificationSection';
+import NextGenJourney from '../components/academy/NextGenJourney';
+import HowItWorks from '../components/academy/HowItWorks';
+import CurriculumOverview from '../components/academy/CurriculumOverview';
+
 const Demo = () => {
   return (
     <Layout>
@@ -66,7 +72,27 @@ const Demo = () => {
         <AcademyOverview />
       </ScrollRevealWrapper>
       
+      {/* Earn Your Official NextGen Certification */}
+      <ScrollRevealWrapper animation="fade-up">
+        <CertificationSection />
+      </ScrollRevealWrapper>
+      
+      {/* Your Journey, Simplified */}
+      <ScrollRevealWrapper animation="fade-up">
+        <NextGenJourney />
+      </ScrollRevealWrapper>
+      
       {/* How It Works */}
+      <ScrollRevealWrapper animation="fade-up">
+        <HowItWorks />
+      </ScrollRevealWrapper>
+      
+      {/* What You'll Learn */}
+      <ScrollRevealWrapper animation="fade-up">
+        <CurriculumOverview />
+      </ScrollRevealWrapper>
+      
+      {/* How It Works Demo - Original Section */}
       <ScrollRevealWrapper animation="fade-up">
         <HowItWorksDemo />
       </ScrollRevealWrapper>
