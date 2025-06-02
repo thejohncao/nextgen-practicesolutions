@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Layout from '../components/Layout';
 import DemoHero from '../components/demo/DemoHero';
@@ -19,6 +18,7 @@ import HealthcareSecuritySection from '../components/HealthcareSecuritySection';
 import BoardroomUnlockFlow from '../components/pricing/BoardroomUnlockFlow';
 import AcademyOverviewSection from '../components/AcademyOverviewSection';
 import CombinedSecurityIntegrationsSection from '../components/CombinedSecurityIntegrationsSection';
+import CertificationPathway from '../components/demo/CertificationPathway';
 
 // Import Academy sections
 import CertificationSection from '../components/academy/CertificationSection';
@@ -90,6 +90,11 @@ const Demo = () => {
       {/* What You'll Learn */}
       <ScrollRevealWrapper animation="fade-up">
         <CurriculumOverview />
+      </ScrollRevealWrapper>
+      
+      {/* Certification Pathway */}
+      <ScrollRevealWrapper animation="fade-up">
+        <CertificationPathway />
       </ScrollRevealWrapper>
       
       {/* How It Works Demo - Original Section */}
