@@ -127,7 +127,7 @@ const AcademyBusinessModel = () => {
       title: "Cover",
       subtitle: "NextGen Academy",
       content: "Revolutionizing the Dental Front Office",
-      tagline: ""Train smarter. Hire faster. Close more."",
+      tagline: "\"Train smarter. Hire faster. Close more.\"",
       icon: <GraduationCap className="h-8 w-8" />,
       color: "text-nextgen-purple"
     },
