@@ -37,7 +37,7 @@ const JuvAboutBuilder = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient">
-            👤 About the Builder
+            🧠 Founder of NextGen Practice Solutions
           </h2>
         </div>
         
@@ -79,14 +79,15 @@ const JuvAboutBuilder = () => {
                   {/* Vision Quote */}
                   <div className="border-l-4 border-nextgen-purple pl-6 py-4 bg-nextgen-purple/5 rounded-r-lg">
                     <p className="text-xl md:text-2xl text-white/90 italic leading-relaxed font-light">
-                      "I don't just automate practices. I build the systems that run them — so they scale without chaos."
+                      "I design systems that scale — not by adding more people, but by replacing them with precision automation."
                     </p>
                   </div>
 
                   {/* Description */}
                   <p className="text-lg text-white/80 leading-relaxed">
-                    Founder of NextGen Practice Solutions, Jonathan architected the operating system powering JUV's $10M scale plan.
-                    His work sits at the intersection of AI, no-code, and growth strategy — turning complexity into clean, autonomous workflows for multi-location healthcare businesses.
+                    I'm the founder of NextGen Practice Solutions and the architect behind the operating system powering JUV's $100M scale plan.
+                    My work lives at the intersection of AI, no-code, and growth strategy — turning complex, manual practices into clean, self-operating engines.
+                    I build invisible infrastructure that replaces 5–7 hires per region, boosts EBITDA, and unlocks real scalability for multi-location healthcare businesses.
                   </p>
                 </div>
               </div>

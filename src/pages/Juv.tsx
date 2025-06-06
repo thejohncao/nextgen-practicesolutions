@@ -55,17 +55,24 @@ const Juv = () => {
           </ScrollRevealWrapper>
         </ParallaxSection>
         
-        {/* Roadmap to $10M Exit */}
+        {/* Roadmap to $100M Exit */}
         <ParallaxSection>
           <ScrollRevealWrapper animation="fade-up">
             <JuvRoadmap />
           </ScrollRevealWrapper>
         </ParallaxSection>
         
-        {/* The Model */}
+        {/* The Model (JUV Vision) */}
         <ParallaxSection>
           <ScrollRevealWrapper animation="fade-up">
             <JuvModel />
+          </ScrollRevealWrapper>
+        </ParallaxSection>
+        
+        {/* Ownership Models - moved to appear after JuvModel */}
+        <ParallaxSection>
+          <ScrollRevealWrapper animation="fade-up">
+            <JuvOwnershipModels />
           </ScrollRevealWrapper>
         </ParallaxSection>
         
@@ -73,13 +80,6 @@ const Juv = () => {
         <ParallaxSection>
           <ScrollRevealWrapper animation="fade-up">
             <JuvFounderAlignment />
-          </ScrollRevealWrapper>
-        </ParallaxSection>
-        
-        {/* Ownership Models */}
-        <ParallaxSection>
-          <ScrollRevealWrapper animation="fade-up">
-            <JuvOwnershipModels />
           </ScrollRevealWrapper>
         </ParallaxSection>
         

@@ -56,7 +56,7 @@ const JuvRoadmap = () => {
         "Performance tracking dashboards live"
       ],
       kpis: [
-        "$1M/mo network revenue",
+        "$1.5M/mo network revenue",
         "80% show rate",
         "<15% churn",
         "50+ Glow Wallet members per site"
@@ -75,7 +75,7 @@ const JuvRoadmap = () => {
         "Optimize Glow Wallet ROI through spending insights"
       ],
       kpis: [
-        "$3M+/mo run rate",
+        "$5M+/mo run rate",
         "5–7 hires saved per region via automation",
         "Enterprise-grade tech + compliance stack"
       ],
@@ -94,8 +94,8 @@ const JuvRoadmap = () => {
         "Transition plans mapped"
       ],
       kpis: [
-        "$10M ARR",
-        "$1M+/mo EBITDA",
+        "$60M ARR",
+        "$20M+/mo EBITDA",
         "Strategic exit or acquisition triggered"
       ],
       color: "border-red-500/20 bg-red-50/5",
@@ -108,10 +108,10 @@ const JuvRoadmap = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient">
-            🛣 ROADMAP TO $10M EXIT (2025–2030)
+            🛣 ROADMAP TO $100M EXIT (2025–2030)
           </h2>
           <p className="text-xl text-white/70">
-            Milestones, Metrics, and Systems to Reach 100+ Locations and a $10M+ Valuation
+            Milestones, Metrics, and Systems to Reach 100+ Locations and a $100M+ Valuation
           </p>
         </div>
 
