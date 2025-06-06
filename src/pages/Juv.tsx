@@ -58,6 +58,9 @@ const Juv = () => {
           </ScrollRevealWrapper>
         </ParallaxSection>
         
+        {/* Combined Security & Integrations - moved before roadmap */}
+        <CombinedSecurityIntegrationsSection />
+        
         {/* Roadmap to $100M Exit */}
         <ParallaxSection>
           <ScrollRevealWrapper animation="fade-up">
@@ -90,9 +93,6 @@ const Juv = () => {
             <JuvSecurityIntegrations />
           </ScrollRevealWrapper>
         </ParallaxSection>
-        
-        {/* Combined Security & Integrations - Enhanced section */}
-        <CombinedSecurityIntegrationsSection />
         
         {/* Ownership Models - moved to last position */}
         <ParallaxSection>
