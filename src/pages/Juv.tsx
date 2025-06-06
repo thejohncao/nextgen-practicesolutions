@@ -13,6 +13,7 @@ import JuvClosingStatement from '../components/juv/JuvClosingStatement';
 import JuvSecurityIntegrations from '../components/juv/JuvSecurityIntegrations';
 import JuvOwnershipModels from '../components/juv/JuvOwnershipModels';
 import JuvClosingCTA from '../components/juv/JuvClosingCTA';
+import CombinedSecurityIntegrationsSection from '../components/CombinedSecurityIntegrationsSection';
 import ScrollRevealWrapper from '../components/animation/ScrollRevealWrapper';
 import ParallaxSection from '../components/effects/ParallaxSection';
 import AnimatedGrainOverlay from '../components/effects/AnimatedGrainOverlay';
@@ -83,12 +84,15 @@ const Juv = () => {
           <JuvClosingStatement />
         </ScrollRevealWrapper>
         
-        {/* Security & Integrations - New section */}
+        {/* Security & Integrations - Original section */}
         <ParallaxSection>
           <ScrollRevealWrapper animation="fade-up">
             <JuvSecurityIntegrations />
           </ScrollRevealWrapper>
         </ParallaxSection>
+        
+        {/* Combined Security & Integrations - Enhanced section */}
+        <CombinedSecurityIntegrationsSection />
         
         {/* Ownership Models - moved to last position */}
         <ParallaxSection>
