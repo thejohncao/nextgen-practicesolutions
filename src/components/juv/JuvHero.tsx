@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { TrendingUp, Zap } from 'lucide-react';
+import { TrendingUp } from 'lucide-react';
 import ScrollRevealWrapper from '@/components/animation/ScrollRevealWrapper';
 
 const JuvHero = () => {
@@ -14,9 +14,8 @@ const JuvHero = () => {
       <div className="container mx-auto px-4 text-center relative z-10">
         <ScrollRevealWrapper animation="fade-up">
           <div className="mb-6">
-            <span className="badge-animated inline-flex items-center gap-2 px-4 py-2 border border-nextgen-purple/30 rounded-full text-nextgen-purple text-sm font-medium">
-              <Zap className="h-4 w-4" />
-              🔌 JUV x NextGen OS
+            <span className="badge-static inline-flex items-center gap-2 px-6 py-2 border border-nextgen-purple/30 rounded-full text-white text-sm font-medium">
+              JUV x NextGen OS
             </span>
           </div>
         </ScrollRevealWrapper>
@@ -47,23 +46,11 @@ const JuvHero = () => {
       </div>
 
       <style>{`
-        .badge-animated {
-          animation: fadeSlideIn 0.3s ease-in-out 0.2s both;
+        .badge-static {
           background: linear-gradient(to right, #6c5ce7, #a29bfe);
-          box-shadow: 0 0 12px rgba(108, 92, 231, 0.5);
-          transition: all 0.3s ease;
-        }
-
-        .badge-animated:hover {
-          box-shadow: 0 0 20px rgba(108, 92, 231, 0.8);
-          filter: blur(0.5px);
-          animation: glowPulse 2s ease-in-out infinite;
-        }
-
-        @media (hover: none) {
-          .badge-animated:active {
-            animation: rippleEffect 0.6s ease-out;
-          }
+          color: #FAFAFA;
+          box-shadow: 0 0 8px rgba(108, 92, 231, 0.3);
+          transition: none;
         }
 
         .hero-headline {
@@ -91,69 +78,12 @@ const JuvHero = () => {
           border: none;
           position: relative;
           overflow: hidden;
-          animation: glowRingPulse 3s ease-in-out infinite 0.5s;
         }
 
         .cta-button:hover {
           background: linear-gradient(135deg, #b8b3ff 0%, #7d73eb 100%);
           transform: translateY(-1px);
           box-shadow: 0 8px 25px rgba(108, 92, 231, 0.4);
-        }
-
-        .cta-button::before {
-          content: '';
-          position: absolute;
-          inset: -2px;
-          background: linear-gradient(135deg, #a29bfe, #6c5ce7);
-          border-radius: inherit;
-          opacity: 0;
-          transition: opacity 0.3s ease;
-          z-index: -1;
-        }
-
-        .cta-button:hover::before {
-          opacity: 0.3;
-          animation: glowRingPulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes fadeSlideIn {
-          0% {
-            opacity: 0;
-            transform: translateX(-12px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-
-        @keyframes glowPulse {
-          0%, 100% {
-            box-shadow: 0 0 12px rgba(108, 92, 231, 0.5);
-          }
-          50% {
-            box-shadow: 0 0 25px rgba(108, 92, 231, 0.8);
-          }
-        }
-
-        @keyframes glowRingPulse {
-          0%, 100% {
-            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.2);
-          }
-          50% {
-            box-shadow: 0 4px 25px rgba(108, 92, 231, 0.4);
-          }
-        }
-
-        @keyframes rippleEffect {
-          0% {
-            transform: scale(1);
-            opacity: 1;
-          }
-          100% {
-            transform: scale(1.1);
-            opacity: 0.7;
-          }
         }
       `}</style>
     </section>
