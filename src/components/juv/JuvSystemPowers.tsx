@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Bot, CreditCard, Settings, BarChart, Package, GraduationCap, Blueprint } from 'lucide-react';
+import { Bot, CreditCard, Settings, BarChart, Package, GraduationCap, FileText } from 'lucide-react';
 
 const JuvSystemPowers = () => {
   const systemFeatures = [
@@ -42,7 +41,7 @@ const JuvSystemPowers = () => {
       color: "text-indigo-500"
     },
     {
-      icon: <Blueprint className="h-6 w-6" />,
+      icon: <FileText className="h-6 w-6" />,
       category: "📦 System Blueprint",
       description: "Fully mapped rollout plan for 1 → 100+ locations, designed for lean ops",
       color: "text-pink-500"
