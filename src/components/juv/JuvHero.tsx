@@ -16,36 +16,35 @@ const JuvHero = () => {
           <div className="mb-6">
             <span className="inline-flex items-center gap-2 px-4 py-2 bg-nextgen-purple/20 border border-nextgen-purple/30 rounded-full text-nextgen-purple text-sm font-medium">
               <Zap className="h-4 w-4" />
-              💠 JUV Master Copy Block
+              💠 JUV x NextGen OS
             </span>
           </div>
         </ScrollRevealWrapper>
         
         <ScrollRevealWrapper animation="fade-up" delay={0.1}>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-gradient">
-            Powering JUV Medspa with NextGen OS
+            The AI Operating System Behind the $10M Medspa Scale Plan
           </h1>
         </ScrollRevealWrapper>
         
         <ScrollRevealWrapper animation="fade-up" delay={0.2}>
-          <p className="text-xl md:text-2xl text-white/80 mb-4 font-medium">
-            The AI Operating System Behind the $100M Scale Plan
-          </p>
+          <div className="mb-6 p-6 bg-white/5 rounded-lg border border-nextgen-purple/20 max-w-4xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold mb-3 text-gradient">
+              🧠 THE VISION
+            </h2>
+            <p className="text-lg md:text-xl text-white/90 font-medium">
+              JUV is the vision. NextGen is the engine.<br />
+              We're building the first AI-powered medspa network — lean, automated, and built to scale to 100+ locations with minimal overhead.
+            </p>
+          </div>
         </ScrollRevealWrapper>
         
         <ScrollRevealWrapper animation="fade-up" delay={0.3}>
-          <p className="text-lg md:text-xl text-white/70 max-w-4xl mx-auto mb-8">
-            We built the system. Now we scale the vision.<br />
-            JUV Medspa runs on the NextGen OS — a plug-and-play AI platform built for healthcare businesses that want to grow without the overhead.
-          </p>
-        </ScrollRevealWrapper>
-        
-        <ScrollRevealWrapper animation="fade-up" delay={0.4}>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white px-8 py-4">
-              <Link to="/solutions">
+              <Link to="/demo">
                 <TrendingUp className="h-5 w-5 mr-2" />
-                Explore the Operating System
+                Let's Scale Together
               </Link>
             </Button>
           </div>

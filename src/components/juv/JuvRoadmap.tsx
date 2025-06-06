@@ -1,43 +1,43 @@
 
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Calendar, Target, TrendingUp } from 'lucide-react';
+import { Calendar, Target } from 'lucide-react';
 
 const JuvRoadmap = () => {
   const roadmapPhases = [
     {
-      phase: "Phase 1: Foundation",
-      timeline: "2025 (Q2–Q3)",
-      milestones: "Launch 1 flagship w/ AI agents, CRM, Glow Wallet + SOPs",
+      phase: "Foundation",
+      timeline: "2025 Q2–Q3",
+      milestones: "Launch 1 flagship w/ agents, Glow Wallet, CRM, and SOPs",
       kpi: "$30K/mo revenue",
       color: "border-blue-500/20 bg-blue-50/5"
     },
     {
-      phase: "Phase 2: Expansion",
+      phase: "Expansion",
       timeline: "2025–2026",
-      milestones: "Deploy to 10 offices, activate regional NP playbooks",
-      kpi: "$300K/mo network revenue",
+      milestones: "Launch 10 offices with regional NP playbooks",
+      kpi: "$300K/mo network",
       color: "border-green-500/20 bg-green-50/5"
     },
     {
-      phase: "Phase 3: Growth",
+      phase: "Growth",
       timeline: "2026–2027",
-      milestones: "Optimize ops across 50 locations, automate training/onboarding",
-      kpi: "$1M/mo network revenue",
+      milestones: "Automate onboarding/training across 50 offices",
+      kpi: "$1M/mo network",
       color: "border-purple-500/20 bg-purple-50/5"
     },
     {
-      phase: "Phase 4: Scale",
+      phase: "Scale",
       timeline: "2028–2029",
-      milestones: "Reach 100+ offices, activate dashboard stack, VA network",
+      milestones: "100+ offices, dashboard stack, VA network activated",
       kpi: "$3M+/mo run rate",
       color: "border-amber-500/20 bg-amber-50/5"
     },
     {
-      phase: "Phase 5: Exit-Ready",
+      phase: "Exit-Ready",
       timeline: "2030",
-      milestones: "Data room ready, clean financials, licensing or M&A-ready",
-      kpi: "$36M ARR, exit event triggered",
+      milestones: "Data room + clean financials for M&A or licensing exit",
+      kpi: "$10M ARR, trigger exit",
       color: "border-red-500/20 bg-red-50/5"
     }
   ];
@@ -47,7 +47,7 @@ const JuvRoadmap = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient">
-            🛣 Roadmap to $100M Exit (2025–2030)
+            🛣 ROADMAP TO $10M EXIT (2025–2030)
           </h2>
         </div>
 

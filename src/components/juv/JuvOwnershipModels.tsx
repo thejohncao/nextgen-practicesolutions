@@ -9,14 +9,14 @@ const JuvOwnershipModels = () => {
       icon: <Zap className="h-8 w-8" />,
       option: "💠 Powered by NextGen",
       description: "JUV licenses the full platform stack",
-      equity: "5%–10% profit share",
+      equity: "5%–10% share",
       terms: "Licensing + backend access",
       color: "border-blue-500/20 bg-blue-50/5"
     },
     {
       icon: <Handshake className="h-8 w-8" />,
       option: "🤝 Strategic Co-Founder",
-      description: "NextGen remains external; Jonathan owns % of JUV",
+      description: "External platform; Jonathan owns % of JUV",
       equity: "10%–15% equity",
       terms: "5-year vesting, shared roadmap",
       color: "border-green-500/20 bg-green-50/5"
@@ -24,9 +24,9 @@ const JuvOwnershipModels = () => {
     {
       icon: <Lock className="h-8 w-8" />,
       option: "🔒 IP Absorption",
-      description: "NextGen merges into JUV; Jonathan joins full-time",
+      description: "Full merge; Jonathan joins team formally",
       equity: "20%+ equity",
-      terms: "Full transfer, 4-year vest, board seat eligible",
+      terms: "Full transfer, 4-year vest, board seat",
       color: "border-purple-500/20 bg-purple-50/5"
     }
   ];
@@ -36,11 +36,8 @@ const JuvOwnershipModels = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient">
-            🧾 Ownership Models — How We Formalize the Partnership
+            🧾 OWNERSHIP MODELS – HOW WE FORMALIZE THE PARTNERSHIP
           </h2>
-          <p className="text-xl text-white/70 max-w-4xl mx-auto">
-            Whether licensing the OS, partnering as co-founders, or merging teams — here are three ways JUV and NextGen can scale together.
-          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">

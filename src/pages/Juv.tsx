@@ -4,8 +4,11 @@ import Layout from '../components/Layout';
 import JuvHero from '../components/juv/JuvHero';
 import JuvAboutBuilder from '../components/juv/JuvAboutBuilder';
 import JuvSystemPowers from '../components/juv/JuvSystemPowers';
+import JuvAiExecutiveTeam from '../components/juv/JuvAiExecutiveTeam';
+import JuvBeforeAfter from '../components/juv/JuvBeforeAfter';
 import JuvRoadmap from '../components/juv/JuvRoadmap';
 import JuvModel from '../components/juv/JuvModel';
+import JuvFounderAlignment from '../components/juv/JuvFounderAlignment';
 import JuvOwnershipModels from '../components/juv/JuvOwnershipModels';
 import JuvClosingCTA from '../components/juv/JuvClosingCTA';
 import ScrollRevealWrapper from '../components/animation/ScrollRevealWrapper';
@@ -38,7 +41,21 @@ const Juv = () => {
           </ScrollRevealWrapper>
         </ParallaxSection>
         
-        {/* Roadmap to $100M Exit */}
+        {/* AI Executive Team */}
+        <ParallaxSection>
+          <ScrollRevealWrapper animation="fade-up">
+            <JuvAiExecutiveTeam />
+          </ScrollRevealWrapper>
+        </ParallaxSection>
+        
+        {/* Before & After Comparison */}
+        <ParallaxSection>
+          <ScrollRevealWrapper animation="fade-up">
+            <JuvBeforeAfter />
+          </ScrollRevealWrapper>
+        </ParallaxSection>
+        
+        {/* Roadmap to $10M Exit */}
         <ParallaxSection>
           <ScrollRevealWrapper animation="fade-up">
             <JuvRoadmap />
@@ -49,6 +66,13 @@ const Juv = () => {
         <ParallaxSection>
           <ScrollRevealWrapper animation="fade-up">
             <JuvModel />
+          </ScrollRevealWrapper>
+        </ParallaxSection>
+        
+        {/* Founder Alignment */}
+        <ParallaxSection>
+          <ScrollRevealWrapper animation="fade-up">
+            <JuvFounderAlignment />
           </ScrollRevealWrapper>
         </ParallaxSection>
         
