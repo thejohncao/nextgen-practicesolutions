@@ -1,25 +1,14 @@
 
 import React from 'react';
-import { Award, Code, TrendingUp, Zap, Target, Users } from 'lucide-react';
+import { Award, Code, TrendingUp, Zap } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 
 const JuvAboutBuilder = () => {
-  const credentials = [
-    { icon: Award, text: "Google AI Certified" },
-    { icon: Code, text: "OpenAI Development" },
-    { icon: Zap, text: "Enterprise No-Code Systems" }
-  ];
-
-  const keyWins = [
-    { icon: Zap, text: "Built 150+ automations" },
-    { icon: TrendingUp, text: "Doubled practice revenue" },
-    { icon: Users, text: "Replaces 5–7 hires with AI" }
-  ];
-
-  const signatureSystems = [
-    { icon: Target, text: "Scaled Bespoke Dental Studios from manual ops to full automation" },
-    { icon: TrendingUp, text: "Designed the entire patient funnel, membership logic, and CRM for JUV" },
-    { icon: Users, text: "Created a virtual executive team (Miles, Giselle, Devon, Alma) to scale without hiring" }
+  const poweredByLogos = [
+    { name: "OpenAI", icon: Code },
+    { name: "Google", icon: Award },
+    { name: "Webflow", icon: TrendingUp },
+    { name: "Zapier", icon: Zap }
   ];
 
   return (
@@ -37,109 +26,64 @@ const JuvAboutBuilder = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient">
-            🧠 Founder of NextGen Practice Solutions
+            👤 Founder of NextGen Practice Solutions
           </h2>
         </div>
         
-        <Card className="glass-card max-w-7xl mx-auto border-nextgen-purple/20 bg-black/20 backdrop-blur-xl overflow-hidden">
-          <CardContent className="p-0">
-            <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[600px]">
+        <Card className="glass-card max-w-4xl mx-auto border-nextgen-purple/20 bg-black/20 backdrop-blur-xl overflow-hidden">
+          <CardContent className="p-8 lg:p-12">
+            <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8">
               
-              {/* Left Side - Floating Avatar */}
-              <div className="relative flex items-center justify-center p-8 lg:p-12 bg-gradient-to-br from-nextgen-purple/10 to-transparent">
-                <div className="absolute inset-0 bg-gradient-to-r from-nextgen-purple/5 to-transparent" />
-                <div className="relative z-10">
-                  <div className="w-48 h-48 md:w-64 md:h-64 relative">
-                    {/* Floating Avatar with Animation */}
-                    <div className="w-full h-full bg-gradient-to-br from-nextgen-purple/30 to-nextgen-blue/30 rounded-full flex items-center justify-center animate-float border-2 border-nextgen-purple/20 shadow-2xl shadow-nextgen-purple/20">
-                      <div className="w-44 h-44 md:w-60 md:h-60 bg-gradient-to-br from-nextgen-purple to-nextgen-blue rounded-full flex items-center justify-center">
-                        <span className="text-5xl md:text-6xl text-white font-bold tracking-wider">JC</span>
-                      </div>
-                    </div>
-                    
-                    {/* Ambient Glow Effect */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-nextgen-purple/20 to-nextgen-blue/20 rounded-full blur-xl scale-110 animate-pulse-slow opacity-50" />
+              {/* Left Side - Avatar */}
+              <div className="flex-shrink-0">
+                <div className="w-32 h-32 md:w-40 md:h-40 relative">
+                  {/* Circular Avatar */}
+                  <div className="w-full h-full bg-gradient-to-br from-nextgen-purple to-nextgen-blue rounded-full flex items-center justify-center shadow-2xl shadow-nextgen-purple/20 border-2 border-nextgen-purple/20">
+                    <span className="text-3xl md:text-4xl text-white font-bold tracking-wider">JC</span>
                   </div>
+                  
+                  {/* Ambient Glow Effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-nextgen-purple/20 to-nextgen-blue/20 rounded-full blur-xl scale-110 animate-pulse-slow opacity-50" />
                 </div>
               </div>
 
-              {/* Right Side - Content Hierarchy */}
-              <div className="flex flex-col justify-center p-8 lg:p-12 lg:pl-8">
-                <div className="space-y-6">
-                  {/* Name & Title */}
-                  <div>
-                    <h3 className="text-4xl md:text-5xl font-bold text-white mb-3 tracking-tight">
-                      Jonathan Cao
-                    </h3>
-                    <p className="text-xl md:text-2xl text-nextgen-purple font-semibold mb-6">
-                      AI Strategist. Systems Architect. Healthcare Operator.
-                    </p>
-                  </div>
-
-                  {/* Vision Quote */}
-                  <div className="border-l-4 border-nextgen-purple pl-6 py-4 bg-nextgen-purple/5 rounded-r-lg">
-                    <p className="text-xl md:text-2xl text-white/90 italic leading-relaxed font-light">
-                      "I design systems that scale — not by adding more people, but by replacing them with precision automation."
-                    </p>
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-lg text-white/80 leading-relaxed">
-                    I'm the founder of NextGen Practice Solutions and the architect behind the operating system powering JUV's $100M scale plan.
-                    My work lives at the intersection of AI, no-code, and growth strategy — turning complex, manual practices into clean, self-operating engines.
-                    I build invisible infrastructure that replaces 5–7 hires per region, boosts EBITDA, and unlocks real scalability for multi-location healthcare businesses.
+              {/* Right Side - Content */}
+              <div className="flex-1 text-center lg:text-left">
+                {/* Name & Title */}
+                <div className="mb-6">
+                  <h3 className="text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">
+                    Jonathan Cao
+                  </h3>
+                  <p className="text-sm md:text-base text-nextgen-purple/80 font-medium uppercase tracking-wider">
+                    AI Strategist. Systems Architect. Healthcare Operator.
                   </p>
                 </div>
-              </div>
-            </div>
 
-            {/* Achievement Ribbons */}
-            <div className="p-8 lg:p-12 border-t border-white/10 bg-black/10">
-              <div className="space-y-8">
-                
-                {/* Credentials Ribbon */}
-                <div>
-                  <h4 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                    <Award className="h-5 w-5 text-nextgen-purple" />
-                    Credentials
-                  </h4>
-                  <div className="flex flex-wrap gap-4 overflow-x-auto pb-2">
-                    {credentials.map((credential, index) => (
-                      <div key={index} className="flex items-center gap-2 px-4 py-2 bg-nextgen-purple/10 border border-nextgen-purple/20 rounded-full whitespace-nowrap hover:bg-nextgen-purple/20 transition-all duration-200">
-                        <credential.icon className="h-4 w-4 text-nextgen-purple" />
-                        <span className="text-white/90 text-sm font-medium">{credential.text}</span>
-                      </div>
-                    ))}
-                  </div>
+                {/* Highlighted Quote */}
+                <div className="mb-6">
+                  <blockquote className="text-xl md:text-2xl text-white/90 italic leading-relaxed font-light border-l-4 border-nextgen-purple pl-6 py-4 bg-nextgen-purple/5 rounded-r-lg">
+                    "My mission is to modernize practices — to give teams back their time and energy so they can focus on what matters most."
+                  </blockquote>
                 </div>
 
-                {/* Key Wins Ribbon */}
-                <div>
-                  <h4 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                    <TrendingUp className="h-5 w-5 text-green-400" />
-                    Key Wins
-                  </h4>
-                  <div className="flex flex-wrap gap-4 overflow-x-auto pb-2">
-                    {keyWins.map((win, index) => (
-                      <div key={index} className="flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/20 rounded-full whitespace-nowrap hover:bg-green-500/20 transition-all duration-200">
-                        <win.icon className="h-4 w-4 text-green-400" />
-                        <span className="text-white/90 text-sm font-medium">{win.text}</span>
-                      </div>
-                    ))}
-                  </div>
+                {/* Description */}
+                <div className="mb-6">
+                  <p className="text-lg text-white/80 leading-relaxed mb-4">
+                    Jonathan builds AI-powered systems that help healthcare businesses scale — combining automation, marketing, and operations into clean, self-running platforms.
+                  </p>
+                  <p className="text-base text-white/70 leading-relaxed">
+                    Certified in AI development and growth automation through Google, OpenAI, and enterprise no-code frameworks.
+                  </p>
                 </div>
 
-                {/* Signature Systems Ribbon */}
-                <div>
-                  <h4 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                    <Code className="h-5 w-5 text-amber-400" />
-                    Signature Systems
-                  </h4>
-                  <div className="space-y-3">
-                    {signatureSystems.map((system, index) => (
-                      <div key={index} className="flex items-start gap-3 p-3 bg-amber-500/5 border border-amber-500/20 rounded-lg hover:bg-amber-500/10 transition-all duration-200">
-                        <system.icon className="h-5 w-5 text-amber-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-white/90 text-sm leading-relaxed">{system.text}</span>
+                {/* Powered By Badge Row */}
+                <div className="pt-6 border-t border-white/10">
+                  <p className="text-sm text-white/60 mb-3 uppercase tracking-wider">Powered By</p>
+                  <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+                    {poweredByLogos.map((logo, index) => (
+                      <div key={index} className="flex items-center gap-2 px-3 py-2 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-all duration-200">
+                        <logo.icon className="h-4 w-4 text-nextgen-purple/70" />
+                        <span className="text-white/70 text-sm font-medium">{logo.name}</span>
                       </div>
                     ))}
                   </div>
@@ -151,13 +95,8 @@ const JuvAboutBuilder = () => {
       </div>
 
       <style>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-10px); }
-        }
-        
-        .animate-float {
-          animation: float 6s ease-in-out infinite;
+        .animate-pulse-slow {
+          animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
       `}</style>
     </section>
