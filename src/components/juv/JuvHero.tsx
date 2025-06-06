@@ -1,13 +1,10 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { TrendingUp } from 'lucide-react';
 import ScrollRevealWrapper from '@/components/animation/ScrollRevealWrapper';
-
 const JuvHero = () => {
-  return (
-    <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-nextgen-dark via-black to-nextgen-dark overflow-hidden">
+  return <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-nextgen-dark via-black to-nextgen-dark overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0 bg-gradient-to-br from-nextgen-purple/10 via-transparent to-nextgen-blue/10" />
       
@@ -21,9 +18,7 @@ const JuvHero = () => {
         </ScrollRevealWrapper>
         
         <ScrollRevealWrapper animation="fade-up" delay={0.1}>
-          <h1 className="hero-headline text-gradient mb-6">
-            The System Behind JUV's Next 100 Locations
-          </h1>
+          <h1 className="hero-headline text-gradient mb-6">The Operating System Behind JUV's Next 100 Locations</h1>
         </ScrollRevealWrapper>
         
         <ScrollRevealWrapper animation="fade-up" delay={0.15}>
@@ -86,8 +81,6 @@ const JuvHero = () => {
           box-shadow: 0 8px 25px rgba(108, 92, 231, 0.4);
         }
       `}</style>
-    </section>
-  );
+    </section>;
 };
-
 export default JuvHero;
