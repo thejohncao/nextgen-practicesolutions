@@ -5,7 +5,7 @@ import JuvHero from '../components/juv/JuvHero';
 import JuvAboutBuilder from '../components/juv/JuvAboutBuilder';
 import JuvSystemPowers from '../components/juv/JuvSystemPowers';
 import JuvAiExecutiveTeam from '../components/juv/JuvAiExecutiveTeam';
-import JuvBeforeAfter from '../components/juv/JuvBeforeAfter';
+import JuvTeamReplacementROI from '../components/juv/JuvTeamReplacementROI';
 import JuvRoadmap from '../components/juv/JuvRoadmap';
 import JuvModel from '../components/juv/JuvModel';
 import JuvFounderAlignment from '../components/juv/JuvFounderAlignment';
@@ -48,10 +48,10 @@ const Juv = () => {
           </ScrollRevealWrapper>
         </ParallaxSection>
         
-        {/* Before & After Comparison */}
+        {/* Team Replacement ROI Chart */}
         <ParallaxSection>
           <ScrollRevealWrapper animation="fade-up">
-            <JuvBeforeAfter />
+            <JuvTeamReplacementROI />
           </ScrollRevealWrapper>
         </ParallaxSection>
         
