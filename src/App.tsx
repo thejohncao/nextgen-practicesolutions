@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -30,6 +31,8 @@ import NotFound from './pages/NotFound';
 import AiDemo from './pages/AiDemo';
 import Boardroom from './pages/Boardroom';
 import Certifications from './pages/Certifications';
+import KitsIndex from './pages/KitsIndex';
+import KitDetail from './pages/KitDetail';
 
 // Components
 import AiAssistant from './components/AiAssistant';
@@ -77,6 +80,8 @@ function App() {
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/ai-demo" element={<AiDemo />} />
               <Route path="/boardroom" element={<Boardroom />} />
+              <Route path="/hq/kits" element={<KitsIndex />} />
+              <Route path="/hq/kits/:slug" element={<KitDetail />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
             

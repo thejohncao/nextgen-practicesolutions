@@ -9,7 +9,162 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      kit_files: {
+        Row: {
+          created_at: string
+          file_name: string
+          file_size: string | null
+          file_type: string
+          file_url: string
+          id: string
+          kit_id: string | null
+          order_number: number | null
+        }
+        Insert: {
+          created_at?: string
+          file_name: string
+          file_size?: string | null
+          file_type: string
+          file_url: string
+          id?: string
+          kit_id?: string | null
+          order_number?: number | null
+        }
+        Update: {
+          created_at?: string
+          file_name?: string
+          file_size?: string | null
+          file_type?: string
+          file_url?: string
+          id?: string
+          kit_id?: string | null
+          order_number?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kit_files_kit_id_fkey"
+            columns: ["kit_id"]
+            isOneToOne: false
+            referencedRelation: "kits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      kit_sops: {
+        Row: {
+          content: string | null
+          created_at: string
+          id: string
+          kit_id: string | null
+          order_number: number | null
+          title: string
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string
+          id?: string
+          kit_id?: string | null
+          order_number?: number | null
+          title: string
+        }
+        Update: {
+          content?: string | null
+          created_at?: string
+          id?: string
+          kit_id?: string | null
+          order_number?: number | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kit_sops_kit_id_fkey"
+            columns: ["kit_id"]
+            isOneToOne: false
+            referencedRelation: "kits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      kit_videos: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          kit_id: string | null
+          order_number: number | null
+          title: string
+          video_url: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          kit_id?: string | null
+          order_number?: number | null
+          title: string
+          video_url: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          kit_id?: string | null
+          order_number?: number | null
+          title?: string
+          video_url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kit_videos_kit_id_fkey"
+            columns: ["kit_id"]
+            isOneToOne: false
+            referencedRelation: "kits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      kits: {
+        Row: {
+          created_at: string
+          description: string | null
+          featured: boolean | null
+          id: string
+          kit_type: string
+          name: string
+          order_number: number | null
+          slug: string
+          support_contact: string | null
+          updated_at: string
+          version: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          featured?: boolean | null
+          id?: string
+          kit_type: string
+          name: string
+          order_number?: number | null
+          slug: string
+          support_contact?: string | null
+          updated_at?: string
+          version?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          featured?: boolean | null
+          id?: string
+          kit_type?: string
+          name?: string
+          order_number?: number | null
+          slug?: string
+          support_contact?: string | null
+          updated_at?: string
+          version?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
