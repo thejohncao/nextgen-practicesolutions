@@ -10,6 +10,7 @@ import JuvRoadmap from '../components/juv/JuvRoadmap';
 import JuvModel from '../components/juv/JuvModel';
 import JuvFounderAlignment from '../components/juv/JuvFounderAlignment';
 import JuvClosingStatement from '../components/juv/JuvClosingStatement';
+import JuvSecurityIntegrations from '../components/juv/JuvSecurityIntegrations';
 import JuvOwnershipModels from '../components/juv/JuvOwnershipModels';
 import JuvClosingCTA from '../components/juv/JuvClosingCTA';
 import ScrollRevealWrapper from '../components/animation/ScrollRevealWrapper';
@@ -63,7 +64,7 @@ const Juv = () => {
           </ScrollRevealWrapper>
         </ParallaxSection>
         
-        {/* The Model (Updated with new title) */}
+        {/* The Model */}
         <ParallaxSection>
           <ScrollRevealWrapper animation="fade-up">
             <JuvModel />
@@ -77,10 +78,17 @@ const Juv = () => {
           </ScrollRevealWrapper>
         </ParallaxSection>
         
-        {/* Closing Statement - New visual divider */}
+        {/* Closing Statement - Visual divider */}
         <ScrollRevealWrapper animation="fade-up">
           <JuvClosingStatement />
         </ScrollRevealWrapper>
+        
+        {/* Security & Integrations - New section */}
+        <ParallaxSection>
+          <ScrollRevealWrapper animation="fade-up">
+            <JuvSecurityIntegrations />
+          </ScrollRevealWrapper>
+        </ParallaxSection>
         
         {/* Ownership Models - moved to last position */}
         <ParallaxSection>
