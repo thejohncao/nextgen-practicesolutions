@@ -15,6 +15,11 @@ import SectionTransition from '../components/effects/SectionTransition';
 import ParallaxSection from '../components/effects/ParallaxSection';
 import ScrollRevealWrapper from '../components/animation/ScrollRevealWrapper';
 
+// Import BoardroomTimeline
+import BoardroomTimeline from '../components/boardroom/BoardroomTimeline';
+// Import HowItWorksDemo
+import HowItWorksDemo from '../components/demo/HowItWorksDemo';
+
 // Import new homepage sections
 import WhoWeHelpSection from '../components/new-homepage/WhoWeHelpSection';
 import WhatWeOfferSection from '../components/new-homepage/WhatWeOfferSection';
@@ -50,6 +55,15 @@ const Index = () => {
           </ParallaxSection>
         </div>
         
+        {/* Add BoardroomTimeline after Meet AI Team */}
+        <div className="relative">
+          <ParallaxSection>
+            <ScrollRevealWrapper animation="fade-up">
+              <BoardroomTimeline />
+            </ScrollRevealWrapper>
+          </ParallaxSection>
+        </div>
+        
         {/* Visual separator */}
         <div className="h-8 relative">
           <SectionTransition type="gradient" position="both" height={24} color="nextgen-dark" />
@@ -66,6 +80,13 @@ const Index = () => {
         <div ref={sectionRefs.academy} className="relative">
           <ScrollRevealWrapper animation="fade-up">
             <AcademyOverviewSection />
+          </ScrollRevealWrapper>
+        </div>
+        
+        {/* Add How It Works: From Training to Transformation */}
+        <div className="relative">
+          <ScrollRevealWrapper animation="fade-up">
+            <HowItWorksDemo />
           </ScrollRevealWrapper>
         </div>
         
