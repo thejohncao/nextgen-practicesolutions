@@ -83,7 +83,7 @@ const Index = () => {
           </ScrollRevealWrapper>
         </div>
         
-        {/* 5. What You'll Learn Section - NEW */}
+        {/* 5. What You'll Learn Section */}
         <div className="relative">
           <ScrollRevealWrapper animation="fade-up">
             <WhatYoullLearnSection />
@@ -102,30 +102,14 @@ const Index = () => {
           <SectionTransition type="parallax" position="both" height={24} />
         </div>
         
-        {/* 6. Who We Help Section */}
+        {/* 6. Who We Help Section - MOVED BEFORE SUCCESS GUARANTEE */}
         <div className="relative">
           <ScrollRevealWrapper animation="fade-up">
             <WhoWeHelpSection />
           </ScrollRevealWrapper>
         </div>
         
-        {/* 7. ROI Snapshot */}
-        <div className="relative">
-          <ScrollRevealWrapper animation="fade-up">
-            <ROISection />
-          </ScrollRevealWrapper>
-        </div>
-        
-        {/* 8. Enterprise-Grade Security, Built for Healthcare */}
-        <div className="relative">
-          <ParallaxSection>
-            <ScrollRevealWrapper animation="fade-up">
-              <CombinedSecurityIntegrationsSection />
-            </ScrollRevealWrapper>
-          </ParallaxSection>
-        </div>
-        
-        {/* 9. Our Success Guarantee */}
+        {/* 7. Our Success Guarantee - NOW AFTER WHO WE HELP */}
         <div className="relative">
           <ScrollRevealWrapper animation="fade-up">
             <section className="py-20 bg-nextgen-dark">
@@ -134,6 +118,22 @@ const Index = () => {
               </div>
             </section>
           </ScrollRevealWrapper>
+        </div>
+        
+        {/* 8. ROI Snapshot */}
+        <div className="relative">
+          <ScrollRevealWrapper animation="fade-up">
+            <ROISection />
+          </ScrollRevealWrapper>
+        </div>
+        
+        {/* 9. Enterprise-Grade Security, Built for Healthcare */}
+        <div className="relative">
+          <ParallaxSection>
+            <ScrollRevealWrapper animation="fade-up">
+              <CombinedSecurityIntegrationsSection />
+            </ScrollRevealWrapper>
+          </ParallaxSection>
         </div>
         
         {/* 10. Ready to Run Your Practice Like a Fortune 500? */}
