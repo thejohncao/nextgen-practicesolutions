@@ -33,6 +33,7 @@ import Boardroom from './pages/Boardroom';
 import Certifications from './pages/Certifications';
 import KitsIndex from './pages/KitsIndex';
 import KitDetail from './pages/KitDetail';
+import Juv from './pages/Juv'; // New JUV page
 
 // Components
 import AiAssistant from './components/AiAssistant';
@@ -82,6 +83,7 @@ function App() {
               <Route path="/boardroom" element={<Boardroom />} />
               <Route path="/hq/kits" element={<KitsIndex />} />
               <Route path="/hq/kits/:slug" element={<KitDetail />} />
+              <Route path="/juv" element={<Juv />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
             
