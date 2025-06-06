@@ -22,8 +22,8 @@ import HowItWorksDemo from '../components/demo/HowItWorksDemo';
 
 // Import new homepage sections
 import WhoWeHelpSection from '../components/new-homepage/WhoWeHelpSection';
-import WhatWeOfferSection from '../components/new-homepage/WhatWeOfferSection';
 import PatientJourneySection from '../components/new-homepage/PatientJourneySection';
+import WhatYoullLearnSection from '../components/new-homepage/WhatYoullLearnSection';
 
 const Index = () => {
   const sectionRefs = {
@@ -83,6 +83,13 @@ const Index = () => {
           </ScrollRevealWrapper>
         </div>
         
+        {/* 5. What You'll Learn Section - NEW */}
+        <div className="relative">
+          <ScrollRevealWrapper animation="fade-up">
+            <WhatYoullLearnSection />
+          </ScrollRevealWrapper>
+        </div>
+        
         {/* Add How It Works: From Training to Transformation */}
         <div className="relative">
           <ScrollRevealWrapper animation="fade-up">
@@ -95,17 +102,10 @@ const Index = () => {
           <SectionTransition type="parallax" position="both" height={24} />
         </div>
         
-        {/* 5. Who We Help Section */}
+        {/* 6. Who We Help Section */}
         <div className="relative">
           <ScrollRevealWrapper animation="fade-up">
             <WhoWeHelpSection />
-          </ScrollRevealWrapper>
-        </div>
-        
-        {/* 6. What We Offer Section */}
-        <div className="relative">
-          <ScrollRevealWrapper animation="fade-up">
-            <WhatWeOfferSection />
           </ScrollRevealWrapper>
         </div>
         
