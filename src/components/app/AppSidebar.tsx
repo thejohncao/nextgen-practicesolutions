@@ -37,13 +37,21 @@ const AppSidebar = () => {
         ];
       case 'admin':
         return [
-          { icon: Home, label: 'Overview', path: '/app/hq/overview' },
-          { icon: TrendingUp, label: 'Analytics', path: '/app/hq/analytics' },
-          { icon: Building, label: 'Tenants', path: '/app/hq/tenants' },
-          { icon: BarChart3, label: 'Services', path: '/app/hq/services' },
-          { icon: Bot, label: 'AI Agents', path: '/app/hq/agents' },
-          { icon: GraduationCap, label: 'Academy', path: '/app/hq/academy' },
-          { icon: Settings, label: 'Settings', path: '/app/hq/settings' },
+          // NextGen OS Admin Routes
+          { icon: Home, label: 'Admin Dashboard', path: '/app/admin' },
+          { icon: Users, label: 'User Management', path: '/app/admin/users' },
+          { icon: CreditCard, label: 'Credit System', path: '/app/admin/credits' },
+          { icon: Bot, label: 'AI Agents', path: '/app/admin/agents' },
+          { icon: BarChart3, label: 'Reports', path: '/app/admin/reports' },
+          { icon: Building, label: 'Locations', path: '/app/admin/locations' },
+          { icon: Settings, label: 'System Settings', path: '/app/admin/settings' },
+          // Divider
+          { icon: null, label: 'divider', path: '' },
+          // Legacy HQ Routes
+          { icon: TrendingUp, label: 'HQ Overview', path: '/app/hq/overview' },
+          { icon: Building, label: 'HQ Tenants', path: '/app/hq/tenants' },
+          { icon: BarChart3, label: 'HQ Services', path: '/app/hq/services' },
+          { icon: TrendingUp, label: 'HQ Analytics', path: '/app/hq/analytics' },
         ];
       default:
         return [];
@@ -59,7 +67,13 @@ const AppSidebar = () => {
           NextGen Practice
         </div>
         <nav className="space-y-2">
-          {navItems.map((item) => {
+          {navItems.map((item, index) => {
+            if (item.label === 'divider') {
+              return (
+                <div key={index} className="border-t border-white/10 my-4"></div>
+              );
+            }
+
             const Icon = item.icon;
             const isActive = location.pathname === item.path;
             
@@ -74,7 +88,7 @@ const AppSidebar = () => {
                     : "text-white/70 hover:text-white hover:bg-white/10"
                 )}
               >
-                <Icon className="h-4 w-4" />
+                {Icon && <Icon className="h-4 w-4" />}
                 {item.label}
               </Link>
             );

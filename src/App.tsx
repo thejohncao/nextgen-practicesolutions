@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -51,6 +52,15 @@ import HQOverview from './pages/app/hq/HQOverview';
 import TenantManagement from './pages/app/hq/TenantManagement';
 import ServiceManagement from './pages/app/hq/ServiceManagement';
 import AnalyticsDashboard from './pages/app/hq/AnalyticsDashboard';
+
+// New Admin Pages
+import AdminDashboard from './pages/app/admin/AdminDashboard';
+import AdminUsers from './pages/app/admin/AdminUsers';
+import AdminCredits from './pages/app/admin/AdminCredits';
+import AdminAgents from './pages/app/admin/AdminAgents';
+import AdminReports from './pages/app/admin/AdminReports';
+import AdminLocations from './pages/app/admin/AdminLocations';
+import AdminSettings from './pages/app/admin/AdminSettings';
 
 // Components
 import AiAssistant from './components/AiAssistant';
@@ -131,6 +141,15 @@ function App() {
                   <Route path="hq/agents" element={<div className="text-white">AI Agents - Coming Soon</div>} />
                   <Route path="hq/academy" element={<div className="text-white">Academy - Coming Soon</div>} />
                   <Route path="hq/settings" element={<div className="text-white">Settings - Coming Soon</div>} />
+
+                  {/* NextGen OS Admin Routes */}
+                  <Route path="admin" element={<AdminDashboard />} />
+                  <Route path="admin/users" element={<AdminUsers />} />
+                  <Route path="admin/credits" element={<AdminCredits />} />
+                  <Route path="admin/agents" element={<AdminAgents />} />
+                  <Route path="admin/reports" element={<AdminReports />} />
+                  <Route path="admin/locations" element={<AdminLocations />} />
+                  <Route path="admin/settings" element={<AdminSettings />} />
                 </Route>
 
                 <Route path="*" element={<NotFound />} />
