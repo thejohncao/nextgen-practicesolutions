@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -45,6 +46,8 @@ import PatientWallet from './pages/app/patient/PatientWallet';
 import PatientBooking from './pages/app/patient/PatientBooking';
 import PatientReferrals from './pages/app/patient/PatientReferrals';
 import StaffDashboard from './pages/app/staff/StaffDashboard';
+import StaffCreditRedemption from './pages/app/staff/StaffCreditRedemption';
+import StaffBookings from './pages/app/staff/StaffBookings';
 import HQOverview from './pages/app/hq/HQOverview';
 
 // Components
@@ -115,8 +118,8 @@ function App() {
                   
                   {/* Staff routes */}
                   <Route path="staff/dashboard" element={<StaffDashboard />} />
-                  <Route path="staff/redeem" element={<div className="text-white">Redeem Credits - Coming Soon</div>} />
-                  <Route path="staff/bookings" element={<div className="text-white">Staff Bookings - Coming Soon</div>} />
+                  <Route path="staff/redeem" element={<StaffCreditRedemption />} />
+                  <Route path="staff/bookings" element={<StaffBookings />} />
                   
                   {/* HQ Admin routes */}
                   <Route path="hq/overview" element={<HQOverview />} />
@@ -156,7 +159,6 @@ function App() {
           </LenisProvider>
         </TooltipProvider>
       </AuthProvider>
-      <Toaster />
     </QueryClientProvider>
   );
 }
