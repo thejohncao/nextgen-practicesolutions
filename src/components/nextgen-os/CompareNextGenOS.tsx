@@ -109,47 +109,47 @@ const CompareNextGenOS = () => {
   ];
 
   const getStatusIcon = (status: string, isNextGen: boolean = false) => {
-    const iconClass = isNextGen ? "h-5 w-5 text-glow-indigo" : "h-5 w-5";
+    const iconClass = isNextGen ? "h-5 w-5" : "h-5 w-5";
     
     switch (status) {
       case 'yes':
-        return <Check className={`${iconClass} ${isNextGen ? 'text-neon-mint' : 'text-green-500'}`} />;
+        return <Check className={`${iconClass} ${isNextGen ? 'text-green-400' : 'text-green-500'}`} />;
       case 'no':
-        return <X className={`${iconClass} text-alert-coral`} />;
+        return <X className={`${iconClass} text-red-400`} />;
       case 'limited':
       case 'optional':
-        return <Circle className={`${iconClass} text-photon-silver`} />;
+        return <Circle className={`${iconClass} text-white/40`} />;
       default:
-        return <X className={`${iconClass} text-alert-coral`} />;
+        return <X className={`${iconClass} text-red-400`} />;
     }
   };
 
   return (
-    <section className="section-spacing bg-gradient-to-b from-crystal-white to-mist-blue/30">
+    <section className="section-spacing bg-gradient-to-b from-nextgen-dark to-black/95">
       <div className="container-liquid">
         <div className="text-center mb-20">
           <div className="flex items-center justify-center gap-2 mb-8">
             <span className="text-4xl">💥</span>
-            <h2 className="text-headline-lg text-liquid-gradient">
+            <h2 className="text-headline-lg bg-gradient-to-br from-white via-white/90 to-white/70 bg-clip-text text-transparent">
               Why NextGen OS Outperforms the Competition
             </h2>
           </div>
-          <p className="text-body-lg text-liquid-slate/70 max-w-3xl mx-auto">
+          <p className="text-body-lg text-white/70 max-w-3xl mx-auto">
             One system. Every advantage. Compare NextGen OS to other market leaders:
           </p>
         </div>
 
-        <Card className="liquid-glass hover-glow max-w-7xl mx-auto overflow-hidden">
+        <Card className="bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors duration-300 max-w-7xl mx-auto overflow-hidden">
           <CardContent className="p-0">
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow className="border-b border-white/10">
-                    <TableHead className="text-liquid-slate font-semibold w-1/4 p-6">Module / Feature</TableHead>
-                    <TableHead className="text-center text-liquid-slate/70 font-medium p-6">Kleer</TableHead>
-                    <TableHead className="text-center text-liquid-slate/70 font-medium p-6">RepeatMD</TableHead>
-                    <TableHead className="text-center text-liquid-slate/70 font-medium p-6">Moxie</TableHead>
-                    <TableHead className="text-center text-glow-indigo font-semibold p-6">
+                    <TableHead className="text-white font-semibold w-1/4 p-6">Module / Feature</TableHead>
+                    <TableHead className="text-center text-white/70 font-medium p-6">Kleer</TableHead>
+                    <TableHead className="text-center text-white/70 font-medium p-6">RepeatMD</TableHead>
+                    <TableHead className="text-center text-white/70 font-medium p-6">Moxie</TableHead>
+                    <TableHead className="text-center text-nextgen-purple font-semibold p-6">
                       NextGen OS <span className="text-2xl">🧠</span>
                     </TableHead>
                   </TableRow>
@@ -157,29 +157,29 @@ const CompareNextGenOS = () => {
                 <TableBody>
                   {comparisonData.map((row, index) => (
                     <TableRow key={index} className="border-b border-white/5 hover:bg-white/5 transition-colors duration-200">
-                      <TableCell className="font-medium text-liquid-slate p-6">{row.feature}</TableCell>
+                      <TableCell className="font-medium text-white p-6">{row.feature}</TableCell>
                       <TableCell className="text-center p-6">
                         <div className="flex flex-col items-center gap-2">
                           {getStatusIcon(row.kleer.status)}
-                          <span className="text-caption text-liquid-slate/60">{row.kleer.text}</span>
+                          <span className="text-caption text-white/60">{row.kleer.text}</span>
                         </div>
                       </TableCell>
                       <TableCell className="text-center p-6">
                         <div className="flex flex-col items-center gap-2">
                           {getStatusIcon(row.repeatmd.status)}
-                          <span className="text-caption text-liquid-slate/60">{row.repeatmd.text}</span>
+                          <span className="text-caption text-white/60">{row.repeatmd.text}</span>
                         </div>
                       </TableCell>
                       <TableCell className="text-center p-6">
                         <div className="flex flex-col items-center gap-2">
                           {getStatusIcon(row.moxie.status)}
-                          <span className="text-caption text-liquid-slate/60">{row.moxie.text}</span>
+                          <span className="text-caption text-white/60">{row.moxie.text}</span>
                         </div>
                       </TableCell>
-                      <TableCell className="text-center p-6 bg-glow-indigo/5">
+                      <TableCell className="text-center p-6 bg-nextgen-purple/10">
                         <div className="flex flex-col items-center gap-2">
                           {getStatusIcon(row.nextgen.status, true)}
-                          <span className="text-caption text-glow-indigo font-medium">{row.nextgen.text}</span>
+                          <span className="text-caption text-nextgen-purple font-medium">{row.nextgen.text}</span>
                         </div>
                       </TableCell>
                     </TableRow>
@@ -191,12 +191,12 @@ const CompareNextGenOS = () => {
         </Card>
 
         <div className="text-center mt-16">
-          <p className="text-body-lg text-liquid-slate/80 max-w-4xl mx-auto mb-12">
+          <p className="text-body-lg text-white/80 max-w-4xl mx-auto mb-12">
             NextGen OS is the only platform purpose-built for both dental and medspa scale — with white-label capabilities, 
             an AI-powered operations layer, and a fully integrated credit engine.
           </p>
           
-          <Button asChild className="btn-liquid-primary group text-lg px-8 py-4">
+          <Button asChild className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white font-semibold rounded-lg px-8 py-4 transition-all duration-300 hover:scale-105 group text-lg">
             <Link to="/demo" className="flex items-center">
               <Rocket className="h-6 w-6 mr-3" />
               Launch Your Branded Membership OS Today

@@ -14,7 +14,7 @@ import ScrollRevealWrapper from '../components/animation/ScrollRevealWrapper';
 const NextGenOS = () => {
   return (
     <Layout>
-      <div className="relative bg-crystal-white">
+      <div className="relative bg-nextgen-dark">
         {/* Hero Section */}
         <NextGenHero />
         

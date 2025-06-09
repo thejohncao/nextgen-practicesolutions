@@ -28,16 +28,16 @@ const WhatIsNextGenOS = () => {
   ];
 
   return (
-    <section className="section-spacing bg-gradient-to-b from-crystal-white to-mist-blue/20">
+    <section className="section-spacing bg-gradient-to-b from-nextgen-dark to-black/95">
       <div className="container-liquid">
         <div className="text-center mb-20">
-          <h2 className="text-headline-lg text-liquid-gradient mb-8">
+          <h2 className="text-headline-lg font-semibold bg-gradient-to-br from-white via-white/90 to-white/70 bg-clip-text text-transparent mb-8">
             What Is NextGen OS?
           </h2>
-          <p className="text-body-lg text-liquid-slate/70 max-w-3xl mx-auto mb-8">
+          <p className="text-body-lg text-white/70 max-w-3xl mx-auto mb-8">
             Think: iOS for healthcare business models
           </p>
-          <div className="text-headline text-primary-gradient">
+          <div className="text-headline bg-gradient-to-br from-nextgen-purple via-nextgen-purple/80 to-nextgen-purple/60 bg-clip-text text-transparent">
             "Build once. Brand forever. Scale infinitely."
           </div>
         </div>
@@ -46,13 +46,13 @@ const WhatIsNextGenOS = () => {
           {features.map((feature, index) => {
             const IconComponent = feature.icon;
             return (
-              <Card key={index} className="liquid-glass hover-lift hover-glow transition-all duration-350 text-center group">
+              <Card key={index} className="bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-350 text-center group hover:scale-105">
                 <CardContent className="p-8">
-                  <div className="w-16 h-16 rounded-liquid bg-glow-indigo/10 flex items-center justify-center mx-auto mb-6 group-hover:bg-glow-indigo/20 transition-colors duration-350">
-                    <IconComponent className="h-8 w-8 text-glow-indigo" />
+                  <div className="w-16 h-16 rounded-lg bg-nextgen-purple/20 flex items-center justify-center mx-auto mb-6 group-hover:bg-nextgen-purple/30 transition-colors duration-350">
+                    <IconComponent className="h-8 w-8 text-nextgen-purple" />
                   </div>
-                  <h3 className="text-body-lg font-semibold text-liquid-slate mb-3">{feature.title}</h3>
-                  <p className="text-body text-liquid-slate/70">{feature.description}</p>
+                  <h3 className="text-body-lg font-semibold text-white mb-3">{feature.title}</h3>
+                  <p className="text-body text-white/70">{feature.description}</p>
                 </CardContent>
               </Card>
             );
