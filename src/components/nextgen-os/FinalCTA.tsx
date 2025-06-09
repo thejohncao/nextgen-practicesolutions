@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { Calendar, Play, Download } from 'lucide-react';
+import { Calendar, Download, Play } from 'lucide-react';
 
 const FinalCTA = () => {
   return (
@@ -17,13 +17,10 @@ const FinalCTA = () => {
         <div className="max-w-4xl mx-auto text-center">
           <div className="mb-12">
             <h2 className="text-display bg-gradient-to-br from-white via-white/90 to-white/70 bg-clip-text text-transparent mb-8">
-              The system is already built.
+              🎯 Ready to Launch Your Own Branded Membership Engine?
             </h2>
-            <h3 className="text-headline text-white mb-8">
-              Let's scale it — together.
-            </h3>
-            <p className="text-body-lg text-white/70 max-w-2xl mx-auto">
-              Stop building from scratch. Start scaling with the most advanced practice management OS available today.
+            <p className="text-headline text-white/70 mb-8 max-w-2xl mx-auto">
+              The system is already built. Just choose how you want to scale it.
             </p>
           </div>
 
@@ -37,16 +34,16 @@ const FinalCTA = () => {
             </Button>
             
             <Button asChild className="bg-white/10 hover:bg-white/20 text-white border border-white/20 font-medium rounded-lg px-6 py-3 transition-all duration-300 hover:scale-105">
-              <Link to="/watch" className="flex items-center">
-                <Play className="h-5 w-5 mr-2" />
-                View Demo
+              <Link to="/downloads" className="flex items-center">
+                <Download className="h-5 w-5 mr-2" />
+                Download One-Pager PDF
               </Link>
             </Button>
             
             <Button asChild className="bg-white/10 hover:bg-white/20 text-white border border-white/20 font-medium rounded-lg px-6 py-3 transition-all duration-300 hover:scale-105">
-              <Link to="/pricing" className="flex items-center">
-                <Download className="h-5 w-5 mr-2" />
-                License NextGen OS
+              <Link to="/watch" className="flex items-center">
+                <Play className="h-5 w-5 mr-2" />
+                See Full Demo Walkthrough
               </Link>
             </Button>
           </div>

@@ -3,11 +3,13 @@ import React from 'react';
 import Layout from '../components/Layout';
 import NextGenHero from '../components/nextgen-os/NextGenHero';
 import WhatIsNextGenOS from '../components/nextgen-os/WhatIsNextGenOS';
-import WhatsInsideOS from '../components/nextgen-os/WhatsInsideOS';
+import CoreModules from '../components/nextgen-os/CoreModules';
 import MeetYourAITeam from '../components/nextgen-os/MeetYourAITeam';
+import BeforeAfterNextGen from '../components/nextgen-os/BeforeAfterNextGen';
 import CompareNextGenOS from '../components/nextgen-os/CompareNextGenOS';
 import HowItScales from '../components/nextgen-os/HowItScales';
 import PartnershipModels from '../components/nextgen-os/PartnershipModels';
+import AboutCreator from '../components/nextgen-os/AboutCreator';
 import FinalCTA from '../components/nextgen-os/FinalCTA';
 import ScrollRevealWrapper from '../components/animation/ScrollRevealWrapper';
 
@@ -23,14 +25,19 @@ const NextGenOS = () => {
           <WhatIsNextGenOS />
         </ScrollRevealWrapper>
         
-        {/* What's Inside the OS */}
+        {/* Core Modules */}
         <ScrollRevealWrapper animation="fade-up">
-          <WhatsInsideOS />
+          <CoreModules />
         </ScrollRevealWrapper>
         
         {/* Meet Your AI Team */}
         <ScrollRevealWrapper animation="fade-up">
           <MeetYourAITeam />
+        </ScrollRevealWrapper>
+        
+        {/* Before & After NextGen */}
+        <ScrollRevealWrapper animation="fade-up">
+          <BeforeAfterNextGen />
         </ScrollRevealWrapper>
         
         {/* Compare NextGen OS */}
@@ -46,6 +53,11 @@ const NextGenOS = () => {
         {/* Partnership Models */}
         <ScrollRevealWrapper animation="fade-up">
           <PartnershipModels />
+        </ScrollRevealWrapper>
+        
+        {/* About the Creator */}
+        <ScrollRevealWrapper animation="fade-up">
+          <AboutCreator />
         </ScrollRevealWrapper>
         
         {/* Final CTA */}

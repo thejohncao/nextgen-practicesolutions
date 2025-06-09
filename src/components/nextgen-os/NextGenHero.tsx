@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { TrendingUp, Download, Users } from 'lucide-react';
+import { Calendar, DollarSign, Play } from 'lucide-react';
 import ScrollRevealWrapper from '@/components/animation/ScrollRevealWrapper';
 
 const NextGenHero = () => {
@@ -34,8 +34,8 @@ const NextGenHero = () => {
         </ScrollRevealWrapper>
         
         <ScrollRevealWrapper animation="fade-up" delay={0.15}>
-          <p className="text-body-lg text-white/70 font-medium mb-12 max-w-4xl mx-auto">
-            Launch your own credit-based membership model. Powered by AI agents. Branded as you.
+          <p className="text-body-lg text-white/70 font-medium mb-12 max-w-5xl mx-auto">
+            NextGen OS is a modular platform that lets practices launch fully branded membership programs, AI assistants, and modern workflows — with zero code and full control.
           </p>
         </ScrollRevealWrapper>
         
@@ -43,23 +43,23 @@ const NextGenHero = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild className="bg-nextgen-purple hover:bg-nextgen-purple/90 text-white font-semibold rounded-lg px-6 py-3 transition-all duration-300 hover:scale-105 group">
               <Link to="/demo">
-                <TrendingUp className="h-5 w-5 mr-2" />
+                <Calendar className="h-5 w-5 mr-2" />
                 Book Demo
                 <span className="ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>
               </Link>
             </Button>
             
             <Button asChild className="bg-white/10 hover:bg-white/20 text-white border border-white/20 font-medium rounded-lg px-6 py-3 transition-all duration-300 hover:scale-105">
-              <Link to="/downloads">
-                <Download className="h-5 w-5 mr-2" />
-                Download One-Pager
+              <Link to="/pricing">
+                <DollarSign className="h-5 w-5 mr-2" />
+                View Pricing
               </Link>
             </Button>
             
             <Button asChild className="bg-white/10 hover:bg-white/20 text-white border border-white/20 font-medium rounded-lg px-6 py-3 transition-all duration-300 hover:scale-105">
-              <Link to="/ai-team">
-                <Users className="h-5 w-5 mr-2" />
-                Meet Your AI Team
+              <Link to="#how-it-works">
+                <Play className="h-5 w-5 mr-2" />
+                See How It Works
               </Link>
             </Button>
           </div>
