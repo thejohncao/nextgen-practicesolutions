@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -49,6 +48,8 @@ import StaffDashboard from './pages/app/staff/StaffDashboard';
 import StaffCreditRedemption from './pages/app/staff/StaffCreditRedemption';
 import StaffBookings from './pages/app/staff/StaffBookings';
 import HQOverview from './pages/app/hq/HQOverview';
+import TenantManagement from './pages/app/hq/TenantManagement';
+import ServiceManagement from './pages/app/hq/ServiceManagement';
 
 // Components
 import AiAssistant from './components/AiAssistant';
@@ -123,8 +124,8 @@ function App() {
                   
                   {/* HQ Admin routes */}
                   <Route path="hq/overview" element={<HQOverview />} />
-                  <Route path="hq/tenants" element={<div className="text-white">Tenant Management - Coming Soon</div>} />
-                  <Route path="hq/services" element={<div className="text-white">Service Management - Coming Soon</div>} />
+                  <Route path="hq/tenants" element={<TenantManagement />} />
+                  <Route path="hq/services" element={<ServiceManagement />} />
                   <Route path="hq/agents" element={<div className="text-white">AI Agents - Coming Soon</div>} />
                   <Route path="hq/academy" element={<div className="text-white">Academy - Coming Soon</div>} />
                   <Route path="hq/settings" element={<div className="text-white">Settings - Coming Soon</div>} />
