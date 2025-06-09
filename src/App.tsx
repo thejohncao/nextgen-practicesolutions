@@ -50,6 +50,7 @@ import StaffBookings from './pages/app/staff/StaffBookings';
 import HQOverview from './pages/app/hq/HQOverview';
 import TenantManagement from './pages/app/hq/TenantManagement';
 import ServiceManagement from './pages/app/hq/ServiceManagement';
+import AnalyticsDashboard from './pages/app/hq/AnalyticsDashboard';
 
 // Components
 import AiAssistant from './components/AiAssistant';
@@ -126,6 +127,7 @@ function App() {
                   <Route path="hq/overview" element={<HQOverview />} />
                   <Route path="hq/tenants" element={<TenantManagement />} />
                   <Route path="hq/services" element={<ServiceManagement />} />
+                  <Route path="hq/analytics" element={<AnalyticsDashboard />} />
                   <Route path="hq/agents" element={<div className="text-white">AI Agents - Coming Soon</div>} />
                   <Route path="hq/academy" element={<div className="text-white">Academy - Coming Soon</div>} />
                   <Route path="hq/settings" element={<div className="text-white">Settings - Coming Soon</div>} />
