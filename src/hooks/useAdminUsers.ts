@@ -44,7 +44,7 @@ export function useAdminUsers() {
     }
   };
 
-  const updateUserRole = async (userId: string, newRole: string) => {
+  const updateUserRole = async (userId: string, newRole: 'patient' | 'staff' | 'admin') => {
     try {
       const { error } = await supabase
         .from('profiles')
