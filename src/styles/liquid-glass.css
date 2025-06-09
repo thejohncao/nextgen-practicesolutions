@@ -10,7 +10,7 @@
   }
   
   .liquid-glass-subtle {
-    @apply backdrop-blur-liquid bg-white/8 border border-white/10 shadow-liquid rounded-liquid;
+    @apply backdrop-blur-liquid bg-white/5 border border-white/10 shadow-liquid rounded-liquid;
   }
 
   /* Apple-style Text Gradients */

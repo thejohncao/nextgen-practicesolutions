@@ -1,130 +1,209 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Check, X, Crown } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Check, X, Circle, Rocket } from 'lucide-react';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 const CompareNextGenOS = () => {
-  const [activeTab, setActiveTab] = useState('features');
-
-  const competitors = ['Kleer', 'RepeatMD', 'Moxie', 'NextGen OS'];
-  
-  const comparisonData = {
-    features: [
-      {
-        feature: 'Medspa + Dental Native',
-        kleer: false,
-        repeatmd: false,
-        moxie: false,
-        nextgen: true,
-        advantage: true
-      },
-      {
-        feature: 'Full Credit Engine',
-        kleer: true,
-        repeatmd: false,
-        moxie: false,
-        nextgen: true,
-        advantage: true
-      },
-      {
-        feature: 'White-labeled Frontend',
-        kleer: false,
-        repeatmd: true,
-        moxie: false,
-        nextgen: true,
-        advantage: true
-      },
-      {
-        feature: 'AI Agent Suite Included',
-        kleer: false,
-        repeatmd: false,
-        moxie: false,
-        nextgen: true,
-        advantage: true
-      },
-      {
-        feature: 'Multi-location Management',
-        kleer: true,
-        repeatmd: true,
-        moxie: true,
-        nextgen: true,
-        advantage: false
-      },
-      {
-        feature: 'Patient Communication',
-        kleer: true,
-        repeatmd: true,
-        moxie: true,
-        nextgen: true,
-        advantage: false
-      }
-    ]
-  };
-
-  const getValueIcon = (value: boolean, isNextGen: boolean = false) => {
-    if (value) {
-      return <Check className={`h-5 w-5 ${isNextGen ? 'text-green-400' : 'text-green-500'}`} />;
+  const comparisonData = [
+    {
+      feature: 'Dental Membership',
+      kleer: { status: 'yes', text: 'Yes' },
+      repeatmd: { status: 'no', text: 'No' },
+      moxie: { status: 'limited', text: 'Limited' },
+      nextgen: { status: 'yes', text: 'Yes + Medspa' }
+    },
+    {
+      feature: 'Medspa Upsells',
+      kleer: { status: 'no', text: 'No' },
+      repeatmd: { status: 'yes', text: 'Yes' },
+      moxie: { status: 'yes', text: 'Yes' },
+      nextgen: { status: 'yes', text: 'Native credits' }
+    },
+    {
+      feature: 'White-Labeled Brand',
+      kleer: { status: 'no', text: 'No' },
+      repeatmd: { status: 'no', text: 'No' },
+      moxie: { status: 'limited', text: 'Limited' },
+      nextgen: { status: 'yes', text: 'Full white-label' }
+    },
+    {
+      feature: 'Mobile-in-Your-Brand',
+      kleer: { status: 'no', text: 'App' },
+      repeatmd: { status: 'no', text: 'App' },
+      moxie: { status: 'limited', text: 'Limited' },
+      nextgen: { status: 'yes', text: 'Web + Mobile' }
+    },
+    {
+      feature: 'Credit-Based Loyalty',
+      kleer: { status: 'no', text: 'Discounts' },
+      repeatmd: { status: 'yes', text: 'Points' },
+      moxie: { status: 'no', text: 'No' },
+      nextgen: { status: 'yes', text: 'Glow Wallet™' }
+    },
+    {
+      feature: 'Financing Support',
+      kleer: { status: 'no', text: 'No' },
+      repeatmd: { status: 'yes', text: '(Affirm)' },
+      moxie: { status: 'no', text: 'No' },
+      nextgen: { status: 'optional', text: 'Optional via Stripe' }
+    },
+    {
+      feature: 'Transparent Pricing',
+      kleer: { status: 'yes', text: 'Dental' },
+      repeatmd: { status: 'no', text: 'No' },
+      moxie: { status: 'no', text: 'No' },
+      nextgen: { status: 'yes', text: 'All services' }
+    },
+    {
+      feature: 'EMR / PMS Integration',
+      kleer: { status: 'yes', text: 'Pro' },
+      repeatmd: { status: 'no', text: 'No' },
+      moxie: { status: 'yes', text: 'Deep' },
+      nextgen: { status: 'yes', text: 'PatientNow + more' }
+    },
+    {
+      feature: 'Automated Funnels',
+      kleer: { status: 'limited', text: 'Limited' },
+      repeatmd: { status: 'yes', text: 'Yes' },
+      moxie: { status: 'yes', text: 'Basic' },
+      nextgen: { status: 'yes', text: 'GHL-powered' }
+    },
+    {
+      feature: 'Referral & Rewards',
+      kleer: { status: 'no', text: 'No' },
+      repeatmd: { status: 'yes', text: 'Yes' },
+      moxie: { status: 'no', text: 'No' },
+      nextgen: { status: 'yes', text: 'Gamified logic' }
+    },
+    {
+      feature: 'Real-Time Analytics',
+      kleer: { status: 'yes', text: 'Basic' },
+      repeatmd: { status: 'yes', text: 'Reports' },
+      moxie: { status: 'yes', text: 'Reports' },
+      nextgen: { status: 'yes', text: 'Live Dashboards' }
+    },
+    {
+      feature: 'Multi-Location Scale',
+      kleer: { status: 'no', text: 'No' },
+      repeatmd: { status: 'limited', text: 'Clunky' },
+      moxie: { status: 'limited', text: 'Manual' },
+      nextgen: { status: 'yes', text: '100+ ready' }
+    },
+    {
+      feature: 'AI Agent Support',
+      kleer: { status: 'no', text: 'No' },
+      repeatmd: { status: 'no', text: 'No' },
+      moxie: { status: 'no', text: 'No' },
+      nextgen: { status: 'yes', text: '4 Executive Agents' }
+    },
+    {
+      feature: 'Tech-First Architecture',
+      kleer: { status: 'no', text: 'Monolith' },
+      repeatmd: { status: 'limited', text: 'Legacy' },
+      moxie: { status: 'no', text: 'Rigid' },
+      nextgen: { status: 'yes', text: 'Modular OS' }
     }
-    return <X className="h-5 w-5 text-red-400" />;
+  ];
+
+  const getStatusIcon = (status: string, isNextGen: boolean = false) => {
+    const iconClass = isNextGen ? "h-5 w-5 text-glow-indigo" : "h-5 w-5";
+    
+    switch (status) {
+      case 'yes':
+        return <Check className={`${iconClass} ${isNextGen ? 'text-neon-mint' : 'text-green-500'}`} />;
+      case 'no':
+        return <X className={`${iconClass} text-alert-coral`} />;
+      case 'limited':
+      case 'optional':
+        return <Circle className={`${iconClass} text-photon-silver`} />;
+      default:
+        return <X className={`${iconClass} text-alert-coral`} />;
+    }
   };
 
   return (
-    <section className="py-20 bg-gradient-to-b from-nextgen-dark to-black">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gradient">
-            Compare NextGen OS
-          </h2>
-          <p className="text-xl text-white/70 max-w-3xl mx-auto">
-            See how NextGen OS stacks up against the competition
+    <section className="section-spacing bg-gradient-to-b from-crystal-white to-mist-blue/30">
+      <div className="container-liquid">
+        <div className="text-center mb-20">
+          <div className="flex items-center justify-center gap-2 mb-8">
+            <span className="text-4xl">💥</span>
+            <h2 className="text-headline-lg text-liquid-gradient">
+              Why NextGen OS Outperforms the Competition
+            </h2>
+          </div>
+          <p className="text-body-lg text-liquid-slate/70 max-w-3xl mx-auto">
+            One system. Every advantage. Compare NextGen OS to other market leaders:
           </p>
         </div>
 
-        <Card className="glass-card max-w-6xl mx-auto">
+        <Card className="liquid-glass hover-glow max-w-7xl mx-auto overflow-hidden">
           <CardContent className="p-0">
-            {/* Table Header */}
-            <div className="grid grid-cols-5 gap-4 p-6 border-b border-white/10">
-              <div className="font-semibold text-white">Feature</div>
-              {competitors.map((competitor, index) => (
-                <div 
-                  key={competitor} 
-                  className={`text-center font-semibold ${
-                    competitor === 'NextGen OS' ? 'text-nextgen-purple' : 'text-white/70'
-                  }`}
-                >
-                  {competitor === 'NextGen OS' && (
-                    <Crown className="h-4 w-4 inline mr-1 text-amber-400" />
-                  )}
-                  {competitor}
-                </div>
-              ))}
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow className="border-b border-white/10">
+                    <TableHead className="text-liquid-slate font-semibold w-1/4 p-6">Module / Feature</TableHead>
+                    <TableHead className="text-center text-liquid-slate/70 font-medium p-6">Kleer</TableHead>
+                    <TableHead className="text-center text-liquid-slate/70 font-medium p-6">RepeatMD</TableHead>
+                    <TableHead className="text-center text-liquid-slate/70 font-medium p-6">Moxie</TableHead>
+                    <TableHead className="text-center text-glow-indigo font-semibold p-6">
+                      NextGen OS <span className="text-2xl">🧠</span>
+                    </TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {comparisonData.map((row, index) => (
+                    <TableRow key={index} className="border-b border-white/5 hover:bg-white/5 transition-colors duration-200">
+                      <TableCell className="font-medium text-liquid-slate p-6">{row.feature}</TableCell>
+                      <TableCell className="text-center p-6">
+                        <div className="flex flex-col items-center gap-2">
+                          {getStatusIcon(row.kleer.status)}
+                          <span className="text-caption text-liquid-slate/60">{row.kleer.text}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-center p-6">
+                        <div className="flex flex-col items-center gap-2">
+                          {getStatusIcon(row.repeatmd.status)}
+                          <span className="text-caption text-liquid-slate/60">{row.repeatmd.text}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-center p-6">
+                        <div className="flex flex-col items-center gap-2">
+                          {getStatusIcon(row.moxie.status)}
+                          <span className="text-caption text-liquid-slate/60">{row.moxie.text}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-center p-6 bg-glow-indigo/5">
+                        <div className="flex flex-col items-center gap-2">
+                          {getStatusIcon(row.nextgen.status, true)}
+                          <span className="text-caption text-glow-indigo font-medium">{row.nextgen.text}</span>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </div>
-
-            {/* Comparison Rows */}
-            {comparisonData.features.map((row, index) => (
-              <div 
-                key={index} 
-                className={`grid grid-cols-5 gap-4 p-6 border-b border-white/10 ${
-                  row.advantage ? 'bg-nextgen-purple/5' : ''
-                }`}
-              >
-                <div className="flex items-center gap-2">
-                  <span className="text-white font-medium">{row.feature}</span>
-                  {row.advantage && (
-                    <span className="text-xs bg-amber-500/20 text-amber-400 px-2 py-1 rounded-full">
-                      Your unfair advantage
-                    </span>
-                  )}
-                </div>
-                <div className="text-center">{getValueIcon(row.kleer)}</div>
-                <div className="text-center">{getValueIcon(row.repeatmd)}</div>
-                <div className="text-center">{getValueIcon(row.moxie)}</div>
-                <div className="text-center">{getValueIcon(row.nextgen, true)}</div>
-              </div>
-            ))}
           </CardContent>
         </Card>
+
+        <div className="text-center mt-16">
+          <p className="text-body-lg text-liquid-slate/80 max-w-4xl mx-auto mb-12">
+            NextGen OS is the only platform purpose-built for both dental and medspa scale — with white-label capabilities, 
+            an AI-powered operations layer, and a fully integrated credit engine.
+          </p>
+          
+          <Button asChild className="btn-liquid-primary group text-lg px-8 py-4">
+            <Link to="/demo" className="flex items-center">
+              <Rocket className="h-6 w-6 mr-3" />
+              Launch Your Branded Membership OS Today
+              <span className="ml-3 transition-transform duration-300 group-hover:translate-x-1">→</span>
+            </Link>
+          </Button>
+        </div>
       </div>
     </section>
   );

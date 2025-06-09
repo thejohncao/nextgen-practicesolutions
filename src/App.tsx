@@ -22,6 +22,7 @@ import Pricing from './pages/Pricing';
 import Integrations from './pages/Integrations';
 import Animations from './pages/Animations';
 import NextGenHomeV2 from './pages/NextGenHomeV2';
+import NextGenOS from './pages/NextGenOS'; // NextGen OS page
 import Resources from './pages/Resources';
 import Watch from './pages/Watch';
 import Join from './pages/Join';
@@ -74,6 +75,7 @@ function App() {
               <Route path="/integrations" element={<Integrations />} />
               <Route path="/animations" element={<Animations />} />
               <Route path="/nextgen-home-v2" element={<NextGenHomeV2 />} />
+              <Route path="/nextgen-os" element={<NextGenOS />} />
               <Route path="/resources" element={<Resources />} />
               <Route path="/watch" element={<Watch />} />
               <Route path="/join" element={<Join />} />
