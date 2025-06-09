@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -28,9 +29,17 @@ import AcademyBusinessModel from './pages/AcademyBusinessModel';
 import Boardroom from './pages/Boardroom';
 import AiDemo from './pages/AiDemo';
 import NextGenOS from './pages/NextGenOS';
-import NewHomepage from './pages/NewHomepage'; // New homepage
+import NewHomepage from './pages/NewHomepage';
 import NextGenHomeV2 from './pages/NextGenHomeV2';
-import Juv from './pages/Juv'; // New JUV page
+import Juv from './pages/Juv';
+import Join from './pages/Join';
+import Watch from './pages/Watch';
+import Privacy from './pages/Privacy';
+import Animations from './pages/Animations';
+import NotFound from './pages/NotFound';
+
+// App components
+import AppLayout from './components/app/AppLayout';
 import Login from './pages/app/Login';
 import PatientHome from './pages/app/patient/PatientHome';
 import StaffDashboard from './pages/app/staff/StaffDashboard';
@@ -145,7 +154,7 @@ function App() {
           </LenisProvider>
         </TooltipProvider>
       </AuthProvider>
-      <Toaster position="top-center" />
+      <Toaster />
     </QueryClientProvider>
   );
 }
