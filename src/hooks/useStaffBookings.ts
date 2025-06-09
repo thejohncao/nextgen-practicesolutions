@@ -22,6 +22,8 @@ interface StaffBooking {
   };
 }
 
+type BookingStatus = 'scheduled' | 'completed' | 'cancelled' | 'no_show';
+
 export function useStaffBookings() {
   const { profile } = useAuth();
   const { toast } = useToast();
@@ -77,7 +79,7 @@ export function useStaffBookings() {
     }
   };
 
-  const updateBookingStatus = async (bookingId: string, status: string) => {
+  const updateBookingStatus = async (bookingId: string, status: BookingStatus) => {
     try {
       const { error } = await supabase
         .from('bookings')

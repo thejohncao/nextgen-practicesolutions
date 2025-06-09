@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Calendar, Clock, Users, CheckCircle, XCircle, Search } from 'lucide-react';
+import { Calendar, Clock, Users, CheckCircle, XCircle, Search, CreditCard } from 'lucide-react';
 import { useStaffBookings } from '@/hooks/useStaffBookings';
 import { format } from 'date-fns';
 
