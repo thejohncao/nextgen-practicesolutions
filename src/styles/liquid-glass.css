@@ -65,35 +65,6 @@
     @apply transition-all duration-350 ease-apple hover:shadow-glow;
   }
 
-  /* Typography System */
-  .text-display {
-    @apply text-display font-bold text-liquid-slate;
-  }
-  
-  .text-display-lg {
-    @apply text-display-lg font-bold text-liquid-slate;
-  }
-  
-  .text-headline {
-    @apply text-headline font-semibold text-liquid-slate;
-  }
-  
-  .text-headline-lg {
-    @apply text-headline-lg font-semibold text-liquid-slate;
-  }
-  
-  .text-body {
-    @apply text-body text-liquid-slate/80;
-  }
-  
-  .text-body-lg {
-    @apply text-body-lg text-liquid-slate/80;
-  }
-  
-  .text-caption {
-    @apply text-caption text-liquid-slate/60;
-  }
-
   /* Layout System */
   .container-liquid {
     @apply max-w-[1280px] mx-auto px-16;
