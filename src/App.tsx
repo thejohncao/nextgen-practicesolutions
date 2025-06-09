@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -42,6 +41,9 @@ import NotFound from './pages/NotFound';
 import AppLayout from './components/app/AppLayout';
 import Login from './pages/app/Login';
 import PatientHome from './pages/app/patient/PatientHome';
+import PatientWallet from './pages/app/patient/PatientWallet';
+import PatientBooking from './pages/app/patient/PatientBooking';
+import PatientReferrals from './pages/app/patient/PatientReferrals';
 import StaffDashboard from './pages/app/staff/StaffDashboard';
 import HQOverview from './pages/app/hq/HQOverview';
 
@@ -107,9 +109,9 @@ function App() {
                   
                   {/* Patient routes */}
                   <Route path="patient/home" element={<PatientHome />} />
-                  <Route path="patient/book" element={<div className="text-white">Book Treatment - Coming Soon</div>} />
-                  <Route path="patient/wallet" element={<div className="text-white">Glow Wallet - Coming Soon</div>} />
-                  <Route path="patient/referral" element={<div className="text-white">Referrals - Coming Soon</div>} />
+                  <Route path="patient/book" element={<PatientBooking />} />
+                  <Route path="patient/wallet" element={<PatientWallet />} />
+                  <Route path="patient/referral" element={<PatientReferrals />} />
                   
                   {/* Staff routes */}
                   <Route path="staff/dashboard" element={<StaffDashboard />} />
