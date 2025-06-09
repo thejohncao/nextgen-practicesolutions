@@ -56,7 +56,7 @@ const MeetYourAITeam = () => {
                     name={agent.name} 
                     role={agent.role} 
                     color={agent.color} 
-                    className="w-16 h-16"
+                    size="lg"
                   />
                   <div>
                     <h3 className="text-2xl font-bold text-white">{agent.name}</h3>
