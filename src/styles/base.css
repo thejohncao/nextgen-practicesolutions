@@ -7,38 +7,46 @@
 
 @layer base {
   :root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 263 69% 73%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --background: 248 250 252; /* Crystal White */
+    --foreground: 15 23 42; /* Liquid Slate */
+    --card: 248 250 252;
+    --card-foreground: 15 23 42;
+    --popover: 248 250 252;
+    --popover-foreground: 15 23 42;
+    --primary: 99 102 241; /* Glow Indigo */
+    --primary-foreground: 248 250 252;
+    --secondary: 220 231 245; /* Mist Blue */
+    --secondary-foreground: 15 23 42;
+    --muted: 203 213 225; /* Photon Silver */
+    --muted-foreground: 15 23 42;
+    --accent: 220 231 245;
+    --accent-foreground: 15 23 42;
+    --destructive: 248 113 113; /* Alert Coral */
+    --destructive-foreground: 248 250 252;
+    --border: 203 213 225;
+    --input: 203 213 225;
+    --ring: 99 102 241;
     --radius: 0.75rem;
   }
 
   * {
-    @apply border-border selection:bg-white/10 selection:text-white;
+    @apply border-border selection:bg-glow-indigo/20 selection:text-liquid-slate;
   }
   
   body {
-    @apply bg-nextgen-dark text-foreground antialiased;
+    @apply bg-crystal-white text-foreground antialiased;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
+    font-family: 'SF Pro Display', 'Inter', sans-serif;
   }
 
   html {
     @apply scroll-smooth;
+  }
+
+  /* SF Pro Display font loading optimization */
+  @font-face {
+    font-family: 'SF Pro Display';
+    src: url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    font-display: swap;
   }
 }

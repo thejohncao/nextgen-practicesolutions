@@ -1,0 +1,134 @@
+
+@layer utilities {
+  /* Liquid Glass Card System */
+  .liquid-glass {
+    @apply backdrop-blur-liquid bg-white/15 border border-white/20 shadow-liquid rounded-liquid;
+  }
+  
+  .liquid-glass-strong {
+    @apply backdrop-blur-liquid bg-white/25 border border-white/30 shadow-liquid-lg rounded-liquid;
+  }
+  
+  .liquid-glass-subtle {
+    @apply backdrop-blur-liquid bg-white/8 border border-white/10 shadow-liquid rounded-liquid;
+  }
+
+  /* Apple-style Text Gradients */
+  .text-liquid-gradient {
+    @apply bg-gradient-to-br from-liquid-slate via-liquid-slate/90 to-liquid-slate/70 bg-clip-text text-transparent;
+  }
+  
+  .text-primary-gradient {
+    @apply bg-gradient-to-br from-glow-indigo via-glow-indigo/80 to-glow-indigo/60 bg-clip-text text-transparent;
+  }
+
+  /* Agent Aura System */
+  .agent-aura-miles {
+    --agent-glow-color: theme('colors.miles.glow');
+    @apply shadow-agent-glow;
+  }
+  
+  .agent-aura-giselle {
+    --agent-glow-color: theme('colors.giselle.glow');
+    @apply shadow-agent-glow;
+  }
+  
+  .agent-aura-devon {
+    --agent-glow-color: theme('colors.devon.glow');
+    @apply shadow-agent-glow;
+  }
+  
+  .agent-aura-alma {
+    --agent-glow-color: theme('colors.alma.glow');
+    @apply shadow-agent-glow;
+  }
+
+  /* Apple-style Buttons */
+  .btn-liquid-primary {
+    @apply bg-glow-indigo hover:bg-glow-indigo/90 text-white font-semibold 
+           rounded-button px-6 py-3 transition-all duration-350 ease-apple
+           hover:shadow-glow hover:scale-[1.02] active:scale-[0.98];
+  }
+  
+  .btn-liquid-secondary {
+    @apply liquid-glass text-liquid-slate hover:bg-white/20 font-medium
+           rounded-button px-6 py-3 transition-all duration-350 ease-apple
+           hover:shadow-liquid hover:scale-[1.02] active:scale-[0.98];
+  }
+
+  /* Micro-interactions */
+  .hover-lift {
+    @apply transition-all duration-250 ease-apple hover:translate-y-[-2px] hover:shadow-liquid;
+  }
+  
+  .hover-glow {
+    @apply transition-all duration-350 ease-apple hover:shadow-glow;
+  }
+
+  /* Typography System */
+  .text-display {
+    @apply text-display font-bold text-liquid-slate;
+  }
+  
+  .text-display-lg {
+    @apply text-display-lg font-bold text-liquid-slate;
+  }
+  
+  .text-headline {
+    @apply text-headline font-semibold text-liquid-slate;
+  }
+  
+  .text-headline-lg {
+    @apply text-headline-lg font-semibold text-liquid-slate;
+  }
+  
+  .text-body {
+    @apply text-body text-liquid-slate/80;
+  }
+  
+  .text-body-lg {
+    @apply text-body-lg text-liquid-slate/80;
+  }
+  
+  .text-caption {
+    @apply text-caption text-liquid-slate/60;
+  }
+
+  /* Layout System */
+  .container-liquid {
+    @apply max-w-[1280px] mx-auto px-16;
+  }
+  
+  .section-spacing {
+    @apply py-20 lg:py-32;
+  }
+
+  /* Agent specific backgrounds */
+  .bg-miles-mist {
+    background: linear-gradient(135deg, theme('colors.miles.mist'), transparent);
+  }
+  
+  .bg-giselle-mist {
+    background: linear-gradient(135deg, theme('colors.giselle.mist'), transparent);
+  }
+  
+  .bg-devon-mist {
+    background: linear-gradient(135deg, theme('colors.devon.mist'), transparent);
+  }
+  
+  .bg-alma-mist {
+    background: linear-gradient(135deg, theme('colors.alma.mist'), transparent);
+  }
+
+  /* Shimmer effect for loading states */
+  .liquid-shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    );
+    background-size: 200% 100%;
+    animation: liquid-shimmer 2s infinite;
+  }
+}

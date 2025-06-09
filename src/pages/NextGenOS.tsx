@@ -10,62 +10,43 @@ import HowItScales from '../components/nextgen-os/HowItScales';
 import PartnershipModels from '../components/nextgen-os/PartnershipModels';
 import FinalCTA from '../components/nextgen-os/FinalCTA';
 import ScrollRevealWrapper from '../components/animation/ScrollRevealWrapper';
-import ParallaxSection from '../components/effects/ParallaxSection';
-import AnimatedGrainOverlay from '../components/effects/AnimatedGrainOverlay';
 
 const NextGenOS = () => {
   return (
     <Layout>
-      <div className="relative">
-        {/* Global grain overlay with minimal opacity */}
-        <div className="fixed inset-0 pointer-events-none z-50">
-          <AnimatedGrainOverlay opacity={0.03} />
-        </div>
-        
+      <div className="relative bg-crystal-white">
         {/* Hero Section */}
         <NextGenHero />
         
         {/* What Is NextGen OS */}
-        <ParallaxSection>
-          <ScrollRevealWrapper animation="fade-up">
-            <WhatIsNextGenOS />
-          </ScrollRevealWrapper>
-        </ParallaxSection>
+        <ScrollRevealWrapper animation="fade-up">
+          <WhatIsNextGenOS />
+        </ScrollRevealWrapper>
         
         {/* What's Inside the OS */}
-        <ParallaxSection>
-          <ScrollRevealWrapper animation="fade-up">
-            <WhatsInsideOS />
-          </ScrollRevealWrapper>
-        </ParallaxSection>
+        <ScrollRevealWrapper animation="fade-up">
+          <WhatsInsideOS />
+        </ScrollRevealWrapper>
         
         {/* Meet Your AI Team */}
-        <ParallaxSection>
-          <ScrollRevealWrapper animation="fade-up">
-            <MeetYourAITeam />
-          </ScrollRevealWrapper>
-        </ParallaxSection>
+        <ScrollRevealWrapper animation="fade-up">
+          <MeetYourAITeam />
+        </ScrollRevealWrapper>
         
         {/* Compare NextGen OS */}
-        <ParallaxSection>
-          <ScrollRevealWrapper animation="fade-up">
-            <CompareNextGenOS />
-          </ScrollRevealWrapper>
-        </ParallaxSection>
+        <ScrollRevealWrapper animation="fade-up">
+          <CompareNextGenOS />
+        </ScrollRevealWrapper>
         
         {/* How It Scales */}
-        <ParallaxSection>
-          <ScrollRevealWrapper animation="fade-up">
-            <HowItScales />
-          </ScrollRevealWrapper>
-        </ParallaxSection>
+        <ScrollRevealWrapper animation="fade-up">
+          <HowItScales />
+        </ScrollRevealWrapper>
         
         {/* Partnership Models */}
-        <ParallaxSection>
-          <ScrollRevealWrapper animation="fade-up">
-            <PartnershipModels />
-          </ScrollRevealWrapper>
-        </ParallaxSection>
+        <ScrollRevealWrapper animation="fade-up">
+          <PartnershipModels />
+        </ScrollRevealWrapper>
         
         {/* Final CTA */}
         <ScrollRevealWrapper animation="fade-up">

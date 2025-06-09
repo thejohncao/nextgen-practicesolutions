@@ -14,6 +14,7 @@
 @import './styles/animations/display-card.css';
 @import './styles/animations/grain-effects.css';
 @import './styles/animations/motion-system.css';
+@import './styles/liquid-glass.css';
 
 @tailwind base;
 @tailwind components;
