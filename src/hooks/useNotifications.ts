@@ -3,20 +3,9 @@ import { useState, useEffect } from 'react';
 import { useAuth } from './useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from './use-toast';
+import type { Tables } from '@/integrations/supabase/types';
 
-interface Notification {
-  id: string;
-  user_id: string;
-  tenant_id?: string;
-  type: 'booking_confirmed' | 'credit_received' | 'referral_bonus' | 'system_alert' | 'treatment_reminder';
-  title: string;
-  message: string;
-  read: boolean;
-  priority: 'low' | 'medium' | 'high';
-  action_url?: string;
-  metadata?: any;
-  created_at: string;
-}
+type Notification = Tables<'notifications'>;
 
 export function useNotifications() {
   const { profile } = useAuth();
