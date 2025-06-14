@@ -21,13 +21,15 @@ const AdminUsersTab = () => {
   return (
     <div>
       <div className="flex flex-col sm:flex-row gap-3 mb-4">
-        <Input
-          className="w-[240px]"
-          placeholder="Search users..."
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          startIcon={<Search className="mr-2 w-4 h-4 text-apple-detail" />}
-        />
+        <div className="relative w-[240px]">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-apple-detail pointer-events-none" />
+          <Input
+            className="pl-9"
+            placeholder="Search users..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+        </div>
       </div>
       <div className="overflow-auto rounded-xl">
         <Table className="min-w-[760px]">
