@@ -1,8 +1,7 @@
-
 import React, { useState } from "react";
 import { useAuth } from "../../../hooks/useAuth"; // Path relative to /g/app/pages
 import { Navigate } from "react-router-dom";
-import "../../o/app/styles/apple-design.css"; // Reusing styles
+import "../../../o/app/styles/apple-design.css"; // Reusing styles - CORRECTED PATH
 
 const Login = () => {
   const { profile, signIn, loading } = useAuth();

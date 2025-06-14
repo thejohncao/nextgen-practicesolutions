@@ -4,9 +4,7 @@ import AppSidebar from "./AppSidebar";
 import AppHeader from "./AppHeader";
 import { useAuth } from "../../../hooks/useAuth";
 import { TenantProvider, useTenant } from "@/context/TenantContext";
-import "../../o/app/styles/apple-design.css"; // Reusing styles
-
-const PUBLIC_ROUTES = ["/g/app/login"]; // Google variant public route
+import "../../../o/app/styles/apple-design.css"; // Reusing styles - CORRECTED PATH
 
 // Helper: extract /:tenant/app from URL (keeping for parity, might not be used by /g/app directly)
 function getTenantSlugFromPath(pathname: string) {
@@ -17,6 +15,8 @@ function getTenantSlugFromPath(pathname: string) {
   if (pathname.startsWith("/g/app")) return null; 
   return null;
 }
+
+const PUBLIC_ROUTES = ["/g/app/login"]; // Google variant public route
 
 const AppLayout = () => {
   const location = useLocation();

@@ -1,9 +1,8 @@
-
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useRole } from "../hooks/useRole"; // Will point to /g/app/hooks/useRole
 import { Home, Wallet, Settings } from "lucide-react"; // Using same icons
-import "../../o/app/styles/apple-design.css"; // Reusing styles
+import "../../../o/app/styles/apple-design.css"; // Reusing styles - CORRECTED PATH
 
 // Navigation items updated for /g/app paths
 const SIDEBAR_NAV = [

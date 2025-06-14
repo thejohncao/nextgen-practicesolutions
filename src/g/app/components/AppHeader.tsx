@@ -1,9 +1,8 @@
-
 import React from 'react';
 import { useAuth } from "../../../hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { LogOut, User } from "lucide-react"; // Added User icon
-import "../../o/app/styles/apple-design.css"; // Reusing styles
+import "../../../o/app/styles/apple-design.css"; // Reusing styles - CORRECTED PATH
 
 const AppHeader = () => {
   const { profile, signOut } = useAuth();

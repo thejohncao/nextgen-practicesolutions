@@ -1,13 +1,13 @@
-
 import React from "react";
 import { useAuth } from "../../../hooks/useAuth"; // Path relative to /g/app/pages
 import { useRole } from "../hooks/useRole"; // Path relative to /g/app/pages
 import PatientDashboard from "../components/PatientDashboard"; // Google variant
 import StaffDashboard from "../components/StaffDashboard"; // Google variant
-import AdminDashboard from "../components/AdminDashboard"; // Google variant
+// AdminDashboard is not used here because admin/staff see AgentBoardroom
+// import AdminDashboard from "../components/AdminDashboard"; 
 import AgentBoardroom from "../dashboard/AgentBoardroom"; // Google variant
 import { Navigate } from "react-router-dom";
-import "../../o/app/styles/apple-design.css"; // Reusing styles
+import "../../../o/app/styles/apple-design.css"; // Reusing styles - CORRECTED PATH
 
 const Dashboard = () => {
   const { profile, loading } = useAuth();
