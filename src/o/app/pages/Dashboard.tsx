@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useAuth } from "../../../hooks/useAuth";
 import { useRole } from "../hooks/useRole";
@@ -7,6 +6,7 @@ import StaffDashboard from "../components/StaffDashboard";
 import AdminDashboard from "../components/AdminDashboard";
 import { Navigate } from "react-router-dom";
 import "../../app/styles/apple-design.css";
+import AgentBoardroom from "../dashboard/AgentBoardroom";
 
 const Dashboard = () => {
   const { profile, loading } = useAuth();
@@ -24,11 +24,13 @@ const Dashboard = () => {
     return <Navigate to="/o/app/login" replace />;
   }
 
-  if (role === "admin") {
-    return <AdminDashboard />;
-  }
-  if (role === "staff") {
-    return <StaffDashboard />;
+  if (role === "admin" || role === "staff") {
+    // Show agent boardroom for staff/admin users
+    return (
+      <div>
+        <AgentBoardroom />
+      </div>
+    );
   }
   // Fallback & patient by default
   return <PatientDashboard />;
