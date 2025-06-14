@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,6 +7,7 @@ import { Users, Copy, Share2, Gift, QrCode, TrendingUp } from 'lucide-react';
 import { useReferrals } from '@/hooks/useReferrals';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
+import SocialShareButtons from "@/components/referrals/SocialShareButtons";
 
 const PatientReferrals = () => {
   const { 
@@ -16,7 +16,11 @@ const PatientReferrals = () => {
     loading, 
     getCompletedReferrals, 
     getTotalBonusCredits, 
-    getReferralLink 
+    getReferralLink,
+    logShareEvent,
+    rewardTable,
+    getTierMultiplier,
+    membershipTier
   } = useReferrals();
   const { toast } = useToast();
   const [showQR, setShowQR] = useState(false);
@@ -69,7 +73,14 @@ const PatientReferrals = () => {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-white mb-2">Referral Program</h1>
-        <p className="text-white/70">Invite friends and earn bonus credits for every successful referral</p>
+        <p className="text-white/70">
+          Invite friends and earn tier-boosted bonus credits for every successful referral.
+          {membershipTier?.membership_tiers && (
+            <span className="ml-2 bg-[#FFD700]/30 text-[#00274D] px-2 py-0.5 rounded text-xs font-bold">
+              {membershipTier.membership_tiers.name} tier = {getTierMultiplier()}x rewards
+            </span>
+          )}
+        </p>
       </div>
 
       {/* Stats Overview */}
@@ -111,7 +122,7 @@ const PatientReferrals = () => {
         </Card>
       </div>
 
-      {/* Referral Tools */}
+      {/* Referral Tools with social share buttons */}
       <Card className="bg-white/5 backdrop-blur-sm border border-white/10">
         <CardHeader>
           <CardTitle className="text-white">Share Your Referral</CardTitle>
@@ -126,7 +137,7 @@ const PatientReferrals = () => {
                 className="bg-white/10 border-white/20 text-white"
               />
               <Button
-                onClick={() => copyToClipboard(userReferralCode, 'Referral code')}
+                onClick={() => {navigator.clipboard.writeText(userReferralCode);toast({title: "Copied!", description: "Code copied to clipboard"})}}
                 variant="outline"
                 className="border-white/20 text-white hover:bg-white/10"
               >
@@ -134,7 +145,6 @@ const PatientReferrals = () => {
               </Button>
             </div>
           </div>
-
           <div>
             <label className="text-white text-sm font-medium mb-2 block">Your Referral Link</label>
             <div className="flex gap-2">
@@ -144,7 +154,7 @@ const PatientReferrals = () => {
                 className="bg-white/10 border-white/20 text-white text-sm"
               />
               <Button
-                onClick={() => copyToClipboard(referralLink, 'Referral link')}
+                onClick={() => {navigator.clipboard.writeText(referralLink);toast({title: "Copied!", description: "Link copied to clipboard"})}}
                 variant="outline"
                 className="border-white/20 text-white hover:bg-white/10"
               >
@@ -152,26 +162,14 @@ const PatientReferrals = () => {
               </Button>
             </div>
           </div>
-
-          <div className="flex gap-3 pt-2">
-            <Button
-              onClick={shareReferral}
-              className="bg-nextgen-purple hover:bg-nextgen-purple/90"
-            >
-              <Share2 className="h-4 w-4 mr-2" />
-              Share Link
-            </Button>
-            
-            <Button
-              onClick={() => setShowQR(!showQR)}
-              variant="outline"
-              className="border-white/20 text-white hover:bg-white/10"
-            >
-              <QrCode className="h-4 w-4 mr-2" />
-              QR Code
-            </Button>
+          <div className="flex flex-wrap gap-3 pt-2">
+            <SocialShareButtons
+              referralLink={referralLink}
+              onShare={logShareEvent}
+              showQR={showQR}
+              setShowQR={setShowQR}
+            />
           </div>
-
           {showQR && (
             <div className="mt-4 p-4 bg-white rounded-lg">
               <div className="text-center text-gray-600 text-sm">
@@ -180,6 +178,75 @@ const PatientReferrals = () => {
               </div>
             </div>
           )}
+        </CardContent>
+      </Card>
+
+      {/* Reward Structure Table */}
+      <Card className="bg-white/5 backdrop-blur-sm border border-white/10">
+        <CardHeader>
+          <CardTitle className="text-white">Reward Structure</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-x-auto">
+            <table className="min-w-[350px] w-full text-sm text-left text-white">
+              <thead className="uppercase text-white/70 border-b border-white/20">
+                <tr>
+                  <th className="py-2 px-2">Action</th>
+                  <th className="py-2 px-2">You Earn</th>
+                  <th className="py-2 px-2">They Earn</th>
+                  <th className="py-2 px-2">Your Tier Bonus</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rewardTable.map(row => (
+                  <tr key={row.action} className="border-b border-white/10 last:border-b-0">
+                    <td className="py-2 px-2">{row.action}</td>
+                    <td className="py-2 px-2">
+                      +{row.sender * getTierMultiplier()} credits
+                    </td>
+                    <td className="py-2 px-2">
+                      +{row.receiver} credits
+                    </td>
+                    <td className="py-2 px-2">
+                      ×{getTierMultiplier()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="text-xs text-white/60 mt-1">
+            Upgrade your membership tier to earn more referral rewards.
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Gamified Progress tracker */}
+      <Card className="bg-white/5 backdrop-blur-sm border border-white/10">
+        <CardHeader>
+          <CardTitle className="text-white">Referral Progress</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="w-full flex flex-col items-center gap-2 my-2">
+            <div className="text-white/80">
+              <span className="font-bold">{completedReferrals.length}</span> successful referrals
+            </div>
+            <div className="w-full md:w-1/2">
+              <div className="w-full h-3 bg-[#FFD700]/10 rounded-full overflow-hidden mb-1 relative">
+                <div
+                  className="h-full bg-[#FFD700] rounded-full transition-all"
+                  style={{
+                    width: `${Math.min(100, (completedReferrals.length / 5) * 100)}%`,
+                  }}
+                />
+              </div>
+              <div className="text-xs text-[#FFD700]">
+                {completedReferrals.length < 5
+                  ? `You're ${5 - completedReferrals.length} referral${5 - completedReferrals.length === 1 ? "" : "s"} away from your next milestone bonus!`
+                  : "Milestone reached! Keep going for more rewards."}
+              </div>
+            </div>
+          </div>
         </CardContent>
       </Card>
 

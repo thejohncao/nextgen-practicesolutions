@@ -716,6 +716,53 @@ export type Database = {
         }
         Relationships: []
       }
+      share_events: {
+        Row: {
+          channel: string
+          clicks: number
+          conversions: number
+          created_at: string | null
+          id: string
+          metadata: Json | null
+          referral_code: string | null
+          rewarded: boolean
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          channel: string
+          clicks?: number
+          conversions?: number
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          referral_code?: string | null
+          rewarded?: boolean
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          channel?: string
+          clicks?: number
+          conversions?: number
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          referral_code?: string | null
+          rewarded?: boolean
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "share_events_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tenants: {
         Row: {
           brand_colors: Json | null
