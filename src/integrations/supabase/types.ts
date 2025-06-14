@@ -462,12 +462,48 @@ export type Database = {
         }
         Relationships: []
       }
+      referral_settings: {
+        Row: {
+          bonus_credits: number
+          created_at: string | null
+          id: string
+          link_expiry_days: number | null
+          max_per_user: number | null
+          milestone_bonus: number | null
+          milestone_count: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          bonus_credits?: number
+          created_at?: string | null
+          id?: string
+          link_expiry_days?: number | null
+          max_per_user?: number | null
+          milestone_bonus?: number | null
+          milestone_count?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          bonus_credits?: number
+          created_at?: string | null
+          id?: string
+          link_expiry_days?: number | null
+          max_per_user?: number | null
+          milestone_bonus?: number | null
+          milestone_count?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       referrals: {
         Row: {
           bonus_credits: number | null
           completed_at: string | null
           created_at: string | null
+          credited_at: string | null
+          expires_at: string | null
           id: string
+          invitee_email: string | null
           referral_code: string
           referred_id: string | null
           referrer_id: string | null
@@ -478,7 +514,10 @@ export type Database = {
           bonus_credits?: number | null
           completed_at?: string | null
           created_at?: string | null
+          credited_at?: string | null
+          expires_at?: string | null
           id?: string
+          invitee_email?: string | null
           referral_code: string
           referred_id?: string | null
           referrer_id?: string | null
@@ -489,7 +528,10 @@ export type Database = {
           bonus_credits?: number | null
           completed_at?: string | null
           created_at?: string | null
+          credited_at?: string | null
+          expires_at?: string | null
           id?: string
+          invitee_email?: string | null
           referral_code?: string
           referred_id?: string | null
           referrer_id?: string | null

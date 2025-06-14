@@ -1,9 +1,9 @@
-
 import React, { useState } from "react";
 import { useCredits } from "../../../hooks/useCredits";
 import { Gift, Star, CalendarPlus, ArrowRight } from "lucide-react";
 import { format } from "date-fns";
 import "../../app/styles/apple-design.css";
+import ReferralSection from "./ReferralSection";
 
 const CREDIT_TO_USD = 50;
 
@@ -137,6 +137,8 @@ const PatientWallet = () => {
           </ul>
         )}
       </div>
+
+      <ReferralSection />
     </section>
   );
 };

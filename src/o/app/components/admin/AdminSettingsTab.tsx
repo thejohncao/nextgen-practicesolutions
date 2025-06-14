@@ -1,9 +1,9 @@
-
 import React from "react";
 import { useAdminSettings } from "@/hooks/useAdminSettings";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import ReferralAdminSettings from "../ReferralAdminSettings";
 
 const AdminSettingsTab = () => {
   const { settings, loading, updateSettings } = useAdminSettings();
@@ -84,6 +84,9 @@ const AdminSettingsTab = () => {
             <span className="ml-2 text-apple-detail">credits</span>
           </div>
         </div>
+      </div>
+      <div className="mt-10">
+        <ReferralAdminSettings />
       </div>
       <div className="mt-8 mb-4">
         <div className="font-bold text-lg mb-3 text-apple-header">Security</div>
