@@ -1,9 +1,11 @@
+
 import React from "react";
 import { Outlet, Navigate, useLocation } from "react-router-dom";
 import AppSidebar from "./AppSidebar";
 import AppHeader from "./AppHeader";
 import { useAuth } from "../../../hooks/useAuth";
 import { TenantProvider, useTenant } from "@/context/TenantContext";
+import { TooltipProvider } from "@/components/ui/tooltip"; // Added import
 import "../../../o/app/styles/apple-design.css"; // Reusing styles - CORRECTED PATH
 
 // Helper: extract /:tenant/app from URL (keeping for parity, might not be used by /g/app directly)
@@ -25,7 +27,9 @@ const AppLayout = () => {
 
   return (
     <TenantProvider tenantSlug={tenantSlug}>
-      <_AppLayoutInner />
+      <TooltipProvider> {/* Added TooltipProvider */}
+        <_AppLayoutInner />
+      </TooltipProvider>
     </TenantProvider>
   );
 };

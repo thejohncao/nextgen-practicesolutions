@@ -5,6 +5,7 @@ import AppSidebar from "./AppSidebar";
 import AppHeader from "./AppHeader";
 import { useAuth } from "../../../hooks/useAuth";
 import { TenantProvider, useTenant } from "@/context/TenantContext";
+import { TooltipProvider } from "@/components/ui/tooltip"; // Added import
 import "../../app/styles/apple-design.css";
 
 const PUBLIC_ROUTES = ["/o/app/login"];
@@ -17,7 +18,7 @@ function getTenantSlugFromPath(pathname: string) {
 }
 
 const AppLayout = () => {
-  const { profile, loading } = useAuth();
+  const { profile, loading } = useAuth(); // This useAuth seems redundant here, it's used in _AppLayoutInner
   const location = useLocation();
   const tenantSlug = getTenantSlugFromPath(location.pathname);
 
@@ -25,7 +26,9 @@ const AppLayout = () => {
 
   return (
     <TenantProvider tenantSlug={tenantSlug}>
-      <_AppLayoutInner />
+      <TooltipProvider> {/* Added TooltipProvider */}
+        <_AppLayoutInner />
+      </TooltipProvider>
     </TenantProvider>
   );
 };
