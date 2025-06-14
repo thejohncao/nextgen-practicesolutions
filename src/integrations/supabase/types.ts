@@ -462,6 +462,57 @@ export type Database = {
         }
         Relationships: []
       }
+      redemptions: {
+        Row: {
+          booking_id: string | null
+          credits_deducted: number
+          id: string
+          location_id: string | null
+          notes: string | null
+          redeemed_at: string
+          reward_id: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          booking_id?: string | null
+          credits_deducted: number
+          id?: string
+          location_id?: string | null
+          notes?: string | null
+          redeemed_at?: string
+          reward_id: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          booking_id?: string | null
+          credits_deducted?: number
+          id?: string
+          location_id?: string | null
+          notes?: string | null
+          redeemed_at?: string
+          reward_id?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_user"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "redemptions_reward_id_fkey"
+            columns: ["reward_id"]
+            isOneToOne: false
+            referencedRelation: "rewards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       referral_settings: {
         Row: {
           bonus_credits: number
@@ -561,6 +612,51 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      rewards: {
+        Row: {
+          active: boolean
+          category: string | null
+          created_at: string
+          credit_cost: number
+          description: string | null
+          frequency_limit_days: number | null
+          id: string
+          image_url: string | null
+          name: string
+          requires_booking: boolean
+          updated_at: string
+          visibility: string | null
+        }
+        Insert: {
+          active?: boolean
+          category?: string | null
+          created_at?: string
+          credit_cost: number
+          description?: string | null
+          frequency_limit_days?: number | null
+          id?: string
+          image_url?: string | null
+          name: string
+          requires_booking?: boolean
+          updated_at?: string
+          visibility?: string | null
+        }
+        Update: {
+          active?: boolean
+          category?: string | null
+          created_at?: string
+          credit_cost?: number
+          description?: string | null
+          frequency_limit_days?: number | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          requires_booking?: boolean
+          updated_at?: string
+          visibility?: string | null
+        }
+        Relationships: []
       }
       tenants: {
         Row: {
@@ -699,6 +795,51 @@ export type Database = {
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_reward_limits: {
+        Row: {
+          id: string
+          last_redeemed_at: string | null
+          period_end: string
+          period_start: string
+          redemption_count: number
+          reward_id: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          last_redeemed_at?: string | null
+          period_end: string
+          period_start: string
+          redemption_count?: number
+          reward_id: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          last_redeemed_at?: string | null
+          period_end?: string
+          period_start?: string
+          redemption_count?: number
+          reward_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_reward_limits_reward_id_fkey"
+            columns: ["reward_id"]
+            isOneToOne: false
+            referencedRelation: "rewards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_reward_limits_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]

@@ -4,6 +4,7 @@ import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import ReferralAdminSettings from "../ReferralAdminSettings";
+import AdminRewardsPanel from "./AdminRewardsPanel";
 
 const AdminSettingsTab = () => {
   const { settings, loading, updateSettings } = useAdminSettings();
@@ -107,6 +108,17 @@ const AdminSettingsTab = () => {
         <div className="flex items-center mb-3">
           <label className="w-48 font-medium text-apple-header">Audit Logging</label>
           <Switch checked={settings.security.auditLogging} onCheckedChange={v => handleBoolChange("security", "auditLogging", v)} />
+        </div>
+      </div>
+      {/* --- Admin Rewards Catalog Panel --- */}
+      <div className="mt-10">
+        <div className="font-bold text-lg mb-3 text-apple-header">Rewards Catalog</div>
+        <div>
+          <div>
+            <React.Suspense fallback={<div>Loading Admin Rewards Panel...</div>}>
+              <AdminRewardsPanel />
+            </React.Suspense>
+          </div>
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ import { Gift, Star, CalendarPlus, ArrowRight } from "lucide-react";
 import { format } from "date-fns";
 import "../../app/styles/apple-design.css";
 import ReferralSection from "./ReferralSection";
+import RewardsCatalog from "./RewardsCatalog";
 
 const CREDIT_TO_USD = 50;
 
@@ -137,6 +138,9 @@ const PatientWallet = () => {
           </ul>
         )}
       </div>
+
+      {/* --- Add Patient-facing rewards redemption catalog --- */}
+      <RewardsCatalog />
 
       <ReferralSection />
     </section>
