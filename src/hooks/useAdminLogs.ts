@@ -4,6 +4,15 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "./useAuth";
 import { useToast } from "./use-toast";
 
+// Json type compatible with Supabase
+type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[];
+
 export interface AdminLog {
   id: string;
   admin_id: string | null;
@@ -55,14 +64,18 @@ export function useAdminLogs() {
   };
 
   // For logging actions
-  const logAdminAction = async (action: string, target_user_id?: string, details?: object) => {
+  const logAdminAction = async (
+    action: string,
+    target_user_id?: string,
+    details?: Json
+  ) => {
     if (!profile || profile.role !== "admin") return;
     await supabase.from("admin_logs").insert([
       {
         admin_id: profile.id,
         action,
         target_user_id: target_user_id || null,
-        details: details ? details : {},
+        details: details !== undefined ? details : null,
       },
     ]);
   };
