@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -41,14 +40,23 @@ const AdminMembershipTiersTab: React.FC = () => {
 
   const fetchTiers = async () => {
     setLoading(true);
-    const { data, error } = await supabase.from("membership_tiers").select("*").order("monthly_price_cents", { ascending: true });
+    const { data, error } = await supabase
+      .from("membership_tiers")
+      .select("*")
+      .order("monthly_price_cents", { ascending: true });
     if (error) {
       toast({ title: "Error", description: error.message, variant: "destructive" });
     } else {
-      setTiers((data || []).map(d => ({
-        ...d,
-        perks: Array.isArray(d.perks) ? d.perks : (d.perks ? JSON.parse(d.perks) : [])
-      })));
+      setTiers(
+        (data || []).map(d => ({
+          ...d,
+          perks: typeof d.perks === "string"
+            ? (() => { try { return JSON.parse(d.perks); } catch { return []; } })()
+            : Array.isArray(d.perks)
+              ? d.perks
+              : [],
+        }))
+      );
     }
     setLoading(false);
   };
@@ -245,4 +253,3 @@ const AdminMembershipTiersTab: React.FC = () => {
 };
 
 export default AdminMembershipTiersTab;
-
