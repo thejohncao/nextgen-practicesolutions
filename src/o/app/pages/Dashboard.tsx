@@ -2,34 +2,36 @@
 import React from "react";
 import { useAuth } from "../../../hooks/useAuth";
 import { useRole } from "../hooks/useRole";
+import PatientDashboard from "../components/PatientDashboard";
+import StaffDashboard from "../components/StaffDashboard";
+import AdminDashboard from "../components/AdminDashboard";
+import { Navigate } from "react-router-dom";
 import "../../app/styles/apple-design.css";
 
 const Dashboard = () => {
-  const { profile } = useAuth();
+  const { profile, loading } = useAuth();
   const role = useRole();
 
-  if (role === "admin") {
+  if (loading) {
     return (
-      <section className="fade-in apple-card p-8">
-        <h2 className="text-2xl font-bold text-apple-header mb-3">Admin Dashboard</h2>
-        <ul className="space-y-2 text-apple-detail">
-          <li>System Metrics: <span className="font-bold">Coming Soon</span></li>
-          <li>Users: <span className="font-bold">Coming Soon</span></li>
-        </ul>
+      <section className="fade-in apple-card p-8 flex justify-center items-center">
+        <div className="text-lg text-apple-subtle">Loading dashboard...</div>
       </section>
     );
   }
 
-  return (
-    <section className="fade-in apple-card p-8">
-      <h2 className="text-2xl font-bold text-apple-header mb-3">Credit Overview</h2>
-      <div className="mb-5 text-apple-detail">
-        <strong>Balance:</strong> $100 (includes bonuses)<br />
-        <strong>Upcoming Credits:</strong> 2/month<br />
-        <strong>Shortcuts:</strong> <span className="underline text-blue-500">Book</span>, <span className="underline text-blue-500">Wallet</span>
-      </div>
-    </section>
-  );
+  if (!profile || !role) {
+    return <Navigate to="/o/app/login" replace />;
+  }
+
+  if (role === "admin") {
+    return <AdminDashboard />;
+  }
+  if (role === "staff") {
+    return <StaffDashboard />;
+  }
+  // Fallback & patient by default
+  return <PatientDashboard />;
 };
 
 export default Dashboard;
