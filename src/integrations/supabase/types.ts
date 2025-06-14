@@ -214,6 +214,47 @@ export type Database = {
           },
         ]
       }
+      credit_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          expires_at: string | null
+          id: string
+          notes: string | null
+          status: string | null
+          user_id: string
+          value: number
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          expires_at?: string | null
+          id?: string
+          notes?: string | null
+          status?: string | null
+          user_id: string
+          value: number
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          expires_at?: string | null
+          id?: string
+          notes?: string | null
+          status?: string | null
+          user_id?: string
+          value?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_credit_events_user"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       credit_logs: {
         Row: {
           admin_id: string | null
@@ -1151,6 +1192,86 @@ export type Database = {
           },
           {
             foreignKeyName: "user_reward_limits_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wallet_transactions: {
+        Row: {
+          amount: number
+          id: string
+          notes: string | null
+          source: string | null
+          timestamp: string
+          type: string
+          wallet_id: string
+        }
+        Insert: {
+          amount: number
+          id?: string
+          notes?: string | null
+          source?: string | null
+          timestamp?: string
+          type: string
+          wallet_id: string
+        }
+        Update: {
+          amount?: number
+          id?: string
+          notes?: string | null
+          source?: string | null
+          timestamp?: string
+          type?: string
+          wallet_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_wallet_transactions_wallet"
+            columns: ["wallet_id"]
+            isOneToOne: false
+            referencedRelation: "wallets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wallets: {
+        Row: {
+          balance: number
+          created_at: string
+          id: string
+          last_updated: string
+          tenant_id: string
+          user_id: string
+        }
+        Insert: {
+          balance?: number
+          created_at?: string
+          id?: string
+          last_updated?: string
+          tenant_id: string
+          user_id: string
+        }
+        Update: {
+          balance?: number
+          created_at?: string
+          id?: string
+          last_updated?: string
+          tenant_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_wallets_tenant"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_wallets_user"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
