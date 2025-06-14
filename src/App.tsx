@@ -1,14 +1,15 @@
+
 import React from "react";
 import AppLayout from "./o/app/components/AppLayout";
 import { AuthProvider } from "./hooks/useAuth";
 import { Toaster } from "./components/ui/toaster";
 
-// Import using exact case, matching file system!
-import Landing from "./pages/Landing";
+// Import using actual, case-matching files
+import Landing from "./pages/Index";
 import Pricing from "./pages/Pricing";
 import Solutions from "./pages/Solutions";
 import Agents from "./pages/Agents";
-import Login from "./pages/Login";
+import Login from "./pages/app/Login";
 import HQ from "./pages/app/hq/HQ";
 import TenantManagement from "./pages/app/hq/TenantManagement";
 
