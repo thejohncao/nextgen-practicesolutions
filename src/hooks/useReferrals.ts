@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useAuth } from './useAuth';
 import { supabase } from '@/integrations/supabase/client';
@@ -12,6 +11,7 @@ interface Referral {
   completed_at: string | null;
   created_at: string;
   referred_id: string | null;
+  invitee_email: string | null;
 }
 
 export function useReferrals() {
