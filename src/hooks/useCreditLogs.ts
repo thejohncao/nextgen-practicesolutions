@@ -12,7 +12,7 @@ export interface CreditLog {
   source: string;
   balance_after: number | null;
   notes: string | null;
-  metadata: Record<string, any> | null;
+  metadata: any | null; // Accept anything returned from supabase
   created_at: string;
 }
 
@@ -32,7 +32,21 @@ export function useCreditLogs(userId?: string) {
     try {
       const { data, error } = await query;
       if (error) throw error;
-      setLogs(data || []);
+      // Defensive: parse metadata field if stringified
+      const logs = (data || []).map((entry: any) => ({
+        ...entry,
+        metadata:
+          typeof entry.metadata === "string"
+            ? (() => {
+                try {
+                  return JSON.parse(entry.metadata);
+                } catch {
+                  return entry.metadata;
+                }
+              })()
+            : entry.metadata,
+      }));
+      setLogs(logs);
     } catch (e) {
       toast({ title: "Failed to load credit logs", variant: "destructive" });
     } finally {

@@ -9,7 +9,7 @@ export interface AdminLog {
   admin_id: string | null;
   action: string;
   target_user_id: string | null;
-  details: Record<string, any> | null;
+  details: any | null; // Accept anything that supabase returns, including stringified JSON
   created_at: string;
 }
 
@@ -29,7 +29,21 @@ export function useAdminLogs() {
         .order("created_at", { ascending: false })
         .limit(200);
       if (error) throw error;
-      setLogs(data || []);
+      // Defensive: parse details field if stringified
+      const logs = (data || []).map((entry: any) => ({
+        ...entry,
+        details:
+          typeof entry.details === "string"
+            ? (() => {
+                try {
+                  return JSON.parse(entry.details);
+                } catch {
+                  return entry.details;
+                }
+              })()
+            : entry.details,
+      }));
+      setLogs(logs);
     } catch (e) {
       toast({
         title: "Failed to load admin logs",

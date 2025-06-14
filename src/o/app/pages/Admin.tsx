@@ -1,5 +1,7 @@
+
 import React from "react";
 import { useRole } from "../hooks/useRole";
+import { useAuth } from "../../../hooks/useAuth";
 import { Navigate } from "react-router-dom";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import AdminUsersTab from "../components/admin/AdminUsersTab";
@@ -34,3 +36,4 @@ const Admin = () => {
 };
 
 export default Admin;
+
