@@ -178,6 +178,7 @@ export type Database = {
           created_at: string | null
           expires_at: string | null
           id: string
+          membership_tier_id: string | null
           source: string
           tenant_id: string | null
           used_at: string | null
@@ -188,6 +189,7 @@ export type Database = {
           created_at?: string | null
           expires_at?: string | null
           id?: string
+          membership_tier_id?: string | null
           source: string
           tenant_id?: string | null
           used_at?: string | null
@@ -198,12 +200,20 @@ export type Database = {
           created_at?: string | null
           expires_at?: string | null
           id?: string
+          membership_tier_id?: string | null
           source?: string
           tenant_id?: string | null
           used_at?: string | null
           user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "credits_membership_tier_id_fkey"
+            columns: ["membership_tier_id"]
+            isOneToOne: false
+            referencedRelation: "membership_tiers"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "credits_tenant_id_fkey"
             columns: ["tenant_id"]
@@ -373,6 +383,54 @@ export type Database = {
           support_contact?: string | null
           updated_at?: string
           version?: string | null
+        }
+        Relationships: []
+      }
+      membership_tiers: {
+        Row: {
+          annual_price_cents: number | null
+          badge_label: string | null
+          created_at: string
+          credits_per_month: number
+          id: string
+          is_active: boolean
+          monthly_price_cents: number
+          name: string
+          perks: Json
+          referral_bonus_multiplier: number
+          stripe_price_id: string | null
+          updated_at: string
+          upgrade_eligible: boolean
+        }
+        Insert: {
+          annual_price_cents?: number | null
+          badge_label?: string | null
+          created_at?: string
+          credits_per_month: number
+          id?: string
+          is_active?: boolean
+          monthly_price_cents: number
+          name: string
+          perks?: Json
+          referral_bonus_multiplier?: number
+          stripe_price_id?: string | null
+          updated_at?: string
+          upgrade_eligible?: boolean
+        }
+        Update: {
+          annual_price_cents?: number | null
+          badge_label?: string | null
+          created_at?: string
+          credits_per_month?: number
+          id?: string
+          is_active?: boolean
+          monthly_price_cents?: number
+          name?: string
+          perks?: Json
+          referral_bonus_multiplier?: number
+          stripe_price_id?: string | null
+          updated_at?: string
+          upgrade_eligible?: boolean
         }
         Relationships: []
       }
@@ -795,6 +853,63 @@ export type Database = {
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_memberships: {
+        Row: {
+          created_at: string
+          expires_at: string | null
+          id: string
+          is_trial: boolean
+          started_at: string
+          status: string
+          stripe_subscription_id: string | null
+          tier_id: string | null
+          trial_end: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          is_trial?: boolean
+          started_at?: string
+          status?: string
+          stripe_subscription_id?: string | null
+          tier_id?: string | null
+          trial_end?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          is_trial?: boolean
+          started_at?: string
+          status?: string
+          stripe_subscription_id?: string | null
+          tier_id?: string | null
+          trial_end?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_memberships_tier_id_fkey"
+            columns: ["tier_id"]
+            isOneToOne: false
+            referencedRelation: "membership_tiers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_memberships_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]

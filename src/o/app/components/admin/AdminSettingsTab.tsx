@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import ReferralAdminSettings from "../ReferralAdminSettings";
 import AdminRewardsPanel from "../AdminRewardsPanel";
+import AdminMembershipTiersTab from "./AdminMembershipTiersTab";
 
 const AdminSettingsTab = () => {
   const { settings, loading, updateSettings } = useAdminSettings();
@@ -119,6 +120,15 @@ const AdminSettingsTab = () => {
               <AdminRewardsPanel />
             </React.Suspense>
           </div>
+        </div>
+      </div>
+      {/* ---- Admin Membership Tiers Panel ---- */}
+      <div className="mt-10">
+        <div className="font-bold text-lg mb-3 text-apple-header">Membership Tiers</div>
+        <div>
+          <React.Suspense fallback={<div>Loading Membership Tiers...</div>}>
+            <AdminMembershipTiersTab />
+          </React.Suspense>
         </div>
       </div>
     </div>
