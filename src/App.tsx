@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -70,6 +69,13 @@ import ChatDialog from './components/chat/ChatDialog';
 // Create a client
 const queryClient = new QueryClient();
 
+// OpenAI MVP Routes
+import OAppLayout from './o/app/components/AppLayout';
+import ODashboard from './o/app/pages/Dashboard';
+import OWallet from './o/app/pages/Wallet';
+import OAdmin from './o/app/pages/Admin';
+import OLogin from './o/app/pages/Login';
+
 function App() {
   const [showEmailDialog, setShowEmailDialog] = useState<boolean>(false);
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
@@ -88,6 +94,15 @@ function App() {
           <LenisProvider>
             <Router>
               <Routes>
+                {/* --- NEW OPENAI MVP ROUTES UNDER /o/app/ --- */}
+                <Route path="/o/app/login" element={<OLogin />} />
+                <Route path="/o/app" element={<OAppLayout />}>
+                  <Route path="dashboard" element={<ODashboard />} />
+                  <Route path="wallet" element={<OWallet />} />
+                  <Route path="admin" element={<OAdmin />} />
+                </Route>
+                {/* --- END NEW OPENAI MVP ROUTES --- */}
+
                 {/* Existing routes */}
                 <Route path="/" element={<Index />} />
                 <Route path="/solutions" element={<Solutions />} />
