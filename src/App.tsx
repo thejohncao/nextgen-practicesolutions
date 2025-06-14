@@ -1,10 +1,9 @@
-
 import React from "react";
 import AppLayout from "./o/app/components/AppLayout";
 import { AuthProvider } from "./hooks/useAuth";
 import { Toaster } from "./components/ui/toaster";
 
-// Fixed page imports to match actual files
+// Import using exact case, matching file system!
 import Landing from "./pages/Landing";
 import Pricing from "./pages/Pricing";
 import Solutions from "./pages/Solutions";
