@@ -9,6 +9,48 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      admin_logs: {
+        Row: {
+          action: string
+          admin_id: string | null
+          created_at: string | null
+          details: Json | null
+          id: string
+          target_user_id: string | null
+        }
+        Insert: {
+          action: string
+          admin_id?: string | null
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          target_user_id?: string | null
+        }
+        Update: {
+          action?: string
+          admin_id?: string | null
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          target_user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "admin_logs_admin_id_fkey"
+            columns: ["admin_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "admin_logs_target_user_id_fkey"
+            columns: ["target_user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       agents_log: {
         Row: {
           action: string
@@ -172,6 +214,57 @@ export type Database = {
           },
         ]
       }
+      credit_logs: {
+        Row: {
+          admin_id: string | null
+          amount: number
+          balance_after: number | null
+          created_at: string | null
+          id: string
+          metadata: Json | null
+          notes: string | null
+          source: string
+          user_id: string
+        }
+        Insert: {
+          admin_id?: string | null
+          amount: number
+          balance_after?: number | null
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          notes?: string | null
+          source: string
+          user_id: string
+        }
+        Update: {
+          admin_id?: string | null
+          amount?: number
+          balance_after?: number | null
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          notes?: string | null
+          source?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "credit_logs_admin_id_fkey"
+            columns: ["admin_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "credit_logs_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       credits: {
         Row: {
           amount: number
@@ -226,6 +319,38 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      feature_flags: {
+        Row: {
+          enabled: boolean
+          feature: string
+          id: string
+          tenant_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          enabled?: boolean
+          feature: string
+          id?: string
+          tenant_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          enabled?: boolean
+          feature?: string
+          id?: string
+          tenant_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feature_flags_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
             referencedColumns: ["id"]
           },
         ]
@@ -491,8 +616,11 @@ export type Database = {
           first_name: string | null
           id: string
           last_name: string | null
+          notes: string | null
+          permissions: Json | null
           phone: string | null
           role: Database["public"]["Enums"]["user_role"]
+          status: string | null
           tenant_id: string | null
           updated_at: string | null
         }
@@ -502,8 +630,11 @@ export type Database = {
           first_name?: string | null
           id: string
           last_name?: string | null
+          notes?: string | null
+          permissions?: Json | null
           phone?: string | null
           role?: Database["public"]["Enums"]["user_role"]
+          status?: string | null
           tenant_id?: string | null
           updated_at?: string | null
         }
@@ -513,8 +644,11 @@ export type Database = {
           first_name?: string | null
           id?: string
           last_name?: string | null
+          notes?: string | null
+          permissions?: Json | null
           phone?: string | null
           role?: Database["public"]["Enums"]["user_role"]
+          status?: string | null
           tenant_id?: string | null
           updated_at?: string | null
         }
@@ -762,6 +896,24 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      system_settings: {
+        Row: {
+          key: string
+          updated_at: string | null
+          value: Json | null
+        }
+        Insert: {
+          key: string
+          updated_at?: string | null
+          value?: Json | null
+        }
+        Update: {
+          key?: string
+          updated_at?: string | null
+          value?: Json | null
+        }
+        Relationships: []
       }
       tenants: {
         Row: {
