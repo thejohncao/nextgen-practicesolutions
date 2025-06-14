@@ -51,6 +51,41 @@ export type Database = {
           },
         ]
       }
+      agent_conversation_memory: {
+        Row: {
+          agent_name: string
+          created_at: string
+          id: string
+          prompt: string
+          response: string | null
+          user_id: string
+        }
+        Insert: {
+          agent_name: string
+          created_at?: string
+          id?: string
+          prompt: string
+          response?: string | null
+          user_id: string
+        }
+        Update: {
+          agent_name?: string
+          created_at?: string
+          id?: string
+          prompt?: string
+          response?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_conversation_memory_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       agents_log: {
         Row: {
           action: string
@@ -643,6 +678,38 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "notifications_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      office_playbooks: {
+        Row: {
+          id: string
+          key: string
+          tenant_id: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          id?: string
+          key: string
+          tenant_id: string
+          updated_at?: string
+          value: string
+        }
+        Update: {
+          id?: string
+          key?: string
+          tenant_id?: string
+          updated_at?: string
+          value?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "office_playbooks_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"
