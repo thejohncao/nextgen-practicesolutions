@@ -48,7 +48,28 @@ export const TenantProvider = ({
       .eq("slug", tenantSlug)
       .maybeSingle()
       .then(({ data }) => {
-        if (active) setTenant(data || null);
+        if (active) {
+          if (data) {
+            // Fix: Ensure brand_colors is always an object with string values or undefined properties
+            let brand_colors: { [key: string]: string | undefined } = {};
+            if (data.brand_colors && typeof data.brand_colors === "object" && !Array.isArray(data.brand_colors)) {
+              for (const key in data.brand_colors) {
+                if (
+                  typeof data.brand_colors[key] === "string" ||
+                  typeof data.brand_colors[key] === "undefined"
+                ) {
+                  brand_colors[key] = data.brand_colors[key];
+                }
+              }
+            }
+            setTenant({
+              ...data,
+              brand_colors,
+            });
+          } else {
+            setTenant(null);
+          }
+        }
         setLoading(false);
       });
     return () => {
