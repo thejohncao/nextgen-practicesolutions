@@ -4,7 +4,7 @@ import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import ReferralAdminSettings from "../ReferralAdminSettings";
-import AdminRewardsPanel from "./AdminRewardsPanel";
+import AdminRewardsPanel from "../AdminRewardsPanel";
 
 const AdminSettingsTab = () => {
   const { settings, loading, updateSettings } = useAdminSettings();

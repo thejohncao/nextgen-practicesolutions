@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Reward } from "@/hooks/useRewards";
 
-const emptyReward: Partial<Reward> = {
+const emptyReward: Reward = {
+  id: "", // not submitted to Supabase on insert
   name: "",
   credit_cost: 1,
   category: "",
@@ -22,7 +23,7 @@ const AdminRewardsPanel: React.FC = () => {
   const { toast } = useToast();
   const [rewards, setRewards] = useState<Reward[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [editing, setEditing] = useState<Partial<Reward>>(emptyReward);
+  const [editing, setEditing] = useState<Reward>(emptyReward);
   const [editingId, setEditingId] = useState<string | null>(null);
 
   const fetchRewards = async () => {
@@ -44,20 +45,47 @@ const AdminRewardsPanel: React.FC = () => {
   const handleChange = (key: keyof Reward, value: any) => {
     setEditing((e) => ({
       ...e,
-      [key]: key === "credit_cost" || key === "frequency_limit_days" ? Number(value) : value,
+      [key]: key === "credit_cost" || key === "frequency_limit_days"
+        ? (value !== "" ? Number(value) : null)
+        : value,
     }));
   };
 
   const handleSave = async () => {
     setLoading(true);
     const { id, ...rest } = editing;
+
+    // Validate required fields
+    if (!editing.name || !editing.credit_cost) {
+      toast({
+        title: "Missing Fields",
+        description: "Reward name and credit cost are required.",
+        variant: "destructive",
+      });
+      setLoading(false);
+      return;
+    }
+
+    // Always submit required fields!
+    const rewardData = {
+      name: editing.name,
+      credit_cost: editing.credit_cost,
+      category: editing.category || "",
+      description: editing.description || "",
+      frequency_limit_days: editing.frequency_limit_days,
+      requires_booking: editing.requires_booking || false,
+      active: editing.active ?? true,
+      image_url: editing.image_url || "",
+      visibility: editing.visibility || "all",
+    };
+
     let result;
     if (editingId) {
       // Update existing
-      result = await supabase.from("rewards").update(rest).eq("id", editingId);
+      result = await supabase.from("rewards").update(rewardData).eq("id", editingId);
     } else {
       // Create new
-      result = await supabase.from("rewards").insert(rest);
+      result = await supabase.from("rewards").insert(rewardData);
     }
     if (result.error) {
       toast({
@@ -88,12 +116,20 @@ const AdminRewardsPanel: React.FC = () => {
           <Input placeholder="Description" value={editing.description ?? ""} onChange={e => handleChange("description", e.target.value)} />
           <Input placeholder="Category" value={editing.category ?? ""} onChange={e => handleChange("category", e.target.value)} />
           <Input placeholder="Image URL" value={editing.image_url ?? ""} onChange={e => handleChange("image_url", e.target.value)} />
-          <Input type="number" min={1} placeholder="Credit Cost"
+          <Input
+            type="number"
+            min={1}
+            placeholder="Credit Cost"
             value={editing.credit_cost ?? 1}
-            onChange={e => handleChange("credit_cost", e.target.value)} />
-          <Input type="number" min={1} placeholder="Frequency Limit (days)"
+            onChange={e => handleChange("credit_cost", e.target.value)}
+          />
+          <Input
+            type="number"
+            min={1}
+            placeholder="Frequency Limit (days)"
             value={editing.frequency_limit_days ?? ""}
-            onChange={e => handleChange("frequency_limit_days", e.target.value)} />
+            onChange={e => handleChange("frequency_limit_days", e.target.value)}
+          />
           <label className="flex gap-2 items-center">
             <input type="checkbox" checked={!!editing.requires_booking}
               onChange={e => handleChange("requires_booking", e.target.checked)} />
