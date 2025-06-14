@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Sms, Instagram, Mail, Copy, QrCode, Share2, TikTok } from "lucide-react";
+import { Instagram, Mail, Copy, QrCode, Share2 } from "lucide-react"; // Only valid icons
 
 type SocialChannel = "sms" | "instagram" | "tiktok" | "email" | "copy" | "qr";
 
@@ -12,10 +12,10 @@ export type ShareOption = {
 };
 
 export const shareOptions: ShareOption[] = [
-  { channel: "sms", label: "SMS", icon: <Sms className="w-4 h-4" /> },
+  { channel: "sms", label: "SMS", icon: <Share2 className="w-4 h-4" /> }, // Use Share2 for SMS
   { channel: "email", label: "Email", icon: <Mail className="w-4 h-4" /> },
   { channel: "instagram", label: "Instagram", icon: <Instagram className="w-4 h-4" /> },
-  { channel: "tiktok", label: "TikTok", icon: <TikTok className="w-4 h-4" /> },
+  { channel: "tiktok", label: "TikTok", icon: <Share2 className="w-4 h-4" /> }, // Use Share2 for TikTok
   { channel: "copy", label: "Copy Link", icon: <Copy className="w-4 h-4" /> },
   { channel: "qr", label: "QR Code", icon: <QrCode className="w-4 h-4" /> },
 ];
@@ -53,7 +53,7 @@ export const SocialShareButtons: React.FC<Props> = ({
       className="border-white/20 text-white bg-blue-700 hover:bg-blue-900"
       aria-label="Share via SMS"
     >
-      <Sms className="mr-1 w-4 h-4" />
+      <Share2 className="mr-1 w-4 h-4" />
       SMS
     </Button>
     <Button
@@ -98,7 +98,7 @@ export const SocialShareButtons: React.FC<Props> = ({
       className="border-white/20 text-white bg-black hover:bg-gray-900"
       aria-label="Share on TikTok"
     >
-      <TikTok className="mr-1 w-4 h-4" />
+      <Share2 className="mr-1 w-4 h-4" />
       TikTok
     </Button>
     <Button
