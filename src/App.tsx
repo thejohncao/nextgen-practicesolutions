@@ -2,10 +2,9 @@
 import React from "react";
 import AppLayout from "./o/app/components/AppLayout";
 import { AuthProvider } from "./hooks/useAuth";
-// Remove ToastProvider import
 import { Toaster } from "./components/ui/toaster";
 
-// Fix all page imports to match file names
+// Fixed page imports to match actual files
 import Landing from "./pages/Landing";
 import Pricing from "./pages/Pricing";
 import Solutions from "./pages/Solutions";
