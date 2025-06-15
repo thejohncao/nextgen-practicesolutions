@@ -32,7 +32,7 @@ const Shop = () => {
     sort: 'bestsellers'
   });
 
-  const isMember = profile?.role === 'patient' && profile; // Simple member check
+  const isMember = Boolean(profile?.role === 'patient' && profile);
   const isGuest = !profile;
 
   const filteredTreatments = useMemo(() => {
@@ -71,7 +71,8 @@ const Shop = () => {
         filtered.sort((a, b) => b.price_cents - a.price_cents);
         break;
       case 'new':
-        filtered.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+        // Sort by name since created_at doesn't exist - newest would be reverse alphabetical as fallback
+        filtered.sort((a, b) => b.name.localeCompare(a.name));
         break;
       case 'personalized':
         // For now, just randomize. In real implementation, this would use user history
