@@ -1,0 +1,61 @@
+
+@layer utilities {
+  .text-coral-accent {
+    color: #CDA79D;
+  }
+  
+  .bg-coral-accent {
+    background-color: #CDA79D;
+  }
+  
+  .border-coral-accent {
+    border-color: #CDA79D;
+  }
+  
+  .bg-coral-accent\/10 {
+    background-color: rgba(205, 167, 157, 0.1);
+  }
+  
+  .bg-coral-accent\/20 {
+    background-color: rgba(205, 167, 157, 0.2);
+  }
+  
+  .bg-coral-accent\/40 {
+    background-color: rgba(205, 167, 157, 0.4);
+  }
+  
+  .bg-coral-accent\/80 {
+    background-color: rgba(205, 167, 157, 0.8);
+  }
+  
+  .bg-coral-accent\/90 {
+    background-color: rgba(205, 167, 157, 0.9);
+  }
+  
+  .hover\:bg-coral-accent\/10:hover {
+    background-color: rgba(205, 167, 157, 0.1);
+  }
+  
+  .hover\:bg-coral-accent\/90:hover {
+    background-color: rgba(205, 167, 157, 0.9);
+  }
+  
+  .bg-cream-50 {
+    background-color: #FEFCFB;
+  }
+  
+  /* Line clamp utilities */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}

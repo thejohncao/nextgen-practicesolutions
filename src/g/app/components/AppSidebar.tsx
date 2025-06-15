@@ -1,13 +1,15 @@
+
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useRole } from "../hooks/useRole"; // Will point to /g/app/hooks/useRole
-import { Home, Wallet, Settings } from "lucide-react"; // Using same icons
+import { Home, Wallet, Settings, ShoppingBag } from "lucide-react"; // Added ShoppingBag
 import "../../../o/app/styles/apple-design.css"; // Reusing styles - CORRECTED PATH
 
 // Navigation items updated for /g/app paths
 const SIDEBAR_NAV = [
-  { to: "/g/app/dashboard", icon: Home, label: "Dashboard", roles: ["patient", "admin", "staff"] }, // Added staff for completeness
-  { to: "/g/app/wallet", icon: Wallet, label: "Wallet", roles: ["patient", "admin", "staff"] }, // Added staff
+  { to: "/g/app/dashboard", icon: Home, label: "Dashboard", roles: ["patient", "admin", "staff"] },
+  { to: "/g/app/shop", icon: ShoppingBag, label: "Shop", roles: ["patient", "admin", "staff"] }, // Added shop
+  { to: "/g/app/wallet", icon: Wallet, label: "Wallet", roles: ["patient", "admin", "staff"] },
   { to: "/g/app/admin", icon: Settings, label: "Admin", roles: ["admin"] },
 ];
 

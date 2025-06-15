@@ -14,6 +14,12 @@ import Login from "./pages/app/Login"; // This is the generic login, /o/app/logi
 import HQ from "./pages/app/hq/HQ";
 import TenantManagement from "./pages/app/hq/TenantManagement";
 
+// Google AI App Pages
+import GLogin from "./g/app/pages/Login";
+import GDashboard from "./g/app/pages/Dashboard";
+import GWallet from "./g/app/pages/Wallet";
+import GShop from "./g/app/pages/Shop";
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 export default function App() {
@@ -28,7 +34,12 @@ export default function App() {
           <Route path="/o/app/*" element={<OAppLayout />} />
 
           {/* New Google AI variant routes */}
-          <Route path="/g/app/*" element={<GAppLayout />} />
+          <Route path="/g/app" element={<GAppLayout />}>
+            <Route path="login" element={<GLogin />} />
+            <Route path="dashboard" element={<GDashboard />} />
+            <Route path="wallet" element={<GWallet />} />
+            <Route path="shop" element={<GShop />} />
+          </Route>
           
           <Route path="/" element={<Landing />} />
           <Route path="/pricing" element={<Pricing />} />

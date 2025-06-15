@@ -1,21 +1,25 @@
 
-@import './styles/base.css';
-@import './styles/colors.css';
-@import './styles/colors/agent-colors.css';
-@import './styles/utilities.css';
-@import './styles/animations.css';
-@import './styles/animations/base-animations.css';
-@import './styles/animations/hero-animations.css';
-@import './styles/animations/hover-effects.css';
-@import './styles/animations/sparkle-effects.css';
-@import './styles/animations/gooey-effects.css';
-@import './styles/animations/chat-animations.css';
-@import './styles/animations/movement-animations.css';
-@import './styles/animations/display-card.css';
-@import './styles/animations/grain-effects.css';
-@import './styles/animations/motion-system.css';
-@import './styles/liquid-glass.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Import all style files */
+@import './styles/base.css';
+@import './styles/colors.css';
+@import './styles/utilities.css';
+@import './styles/liquid-glass.css';
+@import './styles/animations.css';
+@import './styles/shop-colors.css';
+@import './styles/animations/base-animations.css';
+@import './styles/animations/chat-animations.css';
+@import './styles/animations/display-card.css';
+@import './styles/animations/gooey-effects.css';
+@import './styles/animations/grain-effects.css';
+@import './styles/animations/hero-animations.css';
+@import './styles/animations/hover-effects.css';
+@import './styles/animations/motion-system.css';
+@import './styles/animations/movement-animations.css';
+@import './styles/animations/sparkle-effects.css';
+@import './styles/colors/agent-colors.css';
