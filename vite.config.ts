@@ -5,7 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: "/nextgen-practicesolutions/",
+  base: "/nextgen-practicesolutions/",  // GitHub Pages project subpath
   server: {
     host: "::",
     port: 8080,
