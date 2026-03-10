@@ -95,6 +95,39 @@ export type Database = {
         }
         Relationships: []
       }
+      assessment_progress: {
+        Row: {
+          answers: Json
+          created_at: string
+          current_category: number
+          current_question: number
+          current_view: number
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          answers?: Json
+          created_at?: string
+          current_category?: number
+          current_question?: number
+          current_view?: number
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          answers?: Json
+          created_at?: string
+          current_category?: number
+          current_question?: number
+          current_view?: number
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       bookings: {
         Row: {
           created_at: string
