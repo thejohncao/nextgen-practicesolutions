@@ -469,7 +469,7 @@ function HomeView({onStart}: {onStart:()=>void}) {
           <span style={{...mono,fontSize:8,color:T.textDim,letterSpacing:"0.12em"}}>15–20 MIN · FREE</span>
         </div>
       </div>
-      <div style={{flex:1,display:"flex",justifyContent:"center",alignItems:"center"}}>
+      <div className="hero-right" style={{flex:1,display:"flex",justifyContent:"center",alignItems:"center"}}>
         <StackedCards/>
       </div>
     </div>
