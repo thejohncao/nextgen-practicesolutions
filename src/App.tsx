@@ -937,8 +937,56 @@ export default function App() {
   const [ci, setCi] = useState(0);
   const [qi, setQi] = useState(0);
   const [view, setView] = useState<number>(VIEW.HOME);
+  const [user, setUser] = useState<User | null>(null);
+  const [authOpen, setAuthOpen] = useState(false);
+  const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const ref = useRef<HTMLDivElement>(null);
   const scroll = useCallback(() => ref.current?.scrollIntoView({behavior:"smooth",block:"start"}), []);
+
+  // Auth listener
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // Load progress when user logs in
+  useEffect(() => {
+    if (!user) return;
+    const load = async () => {
+      const { data } = await supabase.from("assessment_progress").select("*").eq("user_id", user.id).maybeSingle();
+      if (data) {
+        const savedAns = (data.answers as Record<string, number>) || {};
+        setAns(savedAns);
+        setCi(data.current_category);
+        setQi(data.current_question);
+        if (Object.keys(savedAns).length > 0) {
+          setView(data.current_view);
+        }
+      }
+    };
+    load();
+  }, [user]);
+
+  // Save progress (debounced)
+  const saveProgress = useCallback((newAns: Record<string, number>, newCi: number, newQi: number, newView: number) => {
+    if (!user) return;
+    if (saveTimer.current) clearTimeout(saveTimer.current);
+    saveTimer.current = setTimeout(async () => {
+      await supabase.from("assessment_progress").upsert({
+        user_id: user.id,
+        answers: newAns,
+        current_category: newCi,
+        current_question: newQi,
+        current_view: newView,
+        updated_at: new Date().toISOString(),
+      }, { onConflict: "user_id" });
+    }, 500);
+  }, [user]);
 
   const catQs = useMemo(() => Q.filter(q => q.c === ci), [ci]);
 
