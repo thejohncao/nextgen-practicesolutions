@@ -273,6 +273,123 @@ export type Database = {
           },
         ]
       }
+      kit_files: {
+        Row: {
+          created_at: string
+          description: string | null
+          file_name: string
+          file_type: string
+          file_url: string
+          id: string
+          kit_id: string
+          order_number: number
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          file_name: string
+          file_type?: string
+          file_url: string
+          id?: string
+          kit_id: string
+          order_number?: number
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          file_name?: string
+          file_type?: string
+          file_url?: string
+          id?: string
+          kit_id?: string
+          order_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kit_files_kit_id_fkey"
+            columns: ["kit_id"]
+            isOneToOne: false
+            referencedRelation: "kits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      kit_sops: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          kit_id: string
+          order_number: number
+          title: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          kit_id: string
+          order_number?: number
+          title: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          kit_id?: string
+          order_number?: number
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kit_sops_kit_id_fkey"
+            columns: ["kit_id"]
+            isOneToOne: false
+            referencedRelation: "kits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      kit_videos: {
+        Row: {
+          created_at: string
+          description: string | null
+          duration_seconds: number | null
+          id: string
+          kit_id: string
+          order_number: number
+          title: string
+          video_url: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          duration_seconds?: number | null
+          id?: string
+          kit_id: string
+          order_number?: number
+          title: string
+          video_url: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          duration_seconds?: number | null
+          id?: string
+          kit_id?: string
+          order_number?: number
+          title?: string
+          video_url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kit_videos_kit_id_fkey"
+            columns: ["kit_id"]
+            isOneToOne: false
+            referencedRelation: "kits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       kits: {
         Row: {
           created_at: string
@@ -509,6 +626,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      referral_settings: {
+        Row: {
+          bonus_credits: number
+          created_at: string
+          id: string
+          link_expiry_days: number
+          max_per_user: number
+          milestone_bonus: number
+          milestone_count: number
+          updated_at: string
+        }
+        Insert: {
+          bonus_credits?: number
+          created_at?: string
+          id?: string
+          link_expiry_days?: number
+          max_per_user?: number
+          milestone_bonus?: number
+          milestone_count?: number
+          updated_at?: string
+        }
+        Update: {
+          bonus_credits?: number
+          created_at?: string
+          id?: string
+          link_expiry_days?: number
+          max_per_user?: number
+          milestone_bonus?: number
+          milestone_count?: number
+          updated_at?: string
+        }
+        Relationships: []
       }
       referrals: {
         Row: {
