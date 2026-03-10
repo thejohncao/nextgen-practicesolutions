@@ -1014,19 +1014,38 @@ export default function App() {
   }, [ans]);
 
   const handleAnswer = useCallback((key: string, val: number) => {
-    setAns(p => ({...p,[key]:val}));
+    setAns(p => {
+      const next = {...p,[key]:val};
+      saveProgress(next, ci, qi, VIEW.Q);
+      return next;
+    });
     setTimeout(() => {
       const cQs = Q.filter(q => q.c === ci);
       if (qi < cQs.length - 1) { setQi(qi+1); scroll(); }
     }, 280);
-  }, [ci, qi, scroll]);
+  }, [ci, qi, scroll, saveProgress]);
 
-  const jumpCat = useCallback((c: number) => { setCi(c); setQi(0); setView(VIEW.INTRO); scroll(); }, [scroll]);
+  const jumpCat = useCallback((c: number) => {
+    setCi(c); setQi(0); setView(VIEW.INTRO); scroll();
+    saveProgress(ans, c, 0, VIEW.INTRO);
+  }, [scroll, ans, saveProgress]);
 
   const nextSection = useCallback(() => {
-    if (ci < 5) { const n=ci+1; setCi(n); setQi(0); setView(n===3&&sc.answered>0?VIEW.CHECKPOINT:VIEW.INTRO); scroll(); }
-    else { setView(VIEW.RESULTS); scroll(); }
-  }, [ci, sc.answered, scroll]);
+    if (ci < 5) {
+      const n=ci+1;
+      const nv = n===3&&sc.answered>0?VIEW.CHECKPOINT:VIEW.INTRO;
+      setCi(n); setQi(0); setView(nv); scroll();
+      saveProgress(ans, n, 0, nv);
+    } else {
+      setView(VIEW.RESULTS); scroll();
+      saveProgress(ans, ci, qi, VIEW.RESULTS);
+    }
+  }, [ci, sc.answered, scroll, ans, qi, saveProgress]);
+
+  const handleLogout = useCallback(async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+  }, []);
 
   return (
     <div ref={ref} style={{minHeight:"100vh",background:T.bg,color:T.textMain,display:"flex",flexDirection:"column"}}>
@@ -1037,6 +1056,8 @@ export default function App() {
         @keyframes blink{0%,100%{opacity:.4}50%{opacity:1}}
         button{font-family:'DM Mono',monospace;}
       `}</style>
+
+      <AuthModal open={authOpen} onClose={() => setAuthOpen(false)} onAuth={() => setAuthOpen(false)} />
 
       {view === VIEW.HOME && (
         <div style={{position:"fixed",inset:0,pointerEvents:"none",zIndex:0}}>
@@ -1051,7 +1072,7 @@ export default function App() {
         <ReportView sc={sc} onBack={() => { setView(VIEW.RESULTS); scroll(); }}/>
       ) : (
         <>
-          <TopBar answered={sc.answered} catColor={view !== VIEW.HOME ? CATS[ci].color : undefined}/>
+          <TopBar answered={sc.answered} catColor={view !== VIEW.HOME ? CATS[ci].color : undefined} user={user} onLoginClick={() => setAuthOpen(true)} onLogout={handleLogout}/>
           <div style={{flex:1,display:"flex",flexDirection:"column",position:"relative",zIndex:1}}>
             {view === VIEW.HOME && <HomeView onStart={() => { setCi(0); setQi(0); setView(VIEW.INTRO); scroll(); }}/>}
             {view === VIEW.INTRO && <IntroView ci={ci} sc={sc} onBegin={() => { setQi(0); setView(VIEW.Q); scroll(); }} onJump={jumpCat}/>}
@@ -1077,7 +1098,7 @@ export default function App() {
               <ResultsView
                 sc={sc}
                 onReport={() => { setView(VIEW.REPORT); scroll(); }}
-                onRetake={() => { setAns({}); setCi(0); setQi(0); setView(VIEW.HOME); scroll(); }}
+                onRetake={() => { setAns({}); setCi(0); setQi(0); setView(VIEW.HOME); scroll(); saveProgress({}, 0, 0, VIEW.HOME); }}
                 onContinue={() => {
                   for(let i=0;i<6;i++){if(sc.cd[i].ans<CC[i]){jumpCat(i);return;}}
                 }}
