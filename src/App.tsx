@@ -1,4 +1,7 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import type { User } from "@supabase/supabase-js";
+import AuthModal from "@/components/AuthModal";
 
 /* ═══════════════════════════════════════════════════════════
    NEXTGEN PRACTICE SOLUTIONS — CONSOLIDATED v1
@@ -254,26 +257,36 @@ function Ring({pct, size=90, stroke=6, color=T.amber}: {pct:number;size?:number;
 }
 
 // ── TOPBAR ──
-function TopBar({answered, catColor}: {answered:number;catColor?:string}) {
+function TopBar({answered, catColor, user, onLoginClick, onLogout}: {answered:number;catColor?:string;user:User|null;onLoginClick:()=>void;onLogout:()=>void}) {
   const pct = Math.round((answered/100)*100);
   const col = catColor || T.amber;
   return (
     <div style={{position:"sticky",top:0,zIndex:100,background:"rgba(7,9,15,0.95)",borderBottom:`1px solid ${T.border}`,backdropFilter:"blur(20px)"}}>
-      <div className="topbar-inner" style={{maxWidth:860,margin:"0 auto",padding:"14px 32px",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+      <div style={{maxWidth:860,margin:"0 auto",padding:"14px 32px",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
         <div style={{display:"flex",alignItems:"center",gap:10}}>
           <div style={{width:7,height:7,borderRadius:"50%",background:col,opacity:.7,animation:"blink 2s ease-in-out infinite"}}/>
           <span style={{...bebas,fontSize:14,letterSpacing:"0.35em",color:T.amber}}>NEXT</span>
           <span style={{...bebas,fontSize:14,letterSpacing:"0.35em",color:T.textMain}}>GEN</span>
           <span style={{...mono,fontSize:9,color:T.textDim,letterSpacing:"0.2em",marginLeft:4}}>PRACTICE SOLUTIONS</span>
         </div>
-        {answered > 0 && (
-          <div style={{display:"flex",alignItems:"center",gap:16}}>
-            <div style={{width:120,height:1,background:"rgba(255,255,255,0.06)",position:"relative"}}>
-              <div style={{position:"absolute",left:0,top:0,height:"100%",background:col,width:`${pct}%`,transition:"width 0.4s"}}/>
+        <div style={{display:"flex",alignItems:"center",gap:16}}>
+          {answered > 0 && (
+            <div style={{display:"flex",alignItems:"center",gap:16}}>
+              <div style={{width:120,height:1,background:"rgba(255,255,255,0.06)",position:"relative"}}>
+                <div style={{position:"absolute",left:0,top:0,height:"100%",background:col,width:`${pct}%`,transition:"width 0.4s"}}/>
+              </div>
+              <span style={{...mono,fontSize:9,color:col,letterSpacing:"0.15em"}}>{pct}% COMPLETE</span>
             </div>
-            <span style={{...mono,fontSize:9,color:col,letterSpacing:"0.15em"}}>{pct}% COMPLETE</span>
-          </div>
-        )}
+          )}
+          {user ? (
+            <div style={{display:"flex",alignItems:"center",gap:10}}>
+              <span style={{...mono,fontSize:8,color:T.textDim,letterSpacing:"0.1em"}}>{user.email?.split("@")[0]}</span>
+              <button onClick={onLogout} style={{...mono,background:"none",border:`1px solid ${T.border}`,color:T.textDim,fontSize:8,letterSpacing:"0.12em",textTransform:"uppercase",padding:"5px 10px",cursor:"pointer"}}>Sign Out</button>
+            </div>
+          ) : (
+            <button onClick={onLoginClick} style={{...mono,background:"none",border:`1px solid ${T.amber}`,color:T.amber,fontSize:8,letterSpacing:"0.12em",textTransform:"uppercase",padding:"5px 10px",cursor:"pointer"}}>Sign In</button>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -333,7 +346,7 @@ function StackedCards() {
   const frontGlow = (i: number, col: string) => i === 3 ? `0 0 48px ${col}1a, 0 8px 32px rgba(0,0,0,0.4)` : "none";
 
   return (
-    <div className="cards-stack" style={{width:440,height:340,position:"relative",perspective:2000,cursor:"pointer",flexShrink:0}}>
+    <div style={{width:440,height:340,position:"relative",perspective:2000,cursor:"pointer",flexShrink:0}}>
       {agents.map((a, i) => {
         const col = AGENT_COLOR[a.id];
         const isThis = flipped === a.id;
@@ -428,8 +441,8 @@ function StackedCards() {
 // ── HOME VIEW ──
 function HomeView({onStart}: {onStart:()=>void}) {
   return (
-    <div className="hero-layout" style={{flex:1,display:"flex",alignItems:"center",maxWidth:1160,margin:"0 auto",padding:"40px 48px",gap:48,width:"100%"}}>
-      <div className="hero-left" style={{flex:"0 0 58%",display:"flex",flexDirection:"column",gap:20}}>
+    <div style={{flex:1,display:"flex",alignItems:"center",maxWidth:1160,margin:"0 auto",padding:"40px 48px",gap:48,width:"100%"}}>
+      <div style={{flex:"0 0 58%",display:"flex",flexDirection:"column",gap:20}}>
         <div style={{...mono,fontSize:9,letterSpacing:"0.28em",color:T.amber,textTransform:"uppercase",display:"flex",alignItems:"center",gap:10}}>
           <span style={{display:"inline-block",width:18,height:1,background:T.amberDim,flexShrink:0}}/>
           AI Operating System for Dental Practices
@@ -469,7 +482,7 @@ function HomeView({onStart}: {onStart:()=>void}) {
           <span style={{...mono,fontSize:8,color:T.textDim,letterSpacing:"0.12em"}}>15–20 MIN · FREE</span>
         </div>
       </div>
-      <div className="hero-right" style={{flex:1,display:"flex",justifyContent:"center",alignItems:"center"}}>
+      <div style={{flex:1,display:"flex",justifyContent:"center",alignItems:"center"}}>
         <StackedCards/>
       </div>
     </div>
@@ -578,7 +591,7 @@ function QuestionView({ci, qi, ans, sc, onAnswer, onNext, onPrev, onFinish, onRe
         <div style={{position:"absolute",left:0,top:0,height:"100%",background:col,width:`${catPct}%`,transition:"width 0.4s",borderRadius:1}}/>
       </div>
 
-      <div className="q-dots" style={{display:"flex",gap:4,marginBottom:20,flexWrap:"wrap"}}>
+      <div style={{display:"flex",gap:4,marginBottom:20,flexWrap:"wrap"}}>
         {catQs.map((_, i) => {
           const k = `${ci}-${i}`;
           const a = ans[k];
@@ -924,8 +937,56 @@ export default function App() {
   const [ci, setCi] = useState(0);
   const [qi, setQi] = useState(0);
   const [view, setView] = useState<number>(VIEW.HOME);
+  const [user, setUser] = useState<User | null>(null);
+  const [authOpen, setAuthOpen] = useState(false);
+  const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const ref = useRef<HTMLDivElement>(null);
   const scroll = useCallback(() => ref.current?.scrollIntoView({behavior:"smooth",block:"start"}), []);
+
+  // Auth listener
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // Load progress when user logs in
+  useEffect(() => {
+    if (!user) return;
+    const load = async () => {
+      const { data } = await supabase.from("assessment_progress").select("*").eq("user_id", user.id).maybeSingle();
+      if (data) {
+        const savedAns = (data.answers as Record<string, number>) || {};
+        setAns(savedAns);
+        setCi(data.current_category);
+        setQi(data.current_question);
+        if (Object.keys(savedAns).length > 0) {
+          setView(data.current_view);
+        }
+      }
+    };
+    load();
+  }, [user]);
+
+  // Save progress (debounced)
+  const saveProgress = useCallback((newAns: Record<string, number>, newCi: number, newQi: number, newView: number) => {
+    if (!user) return;
+    if (saveTimer.current) clearTimeout(saveTimer.current);
+    saveTimer.current = setTimeout(async () => {
+      await supabase.from("assessment_progress").upsert({
+        user_id: user.id,
+        answers: newAns,
+        current_category: newCi,
+        current_question: newQi,
+        current_view: newView,
+        updated_at: new Date().toISOString(),
+      }, { onConflict: "user_id" });
+    }, 500);
+  }, [user]);
 
   const catQs = useMemo(() => Q.filter(q => q.c === ci), [ci]);
 
@@ -953,19 +1014,38 @@ export default function App() {
   }, [ans]);
 
   const handleAnswer = useCallback((key: string, val: number) => {
-    setAns(p => ({...p,[key]:val}));
+    setAns(p => {
+      const next = {...p,[key]:val};
+      saveProgress(next, ci, qi, VIEW.Q);
+      return next;
+    });
     setTimeout(() => {
       const cQs = Q.filter(q => q.c === ci);
       if (qi < cQs.length - 1) { setQi(qi+1); scroll(); }
     }, 280);
-  }, [ci, qi, scroll]);
+  }, [ci, qi, scroll, saveProgress]);
 
-  const jumpCat = useCallback((c: number) => { setCi(c); setQi(0); setView(VIEW.INTRO); scroll(); }, [scroll]);
+  const jumpCat = useCallback((c: number) => {
+    setCi(c); setQi(0); setView(VIEW.INTRO); scroll();
+    saveProgress(ans, c, 0, VIEW.INTRO);
+  }, [scroll, ans, saveProgress]);
 
   const nextSection = useCallback(() => {
-    if (ci < 5) { const n=ci+1; setCi(n); setQi(0); setView(n===3&&sc.answered>0?VIEW.CHECKPOINT:VIEW.INTRO); scroll(); }
-    else { setView(VIEW.RESULTS); scroll(); }
-  }, [ci, sc.answered, scroll]);
+    if (ci < 5) {
+      const n=ci+1;
+      const nv = n===3&&sc.answered>0?VIEW.CHECKPOINT:VIEW.INTRO;
+      setCi(n); setQi(0); setView(nv); scroll();
+      saveProgress(ans, n, 0, nv);
+    } else {
+      setView(VIEW.RESULTS); scroll();
+      saveProgress(ans, ci, qi, VIEW.RESULTS);
+    }
+  }, [ci, sc.answered, scroll, ans, qi, saveProgress]);
+
+  const handleLogout = useCallback(async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+  }, []);
 
   return (
     <div ref={ref} style={{minHeight:"100vh",background:T.bg,color:T.textMain,display:"flex",flexDirection:"column"}}>
@@ -975,22 +1055,9 @@ export default function App() {
         body{background:${T.bg};}
         @keyframes blink{0%,100%{opacity:.4}50%{opacity:1}}
         button{font-family:'DM Mono',monospace;}
-        @media(max-width:768px){
-          .hero-layout{flex-direction:column!important;padding:24px 20px!important;gap:32px!important;}
-          .hero-left{flex:1 1 auto!important;min-width:0!important;}
-          .hero-right{display:flex;justify-content:center;}
-          .cards-stack{width:320px!important;height:260px!important;transform:scale(0.78);transform-origin:center center;}
-          .topbar-inner{padding:12px 16px!important;}
-          .footer-bar{flex-direction:column!important;padding:16px 20px!important;gap:8px!important;text-align:center!important;}
-          .footer-bar>div{text-align:center!important;}
-          .q-dots{gap:3px!important;}
-          .q-dots button{width:20px!important;height:20px!important;font-size:8px!important;}
-          .vert-rule{display:none!important;}
-        }
-        @media(max-width:480px){
-          .cards-stack{width:280px!important;height:230px!important;transform:scale(0.68);}
-        }
       `}</style>
+
+      <AuthModal open={authOpen} onClose={() => setAuthOpen(false)} onAuth={() => setAuthOpen(false)} />
 
       {view === VIEW.HOME && (
         <div style={{position:"fixed",inset:0,pointerEvents:"none",zIndex:0}}>
@@ -999,13 +1066,13 @@ export default function App() {
         </div>
       )}
 
-      <div className="vert-rule" style={{position:"fixed",left:28,top:0,bottom:0,width:1,background:`linear-gradient(to bottom,transparent,rgba(245,166,35,0.18) 30%,rgba(245,166,35,0.18) 70%,transparent)`,zIndex:5,pointerEvents:"none"}}/>
+      <div style={{position:"fixed",left:28,top:0,bottom:0,width:1,background:`linear-gradient(to bottom,transparent,rgba(245,166,35,0.18) 30%,rgba(245,166,35,0.18) 70%,transparent)`,zIndex:5,pointerEvents:"none"}}/>
 
       {view === VIEW.REPORT ? (
         <ReportView sc={sc} onBack={() => { setView(VIEW.RESULTS); scroll(); }}/>
       ) : (
         <>
-          <TopBar answered={sc.answered} catColor={view !== VIEW.HOME ? CATS[ci].color : undefined}/>
+          <TopBar answered={sc.answered} catColor={view !== VIEW.HOME ? CATS[ci].color : undefined} user={user} onLoginClick={() => setAuthOpen(true)} onLogout={handleLogout}/>
           <div style={{flex:1,display:"flex",flexDirection:"column",position:"relative",zIndex:1}}>
             {view === VIEW.HOME && <HomeView onStart={() => { setCi(0); setQi(0); setView(VIEW.INTRO); scroll(); }}/>}
             {view === VIEW.INTRO && <IntroView ci={ci} sc={sc} onBegin={() => { setQi(0); setView(VIEW.Q); scroll(); }} onJump={jumpCat}/>}
@@ -1031,7 +1098,7 @@ export default function App() {
               <ResultsView
                 sc={sc}
                 onReport={() => { setView(VIEW.REPORT); scroll(); }}
-                onRetake={() => { setAns({}); setCi(0); setQi(0); setView(VIEW.HOME); scroll(); }}
+                onRetake={() => { setAns({}); setCi(0); setQi(0); setView(VIEW.HOME); scroll(); saveProgress({}, 0, 0, VIEW.HOME); }}
                 onContinue={() => {
                   for(let i=0;i<6;i++){if(sc.cd[i].ans<CC[i]){jumpCat(i);return;}}
                 }}
@@ -1040,7 +1107,7 @@ export default function App() {
           </div>
 
           {view === VIEW.HOME && (
-            <div className="footer-bar" style={{...mono,display:"flex",justifyContent:"space-between",alignItems:"center",padding:"18px 48px",borderTop:`1px solid ${T.border}`,maxWidth:1100,margin:"0 auto",width:"100%"}}>
+            <div style={{...mono,display:"flex",justifyContent:"space-between",alignItems:"center",padding:"18px 48px",borderTop:`1px solid ${T.border}`,maxWidth:1100,margin:"0 auto",width:"100%"}}>
               <div style={{fontSize:8,color:T.textDim,letterSpacing:"0.15em",textTransform:"uppercase",lineHeight:1.9}}>
                 NextGen Practice Solutions — Cao Consulting LLC<br/>
                 <span style={{color:"rgba(245,166,35,0.4)"}}>■</span> Giselle · Miles · Devon
