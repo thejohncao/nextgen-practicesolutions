@@ -1,4 +1,7 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import type { User } from "@supabase/supabase-js";
+import AuthModal from "@/components/AuthModal";
 
 /* ═══════════════════════════════════════════════════════════
    NEXTGEN PRACTICE SOLUTIONS — CONSOLIDATED v1
