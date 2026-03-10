@@ -259,7 +259,7 @@ function TopBar({answered, catColor}: {answered:number;catColor?:string}) {
   const col = catColor || T.amber;
   return (
     <div style={{position:"sticky",top:0,zIndex:100,background:"rgba(7,9,15,0.95)",borderBottom:`1px solid ${T.border}`,backdropFilter:"blur(20px)"}}>
-      <div style={{maxWidth:860,margin:"0 auto",padding:"14px 32px",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+      <div className="topbar-inner" style={{maxWidth:860,margin:"0 auto",padding:"14px 32px",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
         <div style={{display:"flex",alignItems:"center",gap:10}}>
           <div style={{width:7,height:7,borderRadius:"50%",background:col,opacity:.7,animation:"blink 2s ease-in-out infinite"}}/>
           <span style={{...bebas,fontSize:14,letterSpacing:"0.35em",color:T.amber}}>NEXT</span>
@@ -333,7 +333,7 @@ function StackedCards() {
   const frontGlow = (i: number, col: string) => i === 3 ? `0 0 48px ${col}1a, 0 8px 32px rgba(0,0,0,0.4)` : "none";
 
   return (
-    <div style={{width:440,height:340,position:"relative",perspective:2000,cursor:"pointer",flexShrink:0}}>
+    <div className="cards-stack" style={{width:440,height:340,position:"relative",perspective:2000,cursor:"pointer",flexShrink:0}}>
       {agents.map((a, i) => {
         const col = AGENT_COLOR[a.id];
         const isThis = flipped === a.id;
@@ -428,8 +428,8 @@ function StackedCards() {
 // ── HOME VIEW ──
 function HomeView({onStart}: {onStart:()=>void}) {
   return (
-    <div style={{flex:1,display:"flex",alignItems:"center",maxWidth:1160,margin:"0 auto",padding:"40px 48px",gap:48,width:"100%"}}>
-      <div style={{flex:"0 0 58%",display:"flex",flexDirection:"column",gap:20}}>
+    <div className="hero-layout" style={{flex:1,display:"flex",alignItems:"center",maxWidth:1160,margin:"0 auto",padding:"40px 48px",gap:48,width:"100%"}}>
+      <div className="hero-left" style={{flex:"0 0 58%",display:"flex",flexDirection:"column",gap:20}}>
         <div style={{...mono,fontSize:9,letterSpacing:"0.28em",color:T.amber,textTransform:"uppercase",display:"flex",alignItems:"center",gap:10}}>
           <span style={{display:"inline-block",width:18,height:1,background:T.amberDim,flexShrink:0}}/>
           AI Operating System for Dental Practices
@@ -469,7 +469,7 @@ function HomeView({onStart}: {onStart:()=>void}) {
           <span style={{...mono,fontSize:8,color:T.textDim,letterSpacing:"0.12em"}}>15–20 MIN · FREE</span>
         </div>
       </div>
-      <div style={{flex:1,display:"flex",justifyContent:"center",alignItems:"center"}}>
+      <div className="hero-right" style={{flex:1,display:"flex",justifyContent:"center",alignItems:"center"}}>
         <StackedCards/>
       </div>
     </div>
@@ -578,7 +578,7 @@ function QuestionView({ci, qi, ans, sc, onAnswer, onNext, onPrev, onFinish, onRe
         <div style={{position:"absolute",left:0,top:0,height:"100%",background:col,width:`${catPct}%`,transition:"width 0.4s",borderRadius:1}}/>
       </div>
 
-      <div style={{display:"flex",gap:4,marginBottom:20,flexWrap:"wrap"}}>
+      <div className="q-dots" style={{display:"flex",gap:4,marginBottom:20,flexWrap:"wrap"}}>
         {catQs.map((_, i) => {
           const k = `${ci}-${i}`;
           const a = ans[k];
@@ -975,6 +975,21 @@ export default function App() {
         body{background:${T.bg};}
         @keyframes blink{0%,100%{opacity:.4}50%{opacity:1}}
         button{font-family:'DM Mono',monospace;}
+        @media(max-width:768px){
+          .hero-layout{flex-direction:column!important;padding:24px 20px!important;gap:32px!important;}
+          .hero-left{flex:1 1 auto!important;min-width:0!important;}
+          .hero-right{display:flex;justify-content:center;}
+          .cards-stack{width:320px!important;height:260px!important;transform:scale(0.78);transform-origin:center center;}
+          .topbar-inner{padding:12px 16px!important;}
+          .footer-bar{flex-direction:column!important;padding:16px 20px!important;gap:8px!important;text-align:center!important;}
+          .footer-bar>div{text-align:center!important;}
+          .q-dots{gap:3px!important;}
+          .q-dots button{width:20px!important;height:20px!important;font-size:8px!important;}
+          .vert-rule{display:none!important;}
+        }
+        @media(max-width:480px){
+          .cards-stack{width:280px!important;height:230px!important;transform:scale(0.68);}
+        }
       `}</style>
 
       {view === VIEW.HOME && (
@@ -984,7 +999,7 @@ export default function App() {
         </div>
       )}
 
-      <div style={{position:"fixed",left:28,top:0,bottom:0,width:1,background:`linear-gradient(to bottom,transparent,rgba(245,166,35,0.18) 30%,rgba(245,166,35,0.18) 70%,transparent)`,zIndex:5,pointerEvents:"none"}}/>
+      <div className="vert-rule" style={{position:"fixed",left:28,top:0,bottom:0,width:1,background:`linear-gradient(to bottom,transparent,rgba(245,166,35,0.18) 30%,rgba(245,166,35,0.18) 70%,transparent)`,zIndex:5,pointerEvents:"none"}}/>
 
       {view === VIEW.REPORT ? (
         <ReportView sc={sc} onBack={() => { setView(VIEW.RESULTS); scroll(); }}/>
@@ -1025,7 +1040,7 @@ export default function App() {
           </div>
 
           {view === VIEW.HOME && (
-            <div style={{...mono,display:"flex",justifyContent:"space-between",alignItems:"center",padding:"18px 48px",borderTop:`1px solid ${T.border}`,maxWidth:1100,margin:"0 auto",width:"100%"}}>
+            <div className="footer-bar" style={{...mono,display:"flex",justifyContent:"space-between",alignItems:"center",padding:"18px 48px",borderTop:`1px solid ${T.border}`,maxWidth:1100,margin:"0 auto",width:"100%"}}>
               <div style={{fontSize:8,color:T.textDim,letterSpacing:"0.15em",textTransform:"uppercase",lineHeight:1.9}}>
                 NextGen Practice Solutions — Cao Consulting LLC<br/>
                 <span style={{color:"rgba(245,166,35,0.4)"}}>■</span> Giselle · Miles · Devon
