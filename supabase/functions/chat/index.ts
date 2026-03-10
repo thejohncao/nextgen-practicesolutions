@@ -136,20 +136,22 @@ serve(async (req) => {
       return new Response(JSON.stringify({ response: content }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       })
-    } catch (fetchError) {
+    } catch (fetchError: unknown) {
       clearTimeout(timeoutId);
       
-      if (fetchError.name === "AbortError") {
+      if (fetchError instanceof Error && fetchError.name === "AbortError") {
         throw new Error("Request timed out after 20 seconds");
       }
       throw fetchError;
     }
 
-  } catch (error) {
-    console.error("Detailed error in chat function:", error.message, error.stack)
+  } catch (error: unknown) {
+    const errMsg = error instanceof Error ? error.message : String(error);
+    const errStack = error instanceof Error ? error.stack : undefined;
+    console.error("Detailed error in chat function:", errMsg, errStack)
     
     let statusCode = 500;
-    let errorMessage = error.message || 'An unexpected error occurred';
+    let errorMessage = errMsg || 'An unexpected error occurred';
     
     // Special handling for timeout errors
     if (errorMessage.includes("timed out")) {

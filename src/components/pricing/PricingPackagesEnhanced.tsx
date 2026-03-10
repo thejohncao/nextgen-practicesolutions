@@ -143,8 +143,8 @@ const PricingPackagesEnhanced = () => {
   const [tooltipMessage, setTooltipMessage] = useState('');
   const [tooltipActive, setTooltipActive] = useState(false);
   const [highlightedFeature, setHighlightedFeature] = useState<string | null>(null);
-  const tooltipTimeout = useRef<NodeJS.Timeout | null>(null);
-  const tooltipIdleTimeout = useRef<NodeJS.Timeout | null>(null);
+  const tooltipTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const tooltipIdleTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   
   // Clear tooltips on package change
   useEffect(() => {

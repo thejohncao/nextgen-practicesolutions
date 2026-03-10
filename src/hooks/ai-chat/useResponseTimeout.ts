@@ -9,8 +9,8 @@ export function useResponseTimeout() {
   const [timeoutLevel, setTimeoutLevel] = useState<'none' | 'warning' | 'error'>('none');
   
   // Timeout reference for response waiting
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const warningTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const warningTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Handle timeout with multiple levels
   const startResponseTimeout = useCallback(() => {

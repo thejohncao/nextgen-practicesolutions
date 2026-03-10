@@ -68,7 +68,7 @@ export function useCredits() {
         .limit(10);
 
       if (error) throw error;
-      setTransactions(data || []);
+      setTransactions((data || []) as unknown as CreditTransaction[]);
     } catch (error) {
       console.error('Error fetching transactions:', error);
     }

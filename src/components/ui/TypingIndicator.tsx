@@ -20,7 +20,7 @@ const TypingIndicator: React.FC<TypingIndicatorProps> = ({
 
   // Handle typing effect
   useEffect(() => {
-    let timeout: NodeJS.Timeout;
+    let timeout: ReturnType<typeof setTimeout>;
     
     // Start delay
     timeout = setTimeout(() => {

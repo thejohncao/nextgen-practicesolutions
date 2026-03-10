@@ -7,13 +7,18 @@ export type Json =
   | Json[]
 
 export type Database = {
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
+  __InternalSupabase: {
+    PostgrestVersion: "14.1"
+  }
   public: {
     Tables: {
       admin_logs: {
         Row: {
           action: string
           admin_id: string | null
-          created_at: string | null
+          created_at: string
           details: Json | null
           id: string
           target_user_id: string | null
@@ -21,7 +26,7 @@ export type Database = {
         Insert: {
           action: string
           admin_id?: string | null
-          created_at?: string | null
+          created_at?: string
           details?: Json | null
           id?: string
           target_user_id?: string | null
@@ -29,27 +34,12 @@ export type Database = {
         Update: {
           action?: string
           admin_id?: string | null
-          created_at?: string | null
+          created_at?: string
           details?: Json | null
           id?: string
           target_user_id?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "admin_logs_admin_id_fkey"
-            columns: ["admin_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "admin_logs_target_user_id_fkey"
-            columns: ["target_user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       agent_conversation_memory: {
         Row: {
@@ -76,156 +66,73 @@ export type Database = {
           response?: string | null
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "agent_conversation_memory_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       agents_log: {
         Row: {
-          action: string
+          action: string | null
           agent_name: string
-          created_at: string | null
+          created_at: string
+          details: Json | null
           id: string
-          metadata: Json | null
-          tenant_id: string | null
           user_id: string | null
         }
         Insert: {
-          action: string
+          action?: string | null
           agent_name: string
-          created_at?: string | null
+          created_at?: string
+          details?: Json | null
           id?: string
-          metadata?: Json | null
-          tenant_id?: string | null
           user_id?: string | null
         }
         Update: {
-          action?: string
+          action?: string | null
           agent_name?: string
-          created_at?: string | null
+          created_at?: string
+          details?: Json | null
           id?: string
-          metadata?: Json | null
-          tenant_id?: string | null
           user_id?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "agents_log_tenant_id_fkey"
-            columns: ["tenant_id"]
-            isOneToOne: false
-            referencedRelation: "tenants"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "agents_log_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      analytics_daily: {
-        Row: {
-          created_at: string | null
-          date: string
-          id: string
-          metrics: Json | null
-          new_patients: number | null
-          referrals_completed: number | null
-          tenant_id: string | null
-          total_bookings: number | null
-          total_credits_used: number | null
-          total_revenue_cents: number | null
-        }
-        Insert: {
-          created_at?: string | null
-          date: string
-          id?: string
-          metrics?: Json | null
-          new_patients?: number | null
-          referrals_completed?: number | null
-          tenant_id?: string | null
-          total_bookings?: number | null
-          total_credits_used?: number | null
-          total_revenue_cents?: number | null
-        }
-        Update: {
-          created_at?: string | null
-          date?: string
-          id?: string
-          metrics?: Json | null
-          new_patients?: number | null
-          referrals_completed?: number | null
-          tenant_id?: string | null
-          total_bookings?: number | null
-          total_credits_used?: number | null
-          total_revenue_cents?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "analytics_daily_tenant_id_fkey"
-            columns: ["tenant_id"]
-            isOneToOne: false
-            referencedRelation: "tenants"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       bookings: {
         Row: {
-          created_at: string | null
-          credits_used: number | null
+          created_at: string
+          credits_used: number
           id: string
           notes: string | null
-          scheduled_at: string
-          staff_id: string | null
-          status: Database["public"]["Enums"]["booking_status"] | null
+          scheduled_at: string | null
+          status: string
           tenant_id: string | null
           treatment_id: string | null
-          updated_at: string | null
-          user_id: string | null
+          updated_at: string
+          user_id: string
         }
         Insert: {
-          created_at?: string | null
-          credits_used?: number | null
+          created_at?: string
+          credits_used?: number
           id?: string
           notes?: string | null
-          scheduled_at: string
-          staff_id?: string | null
-          status?: Database["public"]["Enums"]["booking_status"] | null
+          scheduled_at?: string | null
+          status?: string
           tenant_id?: string | null
           treatment_id?: string | null
-          updated_at?: string | null
-          user_id?: string | null
+          updated_at?: string
+          user_id: string
         }
         Update: {
-          created_at?: string | null
-          credits_used?: number | null
+          created_at?: string
+          credits_used?: number
           id?: string
           notes?: string | null
-          scheduled_at?: string
-          staff_id?: string | null
-          status?: Database["public"]["Enums"]["booking_status"] | null
+          scheduled_at?: string | null
+          status?: string
           tenant_id?: string | null
           treatment_id?: string | null
-          updated_at?: string | null
-          user_id?: string | null
+          updated_at?: string
+          user_id?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "bookings_staff_id_fkey"
-            columns: ["staff_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "bookings_tenant_id_fkey"
             columns: ["tenant_id"]
@@ -268,7 +175,7 @@ export type Database = {
           notes?: string | null
           status?: string | null
           user_id: string
-          value: number
+          value?: number
         }
         Update: {
           created_at?: string
@@ -280,22 +187,14 @@ export type Database = {
           user_id?: string
           value?: number
         }
-        Relationships: [
-          {
-            foreignKeyName: "fk_credit_events_user"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       credit_logs: {
         Row: {
           admin_id: string | null
           amount: number
           balance_after: number | null
-          created_at: string | null
+          created_at: string
           id: string
           metadata: Json | null
           notes: string | null
@@ -304,85 +203,60 @@ export type Database = {
         }
         Insert: {
           admin_id?: string | null
-          amount: number
+          amount?: number
           balance_after?: number | null
-          created_at?: string | null
+          created_at?: string
           id?: string
           metadata?: Json | null
           notes?: string | null
-          source: string
+          source?: string
           user_id: string
         }
         Update: {
           admin_id?: string | null
           amount?: number
           balance_after?: number | null
-          created_at?: string | null
+          created_at?: string
           id?: string
           metadata?: Json | null
           notes?: string | null
           source?: string
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "credit_logs_admin_id_fkey"
-            columns: ["admin_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "credit_logs_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       credits: {
         Row: {
           amount: number
-          created_at: string | null
+          created_at: string
           expires_at: string | null
           id: string
-          membership_tier_id: string | null
           source: string
           tenant_id: string | null
           used_at: string | null
-          user_id: string | null
+          user_id: string
         }
         Insert: {
-          amount: number
-          created_at?: string | null
-          expires_at?: string | null
-          id?: string
-          membership_tier_id?: string | null
-          source: string
-          tenant_id?: string | null
-          used_at?: string | null
-          user_id?: string | null
-        }
-        Update: {
           amount?: number
-          created_at?: string | null
+          created_at?: string
           expires_at?: string | null
           id?: string
-          membership_tier_id?: string | null
           source?: string
           tenant_id?: string | null
           used_at?: string | null
-          user_id?: string | null
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          source?: string
+          tenant_id?: string | null
+          used_at?: string | null
+          user_id?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "credits_membership_tier_id_fkey"
-            columns: ["membership_tier_id"]
-            isOneToOne: false
-            referencedRelation: "membership_tiers"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "credits_tenant_id_fkey"
             columns: ["tenant_id"]
@@ -399,68 +273,36 @@ export type Database = {
           },
         ]
       }
-      feature_flags: {
-        Row: {
-          enabled: boolean
-          feature: string
-          id: string
-          tenant_id: string
-          updated_at: string | null
-        }
-        Insert: {
-          enabled?: boolean
-          feature: string
-          id?: string
-          tenant_id: string
-          updated_at?: string | null
-        }
-        Update: {
-          enabled?: boolean
-          feature?: string
-          id?: string
-          tenant_id?: string
-          updated_at?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "feature_flags_tenant_id_fkey"
-            columns: ["tenant_id"]
-            isOneToOne: false
-            referencedRelation: "tenants"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       kit_files: {
         Row: {
           created_at: string
+          description: string | null
           file_name: string
-          file_size: string | null
           file_type: string
           file_url: string
           id: string
-          kit_id: string | null
-          order_number: number | null
+          kit_id: string
+          order_number: number
         }
         Insert: {
           created_at?: string
+          description?: string | null
           file_name: string
-          file_size?: string | null
-          file_type: string
+          file_type?: string
           file_url: string
           id?: string
-          kit_id?: string | null
-          order_number?: number | null
+          kit_id: string
+          order_number?: number
         }
         Update: {
           created_at?: string
+          description?: string | null
           file_name?: string
-          file_size?: string | null
           file_type?: string
           file_url?: string
           id?: string
-          kit_id?: string | null
-          order_number?: number | null
+          kit_id?: string
+          order_number?: number
         }
         Relationships: [
           {
@@ -474,27 +316,27 @@ export type Database = {
       }
       kit_sops: {
         Row: {
-          content: string | null
+          content: string
           created_at: string
           id: string
-          kit_id: string | null
-          order_number: number | null
+          kit_id: string
+          order_number: number
           title: string
         }
         Insert: {
-          content?: string | null
+          content: string
           created_at?: string
           id?: string
-          kit_id?: string | null
-          order_number?: number | null
+          kit_id: string
+          order_number?: number
           title: string
         }
         Update: {
-          content?: string | null
+          content?: string
           created_at?: string
           id?: string
-          kit_id?: string | null
-          order_number?: number | null
+          kit_id?: string
+          order_number?: number
           title?: string
         }
         Relationships: [
@@ -511,27 +353,30 @@ export type Database = {
         Row: {
           created_at: string
           description: string | null
+          duration_seconds: number | null
           id: string
-          kit_id: string | null
-          order_number: number | null
+          kit_id: string
+          order_number: number
           title: string
           video_url: string
         }
         Insert: {
           created_at?: string
           description?: string | null
+          duration_seconds?: number | null
           id?: string
-          kit_id?: string | null
-          order_number?: number | null
+          kit_id: string
+          order_number?: number
           title: string
           video_url: string
         }
         Update: {
           created_at?: string
           description?: string | null
+          duration_seconds?: number | null
           id?: string
-          kit_id?: string | null
-          order_number?: number | null
+          kit_id?: string
+          order_number?: number
           title?: string
           video_url?: string
         }
@@ -549,41 +394,32 @@ export type Database = {
         Row: {
           created_at: string
           description: string | null
-          featured: boolean | null
+          featured: boolean
           id: string
-          kit_type: string
           name: string
-          order_number: number | null
+          order_number: number
           slug: string
-          support_contact: string | null
           updated_at: string
-          version: string | null
         }
         Insert: {
           created_at?: string
           description?: string | null
-          featured?: boolean | null
+          featured?: boolean
           id?: string
-          kit_type: string
           name: string
-          order_number?: number | null
+          order_number?: number
           slug: string
-          support_contact?: string | null
           updated_at?: string
-          version?: string | null
         }
         Update: {
           created_at?: string
           description?: string | null
-          featured?: boolean | null
+          featured?: boolean
           id?: string
-          kit_type?: string
           name?: string
-          order_number?: number | null
+          order_number?: number
           slug?: string
-          support_contact?: string | null
           updated_at?: string
-          version?: string | null
         }
         Relationships: []
       }
@@ -597,7 +433,7 @@ export type Database = {
           is_active: boolean
           monthly_price_cents: number
           name: string
-          perks: Json
+          perks: Json | null
           referral_bonus_multiplier: number
           stripe_price_id: string | null
           updated_at: string
@@ -607,12 +443,12 @@ export type Database = {
           annual_price_cents?: number | null
           badge_label?: string | null
           created_at?: string
-          credits_per_month: number
+          credits_per_month?: number
           id?: string
           is_active?: boolean
-          monthly_price_cents: number
+          monthly_price_cents?: number
           name: string
-          perks?: Json
+          perks?: Json | null
           referral_bonus_multiplier?: number
           stripe_price_id?: string | null
           updated_at?: string
@@ -627,7 +463,7 @@ export type Database = {
           is_active?: boolean
           monthly_price_cents?: number
           name?: string
-          perks?: Json
+          perks?: Json | null
           referral_bonus_multiplier?: number
           stripe_price_id?: string | null
           updated_at?: string
@@ -637,56 +473,40 @@ export type Database = {
       }
       notifications: {
         Row: {
-          action_url: string | null
           created_at: string
           id: string
-          message: string
-          metadata: Json | null
+          message: string | null
           priority: string
           read: boolean
-          tenant_id: string | null
           title: string
           type: string
           user_id: string
         }
         Insert: {
-          action_url?: string | null
           created_at?: string
           id?: string
-          message: string
-          metadata?: Json | null
+          message?: string | null
           priority?: string
           read?: boolean
-          tenant_id?: string | null
           title: string
-          type: string
+          type?: string
           user_id: string
         }
         Update: {
-          action_url?: string | null
           created_at?: string
           id?: string
-          message?: string
-          metadata?: Json | null
+          message?: string | null
           priority?: string
           read?: boolean
-          tenant_id?: string | null
           title?: string
           type?: string
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "notifications_tenant_id_fkey"
-            columns: ["tenant_id"]
-            isOneToOne: false
-            referencedRelation: "tenants"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       office_playbooks: {
         Row: {
+          created_at: string
           id: string
           key: string
           tenant_id: string
@@ -694,6 +514,7 @@ export type Database = {
           value: string
         }
         Insert: {
+          created_at?: string
           id?: string
           key: string
           tenant_id: string
@@ -701,6 +522,7 @@ export type Database = {
           value: string
         }
         Update: {
+          created_at?: string
           id?: string
           key?: string
           tenant_id?: string
@@ -719,55 +541,56 @@ export type Database = {
       }
       profiles: {
         Row: {
-          created_at: string | null
+          created_at: string
           email: string
           first_name: string | null
           id: string
+          last_login: string | null
           last_name: string | null
-          notes: string | null
-          permissions: Json | null
           phone: string | null
-          role: Database["public"]["Enums"]["user_role"]
-          status: string | null
+          role: string
           tenant_id: string | null
-          updated_at: string | null
+          updated_at: string
         }
         Insert: {
-          created_at?: string | null
+          created_at?: string
           email: string
           first_name?: string | null
-          id: string
+          id?: string
+          last_login?: string | null
           last_name?: string | null
-          notes?: string | null
-          permissions?: Json | null
           phone?: string | null
-          role?: Database["public"]["Enums"]["user_role"]
-          status?: string | null
+          role?: string
           tenant_id?: string | null
-          updated_at?: string | null
+          updated_at?: string
         }
         Update: {
-          created_at?: string | null
+          created_at?: string
           email?: string
           first_name?: string | null
           id?: string
+          last_login?: string | null
           last_name?: string | null
-          notes?: string | null
-          permissions?: Json | null
           phone?: string | null
-          role?: Database["public"]["Enums"]["user_role"]
-          status?: string | null
+          role?: string
           tenant_id?: string | null
-          updated_at?: string | null
+          updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       redemptions: {
         Row: {
           booking_id: string | null
           credits_deducted: number
           id: string
-          location_id: string | null
           notes: string | null
           redeemed_at: string
           reward_id: string
@@ -776,9 +599,8 @@ export type Database = {
         }
         Insert: {
           booking_id?: string | null
-          credits_deducted: number
+          credits_deducted?: number
           id?: string
-          location_id?: string | null
           notes?: string | null
           redeemed_at?: string
           reward_id: string
@@ -789,7 +611,6 @@ export type Database = {
           booking_id?: string | null
           credits_deducted?: number
           id?: string
-          location_id?: string | null
           notes?: string | null
           redeemed_at?: string
           reward_id?: string
@@ -797,13 +618,6 @@ export type Database = {
           user_id?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "fk_user"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "redemptions_reward_id_fkey"
             columns: ["reward_id"]
@@ -816,102 +630,71 @@ export type Database = {
       referral_settings: {
         Row: {
           bonus_credits: number
-          created_at: string | null
+          created_at: string
           id: string
-          link_expiry_days: number | null
-          max_per_user: number | null
-          milestone_bonus: number | null
-          milestone_count: number | null
-          updated_at: string | null
+          link_expiry_days: number
+          max_per_user: number
+          milestone_bonus: number
+          milestone_count: number
+          updated_at: string
         }
         Insert: {
           bonus_credits?: number
-          created_at?: string | null
+          created_at?: string
           id?: string
-          link_expiry_days?: number | null
-          max_per_user?: number | null
-          milestone_bonus?: number | null
-          milestone_count?: number | null
-          updated_at?: string | null
+          link_expiry_days?: number
+          max_per_user?: number
+          milestone_bonus?: number
+          milestone_count?: number
+          updated_at?: string
         }
         Update: {
           bonus_credits?: number
-          created_at?: string | null
+          created_at?: string
           id?: string
-          link_expiry_days?: number | null
-          max_per_user?: number | null
-          milestone_bonus?: number | null
-          milestone_count?: number | null
-          updated_at?: string | null
+          link_expiry_days?: number
+          max_per_user?: number
+          milestone_bonus?: number
+          milestone_count?: number
+          updated_at?: string
         }
         Relationships: []
       }
       referrals: {
         Row: {
-          bonus_credits: number | null
+          bonus_credits: number
           completed_at: string | null
-          created_at: string | null
-          credited_at: string | null
-          expires_at: string | null
+          created_at: string
           id: string
           invitee_email: string | null
           referral_code: string
           referred_id: string | null
-          referrer_id: string | null
-          status: string | null
-          tenant_id: string | null
+          referrer_id: string
+          status: string
         }
         Insert: {
-          bonus_credits?: number | null
+          bonus_credits?: number
           completed_at?: string | null
-          created_at?: string | null
-          credited_at?: string | null
-          expires_at?: string | null
+          created_at?: string
           id?: string
           invitee_email?: string | null
           referral_code: string
           referred_id?: string | null
-          referrer_id?: string | null
-          status?: string | null
-          tenant_id?: string | null
+          referrer_id: string
+          status?: string
         }
         Update: {
-          bonus_credits?: number | null
+          bonus_credits?: number
           completed_at?: string | null
-          created_at?: string | null
-          credited_at?: string | null
-          expires_at?: string | null
+          created_at?: string
           id?: string
           invitee_email?: string | null
           referral_code?: string
           referred_id?: string | null
-          referrer_id?: string | null
-          status?: string | null
-          tenant_id?: string | null
+          referrer_id?: string
+          status?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "referrals_referred_id_fkey"
-            columns: ["referred_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "referrals_referrer_id_fkey"
-            columns: ["referrer_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "referrals_tenant_id_fkey"
-            columns: ["tenant_id"]
-            isOneToOne: false
-            referencedRelation: "tenants"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       rewards: {
         Row: {
@@ -932,7 +715,7 @@ export type Database = {
           active?: boolean
           category?: string | null
           created_at?: string
-          credit_cost: number
+          credit_cost?: number
           description?: string | null
           frequency_limit_days?: number | null
           id?: string
@@ -961,101 +744,60 @@ export type Database = {
       share_events: {
         Row: {
           channel: string
-          clicks: number
-          conversions: number
-          created_at: string | null
+          created_at: string
           id: string
-          metadata: Json | null
           referral_code: string | null
-          rewarded: boolean
-          updated_at: string | null
           user_id: string
         }
         Insert: {
           channel: string
-          clicks?: number
-          conversions?: number
-          created_at?: string | null
+          created_at?: string
           id?: string
-          metadata?: Json | null
           referral_code?: string | null
-          rewarded?: boolean
-          updated_at?: string | null
           user_id: string
         }
         Update: {
           channel?: string
-          clicks?: number
-          conversions?: number
-          created_at?: string | null
+          created_at?: string
           id?: string
-          metadata?: Json | null
           referral_code?: string | null
-          rewarded?: boolean
-          updated_at?: string | null
           user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "share_events_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      system_settings: {
-        Row: {
-          key: string
-          updated_at: string | null
-          value: Json | null
-        }
-        Insert: {
-          key: string
-          updated_at?: string | null
-          value?: Json | null
-        }
-        Update: {
-          key?: string
-          updated_at?: string | null
-          value?: Json | null
         }
         Relationships: []
       }
       tenants: {
         Row: {
           brand_colors: Json | null
-          created_at: string | null
+          created_at: string
           domain: string | null
           id: string
           logo_url: string | null
           name: string
           settings: Json | null
           slug: string
-          updated_at: string | null
+          updated_at: string
         }
         Insert: {
           brand_colors?: Json | null
-          created_at?: string | null
+          created_at?: string
           domain?: string | null
           id?: string
           logo_url?: string | null
           name: string
           settings?: Json | null
           slug: string
-          updated_at?: string | null
+          updated_at?: string
         }
         Update: {
           brand_colors?: Json | null
-          created_at?: string | null
+          created_at?: string
           domain?: string | null
           id?: string
           logo_url?: string | null
           name?: string
           settings?: Json | null
           slug?: string
-          updated_at?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
@@ -1063,96 +805,71 @@ export type Database = {
         Row: {
           amount: number
           booking_id: string | null
-          created_at: string | null
+          created_at: string
           description: string | null
           id: string
           metadata: Json | null
-          tenant_id: string | null
-          type: Database["public"]["Enums"]["transaction_type"]
-          user_id: string | null
+          type: string
+          user_id: string
         }
         Insert: {
-          amount: number
+          amount?: number
           booking_id?: string | null
-          created_at?: string | null
+          created_at?: string
           description?: string | null
           id?: string
           metadata?: Json | null
-          tenant_id?: string | null
-          type: Database["public"]["Enums"]["transaction_type"]
-          user_id?: string | null
+          type: string
+          user_id: string
         }
         Update: {
           amount?: number
           booking_id?: string | null
-          created_at?: string | null
+          created_at?: string
           description?: string | null
           id?: string
           metadata?: Json | null
-          tenant_id?: string | null
-          type?: Database["public"]["Enums"]["transaction_type"]
-          user_id?: string | null
+          type?: string
+          user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "transactions_booking_id_fkey"
-            columns: ["booking_id"]
-            isOneToOne: false
-            referencedRelation: "bookings"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "transactions_tenant_id_fkey"
-            columns: ["tenant_id"]
-            isOneToOne: false
-            referencedRelation: "tenants"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "transactions_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       treatments: {
         Row: {
           category: string | null
-          created_at: string | null
+          created_at: string
           credit_cost: number
           description: string | null
           id: string
-          is_active: boolean | null
+          is_active: boolean
           name: string
           price_cents: number
           tenant_id: string | null
-          updated_at: string | null
+          updated_at: string
         }
         Insert: {
           category?: string | null
-          created_at?: string | null
+          created_at?: string
           credit_cost?: number
           description?: string | null
           id?: string
-          is_active?: boolean | null
+          is_active?: boolean
           name: string
-          price_cents: number
+          price_cents?: number
           tenant_id?: string | null
-          updated_at?: string | null
+          updated_at?: string
         }
         Update: {
           category?: string | null
-          created_at?: string | null
+          created_at?: string
           credit_cost?: number
           description?: string | null
           id?: string
-          is_active?: boolean | null
+          is_active?: boolean
           name?: string
           price_cents?: number
           tenant_id?: string | null
-          updated_at?: string | null
+          updated_at?: string
         }
         Relationships: [
           {
@@ -1169,40 +886,31 @@ export type Database = {
           created_at: string
           expires_at: string | null
           id: string
-          is_trial: boolean
           started_at: string
           status: string
-          stripe_subscription_id: string | null
-          tier_id: string | null
-          trial_end: string | null
+          tier_id: string
           updated_at: string
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           created_at?: string
           expires_at?: string | null
           id?: string
-          is_trial?: boolean
           started_at?: string
           status?: string
-          stripe_subscription_id?: string | null
-          tier_id?: string | null
-          trial_end?: string | null
+          tier_id: string
           updated_at?: string
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           created_at?: string
           expires_at?: string | null
           id?: string
-          is_trial?: boolean
           started_at?: string
           status?: string
-          stripe_subscription_id?: string | null
-          tier_id?: string | null
-          trial_end?: string | null
+          tier_id?: string
           updated_at?: string
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
@@ -1214,51 +922,6 @@ export type Database = {
           },
           {
             foreignKeyName: "user_memberships_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: true
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      user_reward_limits: {
-        Row: {
-          id: string
-          last_redeemed_at: string | null
-          period_end: string
-          period_start: string
-          redemption_count: number
-          reward_id: string
-          user_id: string
-        }
-        Insert: {
-          id?: string
-          last_redeemed_at?: string | null
-          period_end: string
-          period_start: string
-          redemption_count?: number
-          reward_id: string
-          user_id: string
-        }
-        Update: {
-          id?: string
-          last_redeemed_at?: string | null
-          period_end?: string
-          period_start?: string
-          redemption_count?: number
-          reward_id?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "user_reward_limits_reward_id_fkey"
-            columns: ["reward_id"]
-            isOneToOne: false
-            referencedRelation: "rewards"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "user_reward_limits_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
@@ -1277,7 +940,7 @@ export type Database = {
           wallet_id: string
         }
         Insert: {
-          amount: number
+          amount?: number
           id?: string
           notes?: string | null
           source?: string | null
@@ -1296,7 +959,7 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "fk_wallet_transactions_wallet"
+            foreignKeyName: "wallet_transactions_wallet_id_fkey"
             columns: ["wallet_id"]
             isOneToOne: false
             referencedRelation: "wallets"
@@ -1310,7 +973,7 @@ export type Database = {
           created_at: string
           id: string
           last_updated: string
-          tenant_id: string
+          tenant_id: string | null
           user_id: string
         }
         Insert: {
@@ -1318,7 +981,7 @@ export type Database = {
           created_at?: string
           id?: string
           last_updated?: string
-          tenant_id: string
+          tenant_id?: string | null
           user_id: string
         }
         Update: {
@@ -1326,22 +989,15 @@ export type Database = {
           created_at?: string
           id?: string
           last_updated?: string
-          tenant_id?: string
+          tenant_id?: string | null
           user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "fk_wallets_tenant"
+            foreignKeyName: "wallets_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "fk_wallets_user"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -1354,13 +1010,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      booking_status: "scheduled" | "completed" | "cancelled" | "no_show"
-      transaction_type:
-        | "credit_drop"
-        | "redemption"
-        | "referral_bonus"
-        | "manual_adjustment"
-      user_role: "patient" | "staff" | "admin"
+      [_ in never]: never
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1368,21 +1018,25 @@ export type Database = {
   }
 }
 
-type DefaultSchema = Database[Extract<keyof Database, "public">]
+type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
+
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
-    | { schema: keyof Database },
+    | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof Database
+    schema: keyof DatabaseWithoutInternals
   }
-    ? keyof (Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-        Database[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
+    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
     : never = never,
-> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? (Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-      Database[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
       Row: infer R
     }
     ? R
@@ -1400,14 +1054,16 @@ export type Tables<
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
-    | { schema: keyof Database },
+    | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof Database
+    schema: keyof DatabaseWithoutInternals
   }
-    ? keyof Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
-> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
     }
     ? I
@@ -1423,14 +1079,16 @@ export type TablesInsert<
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
-    | { schema: keyof Database },
+    | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof Database
+    schema: keyof DatabaseWithoutInternals
   }
-    ? keyof Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
-> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
     }
     ? U
@@ -1446,14 +1104,16 @@ export type TablesUpdate<
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
-    | { schema: keyof Database },
+    | { schema: keyof DatabaseWithoutInternals },
   EnumName extends DefaultSchemaEnumNameOrOptions extends {
-    schema: keyof Database
+    schema: keyof DatabaseWithoutInternals
   }
-    ? keyof Database[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
+    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
     : never = never,
-> = DefaultSchemaEnumNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
+> = DefaultSchemaEnumNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
     ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
     : never
@@ -1461,29 +1121,22 @@ export type Enums<
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
-    | { schema: keyof Database },
+    | { schema: keyof DatabaseWithoutInternals },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof Database
+    schema: keyof DatabaseWithoutInternals
   }
-    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
     : never = never,
-> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+> = PublicCompositeTypeNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
   : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
     ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
 
 export const Constants = {
   public: {
-    Enums: {
-      booking_status: ["scheduled", "completed", "cancelled", "no_show"],
-      transaction_type: [
-        "credit_drop",
-        "redemption",
-        "referral_bonus",
-        "manual_adjustment",
-      ],
-      user_role: ["patient", "staff", "admin"],
-    },
+    Enums: {},
   },
 } as const
