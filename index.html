@@ -31,8 +31,9 @@
           var decoded = redirect[1].split('&').map(function(s) {
             return s.replace(/~and~/g, '&');
           }).join('?');
+          var base = '/nextgen-practicesolutions/';
           window.history.replaceState(null, null,
-            '/' + decoded + window.location.hash
+            base + decoded + window.location.hash
           );
         }
       })();
