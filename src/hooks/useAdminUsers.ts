@@ -31,7 +31,7 @@ export function useAdminUsers() {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setUsers(data || []);
+      setUsers((data || []) as unknown as AdminUser[]);
     } catch (error) {
       console.error('Error fetching users:', error);
       toast({

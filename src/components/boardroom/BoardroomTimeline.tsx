@@ -66,7 +66,7 @@ const BoardroomTimeline: React.FC = () => {
       controls.start('visible');
       
       // Reveal messages with a delay
-      const timers: NodeJS.Timeout[] = [];
+      const timers: ReturnType<typeof setTimeout>[] = [];
       
       conversationTimeline.forEach((message, index) => {
         const timer = setTimeout(() => {

@@ -145,11 +145,13 @@ serve(async (req) => {
       throw fetchError;
     }
 
-  } catch (error) {
-    console.error("Detailed error in chat function:", error.message, error.stack)
+  } catch (error: unknown) {
+    const errMsg = error instanceof Error ? error.message : String(error);
+    const errStack = error instanceof Error ? error.stack : undefined;
+    console.error("Detailed error in chat function:", errMsg, errStack)
     
     let statusCode = 500;
-    let errorMessage = error.message || 'An unexpected error occurred';
+    let errorMessage = errMsg || 'An unexpected error occurred';
     
     // Special handling for timeout errors
     if (errorMessage.includes("timed out")) {

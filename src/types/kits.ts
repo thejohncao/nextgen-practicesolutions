@@ -19,7 +19,8 @@ export interface KitFile {
   file_name: string;
   file_url: string;
   file_type: string;
-  file_size: string | null;
+  file_size?: string | null;
+  description?: string | null;
   order_number: number | null;
   created_at: string;
 }
