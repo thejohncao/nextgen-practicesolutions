@@ -999,7 +999,7 @@ export default function App() {
         </div>
       )}
 
-      <div style={{position:"fixed",left:28,top:0,bottom:0,width:1,background:`linear-gradient(to bottom,transparent,rgba(245,166,35,0.18) 30%,rgba(245,166,35,0.18) 70%,transparent)`,zIndex:5,pointerEvents:"none"}}/>
+      <div className="vert-rule" style={{position:"fixed",left:28,top:0,bottom:0,width:1,background:`linear-gradient(to bottom,transparent,rgba(245,166,35,0.18) 30%,rgba(245,166,35,0.18) 70%,transparent)`,zIndex:5,pointerEvents:"none"}}/>
 
       {view === VIEW.REPORT ? (
         <ReportView sc={sc} onBack={() => { setView(VIEW.RESULTS); scroll(); }}/>
