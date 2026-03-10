@@ -136,10 +136,10 @@ serve(async (req) => {
       return new Response(JSON.stringify({ response: content }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       })
-    } catch (fetchError) {
+    } catch (fetchError: unknown) {
       clearTimeout(timeoutId);
       
-      if (fetchError.name === "AbortError") {
+      if (fetchError instanceof Error && fetchError.name === "AbortError") {
         throw new Error("Request timed out after 20 seconds");
       }
       throw fetchError;
