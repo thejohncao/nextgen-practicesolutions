@@ -1,0 +1,215 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;500&display=swap');
+
+/* ── Practice Health: 3D Stratigraphy & Animations ── */
+
+.ph-viewport {
+  width: 100%;
+  max-width: 1140px;
+  height: 720px;
+  position: relative;
+  padding: 44px 48px;
+  perspective: 2200px;
+}
+
+/* Ambient glow */
+.ph-viewport::after {
+  content: "";
+  position: absolute;
+  width: 600px;
+  height: 400px;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: radial-gradient(ellipse at center, rgba(245, 166, 35, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: ph-breathe 6s ease-in-out infinite;
+}
+
+@keyframes ph-breathe {
+  0%, 100% { opacity: 0.6; transform: translateY(-50%) scale(1); }
+  50% { opacity: 1; transform: translateY(-50%) scale(1.1); }
+}
+
+/* Left vertical rule */
+.ph-left-rule {
+  position: absolute;
+  left: 30px;
+  top: 44px;
+  bottom: 44px;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(245, 166, 35, 0.2) 30%, rgba(245, 166, 35, 0.2) 70%, transparent);
+  z-index: 100;
+}
+
+/* ── Stratigraphy Stack ── */
+
+.ph-strat-container {
+  position: absolute;
+  right: 48px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 560px;
+  height: 480px;
+}
+
+.ph-sheet {
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  backdrop-filter: blur(16px) saturate(160%);
+  padding: 32px;
+  transition: all 0.75s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.ph-sheet-clinical {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+  transform: translate3d(0, 0, 0) rotateX(14deg) rotateY(-18deg) rotateZ(1.5deg);
+  z-index: 10;
+  animation: ph-stackIn 1s 0.3s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+.ph-sheet-operational {
+  background: rgba(245, 166, 35, 0.06);
+  border: 1px solid rgba(245, 166, 35, 0.15);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  transform: translate3d(-38px, -28px, 50px) rotateX(14deg) rotateY(-18deg) rotateZ(1.5deg);
+  z-index: 20;
+  animation: ph-stackIn 1s 0.5s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+.ph-sheet-growth {
+  background: rgba(245, 166, 35, 0.1);
+  border: 1px solid rgba(245, 166, 35, 0.28);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(245, 166, 35, 0.08);
+  transform: translate3d(-76px, -56px, 100px) rotateX(14deg) rotateY(-18deg) rotateZ(1.5deg);
+  z-index: 30;
+  animation: ph-stackIn 1s 0.7s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+@keyframes ph-stackIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 40px, -100px) rotateX(30deg) rotateY(-18deg);
+  }
+}
+
+/* Hover fan-out */
+.ph-strat-container:hover .ph-sheet-clinical {
+  transform: translate3d(-110px, 10px, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  opacity: 0.18;
+}
+.ph-strat-container:hover .ph-sheet-operational {
+  transform: translate3d(-55px, 5px, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  opacity: 0.45;
+}
+.ph-strat-container:hover .ph-sheet-growth {
+  transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  opacity: 1;
+  z-index: 40;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 60px rgba(245, 166, 35, 0.12);
+}
+
+/* ── Bar fill animation ── */
+
+.ph-bar-track {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.07);
+  margin-top: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ph-bar-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: #F5A623;
+  transform-origin: left;
+  animation: ph-barGrow 1.4s 1s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+@keyframes ph-barGrow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* ── SVG line draw ── */
+
+.ph-svg-line {
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+  animation: ph-draw 3s 1.5s forwards ease-out;
+}
+
+@keyframes ph-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+/* ── Entrance fade up ── */
+
+.ph-fadeUp {
+  animation: ph-fadeUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+.ph-fadeUp-1 { animation-delay: 0s; }
+.ph-fadeUp-2 { animation-delay: 0.1s; }
+.ph-fadeUp-3 { animation-delay: 0.8s; }
+.ph-fadeUp-4 { animation-delay: 0.9s; }
+.ph-fadeUp-5 { animation-delay: 1s; }
+
+@keyframes ph-fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── CTA Button ── */
+
+.ph-cta-btn {
+  background: transparent;
+  border: 1px solid #F5A623;
+  color: #F5A623;
+  padding: 13px 28px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.ph-cta-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #F5A623;
+  transform: translateX(-101%);
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  z-index: -1;
+}
+
+.ph-cta-btn:hover {
+  color: #07090f;
+  box-shadow: 0 0 24px rgba(245, 166, 35, 0.15);
+}
+
+.ph-cta-btn:hover::before {
+  transform: translateX(0);
+}
+
+/* ── Horizontal rule ── */
+
+.ph-rule {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, rgba(245, 166, 35, 0.3), transparent);
+  margin: 20px 0;
+}

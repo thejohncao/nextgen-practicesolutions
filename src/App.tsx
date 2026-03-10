@@ -20,6 +20,7 @@ import GDashboard from "./g/app/pages/Dashboard";
 import GWallet from "./g/app/pages/Wallet";
 import GShop from "./g/app/pages/Shop";
 
+import PracticeHealth from "./pages/PracticeHealth";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 export default function App() {
@@ -49,6 +50,7 @@ export default function App() {
           {/* HQ Routes */}
           <Route path="/hq" element={<HQ />} />
           <Route path="/hq/tenants" element={<TenantManagement />} />
+          <Route path="/practice-health" element={<PracticeHealth />} />
         </Routes>
       </AuthProvider>
       <Toaster />

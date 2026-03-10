@@ -25,6 +25,8 @@ export default {
       fontFamily: {
         sans: ['SF Pro Display', 'Inter', 'sans-serif'],
         heading: ['SF Pro Display', 'Montserrat', 'sans-serif'],
+        bebas: ['"Bebas Neue"', 'sans-serif'],
+        'mono-dm': ['"DM Mono"', 'monospace'],
       },
       colors: {
         border: 'hsl(var(--border))',
@@ -106,6 +108,17 @@ export default {
           primary: '#FACC15',
           glow: '#FACC1540',
           mist: '#FACC1520'
+        },
+        'health-amber': {
+          DEFAULT: '#F5A623',
+          dim: 'rgba(245, 166, 35, 0.4)',
+          glow: 'rgba(245, 166, 35, 0.15)',
+        },
+        'health-bg': '#07090f',
+        'health-text': {
+          main: '#dde3ee',
+          mid: '#8899b8',
+          dim: '#5a6680',
         }
       },
       fontSize: {
