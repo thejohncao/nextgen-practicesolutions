@@ -333,7 +333,7 @@ function StackedCards() {
   const frontGlow = (i: number, col: string) => i === 3 ? `0 0 48px ${col}1a, 0 8px 32px rgba(0,0,0,0.4)` : "none";
 
   return (
-    <div style={{width:440,height:340,position:"relative",perspective:2000,cursor:"pointer",flexShrink:0}}>
+    <div className="cards-stack" style={{width:440,height:340,position:"relative",perspective:2000,cursor:"pointer",flexShrink:0}}>
       {agents.map((a, i) => {
         const col = AGENT_COLOR[a.id];
         const isThis = flipped === a.id;
