@@ -11,12 +11,14 @@ const accentGradients: Record<string, string> = {
   giselle: 'from-emerald-600 to-emerald-400',
   miles: 'from-blue-600 to-blue-400',
   devon: 'from-violet-600 to-violet-400',
+  alma: 'from-amber-600 to-amber-400',
 };
 
 const accentBgs: Record<string, string> = {
   giselle: 'bg-emerald-50/60',
   miles: 'bg-blue-50/60',
   devon: 'bg-violet-50/60',
+  alma: 'bg-amber-50/60',
 };
 
 export default function PillarHero({ pillar, kpis }: Props) {

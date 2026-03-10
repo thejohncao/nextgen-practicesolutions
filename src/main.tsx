@@ -8,6 +8,7 @@ import PortalDashboard from './portal/pages/Dashboard';
 import GisellePage from './portal/pages/GisellePage';
 import MilesPage from './portal/pages/MilesPage';
 import DevonPage from './portal/pages/DevonPage';
+import AlmaPage from './portal/pages/AlmaPage';
 import TimelinePage from './portal/pages/TimelinePage';
 import RequestsPage from './portal/pages/RequestsPage';
 import SettingsPage from './portal/pages/SettingsPage';
@@ -29,6 +30,7 @@ createRoot(document.getElementById("root")!).render(
           <Route path="giselle" element={<GisellePage />} />
           <Route path="miles" element={<MilesPage />} />
           <Route path="devon" element={<DevonPage />} />
+          <Route path="alma" element={<AlmaPage />} />
           <Route path="timeline" element={<TimelinePage />} />
           <Route path="requests" element={<RequestsPage />} />
           <Route path="settings" element={<SettingsPage />} />

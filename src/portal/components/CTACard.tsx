@@ -14,6 +14,7 @@ const accentGradients: Record<string, string> = {
   giselle: 'from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600',
   miles: 'from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600',
   devon: 'from-violet-600 to-violet-500 hover:from-violet-700 hover:to-violet-600',
+  alma: 'from-amber-600 to-amber-500 hover:from-amber-700 hover:to-amber-600',
 };
 
 export default function CTACard({ title, buttonLabel, href = '/portal/requests', accent = 'miles', className }: Props) {
