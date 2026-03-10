@@ -1040,7 +1040,7 @@ export default function App() {
           </div>
 
           {view === VIEW.HOME && (
-            <div style={{...mono,display:"flex",justifyContent:"space-between",alignItems:"center",padding:"18px 48px",borderTop:`1px solid ${T.border}`,maxWidth:1100,margin:"0 auto",width:"100%"}}>
+            <div className="footer-bar" style={{...mono,display:"flex",justifyContent:"space-between",alignItems:"center",padding:"18px 48px",borderTop:`1px solid ${T.border}`,maxWidth:1100,margin:"0 auto",width:"100%"}}>
               <div style={{fontSize:8,color:T.textDim,letterSpacing:"0.15em",textTransform:"uppercase",lineHeight:1.9}}>
                 NextGen Practice Solutions — Cao Consulting LLC<br/>
                 <span style={{color:"rgba(245,166,35,0.4)"}}>■</span> Giselle · Miles · Devon
