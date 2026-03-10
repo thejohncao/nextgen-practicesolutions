@@ -975,6 +975,21 @@ export default function App() {
         body{background:${T.bg};}
         @keyframes blink{0%,100%{opacity:.4}50%{opacity:1}}
         button{font-family:'DM Mono',monospace;}
+        @media(max-width:768px){
+          .hero-layout{flex-direction:column!important;padding:24px 20px!important;gap:32px!important;}
+          .hero-left{flex:1 1 auto!important;min-width:0!important;}
+          .hero-right{display:flex;justify-content:center;}
+          .cards-stack{width:320px!important;height:260px!important;transform:scale(0.78);transform-origin:center center;}
+          .topbar-inner{padding:12px 16px!important;}
+          .footer-bar{flex-direction:column!important;padding:16px 20px!important;gap:8px!important;text-align:center!important;}
+          .footer-bar>div{text-align:center!important;}
+          .q-dots{gap:3px!important;}
+          .q-dots button{width:20px!important;height:20px!important;font-size:8px!important;}
+          .vert-rule{display:none!important;}
+        }
+        @media(max-width:480px){
+          .cards-stack{width:280px!important;height:230px!important;transform:scale(0.68);}
+        }
       `}</style>
 
       {view === VIEW.HOME && (
