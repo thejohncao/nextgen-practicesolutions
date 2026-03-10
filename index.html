@@ -23,6 +23,21 @@
   </head>
 
   <body>
+    <!-- GitHub Pages SPA redirect: restore route from query string -->
+    <script>
+      (function(){
+        var redirect = window.location.search.match(/^\?\/(.*)/);
+        if (redirect) {
+          var decoded = redirect[1].split('&').map(function(s) {
+            return s.replace(/~and~/g, '&');
+          }).join('?');
+          var base = '/nextgen-practicesolutions/';
+          window.history.replaceState(null, null,
+            base + decoded + window.location.hash
+          );
+        }
+      })();
+    </script>
     <div id="root"></div>
     <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
