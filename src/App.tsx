@@ -578,7 +578,7 @@ function QuestionView({ci, qi, ans, sc, onAnswer, onNext, onPrev, onFinish, onRe
         <div style={{position:"absolute",left:0,top:0,height:"100%",background:col,width:`${catPct}%`,transition:"width 0.4s",borderRadius:1}}/>
       </div>
 
-      <div style={{display:"flex",gap:4,marginBottom:20,flexWrap:"wrap"}}>
+      <div className="q-dots" style={{display:"flex",gap:4,marginBottom:20,flexWrap:"wrap"}}>
         {catQs.map((_, i) => {
           const k = `${ci}-${i}`;
           const a = ans[k];
