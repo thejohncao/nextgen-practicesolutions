@@ -428,8 +428,8 @@ function StackedCards() {
 // ── HOME VIEW ──
 function HomeView({onStart}: {onStart:()=>void}) {
   return (
-    <div style={{flex:1,display:"flex",alignItems:"center",maxWidth:1160,margin:"0 auto",padding:"40px 48px",gap:48,width:"100%"}}>
-      <div style={{flex:"0 0 58%",display:"flex",flexDirection:"column",gap:20}}>
+    <div className="hero-layout" style={{flex:1,display:"flex",alignItems:"center",maxWidth:1160,margin:"0 auto",padding:"40px 48px",gap:48,width:"100%"}}>
+      <div className="hero-left" style={{flex:"0 0 58%",display:"flex",flexDirection:"column",gap:20}}>
         <div style={{...mono,fontSize:9,letterSpacing:"0.28em",color:T.amber,textTransform:"uppercase",display:"flex",alignItems:"center",gap:10}}>
           <span style={{display:"inline-block",width:18,height:1,background:T.amberDim,flexShrink:0}}/>
           AI Operating System for Dental Practices
