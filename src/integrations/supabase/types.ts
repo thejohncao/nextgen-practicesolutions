@@ -103,6 +103,7 @@ export type Database = {
           notes: string | null
           scheduled_at: string | null
           status: string
+          tenant_id: string | null
           treatment_id: string | null
           updated_at: string
           user_id: string
@@ -114,6 +115,7 @@ export type Database = {
           notes?: string | null
           scheduled_at?: string | null
           status?: string
+          tenant_id?: string | null
           treatment_id?: string | null
           updated_at?: string
           user_id: string
@@ -125,16 +127,31 @@ export type Database = {
           notes?: string | null
           scheduled_at?: string | null
           status?: string
+          tenant_id?: string | null
           treatment_id?: string | null
           updated_at?: string
           user_id?: string
         }
         Relationships: [
           {
+            foreignKeyName: "bookings_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "bookings_treatment_id_fkey"
             columns: ["treatment_id"]
             isOneToOne: false
             referencedRelation: "treatments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -245,6 +262,13 @@ export type Database = {
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "credits_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -445,6 +469,152 @@ export type Database = {
           },
         ]
       }
+      redemptions: {
+        Row: {
+          booking_id: string | null
+          credits_deducted: number
+          id: string
+          notes: string | null
+          redeemed_at: string
+          reward_id: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          booking_id?: string | null
+          credits_deducted?: number
+          id?: string
+          notes?: string | null
+          redeemed_at?: string
+          reward_id: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          booking_id?: string | null
+          credits_deducted?: number
+          id?: string
+          notes?: string | null
+          redeemed_at?: string
+          reward_id?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "redemptions_reward_id_fkey"
+            columns: ["reward_id"]
+            isOneToOne: false
+            referencedRelation: "rewards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      referrals: {
+        Row: {
+          bonus_credits: number
+          completed_at: string | null
+          created_at: string
+          id: string
+          invitee_email: string | null
+          referral_code: string
+          referred_id: string | null
+          referrer_id: string
+          status: string
+        }
+        Insert: {
+          bonus_credits?: number
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          invitee_email?: string | null
+          referral_code: string
+          referred_id?: string | null
+          referrer_id: string
+          status?: string
+        }
+        Update: {
+          bonus_credits?: number
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          invitee_email?: string | null
+          referral_code?: string
+          referred_id?: string | null
+          referrer_id?: string
+          status?: string
+        }
+        Relationships: []
+      }
+      rewards: {
+        Row: {
+          active: boolean
+          category: string | null
+          created_at: string
+          credit_cost: number
+          description: string | null
+          frequency_limit_days: number | null
+          id: string
+          image_url: string | null
+          name: string
+          requires_booking: boolean
+          updated_at: string
+          visibility: string | null
+        }
+        Insert: {
+          active?: boolean
+          category?: string | null
+          created_at?: string
+          credit_cost?: number
+          description?: string | null
+          frequency_limit_days?: number | null
+          id?: string
+          image_url?: string | null
+          name: string
+          requires_booking?: boolean
+          updated_at?: string
+          visibility?: string | null
+        }
+        Update: {
+          active?: boolean
+          category?: string | null
+          created_at?: string
+          credit_cost?: number
+          description?: string | null
+          frequency_limit_days?: number | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          requires_booking?: boolean
+          updated_at?: string
+          visibility?: string | null
+        }
+        Relationships: []
+      }
+      share_events: {
+        Row: {
+          channel: string
+          created_at: string
+          id: string
+          referral_code: string | null
+          user_id: string
+        }
+        Insert: {
+          channel: string
+          created_at?: string
+          id?: string
+          referral_code?: string | null
+          user_id: string
+        }
+        Update: {
+          channel?: string
+          created_at?: string
+          id?: string
+          referral_code?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       tenants: {
         Row: {
           brand_colors: Json | null
@@ -557,6 +727,54 @@ export type Database = {
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_memberships: {
+        Row: {
+          created_at: string
+          expires_at: string | null
+          id: string
+          started_at: string
+          status: string
+          tier_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          started_at?: string
+          status?: string
+          tier_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          started_at?: string
+          status?: string
+          tier_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_memberships_tier_id_fkey"
+            columns: ["tier_id"]
+            isOneToOne: false
+            referencedRelation: "membership_tiers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_memberships_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
