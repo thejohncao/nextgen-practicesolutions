@@ -259,7 +259,7 @@ function TopBar({answered, catColor}: {answered:number;catColor?:string}) {
   const col = catColor || T.amber;
   return (
     <div style={{position:"sticky",top:0,zIndex:100,background:"rgba(7,9,15,0.95)",borderBottom:`1px solid ${T.border}`,backdropFilter:"blur(20px)"}}>
-      <div style={{maxWidth:860,margin:"0 auto",padding:"14px 32px",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+      <div className="topbar-inner" style={{maxWidth:860,margin:"0 auto",padding:"14px 32px",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
         <div style={{display:"flex",alignItems:"center",gap:10}}>
           <div style={{width:7,height:7,borderRadius:"50%",background:col,opacity:.7,animation:"blink 2s ease-in-out infinite"}}/>
           <span style={{...bebas,fontSize:14,letterSpacing:"0.35em",color:T.amber}}>NEXT</span>
