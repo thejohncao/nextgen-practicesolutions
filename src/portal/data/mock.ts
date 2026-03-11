@@ -167,6 +167,212 @@ export const devonDetailKPIs = {
   ],
 };
 
+// ── Alma KPIs ──────────────────────────────────────────────────────
+
+export const almaHeroKPIs: KPI[] = [
+  { id: 'ah_1', label: 'Role Onboarding Complete', value: '78%', change: '+14%', changeDirection: 'up', pillarSlug: 'alma' },
+  { id: 'ah_2', label: 'Active Certifications', value: '12', change: '+3', changeDirection: 'up', pillarSlug: 'alma' },
+  { id: 'ah_3', label: 'Training Sessions (30d)', value: '18', change: '+6', changeDirection: 'up', pillarSlug: 'alma' },
+];
+
+export const almaDetailKPIs = {
+  teamOnboarding: [
+    { id: 'ad_1', label: '2-Week Onboarding Completion', value: '78%' },
+    { id: 'ad_2', label: 'Roles Covered', value: '5 of 5' },
+    { id: 'ad_3', label: 'Open Onboarding Tracks', value: '2' },
+    { id: 'ad_4', label: 'Avg Days to Complete', value: '11' },
+  ],
+  certifications: [
+    { id: 'ad_5', label: 'Total Certified Members', value: '8' },
+    { id: 'ad_6', label: 'Certifications by Role', value: '3 FD, 2 TC, 2 Hyg, 1 OM' },
+    { id: 'ad_7', label: 'Expiring Next 60 Days', value: '2' },
+  ],
+  trainingActivity: [
+    { id: 'ad_8', label: 'Sessions Last 30 Days', value: '18' },
+    { id: 'ad_9', label: 'Modules Completed', value: '24' },
+    { id: 'ad_10', label: 'Average Quiz Score', value: '84%' },
+    { id: 'ad_11', label: 'Team Participation Rate', value: '91%' },
+  ],
+  sopLibrary: [
+    { id: 'ad_12', label: 'SOPs Viewed This Month', value: '47' },
+    { id: 'ad_13', label: 'SOP Completion Rate', value: '82%' },
+    { id: 'ad_14', label: 'Critical SOPs Acknowledged', value: '5 of 6' },
+    { id: 'ad_15', label: 'SOPs Needing Update', value: '3' },
+  ],
+};
+
+// ── Alma Programs ──────────────────────────────────────────────────
+
+export interface AcademyProgram {
+  id: string;
+  name: string;
+  roles: string[];
+  duration: string;
+  status: 'not_started' | 'in_progress' | 'completed';
+  progress: number;
+  lastActivity: string;
+}
+
+export const academyPrograms: AcademyProgram[] = [
+  { id: 'prg_1', name: 'Front Desk Conversion Foundations', roles: ['Front Desk'], duration: '4 weeks', status: 'in_progress', progress: 40, lastActivity: '2026-03-08' },
+  { id: 'prg_2', name: 'Treatment Coordinator Case Presentation', roles: ['TC'], duration: '6 weeks', status: 'in_progress', progress: 65, lastActivity: '2026-03-09' },
+  { id: 'prg_3', name: 'Speed-to-Lead & Phones Essentials', roles: ['Front Desk', 'TC'], duration: '3 weeks', status: 'completed', progress: 100, lastActivity: '2026-02-20' },
+  { id: 'prg_4', name: 'Morning Huddle and Team OS Basics', roles: ['All'], duration: '2 weeks', status: 'in_progress', progress: 75, lastActivity: '2026-03-10' },
+  { id: 'prg_5', name: 'New Hire 2-Week Onboarding', roles: ['All'], duration: '2 weeks', status: 'in_progress', progress: 50, lastActivity: '2026-03-06' },
+];
+
+// ── Alma Role Learning Paths ───────────────────────────────────────
+
+export interface LearningModule {
+  id: string;
+  name: string;
+  required: boolean;
+  completed: boolean;
+}
+
+export interface RolePath {
+  role: string;
+  certLevels: string[];
+  currentLevel: number;
+  modules: LearningModule[];
+}
+
+export const rolePaths: RolePath[] = [
+  {
+    role: 'Front Desk',
+    certLevels: ['Level 1 — Foundations', 'Level 2 — Advanced'],
+    currentLevel: 1,
+    modules: [
+      { id: 'rl_1', name: 'Phone Scripts & Call Handling', required: true, completed: true },
+      { id: 'rl_2', name: 'Scheduling & Booking Flow', required: true, completed: true },
+      { id: 'rl_3', name: 'Speed-to-Lead Response', required: true, completed: true },
+      { id: 'rl_4', name: 'Missed Call Recovery', required: true, completed: false },
+      { id: 'rl_5', name: 'Insurance Verification Basics', required: false, completed: false },
+    ],
+  },
+  {
+    role: 'Treatment Coordinator',
+    certLevels: ['Level 1 — Foundations', 'Level 2 — Advanced'],
+    currentLevel: 1,
+    modules: [
+      { id: 'rl_6', name: 'Consultation Framework', required: true, completed: true },
+      { id: 'rl_7', name: 'Case Presentation & Narrative', required: true, completed: true },
+      { id: 'rl_8', name: 'Financing & Payment Options', required: true, completed: false },
+      { id: 'rl_9', name: 'Objection Handling', required: true, completed: false },
+      { id: 'rl_10', name: 'High-Ticket Case Acceptance', required: false, completed: false },
+    ],
+  },
+  {
+    role: 'Hygiene',
+    certLevels: ['Level 1 — Foundations', 'Level 2 — Advanced'],
+    currentLevel: 1,
+    modules: [
+      { id: 'rl_11', name: 'Perio Protocol & Handoff', required: true, completed: true },
+      { id: 'rl_12', name: 'Patient Education Techniques', required: true, completed: true },
+      { id: 'rl_13', name: 'Recall Conversation Scripts', required: true, completed: false },
+      { id: 'rl_14', name: 'Co-Diagnosis with Doctor', required: false, completed: false },
+    ],
+  },
+  {
+    role: 'Assistant',
+    certLevels: ['Level 1 — Foundations'],
+    currentLevel: 1,
+    modules: [
+      { id: 'rl_15', name: 'Chairside Systems & Flow', required: true, completed: true },
+      { id: 'rl_16', name: 'Patient Comfort & Communication', required: true, completed: true },
+      { id: 'rl_17', name: 'Treatment Documentation', required: true, completed: false },
+    ],
+  },
+  {
+    role: 'Office Manager',
+    certLevels: ['Level 1 — Foundations', 'Level 2 — Leadership'],
+    currentLevel: 1,
+    modules: [
+      { id: 'rl_18', name: 'KPI Dashboard & Reporting', required: true, completed: true },
+      { id: 'rl_19', name: 'Team Accountability Systems', required: true, completed: true },
+      { id: 'rl_20', name: 'Revenue Cycle Management', required: true, completed: false },
+      { id: 'rl_21', name: 'Hiring & Onboarding SOPs', required: false, completed: false },
+    ],
+  },
+  {
+    role: 'Doctor',
+    certLevels: ['Level 1 — Leadership'],
+    currentLevel: 1,
+    modules: [
+      { id: 'rl_22', name: 'Morning Huddle Leadership', required: true, completed: true },
+      { id: 'rl_23', name: 'Case Presentation to TC Handoff', required: true, completed: true },
+      { id: 'rl_24', name: 'Practice KPI Review', required: true, completed: true },
+      { id: 'rl_25', name: 'Team Coaching Frameworks', required: false, completed: false },
+    ],
+  },
+];
+
+// ── Alma SOPs ──────────────────────────────────────────────────────
+
+export interface SOPEntry {
+  id: string;
+  title: string;
+  category: string;
+  lastUpdated: string;
+  assignedRoles: string[];
+  completionRate: number;
+}
+
+export const sopLibrary: SOPEntry[] = [
+  { id: 'sop_1', title: 'Inbound Call Script', category: 'Phones', lastUpdated: '2026-02-15', assignedRoles: ['Front Desk'], completionRate: 92 },
+  { id: 'sop_2', title: 'New Patient Scheduling Flow', category: 'Scheduling', lastUpdated: '2026-02-20', assignedRoles: ['Front Desk', 'TC'], completionRate: 88 },
+  { id: 'sop_3', title: 'Case Presentation Checklist', category: 'Case Presentation', lastUpdated: '2026-03-01', assignedRoles: ['TC', 'Doctor'], completionRate: 76 },
+  { id: 'sop_4', title: 'Insurance Verification Process', category: 'Billing', lastUpdated: '2026-01-10', assignedRoles: ['Front Desk', 'Office Manager'], completionRate: 95 },
+  { id: 'sop_5', title: 'Recall Outreach Protocol', category: 'Recall', lastUpdated: '2026-02-28', assignedRoles: ['Front Desk', 'Hygiene'], completionRate: 70 },
+  { id: 'sop_6', title: 'Morning Huddle Template', category: 'Huddles', lastUpdated: '2026-03-05', assignedRoles: ['All'], completionRate: 90 },
+  { id: 'sop_7', title: 'AR Follow-Up Workflow', category: 'AR', lastUpdated: '2026-01-20', assignedRoles: ['Office Manager'], completionRate: 85 },
+  { id: 'sop_8', title: 'Patient Check-In Process', category: 'Phones', lastUpdated: '2026-02-10', assignedRoles: ['Front Desk'], completionRate: 94 },
+  { id: 'sop_9', title: 'Treatment Follow-Up Sequence', category: 'Case Presentation', lastUpdated: '2026-03-02', assignedRoles: ['TC'], completionRate: 68 },
+  { id: 'sop_10', title: 'Patient Checkout & Rebooking', category: 'Scheduling', lastUpdated: '2026-02-18', assignedRoles: ['Front Desk'], completionRate: 91 },
+  { id: 'sop_11', title: 'No-Show Recovery Steps', category: 'Recall', lastUpdated: '2026-02-25', assignedRoles: ['Front Desk'], completionRate: 80 },
+  { id: 'sop_12', title: 'Billing & Payment Collection', category: 'Billing', lastUpdated: '2026-01-15', assignedRoles: ['Front Desk', 'Office Manager'], completionRate: 87 },
+];
+
+// ── Alma Insights ──────────────────────────────────────────────────
+
+export const almaInsights: Insight[] = [
+  {
+    id: 'ins_a1',
+    pillarSlug: 'alma',
+    title: 'Front desk team is 40% through Conversion Foundations',
+    description: 'Completion has stalled since last week. Consider scheduling a dedicated training block this Friday to push through Module 3.',
+    priority: 'high',
+    createdAt: '2026-03-09',
+  },
+  {
+    id: 'ins_a2',
+    pillarSlug: 'alma',
+    title: 'No one has completed the new Recall SOP module',
+    description: 'The Recall Outreach Protocol was updated Feb 28 but only 70% of assigned team members have acknowledged it. Follow up with Hygiene and Front Desk.',
+    priority: 'medium',
+    createdAt: '2026-03-07',
+  },
+  {
+    id: 'ins_a3',
+    pillarSlug: 'alma',
+    title: 'Consider enrolling TC in high-ticket acceptance path',
+    description: 'With high-ticket acceptance at 48%, enrolling the treatment coordinator in the advanced case presentation track could move the needle this quarter.',
+    priority: 'medium',
+    createdAt: '2026-03-05',
+  },
+];
+
+// ── Alma Training Trend ────────────────────────────────────────────
+
+export const trainingCompletionTrend = [
+  { month: 'Oct', value: 8 },
+  { month: 'Nov', value: 12 },
+  { month: 'Dec', value: 10 },
+  { month: 'Jan', value: 16 },
+  { month: 'Feb', value: 20 },
+  { month: 'Mar', value: 24 },
+];
+
 // ── Packages ────────────────────────────────────────────────────────
 
 export const packages: Package[] = [

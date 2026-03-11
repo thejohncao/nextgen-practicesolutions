@@ -34,6 +34,17 @@ export const pillars: Pillar[] = [
     accentBorder: 'border-violet-200',
     icon: 'GraduationCap',
   },
+  {
+    slug: 'alma',
+    name: 'Practice Academy',
+    agentName: 'Alma',
+    title: 'Alma — Practice Academy',
+    description: 'I help your team master the systems that run your practice.',
+    accentColor: 'text-amber-600',
+    accentBg: 'bg-amber-50',
+    accentBorder: 'border-amber-200',
+    icon: 'BookOpen',
+  },
 ];
 
 export const getPillar = (slug: string) => pillars.find((p) => p.slug === slug);

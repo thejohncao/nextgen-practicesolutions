@@ -1,6 +1,6 @@
 // ── Portal Data Models ──────────────────────────────────────────────
 
-export type PillarSlug = 'giselle' | 'miles' | 'devon';
+export type PillarSlug = 'giselle' | 'miles' | 'devon' | 'alma';
 
 export interface Practice {
   id: string;
