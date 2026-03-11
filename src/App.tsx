@@ -356,7 +356,7 @@ function AgentCard({activeAgent}: {activeAgent: string}) {
           }}>
             {/* FRONT */}
             <div style={{
-              position:"absolute",inset:0,borderRadius:3,padding:24,
+              position:"absolute",inset:0,borderRadius:3,padding:24,overflow:"hidden",
               backfaceVisibility:"hidden",WebkitBackfaceVisibility:"hidden",
               background:`rgba(245,166,35,0.07)`,
               border:`1px solid ${col}44`,
@@ -364,16 +364,23 @@ function AgentCard({activeAgent}: {activeAgent: string}) {
               backdropFilter:"blur(20px)",
               display:"flex",flexDirection:"column",justifyContent:"space-between",
             }}>
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
+              {/* Breathing background orb */}
+              <div style={{
+                position:"absolute",top:"50%",left:"50%",width:200,height:200,
+                borderRadius:"50%",background:col,filter:"blur(80px)",
+                animation:"orb-bg-breathe 5s cubic-bezier(0.4,0,0.6,1) infinite",
+                pointerEvents:"none",zIndex:0,willChange:"transform,opacity",
+              }}/>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",position:"relative",zIndex:1}}>
                 <span style={{...mono,fontSize:8,letterSpacing:"0.2em",color:T.textDim,textTransform:"uppercase"}}>{a.ref}</span>
                 <span style={{...mono,fontSize:7,color:`${col}88`,letterSpacing:"0.18em",textTransform:"uppercase"}}>CLICK TO EXPLORE ›</span>
               </div>
-              <div>
+              <div style={{position:"relative",zIndex:1}}>
                 <div style={{...mono,fontSize:8,letterSpacing:"0.25em",color:col,textTransform:"uppercase",marginBottom:6}}>{a.pillar}</div>
                 <div style={{...bebas,fontSize:"2.6rem",lineHeight:.85,letterSpacing:"0.04em",color:T.textMain}}>{a.name}</div>
                 <p style={{...sans,fontSize:11,color:T.textMid,lineHeight:1.6,marginTop:10}}>{a.tagline}</p>
               </div>
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end"}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end",position:"relative",zIndex:1}}>
                 <p style={{...mono,fontSize:9,color:col,lineHeight:1.55,borderLeft:`2px solid ${col}66`,paddingLeft:10,fontStyle:"italic",maxWidth:"78%",opacity:.85}}>{a.microcopy}</p>
                 <span style={{...bebas,fontSize:"3rem",color:`${col}09`,lineHeight:1}}>{a.num}</span>
               </div>
@@ -417,6 +424,18 @@ function AgentCard({activeAgent}: {activeAgent: string}) {
         @keyframes cardFadeIn {
           from { opacity: 0; transform: translateX(8px); }
           to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes breathe-glow {
+          0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 var(--agent-color, #4ade80); opacity: 0.85; }
+          50% { transform: scale(1.4); box-shadow: 0 0 6px 2px var(--agent-color, #4ade80); opacity: 1; }
+        }
+        @keyframes ripple-ring {
+          0% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+          100% { transform: translate(-50%, -50%) scale(2.8); opacity: 0; }
+        }
+        @keyframes orb-bg-breathe {
+          0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.08; }
+          50% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.16; }
         }
       `}</style>
     </>
@@ -463,7 +482,12 @@ function HomeView({onStart}: {onStart:()=>void}) {
                   boxShadow: isActive ? `0 0 12px ${a.color}18` : "none",
                   transition:"all 0.25s ease",
                 }}>
-                <span style={{width:5,height:5,borderRadius:"50%",background:a.color,flexShrink:0}}/>
+                <span style={{position:"relative",display:"inline-flex",alignItems:"center",justifyContent:"center",width:15,height:15,flexShrink:0,overflow:"visible"}}>
+                  <span style={{width:5,height:5,borderRadius:"50%",background:a.color,animation:"breathe-glow 3s cubic-bezier(0.4,0,0.6,1) infinite",willChange:"transform,opacity",["--agent-color" as any]:a.color}}/>
+                  {isActive && [0,1.5].map(d=>(
+                    <span key={d} style={{position:"absolute",top:"50%",left:"50%",width:5,height:5,borderRadius:"50%",border:`1px solid ${a.color}`,animation:`ripple-ring 3s cubic-bezier(0,0,0.2,1) ${d}s infinite`,opacity:0,pointerEvents:"none"}}/>
+                  ))}
+                </span>
                 <span style={{...mono,fontSize:8,letterSpacing:"0.15em",color:a.color,textTransform:"uppercase"}}>{a.name}</span>
                 <span style={{...mono,fontSize:8,color: isActive ? a.color : T.textDim,letterSpacing:"0.08em",transition:"color 0.25s ease"}}>— {a.copy}</span>
               </button>

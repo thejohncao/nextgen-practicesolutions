@@ -247,7 +247,11 @@ export default {
         'scale-pulse': {
           '0%, 100%': { transform: 'scale(1)' },
           '50%': { transform: 'scale(1.03)' },
-        }
+        },
+        'breathe-glow': {
+          '0%, 100%': { transform: 'scale(1)', boxShadow: '0 0 0 0 var(--agent-color, #4ade80)', opacity: '0.85' },
+          '50%': { transform: 'scale(1.4)', boxShadow: '0 0 6px 2px var(--agent-color, #4ade80)', opacity: '1' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -269,6 +273,7 @@ export default {
         'grain': 'grain 8s steps(10) infinite',
         'float-slow': 'float-slow 6s ease-in-out infinite',
         'scale-pulse': 'scale-pulse 3s ease-in-out infinite',
+        'breathe-glow': 'breathe-glow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       transitionTimingFunction: {
         'apple': 'cubic-bezier(0.25, 0.1, 0.25, 1)',

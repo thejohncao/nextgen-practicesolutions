@@ -53,6 +53,13 @@ const pillarTabDot: Record<string, string> = {
   alma: 'bg-amber-400',
 };
 
+const pillarColorHex: Record<string, string> = {
+  giselle: '#34d399',
+  miles: '#fb7185',
+  devon: '#818cf8',
+  alma: '#fbbf24',
+};
+
 const pillarTabBorder: Record<string, string> = {
   giselle: 'border-emerald-400',
   miles: 'border-rose-400',
@@ -132,7 +139,18 @@ export default function Dashboard() {
                     : 'text-[#6B7280] border-transparent hover:text-[#9CA3AF]'
                 )}
               >
-                <span className={cn('w-1.5 h-1.5 rounded-full', pillarTabDot[pillar.slug])} />
+                <span className="relative inline-flex items-center justify-center w-4 h-4 overflow-visible flex-shrink-0">
+                  <span
+                    className={cn(
+                      'w-2 h-2 rounded-full',
+                      pillarTabDot[pillar.slug],
+                      activePillar === pillar.slug && 'animate-breathe-glow'
+                    )}
+                    style={activePillar === pillar.slug ? {
+                      ['--agent-color' as any]: pillarColorHex[pillar.slug],
+                    } : undefined}
+                  />
+                </span>
                 {pillar.agentName}
               </button>
             ))}

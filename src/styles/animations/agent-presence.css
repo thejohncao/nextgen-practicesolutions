@@ -1,0 +1,7 @@
+/* Agent presence — reduced motion support */
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-breathe-glow {
+    animation: none !important;
+  }
+}
