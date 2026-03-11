@@ -4,7 +4,7 @@ import {
   milesDetailKPIs,
   packages,
   insights,
-  milesWorkflows,
+  milesWorkflows as mockMilesWorkflows,
   speedToLeadTrend,
 } from '../data/mock';
 import PillarHero from '../components/PillarHero';
@@ -15,11 +15,22 @@ import InsightCard from '../components/InsightCard';
 import { WorkflowStatusBoard } from '../components/SystemsStatusBoard';
 import MiniChart from '../components/MiniChart';
 import CTACard from '../components/CTACard';
+import PillarChecklist from '../components/PillarChecklist';
+import { usePractice } from '../context/PracticeContext';
+import { usePracticeData } from '../hooks/usePracticeData';
 
 export default function MilesPage() {
   const pillar = getPillar('miles')!;
   const milesPackages = packages.filter((p) => p.pillarSlug === 'miles');
   const milesInsights = insights.filter((i) => i.pillarSlug === 'miles');
+  const { isDemo, getItemEnabled, toggleItem } = usePractice();
+  const { milesWorkflows } = usePracticeData();
+
+  const checklistItems = mockMilesWorkflows.map((w) => ({
+    id: w.id,
+    name: w.name,
+    enabled: getItemEnabled('miles', w.id),
+  }));
 
   return (
     <div className="px-4 lg:px-8 py-6 max-w-7xl mx-auto space-y-8">
@@ -43,6 +54,15 @@ export default function MilesPage() {
           <PackageCard key={pkg.id} pkg={pkg} />
         ))}
       </div>
+
+      {/* Onboarding Checklist (non-demo only) */}
+      {!isDemo && (
+        <PillarChecklist
+          title="Workflow Activation Checklist"
+          items={checklistItems}
+          onToggle={(id) => toggleItem('miles', id)}
+        />
+      )}
 
       {/* Workflow Status Board */}
       <WorkflowStatusBoard title="Systems / Workflow Status" workflows={milesWorkflows} />

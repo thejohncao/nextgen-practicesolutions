@@ -1,10 +1,13 @@
-import { Bell, Search, ChevronDown, Menu, Route } from 'lucide-react';
-import { demoPractice, demoUser, notifications } from '../data/mock';
+import { Bell, Search, Menu, Route } from 'lucide-react';
+import { notifications } from '../data/mock';
 import { useState } from 'react';
 import PortalMobileNav from './PortalMobileNav';
+import PracticeSwitcher from './PracticeSwitcher';
+import { usePractice } from '../context/PracticeContext';
 
 export default function PortalHeader({ onStartTour }: { onStartTour?: () => void }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { activeUser } = usePractice();
   const unread = notifications.filter((n) => !n.read).length;
 
   return (
@@ -20,10 +23,7 @@ export default function PortalHeader({ onStartTour }: { onStartTour?: () => void
               <Menu className="w-5 h-5 text-[#9CA3AF]" />
             </button>
 
-            <button className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-white/[0.04] transition text-sm">
-              <span className="font-semibold text-[#F9FAFB]">{demoPractice.name}</span>
-              <ChevronDown className="w-4 h-4 text-[#6B7280]" />
-            </button>
+            <PracticeSwitcher />
 
             <div className="hidden md:flex items-center gap-1 text-xs text-[#6B7280] bg-white/[0.04] px-2.5 py-1 rounded-full">
               Last 30 days
@@ -56,13 +56,13 @@ export default function PortalHeader({ onStartTour }: { onStartTour?: () => void
             <div className="flex items-center gap-2 pl-2 ml-1 border-l border-white/[0.06]">
               <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center">
                 <span className="text-[#0B0C10] text-xs font-semibold">
-                  {demoUser.name
+                  {activeUser.name
                     .split(' ')
                     .map((n) => n[0])
                     .join('')}
                 </span>
               </div>
-              <span className="hidden lg:block text-sm font-medium text-[#9CA3AF]">{demoUser.name}</span>
+              <span className="hidden lg:block text-sm font-medium text-[#9CA3AF]">{activeUser.name}</span>
             </div>
           </div>
         </div>

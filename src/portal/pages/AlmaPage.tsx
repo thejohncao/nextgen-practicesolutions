@@ -3,9 +3,9 @@ import { getPillar } from '../data/pillars';
 import {
   almaHeroKPIs,
   almaDetailKPIs,
-  academyPrograms,
-  rolePaths,
-  sopLibrary,
+  academyPrograms as mockAcademyPrograms,
+  rolePaths as mockRolePaths,
+  sopLibrary as mockSopLibrary,
   almaInsights,
   trainingCompletionTrend,
 } from '../data/mock';
@@ -16,6 +16,9 @@ import MetricGrid from '../components/MetricGrid';
 import InsightCard from '../components/InsightCard';
 import MiniChart from '../components/MiniChart';
 import CTACard from '../components/CTACard';
+import PillarChecklist from '../components/PillarChecklist';
+import { usePractice } from '../context/PracticeContext';
+import { usePracticeData } from '../hooks/usePracticeData';
 import { cn } from '@/lib/utils';
 import { CheckCircle2, Circle, BookOpen, Search } from 'lucide-react';
 
@@ -158,6 +161,8 @@ export default function AlmaPage() {
   const [roleFilter, setRoleFilter] = useState('All');
   const [sopCategory, setSopCategory] = useState('All');
   const [sopSearch, setSopSearch] = useState('');
+  const { isDemo, getAlmaItemEnabled, toggleAlmaItem } = usePractice();
+  const { academyPrograms, rolePaths, sopLibrary } = usePracticeData();
 
   const filteredPaths = roleFilter === 'All' ? rolePaths : rolePaths.filter((p) => p.role === roleFilter);
 
@@ -166,6 +171,24 @@ export default function AlmaPage() {
     const matchSearch = !sopSearch || sop.title.toLowerCase().includes(sopSearch.toLowerCase());
     return matchCategory && matchSearch;
   });
+
+  const programChecklist = mockAcademyPrograms.map((p) => ({
+    id: p.id,
+    name: p.name,
+    enabled: getAlmaItemEnabled('programs', p.id),
+  }));
+  const moduleChecklist = mockRolePaths.flatMap((rp) =>
+    rp.modules.map((m) => ({
+      id: m.id,
+      name: `${rp.role}: ${m.name}`,
+      enabled: getAlmaItemEnabled('rolePaths', m.id),
+    }))
+  );
+  const sopChecklist = mockSopLibrary.map((s) => ({
+    id: s.id,
+    name: s.title,
+    enabled: getAlmaItemEnabled('sops', s.id),
+  }));
 
   return (
     <div className="px-4 lg:px-8 py-6 max-w-7xl mx-auto space-y-8">
@@ -180,6 +203,15 @@ export default function AlmaPage() {
       </div>
 
       <MiniChart data={trainingCompletionTrend} color="#F5A623" title="Modules Completed per Month" />
+
+      {/* Onboarding Checklists (non-demo only) */}
+      {!isDemo && (
+        <div className="space-y-4">
+          <PillarChecklist title="Training Programs Checklist" items={programChecklist} onToggle={(id) => toggleAlmaItem('programs', id)} />
+          <PillarChecklist title="Role Learning Modules Checklist" items={moduleChecklist} onToggle={(id) => toggleAlmaItem('rolePaths', id)} />
+          <PillarChecklist title="SOP Library Checklist" items={sopChecklist} onToggle={(id) => toggleAlmaItem('sops', id)} />
+        </div>
+      )}
 
       <SectionHeader title="Programs & Tracks" />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

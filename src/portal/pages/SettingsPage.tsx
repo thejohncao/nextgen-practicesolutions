@@ -1,25 +1,27 @@
-import { demoPractice, demoUser } from '../data/mock';
 import SectionHeader from '../components/SectionHeader';
 import { Building2, User, Bell, Palette, Plug } from 'lucide-react';
+import { usePractice } from '../context/PracticeContext';
 
 export default function SettingsPage() {
+  const { activePractice, activeUser } = usePractice();
+
   return (
     <div className="px-4 lg:px-8 py-6 max-w-3xl mx-auto space-y-8">
       <SectionHeader title="Settings" subtitle="Manage your portal preferences" />
 
       {/* Practice Info */}
       <SettingsSection icon={Building2} title="Practice Information">
-        <SettingsField label="Practice Name" value={demoPractice.name} />
-        <SettingsField label="Plan" value={demoPractice.plan} />
-        <SettingsField label="Locations" value={demoPractice.locations.join(', ')} />
-        <SettingsField label="Onboarded" value={new Date(demoPractice.onboardedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} />
+        <SettingsField label="Practice Name" value={activePractice.name} />
+        <SettingsField label="Plan" value={activePractice.plan} />
+        <SettingsField label="Locations" value={activePractice.locations.join(', ')} />
+        <SettingsField label="Onboarded" value={new Date(activePractice.onboardedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} />
       </SettingsSection>
 
       {/* User Profile */}
       <SettingsSection icon={User} title="User Profile">
-        <SettingsField label="Name" value={demoUser.name} />
-        <SettingsField label="Email" value={demoUser.email} />
-        <SettingsField label="Role" value={demoUser.role.charAt(0).toUpperCase() + demoUser.role.slice(1)} />
+        <SettingsField label="Name" value={activeUser.name} />
+        <SettingsField label="Email" value={activeUser.email} />
+        <SettingsField label="Role" value={activeUser.role.charAt(0).toUpperCase() + activeUser.role.slice(1)} />
       </SettingsSection>
 
       {/* Notifications */}

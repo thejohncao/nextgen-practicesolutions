@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 export default function PortalLogin() {
   const navigate = useNavigate();
@@ -62,9 +62,15 @@ export default function PortalLogin() {
           </button>
         </form>
 
-        <p className="text-center text-xs text-[#6B7280] mt-6">
-          Demo mode — any credentials will work
-        </p>
+        <div className="text-center mt-6 space-y-2">
+          <p className="text-xs text-[#6B7280]">Demo mode — any credentials will work</p>
+          <Link
+            to="/portal/create"
+            className="inline-block text-sm font-medium text-[#F5A623] hover:text-[#E09800] transition"
+          >
+            Create New Practice →
+          </Link>
+        </div>
       </div>
     </div>
   );
