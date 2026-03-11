@@ -79,7 +79,7 @@ export default function TimelinePage() {
       </div>
 
       {/* Timeline */}
-      <div className="bg-white/[0.04] backdrop-blur-sm rounded-xl border border-white/[0.06] shadow-glass p-6">
+      <div data-tour="timeline-container" className="bg-white/[0.04] backdrop-blur-sm rounded-xl border border-white/[0.06] shadow-glass p-6">
         {filtered.length === 0 ? (
           <p className="text-sm text-[#6B7280] text-center py-8">No milestones match the selected filters.</p>
         ) : (

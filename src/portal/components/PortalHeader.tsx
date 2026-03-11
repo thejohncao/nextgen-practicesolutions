@@ -1,9 +1,9 @@
-import { Bell, Search, ChevronDown, Menu } from 'lucide-react';
+import { Bell, Search, ChevronDown, Menu, Route } from 'lucide-react';
 import { demoPractice, demoUser, notifications } from '../data/mock';
 import { useState } from 'react';
 import PortalMobileNav from './PortalMobileNav';
 
-export default function PortalHeader() {
+export default function PortalHeader({ onStartTour }: { onStartTour?: () => void }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const unread = notifications.filter((n) => !n.read).length;
 
@@ -35,6 +35,15 @@ export default function PortalHeader() {
             <button className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg bg-white/[0.04] hover:bg-white/[0.06] transition text-sm text-[#6B7280] w-48 lg:w-64">
               <Search className="w-4 h-4" />
               <span>Search...</span>
+            </button>
+
+            <button
+              onClick={onStartTour}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-[#F5A623] hover:bg-[#F5A623]/10 transition"
+              title="Start guided tour"
+            >
+              <Route className="w-4 h-4" />
+              <span className="hidden sm:inline">Tour</span>
             </button>
 
             <button className="relative p-2 rounded-lg hover:bg-white/[0.06] transition">
