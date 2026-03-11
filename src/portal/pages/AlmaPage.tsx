@@ -1,13 +1,9 @@
 import { useState } from 'react';
 import { getPillar } from '../data/pillars';
 import {
-  almaHeroKPIs,
-  almaDetailKPIs,
   academyPrograms as mockAcademyPrograms,
   rolePaths as mockRolePaths,
   sopLibrary as mockSopLibrary,
-  almaInsights,
-  trainingCompletionTrend,
 } from '../data/mock';
 import type { AcademyProgram, RolePath, SOPEntry } from '../data/mock';
 import PillarHero from '../components/PillarHero';
@@ -17,6 +13,7 @@ import InsightCard from '../components/InsightCard';
 import MiniChart from '../components/MiniChart';
 import CTACard from '../components/CTACard';
 import PillarChecklist from '../components/PillarChecklist';
+import NeedsSetupBanner from '../components/NeedsSetupBanner';
 import { usePractice } from '../context/PracticeContext';
 import { usePracticeData } from '../hooks/usePracticeData';
 import { cn } from '@/lib/utils';
@@ -162,7 +159,15 @@ export default function AlmaPage() {
   const [sopCategory, setSopCategory] = useState('All');
   const [sopSearch, setSopSearch] = useState('');
   const { isDemo, getAlmaItemEnabled, toggleAlmaItem } = usePractice();
-  const { academyPrograms, rolePaths, sopLibrary } = usePracticeData();
+  const {
+    academyPrograms,
+    rolePaths,
+    sopLibrary,
+    almaHeroKPIs,
+    almaDetailKPIs,
+    almaInsights,
+    trainingCompletionTrend,
+  } = usePracticeData();
 
   const filteredPaths = roleFilter === 'All' ? rolePaths : rolePaths.filter((p) => p.role === roleFilter);
 
@@ -193,6 +198,8 @@ export default function AlmaPage() {
   return (
     <div className="px-4 lg:px-8 py-6 max-w-7xl mx-auto space-y-8">
       <div data-tour="alma-hero"><PillarHero pillar={pillar} kpis={almaHeroKPIs} /></div>
+
+      {!isDemo && <NeedsSetupBanner />}
 
       <SectionHeader title="Academy Overview" />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -279,11 +286,17 @@ export default function AlmaPage() {
       </div>
 
       <SectionHeader title="Recommendations" />
-      <div className="space-y-3">
-        {almaInsights.map((ins) => (
-          <InsightCard key={ins.id} insight={ins} />
-        ))}
-      </div>
+      {almaInsights.length > 0 ? (
+        <div className="space-y-3">
+          {almaInsights.map((ins) => (
+            <InsightCard key={ins.id} insight={ins} />
+          ))}
+        </div>
+      ) : (
+        <div className="bg-white/[0.04] backdrop-blur-sm rounded-xl border border-white/[0.06] shadow-glass p-5">
+          <p className="text-sm text-[#6B7280] text-center py-4">No recommendations yet. Complete onboarding to receive insights.</p>
+        </div>
+      )}
 
       <CTACard
         title="Ask Alma to build or customize training for your team"

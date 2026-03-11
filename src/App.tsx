@@ -74,17 +74,6 @@ const PKGS: Record<string, {name:string;setup:number;mo:number;roi:string}> = {
   "FTP":{name:"Front Desk & TC Performance",setup:1500,mo:1500,roi:"A 20% improvement in phone conversion or case acceptance pays for training many times over."},
 };
 
-const BUNDLES = [
-  {name:"Growth Engine",who:"If your biggest pain is getting enough new patients and making sure every lead gets followed up.",
-    pkgs:["PAE","STL","DDL"],setup:8500,mo:4000,fy:56500,
-    line:"Everything you need to consistently generate and capture high-value new patients — without hiring more staff or guessing what's working."},
-  {name:"Case Acceptance Accelerator",who:"If your bigger problem is that consults and treatment plans aren't converting like they should.",
-    pkgs:["CAS","FTP","STL"],setup:8000,mo:3000,fy:44000,
-    line:"Turn more of your existing leads and consults into accepted treatment — without increasing ad spend or chair time."},
-  {name:"Full Operating System",who:"If you need a ground-up build across marketing, systems, training, and reporting.",
-    pkgs:["STL","CAS","RRE","DDL","TOS","RCO"],setup:18500,mo:6300,fy:94100,
-    line:"The complete NextGen implementation — every system, every automation, every training program your practice needs to run at full capacity."},
-];
 
 const SERVICE_STATUS: Record<string, {label:string;color:string;bg:string}> = {
   PAE:{label:"Ready",color:"#16A34A",bg:"#F0FDF4"},
@@ -978,17 +967,14 @@ function ReportView({sc, onBack}: {sc:ScoreData;onBack:()=>void}) {
             {pil.lkMn > 0 && <div style={{background:"#FEF2F2",borderRadius:6,padding:12,marginBottom:14,fontSize:11}}><span style={{fontWeight:600,color:"#DC2626"}}>Estimated monthly leak from this pillar: ${fmt(pil.lkMn)}–${fmt(pil.lkMx)}</span></div>}
             {pilGaps.length > 0 && (
               <table className="tbl">
-                <thead><tr><th style={{width:"36%"}}>Gap</th><th>Leak/mo</th><th>Package</th><th style={{width:"28%"}}>ROI</th></tr></thead>
+                <thead><tr><th style={{width:"60%"}}>Gap</th><th>Leak/mo</th></tr></thead>
                 <tbody>
                   {pilGaps.map((g,gi) => {
-                    const pkg = PKGS[g.pk];
                     const loss = g.a===0?`$${fmt(g.mn)}–$${fmt(g.mx)}`:`$${fmt(Math.round(g.mn*.5))}–$${fmt(Math.round(g.mx*.5))}`;
                     return (
                       <tr key={gi}>
                         <td style={{fontWeight:500}}>{g.t.length>68?g.t.slice(0,68)+"...":g.t}{g.m&&<span style={{color:"#DC2626",fontSize:9}}> ★ HIGH</span>}</td>
                         <td style={{color:"#DC2626",fontWeight:600,whiteSpace:"nowrap"}}>{loss}</td>
-                        <td style={{fontWeight:600,fontSize:10}}>{pkg.name}</td>
-                        <td style={{fontSize:10,color:"#6B7280"}}>{pkg.roi}</td>
                       </tr>
                     );
                   })}
@@ -1032,8 +1018,6 @@ function ReportView({sc, onBack}: {sc:ScoreData;onBack:()=>void}) {
 
             {/* Phase detail cards */}
             {rec.phases.map(ph => {
-              const phSetup = ph.services.reduce((s,sv) => s+sv.pkg.setup, 0);
-              const phMo = ph.services.reduce((s,sv) => s+sv.pkg.mo, 0);
               return (
                 <div key={ph.num} className="pg rpt">
                   {/* Phase header */}
@@ -1071,52 +1055,15 @@ function ReportView({sc, onBack}: {sc:ScoreData;onBack:()=>void}) {
                         {sv.gaps.length>3&&<div style={{fontSize:9,color:"#9CA3AF",paddingLeft:10}}>+{sv.gaps.length-3} more gap{sv.gaps.length-3>1?"s":""}</div>}
                       </div>
 
-                      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",paddingTop:8,borderTop:"1px solid #E2E5EB"}}>
-                        <div style={{fontSize:10}}>
-                          <span style={{color:"#6B7280"}}>Setup:</span> <strong style={{color:"#1B2A4A"}}>${fmt(sv.pkg.setup)}</strong>
-                          <span style={{color:"#E2E5EB",margin:"0 6px"}}>·</span>
-                          <span style={{color:"#6B7280"}}>Monthly:</span> <strong style={{color:"#1B2A4A"}}>${fmt(sv.pkg.mo)}</strong>
-                        </div>
-                      </div>
-                      <div style={{fontSize:10,color:"#6B7280",fontStyle:"italic",marginTop:6,lineHeight:1.5}}>{sv.pkg.roi}</div>
                     </div>
                   ))}
 
-                  {/* Phase subtotal */}
-                  <div style={{display:"flex",justifyContent:"flex-end",gap:16,marginTop:12,paddingTop:10,borderTop:"1px solid #E2E5EB"}}>
-                    <span style={{fontSize:10,color:"#6B7280"}}>Phase {ph.num} total:</span>
-                    <span style={{fontSize:10,fontWeight:700,color:"#1B2A4A"}}>Setup ${fmt(phSetup)} · ${fmt(phMo)}/mo</span>
-                  </div>
                 </div>
               );
             })}
 
-            {/* Investment summary + Portal CTA */}
+            {/* Portal CTA + Footer */}
             <div className="pg rpt">
-              <div style={{fontSize:15,fontWeight:700,color:"#1B2A4A",marginBottom:16}}>Investment Summary</div>
-
-              <div style={{display:"flex",gap:12,marginBottom:20,flexWrap:"wrap"}}>
-                <div style={{flex:1,minWidth:160,border:"1px solid #E2E5EB",borderRadius:8,padding:16,textAlign:"center"}}>
-                  <div style={{fontSize:9,color:"#6B7280",letterSpacing:"0.1em",marginBottom:4}}>TOTAL SETUP</div>
-                  <div style={{fontSize:20,fontWeight:800,color:"#1B2A4A"}}>${fmt(rec.totalSetup)}</div>
-                </div>
-                <div style={{flex:1,minWidth:160,border:"1px solid #E2E5EB",borderRadius:8,padding:16,textAlign:"center"}}>
-                  <div style={{fontSize:9,color:"#6B7280",letterSpacing:"0.1em",marginBottom:4}}>MONTHLY</div>
-                  <div style={{fontSize:20,fontWeight:800,color:"#1B2A4A"}}>${fmt(rec.totalMo)}/mo</div>
-                </div>
-                <div style={{flex:1,minWidth:160,border:"1px solid #E2E5EB",borderRadius:8,padding:16,textAlign:"center"}}>
-                  <div style={{fontSize:9,color:"#6B7280",letterSpacing:"0.1em",marginBottom:4}}>REVENUE AT RISK</div>
-                  <div style={{fontSize:20,fontWeight:800,color:"#DC2626"}}>${fmt(sc.lkMn)}/mo</div>
-                </div>
-              </div>
-
-              {sc.lkMn>0&&rec.totalMo>0&&(
-                <div style={{background:"#F0FDF4",borderRadius:8,padding:14,marginBottom:20,fontSize:11,color:"#16A34A",fontWeight:600,textAlign:"center"}}>
-                  You're losing ${fmt(sc.lkMn)}–${fmt(sc.lkMx)}/mo. Fixing it costs ${fmt(rec.totalMo)}/mo — a {Math.round(sc.lkMn/rec.totalMo)}–{Math.round(sc.lkMx/rec.totalMo)}x return.
-                </div>
-              )}
-
-              {/* Portal handoff CTA */}
               <div style={{textAlign:"center",padding:28,background:"#1B2A4A",borderRadius:8}}>
                 <div style={{fontSize:15,fontWeight:700,color:"#C9A84C",marginBottom:6}}>Ready to activate your roadmap?</div>
                 <div style={{fontSize:11,color:"rgba(255,255,255,0.6)",marginBottom:20,lineHeight:1.6}}>Your assessment results will pre-load into your portal — no re-entry needed.</div>

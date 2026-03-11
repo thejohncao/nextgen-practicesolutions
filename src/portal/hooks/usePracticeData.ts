@@ -7,8 +7,27 @@ import {
   academyPrograms as mockAcademyPrograms,
   rolePaths as mockRolePaths,
   sopLibrary as mockSopLibrary,
+  globalKPIs as mockGlobalKPIs,
+  pillarSummaries as mockPillarSummaries,
+  packages as mockPackages,
+  milestones as mockMilestones,
+  insights as mockInsights,
+  newPatientTrend as mockNewPatientTrend,
+  speedToLeadTrend as mockSpeedToLeadTrend,
+  caseAcceptanceTrend as mockCaseAcceptanceTrend,
+  trainingCompletionTrend as mockTrainingCompletionTrend,
+  clientRequests as mockClientRequests,
+  giselleHeroKPIs as mockGiselleHeroKPIs,
+  giselleDetailKPIs as mockGiselleDetailKPIs,
+  milesHeroKPIs as mockMilesHeroKPIs,
+  milesDetailKPIs as mockMilesDetailKPIs,
+  devonHeroKPIs as mockDevonHeroKPIs,
+  devonDetailKPIs as mockDevonDetailKPIs,
+  almaHeroKPIs as mockAlmaHeroKPIs,
+  almaDetailKPIs as mockAlmaDetailKPIs,
+  almaInsights as mockAlmaInsights,
 } from '../data/mock';
-import type { SystemAsset, WorkflowItem } from '../types';
+import type { SystemAsset, WorkflowItem, KPI, Package, Milestone, Insight, ClientRequest } from '../types';
 import type { RolePath, SOPEntry } from '../data/mock';
 
 interface AcademyProgram {
@@ -19,6 +38,14 @@ interface AcademyProgram {
   status: 'not_started' | 'in_progress' | 'completed';
   progress: number;
   lastActivity: string;
+}
+
+function emptyKPI(kpi: KPI): KPI {
+  return { ...kpi, value: '—', change: '—', changeDirection: 'flat' as const };
+}
+
+function emptyMetrics(metrics: { id: string; label: string; value: string; changeDirection?: string }[]) {
+  return metrics.map((m) => ({ ...m, value: '—', ...(m.changeDirection !== undefined ? { changeDirection: 'flat' as const } : {}) }));
 }
 
 export function usePracticeData() {
@@ -78,12 +105,157 @@ export function usePracticeData() {
     }));
   }, [isDemo, getAlmaItemEnabled]);
 
+  // ── Practice-aware KPI and data exports ──
+
+  const globalKPIs: KPI[] = useMemo(() => {
+    if (isDemo) return mockGlobalKPIs;
+    return mockGlobalKPIs.map(emptyKPI);
+  }, [isDemo]);
+
+  const pillarSummaries = useMemo(() => {
+    if (isDemo) return mockPillarSummaries;
+    return mockPillarSummaries.map((s) => ({
+      ...s,
+      topKPIs: s.topKPIs.map((k) => ({ ...k, value: '—', change: '—' })),
+      activePackages: 0,
+      alert: 'Complete onboarding to activate this pillar',
+    }));
+  }, [isDemo]);
+
+  const packages: Package[] = useMemo(() => {
+    if (isDemo) return mockPackages;
+    return [];
+  }, [isDemo]);
+
+  const milestones: Milestone[] = useMemo(() => {
+    if (isDemo) return mockMilestones;
+    return [];
+  }, [isDemo]);
+
+  const insights: Insight[] = useMemo(() => {
+    if (isDemo) return mockInsights;
+    return [];
+  }, [isDemo]);
+
+  const almaInsights: Insight[] = useMemo(() => {
+    if (isDemo) return mockAlmaInsights;
+    return [];
+  }, [isDemo]);
+
+  const clientRequests: ClientRequest[] = useMemo(() => {
+    if (isDemo) return mockClientRequests;
+    return [];
+  }, [isDemo]);
+
+  const newPatientTrend = useMemo(() => {
+    if (isDemo) return mockNewPatientTrend;
+    return mockNewPatientTrend.map((d) => ({ ...d, value: 0 }));
+  }, [isDemo]);
+
+  const speedToLeadTrend = useMemo(() => {
+    if (isDemo) return mockSpeedToLeadTrend;
+    return mockSpeedToLeadTrend.map((d) => ({ ...d, value: 0 }));
+  }, [isDemo]);
+
+  const caseAcceptanceTrend = useMemo(() => {
+    if (isDemo) return mockCaseAcceptanceTrend;
+    return mockCaseAcceptanceTrend.map((d) => ({ ...d, value: 0 }));
+  }, [isDemo]);
+
+  const trainingCompletionTrend = useMemo(() => {
+    if (isDemo) return mockTrainingCompletionTrend;
+    return mockTrainingCompletionTrend.map((d) => ({ ...d, value: 0 }));
+  }, [isDemo]);
+
+  // ── Pillar-specific KPIs ──
+
+  const giselleHeroKPIs: KPI[] = useMemo(() => {
+    if (isDemo) return mockGiselleHeroKPIs;
+    return mockGiselleHeroKPIs.map(emptyKPI);
+  }, [isDemo]);
+
+  const giselleDetailKPIs = useMemo(() => {
+    if (isDemo) return mockGiselleDetailKPIs;
+    return {
+      newPatientVolume: emptyMetrics(mockGiselleDetailKPIs.newPatientVolume),
+      marketingPerformance: emptyMetrics(mockGiselleDetailKPIs.marketingPerformance),
+      websiteConversion: emptyMetrics(mockGiselleDetailKPIs.websiteConversion),
+      reputationPresence: emptyMetrics(mockGiselleDetailKPIs.reputationPresence),
+    };
+  }, [isDemo]);
+
+  const milesHeroKPIs: KPI[] = useMemo(() => {
+    if (isDemo) return mockMilesHeroKPIs;
+    return mockMilesHeroKPIs.map(emptyKPI);
+  }, [isDemo]);
+
+  const milesDetailKPIs = useMemo(() => {
+    if (isDemo) return mockMilesDetailKPIs;
+    return {
+      speedToLead: emptyMetrics(mockMilesDetailKPIs.speedToLead),
+      bookingShow: emptyMetrics(mockMilesDetailKPIs.bookingShow),
+      recallRetention: emptyMetrics(mockMilesDetailKPIs.recallRetention),
+      revenueAR: emptyMetrics(mockMilesDetailKPIs.revenueAR),
+      teamSystems: emptyMetrics(mockMilesDetailKPIs.teamSystems),
+    };
+  }, [isDemo]);
+
+  const devonHeroKPIs: KPI[] = useMemo(() => {
+    if (isDemo) return mockDevonHeroKPIs;
+    return mockDevonHeroKPIs.map(emptyKPI);
+  }, [isDemo]);
+
+  const devonDetailKPIs = useMemo(() => {
+    if (isDemo) return mockDevonDetailKPIs;
+    return {
+      caseAcceptance: emptyMetrics(mockDevonDetailKPIs.caseAcceptance),
+      treatmentOpportunity: emptyMetrics(mockDevonDetailKPIs.treatmentOpportunity),
+      frontDeskConversion: emptyMetrics(mockDevonDetailKPIs.frontDeskConversion),
+      trainingCoaching: emptyMetrics(mockDevonDetailKPIs.trainingCoaching),
+    };
+  }, [isDemo]);
+
+  const almaHeroKPIs: KPI[] = useMemo(() => {
+    if (isDemo) return mockAlmaHeroKPIs;
+    return mockAlmaHeroKPIs.map(emptyKPI);
+  }, [isDemo]);
+
+  const almaDetailKPIs = useMemo(() => {
+    if (isDemo) return mockAlmaDetailKPIs;
+    return {
+      teamOnboarding: emptyMetrics(mockAlmaDetailKPIs.teamOnboarding),
+      certifications: emptyMetrics(mockAlmaDetailKPIs.certifications),
+      trainingActivity: emptyMetrics(mockAlmaDetailKPIs.trainingActivity),
+      sopLibrary: emptyMetrics(mockAlmaDetailKPIs.sopLibrary),
+    };
+  }, [isDemo]);
+
   return {
+    isDemo,
     giselleAssets,
     milesWorkflows,
     devonTools,
     academyPrograms,
     rolePaths: rolePathsData,
     sopLibrary,
+    globalKPIs,
+    pillarSummaries,
+    packages,
+    milestones,
+    insights,
+    almaInsights,
+    clientRequests,
+    newPatientTrend,
+    speedToLeadTrend,
+    caseAcceptanceTrend,
+    trainingCompletionTrend,
+    giselleHeroKPIs,
+    giselleDetailKPIs,
+    milesHeroKPIs,
+    milesDetailKPIs,
+    devonHeroKPIs,
+    devonDetailKPIs,
+    almaHeroKPIs,
+    almaDetailKPIs,
   };
 }

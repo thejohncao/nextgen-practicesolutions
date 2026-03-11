@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { clientRequests } from '../data/mock';
-import { RequestStatus, PillarSlug } from '../types';
+import { RequestStatus } from '../types';
 import SectionHeader from '../components/SectionHeader';
 import RequestTable from '../components/RequestTable';
+import NeedsSetupBanner from '../components/NeedsSetupBanner';
+import { usePracticeData } from '../hooks/usePracticeData';
 import { cn } from '@/lib/utils';
 import { Plus, X } from 'lucide-react';
 
@@ -18,6 +19,7 @@ const statusFilters: { label: string; value: RequestStatus | 'all' }[] = [
 export default function RequestsPage() {
   const [statusFilter, setStatusFilter] = useState<RequestStatus | 'all'>('all');
   const [showForm, setShowForm] = useState(false);
+  const { isDemo, clientRequests } = usePracticeData();
 
   const filtered = clientRequests.filter(
     (r) => statusFilter === 'all' || r.status === statusFilter
@@ -38,6 +40,8 @@ export default function RequestsPage() {
           </button>
         }
       />
+
+      {!isDemo && <NeedsSetupBanner />}
 
       {/* New Request Form */}
       {showForm && <NewRequestForm onClose={() => setShowForm(false)} />}
@@ -60,7 +64,19 @@ export default function RequestsPage() {
         ))}
       </div>
 
-      <div data-tour="requests-table"><RequestTable requests={filtered} /></div>
+      <div data-tour="requests-table">
+        {filtered.length > 0 ? (
+          <RequestTable requests={filtered} />
+        ) : (
+          <div className="bg-white/[0.04] backdrop-blur-sm rounded-xl border border-white/[0.06] shadow-glass p-5">
+            <p className="text-sm text-[#6B7280] text-center py-4">
+              {clientRequests.length === 0
+                ? 'No requests yet. Complete onboarding to get started.'
+                : 'No requests match the selected filter.'}
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
