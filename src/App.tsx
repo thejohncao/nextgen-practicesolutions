@@ -366,8 +366,8 @@ function AgentCard({activeAgent}: {activeAgent: string}) {
             }}>
               {/* Breathing background orb */}
               <div style={{
-                position:"absolute",top:"50%",left:"50%",width:200,height:200,
-                borderRadius:"50%",background:col,filter:"blur(80px)",
+                position:"absolute",top:"45%",left:"45%",width:240,height:240,
+                borderRadius:"50%",background:col,filter:"blur(90px)",opacity:0.15,
                 animation:"orb-bg-breathe 5s cubic-bezier(0.4,0,0.6,1) infinite",
                 pointerEvents:"none",zIndex:0,willChange:"transform,opacity",
               }}/>
@@ -426,16 +426,16 @@ function AgentCard({activeAgent}: {activeAgent: string}) {
           to { opacity: 1; transform: translateX(0); }
         }
         @keyframes breathe-glow {
-          0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 var(--agent-color, #4ade80); opacity: 0.85; }
-          50% { transform: scale(1.4); box-shadow: 0 0 6px 2px var(--agent-color, #4ade80); opacity: 1; }
+          0%, 100% { transform: scale(1); opacity: 0.7; }
+          50% { transform: scale(1.5); opacity: 1; }
         }
         @keyframes ripple-ring {
-          0% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
-          100% { transform: translate(-50%, -50%) scale(2.8); opacity: 0; }
+          0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.6; }
+          100% { transform: translate(-50%, -50%) scale(3.5); opacity: 0; }
         }
         @keyframes orb-bg-breathe {
-          0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.08; }
-          50% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.16; }
+          0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.1; }
+          50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.2; }
         }
       `}</style>
     </>
@@ -482,10 +482,10 @@ function HomeView({onStart}: {onStart:()=>void}) {
                   boxShadow: isActive ? `0 0 12px ${a.color}18` : "none",
                   transition:"all 0.25s ease",
                 }}>
-                <span style={{position:"relative",display:"inline-flex",alignItems:"center",justifyContent:"center",width:15,height:15,flexShrink:0,overflow:"visible"}}>
-                  <span style={{width:5,height:5,borderRadius:"50%",background:a.color,animation:"breathe-glow 3s cubic-bezier(0.4,0,0.6,1) infinite",willChange:"transform,opacity",["--agent-color" as any]:a.color}}/>
+                <span style={{position:"relative",display:"inline-flex",alignItems:"center",justifyContent:"center",width:18,height:18,flexShrink:0,overflow:"visible"}}>
+                  <span style={{width:7,height:7,borderRadius:"50%",background:a.color,boxShadow:`0 0 8px 2px ${a.color}88`,animation:"breathe-glow 3s cubic-bezier(0.4,0,0.6,1) infinite",willChange:"transform,opacity"}}/>
                   {isActive && [0,1.5].map(d=>(
-                    <span key={d} style={{position:"absolute",top:"50%",left:"50%",width:5,height:5,borderRadius:"50%",border:`1px solid ${a.color}`,animation:`ripple-ring 3s cubic-bezier(0,0,0.2,1) ${d}s infinite`,opacity:0,pointerEvents:"none"}}/>
+                    <span key={d} style={{position:"absolute",top:"50%",left:"50%",width:7,height:7,borderRadius:"50%",border:`1.5px solid ${a.color}88`,animation:`ripple-ring 3s cubic-bezier(0,0,0.2,1) ${d}s infinite`,opacity:0,pointerEvents:"none"}}/>
                   ))}
                 </span>
                 <span style={{...mono,fontSize:8,letterSpacing:"0.15em",color:a.color,textTransform:"uppercase"}}>{a.name}</span>
