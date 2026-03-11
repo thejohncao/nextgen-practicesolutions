@@ -294,8 +294,9 @@ function TopBar({answered, catColor, user, onLoginClick, onLogout}: {answered:nu
 
 // ── STACKED CARDS (hero right side) ──
 function StackedCards() {
-  const [hovered, setHovered] = useState<string | null>(null);
-  const [flipped, setFlipped] = useState<string | null>(null);
+  const [activeAgent, setActiveAgent] = useState<string>("growth");
+  const [flipped, setFlipped] = useState(false);
+  const [fadeKey, setFadeKey] = useState(0);
 
   const AGENT_COLOR: Record<string, string> = {
     growth: "#4ade80",
@@ -331,62 +332,77 @@ function StackedCards() {
       caps:["Build onboarding tracks for new front desk hires in days not weeks","Generate role-specific SOPs and training playbooks automatically","Coach from real call recordings to improve booking conversion","Create accountability scorecards tied to team KPIs","Deliver ongoing training that evolves with your practice"]},
   ];
 
-  const stackTransforms = [
-    "translate3d(0,0,0) rotateX(12deg) rotateY(-16deg) rotateZ(1deg)",
-    "translate3d(-22px,-18px,40px) rotateX(12deg) rotateY(-16deg) rotateZ(1deg)",
-    "translate3d(-44px,-36px,80px) rotateX(12deg) rotateY(-16deg) rotateZ(1deg)",
-    "translate3d(-66px,-54px,120px) rotateX(12deg) rotateY(-16deg) rotateZ(1deg)",
-  ];
+  const handleSelect = (id: string) => {
+    if (id === activeAgent) return;
+    setActiveAgent(id);
+    setFlipped(false);
+    setFadeKey(k => k + 1);
+  };
 
-  const isHov = hovered !== null;
-  const isFlipped = flipped !== null;
-
-  const frontBg   = ["rgba(255,255,255,0.015)","rgba(255,255,255,0.025)","rgba(245,166,35,0.04)","rgba(245,166,35,0.07)"];
-  const frontBdr  = (i: number, col: string) => i === 3 ? `1px solid ${col}44` : i === 2 ? `1px solid rgba(245,166,35,0.18)` : `1px solid ${T.border}`;
-  const frontGlow = (i: number, col: string) => i === 3 ? `0 0 48px ${col}1a, 0 8px 32px rgba(0,0,0,0.4)` : "none";
+  const a = agents.find(x => x.id === activeAgent)!;
+  const col = AGENT_COLOR[a.id];
 
   return (
-    <div style={{width:440,height:340,position:"relative",perspective:2000,cursor:"pointer",flexShrink:0}}>
-      {agents.map((a, i) => {
-        const col = AGENT_COLOR[a.id];
-        const isThis = flipped === a.id;
-        let tf = stackTransforms[i];
-        if (isFlipped) tf = isThis
-          ? "translate3d(0,0,0) rotateX(0deg) rotateY(0deg) rotateZ(0deg)"
-          : "translate3d(-260px,0,0) rotateX(0deg) rotateY(0deg) rotateZ(0deg)";
+    <div style={{display:"flex",flexDirection:"column",gap:14,flexShrink:0}}>
+      <div style={{display:"flex",gap:20,alignItems:"stretch"}}>
+        {/* Left: Agent name list */}
+        <div style={{display:"flex",flexDirection:"column",justifyContent:"center",gap:2,width:130,flexShrink:0}}>
+          {agents.map(ag => {
+            const isActive = ag.id === activeAgent;
+            const agCol = AGENT_COLOR[ag.id];
+            return (
+              <button key={ag.id} onClick={() => handleSelect(ag.id)}
+                style={{
+                  background:"none",border:"none",cursor:"pointer",
+                  display:"flex",alignItems:"center",gap:8,
+                  padding:"8px 0 8px 12px",
+                  borderLeft: isActive ? `2px solid ${agCol}` : "2px solid transparent",
+                  transition:"all 0.3s ease",
+                }}>
+                <span style={{
+                  width:5,height:5,borderRadius:"50%",flexShrink:0,
+                  background: isActive ? agCol : T.textDim,
+                  boxShadow: isActive ? `0 0 8px ${agCol}44` : "none",
+                  transition:"all 0.3s ease",
+                }}/>
+                <span style={{
+                  ...mono,fontSize:9,letterSpacing:"0.18em",textTransform:"uppercase" as const,
+                  color: isActive ? T.textMain : T.textDim,
+                  opacity: isActive ? 1 : 0.6,
+                  transition:"all 0.3s ease",
+                }}>{ag.name}</span>
+              </button>
+            );
+          })}
+        </div>
 
-        return (
-          <div key={a.id}
-            onMouseEnter={() => !isFlipped && setHovered(a.id)}
-            onMouseLeave={() => !isFlipped && setHovered(null)}
-            onClick={() => !isFlipped && setFlipped(a.id)}
-            style={{
-              position:"absolute",inset:0,borderRadius:3,
-              transition:"all 0.75s cubic-bezier(.23,1,.32,1)",
-              transform:tf,
-              opacity: isFlipped ? (isThis ? 1 : 0.08) : (isHov ? (hovered===a.id ? 1 : 0.55) : 1),
-              zIndex: isThis ? 40 : (10 + i),
-              transformStyle:"preserve-3d",
-            }}>
+        {/* Right: Single active card */}
+        <div style={{width:340,height:340,position:"relative",perspective:2000,cursor:"pointer",flexShrink:0}}
+          onClick={() => setFlipped(f => !f)}>
+          <div key={fadeKey} style={{
+            position:"absolute",inset:0,
+            animation:"cardFadeIn 0.4s ease both",
+            transformStyle:"preserve-3d" as const,
+          }}>
             <div style={{
               position:"relative",width:"100%",height:"100%",
-              transformStyle:"preserve-3d",
+              transformStyle:"preserve-3d" as const,
               transition:"transform 0.7s cubic-bezier(.23,1,.32,1)",
-              transform: isThis ? "rotateY(180deg)" : "rotateY(0deg)",
+              transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
             }}>
               {/* FRONT */}
               <div style={{
                 position:"absolute",inset:0,borderRadius:3,padding:24,
                 backfaceVisibility:"hidden",WebkitBackfaceVisibility:"hidden",
-                background:frontBg[i],
-                border:frontBdr(i, col),
-                boxShadow:frontGlow(i, col),
+                background:`rgba(245,166,35,0.07)`,
+                border:`1px solid ${col}44`,
+                boxShadow:`0 0 48px ${col}1a, 0 8px 32px rgba(0,0,0,0.4)`,
                 backdropFilter:"blur(20px)",
                 display:"flex",flexDirection:"column",justifyContent:"space-between",
               }}>
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
                   <span style={{...mono,fontSize:8,letterSpacing:"0.2em",color:T.textDim,textTransform:"uppercase"}}>{a.ref}</span>
-                  {i === 3 && <span style={{...mono,fontSize:7,color:`${col}88`,letterSpacing:"0.18em",textTransform:"uppercase"}}>CLICK TO EXPLORE ›</span>}
+                  <span style={{...mono,fontSize:7,color:`${col}88`,letterSpacing:"0.18em",textTransform:"uppercase"}}>CLICK TO EXPLORE ›</span>
                 </div>
                 <div>
                   <div style={{...mono,fontSize:8,letterSpacing:"0.25em",color:col,textTransform:"uppercase",marginBottom:6}}>{a.pillar}</div>
@@ -413,7 +429,7 @@ function StackedCards() {
                     <div style={{...bebas,fontSize:"1.7rem",color:col,lineHeight:.9}}>{a.name}</div>
                     <div style={{...mono,fontSize:7,letterSpacing:"0.18em",color:T.textDim,textTransform:"uppercase",marginTop:4}}>{a.role}</div>
                   </div>
-                  <button onClick={(e)=>{e.stopPropagation();setFlipped(null);setHovered(null);}}
+                  <button onClick={(e)=>{e.stopPropagation();setFlipped(false);}}
                     style={{...mono,background:"none",border:`1px solid ${T.border}`,color:T.textDim,fontSize:8,letterSpacing:"0.15em",textTransform:"uppercase",padding:"5px 8px",cursor:"pointer"}}>✕</button>
                 </div>
                 <div style={{width:"100%",height:1,background:`${col}33`}}/>
@@ -432,8 +448,28 @@ function StackedCards() {
               </div>
             </div>
           </div>
-        );
-      })}
+        </div>
+      </div>
+
+      {/* Step indicator dots */}
+      <div style={{display:"flex",gap:8,justifyContent:"center",paddingLeft:130}}>
+        {agents.map(ag => (
+          <button key={ag.id} onClick={() => handleSelect(ag.id)}
+            style={{
+              width:6,height:6,borderRadius:"50%",border:"none",padding:0,cursor:"pointer",
+              background: activeAgent === ag.id ? AGENT_COLOR[ag.id] : T.border,
+              boxShadow: activeAgent === ag.id ? `0 0 6px ${AGENT_COLOR[ag.id]}44` : "none",
+              transition:"all 0.3s ease",
+            }}/>
+        ))}
+      </div>
+
+      <style>{`
+        @keyframes cardFadeIn {
+          from { opacity: 0; transform: translateX(8px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+      `}</style>
     </div>
   );
 }
