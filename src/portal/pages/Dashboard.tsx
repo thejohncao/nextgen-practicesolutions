@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, TrendingUp, Settings2, GraduationCap, BookOpen, AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -45,7 +46,23 @@ const pillarGlowHover: Record<string, string> = {
   alma: 'hover:shadow-glow-alma',
 };
 
+const pillarTabDot: Record<string, string> = {
+  giselle: 'bg-emerald-400',
+  miles: 'bg-rose-400',
+  devon: 'bg-indigo-400',
+  alma: 'bg-amber-400',
+};
+
+const pillarTabBorder: Record<string, string> = {
+  giselle: 'border-emerald-400',
+  miles: 'border-rose-400',
+  devon: 'border-indigo-400',
+  alma: 'border-amber-400',
+};
+
 export default function Dashboard() {
+  const [activePillar, setActivePillar] = useState<string>('giselle');
+
   const recentMilestones = [...milestones]
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, 5);
@@ -98,74 +115,92 @@ export default function Dashboard() {
           <RequestTable requests={openRequests} compact />
         </div>
 
-        {/* Right 40% — Stacked Pillar Cards */}
+        {/* Right 40% — Tabbed Pillar Cards */}
         <div className="lg:col-span-5 space-y-4">
           <SectionHeader title="Pillar Performance" />
 
-          {/* Mobile: 2x2 grid, Desktop: stacked */}
-          <div className="grid grid-cols-2 lg:grid-cols-1 gap-3">
-            {pillars.map((pillar, idx) => {
-              const summary = pillarSummaries.find((s) => s.slug === pillar.slug);
-              const Icon = pillarIcons[pillar.slug];
-              if (!summary) return null;
-
-              return (
-                <Link
-                  key={pillar.slug}
-                  to={`/portal/${pillar.slug}`}
-                  className={cn(
-                    'bg-white/[0.04] backdrop-blur-sm rounded-xl border border-white/[0.06] border-l-2 p-4 lg:p-5 flex flex-col gap-3 transition-all duration-200 hover:scale-[1.01] hover:-translate-y-0.5 hover:border-white/[0.10] no-underline',
-                    pillarBorderAccent[pillar.slug],
-                    pillarGlowHover[pillar.slug]
-                  )}
-                  style={{ zIndex: pillars.length - idx }}
-                >
-                  {/* Header */}
-                  <div className="flex items-center gap-3">
-                    <div
-                      className={cn(
-                        'w-8 h-8 rounded-lg bg-gradient-to-br flex items-center justify-center text-white',
-                        pillarGradients[pillar.slug]
-                      )}
-                    >
-                      {Icon && <Icon className="w-4 h-4" />}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-sm font-semibold text-[#F9FAFB]">{pillar.agentName}</h3>
-                      <p className="text-[11px] text-[#6B7280]">{pillar.name}</p>
-                    </div>
-                    <span className="hidden lg:flex items-center gap-1 text-[11px] text-[#6B7280]">
-                      {summary.activePackages} pkg{summary.activePackages !== 1 && 's'}
-                    </span>
-                  </div>
-
-                  {/* Top KPIs — hide on mobile for compact cards */}
-                  <div className="hidden lg:block space-y-1.5">
-                    {summary.topKPIs.map((kpi, i) => (
-                      <div key={i} className="flex items-center justify-between">
-                        <span className="text-xs text-[#9CA3AF]">{kpi.label}</span>
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm font-semibold text-[#F9FAFB]">{kpi.value}</span>
-                          <span className="text-[11px] font-medium text-emerald-400">{kpi.change}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Alert — desktop only */}
-                  <div className="hidden lg:flex items-start gap-2 bg-white/[0.03] rounded-lg p-2.5 border border-white/[0.04]">
-                    <AlertCircle className="w-3.5 h-3.5 text-amber-400 mt-0.5 flex-shrink-0" />
-                    <span className="text-[11px] text-[#9CA3AF] leading-relaxed">{summary.alert}</span>
-                  </div>
-
-                  <div className="flex items-center gap-1 text-xs font-medium text-[#9CA3AF] mt-auto">
-                    Open {pillar.agentName}
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </div>
-                </Link>
-              );
-            })}
+          {/* Tab bar */}
+          <div className="flex border-b border-white/[0.06]">
+            {pillars.map((pillar) => (
+              <button
+                key={pillar.slug}
+                onClick={() => setActivePillar(pillar.slug)}
+                className={cn(
+                  'flex items-center gap-1.5 px-3 py-2.5 text-xs font-medium transition-all border-b-2 -mb-px',
+                  activePillar === pillar.slug
+                    ? cn('text-[#F9FAFB]', pillarTabBorder[pillar.slug])
+                    : 'text-[#6B7280] border-transparent hover:text-[#9CA3AF]'
+                )}
+              >
+                <span className={cn('w-1.5 h-1.5 rounded-full', pillarTabDot[pillar.slug])} />
+                {pillar.agentName}
+              </button>
+            ))}
           </div>
+
+          {/* Active pillar card */}
+          {pillars.map((pillar) => {
+            if (pillar.slug !== activePillar) return null;
+            const summary = pillarSummaries.find((s) => s.slug === pillar.slug);
+            const Icon = pillarIcons[pillar.slug];
+            if (!summary) return null;
+
+            return (
+              <div
+                key={pillar.slug}
+                className={cn(
+                  'bg-white/[0.04] backdrop-blur-sm rounded-xl border border-white/[0.06] border-l-2 p-5 flex flex-col gap-4 transition-all duration-200',
+                  pillarBorderAccent[pillar.slug]
+                )}
+              >
+                {/* Header */}
+                <div className="flex items-center gap-3">
+                  <div
+                    className={cn(
+                      'w-9 h-9 rounded-lg bg-gradient-to-br flex items-center justify-center text-white',
+                      pillarGradients[pillar.slug]
+                    )}
+                  >
+                    {Icon && <Icon className="w-4.5 h-4.5" />}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-sm font-semibold text-[#F9FAFB]">{pillar.agentName}</h3>
+                    <p className="text-[11px] text-[#6B7280]">{pillar.name}</p>
+                  </div>
+                  <span className="flex items-center gap-1 text-[11px] text-[#6B7280]">
+                    {summary.activePackages} pkg{summary.activePackages !== 1 && 's'}
+                  </span>
+                </div>
+
+                {/* KPIs */}
+                <div className="space-y-2">
+                  {summary.topKPIs.map((kpi, i) => (
+                    <div key={i} className="flex items-center justify-between">
+                      <span className="text-xs text-[#9CA3AF]">{kpi.label}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-semibold text-[#F9FAFB]">{kpi.value}</span>
+                        <span className="text-[11px] font-medium text-emerald-400">{kpi.change}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Alert */}
+                <div className="flex items-start gap-2 bg-white/[0.03] rounded-lg p-2.5 border border-white/[0.04]">
+                  <AlertCircle className="w-3.5 h-3.5 text-amber-400 mt-0.5 flex-shrink-0" />
+                  <span className="text-[11px] text-[#9CA3AF] leading-relaxed">{summary.alert}</span>
+                </div>
+
+                <Link
+                  to={`/portal/${pillar.slug}`}
+                  className="flex items-center gap-1 text-xs font-medium text-[#9CA3AF] hover:text-[#F9FAFB] transition no-underline mt-auto"
+                >
+                  Open {pillar.agentName}
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            );
+          })}
         </div>
       </div>
 
