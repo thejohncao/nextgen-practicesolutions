@@ -139,16 +139,16 @@ export default function Dashboard() {
                     : 'text-[#6B7280] border-transparent hover:text-[#9CA3AF]'
                 )}
               >
-                <span className="relative inline-flex items-center justify-center w-4 h-4 overflow-visible flex-shrink-0">
+                <span className="relative inline-flex items-center justify-center w-5 h-5 overflow-visible flex-shrink-0">
                   <span
                     className={cn(
-                      'w-2 h-2 rounded-full',
+                      'w-2.5 h-2.5 rounded-full',
                       pillarTabDot[pillar.slug],
                       activePillar === pillar.slug && 'animate-breathe-glow'
                     )}
-                    style={activePillar === pillar.slug ? {
-                      ['--agent-color' as any]: pillarColorHex[pillar.slug],
-                    } : undefined}
+                    style={{
+                      boxShadow: activePillar === pillar.slug ? `0 0 8px 2px ${pillarColorHex[pillar.slug]}88` : undefined,
+                    }}
                   />
                 </span>
                 {pillar.agentName}

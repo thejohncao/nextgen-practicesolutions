@@ -249,8 +249,8 @@ export default {
           '50%': { transform: 'scale(1.03)' },
         },
         'breathe-glow': {
-          '0%, 100%': { transform: 'scale(1)', boxShadow: '0 0 0 0 var(--agent-color, #4ade80)', opacity: '0.85' },
-          '50%': { transform: 'scale(1.4)', boxShadow: '0 0 6px 2px var(--agent-color, #4ade80)', opacity: '1' },
+          '0%, 100%': { transform: 'scale(1)', opacity: '0.7' },
+          '50%': { transform: 'scale(1.5)', opacity: '1' },
         },
       },
       animation: {
