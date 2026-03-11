@@ -4,7 +4,7 @@ import {
   devonDetailKPIs,
   packages,
   insights,
-  devonTools,
+  devonTools as mockDevonTools,
   caseAcceptanceTrend,
 } from '../data/mock';
 import PillarHero from '../components/PillarHero';
@@ -15,11 +15,22 @@ import InsightCard from '../components/InsightCard';
 import { AssetStatusBoard } from '../components/SystemsStatusBoard';
 import MiniChart from '../components/MiniChart';
 import CTACard from '../components/CTACard';
+import PillarChecklist from '../components/PillarChecklist';
+import { usePractice } from '../context/PracticeContext';
+import { usePracticeData } from '../hooks/usePracticeData';
 
 export default function DevonPage() {
   const pillar = getPillar('devon')!;
   const devonPackages = packages.filter((p) => p.pillarSlug === 'devon');
   const devonInsights = insights.filter((i) => i.pillarSlug === 'devon');
+  const { isDemo, getItemEnabled, toggleItem } = usePractice();
+  const { devonTools } = usePracticeData();
+
+  const checklistItems = mockDevonTools.map((t) => ({
+    id: t.id,
+    name: t.name,
+    enabled: getItemEnabled('devon', t.id),
+  }));
 
   return (
     <div className="px-4 lg:px-8 py-6 max-w-7xl mx-auto space-y-8">
@@ -44,6 +55,15 @@ export default function DevonPage() {
           <PackageCard key={pkg.id} pkg={pkg} />
         ))}
       </div>
+
+      {/* Onboarding Checklist (non-demo only) */}
+      {!isDemo && (
+        <PillarChecklist
+          title="Tools & Programs Checklist"
+          items={checklistItems}
+          onToggle={(id) => toggleItem('devon', id)}
+        />
+      )}
 
       {/* Tools & Programs */}
       <AssetStatusBoard title="Tools & Programs" assets={devonTools} />

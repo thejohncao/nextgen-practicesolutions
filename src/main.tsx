@@ -2,8 +2,11 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App.tsx';
+import { PracticeProvider } from './portal/context/PracticeContext';
 import PortalShell from './portal/components/PortalShell';
 import PortalLogin from './portal/pages/PortalLogin';
+import AccountCreatePage from './portal/pages/AccountCreatePage';
+import OnboardingWizard from './portal/pages/OnboardingWizard';
 import PortalDashboard from './portal/pages/Dashboard';
 import GisellePage from './portal/pages/GisellePage';
 import MilesPage from './portal/pages/MilesPage';
@@ -23,9 +26,11 @@ createRoot(document.getElementById("root")!).render(
         {/* Landing page (used by Lovable) */}
         <Route path="/" element={<App />} />
 
-        {/* NextGen Portal */}
+        {/* NextGen Portal — wrapped in PracticeProvider */}
         <Route path="/portal/login" element={<PortalLogin />} />
-        <Route path="/portal" element={<PortalShell />}>
+        <Route path="/portal/create" element={<PracticeProvider><AccountCreatePage /></PracticeProvider>} />
+        <Route path="/portal/onboarding" element={<PracticeProvider><OnboardingWizard /></PracticeProvider>} />
+        <Route path="/portal" element={<PracticeProvider><PortalShell /></PracticeProvider>}>
           <Route index element={<PortalDashboard />} />
           <Route path="giselle" element={<GisellePage />} />
           <Route path="miles" element={<MilesPage />} />

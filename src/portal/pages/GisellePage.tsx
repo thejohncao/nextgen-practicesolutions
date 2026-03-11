@@ -4,7 +4,7 @@ import {
   giselleDetailKPIs,
   packages,
   insights,
-  giselleAssets,
+  giselleAssets as mockGiselleAssets,
   newPatientTrend,
 } from '../data/mock';
 import PillarHero from '../components/PillarHero';
@@ -15,11 +15,22 @@ import InsightCard from '../components/InsightCard';
 import { AssetStatusBoard } from '../components/SystemsStatusBoard';
 import MiniChart from '../components/MiniChart';
 import CTACard from '../components/CTACard';
+import PillarChecklist from '../components/PillarChecklist';
+import { usePractice } from '../context/PracticeContext';
+import { usePracticeData } from '../hooks/usePracticeData';
 
 export default function GisellePage() {
   const pillar = getPillar('giselle')!;
   const gisellePackages = packages.filter((p) => p.pillarSlug === 'giselle');
   const giselleInsights = insights.filter((i) => i.pillarSlug === 'giselle');
+  const { isDemo, getItemEnabled, toggleItem } = usePractice();
+  const { giselleAssets } = usePracticeData();
+
+  const checklistItems = mockGiselleAssets.map((a) => ({
+    id: a.id,
+    name: a.name,
+    enabled: getItemEnabled('giselle', a.id),
+  }));
 
   return (
     <div className="px-4 lg:px-8 py-6 max-w-7xl mx-auto space-y-8">
@@ -44,6 +55,15 @@ export default function GisellePage() {
           <PackageCard key={pkg.id} pkg={pkg} />
         ))}
       </div>
+
+      {/* Onboarding Checklist (non-demo only) */}
+      {!isDemo && (
+        <PillarChecklist
+          title="Growth Systems Checklist"
+          items={checklistItems}
+          onToggle={(id) => toggleItem('giselle', id)}
+        />
+      )}
 
       {/* Systems & Assets */}
       <AssetStatusBoard title="Systems & Assets" assets={giselleAssets} />
