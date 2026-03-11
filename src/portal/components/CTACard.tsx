@@ -11,21 +11,22 @@ interface Props {
 }
 
 const accentGradients: Record<string, string> = {
-  giselle: 'from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600',
-  miles: 'from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600',
-  devon: 'from-violet-600 to-violet-500 hover:from-violet-700 hover:to-violet-600',
-  alma: 'from-amber-600 to-amber-500 hover:from-amber-700 hover:to-amber-600',
+  giselle: 'from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400',
+  miles: 'from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400',
+  devon: 'from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400',
+  alma: 'from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400',
+  brand: 'from-[#F5A623] to-amber-500 hover:from-amber-400 hover:to-amber-300',
 };
 
 export default function CTACard({ title, buttonLabel, href = '/portal/requests', accent = 'miles', className }: Props) {
   return (
     <div
       className={cn(
-        'bg-white rounded-xl border border-gray-100 shadow-sm p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4',
+        'bg-white/[0.04] backdrop-blur-sm rounded-xl border border-white/[0.06] shadow-glass p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4',
         className
       )}
     >
-      <p className="text-sm font-medium text-gray-700">{title}</p>
+      <p className="text-sm font-medium text-[#9CA3AF]">{title}</p>
       <Link
         to={href}
         className={cn(

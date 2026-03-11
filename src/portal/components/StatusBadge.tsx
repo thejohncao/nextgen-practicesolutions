@@ -3,27 +3,23 @@ import { cn } from '@/lib/utils';
 type Status = string;
 
 const statusStyles: Record<string, string> = {
-  // Package / workflow statuses
-  active: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-  live: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-  onboarding: 'bg-blue-50 text-blue-700 border-blue-200',
-  in_progress: 'bg-blue-50 text-blue-700 border-blue-200',
-  paused: 'bg-amber-50 text-amber-700 border-amber-200',
-  planned: 'bg-gray-50 text-gray-600 border-gray-200',
-  needs_attention: 'bg-red-50 text-red-700 border-red-200',
-  // Request statuses
-  new: 'bg-violet-50 text-violet-700 border-violet-200',
-  reviewing: 'bg-amber-50 text-amber-700 border-amber-200',
-  waiting_on_client: 'bg-orange-50 text-orange-700 border-orange-200',
-  done: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-  // Milestone
-  completed: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-  upcoming: 'bg-gray-50 text-gray-600 border-gray-200',
-  // Priority
-  urgent: 'bg-red-50 text-red-700 border-red-200',
-  high: 'bg-orange-50 text-orange-700 border-orange-200',
-  medium: 'bg-amber-50 text-amber-700 border-amber-200',
-  low: 'bg-gray-50 text-gray-600 border-gray-200',
+  active: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+  live: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+  onboarding: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+  in_progress: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+  paused: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+  planned: 'bg-white/[0.06] text-[#9CA3AF] border-white/[0.08]',
+  needs_attention: 'bg-red-500/10 text-red-400 border-red-500/20',
+  new: 'bg-violet-500/10 text-violet-400 border-violet-500/20',
+  reviewing: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+  waiting_on_client: 'bg-orange-500/10 text-orange-400 border-orange-500/20',
+  done: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+  completed: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+  upcoming: 'bg-white/[0.06] text-[#9CA3AF] border-white/[0.08]',
+  urgent: 'bg-red-500/10 text-red-400 border-red-500/20',
+  high: 'bg-orange-500/10 text-orange-400 border-orange-500/20',
+  medium: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+  low: 'bg-white/[0.06] text-[#9CA3AF] border-white/[0.08]',
 };
 
 const statusLabels: Record<string, string> = {
@@ -38,7 +34,7 @@ interface Props {
 }
 
 export default function StatusBadge({ status, className }: Props) {
-  const style = statusStyles[status] || 'bg-gray-50 text-gray-600 border-gray-200';
+  const style = statusStyles[status] || 'bg-white/[0.06] text-[#9CA3AF] border-white/[0.08]';
   const label = statusLabels[status] || status.charAt(0).toUpperCase() + status.slice(1).replace(/_/g, ' ');
 
   return (

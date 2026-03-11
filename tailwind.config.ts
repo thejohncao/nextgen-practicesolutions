@@ -88,24 +88,34 @@ export default {
         },
         // Agent specific colors with liquid glass variants
         'miles': {
-          primary: '#3B82F6',
-          glow: '#3B82F640',
-          mist: '#3B82F620'
+          primary: '#E11D48',
+          glow: '#E11D4840',
+          mist: '#E11D4820'
         },
         'giselle': {
-          primary: '#10B981',
-          glow: '#10B98140',
-          mist: '#10B98120'
+          primary: '#1EC97F',
+          glow: '#1EC97F40',
+          mist: '#1EC97F20'
         },
         'devon': {
-          primary: '#8B5CF6',
-          glow: '#8B5CF640',
-          mist: '#8B5CF620'
+          primary: '#6366F1',
+          glow: '#6366F140',
+          mist: '#6366F120'
         },
         'alma': {
-          primary: '#FACC15',
-          glow: '#FACC1540',
-          mist: '#FACC1520'
+          primary: '#F5A623',
+          glow: '#F5A62340',
+          mist: '#F5A62320'
+        },
+        // Portal dark theme
+        'portal': {
+          bg: '#0D0E14',
+          surface: 'rgba(18, 20, 33, 0.85)',
+          elevated: 'rgba(24, 27, 45, 0.90)',
+          text: '#F9FAFB',
+          'text-secondary': '#9CA3AF',
+          'text-muted': '#6B7280',
+          amber: '#F5A623',
         }
       },
       fontSize: {
@@ -132,7 +142,13 @@ export default {
         'liquid': '0 8px 32px rgba(15, 23, 42, 0.12)',
         'liquid-lg': '0 16px 48px rgba(15, 23, 42, 0.18)',
         'glow': '0 0 20px rgba(99, 102, 241, 0.3)',
-        'agent-glow': '0 0 24px var(--agent-glow-color, rgba(99, 102, 241, 0.3))'
+        'agent-glow': '0 0 24px var(--agent-glow-color, rgba(99, 102, 241, 0.3))',
+        'glass': '0 4px 24px rgba(0, 0, 0, 0.3)',
+        'glass-lg': '0 8px 40px rgba(0, 0, 0, 0.4)',
+        'glow-giselle': '0 0 20px rgba(30, 201, 127, 0.25)',
+        'glow-miles': '0 0 20px rgba(225, 29, 72, 0.25)',
+        'glow-devon': '0 0 20px rgba(99, 102, 241, 0.25)',
+        'glow-alma': '0 0 20px rgba(245, 166, 35, 0.25)'
       },
       keyframes: {
         'accordion-down': {

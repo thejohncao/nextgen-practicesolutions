@@ -35,7 +35,7 @@ export default function GisellePage() {
       </div>
 
       {/* Chart */}
-      <MiniChart data={newPatientTrend} color="#10B981" title="New Patient Trend (6 months)" />
+      <MiniChart data={newPatientTrend} color="#1EC97F" title="New Patient Trend (6 months)" />
 
       {/* Active Packages */}
       <SectionHeader title="Active Packages" />

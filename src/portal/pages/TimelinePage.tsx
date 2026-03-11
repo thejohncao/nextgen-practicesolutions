@@ -10,6 +10,7 @@ const pillarFilters: { label: string; value: PillarSlug | 'all' }[] = [
   { label: 'Giselle', value: 'giselle' },
   { label: 'Miles', value: 'miles' },
   { label: 'Devon', value: 'devon' },
+  { label: 'Alma', value: 'alma' },
 ];
 
 const statusFilters: { label: string; value: MilestoneStatus | 'all' }[] = [
@@ -38,7 +39,7 @@ export default function TimelinePage() {
       {/* Filters */}
       <div className="flex flex-wrap gap-6">
         <div className="space-y-1.5">
-          <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Pillar</span>
+          <span className="text-xs font-medium text-[#6B7280] uppercase tracking-wide">Pillar</span>
           <div className="flex gap-1">
             {pillarFilters.map((f) => (
               <button
@@ -47,8 +48,8 @@ export default function TimelinePage() {
                 className={cn(
                   'px-3 py-1.5 rounded-lg text-xs font-medium transition-all',
                   pillarFilter === f.value
-                    ? 'bg-gray-900 text-white'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? 'bg-white/[0.08] text-[#F9FAFB]'
+                    : 'bg-white/[0.06] text-[#9CA3AF] hover:bg-white/[0.10]'
                 )}
               >
                 {f.label}
@@ -57,7 +58,7 @@ export default function TimelinePage() {
           </div>
         </div>
         <div className="space-y-1.5">
-          <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Status</span>
+          <span className="text-xs font-medium text-[#6B7280] uppercase tracking-wide">Status</span>
           <div className="flex gap-1">
             {statusFilters.map((f) => (
               <button
@@ -66,8 +67,8 @@ export default function TimelinePage() {
                 className={cn(
                   'px-3 py-1.5 rounded-lg text-xs font-medium transition-all',
                   statusFilter === f.value
-                    ? 'bg-gray-900 text-white'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? 'bg-white/[0.08] text-[#F9FAFB]'
+                    : 'bg-white/[0.06] text-[#9CA3AF] hover:bg-white/[0.10]'
                 )}
               >
                 {f.label}
@@ -78,9 +79,9 @@ export default function TimelinePage() {
       </div>
 
       {/* Timeline */}
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+      <div className="bg-white/[0.04] backdrop-blur-sm rounded-xl border border-white/[0.06] shadow-glass p-6">
         {filtered.length === 0 ? (
-          <p className="text-sm text-gray-400 text-center py-8">No milestones match the selected filters.</p>
+          <p className="text-sm text-[#6B7280] text-center py-8">No milestones match the selected filters.</p>
         ) : (
           filtered.map((ms, i) => (
             <TimelineItem key={ms.id} milestone={ms} isLast={i === filtered.length - 1} />

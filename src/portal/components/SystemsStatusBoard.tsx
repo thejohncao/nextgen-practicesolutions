@@ -11,14 +11,14 @@ interface WorkflowBoardProps {
 
 export function WorkflowStatusBoard({ title, workflows, className }: WorkflowBoardProps) {
   return (
-    <div className={cn('bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden', className)}>
-      <div className="px-5 py-3.5 border-b border-gray-50">
-        <h3 className="text-sm font-semibold text-gray-900">{title}</h3>
+    <div className={cn('bg-white/[0.04] backdrop-blur-sm rounded-xl border border-white/[0.06] shadow-glass overflow-hidden', className)}>
+      <div className="px-5 py-3.5 border-b border-white/[0.04]">
+        <h3 className="text-sm font-semibold text-[#F9FAFB]">{title}</h3>
       </div>
-      <div className="divide-y divide-gray-50">
+      <div className="divide-y divide-white/[0.04]">
         {workflows.map((wf) => (
           <div key={wf.id} className="flex items-center justify-between px-5 py-3">
-            <span className="text-sm text-gray-700">{wf.name}</span>
+            <span className="text-sm text-[#9CA3AF]">{wf.name}</span>
             <StatusBadge status={wf.status} />
           </div>
         ))}
@@ -35,25 +35,25 @@ interface AssetBoardProps {
 
 export function AssetStatusBoard({ title, assets, className }: AssetBoardProps) {
   return (
-    <div className={cn('bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden', className)}>
-      <div className="px-5 py-3.5 border-b border-gray-50">
-        <h3 className="text-sm font-semibold text-gray-900">{title}</h3>
+    <div className={cn('bg-white/[0.04] backdrop-blur-sm rounded-xl border border-white/[0.06] shadow-glass overflow-hidden', className)}>
+      <div className="px-5 py-3.5 border-b border-white/[0.04]">
+        <h3 className="text-sm font-semibold text-[#F9FAFB]">{title}</h3>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 divide-gray-50">
+      <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 divide-white/[0.04]">
         {assets.map((asset) => (
-          <div key={asset.id} className="flex items-center gap-3 px-5 py-3 border-b border-gray-50">
+          <div key={asset.id} className="flex items-center gap-3 px-5 py-3 border-b border-white/[0.04]">
             {asset.enabled ? (
-              <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
             ) : (
-              <Circle className="w-4 h-4 text-gray-300 flex-shrink-0" />
+              <Circle className="w-4 h-4 text-[#6B7280] flex-shrink-0" />
             )}
             <div className="flex-1 min-w-0">
-              <span className="text-sm text-gray-700">{asset.name}</span>
+              <span className="text-sm text-[#9CA3AF]">{asset.name}</span>
             </div>
             {asset.status && (
               <span className={cn(
                 'text-[11px] font-medium',
-                asset.enabled ? 'text-gray-500' : 'text-gray-400'
+                asset.enabled ? 'text-[#9CA3AF]' : 'text-[#6B7280]'
               )}>
                 {asset.status}
               </span>

@@ -33,7 +33,7 @@ export default function MilesPage() {
         <MetricGrid title="Recall & Retention" metrics={milesDetailKPIs.recallRetention} />
         <MetricGrid title="Revenue & AR" metrics={milesDetailKPIs.revenueAR} />
         <MetricGrid title="Team Systems" metrics={milesDetailKPIs.teamSystems} />
-        <MiniChart data={speedToLeadTrend} color="#3B82F6" title="Speed-to-Lead Trend (min)" />
+        <MiniChart data={speedToLeadTrend} color="#E11D48" title="Speed-to-Lead Trend (min)" />
       </div>
 
       {/* Active Packages */}
