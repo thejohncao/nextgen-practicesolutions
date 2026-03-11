@@ -22,15 +22,17 @@ const typeIcons: Record<string, React.ElementType> = {
 };
 
 const pillarDots: Record<string, string> = {
-  giselle: 'bg-emerald-500',
-  miles: 'bg-blue-500',
-  devon: 'bg-violet-500',
+  giselle: 'bg-emerald-400',
+  miles: 'bg-rose-400',
+  devon: 'bg-indigo-400',
+  alma: 'bg-amber-400',
 };
 
 const pillarLabels: Record<string, string> = {
   giselle: 'Giselle',
   miles: 'Miles',
   devon: 'Devon',
+  alma: 'Alma',
 };
 
 interface Props {
@@ -47,32 +49,32 @@ export default function TimelineItem({ milestone, isLast }: Props) {
       <div className="flex flex-col items-center">
         <div
           className={cn(
-            'w-8 h-8 rounded-full flex items-center justify-center border-2 bg-white',
-            milestone.status === 'completed' ? 'border-emerald-300' : milestone.status === 'in_progress' ? 'border-blue-300' : 'border-gray-200'
+            'w-8 h-8 rounded-full flex items-center justify-center border-2 bg-[#0D0E14]',
+            milestone.status === 'completed' ? 'border-emerald-500/40' : milestone.status === 'in_progress' ? 'border-blue-500/40' : 'border-white/[0.10]'
           )}
         >
           <Icon
             className={cn(
               'w-4 h-4',
-              milestone.status === 'completed' ? 'text-emerald-500' : milestone.status === 'in_progress' ? 'text-blue-500' : 'text-gray-400'
+              milestone.status === 'completed' ? 'text-emerald-400' : milestone.status === 'in_progress' ? 'text-blue-400' : 'text-[#6B7280]'
             )}
           />
         </div>
-        {!isLast && <div className="w-px flex-1 bg-gray-200 my-1" />}
+        {!isLast && <div className="w-px flex-1 bg-white/[0.06] my-1" />}
       </div>
 
       {/* Content */}
       <div className="pb-6 flex-1 min-w-0">
         <div className="flex flex-wrap items-center gap-2 mb-1">
-          <h4 className="text-sm font-medium text-gray-900">{milestone.title}</h4>
+          <h4 className="text-sm font-medium text-[#F9FAFB]">{milestone.title}</h4>
           <StatusBadge status={milestone.status} />
         </div>
-        <p className="text-xs text-gray-500 leading-relaxed">{milestone.description}</p>
+        <p className="text-xs text-[#9CA3AF] leading-relaxed">{milestone.description}</p>
         <div className="flex items-center gap-2 mt-2">
           <span className={cn('w-2 h-2 rounded-full', pillarDots[milestone.pillarSlug])} />
-          <span className="text-[11px] text-gray-400 font-medium">{pillarLabels[milestone.pillarSlug]}</span>
-          <span className="text-[11px] text-gray-300">·</span>
-          <span className="text-[11px] text-gray-400">
+          <span className="text-[11px] text-[#6B7280] font-medium">{pillarLabels[milestone.pillarSlug]}</span>
+          <span className="text-[11px] text-[#6B7280]">&middot;</span>
+          <span className="text-[11px] text-[#6B7280]">
             {new Date(milestone.date).toLocaleDateString('en-US', {
               month: 'short',
               day: 'numeric',

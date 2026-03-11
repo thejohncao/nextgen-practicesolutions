@@ -35,7 +35,7 @@ export default function DevonPage() {
       </div>
 
       {/* Chart */}
-      <MiniChart data={caseAcceptanceTrend} color="#8B5CF6" title="Case Acceptance Trend (%)" />
+      <MiniChart data={caseAcceptanceTrend} color="#6366F1" title="Case Acceptance Trend (%)" />
 
       {/* Active Packages */}
       <SectionHeader title="Active Packages" />

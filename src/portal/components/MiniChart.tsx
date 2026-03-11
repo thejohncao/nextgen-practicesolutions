@@ -13,16 +13,16 @@ interface Props {
   className?: string;
 }
 
-export default function MiniChart({ data, color = '#10B981', title, className }: Props) {
+export default function MiniChart({ data, color = '#1EC97F', title, className }: Props) {
   return (
-    <div className={cn('bg-white rounded-xl border border-gray-100 shadow-sm p-5', className)}>
-      {title && <h3 className="text-sm font-semibold text-gray-900 mb-3">{title}</h3>}
+    <div className={cn('bg-white/[0.04] backdrop-blur-sm rounded-xl border border-white/[0.06] shadow-glass p-5', className)}>
+      {title && <h3 className="text-sm font-semibold text-[#F9FAFB] mb-3">{title}</h3>}
       <div className="h-32">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data}>
             <defs>
               <linearGradient id={`grad-${color.replace('#', '')}`} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={color} stopOpacity={0.15} />
+                <stop offset="0%" stopColor={color} stopOpacity={0.2} />
                 <stop offset="100%" stopColor={color} stopOpacity={0} />
               </linearGradient>
             </defs>
@@ -35,12 +35,15 @@ export default function MiniChart({ data, color = '#10B981', title, className }:
             <YAxis hide />
             <Tooltip
               contentStyle={{
-                backgroundColor: '#fff',
-                border: '1px solid #E5E7EB',
+                backgroundColor: '#181B2D',
+                border: '1px solid rgba(255,255,255,0.08)',
                 borderRadius: '8px',
                 fontSize: '12px',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+                color: '#F9FAFB',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
               }}
+              itemStyle={{ color: '#F9FAFB' }}
+              labelStyle={{ color: '#9CA3AF' }}
             />
             <Area
               type="monotone"

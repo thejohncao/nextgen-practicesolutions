@@ -31,7 +31,7 @@ export default function RequestsPage() {
         action={
           <button
             onClick={() => setShowForm(!showForm)}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white bg-gray-900 hover:bg-gray-800 transition shadow-sm"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-[#0B0C10] bg-[#F5A623] hover:bg-[#E09800] transition shadow-sm"
           >
             {showForm ? <X className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
             {showForm ? 'Cancel' : 'New Request'}
@@ -51,8 +51,8 @@ export default function RequestsPage() {
             className={cn(
               'px-3 py-1.5 rounded-lg text-xs font-medium transition-all',
               statusFilter === f.value
-                ? 'bg-gray-900 text-white'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                ? 'bg-white/[0.08] text-[#F9FAFB]'
+                : 'bg-white/[0.06] text-[#9CA3AF] hover:bg-white/[0.10]'
             )}
           >
             {f.label}
@@ -67,28 +67,29 @@ export default function RequestsPage() {
 
 function NewRequestForm({ onClose }: { onClose: () => void }) {
   return (
-    <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 space-y-4">
-      <h3 className="text-sm font-semibold text-gray-900">Submit a New Request</h3>
+    <div className="bg-white/[0.04] backdrop-blur-sm rounded-xl border border-white/[0.06] shadow-glass p-6 space-y-4">
+      <h3 className="text-sm font-semibold text-[#F9FAFB]">Submit a New Request</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-gray-600">Title</label>
+          <label className="text-xs font-medium text-[#9CA3AF]">Title</label>
           <input
             type="text"
             placeholder="What do you need?"
-            className="w-full px-3 py-2 text-sm rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-300 transition"
+            className="w-full px-3 py-2 text-sm text-[#F9FAFB] placeholder-[#6B7280] rounded-lg border border-white/[0.08] bg-white/[0.04] focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500/40 transition"
           />
         </div>
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-gray-600">Pillar</label>
-          <select className="w-full px-3 py-2 text-sm rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-300 transition">
+          <label className="text-xs font-medium text-[#9CA3AF]">Pillar</label>
+          <select className="w-full px-3 py-2 text-sm text-[#F9FAFB] rounded-lg border border-white/[0.08] bg-white/[0.04] focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500/40 transition">
             <option value="giselle">Growth (Giselle)</option>
             <option value="miles">Management (Miles)</option>
             <option value="devon">Development (Devon)</option>
+            <option value="alma">Academy (Alma)</option>
           </select>
         </div>
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-gray-600">Request Type</label>
-          <select className="w-full px-3 py-2 text-sm rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-300 transition">
+          <label className="text-xs font-medium text-[#9CA3AF]">Request Type</label>
+          <select className="w-full px-3 py-2 text-sm text-[#F9FAFB] rounded-lg border border-white/[0.08] bg-white/[0.04] focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500/40 transition">
             <option value="general">General</option>
             <option value="feature">Feature</option>
             <option value="support">Support</option>
@@ -97,8 +98,8 @@ function NewRequestForm({ onClose }: { onClose: () => void }) {
           </select>
         </div>
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-gray-600">Priority</label>
-          <select className="w-full px-3 py-2 text-sm rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-300 transition">
+          <label className="text-xs font-medium text-[#9CA3AF]">Priority</label>
+          <select className="w-full px-3 py-2 text-sm text-[#F9FAFB] rounded-lg border border-white/[0.08] bg-white/[0.04] focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500/40 transition">
             <option value="medium">Medium</option>
             <option value="low">Low</option>
             <option value="high">High</option>
@@ -107,23 +108,23 @@ function NewRequestForm({ onClose }: { onClose: () => void }) {
         </div>
       </div>
       <div className="space-y-1.5">
-        <label className="text-xs font-medium text-gray-600">Description</label>
+        <label className="text-xs font-medium text-[#9CA3AF]">Description</label>
         <textarea
           placeholder="Describe your request in detail..."
           rows={3}
-          className="w-full px-3 py-2 text-sm rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-300 transition resize-none"
+          className="w-full px-3 py-2 text-sm text-[#F9FAFB] placeholder-[#6B7280] rounded-lg border border-white/[0.08] bg-white/[0.04] focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500/40 transition resize-none"
         />
       </div>
       <div className="flex items-center gap-3 pt-2">
         <button
           onClick={onClose}
-          className="px-5 py-2.5 rounded-lg text-sm font-medium text-white bg-gray-900 hover:bg-gray-800 transition shadow-sm"
+          className="px-5 py-2.5 rounded-lg text-sm font-medium text-[#0B0C10] bg-[#F5A623] hover:bg-[#E09800] transition shadow-sm"
         >
           Submit Request
         </button>
         <button
           onClick={onClose}
-          className="px-4 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition"
+          className="px-4 py-2.5 rounded-lg text-sm font-medium text-[#9CA3AF] hover:bg-white/[0.06] transition"
         >
           Cancel
         </button>

@@ -15,17 +15,17 @@ interface Props {
 
 export default function MetricGrid({ title, metrics, className }: Props) {
   return (
-    <div className={cn('bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden', className)}>
-      <div className="px-5 py-3.5 border-b border-gray-50">
-        <h3 className="text-sm font-semibold text-gray-900">{title}</h3>
+    <div className={cn('bg-white/[0.04] backdrop-blur-sm rounded-xl border border-white/[0.06] shadow-glass overflow-hidden transition-all duration-200 hover:border-white/[0.10]', className)}>
+      <div className="px-5 py-3.5 border-b border-white/[0.04]">
+        <h3 className="text-sm font-semibold text-[#F9FAFB]">{title}</h3>
       </div>
-      <div className="divide-y divide-gray-50">
+      <div className="divide-y divide-white/[0.04]">
         {metrics.map((m, i) => (
           <div key={m.id || i} className="flex items-center justify-between px-5 py-3">
-            <span className="text-xs text-gray-500">{m.label}</span>
+            <span className="text-xs text-[#9CA3AF]">{m.label}</span>
             <span className={cn(
               'text-sm font-semibold',
-              m.changeDirection === 'up' ? 'text-emerald-600' : m.changeDirection === 'down' ? 'text-red-600' : 'text-gray-900'
+              m.changeDirection === 'up' ? 'text-emerald-400' : m.changeDirection === 'down' ? 'text-red-400' : 'text-[#F9FAFB]'
             )}>
               {m.value}
             </span>
