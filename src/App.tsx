@@ -86,6 +86,77 @@ const BUNDLES = [
     line:"The complete NextGen implementation — every system, every automation, every training program your practice needs to run at full capacity."},
 ];
 
+const SERVICE_STATUS: Record<string, {label:string;color:string;bg:string}> = {
+  PAE:{label:"Ready",color:"#16A34A",bg:"#F0FDF4"},
+  WCS:{label:"Ready",color:"#16A34A",bg:"#F0FDF4"},
+  STL:{label:"Ready",color:"#16A34A",bg:"#F0FDF4"},
+  AFD:{label:"Ready",color:"#16A34A",bg:"#F0FDF4"},
+  RRE:{label:"Ready",color:"#16A34A",bg:"#F0FDF4"},
+  CAS:{label:"Ready",color:"#16A34A",bg:"#F0FDF4"},
+  DDL:{label:"Partial",color:"#EA580C",bg:"#FFF7ED"},
+  FTP:{label:"Partial",color:"#EA580C",bg:"#FFF7ED"},
+  RCO:{label:"In Build",color:"#2563EB",bg:"#EFF6FF"},
+  TOS:{label:"In Build",color:"#2563EB",bg:"#EFF6FF"},
+};
+
+const PHASE_MAP: Record<string,number> = {
+  STL:1, DDL:1, RRE:1,
+  PAE:2, WCS:2, CAS:2, AFD:2,
+  RCO:3, TOS:3, FTP:3,
+};
+
+const PHASE_META = [
+  {num:1, name:"Foundation", timeline:"Month 1–2", desc:"Quick wins: capture more leads, recover lost revenue, get visibility into your numbers."},
+  {num:2, name:"Growth", timeline:"Month 3–4", desc:"Revenue acceleration: drive new patients, convert more cases, add AI coverage."},
+  {num:3, name:"Scale", timeline:"Month 5–6", desc:"Long-term operations: systematize revenue cycle, team processes, and training."},
+];
+
+interface RecService {
+  key:string;
+  pkg:{name:string;setup:number;mo:number;roi:string};
+  status:{label:string;color:string;bg:string};
+  phase:number;
+  gapCount:number;
+  highCount:number;
+  leakMin:number;
+  leakMax:number;
+  gaps:(Question&{li:number;a:number})[];
+}
+
+function getRecommendations(sc:ScoreData) {
+  const pkgGaps: Record<string,{gaps:(Question&{li:number;a:number})[];highCount:number;leakMin:number;leakMax:number}> = {};
+  sc.gaps.forEach(g => {
+    if (!pkgGaps[g.pk]) pkgGaps[g.pk] = {gaps:[],highCount:0,leakMin:0,leakMax:0};
+    pkgGaps[g.pk].gaps.push(g);
+    if (g.m) pkgGaps[g.pk].highCount++;
+    const factor = g.a===0?1:0.5;
+    pkgGaps[g.pk].leakMin += Math.round(g.mn*factor);
+    pkgGaps[g.pk].leakMax += Math.round(g.mx*factor);
+  });
+  const ranked: RecService[] = Object.entries(pkgGaps)
+    .map(([key,data]) => ({
+      key,
+      pkg:PKGS[key],
+      status:SERVICE_STATUS[key],
+      phase:PHASE_MAP[key],
+      gapCount:data.gaps.length,
+      highCount:data.highCount,
+      leakMin:data.leakMin,
+      leakMax:data.leakMax,
+      gaps:data.gaps,
+    }))
+    .sort((a,b) => b.highCount-a.highCount || b.leakMax-a.leakMax || b.gapCount-a.gapCount);
+  const phases = PHASE_META
+    .map(pm => ({
+      ...pm,
+      services: ranked.filter(r => r.phase===pm.num).sort((a,b) => b.highCount-a.highCount || b.leakMax-a.leakMax),
+    }))
+    .filter(p => p.services.length>0);
+  const totalSetup = ranked.reduce((s,r) => s+r.pkg.setup, 0);
+  const totalMo = ranked.reduce((s,r) => s+r.pkg.mo, 0);
+  return {ranked, phases, totalSetup, totalMo};
+}
+
 interface Question {
   c: number;
   t: string;
@@ -928,27 +999,139 @@ function ReportView({sc, onBack}: {sc:ScoreData;onBack:()=>void}) {
         );
       })}
 
-      <div className="pg rpt">
-        <div style={{fontSize:17,fontWeight:700,color:"#1B2A4A",marginBottom:16}}>What This Means — Recommended Path</div>
-        <div style={{fontSize:12,color:"#2D2D2D",lineHeight:1.7,marginBottom:20,padding:16,background:"#FBF6E8",borderRadius:8,borderLeft:"3px solid #C9A84C"}}>
-          Your biggest opportunity is in <strong style={{color:weakest.color}}>{weakest.name}</strong> at <strong>{weakest.pct}%</strong>.
-          {sc.lkMn>0&&<> You're leaving an estimated <strong style={{color:"#DC2626"}}>${fmt(sc.lkMn)}–${fmt(sc.lkMx)}/month</strong> in preventable leaks.</>}
-        </div>
-        {BUNDLES.slice(0,2).map((b,i) => (
-          <div key={i} style={{border:"1px solid #E2E5EB",borderRadius:8,padding:18,marginBottom:14}}>
-            <div style={{fontSize:14,fontWeight:700,color:"#1B2A4A",marginBottom:4}}>{b.name}</div>
-            <div style={{fontSize:11,color:"#6B7280",marginBottom:10}}>{b.who}</div>
-            <div style={{fontSize:11,marginBottom:10}}><strong>Includes:</strong> {b.pkgs.map(pk=>PKGS[pk].name).join(" + ")}</div>
-            <div style={{fontSize:11,fontStyle:"italic",color:"#6B7280"}}>{b.line}</div>
-          </div>
-        ))}
-        <div style={{textAlign:"center",marginTop:28,padding:24,background:"#1B2A4A",borderRadius:8}}>
-          <div style={{fontSize:14,fontWeight:700,color:"#C9A84C",marginBottom:8}}>Ready to see what this looks like in your practice?</div>
-          <div style={{fontSize:12,color:"rgba(255,255,255,0.65)",marginBottom:4}}>Book a 45-minute NextGen Roadmap Session.</div>
-          <div style={{fontSize:11,color:"rgba(255,255,255,0.3)",marginTop:8}}>nextgenpractice.org/roadmap</div>
-        </div>
-        <div style={{textAlign:"center",marginTop:24,fontSize:10,color:"#9CA3AF"}}>NextGen Practice Solutions · nextgenpractice.org</div>
-      </div>
+      {(() => {
+        const rec = getRecommendations(sc);
+        const basePath = import.meta.env.BASE_URL || '/';
+        const portalUrl = `${basePath}portal/onboarding?score=${score}&g=${pillarScores.find(p=>p.key==='G')?.pct||0}&m=${pillarScores.find(p=>p.key==='M')?.pct||0}&d=${pillarScores.find(p=>p.key==='D')?.pct||0}&pkgs=${rec.ranked.map(r=>r.key).join(',')}&leak=${sc.lkMn}`;
+        return (
+          <>
+            {/* Recommended Path header */}
+            <div className="pg rpt">
+              <div style={{fontSize:17,fontWeight:700,color:"#1B2A4A",marginBottom:16}}>Your Recommended Path</div>
+              <div style={{fontSize:12,color:"#2D2D2D",lineHeight:1.7,marginBottom:20,padding:16,background:"#FBF6E8",borderRadius:8,borderLeft:"3px solid #C9A84C"}}>
+                Your biggest opportunity is in <strong style={{color:weakest.color}}>{weakest.name}</strong> at <strong>{weakest.pct}%</strong>.
+                {sc.lkMn>0&&<> You're leaving an estimated <strong style={{color:"#DC2626"}}>${fmt(sc.lkMn)}–${fmt(sc.lkMx)}/month</strong> in preventable leaks.</>}
+                {rec.ranked.length>0&&<> We've identified <strong>{rec.ranked.length} services</strong> across <strong>{rec.phases.length} phases</strong> to close your gaps.</>}
+              </div>
+
+              {/* Phase timeline overview */}
+              <div style={{display:"flex",gap:0,marginBottom:24}}>
+                {rec.phases.map((ph,i) => (
+                  <div key={ph.num} style={{flex:1,position:"relative"}}>
+                    <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
+                      <div style={{width:24,height:24,borderRadius:"50%",background:"#1B2A4A",color:"#C9A84C",display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:700}}>{ph.num}</div>
+                      {i<rec.phases.length-1&&<div style={{flex:1,height:2,background:"#E2E5EB"}}/>}
+                    </div>
+                    <div style={{fontSize:11,fontWeight:700,color:"#1B2A4A"}}>{ph.name}</div>
+                    <div style={{fontSize:9,color:"#C9A84C",fontWeight:600,letterSpacing:"0.1em"}}>{ph.timeline}</div>
+                    <div style={{fontSize:9,color:"#6B7280",marginTop:2}}>{ph.services.length} service{ph.services.length>1?"s":""}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Phase detail cards */}
+            {rec.phases.map(ph => {
+              const phSetup = ph.services.reduce((s,sv) => s+sv.pkg.setup, 0);
+              const phMo = ph.services.reduce((s,sv) => s+sv.pkg.mo, 0);
+              return (
+                <div key={ph.num} className="pg rpt">
+                  {/* Phase header */}
+                  <div style={{borderLeft:"3px solid #C9A84C",paddingLeft:16,marginBottom:18}}>
+                    <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:4}}>
+                      <span style={{fontSize:15,fontWeight:700,color:"#1B2A4A"}}>Phase {ph.num}: {ph.name}</span>
+                      <span style={{fontSize:9,fontWeight:600,color:"#C9A84C",background:"rgba(201,168,76,0.12)",padding:"3px 10px",borderRadius:8,letterSpacing:"0.08em"}}>{ph.timeline}</span>
+                    </div>
+                    <div style={{fontSize:11,color:"#6B7280",lineHeight:1.6}}>{ph.desc}</div>
+                  </div>
+
+                  {/* Service cards */}
+                  {ph.services.map((sv,si) => (
+                    <div key={sv.key} style={{background:"#F9FAFB",borderLeft:`3px solid ${sv.status.color}`,borderRadius:6,padding:16,marginBottom:si<ph.services.length-1?12:0}}>
+                      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
+                        <div style={{display:"flex",alignItems:"center",gap:8}}>
+                          <span style={{fontSize:13,fontWeight:700,color:"#1B2A4A"}}>{sv.pkg.name}</span>
+                          <span style={{fontSize:9,fontWeight:600,color:sv.status.color,background:sv.status.bg,padding:"2px 8px",borderRadius:8}}>{sv.status.label}</span>
+                        </div>
+                        <span style={{fontSize:9,fontWeight:600,color:"#6B7280",letterSpacing:"0.08em"}}>PRIORITY #{si+1}</span>
+                      </div>
+
+                      <div style={{display:"flex",gap:16,marginBottom:8,flexWrap:"wrap"}}>
+                        <div style={{fontSize:10,color:"#6B7280"}}><strong style={{color:"#1B2A4A"}}>{sv.gapCount}</strong> gap{sv.gapCount>1?"s":""} identified{sv.highCount>0&&<span style={{color:"#DC2626"}}> ({sv.highCount} high-impact)</span>}</div>
+                        <div style={{fontSize:10,color:"#DC2626",fontWeight:600}}>${fmt(sv.leakMin)}–${fmt(sv.leakMax)}/mo at risk</div>
+                      </div>
+
+                      {/* Top gaps */}
+                      <div style={{marginBottom:10}}>
+                        {sv.gaps.slice(0,3).map((g,gi) => (
+                          <div key={gi} style={{fontSize:10,color:"#6B7280",lineHeight:1.6,paddingLeft:10,borderLeft:"1px solid #E2E5EB",marginBottom:2}}>
+                            {g.t.length>72?g.t.slice(0,72)+"…":g.t}{g.m&&<span style={{color:"#DC2626",fontSize:8}}> ★</span>}
+                          </div>
+                        ))}
+                        {sv.gaps.length>3&&<div style={{fontSize:9,color:"#9CA3AF",paddingLeft:10}}>+{sv.gaps.length-3} more gap{sv.gaps.length-3>1?"s":""}</div>}
+                      </div>
+
+                      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",paddingTop:8,borderTop:"1px solid #E2E5EB"}}>
+                        <div style={{fontSize:10}}>
+                          <span style={{color:"#6B7280"}}>Setup:</span> <strong style={{color:"#1B2A4A"}}>${fmt(sv.pkg.setup)}</strong>
+                          <span style={{color:"#E2E5EB",margin:"0 6px"}}>·</span>
+                          <span style={{color:"#6B7280"}}>Monthly:</span> <strong style={{color:"#1B2A4A"}}>${fmt(sv.pkg.mo)}</strong>
+                        </div>
+                      </div>
+                      <div style={{fontSize:10,color:"#6B7280",fontStyle:"italic",marginTop:6,lineHeight:1.5}}>{sv.pkg.roi}</div>
+                    </div>
+                  ))}
+
+                  {/* Phase subtotal */}
+                  <div style={{display:"flex",justifyContent:"flex-end",gap:16,marginTop:12,paddingTop:10,borderTop:"1px solid #E2E5EB"}}>
+                    <span style={{fontSize:10,color:"#6B7280"}}>Phase {ph.num} total:</span>
+                    <span style={{fontSize:10,fontWeight:700,color:"#1B2A4A"}}>Setup ${fmt(phSetup)} · ${fmt(phMo)}/mo</span>
+                  </div>
+                </div>
+              );
+            })}
+
+            {/* Investment summary + Portal CTA */}
+            <div className="pg rpt">
+              <div style={{fontSize:15,fontWeight:700,color:"#1B2A4A",marginBottom:16}}>Investment Summary</div>
+
+              <div style={{display:"flex",gap:12,marginBottom:20,flexWrap:"wrap"}}>
+                <div style={{flex:1,minWidth:160,border:"1px solid #E2E5EB",borderRadius:8,padding:16,textAlign:"center"}}>
+                  <div style={{fontSize:9,color:"#6B7280",letterSpacing:"0.1em",marginBottom:4}}>TOTAL SETUP</div>
+                  <div style={{fontSize:20,fontWeight:800,color:"#1B2A4A"}}>${fmt(rec.totalSetup)}</div>
+                </div>
+                <div style={{flex:1,minWidth:160,border:"1px solid #E2E5EB",borderRadius:8,padding:16,textAlign:"center"}}>
+                  <div style={{fontSize:9,color:"#6B7280",letterSpacing:"0.1em",marginBottom:4}}>MONTHLY</div>
+                  <div style={{fontSize:20,fontWeight:800,color:"#1B2A4A"}}>${fmt(rec.totalMo)}/mo</div>
+                </div>
+                <div style={{flex:1,minWidth:160,border:"1px solid #E2E5EB",borderRadius:8,padding:16,textAlign:"center"}}>
+                  <div style={{fontSize:9,color:"#6B7280",letterSpacing:"0.1em",marginBottom:4}}>REVENUE AT RISK</div>
+                  <div style={{fontSize:20,fontWeight:800,color:"#DC2626"}}>${fmt(sc.lkMn)}/mo</div>
+                </div>
+              </div>
+
+              {sc.lkMn>0&&rec.totalMo>0&&(
+                <div style={{background:"#F0FDF4",borderRadius:8,padding:14,marginBottom:20,fontSize:11,color:"#16A34A",fontWeight:600,textAlign:"center"}}>
+                  You're losing ${fmt(sc.lkMn)}–${fmt(sc.lkMx)}/mo. Fixing it costs ${fmt(rec.totalMo)}/mo — a {Math.round(sc.lkMn/rec.totalMo)}–{Math.round(sc.lkMx/rec.totalMo)}x return.
+                </div>
+              )}
+
+              {/* Portal handoff CTA */}
+              <div style={{textAlign:"center",padding:28,background:"#1B2A4A",borderRadius:8}}>
+                <div style={{fontSize:15,fontWeight:700,color:"#C9A84C",marginBottom:6}}>Ready to activate your roadmap?</div>
+                <div style={{fontSize:11,color:"rgba(255,255,255,0.6)",marginBottom:20,lineHeight:1.6}}>Your assessment results will pre-load into your portal — no re-entry needed.</div>
+                <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap"}}>
+                  <a href={portalUrl} style={{display:"inline-block",padding:"14px 28px",background:"#C9A84C",color:"#1B2A4A",fontWeight:700,fontSize:11,letterSpacing:"0.1em",textDecoration:"none",borderRadius:4,textTransform:"uppercase"}}>Start Your Practice Roadmap →</a>
+                  <button onClick={()=>window.print()} style={{padding:"14px 28px",background:"transparent",border:"1px solid rgba(201,168,76,0.4)",color:"#C9A84C",fontSize:11,letterSpacing:"0.1em",cursor:"pointer",borderRadius:4,textTransform:"uppercase"}}>Download PDF ↓</button>
+                </div>
+                <div style={{fontSize:9,color:"rgba(255,255,255,0.25)",marginTop:14,letterSpacing:"0.1em"}}>nextgenpractice.org/portal</div>
+              </div>
+
+              <div style={{textAlign:"center",marginTop:24,fontSize:10,color:"#9CA3AF"}}>NextGen Practice Solutions · nextgenpractice.org</div>
+            </div>
+          </>
+        );
+      })()}
     </div>
   );
 }
