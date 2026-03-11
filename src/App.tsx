@@ -293,192 +293,150 @@ function TopBar({answered, catColor, user, onLoginClick, onLogout}: {answered:nu
 }
 
 // ── STACKED CARDS (hero right side) ──
-function StackedCards() {
-  const [activeAgent, setActiveAgent] = useState<string>("growth");
+const AGENTS = [
+  {id:"growth", ref:"P-01", pillar:"Practice Growth", name:"GISELLE",
+    tagline:"Drives new patient acquisition through paid ads, SEO, social, and reputation — bringing the right patients to your door.",
+    microcopy:"Your AI growth partner for patient acquisition.", num:"01",
+    role:"Growth Agent — Patient Acquisition", tools:["Google Ads","Meta Ads","SEO","GBP","Reputation"],
+    caps:["Launch and manage Google and Meta ad campaigns","Optimize Google Business Profile weekly","Monitor and respond to reviews across platforms","Build SEO content strategy for local search dominance","Track cost per lead and ROAS across all channels"]},
+  {id:"management", ref:"P-02", pillar:"Practice Management", name:"MILES",
+    tagline:"Handles speed-to-lead, booking automation, recall, and front-office systems — so nothing slips through the cracks.",
+    microcopy:"Your AI concierge for front-office and operations.", num:"02",
+    role:"Management Agent — Front Office", tools:["CRM","Booking Engine","Recall OS","AI Phone","Analytics"],
+    caps:["Respond to every new lead within 60 seconds","Automate booking, confirmation, and follow-up sequences","Run recall campaigns that re-engage dormant patients","Handle after-hours calls with AI phone agent","Track call-to-booking conversion and no-show rates"]},
+  {id:"development", ref:"P-03", pillar:"Practice Development", name:"DEVON",
+    tagline:"Boosts case acceptance, financing approvals, and post-consult follow-up so more patients say yes to better care.",
+    microcopy:"Your AI strategist for case acceptance and follow-up.", num:"03",
+    role:"Development Agent — Case Acceptance", tools:["Narrative App","Claude AI","Claude Code","Perplexity","PDF Builder"],
+    caps:["Power the Narrative app — your TC's case presentation layer","Generate personalized treatment summaries and take-home PDFs","Coach TC performance using accepted vs. declined case data","Build financial presentation scripts tailored to patient thresholds","Use Claude Code to build and iterate tools your team uses daily"]},
+  {id:"academy", ref:"P-04", pillar:"Practice Academy", name:"ALMA",
+    tagline:"Empowers your team with onboarding, training, and playbooks — turning everyday staff into a high-performing practice crew.",
+    microcopy:"Your AI coach for training and playbooks.", num:"04",
+    role:"Academy Agent — Team Development", tools:["Playbook Builder","Onboarding OS","Claude AI","Call Coaching","SOP Generator"],
+    caps:["Build onboarding tracks for new front desk hires in days not weeks","Generate role-specific SOPs and training playbooks automatically","Coach from real call recordings to improve booking conversion","Create accountability scorecards tied to team KPIs","Deliver ongoing training that evolves with your practice"]},
+];
+
+const AGENT_COLOR: Record<string, string> = {
+  growth: "#4ade80",
+  management: "#60a5fa",
+  development: "#c084fc",
+  academy: "#fb7185",
+};
+
+function AgentCard({activeAgent}: {activeAgent: string}) {
   const [flipped, setFlipped] = useState(false);
   const [fadeKey, setFadeKey] = useState(0);
+  const prevAgent = useRef(activeAgent);
 
-  const AGENT_COLOR: Record<string, string> = {
-    growth: "#4ade80",
-    management: "#60a5fa",
-    development: "#c084fc",
-    academy: "#fb7185",
-  };
+  useEffect(() => {
+    if (prevAgent.current !== activeAgent) {
+      setFlipped(false);
+      setFadeKey(k => k + 1);
+      prevAgent.current = activeAgent;
+    }
+  }, [activeAgent]);
 
-  const agents = [
-    {id:"growth", ref:"P-01", pillar:"Practice Growth", name:"GISELLE",
-      tagline:"Drives new patient acquisition through paid ads, SEO, social, and reputation — bringing the right patients to your door.",
-      quote:"Your AI growth partner for patient acquisition.",
-      microcopy:"Your AI growth partner for patient acquisition.", num:"01",
-      role:"Growth Agent — Patient Acquisition", tools:["Google Ads","Meta Ads","SEO","GBP","Reputation"],
-      caps:["Launch and manage Google and Meta ad campaigns","Optimize Google Business Profile weekly","Monitor and respond to reviews across platforms","Build SEO content strategy for local search dominance","Track cost per lead and ROAS across all channels"]},
-    {id:"management", ref:"P-02", pillar:"Practice Management", name:"MILES",
-      tagline:"Handles speed-to-lead, booking automation, recall, and front-office systems — so nothing slips through the cracks.",
-      quote:"Your AI concierge for front-office and operations.",
-      microcopy:"Your AI concierge for front-office and operations.", num:"02",
-      role:"Management Agent — Front Office", tools:["CRM","Booking Engine","Recall OS","AI Phone","Analytics"],
-      caps:["Respond to every new lead within 60 seconds","Automate booking, confirmation, and follow-up sequences","Run recall campaigns that re-engage dormant patients","Handle after-hours calls with AI phone agent","Track call-to-booking conversion and no-show rates"]},
-    {id:"development", ref:"P-03", pillar:"Practice Development", name:"DEVON",
-      tagline:"Boosts case acceptance, financing approvals, and post-consult follow-up so more patients say yes to better care.",
-      quote:"Your AI strategist for case acceptance and follow-up.",
-      microcopy:"Your AI strategist for case acceptance and follow-up.", num:"03",
-      role:"Development Agent — Case Acceptance", tools:["Narrative App","Claude AI","Claude Code","Perplexity","PDF Builder"],
-      caps:["Power the Narrative app — your TC's case presentation layer","Generate personalized treatment summaries and take-home PDFs","Coach TC performance using accepted vs. declined case data","Build financial presentation scripts tailored to patient thresholds","Use Claude Code to build and iterate tools your team uses daily"]},
-    {id:"academy", ref:"P-04", pillar:"Practice Academy", name:"ALMA",
-      tagline:"Empowers your team with onboarding, training, and playbooks — turning everyday staff into a high-performing practice crew.",
-      quote:"Your AI coach for training and playbooks.",
-      microcopy:"Your AI coach for training and playbooks.", num:"04",
-      role:"Academy Agent — Team Development", tools:["Playbook Builder","Onboarding OS","Claude AI","Call Coaching","SOP Generator"],
-      caps:["Build onboarding tracks for new front desk hires in days not weeks","Generate role-specific SOPs and training playbooks automatically","Coach from real call recordings to improve booking conversion","Create accountability scorecards tied to team KPIs","Deliver ongoing training that evolves with your practice"]},
-  ];
-
-  const handleSelect = (id: string) => {
-    if (id === activeAgent) return;
-    setActiveAgent(id);
-    setFlipped(false);
-    setFadeKey(k => k + 1);
-  };
-
-  const a = agents.find(x => x.id === activeAgent)!;
+  const a = AGENTS.find(x => x.id === activeAgent)!;
   const col = AGENT_COLOR[a.id];
 
   return (
-    <div style={{display:"flex",flexDirection:"column",gap:14,flexShrink:0}}>
-      <div style={{display:"flex",gap:20,alignItems:"stretch"}}>
-        {/* Left: Agent name list */}
-        <div style={{display:"flex",flexDirection:"column",justifyContent:"center",gap:2,width:130,flexShrink:0}}>
-          {agents.map(ag => {
-            const isActive = ag.id === activeAgent;
-            const agCol = AGENT_COLOR[ag.id];
-            return (
-              <button key={ag.id} onClick={() => handleSelect(ag.id)}
-                style={{
-                  background:"none",border:"none",cursor:"pointer",
-                  display:"flex",alignItems:"center",gap:8,
-                  padding:"8px 0 8px 12px",
-                  borderLeft: isActive ? `2px solid ${agCol}` : "2px solid transparent",
-                  transition:"all 0.3s ease",
-                }}>
-                <span style={{
-                  width:5,height:5,borderRadius:"50%",flexShrink:0,
-                  background: isActive ? agCol : T.textDim,
-                  boxShadow: isActive ? `0 0 8px ${agCol}44` : "none",
-                  transition:"all 0.3s ease",
-                }}/>
-                <span style={{
-                  ...mono,fontSize:9,letterSpacing:"0.18em",textTransform:"uppercase" as const,
-                  color: isActive ? T.textMain : T.textDim,
-                  opacity: isActive ? 1 : 0.6,
-                  transition:"all 0.3s ease",
-                }}>{ag.name}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Right: Single active card */}
-        <div style={{width:340,height:340,position:"relative",perspective:2000,cursor:"pointer",flexShrink:0}}
-          onClick={() => setFlipped(f => !f)}>
-          <div key={fadeKey} style={{
-            position:"absolute",inset:0,
-            animation:"cardFadeIn 0.4s ease both",
+    <>
+      <div style={{width:440,height:340,position:"relative",perspective:2000,cursor:"pointer",flexShrink:0}}
+        onClick={() => setFlipped(f => !f)}>
+        <div key={fadeKey} style={{
+          position:"absolute",inset:0,
+          animation:"cardFadeIn 0.4s ease both",
+          transformStyle:"preserve-3d" as const,
+        }}>
+          <div style={{
+            position:"relative",width:"100%",height:"100%",
             transformStyle:"preserve-3d" as const,
+            transition:"transform 0.7s cubic-bezier(.23,1,.32,1)",
+            transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
           }}>
+            {/* FRONT */}
             <div style={{
-              position:"relative",width:"100%",height:"100%",
-              transformStyle:"preserve-3d" as const,
-              transition:"transform 0.7s cubic-bezier(.23,1,.32,1)",
-              transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
+              position:"absolute",inset:0,borderRadius:3,padding:24,
+              backfaceVisibility:"hidden",WebkitBackfaceVisibility:"hidden",
+              background:`rgba(245,166,35,0.07)`,
+              border:`1px solid ${col}44`,
+              boxShadow:`0 0 48px ${col}1a, 0 8px 32px rgba(0,0,0,0.4)`,
+              backdropFilter:"blur(20px)",
+              display:"flex",flexDirection:"column",justifyContent:"space-between",
             }}>
-              {/* FRONT */}
-              <div style={{
-                position:"absolute",inset:0,borderRadius:3,padding:24,
-                backfaceVisibility:"hidden",WebkitBackfaceVisibility:"hidden",
-                background:`rgba(245,166,35,0.07)`,
-                border:`1px solid ${col}44`,
-                boxShadow:`0 0 48px ${col}1a, 0 8px 32px rgba(0,0,0,0.4)`,
-                backdropFilter:"blur(20px)",
-                display:"flex",flexDirection:"column",justifyContent:"space-between",
-              }}>
-                <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
-                  <span style={{...mono,fontSize:8,letterSpacing:"0.2em",color:T.textDim,textTransform:"uppercase"}}>{a.ref}</span>
-                  <span style={{...mono,fontSize:7,color:`${col}88`,letterSpacing:"0.18em",textTransform:"uppercase"}}>CLICK TO EXPLORE ›</span>
-                </div>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
+                <span style={{...mono,fontSize:8,letterSpacing:"0.2em",color:T.textDim,textTransform:"uppercase"}}>{a.ref}</span>
+                <span style={{...mono,fontSize:7,color:`${col}88`,letterSpacing:"0.18em",textTransform:"uppercase"}}>CLICK TO EXPLORE ›</span>
+              </div>
+              <div>
+                <div style={{...mono,fontSize:8,letterSpacing:"0.25em",color:col,textTransform:"uppercase",marginBottom:6}}>{a.pillar}</div>
+                <div style={{...bebas,fontSize:"2.6rem",lineHeight:.85,letterSpacing:"0.04em",color:T.textMain}}>{a.name}</div>
+                <p style={{...sans,fontSize:11,color:T.textMid,lineHeight:1.6,marginTop:10}}>{a.tagline}</p>
+              </div>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end"}}>
+                <p style={{...mono,fontSize:9,color:col,lineHeight:1.55,borderLeft:`2px solid ${col}66`,paddingLeft:10,fontStyle:"italic",maxWidth:"78%",opacity:.85}}>{a.microcopy}</p>
+                <span style={{...bebas,fontSize:"3rem",color:`${col}09`,lineHeight:1}}>{a.num}</span>
+              </div>
+            </div>
+            {/* BACK */}
+            <div style={{
+              position:"absolute",inset:0,borderRadius:3,padding:22,
+              backfaceVisibility:"hidden",WebkitBackfaceVisibility:"hidden",
+              transform:"rotateY(180deg)",
+              background:"rgba(8,11,20,0.98)",
+              border:`1px solid ${col}44`,
+              boxShadow:`0 20px 60px rgba(0,0,0,0.8), 0 0 40px ${col}18`,
+              display:"flex",flexDirection:"column",gap:10,overflow:"hidden",
+            }}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
                 <div>
-                  <div style={{...mono,fontSize:8,letterSpacing:"0.25em",color:col,textTransform:"uppercase",marginBottom:6}}>{a.pillar}</div>
-                  <div style={{...bebas,fontSize:"2.6rem",lineHeight:.85,letterSpacing:"0.04em",color:T.textMain}}>{a.name}</div>
-                  <p style={{...sans,fontSize:11,color:T.textMid,lineHeight:1.6,marginTop:10}}>{a.tagline}</p>
+                  <div style={{...bebas,fontSize:"1.7rem",color:col,lineHeight:.9}}>{a.name}</div>
+                  <div style={{...mono,fontSize:7,letterSpacing:"0.18em",color:T.textDim,textTransform:"uppercase",marginTop:4}}>{a.role}</div>
                 </div>
-                <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end"}}>
-                  <p style={{...mono,fontSize:9,color:col,lineHeight:1.55,borderLeft:`2px solid ${col}66`,paddingLeft:10,fontStyle:"italic",maxWidth:"78%",opacity:.85}}>{a.microcopy}</p>
-                  <span style={{...bebas,fontSize:"3rem",color:`${col}09`,lineHeight:1}}>{a.num}</span>
-                </div>
+                <button onClick={(e)=>{e.stopPropagation();setFlipped(false);}}
+                  style={{...mono,background:"none",border:`1px solid ${T.border}`,color:T.textDim,fontSize:8,letterSpacing:"0.15em",textTransform:"uppercase",padding:"5px 8px",cursor:"pointer"}}>✕</button>
               </div>
-              {/* BACK */}
-              <div style={{
-                position:"absolute",inset:0,borderRadius:3,padding:22,
-                backfaceVisibility:"hidden",WebkitBackfaceVisibility:"hidden",
-                transform:"rotateY(180deg)",
-                background:"rgba(8,11,20,0.98)",
-                border:`1px solid ${col}44`,
-                boxShadow:`0 20px 60px rgba(0,0,0,0.8), 0 0 40px ${col}18`,
-                display:"flex",flexDirection:"column",gap:10,overflow:"hidden",
-              }}>
-                <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
-                  <div>
-                    <div style={{...bebas,fontSize:"1.7rem",color:col,lineHeight:.9}}>{a.name}</div>
-                    <div style={{...mono,fontSize:7,letterSpacing:"0.18em",color:T.textDim,textTransform:"uppercase",marginTop:4}}>{a.role}</div>
-                  </div>
-                  <button onClick={(e)=>{e.stopPropagation();setFlipped(false);}}
-                    style={{...mono,background:"none",border:`1px solid ${T.border}`,color:T.textDim,fontSize:8,letterSpacing:"0.15em",textTransform:"uppercase",padding:"5px 8px",cursor:"pointer"}}>✕</button>
-                </div>
-                <div style={{width:"100%",height:1,background:`${col}33`}}/>
-                <div style={{...mono,fontSize:7,letterSpacing:"0.22em",color:col,textTransform:"uppercase"}}>Tools</div>
-                <div style={{display:"flex",flexWrap:"wrap",gap:5}}>
-                  {a.tools.map(t=><span key={t} style={{...mono,fontSize:7,letterSpacing:"0.1em",textTransform:"uppercase",border:`1px solid ${col}33`,color:col,padding:"3px 8px",background:`${col}06`}}>{t}</span>)}
-                </div>
-                <div style={{...mono,fontSize:7,letterSpacing:"0.22em",color:col,textTransform:"uppercase"}}>Capabilities</div>
-                <ul style={{listStyle:"none",display:"flex",flexDirection:"column",gap:5}}>
-                  {a.caps.map((c,ci)=>(
-                    <li key={ci} style={{...sans,fontSize:10,color:T.textMid,lineHeight:1.45,paddingLeft:12,position:"relative"}}>
-                      <span style={{position:"absolute",left:0,color:col,fontFamily:"monospace"}}>›</span>{c}
-                    </li>
-                  ))}
-                </ul>
+              <div style={{width:"100%",height:1,background:`${col}33`}}/>
+              <div style={{...mono,fontSize:7,letterSpacing:"0.22em",color:col,textTransform:"uppercase"}}>Tools</div>
+              <div style={{display:"flex",flexWrap:"wrap",gap:5}}>
+                {a.tools.map(t=><span key={t} style={{...mono,fontSize:7,letterSpacing:"0.1em",textTransform:"uppercase",border:`1px solid ${col}33`,color:col,padding:"3px 8px",background:`${col}06`}}>{t}</span>)}
               </div>
+              <div style={{...mono,fontSize:7,letterSpacing:"0.22em",color:col,textTransform:"uppercase"}}>Capabilities</div>
+              <ul style={{listStyle:"none",display:"flex",flexDirection:"column",gap:5}}>
+                {a.caps.map((c,ci)=>(
+                  <li key={ci} style={{...sans,fontSize:10,color:T.textMid,lineHeight:1.45,paddingLeft:12,position:"relative"}}>
+                    <span style={{position:"absolute",left:0,color:col,fontFamily:"monospace"}}>›</span>{c}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Step indicator dots */}
-      <div style={{display:"flex",gap:8,justifyContent:"center",paddingLeft:130}}>
-        {agents.map(ag => (
-          <button key={ag.id} onClick={() => handleSelect(ag.id)}
-            style={{
-              width:6,height:6,borderRadius:"50%",border:"none",padding:0,cursor:"pointer",
-              background: activeAgent === ag.id ? AGENT_COLOR[ag.id] : T.border,
-              boxShadow: activeAgent === ag.id ? `0 0 6px ${AGENT_COLOR[ag.id]}44` : "none",
-              transition:"all 0.3s ease",
-            }}/>
-        ))}
-      </div>
-
       <style>{`
         @keyframes cardFadeIn {
           from { opacity: 0; transform: translateX(8px); }
           to { opacity: 1; transform: translateX(0); }
         }
       `}</style>
-    </div>
+    </>
   );
 }
 
 // ── HOME VIEW ──
 function HomeView({onStart}: {onStart:()=>void}) {
+  const [activeAgent, setActiveAgent] = useState<string>("growth");
+
+  const agentTags = [
+    {name:"Giselle",copy:"Leads & Growth",color:"#4ade80",id:"growth"},
+    {name:"Miles",copy:"Front Office",color:"#60a5fa",id:"management"},
+    {name:"Devon",copy:"Case Acceptance",color:"#c084fc",id:"development"},
+    {name:"Alma",copy:"Training & Playbooks",color:"#fb7185",id:"academy"},
+  ];
+
   return (
     <div style={{flex:1,display:"flex",alignItems:"center",maxWidth:1160,margin:"0 auto",padding:"40px 48px",gap:48,width:"100%"}}>
-      <div style={{flex:"0 0 58%",display:"flex",flexDirection:"column",gap:20}}>
+      <div style={{flex:"0 0 54%",display:"flex",flexDirection:"column",gap:20}}>
         <div style={{...mono,fontSize:9,letterSpacing:"0.28em",color:T.amber,textTransform:"uppercase",display:"flex",alignItems:"center",gap:10}}>
           <span style={{display:"inline-block",width:18,height:1,background:T.amberDim,flexShrink:0}}/>
           AI Operating System for Dental Practices
@@ -493,18 +451,24 @@ function HomeView({onStart}: {onStart:()=>void}) {
           Meet Miles, Giselle, Devon, and Alma — four specialized AI agents that grow your practice, protect your time, and help you scale without extra staff.
         </p>
         <div style={{display:"flex",flexWrap:"wrap",gap:8}}>
-          {[
-            {name:"Giselle",copy:"Leads & Growth",color:"#4ade80"},
-            {name:"Miles",copy:"Front Office",color:"#60a5fa"},
-            {name:"Devon",copy:"Case Acceptance",color:"#c084fc"},
-            {name:"Alma",copy:"Training & Playbooks",color:"#fb7185"},
-          ].map(a=>(
-            <div key={a.name} style={{display:"flex",alignItems:"center",gap:6,border:`1px solid ${a.color}33`,padding:"5px 12px",borderRadius:2,background:`${a.color}06`}}>
-              <span style={{width:5,height:5,borderRadius:"50%",background:a.color,flexShrink:0}}/>
-              <span style={{...mono,fontSize:8,letterSpacing:"0.15em",color:a.color,textTransform:"uppercase"}}>{a.name}</span>
-              <span style={{...mono,fontSize:8,color:T.textDim,letterSpacing:"0.08em"}}>— {a.copy}</span>
-            </div>
-          ))}
+          {agentTags.map(a=>{
+            const isActive = activeAgent === a.id;
+            return (
+              <button key={a.name} onClick={() => setActiveAgent(a.id)}
+                style={{
+                  display:"flex",alignItems:"center",gap:6,
+                  border: isActive ? `1px solid ${a.color}66` : `1px solid ${a.color}33`,
+                  padding:"5px 12px",borderRadius:2,cursor:"pointer",
+                  background: isActive ? `${a.color}14` : `${a.color}06`,
+                  boxShadow: isActive ? `0 0 12px ${a.color}18` : "none",
+                  transition:"all 0.25s ease",
+                }}>
+                <span style={{width:5,height:5,borderRadius:"50%",background:a.color,flexShrink:0}}/>
+                <span style={{...mono,fontSize:8,letterSpacing:"0.15em",color:a.color,textTransform:"uppercase"}}>{a.name}</span>
+                <span style={{...mono,fontSize:8,color: isActive ? a.color : T.textDim,letterSpacing:"0.08em",transition:"color 0.25s ease"}}>— {a.copy}</span>
+              </button>
+            );
+          })}
         </div>
         <div style={{display:"flex",alignItems:"center",gap:16,marginTop:6,flexWrap:"wrap"}}>
           <button onClick={onStart} style={{
@@ -519,7 +483,7 @@ function HomeView({onStart}: {onStart:()=>void}) {
         </div>
       </div>
       <div style={{flex:1,display:"flex",justifyContent:"center",alignItems:"center"}}>
-        <StackedCards/>
+        <AgentCard activeAgent={activeAgent} />
       </div>
     </div>
   );
