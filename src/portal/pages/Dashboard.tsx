@@ -3,20 +3,14 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, TrendingUp, Settings2, GraduationCap, BookOpen, AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { pillars } from '../data/pillars';
-import {
-  globalKPIs,
-  pillarSummaries,
-  packages,
-  milestones,
-  clientRequests,
-  newPatientTrend,
-} from '../data/mock';
 import KPIStatCard from '../components/KPIStatCard';
 import SectionHeader from '../components/SectionHeader';
 import PackageCard from '../components/PackageCard';
 import TimelineItem from '../components/TimelineItem';
 import RequestTable from '../components/RequestTable';
 import MiniChart from '../components/MiniChart';
+import NeedsSetupBanner from '../components/NeedsSetupBanner';
+import { usePracticeData } from '../hooks/usePracticeData';
 
 const pillarIcons: Record<string, React.ElementType> = {
   giselle: TrendingUp,
@@ -69,6 +63,15 @@ const pillarTabBorder: Record<string, string> = {
 
 export default function Dashboard() {
   const [activePillar, setActivePillar] = useState<string>('giselle');
+  const {
+    isDemo,
+    globalKPIs,
+    pillarSummaries,
+    packages,
+    milestones,
+    clientRequests,
+    newPatientTrend,
+  } = usePracticeData();
 
   const recentMilestones = [...milestones]
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
@@ -83,6 +86,9 @@ export default function Dashboard() {
         <h1 className="text-2xl font-bold text-[#F9FAFB]">NextGen Portal</h1>
         <p className="text-sm text-[#9CA3AF] mt-1">Your practice operating system</p>
       </div>
+
+      {/* Needs Setup Banner for non-demo practices */}
+      {!isDemo && <NeedsSetupBanner />}
 
       {/* Global KPIs */}
       <div data-tour="kpi-cards" className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -109,9 +115,13 @@ export default function Dashboard() {
             </Link>
           } />
           <div className="bg-white/[0.04] backdrop-blur-sm rounded-xl border border-white/[0.06] shadow-glass p-5">
-            {recentMilestones.map((ms, i) => (
-              <TimelineItem key={ms.id} milestone={ms} isLast={i === recentMilestones.length - 1} />
-            ))}
+            {recentMilestones.length > 0 ? (
+              recentMilestones.map((ms, i) => (
+                <TimelineItem key={ms.id} milestone={ms} isLast={i === recentMilestones.length - 1} />
+              ))
+            ) : (
+              <p className="text-sm text-[#6B7280] text-center py-4">No milestones yet. Complete onboarding to get started.</p>
+            )}
           </div>
 
           <SectionHeader title="Open Requests" action={
@@ -119,7 +129,13 @@ export default function Dashboard() {
               View all
             </Link>
           } />
-          <RequestTable requests={openRequests} compact />
+          {openRequests.length > 0 ? (
+            <RequestTable requests={openRequests} compact />
+          ) : (
+            <div className="bg-white/[0.04] backdrop-blur-sm rounded-xl border border-white/[0.06] shadow-glass p-5">
+              <p className="text-sm text-[#6B7280] text-center py-4">No open requests yet.</p>
+            </div>
+          )}
         </div>
 
         {/* Right 40% — Tabbed Pillar Cards */}
@@ -227,14 +243,20 @@ export default function Dashboard() {
         title="Active Engagements"
         subtitle={`${packages.filter((p) => p.status === 'active').length} active packages across all pillars`}
       />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {packages
-          .filter((p) => p.status === 'active')
-          .slice(0, 6)
-          .map((pkg) => (
-            <PackageCard key={pkg.id} pkg={pkg} />
-          ))}
-      </div>
+      {packages.filter((p) => p.status === 'active').length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {packages
+            .filter((p) => p.status === 'active')
+            .slice(0, 6)
+            .map((pkg) => (
+              <PackageCard key={pkg.id} pkg={pkg} />
+            ))}
+        </div>
+      ) : (
+        <div className="bg-white/[0.04] backdrop-blur-sm rounded-xl border border-white/[0.06] shadow-glass p-5">
+          <p className="text-sm text-[#6B7280] text-center py-4">No active packages yet. Complete onboarding to activate your first package.</p>
+        </div>
+      )}
     </div>
   );
 }

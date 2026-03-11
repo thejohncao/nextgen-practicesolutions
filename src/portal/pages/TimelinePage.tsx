@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { milestones } from '../data/mock';
 import { PillarSlug, MilestoneStatus } from '../types';
 import SectionHeader from '../components/SectionHeader';
 import TimelineItem from '../components/TimelineItem';
+import NeedsSetupBanner from '../components/NeedsSetupBanner';
+import { usePracticeData } from '../hooks/usePracticeData';
 import { cn } from '@/lib/utils';
 
 const pillarFilters: { label: string; value: PillarSlug | 'all' }[] = [
@@ -23,6 +24,7 @@ const statusFilters: { label: string; value: MilestoneStatus | 'all' }[] = [
 export default function TimelinePage() {
   const [pillarFilter, setPillarFilter] = useState<PillarSlug | 'all'>('all');
   const [statusFilter, setStatusFilter] = useState<MilestoneStatus | 'all'>('all');
+  const { isDemo, milestones } = usePracticeData();
 
   const filtered = milestones
     .filter((m) => pillarFilter === 'all' || m.pillarSlug === pillarFilter)
@@ -35,6 +37,8 @@ export default function TimelinePage() {
         title="Timeline"
         subtitle="Unified engagement tracker across all pillars"
       />
+
+      {!isDemo && <NeedsSetupBanner />}
 
       {/* Filters */}
       <div className="flex flex-wrap gap-6">
@@ -81,7 +85,11 @@ export default function TimelinePage() {
       {/* Timeline */}
       <div data-tour="timeline-container" className="bg-white/[0.04] backdrop-blur-sm rounded-xl border border-white/[0.06] shadow-glass p-6">
         {filtered.length === 0 ? (
-          <p className="text-sm text-[#6B7280] text-center py-8">No milestones match the selected filters.</p>
+          <p className="text-sm text-[#6B7280] text-center py-8">
+            {milestones.length === 0
+              ? 'No milestones yet. Complete onboarding to get started.'
+              : 'No milestones match the selected filters.'}
+          </p>
         ) : (
           filtered.map((ms, i) => (
             <TimelineItem key={ms.id} milestone={ms} isLast={i === filtered.length - 1} />
