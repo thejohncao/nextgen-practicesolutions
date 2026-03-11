@@ -23,7 +23,7 @@ export default function MilesPage() {
 
   return (
     <div className="px-4 lg:px-8 py-6 max-w-7xl mx-auto space-y-8">
-      <PillarHero pillar={pillar} kpis={milesHeroKPIs} />
+      <div data-tour="miles-hero"><PillarHero pillar={pillar} kpis={milesHeroKPIs} /></div>
 
       {/* Operations Overview */}
       <SectionHeader title="Operations Overview" />

@@ -32,7 +32,7 @@ export default function PortalSidebar() {
   };
 
   return (
-    <aside className="hidden lg:flex flex-col w-64 min-h-screen bg-[#0D0E14] border-r border-white/[0.06]">
+    <aside data-tour="nav-sidebar" className="hidden lg:flex flex-col w-64 min-h-screen bg-[#0D0E14] border-r border-white/[0.06]">
       {/* Logo */}
       <div className="flex items-center gap-3 px-6 py-6 border-b border-white/[0.06]">
         <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center">

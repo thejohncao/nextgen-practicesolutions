@@ -60,7 +60,7 @@ export default function RequestsPage() {
         ))}
       </div>
 
-      <RequestTable requests={filtered} />
+      <div data-tour="requests-table"><RequestTable requests={filtered} /></div>
     </div>
   );
 }

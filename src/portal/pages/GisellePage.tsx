@@ -23,7 +23,7 @@ export default function GisellePage() {
 
   return (
     <div className="px-4 lg:px-8 py-6 max-w-7xl mx-auto space-y-8">
-      <PillarHero pillar={pillar} kpis={giselleHeroKPIs} />
+      <div data-tour="giselle-hero"><PillarHero pillar={pillar} kpis={giselleHeroKPIs} /></div>
 
       {/* Growth Overview */}
       <SectionHeader title="Growth Overview" />

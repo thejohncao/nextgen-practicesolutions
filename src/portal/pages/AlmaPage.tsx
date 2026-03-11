@@ -169,7 +169,7 @@ export default function AlmaPage() {
 
   return (
     <div className="px-4 lg:px-8 py-6 max-w-7xl mx-auto space-y-8">
-      <PillarHero pillar={pillar} kpis={almaHeroKPIs} />
+      <div data-tour="alma-hero"><PillarHero pillar={pillar} kpis={almaHeroKPIs} /></div>
 
       <SectionHeader title="Academy Overview" />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

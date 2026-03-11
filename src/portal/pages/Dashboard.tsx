@@ -77,7 +77,7 @@ export default function Dashboard() {
   const openRequests = clientRequests.filter((r) => r.status !== 'done').slice(0, 4);
 
   return (
-    <div className="px-4 lg:px-8 py-6 max-w-7xl mx-auto space-y-8">
+    <div data-tour="dashboard-full" className="px-4 lg:px-8 py-6 max-w-7xl mx-auto space-y-8">
       {/* Hero */}
       <div>
         <h1 className="text-2xl font-bold text-[#F9FAFB]">NextGen Portal</h1>
@@ -85,7 +85,7 @@ export default function Dashboard() {
       </div>
 
       {/* Global KPIs */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div data-tour="kpi-cards" className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {globalKPIs.map((kpi) => (
           <KPIStatCard
             key={kpi.id}
@@ -123,7 +123,7 @@ export default function Dashboard() {
         </div>
 
         {/* Right 40% — Tabbed Pillar Cards */}
-        <div className="lg:col-span-5 space-y-4">
+        <div data-tour="pillar-tabs" className="lg:col-span-5 space-y-4">
           <SectionHeader title="Pillar Performance" />
 
           {/* Tab bar */}
