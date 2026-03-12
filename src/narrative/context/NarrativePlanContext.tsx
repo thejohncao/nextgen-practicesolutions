@@ -55,7 +55,7 @@ export function NarrativePlanProvider({
         if (planError) throw planError;
         setPlan(planData as unknown as NarrativePlan);
 
-        if (planData?.patient_id) {
+        if ((planData as any)?.patient_id) {
           const { data: patientData } = await supabase
             .from('narrative_patients' as any)
             .select('*')

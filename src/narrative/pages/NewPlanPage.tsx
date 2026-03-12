@@ -66,7 +66,7 @@ export default function NewPlanPage() {
 
       // Create plan
       const { data: plan, error: planError } = await supabase
-        .from('narrative_plans')
+        .from('narrative_plans' as any)
         .insert({
           patient_id: patient.id,
           practice_id: profile.practice_id,
