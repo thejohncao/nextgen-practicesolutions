@@ -14,19 +14,16 @@ const COLOR_MAP: Record<string, { border: string; text: string; bg: string }> = 
   indigo:  { border: 'border-indigo-500/20',  text: 'text-indigo-400',  bg: 'bg-indigo-500/10' },
 };
 
-function formatUnit(unit: string): string {
-  if (unit === '$') return '$';
+function unitSuffix(unit: string): string {
   if (unit === '%') return '%';
-  if (unit === 'x') return 'x';
+  if (unit === '$') return '$';
+  if (unit === 'min') return 'min';
+  if (unit === 'days') return 'days';
+  if (unit === 'wks') return 'wks';
+  if (unit === 'hrs') return 'hrs';
+  if (unit === '/10') return '/10';
+  if (unit === '★') return '★';
   return '';
-}
-
-function formatBenchmark(value: number, unit: string): string {
-  if (unit === '$' && value >= 1000) {
-    return '$' + (value >= 1000000 ? (value / 1000000).toFixed(1) + 'M' : (value / 1000).toFixed(0) + 'k');
-  }
-  if (unit === '$') return '$' + value;
-  return value + (unit === '%' ? '%' : unit === 'x' ? 'x' : unit === 'min' ? ' min' : unit === 'days' ? ' days' : unit === 'stars' ? '★' : '');
 }
 
 export default function KPIEntrySection({ kpis, pillarLabel, color }: Props) {
@@ -35,7 +32,7 @@ export default function KPIEntrySection({ kpis, pillarLabel, color }: Props) {
 
   const allKpiData = onboardingState?.kpis ?? {};
   const score = pillarScore(kpis, allKpiData);
-  const filledCount = kpis.filter(d => allKpiData[d.id]?.current !== null && allKpiData[d.id]?.current !== undefined).length;
+  const filledCount = kpis.filter(d => allKpiData[d.id]?.current != null).length;
 
   const handleChange = (kpiId: string, field: 'current' | 'target', raw: string) => {
     const trimmed = raw.trim();
@@ -47,91 +44,97 @@ export default function KPIEntrySection({ kpis, pillarLabel, color }: Props) {
     }
   };
 
+  const inputClass =
+    'w-full px-3 py-2 rounded-md bg-[#0E1720] border border-white/[0.08] text-sm text-[#F9FAFB] placeholder-[#4B5563] focus:outline-none focus:border-white/20 transition';
+
   return (
     <div className="mt-8">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className={`text-sm font-semibold ${colors.text} uppercase tracking-wide`}>
+      {/* Section divider */}
+      <div className="border-t border-white/[0.06] mb-6" />
+
+      {/* Header */}
+      <div className="flex items-center justify-between mb-2">
+        <h3 className={`text-xs font-semibold ${colors.text} uppercase tracking-wider`}>
           {pillarLabel} KPI Baseline
         </h3>
-        <span className="text-xs text-[#6B7280]">
-          {filledCount} of {kpis.length} entered
+        <span className={`text-xs font-semibold ${colors.text} uppercase tracking-wider`}>
+          {filledCount}/{kpis.length} Entered
         </span>
       </div>
+      <p className="text-xs text-[#6B7280] mb-4">Current metrics and 6-month targets</p>
 
-      <div className="space-y-2">
-        {kpis.map((def) => {
+      {/* Column headers */}
+      <div className="grid grid-cols-[1fr_140px_140px] gap-3 mb-2 px-1">
+        <span className="text-[10px] text-[#6B7280] uppercase tracking-wider">KPI</span>
+        <span className="text-[10px] text-[#6B7280] uppercase tracking-wider">Current (Month 0)</span>
+        <span className="text-[10px] text-[#6B7280] uppercase tracking-wider">Target (Month 6)</span>
+      </div>
+
+      {/* KPI rows */}
+      <div className="space-y-0">
+        {kpis.map((def, idx) => {
           const entry = getKPI(def.id);
           const kpiScore = scoreKPI(def, entry.current);
-          const prefix = formatUnit(def.unit);
+          const suffix = unitSuffix(def.unit);
+
           return (
-            <div
-              key={def.id}
-              className={`rounded-lg border ${colors.border} bg-white/[0.02] px-4 py-3`}
-            >
-              <div className="flex items-center justify-between mb-1.5">
-                <span className="text-sm text-[#E5E7EB] font-medium">{def.label}</span>
-                {kpiScore !== null && (
-                  <span
-                    className="text-xs font-semibold px-2 py-0.5 rounded-full"
-                    style={{
-                      color: gradeColor(scoreGrade(kpiScore)),
-                      backgroundColor: gradeColor(scoreGrade(kpiScore)) + '18',
-                    }}
-                  >
-                    {Math.round(kpiScore)}
-                  </span>
-                )}
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="flex-1">
-                  <label className="text-[10px] text-[#6B7280] uppercase tracking-wide mb-0.5 block">
-                    Current
-                  </label>
-                  <div className="relative">
-                    {prefix === '$' && (
-                      <span className="absolute left-2 top-1/2 -translate-y-1/2 text-xs text-[#6B7280]">$</span>
-                    )}
-                    <input
-                      type="number"
-                      value={entry.current ?? ''}
-                      onChange={(e) => handleChange(def.id, 'current', e.target.value)}
-                      placeholder="—"
-                      className={`w-full bg-white/[0.04] border border-white/[0.08] rounded-md px-2 py-1.5 text-sm text-[#F9FAFB] placeholder-[#4B5563] focus:outline-none focus:border-white/20 ${prefix === '$' ? 'pl-5' : ''}`}
-                    />
-                    {prefix && prefix !== '$' && (
-                      <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-[#6B7280]">
-                        {prefix}
+            <div key={def.id}>
+              {idx > 0 && <div className="border-t border-white/[0.04]" />}
+              <div className="grid grid-cols-[1fr_140px_140px] gap-3 py-3 px-1 items-center">
+                {/* Column 1: KPI name + benchmarks */}
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-[#E5E7EB] font-medium">{def.label}</span>
+                    {kpiScore !== null && (
+                      <span
+                        className="text-[10px] font-semibold px-1.5 py-0.5 rounded"
+                        style={{
+                          color: gradeColor(scoreGrade(kpiScore)),
+                          backgroundColor: gradeColor(scoreGrade(kpiScore)) + '18',
+                        }}
+                      >
+                        {Math.round(kpiScore)}
                       </span>
                     )}
                   </div>
-                </div>
-                <div className="flex-1">
-                  <label className="text-[10px] text-[#6B7280] uppercase tracking-wide mb-0.5 block">
-                    Target
-                  </label>
-                  <div className="relative">
-                    {prefix === '$' && (
-                      <span className="absolute left-2 top-1/2 -translate-y-1/2 text-xs text-[#6B7280]">$</span>
-                    )}
-                    <input
-                      type="number"
-                      value={entry.target ?? ''}
-                      onChange={(e) => handleChange(def.id, 'target', e.target.value)}
-                      placeholder="—"
-                      className={`w-full bg-white/[0.04] border border-white/[0.08] rounded-md px-2 py-1.5 text-sm text-[#F9FAFB] placeholder-[#4B5563] focus:outline-none focus:border-white/20 ${prefix === '$' ? 'pl-5' : ''}`}
-                    />
-                    {prefix && prefix !== '$' && (
-                      <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-[#6B7280]">
-                        {prefix}
-                      </span>
-                    )}
+                  <div className="flex items-center gap-3 mt-1">
+                    <span className="text-[10px] text-[#F59E0B]">AVG: {def.benchAvg}</span>
+                    <span className="text-[10px] text-[#10B981]">TOP: {def.benchTop}</span>
                   </div>
                 </div>
+
+                {/* Column 2: Current input */}
+                <div className="relative">
+                  <input
+                    type="number"
+                    value={entry.current ?? ''}
+                    onChange={(e) => handleChange(def.id, 'current', e.target.value)}
+                    placeholder="—"
+                    className={inputClass}
+                  />
+                  {suffix && (
+                    <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] text-[#6B7280] pointer-events-none">
+                      {suffix}
+                    </span>
+                  )}
+                </div>
+
+                {/* Column 3: Target input */}
+                <div className="relative">
+                  <input
+                    type="number"
+                    value={entry.target ?? ''}
+                    onChange={(e) => handleChange(def.id, 'target', e.target.value)}
+                    placeholder="—"
+                    className={inputClass}
+                  />
+                  {suffix && (
+                    <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] text-[#6B7280] pointer-events-none">
+                      {suffix}
+                    </span>
+                  )}
+                </div>
               </div>
-              <p className="text-[10px] text-[#4B5563] mt-1.5">
-                Benchmark: {formatBenchmark(def.benchmarkFloor, def.unit)} (floor) → {formatBenchmark(def.benchmarkTop, def.unit)} (top)
-                {def.inverted && ' · Lower is better'}
-              </p>
             </div>
           );
         })}
@@ -142,10 +145,7 @@ export default function KPIEntrySection({ kpis, pillarLabel, color }: Props) {
         <div className={`mt-4 rounded-lg ${colors.bg} border ${colors.border} px-4 py-3 flex items-center justify-between`}>
           <span className={`text-sm font-medium ${colors.text}`}>{pillarLabel} Score</span>
           <div className="flex items-center gap-2">
-            <span
-              className="text-lg font-bold"
-              style={{ color: gradeColor(scoreGrade(score)) }}
-            >
+            <span className="text-lg font-bold" style={{ color: gradeColor(scoreGrade(score)) }}>
               {Math.round(score)}
             </span>
             <span

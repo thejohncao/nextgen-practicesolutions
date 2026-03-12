@@ -22,7 +22,7 @@ export default function PortalShell() {
               Onboarding in progress — step {onboardingState.currentStep + 1} of 6
             </span>
             <Link
-              to="/portal/onboarding"
+              to="/portal/onboard"
               className="flex items-center gap-1 text-xs font-semibold text-[#F5A623] hover:text-[#E09800] transition"
             >
               Continue

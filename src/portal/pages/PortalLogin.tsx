@@ -65,7 +65,7 @@ export default function PortalLogin() {
         <div className="text-center mt-6 space-y-2">
           <p className="text-xs text-[#6B7280]">Demo mode — any credentials will work</p>
           <Link
-            to="/portal/create"
+            to="/portal/onboard"
             className="inline-block text-sm font-medium text-[#F5A623] hover:text-[#E09800] transition"
           >
             Create New Practice →

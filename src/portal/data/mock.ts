@@ -20,6 +20,11 @@ export const demoPractice: Practice = {
   ownerName: 'Dr. Sarah Chen',
   ownerEmail: 'sarah@brightsmile.com',
   plan: 'Scale',
+  phone: '(555) 123-4567',
+  pms: 'Dentrix',
+  providers: '3',
+  specialties: 'General + Cosmetic',
+  yearsInOperation: '10-20',
   onboardedAt: '2025-09-15',
 };
 

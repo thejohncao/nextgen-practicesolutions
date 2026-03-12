@@ -9,11 +9,11 @@ export function scoreKPI(
   current: number | null
 ): number | null {
   if (current === null) return null;
-  const { benchmarkFloor, benchmarkTop, inverted } = def;
+  const { floor, top, inverted } = def;
   if (inverted) {
-    return clamp((benchmarkFloor - current) / (benchmarkFloor - benchmarkTop), 0, 1) * 100;
+    return clamp((floor - current) / (floor - top), 0, 1) * 100;
   }
-  return clamp((current - benchmarkFloor) / (benchmarkTop - benchmarkFloor), 0, 1) * 100;
+  return clamp((current - floor) / (top - floor), 0, 1) * 100;
 }
 
 export function pillarScore(
@@ -37,19 +37,17 @@ export function healthScore(pillarScores: (number | null)[]): number | null {
 }
 
 export function scoreGrade(score: number): string {
-  if (score >= 90) return 'A';
-  if (score >= 75) return 'B';
-  if (score >= 60) return 'C';
-  if (score >= 45) return 'D';
-  return 'F';
+  if (score >= 80) return 'Optimized';
+  if (score >= 60) return 'Healthy';
+  if (score >= 40) return 'Needs Attention';
+  return 'Critical';
 }
 
 export function gradeColor(grade: string): string {
   switch (grade) {
-    case 'A': return '#4ade80';
-    case 'B': return '#60a5fa';
-    case 'C': return '#fbbf24';
-    case 'D': return '#f97316';
-    default: return '#ef4444';
+    case 'Optimized': return '#10B981';
+    case 'Healthy': return '#3B82F6';
+    case 'Needs Attention': return '#F59E0B';
+    default: return '#EF4444';
   }
 }

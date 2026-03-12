@@ -9,6 +9,11 @@ export interface CreatePracticeInput {
   ownerEmail: string;
   locations: string[];
   plan: string;
+  phone: string;
+  pms: string;
+  providers: string;
+  specialties: string;
+  yearsInOperation: string;
 }
 
 interface PracticeContextValue {
@@ -74,6 +79,11 @@ export function PracticeProvider({ children }: { children: ReactNode }) {
         ownerName: active.ownerName,
         ownerEmail: active.ownerEmail,
         plan: active.plan,
+        phone: active.phone ?? '',
+        pms: active.pms ?? '',
+        providers: active.providers ?? '',
+        specialties: active.specialties ?? '',
+        yearsInOperation: active.yearsInOperation ?? '',
         onboardedAt: active.createdAt,
       }
     : demoPractice;

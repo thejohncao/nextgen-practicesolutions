@@ -10,7 +10,7 @@ export default function NeedsSetupBanner() {
         Your practice hasn't been set up yet. Complete the onboarding process to activate your dashboard and start tracking KPIs.
       </p>
       <Link
-        to="/portal/onboarding"
+        to="/portal/onboard"
         className="inline-block px-5 py-2.5 rounded-lg text-sm font-medium text-[#0B0C10] bg-[#F5A623] hover:bg-[#E09800] transition shadow-sm no-underline"
       >
         Start Onboarding

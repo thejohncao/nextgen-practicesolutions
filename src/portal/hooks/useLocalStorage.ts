@@ -15,6 +15,11 @@ export interface StoredPractice {
   ownerEmail: string;
   locations: string[];
   plan: string;
+  phone: string;
+  pms: string;
+  providers: string;
+  specialties: string;
+  yearsInOperation: string;
   createdAt: string;
   onboarding: {
     currentStep: number;
