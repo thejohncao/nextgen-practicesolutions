@@ -78,7 +78,7 @@ export default function NewPlanPage() {
       if (planError) throw planError;
 
       toast.success('Plan created');
-      navigate(`/narrative/${plan.id}/build`);
+      navigate(`/narrative/${(plan as any).id}/build`);
     } catch (err) {
       console.error('Failed to create plan:', err);
       toast.error('Failed to create plan');
