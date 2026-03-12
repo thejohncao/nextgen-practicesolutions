@@ -91,9 +91,10 @@ export default function PracticeOSPage() {
             {categories.map((category) => {
               const Icon = category.icon;
               return (
-                <div
+                <Link
                   key={category.slug}
-                  className="rounded-xl border border-[var(--color-border)] bg-white p-6 transition-shadow hover:shadow-md"
+                  href={`/practice-os/${category.slug}`}
+                  className="group rounded-xl border border-[var(--color-border)] bg-white p-6 transition-shadow hover:shadow-md"
                 >
                   <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--color-primary)]/10">
                     <Icon className="h-5 w-5 text-[var(--color-primary)]" />
@@ -110,7 +111,10 @@ export default function PracticeOSPage() {
                   <p className="mt-3 text-xs text-[var(--color-text-muted)]">
                     {category.artifactCount} artifacts
                   </p>
-                </div>
+                  <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-[var(--color-primary)] opacity-0 transition-opacity group-hover:opacity-100">
+                    View artifacts <ArrowRight className="h-3 w-3" />
+                  </span>
+                </Link>
               );
             })}
           </div>
@@ -132,9 +136,12 @@ export default function PracticeOSPage() {
               ~50 questions &middot; Scoring: Have it &amp; use it / Have it, not current / Don&apos;t have it
             </div>
             <div className="mt-6">
-              <span className="inline-block rounded-full bg-[var(--color-accent-gold)]/10 px-3 py-1 text-xs font-medium text-[var(--color-accent-gold)]">
-                Coming Soon
-              </span>
+              <Link
+                href="/practice-os/audit"
+                className="inline-flex items-center gap-2 rounded-lg bg-[var(--color-accent-gold)] px-6 py-3 text-sm font-medium text-white transition-colors hover:opacity-90"
+              >
+                Take the Audit <ArrowRight className="h-4 w-4" />
+              </Link>
             </div>
           </div>
         </div>
