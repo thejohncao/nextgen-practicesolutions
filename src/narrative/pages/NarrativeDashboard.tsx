@@ -20,13 +20,13 @@ export default function NarrativeDashboard() {
     async function fetchPlans() {
       try {
         const { data, error } = await supabase
-          .from('narrative_plans')
+          .from('narrative_plans' as any)
           .select('*, narrative_patients(*)')
           .order('created_at', { ascending: false })
           .limit(50);
 
         if (error) throw error;
-        setPlans((data || []) as PlanWithPatient[]);
+        setPlans((data || []) as unknown as PlanWithPatient[]);
       } catch (err) {
         console.error('Failed to fetch plans:', err);
       } finally {

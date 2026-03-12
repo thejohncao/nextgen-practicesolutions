@@ -47,22 +47,22 @@ export function NarrativePlanProvider({
       setLoading(true);
       try {
         const { data: planData, error: planError } = await supabase
-          .from('narrative_plans')
+          .from('narrative_plans' as any)
           .select('*')
           .eq('id', planId)
           .single();
 
         if (planError) throw planError;
-        setPlan(planData as NarrativePlan);
+        setPlan(planData as unknown as NarrativePlan);
 
-        if (planData?.patient_id) {
+        if ((planData as any)?.patient_id) {
           const { data: patientData } = await supabase
-            .from('narrative_patients')
+            .from('narrative_patients' as any)
             .select('*')
-            .eq('id', planData.patient_id)
+            .eq('id', (planData as any).patient_id)
             .single();
 
-          setPatient(patientData as NarrativePatient);
+          setPatient(patientData as unknown as NarrativePatient);
         }
       } catch (err) {
         console.error('Failed to fetch plan:', err);
@@ -78,13 +78,13 @@ export function NarrativePlanProvider({
   const refreshItems = useCallback(async () => {
     try {
       const { data, error } = await supabase
-        .from('narrative_plan_items')
+        .from('narrative_plan_items' as any)
         .select('*')
         .eq('plan_id', planId)
         .order('created_at', { ascending: true });
 
       if (error) throw error;
-      setItems((data || []) as NarrativePlanItem[]);
+      setItems((data || []) as unknown as NarrativePlanItem[]);
     } catch (err) {
       console.error('Failed to fetch plan items:', err);
     }
@@ -98,8 +98,8 @@ export function NarrativePlanProvider({
     async (item: Omit<NarrativePlanItem, 'id' | 'plan_id' | 'created_at'>) => {
       try {
         const { error } = await supabase
-          .from('narrative_plan_items')
-          .insert({ ...item, plan_id: planId });
+          .from('narrative_plan_items' as any)
+          .insert({ ...item, plan_id: planId } as any);
 
         if (error) throw error;
         await refreshItems();
@@ -115,8 +115,8 @@ export function NarrativePlanProvider({
     async (id: string, updates: Partial<NarrativePlanItem>) => {
       try {
         const { error } = await supabase
-          .from('narrative_plan_items')
-          .update(updates)
+          .from('narrative_plan_items' as any)
+          .update(updates as any)
           .eq('id', id);
 
         if (error) throw error;
@@ -133,7 +133,7 @@ export function NarrativePlanProvider({
     async (id: string) => {
       try {
         const { error } = await supabase
-          .from('narrative_plan_items')
+          .from('narrative_plan_items' as any)
           .delete()
           .eq('id', id);
 
@@ -151,8 +151,8 @@ export function NarrativePlanProvider({
     async (updates: Partial<NarrativePlan>) => {
       try {
         const { error } = await supabase
-          .from('narrative_plans')
-          .update(updates)
+          .from('narrative_plans' as any)
+          .update(updates as any)
           .eq('id', planId);
 
         if (error) throw error;

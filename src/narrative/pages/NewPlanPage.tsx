@@ -50,7 +50,7 @@ export default function NewPlanPage() {
 
       // Create patient
       const { data: patient, error: patientError } = await supabase
-        .from('narrative_patients')
+        .from('narrative_patients' as any)
         .insert({
           practice_id: profile.practice_id,
           first_name: form.firstName.trim(),
@@ -66,9 +66,9 @@ export default function NewPlanPage() {
 
       // Create plan
       const { data: plan, error: planError } = await supabase
-        .from('narrative_plans')
+        .from('narrative_plans' as any)
         .insert({
-          patient_id: patient.id,
+          patient_id: (patient as any).id,
           practice_id: profile.practice_id,
           status: 'draft',
         })
@@ -78,7 +78,7 @@ export default function NewPlanPage() {
       if (planError) throw planError;
 
       toast.success('Plan created');
-      navigate(`/narrative/${plan.id}/build`);
+      navigate(`/narrative/${(plan as any).id}/build`);
     } catch (err) {
       console.error('Failed to create plan:', err);
       toast.error('Failed to create plan');
