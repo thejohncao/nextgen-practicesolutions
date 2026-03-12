@@ -1309,6 +1309,14 @@ export default function App() {
     setUser(null);
   }, []);
 
+  // Auto-start assessment after auth completes
+  useEffect(() => {
+    if (user && pendingStart) {
+      setPendingStart(false);
+      setCi(0); setQi(0); setView(VIEW.INTRO); scroll();
+    }
+  }, [user, pendingStart, scroll]);
+
   return (
     <div ref={ref} style={{minHeight:"100vh",background:T.bg,color:T.textMain,display:"flex",flexDirection:"column"}}>
       <style>{`
