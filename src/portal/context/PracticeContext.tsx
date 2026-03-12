@@ -206,7 +206,7 @@ export function PracticeProvider({ children }: { children: ReactNode }) {
   }, [activePracticeId, isAdmin, setActivePracticeId]);
 
   const onboardingState: OnboardingState | null = activePracticeId
-    ? { currentStep: onboardingStep, completedAt: practiceData?.status === 'active' ? (practiceData.onboarded_at || 'done') : null }
+    ? { currentStep: onboardingStep, completedAt: practiceData?.status === 'active' ? (practiceData.onboarded_at || 'done') : null, kpis: kpiValues }
     : null;
 
   const setOnboardingStep = useCallback((step: number) => {
