@@ -50,7 +50,7 @@ export default function NewPlanPage() {
 
       // Create patient
       const { data: patient, error: patientError } = await supabase
-        .from('narrative_patients')
+        .from('narrative_patients' as any)
         .insert({
           practice_id: profile.practice_id,
           first_name: form.firstName.trim(),
