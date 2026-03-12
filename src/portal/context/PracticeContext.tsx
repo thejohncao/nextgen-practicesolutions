@@ -82,7 +82,9 @@ export function PracticeProvider({ children }: { children: ReactNode }) {
         .select('id, name')
         .order('created_at', { ascending: false })
         .then(({ data }) => {
-          setAllPractices(data ?? []);
+          const practices = data ?? [];
+          // Always include Demo as first option for admin
+          setAllPractices([{ id: 'demo', name: 'Demo Practice' }, ...practices]);
         });
     } else if (activePracticeId && practiceData) {
       setAllPractices([{ id: practiceData.id, name: practiceData.name }]);
@@ -154,7 +156,7 @@ export function PracticeProvider({ children }: { children: ReactNode }) {
     : demoUser;
 
   const switchPractice = useCallback((id: string) => {
-    setActivePracticeId(id);
+    setActivePracticeId(id === 'demo' ? null : id);
   }, [setActivePracticeId]);
 
   const createPractice = useCallback(async (data: CreatePracticeInput): Promise<string | null> => {
