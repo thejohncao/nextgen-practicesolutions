@@ -252,6 +252,13 @@ export default {
           '0%, 100%': { transform: 'scale(1)', opacity: '0.7' },
           '50%': { transform: 'scale(1.5)', opacity: '1' },
         },
+        'background-gradient': {
+          '0%, 100%': { transform: 'translate(0, 0)' },
+          '20%': { transform: 'translate(calc(100% * var(--tx-1, 1)), calc(100% * var(--ty-1, 1)))' },
+          '40%': { transform: 'translate(calc(100% * var(--tx-2, -1)), calc(100% * var(--ty-2, 1)))' },
+          '60%': { transform: 'translate(calc(100% * var(--tx-3, 1)), calc(100% * var(--ty-3, -1)))' },
+          '80%': { transform: 'translate(calc(100% * var(--tx-4, -1)), calc(100% * var(--ty-4, -1)))' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -274,6 +281,7 @@ export default {
         'float-slow': 'float-slow 6s ease-in-out infinite',
         'scale-pulse': 'scale-pulse 3s ease-in-out infinite',
         'breathe-glow': 'breathe-glow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'background-gradient': 'background-gradient var(--background-gradient-speed, 15s) cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite',
       },
       transitionTimingFunction: {
         'apple': 'cubic-bezier(0.25, 0.1, 0.25, 1)',
