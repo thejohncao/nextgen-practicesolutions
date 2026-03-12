@@ -98,8 +98,8 @@ export function NarrativePlanProvider({
     async (item: Omit<NarrativePlanItem, 'id' | 'plan_id' | 'created_at'>) => {
       try {
         const { error } = await supabase
-          .from('narrative_plan_items')
-          .insert({ ...item, plan_id: planId });
+          .from('narrative_plan_items' as any)
+          .insert({ ...item, plan_id: planId } as any);
 
         if (error) throw error;
         await refreshItems();
