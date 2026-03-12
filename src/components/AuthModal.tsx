@@ -22,10 +22,11 @@ interface AuthModalProps {
   open: boolean;
   onClose: () => void;
   onAuth: () => void;
+  defaultMode?: "login" | "signup";
 }
 
-export default function AuthModal({ open, onClose, onAuth }: AuthModalProps) {
-  const [mode, setMode] = useState<"login" | "signup">("login");
+export default function AuthModal({ open, onClose, onAuth, defaultMode = "login" }: AuthModalProps) {
+  const [mode, setMode] = useState<"login" | "signup">(defaultMode);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
