@@ -16,7 +16,7 @@ export default function PracticeSwitcher() {
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  if (allPractices.length <= 1) {
+  if (allPractices.length <= 1 && !isDemo) {
     return (
       <span className="font-semibold text-[#F9FAFB] text-sm">{activePractice.name}</span>
     );
