@@ -20,6 +20,7 @@ export interface CreatePracticeInput {
 interface OnboardingState {
   currentStep: number;
   completedAt: string | null;
+  kpis: Record<string, { current: number | null; target: number | null }>;
 }
 
 interface PracticeContextValue {
