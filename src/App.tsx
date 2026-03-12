@@ -404,7 +404,7 @@ function AgentCard({activeAgent}: {activeAgent: string}) {
 
   return (
     <>
-      <div style={{position:"relative",width:540,height:440,flexShrink:0}}>
+      <div style={{position:"relative",width:540,height:480,flexShrink:0}}>
         {/* Animated background orbs matching agent color */}
         <div style={{position:"absolute",inset:-60,pointerEvents:"none",zIndex:0,overflow:"hidden"}}>
           <div style={{
@@ -438,11 +438,11 @@ function AgentCard({activeAgent}: {activeAgent: string}) {
         {otherAgents.slice(0,3).map((bg, i) => {
           const bgCol = AGENT_COLOR[bg.id];
           const stackIndex = i;
-          const offsetX = 18 + stackIndex * 28;
-          const offsetY = 18 + stackIndex * 24;
-          const scale = 0.96 - stackIndex * 0.03;
-          const rotate = (stackIndex + 1) * 1.5;
-          const cardOpacity = 0.7 - stackIndex * 0.15;
+          const offsetX = 14 + stackIndex * 18;
+          const offsetY = 28 + stackIndex * 36;
+          const scale = 0.97 - stackIndex * 0.02;
+          const rotate = (stackIndex + 1) * 1.2;
+          const cardOpacity = 0.65 - stackIndex * 0.12;
           return (
             <div key={bg.id} style={{
               position:"absolute",
