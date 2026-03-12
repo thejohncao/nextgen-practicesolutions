@@ -89,14 +89,16 @@ export default function AuthModal({ open, onClose, onAuth, defaultMode = "login"
 
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           {mode === "signup" && (
-            <div style={{ display: "flex", gap: 10 }}>
-              <input value={firstName} onChange={e => setFirstName(e.target.value)} placeholder="First name"
-                style={{ flex: 1, background: "rgba(255,255,255,0.04)", border: `1px solid ${T.border}`, color: T.textMain, padding: "10px 14px", borderRadius: 3, ...sans, fontSize: 13, outline: "none" }} />
-              <input value={lastName} onChange={e => setLastName(e.target.value)} placeholder="Last name"
-                style={{ flex: 1, background: "rgba(255,255,255,0.04)", border: `1px solid ${T.border}`, color: T.textMain, padding: "10px 14px", borderRadius: 3, ...sans, fontSize: 13, outline: "none" }} />
-            </div>
-            <input value={practiceName} onChange={e => setPracticeName(e.target.value)} placeholder="Practice name (e.g. Bespoke Dental Studios)"
-              style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${T.border}`, color: T.textMain, padding: "10px 14px", borderRadius: 3, ...sans, fontSize: 13, outline: "none" }} />
+            <>
+              <div style={{ display: "flex", gap: 10 }}>
+                <input value={firstName} onChange={e => setFirstName(e.target.value)} placeholder="First name"
+                  style={{ flex: 1, background: "rgba(255,255,255,0.04)", border: `1px solid ${T.border}`, color: T.textMain, padding: "10px 14px", borderRadius: 3, ...sans, fontSize: 13, outline: "none" }} />
+                <input value={lastName} onChange={e => setLastName(e.target.value)} placeholder="Last name"
+                  style={{ flex: 1, background: "rgba(255,255,255,0.04)", border: `1px solid ${T.border}`, color: T.textMain, padding: "10px 14px", borderRadius: 3, ...sans, fontSize: 13, outline: "none" }} />
+              </div>
+              <input value={practiceName} onChange={e => setPracticeName(e.target.value)} placeholder="Practice name (e.g. Bespoke Dental Studios)"
+                style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${T.border}`, color: T.textMain, padding: "10px 14px", borderRadius: 3, ...sans, fontSize: 13, outline: "none" }} />
+            </>
           )}
           <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" required
             style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${T.border}`, color: T.textMain, padding: "10px 14px", borderRadius: 3, ...sans, fontSize: 13, outline: "none" }} />
