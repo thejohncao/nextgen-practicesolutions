@@ -75,14 +75,6 @@ const PKGS: Record<string, {name:string;setup:number;mo:number;roi:string}> = {
   "FTP":{name:"Front Desk & TC Performance",setup:1500,mo:1500,roi:"A 20% improvement in phone conversion or case acceptance pays for training many times over."},
 };
 
-  // Auto-start assessment after auth completes
-  useEffect(() => {
-    if (user && pendingStart) {
-      setPendingStart(false);
-      setCi(0); setQi(0); setView(VIEW.INTRO); scroll();
-    }
-  }, [user, pendingStart, scroll]);
-
 
 const SERVICE_STATUS: Record<string, {label:string;color:string;bg:string}> = {
   PAE:{label:"Ready",color:"#16A34A",bg:"#F0FDF4"},
