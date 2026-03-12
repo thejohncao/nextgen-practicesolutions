@@ -67,6 +67,12 @@ createRoot(document.getElementById("root")!).render(
           <Route path="requests" element={<RequestsPage />} />
           <Route path="settings" element={<SettingsPage />} />
         </Route>
+
+        {/* Admin dashboard */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminPracticeList />} />
+          <Route path=":userId" element={<AdminPracticeDetail />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
