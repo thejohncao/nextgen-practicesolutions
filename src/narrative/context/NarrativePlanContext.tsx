@@ -57,12 +57,12 @@ export function NarrativePlanProvider({
 
         if (planData?.patient_id) {
           const { data: patientData } = await supabase
-            .from('narrative_patients')
+            .from('narrative_patients' as any)
             .select('*')
-            .eq('id', planData.patient_id)
+            .eq('id', (planData as any).patient_id)
             .single();
 
-          setPatient(patientData as NarrativePatient);
+          setPatient(patientData as unknown as NarrativePatient);
         }
       } catch (err) {
         console.error('Failed to fetch plan:', err);
