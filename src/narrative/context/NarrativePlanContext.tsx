@@ -151,8 +151,8 @@ export function NarrativePlanProvider({
     async (updates: Partial<NarrativePlan>) => {
       try {
         const { error } = await supabase
-          .from('narrative_plans')
-          .update(updates)
+          .from('narrative_plans' as any)
+          .update(updates as any)
           .eq('id', planId);
 
         if (error) throw error;
