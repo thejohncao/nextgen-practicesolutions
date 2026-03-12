@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { solutions, getSolutionBySlug } from "@/data/solutions";
+import { getSolutionPageData } from "@/data/solution-pages";
+import { SolutionPageTemplate } from "@/components/solutions/SolutionPageTemplate";
 import { CTASection } from "@/components/shared/CTASection";
 
 interface Props {
@@ -17,9 +19,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const solution = getSolutionBySlug(slug);
+  const pageData = getSolutionPageData(slug);
   return {
     title: solution?.name ?? "Solution",
-    description: solution?.oneLiner,
+    description: pageData?.subheadline ?? solution?.oneLiner,
   };
 }
 
@@ -40,6 +43,13 @@ export default async function SolutionPage({ params }: Props) {
     );
   }
 
+  const pageData = getSolutionPageData(slug);
+
+  if (pageData) {
+    return <SolutionPageTemplate data={pageData} />;
+  }
+
+  // Fallback: Coming Soon placeholder for any solution without full page data
   return (
     <>
       <section className="px-6 py-24 md:py-32">
