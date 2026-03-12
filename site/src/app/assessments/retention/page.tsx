@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
-import { AssessmentComingSoon } from "@/components/assessments/AssessmentComingSoon";
+import { AssessmentEngine } from "@/components/assessments/AssessmentEngine";
+import { retentionConfig } from "@/data/assessment-retention";
 
-export const metadata: Metadata = { title: "Patient Retention & Recall Assessment" };
+export const metadata: Metadata = {
+  title: "Patient Retention & Recall Assessment",
+  description:
+    "Evaluate your hygiene compliance, reactivation systems, schedule optimization, and patient experience across 40 questions.",
+};
 
 export default function RetentionPage() {
-  return (
-    <AssessmentComingSoon
-      title="Patient Retention & Recall"
-      description="Evaluate your hygiene compliance, reactivation systems, schedule optimization, and patient experience."
-      questionCount={40}
-      primaryMapping="Recall Engine"
-    />
-  );
+  return <AssessmentEngine config={retentionConfig} />;
 }
