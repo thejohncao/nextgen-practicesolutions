@@ -27,6 +27,7 @@ const navItems = [
 
 export default function PortalSidebar() {
   const location = useLocation();
+  const { isAdmin } = usePortalAuth();
 
   const isActive = (path: string) => {
     if (path === '/portal') return location.pathname === '/portal';
