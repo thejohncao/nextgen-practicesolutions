@@ -1200,6 +1200,7 @@ export default function App() {
   const [view, setView] = useState<number>(VIEW.HOME);
   const [user, setUser] = useState<User | null>(null);
   const [authOpen, setAuthOpen] = useState(false);
+  const [pendingStart, setPendingStart] = useState(false);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const ref = useRef<HTMLDivElement>(null);
   const scroll = useCallback(() => ref.current?.scrollIntoView({behavior:"smooth",block:"start"}), []);
