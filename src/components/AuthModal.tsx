@@ -34,6 +34,7 @@ export default function AuthModal({ open, onClose, onAuth, defaultMode = "login"
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [practiceName, setPracticeName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
