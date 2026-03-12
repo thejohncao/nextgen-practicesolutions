@@ -1,7 +1,12 @@
 -- Seed data for Narrative treatment plans
 -- Run with: supabase db reset (applies migrations + seed)
 -- Or manually via Supabase SQL editor
-
+--
+-- PREREQUISITE: The narrative tables must exist first!
+-- If they don't, run the migration SQL from:
+--   supabase/migrations/20260312200000_narrative_tables.sql
+-- You can copy-paste that file into the Supabase SQL Editor and execute it.
+--
 -- NOTE: This seed uses the FIRST practice found in portal_practices.
 -- If you need a specific practice, replace the subquery with a UUID.
 

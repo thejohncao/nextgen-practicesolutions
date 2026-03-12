@@ -35,6 +35,21 @@ export default function NewPlanPage() {
     }
 
     setSubmitting(true);
+
+    // Timeout helper to prevent hanging forever if tables don't exist
+    function withTimeout<T>(promise: PromiseLike<T>, ms: number, label: string): Promise<T> {
+      return new Promise<T>((resolve, reject) => {
+        const timer = setTimeout(
+          () => reject(new Error(`${label} timed out — narrative tables may not exist. Check Supabase migrations.`)),
+          ms
+        );
+        Promise.resolve(promise).then(
+          (val) => { clearTimeout(timer); resolve(val); },
+          (err) => { clearTimeout(timer); reject(err); },
+        );
+      });
+    }
+
     try {
       // Get current user's practice_id
       const { data: { user } } = await supabase.auth.getUser();
@@ -49,39 +64,47 @@ export default function NewPlanPage() {
       if (!profile?.practice_id) throw new Error('No practice found');
 
       // Create patient
-      const { data: patient, error: patientError } = await supabase
-        .from('narrative_patients' as any)
-        .insert({
-          practice_id: profile.practice_id,
-          first_name: form.firstName.trim(),
-          last_name: form.lastName.trim(),
-          phone: form.phone.trim() || null,
-          email: form.email.trim() || null,
-          insurance_status: form.insuranceStatus,
-        })
-        .select()
-        .single();
+      const { data: patient, error: patientError } = await withTimeout(
+        supabase
+          .from('narrative_patients' as any)
+          .insert({
+            practice_id: profile.practice_id,
+            first_name: form.firstName.trim(),
+            last_name: form.lastName.trim(),
+            phone: form.phone.trim() || null,
+            email: form.email.trim() || null,
+            insurance_status: form.insuranceStatus,
+          })
+          .select()
+          .single(),
+        10_000,
+        'Create patient'
+      );
 
       if (patientError) throw patientError;
 
       // Create plan
-      const { data: plan, error: planError } = await supabase
-        .from('narrative_plans' as any)
-        .insert({
-          patient_id: (patient as any).id,
-          practice_id: profile.practice_id,
-          status: 'draft',
-        })
-        .select()
-        .single();
+      const { data: plan, error: planError } = await withTimeout(
+        supabase
+          .from('narrative_plans' as any)
+          .insert({
+            patient_id: (patient as any).id,
+            practice_id: profile.practice_id,
+            status: 'draft',
+          })
+          .select()
+          .single(),
+        10_000,
+        'Create plan'
+      );
 
       if (planError) throw planError;
 
       toast.success('Plan created');
       navigate(`/narrative/${(plan as any).id}/build`);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to create plan:', err);
-      toast.error('Failed to create plan');
+      toast.error(err?.message || 'Failed to create plan');
     } finally {
       setSubmitting(false);
     }
