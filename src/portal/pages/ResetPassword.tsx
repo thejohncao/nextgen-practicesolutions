@@ -9,19 +9,91 @@ export default function ResetPassword() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [ready, setReady] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(true);
 
   useEffect(() => {
-    // Listen for the PASSWORD_RECOVERY event
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
-      if (event === 'PASSWORD_RECOVERY') {
+    let mounted = true;
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!mounted) return;
+      if (event === 'PASSWORD_RECOVERY' || (event === 'SIGNED_IN' && session)) {
         setReady(true);
+        setIsVerifying(false);
       }
     });
-    // Also check if we already have a session from the recovery link
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) setReady(true);
-    });
-    return () => subscription.unsubscribe();
+
+    const initializeRecovery = async () => {
+      const queryParams = new URLSearchParams(window.location.search);
+      const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+
+      const errorDescription = queryParams.get('error_description');
+      if (errorDescription) {
+        if (!mounted) return;
+        setError(decodeURIComponent(errorDescription));
+        setReady(false);
+        setIsVerifying(false);
+        return;
+      }
+
+      const type = hashParams.get('type') ?? queryParams.get('type');
+      const accessToken = hashParams.get('access_token');
+      const refreshToken = hashParams.get('refresh_token');
+      const code = queryParams.get('code');
+
+      if (type === 'recovery' && accessToken && refreshToken) {
+        const { error: sessionError } = await supabase.auth.setSession({
+          access_token: accessToken,
+          refresh_token: refreshToken,
+        });
+
+        if (!mounted) return;
+
+        if (sessionError) {
+          setError('This reset link is invalid or has expired. Please request a new one.');
+          setReady(false);
+        } else {
+          setReady(true);
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+        setIsVerifying(false);
+        return;
+      }
+
+      if (type === 'recovery' && code) {
+        const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+
+        if (!mounted) return;
+
+        if (exchangeError) {
+          setError('This reset link is invalid or has expired. Please request a new one.');
+          setReady(false);
+        } else {
+          setReady(true);
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+        setIsVerifying(false);
+        return;
+      }
+
+      const { data: { session } } = await supabase.auth.getSession();
+
+      if (!mounted) return;
+
+      if (session) {
+        setReady(true);
+      } else {
+        setError('This reset link is invalid or has expired. Please request a new one.');
+        setReady(false);
+      }
+      setIsVerifying(false);
+    };
+
+    void initializeRecovery();
+
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -44,12 +116,29 @@ export default function ResetPassword() {
     navigate('/portal');
   };
 
-  if (!ready) {
+  if (isVerifying) {
     return (
       <div className="min-h-screen bg-[#0D0E14] flex items-center justify-center p-4">
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-[#F5A623] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
           <p className="text-sm text-[#9CA3AF]">Verifying reset link...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!ready) {
+    return (
+      <div className="min-h-screen bg-[#0D0E14] flex items-center justify-center p-4">
+        <div className="w-full max-w-sm bg-white/[0.04] backdrop-blur-sm rounded-2xl border border-white/[0.06] shadow-glass p-6 text-center space-y-3">
+          <h1 className="text-lg font-bold text-[#F9FAFB]">Reset link issue</h1>
+          <p className="text-sm text-[#9CA3AF]">{error || 'This reset link is invalid or has expired. Please request a new one.'}</p>
+          <Link
+            to="/portal/forgot-password"
+            className="inline-block text-sm font-medium text-[#F5A623] hover:text-[#E09800] transition"
+          >
+            Request a new reset link
+          </Link>
         </div>
       </div>
     );
