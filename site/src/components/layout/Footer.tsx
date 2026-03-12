@@ -77,6 +77,22 @@ export function Footer() {
               </li>
               <li>
                 <Link
+                  href="/blog"
+                  className="text-sm text-[var(--color-text-soft)] transition-colors hover:text-[var(--color-foreground)]"
+                >
+                  Blog
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/case-studies"
+                  className="text-sm text-[var(--color-text-soft)] transition-colors hover:text-[var(--color-foreground)]"
+                >
+                  Case Studies
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/practice-os"
                   className="text-sm text-[var(--color-text-soft)] transition-colors hover:text-[var(--color-foreground)]"
                 >

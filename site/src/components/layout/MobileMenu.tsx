@@ -86,6 +86,22 @@ export function MobileMenu({ onClose }: MobileMenuProps) {
         </Link>
 
         <Link
+          href="/blog"
+          onClick={onClose}
+          className="block py-3 text-sm font-medium"
+        >
+          Blog
+        </Link>
+
+        <Link
+          href="/case-studies"
+          onClick={onClose}
+          className="block py-3 text-sm font-medium"
+        >
+          Case Studies
+        </Link>
+
+        <Link
           href="/about"
           onClick={onClose}
           className="block py-3 text-sm font-medium"
