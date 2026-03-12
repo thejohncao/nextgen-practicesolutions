@@ -2,6 +2,7 @@ import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import AuthModal from "@/components/AuthModal";
+import { AnimatedGradient } from "@/components/ui/animated-gradient-with-svg";
 
 /* ═══════════════════════════════════════════════════════════
    NEXTGEN PRACTICE SOLUTIONS — CONSOLIDATED v1
@@ -678,12 +679,23 @@ interface ScoreData {
   gaps: (Question & {li:number;a:number})[];
 }
 
+const INTRO_GRADIENTS: string[][] = [
+  ["#3B82F6", "#60A5FA", "#1E40AF"],  // Marketing — blue
+  ["#8B5CF6", "#A78BFA", "#6D28D9"],  // Speed-to-Lead — purple
+  ["#EC4899", "#F472B6", "#BE185D"],  // Case Acceptance — pink
+  ["#F59E0B", "#FBBF24", "#D97706"],  // Operations — amber
+  ["#10B981", "#34D399", "#065F46"],  // Team & Culture — green
+  ["#6366F1", "#818CF8", "#4338CA"],  // KPIs & Tech — indigo
+];
+
 function IntroView({ci, sc, onBegin, onJump}: {ci:number;sc:ScoreData;onBegin:()=>void;onJump:(i:number)=>void}) {
   const cat = CATS[ci];
   const cs = sc.cd[ci];
   const col = cat.color;
   return (
-    <div style={{maxWidth:640,margin:"0 auto",padding:"48px 32px",textAlign:"center"}}>
+    <div style={{position:"relative",overflow:"hidden",minHeight:"80vh"}}>
+      <AnimatedGradient colors={INTRO_GRADIENTS[ci] ?? INTRO_GRADIENTS[0]} speed={0.05} blur="medium" />
+    <div style={{position:"relative",zIndex:10,maxWidth:640,margin:"0 auto",padding:"48px 32px",textAlign:"center"}}>
       <div style={{fontSize:42,marginBottom:14}}>{cat.icon}</div>
       <div style={{...mono,fontSize:9,letterSpacing:"0.25em",color:T.textDim,marginBottom:8,textTransform:"uppercase"}}>Category {ci+1} of 6</div>
       <div style={{...bebas,fontSize:"2.4rem",color:col,letterSpacing:"0.04em",marginBottom:10}}>{cat.name}</div>
@@ -726,6 +738,7 @@ function IntroView({ci, sc, onBegin, onJump}: {ci:number;sc:ScoreData;onBegin:()
         fontFamily:"'DM Mono',monospace",fontSize:11,letterSpacing:"0.2em",
         textTransform:"uppercase",cursor:"pointer",
       }}>{cs.ans > 0 ? "Continue →" : "Begin Section →"}</button>
+    </div>
     </div>
   );
 }
