@@ -10,6 +10,7 @@ import {
   Settings,
   LogOut,
   Shield,
+  Presentation,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { usePortalAuth } from '../context/PortalAuthContext';
@@ -23,6 +24,7 @@ const navItems = [
   { label: 'Timeline', icon: Clock, path: '/portal/timeline' },
   { label: 'Requests', icon: MessageSquarePlus, path: '/portal/requests' },
   { label: 'Settings', icon: Settings, path: '/portal/settings' },
+  { label: 'Narrative', icon: Presentation, path: '/narrative', accent: 'text-yellow-500' },
 ];
 
 export default function PortalSidebar() {

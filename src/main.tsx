@@ -22,6 +22,15 @@ import SettingsPage from './portal/pages/SettingsPage';
 import AdminLayout from './admin/components/AdminLayout';
 import AdminPracticeList from './admin/pages/AdminPracticeList';
 import AdminPracticeDetail from './admin/pages/AdminPracticeDetail';
+import NarrativeDashboard from './narrative/pages/NarrativeDashboard';
+import NewPlanPage from './narrative/pages/NewPlanPage';
+import NarrativeLayout from './narrative/components/NarrativeLayout';
+import PlanBuilderPage from './narrative/pages/PlanBuilderPage';
+import NarrativeTimelinePage from './narrative/pages/TimelinePage';
+import PresentPage from './narrative/pages/PresentPage';
+import CheckoutPage from './narrative/pages/CheckoutPage';
+import DecisionPage from './narrative/pages/DecisionPage';
+import ExportPage from './narrative/pages/ExportPage';
 import './index.css';
 
 const basename = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -66,6 +75,42 @@ createRoot(document.getElementById("root")!).render(
           <Route path="timeline" element={<TimelinePage />} />
           <Route path="requests" element={<RequestsPage />} />
           <Route path="settings" element={<SettingsPage />} />
+        </Route>
+
+        {/* Narrative — Treatment Acceptance */}
+        <Route path="/narrative" element={
+          <PortalAuthProvider>
+            <PortalAuthGuard>
+              <PracticeProvider>
+                <NarrativeDashboard />
+              </PracticeProvider>
+            </PortalAuthGuard>
+          </PortalAuthProvider>
+        } />
+        <Route path="/narrative/new" element={
+          <PortalAuthProvider>
+            <PortalAuthGuard>
+              <PracticeProvider>
+                <NewPlanPage />
+              </PracticeProvider>
+            </PortalAuthGuard>
+          </PortalAuthProvider>
+        } />
+        <Route path="/narrative/:planId" element={
+          <PortalAuthProvider>
+            <PortalAuthGuard>
+              <PracticeProvider>
+                <NarrativeLayout />
+              </PracticeProvider>
+            </PortalAuthGuard>
+          </PortalAuthProvider>
+        }>
+          <Route path="build" element={<PlanBuilderPage />} />
+          <Route path="timeline" element={<NarrativeTimelinePage />} />
+          <Route path="present" element={<PresentPage />} />
+          <Route path="checkout" element={<CheckoutPage />} />
+          <Route path="commit" element={<DecisionPage />} />
+          <Route path="export" element={<ExportPage />} />
         </Route>
 
         {/* Admin dashboard */}
