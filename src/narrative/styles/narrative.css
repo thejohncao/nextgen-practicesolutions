@@ -1,0 +1,72 @@
+/* Narrative — Styles */
+
+/* Cormorant Garamond for Present Mode display text */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+/* Build Mode (default) */
+[data-narrative-mode="build"] {
+  --narrative-bg: #FAF8F4;
+  --narrative-surface: #FFFFFF;
+  --narrative-text: #1A1A1A;
+  --narrative-text-secondary: #6B7280;
+  --narrative-border: #E5E2DB;
+  --narrative-accent: #B68D40;
+}
+
+/* Present Mode — cinematic patient experience */
+[data-narrative-mode="present"] {
+  --narrative-bg: #1A1A1A;
+  --narrative-surface: #242424;
+  --narrative-text: #F5F0EB;
+  --narrative-text-secondary: #A39E96;
+  --narrative-border: #333333;
+  --narrative-accent: #B68D40;
+}
+
+/* Narrative root container */
+.narrative-root {
+  background-color: var(--narrative-bg);
+  color: var(--narrative-text);
+  min-height: 100vh;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Present mode typography */
+[data-narrative-mode="present"] .narrative-display {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* Touch target minimum */
+.narrative-touch {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* Tooth chart tooth states */
+.tooth-healthy { fill: #D1D5DB; }
+.tooth-watch { fill: #F59E0B; }
+.tooth-diagnosed { fill: #E85D5D; }
+.tooth-phase-1 { fill: #E85D5D; }
+.tooth-phase-2 { fill: #B68D40; }
+.tooth-phase-3 { fill: #8B8B8B; }
+.tooth-selected { stroke: #B68D40; stroke-width: 2; }
+
+/* Present mode slide transitions */
+.narrative-slide-enter {
+  opacity: 0;
+  transform: translateX(40px);
+}
+.narrative-slide-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.narrative-slide-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+.narrative-slide-exit-active {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}

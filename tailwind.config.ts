@@ -25,6 +25,7 @@ export default {
       fontFamily: {
         sans: ['SF Pro Display', 'Inter', 'sans-serif'],
         heading: ['SF Pro Display', 'Montserrat', 'sans-serif'],
+        display: ['Cormorant Garamond', 'Georgia', 'serif'],
       },
       colors: {
         border: 'hsl(var(--border))',
@@ -106,6 +107,20 @@ export default {
           primary: '#F5A623',
           glow: '#F5A62340',
           mist: '#F5A62320'
+        },
+        // Narrative theme
+        'narrative': {
+          gold: '#B68D40',
+          'gold-light': '#D4A84B',
+          cream: '#FAF8F4',
+          'cream-dark': '#F0EDE6',
+          'present-bg': '#1A1A1A',
+          'present-surface': '#242424',
+          'present-text': '#F5F0EB',
+          coral: '#E85D5D',
+          'phase-1': '#E85D5D',
+          'phase-2': '#B68D40',
+          'phase-3': '#8B8B8B',
         },
         // Portal dark theme
         'portal': {
