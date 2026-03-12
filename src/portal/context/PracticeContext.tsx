@@ -156,7 +156,7 @@ export function PracticeProvider({ children }: { children: ReactNode }) {
     : demoUser;
 
   const switchPractice = useCallback((id: string) => {
-    setActivePracticeId(id);
+    setActivePracticeId(id === 'demo' ? null : id);
   }, [setActivePracticeId]);
 
   const createPractice = useCallback(async (data: CreatePracticeInput): Promise<string | null> => {
