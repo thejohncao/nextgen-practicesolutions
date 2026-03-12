@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
-import { AssessmentComingSoon } from "@/components/assessments/AssessmentComingSoon";
+import { AssessmentEngine } from "@/components/assessments/AssessmentEngine";
+import { teamConfig } from "@/data/assessment-team";
 
-export const metadata: Metadata = { title: "Team Performance & Culture Assessment" };
+export const metadata: Metadata = {
+  title: "Team Performance & Culture Assessment",
+  description:
+    "Assess role clarity, training, communication, and culture — the people infrastructure behind your practice — across 40 questions.",
+};
 
 export default function TeamAssessmentPage() {
-  return (
-    <AssessmentComingSoon
-      title="Team Performance & Culture"
-      description="Assess role clarity, training, communication, and culture — the people infrastructure behind your practice."
-      questionCount={40}
-      primaryMapping="Team OS + FD & TC Performance"
-    />
-  );
+  return <AssessmentEngine config={teamConfig} />;
 }
