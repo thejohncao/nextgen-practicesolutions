@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* Colors - Primary */
+  --color-primary: #2D5A7B;
+  --color-primary-light: #3A7299;
+  --color-primary-dark: #1E3D54;
+
+  /* Colors - Accents */
+  --color-accent-teal: #4EADC5;
+  --color-accent-gold: #C9A86A;
+
+  /* Colors - Dark */
+  --color-navy: #0F1A24;
+
+  /* Colors - Backgrounds */
+  --color-background: #F8FAFB;
+  --color-background-deep: #EEF2F5;
+  --color-card: #FFFFFF;
+
+  /* Colors - Text */
+  --color-foreground: #1A2B3C;
+  --color-text-soft: #5A6B7C;
+  --color-text-muted: #8A9BAC;
+
+  /* Colors - Border */
+  --color-border: #DDE4EA;
+
+  /* Colors - Status */
+  --color-success: #3A8B5C;
+  --color-warning: #C9A86A;
+  --color-error: #C45B5B;
+
+  /* Colors - Pillars */
+  --color-pillar-growth: #3A8B5C;
+  --color-pillar-management: #2D5A7B;
+  --color-pillar-development: #7C5CBF;
+
+  /* Colors - Agent Personas */
+  --color-giselle: #3A8B5C;
+  --color-miles: #2D5A7B;
+  --color-devon: #7C5CBF;
+  --color-alma: #C9A86A;
+
+  /* Typography */
+  --font-display: "Instrument Serif", Georgia, serif;
+  --font-body: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+}
