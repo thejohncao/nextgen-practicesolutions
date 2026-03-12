@@ -49,8 +49,12 @@ export default function AdminLayout() {
     );
   }
 
-  if (!user || profile?.role !== 'admin') {
+  if (!user) {
     return <Navigate to="/portal/login" replace />;
+  }
+
+  if (profile?.role !== 'admin') {
+    return <Navigate to="/portal" replace />;
   }
 
   const initials = profile?.name
