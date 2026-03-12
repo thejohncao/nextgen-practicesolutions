@@ -19,6 +19,9 @@ import AlmaPage from './portal/pages/AlmaPage';
 import TimelinePage from './portal/pages/TimelinePage';
 import RequestsPage from './portal/pages/RequestsPage';
 import SettingsPage from './portal/pages/SettingsPage';
+import AdminLayout from './admin/components/AdminLayout';
+import AdminPracticeList from './admin/pages/AdminPracticeList';
+import AdminPracticeDetail from './admin/pages/AdminPracticeDetail';
 import './index.css';
 
 const basename = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -63,6 +66,12 @@ createRoot(document.getElementById("root")!).render(
           <Route path="timeline" element={<TimelinePage />} />
           <Route path="requests" element={<RequestsPage />} />
           <Route path="settings" element={<SettingsPage />} />
+        </Route>
+
+        {/* Admin dashboard */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminPracticeList />} />
+          <Route path=":userId" element={<AdminPracticeDetail />} />
         </Route>
       </Routes>
     </BrowserRouter>
