@@ -1,6 +1,8 @@
 import { usePractice } from '../../context/PracticeContext';
 import { milesWorkflows } from '../../data/mock';
+import { MANAGEMENT_KPIS } from '../../data/kpiDefinitions';
 import AuditToggleList from './AuditToggleList';
+import KPIEntrySection from './KPIEntrySection';
 
 export default function StepMilesAudit() {
   const { getItemEnabled, toggleItem } = usePractice();
@@ -24,6 +26,7 @@ export default function StepMilesAudit() {
         onToggle={(id) => toggleItem('miles', id)}
         accentColor="bg-rose-400"
       />
+      <KPIEntrySection kpis={MANAGEMENT_KPIS} pillarLabel="Management" color="rose" />
     </div>
   );
 }
