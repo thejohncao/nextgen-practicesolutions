@@ -1319,7 +1319,7 @@ export default function App() {
         button{font-family:'DM Mono',monospace;}
       `}</style>
 
-      <AuthModal open={authOpen} onClose={() => setAuthOpen(false)} onAuth={() => setAuthOpen(false)} />
+      <AuthModal open={authOpen} onClose={() => { setAuthOpen(false); setPendingStart(false); }} onAuth={() => { setAuthOpen(false); }} defaultMode={pendingStart ? "signup" : "login"} />
 
       {view === VIEW.HOME && (
         <div style={{position:"fixed",inset:0,pointerEvents:"none",zIndex:0}}>
