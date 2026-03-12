@@ -78,13 +78,13 @@ export function NarrativePlanProvider({
   const refreshItems = useCallback(async () => {
     try {
       const { data, error } = await supabase
-        .from('narrative_plan_items')
+        .from('narrative_plan_items' as any)
         .select('*')
         .eq('plan_id', planId)
         .order('created_at', { ascending: true });
 
       if (error) throw error;
-      setItems((data || []) as NarrativePlanItem[]);
+      setItems((data || []) as unknown as NarrativePlanItem[]);
     } catch (err) {
       console.error('Failed to fetch plan items:', err);
     }
