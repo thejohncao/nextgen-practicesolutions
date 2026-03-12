@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://thejohncao.github.io/nextgen-practicesolutions/site/sitemap.xml

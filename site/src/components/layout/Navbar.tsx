@@ -164,12 +164,41 @@ export function Navbar() {
             Practice OS
           </Link>
 
-          <Link
-            href="/about"
-            className="rounded-lg px-4 py-2 text-sm font-medium text-[var(--color-text-soft)] transition-colors hover:text-[var(--color-foreground)]"
+          {/* Resources Dropdown */}
+          <div
+            className="relative"
+            onMouseEnter={() => setOpenDropdown("resources")}
+            onMouseLeave={() => setOpenDropdown(null)}
           >
-            About
-          </Link>
+            <button className="flex items-center gap-1 rounded-lg px-4 py-2 text-sm font-medium text-[var(--color-text-soft)] transition-colors hover:text-[var(--color-foreground)]">
+              Resources
+              <ChevronDown className="h-4 w-4" />
+            </button>
+            {openDropdown === "resources" && (
+              <div className="absolute left-1/2 top-full -translate-x-1/2 pt-2">
+                <div className="w-56 rounded-xl border border-[var(--color-border)] bg-white p-3 shadow-lg">
+                  <Link
+                    href="/blog"
+                    className="block rounded-lg px-3 py-2 text-sm text-[var(--color-text-soft)] transition-colors hover:bg-[var(--color-background-deep)] hover:text-[var(--color-foreground)]"
+                  >
+                    Blog
+                  </Link>
+                  <Link
+                    href="/case-studies"
+                    className="block rounded-lg px-3 py-2 text-sm text-[var(--color-text-soft)] transition-colors hover:bg-[var(--color-background-deep)] hover:text-[var(--color-foreground)]"
+                  >
+                    Case Studies
+                  </Link>
+                  <Link
+                    href="/about"
+                    className="block rounded-lg px-3 py-2 text-sm text-[var(--color-text-soft)] transition-colors hover:bg-[var(--color-background-deep)] hover:text-[var(--color-foreground)]"
+                  >
+                    About
+                  </Link>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* CTA + Mobile Toggle */}
