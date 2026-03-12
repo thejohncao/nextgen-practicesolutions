@@ -44,7 +44,7 @@ function emptyKPI(kpi: KPI): KPI {
   return { ...kpi, value: '—', change: '—', changeDirection: 'flat' as const };
 }
 
-function emptyMetrics(metrics: { id: string; label: string; value: string; changeDirection?: string }[]) {
+function emptyMetrics(metrics: { id: string; label: string; value: string; changeDirection?: 'up' | 'down' | 'flat' }[]) {
   return metrics.map((m) => ({ ...m, value: '—', ...(m.changeDirection !== undefined ? { changeDirection: 'flat' as const } : {}) }));
 }
 
