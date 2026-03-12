@@ -9,8 +9,10 @@ import {
   MessageSquarePlus,
   Settings,
   LogOut,
+  Shield,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { usePortalAuth } from '../context/PortalAuthContext';
 
 const navItems = [
   { label: 'Dashboard', icon: LayoutDashboard, path: '/portal' },
