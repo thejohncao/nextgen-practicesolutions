@@ -133,7 +133,7 @@ export function NarrativePlanProvider({
     async (id: string) => {
       try {
         const { error } = await supabase
-          .from('narrative_plan_items')
+          .from('narrative_plan_items' as any)
           .delete()
           .eq('id', id);
 
