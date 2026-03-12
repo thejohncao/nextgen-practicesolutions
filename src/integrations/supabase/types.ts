@@ -128,6 +128,47 @@ export type Database = {
         }
         Relationships: []
       }
+      assessment_responses: {
+        Row: {
+          assessment_id: string
+          created_at: string
+          id: string
+          question_key: string
+          question_text: string
+          response_type: string
+          response_value: string | null
+          section: string
+        }
+        Insert: {
+          assessment_id: string
+          created_at?: string
+          id?: string
+          question_key: string
+          question_text: string
+          response_type?: string
+          response_value?: string | null
+          section: string
+        }
+        Update: {
+          assessment_id?: string
+          created_at?: string
+          id?: string
+          question_key?: string
+          question_text?: string
+          response_type?: string
+          response_value?: string | null
+          section?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assessment_responses_assessment_id_fkey"
+            columns: ["assessment_id"]
+            isOneToOne: false
+            referencedRelation: "portal_assessments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       bookings: {
         Row: {
           created_at: string
@@ -456,6 +497,99 @@ export type Database = {
         }
         Relationships: []
       }
+      kpi_definitions: {
+        Row: {
+          benchmark_avg: string | null
+          benchmark_ceiling: number | null
+          benchmark_floor: number | null
+          benchmark_top: string | null
+          created_at: string
+          format: string
+          id: string
+          invert: boolean
+          key: string
+          pillar: string
+          sort_order: number
+          unit: string
+        }
+        Insert: {
+          benchmark_avg?: string | null
+          benchmark_ceiling?: number | null
+          benchmark_floor?: number | null
+          benchmark_top?: string | null
+          created_at?: string
+          format?: string
+          id?: string
+          invert?: boolean
+          key: string
+          pillar: string
+          sort_order?: number
+          unit?: string
+        }
+        Update: {
+          benchmark_avg?: string | null
+          benchmark_ceiling?: number | null
+          benchmark_floor?: number | null
+          benchmark_top?: string | null
+          created_at?: string
+          format?: string
+          id?: string
+          invert?: boolean
+          key?: string
+          pillar?: string
+          sort_order?: number
+          unit?: string
+        }
+        Relationships: []
+      }
+      kpi_snapshots: {
+        Row: {
+          created_at: string
+          id: string
+          kpi_definition_id: string
+          month: number
+          practice_id: string
+          snapshot_date: string
+          target: number | null
+          value: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kpi_definition_id: string
+          month?: number
+          practice_id: string
+          snapshot_date?: string
+          target?: number | null
+          value?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kpi_definition_id?: string
+          month?: number
+          practice_id?: string
+          snapshot_date?: string
+          target?: number | null
+          value?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kpi_snapshots_kpi_definition_id_fkey"
+            columns: ["kpi_definition_id"]
+            isOneToOne: false
+            referencedRelation: "kpi_definitions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kpi_snapshots_practice_id_fkey"
+            columns: ["practice_id"]
+            isOneToOne: false
+            referencedRelation: "portal_practices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       membership_tiers: {
         Row: {
           annual_price_cents: number | null
@@ -572,6 +706,140 @@ export type Database = {
           },
         ]
       }
+      pillar_scores: {
+        Row: {
+          created_at: string
+          id: string
+          month: number
+          pillar: string
+          practice_id: string
+          score: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          month?: number
+          pillar: string
+          practice_id: string
+          score?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          month?: number
+          pillar?: string
+          practice_id?: string
+          score?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pillar_scores_practice_id_fkey"
+            columns: ["practice_id"]
+            isOneToOne: false
+            referencedRelation: "portal_practices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      portal_assessments: {
+        Row: {
+          created_at: string
+          doctor_name: string | null
+          email: string | null
+          id: string
+          location: string | null
+          phone: string | null
+          practice_name: string | null
+          reviewed_at: string | null
+          status: string
+          submitted_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          doctor_name?: string | null
+          email?: string | null
+          id?: string
+          location?: string | null
+          phone?: string | null
+          practice_name?: string | null
+          reviewed_at?: string | null
+          status?: string
+          submitted_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          doctor_name?: string | null
+          email?: string | null
+          id?: string
+          location?: string | null
+          phone?: string | null
+          practice_name?: string | null
+          reviewed_at?: string | null
+          status?: string
+          submitted_at?: string | null
+        }
+        Relationships: []
+      }
+      portal_practices: {
+        Row: {
+          baseline_score: number | null
+          created_at: string
+          current_score: number | null
+          doctor: string
+          email: string | null
+          id: string
+          location: string | null
+          name: string
+          onboarded_at: string | null
+          phone: string | null
+          plan_tier: string | null
+          pms: string | null
+          providers: string | null
+          specialties: string | null
+          status: string
+          updated_at: string
+          years_open: string | null
+        }
+        Insert: {
+          baseline_score?: number | null
+          created_at?: string
+          current_score?: number | null
+          doctor: string
+          email?: string | null
+          id?: string
+          location?: string | null
+          name: string
+          onboarded_at?: string | null
+          phone?: string | null
+          plan_tier?: string | null
+          pms?: string | null
+          providers?: string | null
+          specialties?: string | null
+          status?: string
+          updated_at?: string
+          years_open?: string | null
+        }
+        Update: {
+          baseline_score?: number | null
+          created_at?: string
+          current_score?: number | null
+          doctor?: string
+          email?: string | null
+          id?: string
+          location?: string | null
+          name?: string
+          onboarded_at?: string | null
+          phone?: string | null
+          plan_tier?: string | null
+          pms?: string | null
+          providers?: string | null
+          specialties?: string | null
+          status?: string
+          updated_at?: string
+          years_open?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -580,7 +848,9 @@ export type Database = {
           id: string
           last_login: string | null
           last_name: string | null
+          name: string | null
           phone: string | null
+          practice_id: string | null
           role: string
           tenant_id: string | null
           updated_at: string
@@ -592,7 +862,9 @@ export type Database = {
           id?: string
           last_login?: string | null
           last_name?: string | null
+          name?: string | null
           phone?: string | null
+          practice_id?: string | null
           role?: string
           tenant_id?: string | null
           updated_at?: string
@@ -604,12 +876,21 @@ export type Database = {
           id?: string
           last_login?: string | null
           last_name?: string | null
+          name?: string | null
           phone?: string | null
+          practice_id?: string | null
           role?: string
           tenant_id?: string | null
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "profiles_practice_id_fkey"
+            columns: ["practice_id"]
+            isOneToOne: false
+            referencedRelation: "portal_practices"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "profiles_tenant_id_fkey"
             columns: ["tenant_id"]
@@ -797,6 +1078,47 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      system_toggles: {
+        Row: {
+          category: string
+          created_at: string
+          id: string
+          is_active: boolean
+          item_name: string
+          pillar: string
+          practice_id: string
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          item_name: string
+          pillar: string
+          practice_id: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          item_name?: string
+          pillar?: string
+          practice_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "system_toggles_practice_id_fkey"
+            columns: ["practice_id"]
+            isOneToOne: false
+            referencedRelation: "portal_practices"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       tenants: {
         Row: {
@@ -1040,7 +1362,11 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      portal_has_role: {
+        Args: { _role: string; _user_id: string }
+        Returns: boolean
+      }
+      portal_user_practice_id: { Args: { _user_id: string }; Returns: string }
     }
     Enums: {
       [_ in never]: never

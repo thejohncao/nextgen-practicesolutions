@@ -1,44 +1,59 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 
-export default function PortalLogin() {
+export default function ResetPassword() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [confirm, setConfirm] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    // Listen for the PASSWORD_RECOVERY event
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+      if (event === 'PASSWORD_RECOVERY') {
+        setReady(true);
+      }
+    });
+    // Also check if we already have a session from the recovery link
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) setReady(true);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (password !== confirm) {
+      setError('Passwords do not match');
+      return;
+    }
     setError('');
     setLoading(true);
 
-    const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
+    const { error: updateError } = await supabase.auth.updateUser({ password });
 
-    if (authError) {
-      setError(authError.message);
+    if (updateError) {
+      setError(updateError.message);
       setLoading(false);
       return;
     }
 
-    // Check if user has a practice
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('practice_id, role')
-        .eq('id', user.id)
-        .single();
-
-      if (profile?.role === 'admin' || profile?.practice_id) {
-        navigate('/portal');
-      } else {
-        navigate('/portal/onboard');
-      }
-    }
-    setLoading(false);
+    navigate('/portal');
   };
+
+  if (!ready) {
+    return (
+      <div className="min-h-screen bg-[#0D0E14] flex items-center justify-center p-4">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-[#F5A623] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+          <p className="text-sm text-[#9CA3AF]">Verifying reset link...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#0D0E14] flex items-center justify-center p-4">
@@ -47,8 +62,7 @@ export default function PortalLogin() {
           <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center mx-auto mb-4 shadow-lg">
             <span className="text-[#0B0C10] font-bold text-xl">NG</span>
           </div>
-          <h1 className="text-xl font-bold text-[#F9FAFB]">NextGen Portal</h1>
-          <p className="text-sm text-[#9CA3AF] mt-1">Sign in to your practice operating system</p>
+          <h1 className="text-xl font-bold text-[#F9FAFB]">Set New Password</h1>
         </div>
 
         <form onSubmit={handleSubmit} className="bg-white/[0.04] backdrop-blur-sm rounded-2xl border border-white/[0.06] shadow-glass p-6 space-y-4">
@@ -58,47 +72,40 @@ export default function PortalLogin() {
             </div>
           )}
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-[#9CA3AF]">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@practice.com"
-              required
-              className="w-full px-3.5 py-2.5 text-sm text-[#F9FAFB] placeholder-[#6B7280] rounded-lg border border-white/[0.08] bg-white/[0.04] focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500/40 transition"
-            />
-          </div>
-          <div className="space-y-1.5">
-            <label className="text-xs font-medium text-[#9CA3AF]">Password</label>
+            <label className="text-xs font-medium text-[#9CA3AF]">New Password</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
+              placeholder="Min 6 characters"
               required
+              minLength={6}
               className="w-full px-3.5 py-2.5 text-sm text-[#F9FAFB] placeholder-[#6B7280] rounded-lg border border-white/[0.08] bg-white/[0.04] focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500/40 transition"
             />
           </div>
-          <div className="flex items-center justify-end">
-            <Link to="/portal/forgot-password" className="text-xs text-[#9CA3AF] hover:text-[#F9FAFB] transition">
-              Forgot password?
-            </Link>
+          <div className="space-y-1.5">
+            <label className="text-xs font-medium text-[#9CA3AF]">Confirm Password</label>
+            <input
+              type="password"
+              value={confirm}
+              onChange={(e) => setConfirm(e.target.value)}
+              placeholder="Confirm your password"
+              required
+              className="w-full px-3.5 py-2.5 text-sm text-[#F9FAFB] placeholder-[#6B7280] rounded-lg border border-white/[0.08] bg-white/[0.04] focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500/40 transition"
+            />
           </div>
           <button
             type="submit"
             disabled={loading}
             className="w-full py-2.5 rounded-lg text-sm font-medium text-[#0B0C10] bg-[#F5A623] hover:bg-[#E09800] disabled:opacity-50 transition shadow-sm"
           >
-            {loading ? 'Signing in...' : 'Sign In'}
+            {loading ? 'Updating...' : 'Update Password'}
           </button>
         </form>
 
         <div className="text-center mt-6">
-          <Link
-            to="/portal/signup"
-            className="inline-block text-sm font-medium text-[#F5A623] hover:text-[#E09800] transition"
-          >
-            Create an account →
+          <Link to="/portal/login" className="text-sm text-[#9CA3AF] hover:text-[#F9FAFB] transition">
+            ← Back to Sign In
           </Link>
         </div>
       </div>

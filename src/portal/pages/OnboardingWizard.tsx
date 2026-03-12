@@ -34,12 +34,12 @@ export default function OnboardingWizard() {
   const totalKpis = allDefs.length;
   const kpisEntered = allDefs.filter(d => allKpis[d.id]?.current != null).length;
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (step === 0 && isDemo) {
       // Step 1: Create the practice from form data
       const data = getPracticeFormData();
       if (!data) return; // validation failed
-      createPractice({
+      await createPractice({
         name: data.name,
         ownerName: data.doctor,
         ownerEmail: data.email,
@@ -53,6 +53,7 @@ export default function OnboardingWizard() {
       });
       // After creating, the context will switch to the new practice
       // and onboardingState will be available. Step advances to 1.
+      setOnboardingStep(1);
       return;
     }
     if (isLast) {

@@ -1,13 +1,15 @@
-import { Bell, Search, Menu, Route } from 'lucide-react';
+import { Bell, Search, Menu, Route, LogOut } from 'lucide-react';
 import { notifications } from '../data/mock';
 import { useState } from 'react';
 import PortalMobileNav from './PortalMobileNav';
 import PracticeSwitcher from './PracticeSwitcher';
 import { usePractice } from '../context/PracticeContext';
+import { usePortalAuth } from '../context/PortalAuthContext';
 
 export default function PortalHeader({ onStartTour }: { onStartTour?: () => void }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { activeUser } = usePractice();
+  const { signOut } = usePortalAuth();
   const unread = notifications.filter((n) => !n.read).length;
 
   return (
@@ -30,7 +32,7 @@ export default function PortalHeader({ onStartTour }: { onStartTour?: () => void
             </div>
           </div>
 
-          {/* Right — search, notifications, avatar */}
+          {/* Right — search, notifications, avatar, sign out */}
           <div className="flex items-center gap-2">
             <button className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg bg-white/[0.04] hover:bg-white/[0.06] transition text-sm text-[#6B7280] w-48 lg:w-64">
               <Search className="w-4 h-4" />
@@ -63,6 +65,13 @@ export default function PortalHeader({ onStartTour }: { onStartTour?: () => void
                 </span>
               </div>
               <span className="hidden lg:block text-sm font-medium text-[#9CA3AF]">{activeUser.name}</span>
+              <button
+                onClick={signOut}
+                className="p-1.5 rounded-lg hover:bg-white/[0.06] transition"
+                title="Sign out"
+              >
+                <LogOut className="w-4 h-4 text-[#6B7280]" />
+              </button>
             </div>
           </div>
         </div>

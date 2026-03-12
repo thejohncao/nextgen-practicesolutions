@@ -1,5 +1,6 @@
-import { createContext, useContext, useCallback, type ReactNode } from 'react';
-import { useLocalStorage, type NGPStore, type StoredPractice } from '../hooks/useLocalStorage';
+import { createContext, useContext, useCallback, useState, useEffect, type ReactNode } from 'react';
+import { usePortalAuth } from './PortalAuthContext';
+import { supabase } from '@/integrations/supabase/client';
 import { demoPractice, demoUser } from '../data/mock';
 import type { Practice, PortalUser, PillarSlug } from '../types';
 
@@ -16,15 +17,21 @@ export interface CreatePracticeInput {
   yearsInOperation: string;
 }
 
+interface OnboardingState {
+  currentStep: number;
+  completedAt: string | null;
+  kpis: Record<string, { current: number | null; target: number | null }>;
+}
+
 interface PracticeContextValue {
   activePractice: Practice;
   activeUser: PortalUser;
   isDemo: boolean;
   allPractices: { id: string; name: string }[];
   switchPractice: (id: string) => void;
-  createPractice: (data: CreatePracticeInput) => string;
+  createPractice: (data: CreatePracticeInput) => Promise<string | null>;
   deletePractice: (id: string) => void;
-  onboardingState: StoredPractice['onboarding'] | null;
+  onboardingState: OnboardingState | null;
   setOnboardingStep: (step: number) => void;
   completeOnboarding: () => void;
   toggleItem: (pillar: PillarSlug, itemId: string) => void;
@@ -37,214 +44,286 @@ interface PracticeContextValue {
 
 const PracticeContext = createContext<PracticeContextValue | null>(null);
 
-function makeId(): string {
-  return 'prac_' + Math.random().toString(36).slice(2, 10);
-}
-
-function emptyOnboarding(): StoredPractice['onboarding'] {
-  return {
-    currentStep: 0,
-    completedAt: null,
-    giselle: {},
-    miles: {},
-    devon: {},
-    alma: { programs: {}, rolePaths: {}, sops: {} },
-    kpis: {},
-  };
-}
-
-function getActivePractice(store: NGPStore): StoredPractice | null {
-  if (store.activePracticeId === 'demo') return null;
-  return store.practices.find((p) => p.id === store.activePracticeId) ?? null;
-}
-
-function updateActivePractice(store: NGPStore, fn: (p: StoredPractice) => StoredPractice): NGPStore {
-  return {
-    ...store,
-    practices: store.practices.map((p) => (p.id === store.activePracticeId ? fn(p) : p)),
-  };
-}
-
 export function PracticeProvider({ children }: { children: ReactNode }) {
-  const { store, update } = useLocalStorage();
+  const { profile, isAdmin, activePracticeId, setActivePracticeId, refreshProfile } = usePortalAuth();
 
-  const active = getActivePractice(store);
-  const isDemo = !active;
+  const [practiceData, setPracticeData] = useState<any>(null);
+  const [allPractices, setAllPractices] = useState<{ id: string; name: string }[]>([]);
+  const [onboardingStep, setOnboardingStepState] = useState(0);
+  const [toggles, setToggles] = useState<Record<string, boolean>>({});
+  const [kpiValues, setKpiValues] = useState<Record<string, { current: number | null; target: number | null }>>({});
 
-  const activePractice: Practice = active
+  const isDemo = !activePracticeId;
+
+  // Fetch practice data when activePracticeId changes
+  useEffect(() => {
+    if (!activePracticeId) {
+      setPracticeData(null);
+      return;
+    }
+    supabase
+      .from('portal_practices')
+      .select('*')
+      .eq('id', activePracticeId)
+      .single()
+      .then(({ data }) => {
+        if (data) {
+          setPracticeData(data);
+          setOnboardingStepState(data.status === 'active' ? 6 : 0);
+        }
+      });
+  }, [activePracticeId]);
+
+  // Fetch all practices for admin
+  useEffect(() => {
+    if (isAdmin) {
+      supabase
+        .from('portal_practices')
+        .select('id, name')
+        .order('created_at', { ascending: false })
+        .then(({ data }) => {
+          setAllPractices(data ?? []);
+        });
+    } else if (activePracticeId && practiceData) {
+      setAllPractices([{ id: practiceData.id, name: practiceData.name }]);
+    }
+  }, [isAdmin, activePracticeId, practiceData]);
+
+  // Fetch toggles for active practice
+  useEffect(() => {
+    if (!activePracticeId) {
+      setToggles({});
+      return;
+    }
+    supabase
+      .from('system_toggles')
+      .select('item_name, is_active')
+      .eq('practice_id', activePracticeId)
+      .then(({ data }) => {
+        const map: Record<string, boolean> = {};
+        data?.forEach((t: any) => { map[t.item_name] = t.is_active; });
+        setToggles(map);
+      });
+  }, [activePracticeId]);
+
+  // Fetch KPI snapshots (month 0) for active practice
+  useEffect(() => {
+    if (!activePracticeId) {
+      setKpiValues({});
+      return;
+    }
+    supabase
+      .from('kpi_snapshots')
+      .select('kpi_definition_id, value, target')
+      .eq('practice_id', activePracticeId)
+      .eq('month', 0)
+      .then(({ data }) => {
+        const map: Record<string, { current: number | null; target: number | null }> = {};
+        data?.forEach((s: any) => {
+          map[s.kpi_definition_id] = { current: s.value, target: s.target };
+        });
+        setKpiValues(map);
+      });
+  }, [activePracticeId]);
+
+  const activePractice: Practice = practiceData
     ? {
-        id: active.id,
-        name: active.name,
-        locations: active.locations,
-        ownerName: active.ownerName,
-        ownerEmail: active.ownerEmail,
-        plan: active.plan,
-        phone: active.phone ?? '',
-        pms: active.pms ?? '',
-        providers: active.providers ?? '',
-        specialties: active.specialties ?? '',
-        yearsInOperation: active.yearsInOperation ?? '',
-        onboardedAt: active.createdAt,
+        id: practiceData.id,
+        name: practiceData.name,
+        locations: practiceData.location ? [practiceData.location] : [],
+        ownerName: practiceData.doctor,
+        ownerEmail: practiceData.email || '',
+        plan: practiceData.plan_tier || '',
+        phone: practiceData.phone || '',
+        pms: practiceData.pms || '',
+        providers: practiceData.providers || '',
+        specialties: practiceData.specialties || '',
+        yearsInOperation: practiceData.years_open || '',
+        onboardedAt: practiceData.onboarded_at || practiceData.created_at,
       }
     : demoPractice;
 
-  const activeUser: PortalUser = active
+  const activeUser: PortalUser = profile
     ? {
-        id: 'usr_' + active.id.slice(5),
-        name: active.ownerName,
-        email: active.ownerEmail,
-        role: 'owner',
-        practiceId: active.id,
+        id: profile.id,
+        name: profile.name || profile.email,
+        email: profile.email,
+        role: (profile.role === 'admin' ? 'owner' : profile.role === 'owner' ? 'owner' : profile.role === 'manager' ? 'manager' : 'staff') as any,
+        practiceId: activePracticeId || '',
       }
     : demoUser;
 
-  const allPractices = [
-    { id: 'demo', name: 'Bright Smile Dental (Demo)' },
-    ...store.practices.map((p) => ({ id: p.id, name: p.name })),
-  ];
+  const switchPractice = useCallback((id: string) => {
+    setActivePracticeId(id);
+  }, [setActivePracticeId]);
 
-  const switchPractice = useCallback(
-    (id: string) => {
-      update((prev) => ({ ...prev, activePracticeId: id }));
-    },
-    [update]
-  );
+  const createPractice = useCallback(async (data: CreatePracticeInput): Promise<string | null> => {
+    const { data: practice, error } = await supabase
+      .from('portal_practices')
+      .insert({
+        name: data.name,
+        doctor: data.ownerName,
+        email: data.ownerEmail,
+        location: data.locations[0] || null,
+        phone: data.phone,
+        pms: data.pms,
+        providers: data.providers,
+        specialties: data.specialties,
+        years_open: data.yearsInOperation,
+        plan_tier: data.plan || null,
+      })
+      .select('id')
+      .single();
 
-  const createPractice = useCallback(
-    (data: CreatePracticeInput): string => {
-      const id = makeId();
-      const practice: StoredPractice = {
-        id,
-        ...data,
-        createdAt: new Date().toISOString().split('T')[0],
-        onboarding: emptyOnboarding(),
-      };
-      update((prev) => ({
-        activePracticeId: id,
-        practices: [...prev.practices, practice],
-      }));
-      return id;
-    },
-    [update]
-  );
+    if (error || !practice) {
+      console.error('Error creating practice:', error);
+      return null;
+    }
 
-  const deletePractice = useCallback(
-    (id: string) => {
-      update((prev) => ({
-        activePracticeId: prev.activePracticeId === id ? 'demo' : prev.activePracticeId,
-        practices: prev.practices.filter((p) => p.id !== id),
-      }));
-    },
-    [update]
-  );
+    // Link user's profile to this practice
+    if (profile) {
+      await supabase
+        .from('profiles')
+        .update({ practice_id: practice.id })
+        .eq('id', profile.id);
+      await refreshProfile();
+    }
 
-  const onboardingState = active?.onboarding ?? null;
+    setActivePracticeId(practice.id);
+    return practice.id;
+  }, [profile, refreshProfile, setActivePracticeId]);
 
-  const setOnboardingStep = useCallback(
-    (step: number) => {
-      update((prev) =>
-        updateActivePractice(prev, (p) => ({
-          ...p,
-          onboarding: { ...p.onboarding, currentStep: step },
-        }))
-      );
-    },
-    [update]
-  );
+  const deletePractice = useCallback(async (id: string) => {
+    await supabase.from('portal_practices').delete().eq('id', id);
+    if (activePracticeId === id) {
+      setActivePracticeId(null);
+    }
+    // Refresh all practices list
+    if (isAdmin) {
+      const { data } = await supabase.from('portal_practices').select('id, name').order('created_at', { ascending: false });
+      setAllPractices(data ?? []);
+    }
+  }, [activePracticeId, isAdmin, setActivePracticeId]);
 
-  const completeOnboarding = useCallback(() => {
-    update((prev) =>
-      updateActivePractice(prev, (p) => ({
-        ...p,
-        onboarding: {
-          ...p.onboarding,
-          currentStep: 6,
-          completedAt: new Date().toISOString().split('T')[0],
-        },
-      }))
-    );
-  }, [update]);
+  const onboardingState: OnboardingState | null = activePracticeId
+    ? { currentStep: onboardingStep, completedAt: practiceData?.status === 'active' ? (practiceData.onboarded_at || 'done') : null, kpis: kpiValues }
+    : null;
 
-  const toggleItem = useCallback(
-    (pillar: PillarSlug, itemId: string) => {
-      if (pillar === 'alma') return; // use toggleAlmaItem instead
-      const key = pillar === 'giselle' ? 'giselle' : pillar === 'miles' ? 'miles' : 'devon';
-      update((prev) =>
-        updateActivePractice(prev, (p) => ({
-          ...p,
-          onboarding: {
-            ...p.onboarding,
-            [key]: { ...p.onboarding[key], [itemId]: !p.onboarding[key][itemId] },
-          },
-        }))
-      );
-    },
-    [update]
-  );
+  const setOnboardingStep = useCallback((step: number) => {
+    setOnboardingStepState(step);
+  }, []);
 
-  const getItemEnabled = useCallback(
-    (pillar: PillarSlug, itemId: string): boolean => {
-      if (!active) return true; // demo shows everything as-is
-      const key = pillar === 'giselle' ? 'giselle' : pillar === 'miles' ? 'miles' : 'devon';
-      return !!active.onboarding[key][itemId];
-    },
-    [active]
-  );
+  const completeOnboarding = useCallback(async () => {
+    if (!activePracticeId) return;
+    setOnboardingStepState(6);
+    await supabase
+      .from('portal_practices')
+      .update({ status: 'active', onboarded_at: new Date().toISOString() })
+      .eq('id', activePracticeId);
+  }, [activePracticeId]);
 
-  const toggleAlmaItem = useCallback(
-    (category: 'programs' | 'rolePaths' | 'sops', id: string) => {
-      update((prev) =>
-        updateActivePractice(prev, (p) => ({
-          ...p,
-          onboarding: {
-            ...p.onboarding,
-            alma: {
-              ...p.onboarding.alma,
-              [category]: { ...p.onboarding.alma[category], [id]: !p.onboarding.alma[category][id] },
-            },
-          },
-        }))
-      );
-    },
-    [update]
-  );
+  const toggleItem = useCallback(async (pillar: PillarSlug, itemId: string) => {
+    if (!activePracticeId || pillar === 'alma') return;
+    const newVal = !toggles[itemId];
+    setToggles((prev) => ({ ...prev, [itemId]: newVal }));
 
-  const getAlmaItemEnabled = useCallback(
-    (category: 'programs' | 'rolePaths' | 'sops', id: string): boolean => {
-      if (!active) return true;
-      return !!active.onboarding.alma[category][id];
-    },
-    [active]
-  );
+    // Upsert toggle
+    const { data: existing } = await supabase
+      .from('system_toggles')
+      .select('id')
+      .eq('practice_id', activePracticeId)
+      .eq('item_name', itemId)
+      .maybeSingle();
 
-  const setKPI = useCallback(
-    (kpiId: string, field: 'current' | 'target', value: number | null) => {
-      update((prev) =>
-        updateActivePractice(prev, (p) => ({
-          ...p,
-          onboarding: {
-            ...p.onboarding,
-            kpis: {
-              ...p.onboarding.kpis,
-              [kpiId]: {
-                ...(p.onboarding.kpis?.[kpiId] ?? { current: null, target: null }),
-                [field]: value,
-              },
-            },
-          },
-        }))
-      );
-    },
-    [update]
-  );
+    if (existing) {
+      await supabase.from('system_toggles').update({ is_active: newVal }).eq('id', existing.id);
+    } else {
+      await supabase.from('system_toggles').insert({
+        practice_id: activePracticeId,
+        pillar,
+        category: 'Systems & Assets',
+        item_name: itemId,
+        is_active: newVal,
+      });
+    }
+  }, [activePracticeId, toggles]);
 
-  const getKPI = useCallback(
-    (kpiId: string): { current: number | null; target: number | null } => {
-      if (!active) return { current: null, target: null };
-      return active.onboarding.kpis?.[kpiId] ?? { current: null, target: null };
-    },
-    [active]
-  );
+  const getItemEnabled = useCallback((pillar: PillarSlug, itemId: string): boolean => {
+    if (!activePracticeId) return true; // demo
+    return !!toggles[itemId];
+  }, [activePracticeId, toggles]);
+
+  const toggleAlmaItem = useCallback(async (category: 'programs' | 'rolePaths' | 'sops', id: string) => {
+    if (!activePracticeId) return;
+    const key = `alma_${category}_${id}`;
+    const newVal = !toggles[key];
+    setToggles((prev) => ({ ...prev, [key]: newVal }));
+
+    const { data: existing } = await supabase
+      .from('system_toggles')
+      .select('id')
+      .eq('practice_id', activePracticeId)
+      .eq('item_name', key)
+      .maybeSingle();
+
+    if (existing) {
+      await supabase.from('system_toggles').update({ is_active: newVal }).eq('id', existing.id);
+    } else {
+      await supabase.from('system_toggles').insert({
+        practice_id: activePracticeId,
+        pillar: 'alma',
+        category,
+        item_name: key,
+        is_active: newVal,
+      });
+    }
+  }, [activePracticeId, toggles]);
+
+  const getAlmaItemEnabled = useCallback((category: 'programs' | 'rolePaths' | 'sops', id: string): boolean => {
+    if (!activePracticeId) return true;
+    return !!toggles[`alma_${category}_${id}`];
+  }, [activePracticeId, toggles]);
+
+  const setKPI = useCallback(async (kpiId: string, field: 'current' | 'target', value: number | null) => {
+    setKpiValues((prev) => ({
+      ...prev,
+      [kpiId]: {
+        ...(prev[kpiId] ?? { current: null, target: null }),
+        [field]: value,
+      },
+    }));
+
+    if (!activePracticeId) return;
+
+    const existing = kpiValues[kpiId];
+    const newValue = field === 'current' ? value : (existing?.current ?? null);
+    const newTarget = field === 'target' ? value : (existing?.target ?? null);
+
+    // Upsert
+    const { data: snap } = await supabase
+      .from('kpi_snapshots')
+      .select('id')
+      .eq('practice_id', activePracticeId)
+      .eq('kpi_definition_id', kpiId)
+      .eq('month', 0)
+      .maybeSingle();
+
+    if (snap) {
+      await supabase.from('kpi_snapshots').update({ value: newValue, target: newTarget }).eq('id', snap.id);
+    } else {
+      await supabase.from('kpi_snapshots').insert({
+        practice_id: activePracticeId,
+        kpi_definition_id: kpiId,
+        month: 0,
+        value: newValue,
+        target: newTarget,
+      });
+    }
+  }, [activePracticeId, kpiValues]);
+
+  const getKPI = useCallback((kpiId: string): { current: number | null; target: number | null } => {
+    return kpiValues[kpiId] ?? { current: null, target: null };
+  }, [kpiValues]);
 
   return (
     <PracticeContext.Provider
