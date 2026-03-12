@@ -71,6 +71,19 @@ export default function PortalSidebar() {
         })}
       </nav>
 
+      {/* Admin link — only for admin users */}
+      {isAdmin && (
+        <div className="px-3 py-2 border-t border-white/[0.06]">
+          <Link
+            to="/admin"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-[#F5A623] hover:bg-[#F5A623]/10 transition"
+          >
+            <Shield className="w-[18px] h-[18px]" />
+            Admin Dashboard
+          </Link>
+        </div>
+      )}
+
       {/* Bottom */}
       <div className="px-3 py-4 border-t border-white/[0.06]">
         <Link
