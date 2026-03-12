@@ -851,6 +851,7 @@ export type Database = {
           name: string | null
           phone: string | null
           practice_id: string | null
+          practice_name: string | null
           role: string
           tenant_id: string | null
           updated_at: string
@@ -865,6 +866,7 @@ export type Database = {
           name?: string | null
           phone?: string | null
           practice_id?: string | null
+          practice_name?: string | null
           role?: string
           tenant_id?: string | null
           updated_at?: string
@@ -879,6 +881,7 @@ export type Database = {
           name?: string | null
           phone?: string | null
           practice_id?: string | null
+          practice_name?: string | null
           role?: string
           tenant_id?: string | null
           updated_at?: string
