@@ -114,6 +114,22 @@ const SEED_PLANS: SeedPlan[] = [
   },
 ];
 
+// Helper: wrap a promise with a timeout so it doesn't hang forever
+function withTimeout<T>(promise: PromiseLike<T>, ms: number, label: string): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const timer = setTimeout(
+      () => reject(new Error(`${label} timed out after ${ms / 1000}s — the narrative tables may not exist in your Supabase database. Run the migration SQL first (see supabase/migrations/20260312200000_narrative_tables.sql).`)),
+      ms
+    );
+    Promise.resolve(promise).then(
+      (val) => { clearTimeout(timer); resolve(val); },
+      (err) => { clearTimeout(timer); reject(err); },
+    );
+  });
+}
+
+const TIMEOUT_MS = 10_000;
+
 export async function seedNarrativeData(): Promise<{ success: boolean; message: string }> {
   try {
     // Get current user and practice
@@ -129,45 +145,77 @@ export async function seedNarrativeData(): Promise<{ success: boolean; message: 
     if (!profile?.practice_id) return { success: false, message: 'No practice found for your account.' };
 
     const practiceId = profile.practice_id;
+
+    // Verify narrative tables exist before inserting
+    const { error: tableCheck } = await withTimeout(
+      supabase.from('narrative_patients' as any).select('id').limit(0),
+      TIMEOUT_MS,
+      'Table check for narrative_patients'
+    );
+
+    if (tableCheck) {
+      console.error('Table check failed:', tableCheck);
+      return {
+        success: false,
+        message: `narrative_patients table not accessible: ${tableCheck.message}. Run the migration first.`,
+      };
+    }
+
     let createdPlans = 0;
     let createdItems = 0;
 
     for (const seedPlan of SEED_PLANS) {
       // Create patient
-      const { data: patient, error: patientError } = await supabase
-        .from('narrative_patients' as any)
-        .insert({
-          practice_id: practiceId,
-          first_name: seedPlan.patient.first_name,
-          last_name: seedPlan.patient.last_name,
-          phone: seedPlan.patient.phone,
-          email: seedPlan.patient.email,
-          insurance_status: seedPlan.patient.insurance_status,
-          ...(seedPlan.patient.membership_tier ? { membership_tier: seedPlan.patient.membership_tier } : {}),
-        })
-        .select()
-        .single();
+      const { data: patient, error: patientError } = await withTimeout(
+        supabase
+          .from('narrative_patients' as any)
+          .insert({
+            practice_id: practiceId,
+            first_name: seedPlan.patient.first_name,
+            last_name: seedPlan.patient.last_name,
+            phone: seedPlan.patient.phone,
+            email: seedPlan.patient.email,
+            insurance_status: seedPlan.patient.insurance_status,
+            ...(seedPlan.patient.membership_tier ? { membership_tier: seedPlan.patient.membership_tier } : {}),
+          })
+          .select()
+          .single(),
+        TIMEOUT_MS,
+        `Insert patient ${seedPlan.patient.first_name}`
+      );
 
       if (patientError) {
         console.error(`Failed to create patient ${seedPlan.patient.first_name}:`, patientError);
         return { success: false, message: `Failed to create patient ${seedPlan.patient.first_name}: ${patientError.message}` };
       }
 
+      if (!patient) {
+        return { success: false, message: `Patient ${seedPlan.patient.first_name} insert returned no data — RLS may be blocking SELECT after INSERT.` };
+      }
+
       // Create plan
-      const { data: plan, error: planError } = await supabase
-        .from('narrative_plans' as any)
-        .insert({
-          patient_id: (patient as any).id,
-          practice_id: practiceId,
-          provider_name: seedPlan.provider_name || 'Dr. Kansagra',
-          status: seedPlan.status,
-        })
-        .select()
-        .single();
+      const { data: plan, error: planError } = await withTimeout(
+        supabase
+          .from('narrative_plans' as any)
+          .insert({
+            patient_id: (patient as any).id,
+            practice_id: practiceId,
+            provider_name: seedPlan.provider_name || 'Dr. Kansagra',
+            status: seedPlan.status,
+          })
+          .select()
+          .single(),
+        TIMEOUT_MS,
+        `Insert plan for ${seedPlan.patient.first_name}`
+      );
 
       if (planError) {
         console.error(`Failed to create plan for ${seedPlan.patient.first_name}:`, planError);
         return { success: false, message: `Failed to create plan for ${seedPlan.patient.first_name}: ${planError.message}` };
+      }
+
+      if (!plan) {
+        return { success: false, message: `Plan for ${seedPlan.patient.first_name} insert returned no data — RLS may be blocking SELECT after INSERT.` };
       }
 
       createdPlans++;
@@ -179,9 +227,13 @@ export async function seedNarrativeData(): Promise<{ success: boolean; message: 
           ...item,
         }));
 
-        const { error: itemsError } = await supabase
-          .from('narrative_plan_items' as any)
-          .insert(itemsToInsert);
+        const { error: itemsError } = await withTimeout(
+          supabase
+            .from('narrative_plan_items' as any)
+            .insert(itemsToInsert),
+          TIMEOUT_MS,
+          `Insert items for ${seedPlan.patient.first_name}`
+        );
 
         if (itemsError) {
           console.error(`Failed to create items for ${seedPlan.patient.first_name}:`, itemsError);
