@@ -27,6 +27,9 @@ interface AuthModalProps {
 
 export default function AuthModal({ open, onClose, onAuth, defaultMode = "login" }: AuthModalProps) {
   const [mode, setMode] = useState<"login" | "signup">(defaultMode);
+
+  // Sync mode when defaultMode changes (e.g. opening from CTA vs TopBar)
+  useEffect(() => { setMode(defaultMode); }, [defaultMode]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
