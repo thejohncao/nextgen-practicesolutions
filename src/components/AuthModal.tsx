@@ -53,7 +53,7 @@ export default function AuthModal({ open, onClose, onAuth, defaultMode = "login"
           email,
           password,
           options: {
-            data: { first_name: firstName, last_name: lastName },
+            data: { first_name: firstName, last_name: lastName, practice_name: practiceName },
             emailRedirectTo: window.location.origin,
           },
         });
