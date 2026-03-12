@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 const T = {
@@ -22,14 +22,19 @@ interface AuthModalProps {
   open: boolean;
   onClose: () => void;
   onAuth: () => void;
+  defaultMode?: "login" | "signup";
 }
 
-export default function AuthModal({ open, onClose, onAuth }: AuthModalProps) {
-  const [mode, setMode] = useState<"login" | "signup">("login");
+export default function AuthModal({ open, onClose, onAuth, defaultMode = "login" }: AuthModalProps) {
+  const [mode, setMode] = useState<"login" | "signup">(defaultMode);
+
+  // Sync mode when defaultMode changes (e.g. opening from CTA vs TopBar)
+  useEffect(() => { setMode(defaultMode); }, [defaultMode]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [practiceName, setPracticeName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -48,7 +53,7 @@ export default function AuthModal({ open, onClose, onAuth }: AuthModalProps) {
           email,
           password,
           options: {
-            data: { first_name: firstName, last_name: lastName },
+            data: { first_name: firstName, last_name: lastName, practice_name: practiceName },
             emailRedirectTo: window.location.origin,
           },
         });
@@ -76,7 +81,7 @@ export default function AuthModal({ open, onClose, onAuth }: AuthModalProps) {
           {mode === "login" ? "Welcome Back" : "Create Account"}
         </div>
         <p style={{ ...mono, fontSize: 9, color: T.textDim, textAlign: "center", letterSpacing: "0.15em", marginBottom: 24 }}>
-          {mode === "login" ? "Sign in to resume your assessment" : "Save your progress and get your report"}
+          {mode === "login" ? "Sign in to resume your assessment" : "Create an account to take the assessment"}
         </p>
 
         {error && <div style={{ ...mono, fontSize: 10, color: T.red, background: "rgba(248,113,113,0.08)", border: `1px solid ${T.red}30`, padding: "8px 12px", borderRadius: 3, marginBottom: 14 }}>{error}</div>}
@@ -84,12 +89,16 @@ export default function AuthModal({ open, onClose, onAuth }: AuthModalProps) {
 
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           {mode === "signup" && (
-            <div style={{ display: "flex", gap: 10 }}>
-              <input value={firstName} onChange={e => setFirstName(e.target.value)} placeholder="First name"
-                style={{ flex: 1, background: "rgba(255,255,255,0.04)", border: `1px solid ${T.border}`, color: T.textMain, padding: "10px 14px", borderRadius: 3, ...sans, fontSize: 13, outline: "none" }} />
-              <input value={lastName} onChange={e => setLastName(e.target.value)} placeholder="Last name"
-                style={{ flex: 1, background: "rgba(255,255,255,0.04)", border: `1px solid ${T.border}`, color: T.textMain, padding: "10px 14px", borderRadius: 3, ...sans, fontSize: 13, outline: "none" }} />
-            </div>
+            <>
+              <div style={{ display: "flex", gap: 10 }}>
+                <input value={firstName} onChange={e => setFirstName(e.target.value)} placeholder="First name"
+                  style={{ flex: 1, background: "rgba(255,255,255,0.04)", border: `1px solid ${T.border}`, color: T.textMain, padding: "10px 14px", borderRadius: 3, ...sans, fontSize: 13, outline: "none" }} />
+                <input value={lastName} onChange={e => setLastName(e.target.value)} placeholder="Last name"
+                  style={{ flex: 1, background: "rgba(255,255,255,0.04)", border: `1px solid ${T.border}`, color: T.textMain, padding: "10px 14px", borderRadius: 3, ...sans, fontSize: 13, outline: "none" }} />
+              </div>
+              <input value={practiceName} onChange={e => setPracticeName(e.target.value)} placeholder="Practice name (e.g. Bespoke Dental Studios)"
+                style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${T.border}`, color: T.textMain, padding: "10px 14px", borderRadius: 3, ...sans, fontSize: 13, outline: "none" }} />
+            </>
           )}
           <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" required
             style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${T.border}`, color: T.textMain, padding: "10px 14px", borderRadius: 3, ...sans, fontSize: 13, outline: "none" }} />

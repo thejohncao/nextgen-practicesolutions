@@ -1200,6 +1200,7 @@ export default function App() {
   const [view, setView] = useState<number>(VIEW.HOME);
   const [user, setUser] = useState<User | null>(null);
   const [authOpen, setAuthOpen] = useState(false);
+  const [pendingStart, setPendingStart] = useState(false);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const ref = useRef<HTMLDivElement>(null);
   const scroll = useCallback(() => ref.current?.scrollIntoView({behavior:"smooth",block:"start"}), []);
@@ -1308,6 +1309,14 @@ export default function App() {
     setUser(null);
   }, []);
 
+  // Auto-start assessment after auth completes
+  useEffect(() => {
+    if (user && pendingStart) {
+      setPendingStart(false);
+      setCi(0); setQi(0); setView(VIEW.INTRO); scroll();
+    }
+  }, [user, pendingStart, scroll]);
+
   return (
     <div ref={ref} style={{minHeight:"100vh",background:T.bg,color:T.textMain,display:"flex",flexDirection:"column"}}>
       <style>{`
@@ -1318,7 +1327,7 @@ export default function App() {
         button{font-family:'DM Mono',monospace;}
       `}</style>
 
-      <AuthModal open={authOpen} onClose={() => setAuthOpen(false)} onAuth={() => setAuthOpen(false)} />
+      <AuthModal open={authOpen} onClose={() => { setAuthOpen(false); setPendingStart(false); }} onAuth={() => { setAuthOpen(false); }} defaultMode={pendingStart ? "signup" : "login"} />
 
       {view === VIEW.HOME && (
         <div style={{position:"fixed",inset:0,pointerEvents:"none",zIndex:0}}>
@@ -1335,7 +1344,7 @@ export default function App() {
         <>
           <TopBar answered={sc.answered} catColor={view !== VIEW.HOME ? CATS[ci].color : undefined} user={user} onLoginClick={() => setAuthOpen(true)} onLogout={handleLogout}/>
           <div style={{flex:1,display:"flex",flexDirection:"column",position:"relative",zIndex:1}}>
-            {view === VIEW.HOME && <HomeView onStart={() => { setCi(0); setQi(0); setView(VIEW.INTRO); scroll(); }}/>}
+            {view === VIEW.HOME && <HomeView onStart={() => { if (!user) { setPendingStart(true); setAuthOpen(true); return; } setCi(0); setQi(0); setView(VIEW.INTRO); scroll(); }}/>}
             {view === VIEW.INTRO && <IntroView ci={ci} sc={sc} onBegin={() => { setQi(0); setView(VIEW.Q); scroll(); }} onJump={jumpCat}/>}
             {view === VIEW.Q && (
               <QuestionView
