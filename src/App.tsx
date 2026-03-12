@@ -1336,7 +1336,7 @@ export default function App() {
         <>
           <TopBar answered={sc.answered} catColor={view !== VIEW.HOME ? CATS[ci].color : undefined} user={user} onLoginClick={() => setAuthOpen(true)} onLogout={handleLogout}/>
           <div style={{flex:1,display:"flex",flexDirection:"column",position:"relative",zIndex:1}}>
-            {view === VIEW.HOME && <HomeView onStart={() => { setCi(0); setQi(0); setView(VIEW.INTRO); scroll(); }}/>}
+            {view === VIEW.HOME && <HomeView onStart={() => { if (!user) { setPendingStart(true); setAuthOpen(true); return; } setCi(0); setQi(0); setView(VIEW.INTRO); scroll(); }}/>}
             {view === VIEW.INTRO && <IntroView ci={ci} sc={sc} onBegin={() => { setQi(0); setView(VIEW.Q); scroll(); }} onJump={jumpCat}/>}
             {view === VIEW.Q && (
               <QuestionView
