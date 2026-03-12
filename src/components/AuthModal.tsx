@@ -80,7 +80,7 @@ export default function AuthModal({ open, onClose, onAuth, defaultMode = "login"
           {mode === "login" ? "Welcome Back" : "Create Account"}
         </div>
         <p style={{ ...mono, fontSize: 9, color: T.textDim, textAlign: "center", letterSpacing: "0.15em", marginBottom: 24 }}>
-          {mode === "login" ? "Sign in to resume your assessment" : "Save your progress and get your report"}
+          {mode === "login" ? "Sign in to resume your assessment" : "Create an account to take the assessment"}
         </p>
 
         {error && <div style={{ ...mono, fontSize: 10, color: T.red, background: "rgba(248,113,113,0.08)", border: `1px solid ${T.red}30`, padding: "8px 12px", borderRadius: 3, marginBottom: 14 }}>{error}</div>}
