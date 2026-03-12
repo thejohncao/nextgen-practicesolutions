@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, FileText, Clock } from 'lucide-react';
+import { Plus, FileText, Clock, Database } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { toast } from 'sonner';
+import { seedNarrativeData } from '../lib/seed';
 import type { NarrativePlan, NarrativePatient } from '../types';
 import '../styles/narrative.css';
 
@@ -15,27 +17,40 @@ export default function NarrativeDashboard() {
   const navigate = useNavigate();
   const [plans, setPlans] = useState<PlanWithPatient[]>([]);
   const [loading, setLoading] = useState(true);
+  const [seeding, setSeeding] = useState(false);
+
+  async function fetchPlans() {
+    try {
+      const { data, error } = await supabase
+        .from('narrative_plans' as any)
+        .select('*, narrative_patients(*)')
+        .order('created_at', { ascending: false })
+        .limit(50);
+
+      if (error) throw error;
+      setPlans((data || []) as unknown as PlanWithPatient[]);
+    } catch (err) {
+      console.error('Failed to fetch plans:', err);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   useEffect(() => {
-    async function fetchPlans() {
-      try {
-        const { data, error } = await supabase
-          .from('narrative_plans' as any)
-          .select('*, narrative_patients(*)')
-          .order('created_at', { ascending: false })
-          .limit(50);
-
-        if (error) throw error;
-        setPlans((data || []) as unknown as PlanWithPatient[]);
-      } catch (err) {
-        console.error('Failed to fetch plans:', err);
-      } finally {
-        setLoading(false);
-      }
-    }
-
     fetchPlans();
   }, []);
+
+  async function handleSeed() {
+    setSeeding(true);
+    const result = await seedNarrativeData();
+    if (result.success) {
+      toast.success(result.message);
+      fetchPlans();
+    } else {
+      toast.error(result.message);
+    }
+    setSeeding(false);
+  }
 
   const statusColors: Record<string, string> = {
     draft: 'bg-gray-100 text-gray-600',
@@ -59,13 +74,24 @@ export default function NarrativeDashboard() {
               Treatment acceptance, reimagined
             </p>
           </div>
-          <Button
-            onClick={() => navigate('/narrative/new')}
-            className="bg-narrative-gold hover:bg-narrative-gold-light text-white gap-2 narrative-touch"
-          >
-            <Plus className="w-4 h-4" />
-            New Plan
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              onClick={handleSeed}
+              disabled={seeding}
+              className="gap-2 border-[var(--narrative-border)] text-[var(--narrative-text-secondary)] hover:text-[var(--narrative-text)]"
+            >
+              <Database className="w-4 h-4" />
+              {seeding ? 'Seeding...' : 'Seed Data'}
+            </Button>
+            <Button
+              onClick={() => navigate('/narrative/new')}
+              className="bg-narrative-gold hover:bg-narrative-gold-light text-white gap-2 narrative-touch"
+            >
+              <Plus className="w-4 h-4" />
+              New Plan
+            </Button>
+          </div>
         </div>
 
         {/* Plan List */}
