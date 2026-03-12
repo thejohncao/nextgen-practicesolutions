@@ -91,7 +91,7 @@ const AcademyBusinessModel = () => {
       title: "Channels",
       icon: <Globe className="h-6 w-6" />,
       items: [
-        "nextgenpractice.org/academy",
+        "app.nextgenpractice.org/academy",
         "Direct sales to practices",
         "Job recruitment portals & email funnels"
       ],
