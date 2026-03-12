@@ -1,6 +1,8 @@
 import { usePractice } from '../../context/PracticeContext';
 import { giselleAssets } from '../../data/mock';
+import { GROWTH_KPIS } from '../../data/kpiDefinitions';
 import AuditToggleList from './AuditToggleList';
+import KPIEntrySection from './KPIEntrySection';
 
 export default function StepGiselleAudit() {
   const { getItemEnabled, toggleItem } = usePractice();
@@ -24,6 +26,7 @@ export default function StepGiselleAudit() {
         onToggle={(id) => toggleItem('giselle', id)}
         accentColor="bg-emerald-400"
       />
+      <KPIEntrySection kpis={GROWTH_KPIS} pillarLabel="Growth" color="emerald" />
     </div>
   );
 }

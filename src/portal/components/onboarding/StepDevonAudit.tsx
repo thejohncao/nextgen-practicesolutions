@@ -1,6 +1,8 @@
 import { usePractice } from '../../context/PracticeContext';
 import { devonTools } from '../../data/mock';
+import { DEVELOPMENT_KPIS } from '../../data/kpiDefinitions';
 import AuditToggleList from './AuditToggleList';
+import KPIEntrySection from './KPIEntrySection';
 
 export default function StepDevonAudit() {
   const { getItemEnabled, toggleItem } = usePractice();
@@ -24,6 +26,7 @@ export default function StepDevonAudit() {
         onToggle={(id) => toggleItem('devon', id)}
         accentColor="bg-indigo-400"
       />
+      <KPIEntrySection kpis={DEVELOPMENT_KPIS} pillarLabel="Development" color="indigo" />
     </div>
   );
 }

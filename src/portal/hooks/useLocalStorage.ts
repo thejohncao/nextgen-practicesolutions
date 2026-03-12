@@ -23,6 +23,7 @@ export interface StoredPractice {
     miles: Record<string, boolean>;
     devon: Record<string, boolean>;
     alma: AlmaOnboarding;
+    kpis: Record<string, { current: number | null; target: number | null }>;
   };
 }
 

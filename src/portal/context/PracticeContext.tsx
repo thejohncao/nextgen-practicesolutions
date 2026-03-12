@@ -26,6 +26,8 @@ interface PracticeContextValue {
   getItemEnabled: (pillar: PillarSlug, itemId: string) => boolean;
   toggleAlmaItem: (category: 'programs' | 'rolePaths' | 'sops', id: string) => void;
   getAlmaItemEnabled: (category: 'programs' | 'rolePaths' | 'sops', id: string) => boolean;
+  setKPI: (kpiId: string, field: 'current' | 'target', value: number | null) => void;
+  getKPI: (kpiId: string) => { current: number | null; target: number | null };
 }
 
 const PracticeContext = createContext<PracticeContextValue | null>(null);
@@ -42,6 +44,7 @@ function emptyOnboarding(): StoredPractice['onboarding'] {
     miles: {},
     devon: {},
     alma: { programs: {}, rolePaths: {}, sops: {} },
+    kpis: {},
   };
 }
 
@@ -204,6 +207,35 @@ export function PracticeProvider({ children }: { children: ReactNode }) {
     [active]
   );
 
+  const setKPI = useCallback(
+    (kpiId: string, field: 'current' | 'target', value: number | null) => {
+      update((prev) =>
+        updateActivePractice(prev, (p) => ({
+          ...p,
+          onboarding: {
+            ...p.onboarding,
+            kpis: {
+              ...p.onboarding.kpis,
+              [kpiId]: {
+                ...(p.onboarding.kpis?.[kpiId] ?? { current: null, target: null }),
+                [field]: value,
+              },
+            },
+          },
+        }))
+      );
+    },
+    [update]
+  );
+
+  const getKPI = useCallback(
+    (kpiId: string): { current: number | null; target: number | null } => {
+      if (!active) return { current: null, target: null };
+      return active.onboarding.kpis?.[kpiId] ?? { current: null, target: null };
+    },
+    [active]
+  );
+
   return (
     <PracticeContext.Provider
       value={{
@@ -221,6 +253,8 @@ export function PracticeProvider({ children }: { children: ReactNode }) {
         getItemEnabled,
         toggleAlmaItem,
         getAlmaItemEnabled,
+        setKPI,
+        getKPI,
       }}
     >
       {children}
