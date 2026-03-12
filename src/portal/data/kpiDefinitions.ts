@@ -2,54 +2,56 @@ export interface KPIDefinition {
   id: string;
   label: string;
   unit: string;
-  benchmarkFloor: number;
-  benchmarkTop: number;
+  benchAvg: string;
+  benchTop: string;
+  floor: number;
+  top: number;
   inverted?: boolean;
 }
 
 export const GROWTH_KPIS: KPIDefinition[] = [
-  { id: 'new_patients_per_month', label: 'New Patients / Month', unit: 'count', benchmarkFloor: 15, benchmarkTop: 50 },
-  { id: 'cost_per_acquisition', label: 'Cost per Acquisition', unit: '$', benchmarkFloor: 300, benchmarkTop: 75, inverted: true },
-  { id: 'google_ads_roas', label: 'Google Ads ROAS', unit: 'x', benchmarkFloor: 2, benchmarkTop: 8 },
-  { id: 'meta_ads_roas', label: 'Meta Ads ROAS', unit: 'x', benchmarkFloor: 1.5, benchmarkTop: 6 },
-  { id: 'website_conversion_rate', label: 'Website Conversion Rate', unit: '%', benchmarkFloor: 2, benchmarkTop: 8 },
-  { id: 'google_reviews_count', label: 'Google Reviews', unit: 'count', benchmarkFloor: 50, benchmarkTop: 300 },
-  { id: 'google_star_rating', label: 'Google Star Rating', unit: 'stars', benchmarkFloor: 3.5, benchmarkTop: 4.9 },
-  { id: 'referral_percentage', label: 'Referral %', unit: '%', benchmarkFloor: 10, benchmarkTop: 40 },
-  { id: 'social_followers', label: 'Social Followers', unit: 'count', benchmarkFloor: 500, benchmarkTop: 5000 },
-  { id: 'email_open_rate', label: 'Email Open Rate', unit: '%', benchmarkFloor: 15, benchmarkTop: 35 },
-  { id: 'monthly_marketing_spend', label: 'Monthly Marketing Spend', unit: '$', benchmarkFloor: 1000, benchmarkTop: 10000 },
+  { id: 'new_patient_leads', label: 'New Patient Leads / Month', unit: '#', benchAvg: '20–30', benchTop: '50–80+', floor: 25, top: 65 },
+  { id: 'lead_to_appt_rate', label: 'Lead-to-Appointment Rate', unit: '%', benchAvg: '30–40%', benchTop: '60–70%', floor: 35, top: 65 },
+  { id: 'new_patients_booked', label: 'New Patients Booked / Month', unit: '#', benchAvg: '15–25', benchTop: '40–65', floor: 20, top: 52 },
+  { id: 'new_patient_show_rate', label: 'New Patient Show Rate', unit: '%', benchAvg: '80–85%', benchTop: '92–95%', floor: 82, top: 93 },
+  { id: 'new_patient_noshow_rate', label: 'New Patient No-Show Rate', unit: '%', benchAvg: '15–20%', benchTop: '5–8%', floor: 17, top: 6, inverted: true },
+  { id: 'cost_per_lead', label: 'Cost Per Lead', unit: '$', benchAvg: '$50–$150', benchTop: '$25–$50', floor: 100, top: 37, inverted: true },
+  { id: 'cost_per_acquisition', label: 'Cost Per Acquisition', unit: '$', benchAvg: '$200–$500', benchTop: '$80–$150', floor: 350, top: 115, inverted: true },
+  { id: 'google_reviews', label: 'Google Reviews (Count)', unit: '#', benchAvg: '50–100', benchTop: '300+', floor: 75, top: 300 },
+  { id: 'google_rating', label: 'Google Rating', unit: '★', benchAvg: '4.2–4.5', benchTop: '4.8–5.0', floor: 4.35, top: 4.9 },
+  { id: 'website_conversion_rate', label: 'Website Conversion Rate', unit: '%', benchAvg: '2–4%', benchTop: '6–10%', floor: 3, top: 8 },
+  { id: 'referral_rate', label: 'Referral Rate', unit: '%', benchAvg: '15–25%', benchTop: '30–40%', floor: 20, top: 35 },
 ];
 
 export const MANAGEMENT_KPIS: KPIDefinition[] = [
-  { id: 'speed_to_lead', label: 'Speed to Lead', unit: 'min', benchmarkFloor: 60, benchmarkTop: 5, inverted: true },
-  { id: 'answer_rate', label: 'Phone Answer Rate', unit: '%', benchmarkFloor: 60, benchmarkTop: 95 },
-  { id: 'booking_rate', label: 'Booking Rate', unit: '%', benchmarkFloor: 40, benchmarkTop: 80 },
-  { id: 'no_show_rate', label: 'No-Show Rate', unit: '%', benchmarkFloor: 15, benchmarkTop: 3, inverted: true },
-  { id: 'cancellation_rate', label: 'Cancellation Rate', unit: '%', benchmarkFloor: 12, benchmarkTop: 3, inverted: true },
-  { id: 'recall_rate', label: 'Recall / Reappointment Rate', unit: '%', benchmarkFloor: 60, benchmarkTop: 92 },
-  { id: 'patient_retention_rate', label: 'Patient Retention Rate', unit: '%', benchmarkFloor: 70, benchmarkTop: 95 },
-  { id: 'active_patients', label: 'Active Patient Count', unit: 'count', benchmarkFloor: 800, benchmarkTop: 2500 },
-  { id: 'monthly_collections', label: 'Monthly Collections', unit: '$', benchmarkFloor: 80000, benchmarkTop: 250000 },
-  { id: 'production_per_visit', label: 'Production per Visit', unit: '$', benchmarkFloor: 250, benchmarkTop: 600 },
-  { id: 'overhead_percentage', label: 'Overhead %', unit: '%', benchmarkFloor: 70, benchmarkTop: 55, inverted: true },
-  { id: 'collections_ratio', label: 'Collections Ratio', unit: '%', benchmarkFloor: 90, benchmarkTop: 99 },
-  { id: 'days_in_ar', label: 'Days in A/R', unit: 'days', benchmarkFloor: 45, benchmarkTop: 14, inverted: true },
-  { id: 'schedule_utilization', label: 'Schedule Utilization', unit: '%', benchmarkFloor: 70, benchmarkTop: 95 },
-  { id: 'hygiene_reappointment', label: 'Hygiene Reappointment %', unit: '%', benchmarkFloor: 75, benchmarkTop: 95 },
-  { id: 'treatment_plan_count', label: 'Unscheduled Treatment Plans', unit: 'count', benchmarkFloor: 200, benchmarkTop: 50, inverted: true },
-  { id: 'average_wait_time', label: 'Average Wait Time', unit: 'min', benchmarkFloor: 20, benchmarkTop: 5, inverted: true },
+  { id: 'monthly_collections', label: 'Monthly Collections', unit: '$', benchAvg: '$150k–$250k', benchTop: '$400k+', floor: 200000, top: 400000 },
+  { id: 'monthly_production', label: 'Monthly Production', unit: '$', benchAvg: '$160k–$270k', benchTop: '$425k+', floor: 215000, top: 425000 },
+  { id: 'collection_rate', label: 'Collection Rate', unit: '%', benchAvg: '95–97%', benchTop: '98–99%+', floor: 96, top: 98.5 },
+  { id: 'avg_production_per_visit', label: 'Avg Production Per Visit', unit: '$', benchAvg: '$250–$400', benchTop: '$500–$700', floor: 325, top: 600 },
+  { id: 'schedule_utilization', label: 'Schedule Utilization', unit: '%', benchAvg: '85–90%', benchTop: '94–97%', floor: 87, top: 95 },
+  { id: 'hygiene_schedule_weeks', label: 'Hygiene Schedule (Weeks Out)', unit: 'wks', benchAvg: '2–4', benchTop: '6–8', floor: 3, top: 7 },
+  { id: 'doctor_schedule_weeks', label: 'Doctor Schedule (Weeks Out)', unit: 'wks', benchAvg: '1–2', benchTop: '3–5', floor: 1.5, top: 4 },
+  { id: 'speed_to_lead', label: 'Speed to Lead (Minutes)', unit: 'min', benchAvg: '240–480', benchTop: '<5', floor: 360, top: 5, inverted: true },
+  { id: 'missed_calls', label: 'Missed / Unanswered Calls', unit: '%', benchAvg: '25–35%', benchTop: '<10%', floor: 30, top: 10, inverted: true },
+  { id: 'same_day_acceptance', label: 'Same-Day Treatment Acceptance', unit: '%', benchAvg: '30–40%', benchTop: '60–75%', floor: 35, top: 67 },
+  { id: 'overall_treatment_acceptance', label: 'Overall Treatment Acceptance', unit: '%', benchAvg: '40–55%', benchTop: '75–85%', floor: 47, top: 80 },
+  { id: 'unscheduled_treatment', label: 'Unscheduled Treatment', unit: '$', benchAvg: '$200k–$400k', benchTop: '<$80k', floor: 300000, top: 80000, inverted: true },
+  { id: 'recall_compliance', label: 'Recall Compliance Rate', unit: '%', benchAvg: '60–70%', benchTop: '85–92%', floor: 65, top: 88 },
+  { id: 'reactivation_rate', label: 'Reactivation Rate', unit: '%', benchAvg: '5–10%', benchTop: '20–30%', floor: 7.5, top: 25 },
+  { id: 'cancellation_rate', label: 'Cancellation Rate', unit: '%', benchAvg: '10–15%', benchTop: '<5%', floor: 12, top: 5, inverted: true },
+  { id: 'noshow_rate_all', label: 'No-Show Rate (All Patients)', unit: '%', benchAvg: '8–12%', benchTop: '<3%', floor: 10, top: 3, inverted: true },
+  { id: 'accounts_receivable_days', label: 'Accounts Receivable (Days)', unit: 'days', benchAvg: '30–45', benchTop: '<20', floor: 37, top: 20, inverted: true },
 ];
 
 export const DEVELOPMENT_KPIS: KPIDefinition[] = [
-  { id: 'case_acceptance_rate', label: 'Case Acceptance Rate', unit: '%', benchmarkFloor: 40, benchmarkTop: 85 },
-  { id: 'average_case_value', label: 'Average Case Value', unit: '$', benchmarkFloor: 800, benchmarkTop: 3000 },
-  { id: 'treatment_presented', label: 'Treatment Presented / Month', unit: '$', benchmarkFloor: 100000, benchmarkTop: 400000 },
-  { id: 'pending_treatment_value', label: 'Pending Treatment Value', unit: '$', benchmarkFloor: 200000, benchmarkTop: 1000000 },
-  { id: 'follow_up_rate', label: 'Follow-Up Contact Rate', unit: '%', benchmarkFloor: 30, benchmarkTop: 80 },
-  { id: 'financing_utilization', label: 'Financing Utilization', unit: '%', benchmarkFloor: 10, benchmarkTop: 40 },
-  { id: 'restorative_per_hygiene', label: 'Restorative per Hygiene Visit', unit: '$', benchmarkFloor: 100, benchmarkTop: 350 },
-  { id: 'same_day_treatment', label: 'Same-Day Treatment %', unit: '%', benchmarkFloor: 15, benchmarkTop: 45 },
+  { id: 'high_value_case_acceptance', label: 'High-Value Case Acceptance', unit: '%', benchAvg: '25–35%', benchTop: '55–70%', floor: 30, top: 62 },
+  { id: 'avg_case_value_presented', label: 'Avg Case Value Presented', unit: '$', benchAvg: '$3k–$5k', benchTop: '$6k–$10k', floor: 4000, top: 8000 },
+  { id: 'avg_case_value_accepted', label: 'Avg Case Value Accepted', unit: '$', benchAvg: '$1.5k–$2.5k', benchTop: '$4k–$6k', floor: 2000, top: 5000 },
+  { id: 'fd_booking_conversion', label: 'FD Booking Conversion', unit: '%', benchAvg: '50–60%', benchTop: '80–90%', floor: 55, top: 85 },
+  { id: 'tc_presentation_close', label: 'TC Presentation-to-Close', unit: '%', benchAvg: '40–50%', benchTop: '70–80%', floor: 45, top: 75 },
+  { id: 'patient_satisfaction', label: 'Patient Satisfaction Score', unit: '/10', benchAvg: '7–8', benchTop: '9.5+', floor: 7.5, top: 9.5 },
+  { id: 'team_turnover_rate', label: 'Team Turnover Rate', unit: '%', benchAvg: '20–30%', benchTop: '<10%', floor: 25, top: 10, inverted: true },
+  { id: 'training_hours', label: 'Training Hours / Month', unit: 'hrs', benchAvg: '1–2', benchTop: '4–6', floor: 1.5, top: 5 },
 ];
 
 export const ALL_KPIS = {

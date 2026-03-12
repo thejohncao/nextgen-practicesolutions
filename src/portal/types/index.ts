@@ -9,6 +9,11 @@ export interface Practice {
   ownerName: string;
   ownerEmail: string;
   plan: string;
+  phone: string;
+  pms: string;
+  providers: string;
+  specialties: string;
+  yearsInOperation: string;
   onboardedAt: string;
   logoUrl?: string;
 }
