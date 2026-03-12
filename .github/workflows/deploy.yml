@@ -24,6 +24,12 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+      - name: Build marketing site
+        run: |
+          cd site
+          npm ci
+          npm run build
+          cp -r out ../dist/site
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
