@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+const NarrativePage = lazy(() => import('./pages/Narrative'));
 import App from './App.tsx';
 import { PracticeProvider } from './portal/context/PracticeContext';
 import PortalShell from './portal/components/PortalShell';
@@ -24,6 +26,9 @@ createRoot(document.getElementById("root")!).render(
       <Routes>
         {/* Landing page (used by Lovable) */}
         <Route path="/" element={<App />} />
+
+        {/* Narrative product page */}
+        <Route path="/narrative" element={<Suspense fallback={null}><NarrativePage /></Suspense>} />
 
         {/* NextGen Portal — wrapped in PracticeProvider */}
         <Route path="/portal/login" element={<PortalLogin />} />
