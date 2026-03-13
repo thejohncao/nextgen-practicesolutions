@@ -1178,10 +1178,10 @@ function ReportView({sc, onBack}: {sc:ScoreData;onBack:()=>void}) {
                   <a href={portalUrl} style={{display:"inline-block",padding:"14px 28px",background:"#C9A84C",color:"#1B2A4A",fontWeight:700,fontSize:11,letterSpacing:"0.1em",textDecoration:"none",borderRadius:4,textTransform:"uppercase"}}>Start Your Practice Roadmap →</a>
                   <button onClick={()=>window.print()} style={{padding:"14px 28px",background:"transparent",border:"1px solid rgba(201,168,76,0.4)",color:"#C9A84C",fontSize:11,letterSpacing:"0.1em",cursor:"pointer",borderRadius:4,textTransform:"uppercase"}}>Download PDF ↓</button>
                 </div>
-                <div style={{fontSize:9,color:"rgba(255,255,255,0.25)",marginTop:14,letterSpacing:"0.1em"}}>nextgenpractice.org/portal</div>
+                <div style={{fontSize:9,color:"rgba(255,255,255,0.25)",marginTop:14,letterSpacing:"0.1em"}}>app.nextgenpractice.org/portal</div>
               </div>
 
-              <div style={{textAlign:"center",marginTop:24,fontSize:10,color:"#9CA3AF"}}>NextGen Practice Solutions · nextgenpractice.org</div>
+              <div style={{textAlign:"center",marginTop:24,fontSize:10,color:"#9CA3AF"}}>NextGen Practice Solutions · app.nextgenpractice.org</div>
             </div>
           </>
         );
@@ -1383,7 +1383,7 @@ export default function App() {
                 <span style={{color:"rgba(245,166,35,0.4)"}}>■</span> Giselle · Miles · Devon
               </div>
               <div style={{fontSize:8,color:T.textDim,letterSpacing:"0.15em",textTransform:"uppercase",textAlign:"right"}}>
-                nextgenpractice.org<br/>
+                app.nextgenpractice.org<br/>
                 <span style={{color:T.amberBorder}}>100-Point Practice Assessment</span>
               </div>
             </div>

@@ -363,7 +363,7 @@ function exportPDF(
   </div>
 
   <div class="footer">
-    <span>NextGen Practice Solutions · nextgenpractice.org</span>
+    <span>NextGen Practice Solutions · app.nextgenpractice.org</span>
     <span>Confidential · For Internal Use Only</span>
   </div>
 </body></html>`;

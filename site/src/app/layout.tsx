@@ -3,7 +3,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import "./globals.css";
 
-const siteUrl = "https://thejohncao.github.io/nextgen-practicesolutions/site";
+const siteUrl = "https://nextgenpractice.org";
 
 export const metadata: Metadata = {
   title: {
