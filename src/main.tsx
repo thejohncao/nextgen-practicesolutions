@@ -22,6 +22,35 @@ import SettingsPage from './portal/pages/SettingsPage';
 import AdminLayout from './admin/components/AdminLayout';
 import AdminPracticeList from './admin/pages/AdminPracticeList';
 import AdminPracticeDetail from './admin/pages/AdminPracticeDetail';
+import Academy from './pages/Academy';
+import AcademyBusinessModel from './pages/AcademyBusinessModel';
+import AcademyCertification from './pages/AcademyCertification';
+import AcademyCurriculum from './pages/AcademyCurriculum';
+import Agents from './pages/Agents';
+import AiDemo from './pages/AiDemo';
+import AiTeam from './pages/AiTeam';
+import Animations from './pages/Animations';
+import Boardroom from './pages/Boardroom';
+import Certifications from './pages/Certifications';
+import Demo from './pages/Demo';
+import Features from './pages/Features';
+import IndexPage from './pages/Index';
+import Integrations from './pages/Integrations';
+import Join from './pages/Join';
+import Juv from './pages/Juv';
+import KitDetail from './pages/KitDetail';
+import KitsIndex from './pages/KitsIndex';
+import NewHomepage from './pages/NewHomepage';
+import NextGenHomeV2 from './pages/NextGenHomeV2';
+import NextGenOS from './pages/NextGenOS';
+import NotFound from './pages/NotFound';
+import Pricing from './pages/Pricing';
+import Privacy from './pages/Privacy';
+import Resources from './pages/Resources';
+import Security from './pages/Security';
+import Solutions from './pages/Solutions';
+import Story from './pages/Story';
+import Watch from './pages/Watch';
 import './index.css';
 
 const basename = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -32,6 +61,36 @@ createRoot(document.getElementById("root")!).render(
       <Routes>
         {/* Landing page */}
         <Route path="/" element={<App />} />
+
+        {/* Marketing / public pages */}
+        <Route path="/academy" element={<Academy />} />
+        <Route path="/academy/business-model" element={<AcademyBusinessModel />} />
+        <Route path="/academy/certification" element={<AcademyCertification />} />
+        <Route path="/academy/curriculum" element={<AcademyCurriculum />} />
+        <Route path="/agents" element={<Agents />} />
+        <Route path="/ai-demo" element={<AiDemo />} />
+        <Route path="/ai-team" element={<AiTeam />} />
+        <Route path="/animations" element={<Animations />} />
+        <Route path="/boardroom" element={<Boardroom />} />
+        <Route path="/certifications" element={<Certifications />} />
+        <Route path="/demo" element={<Demo />} />
+        <Route path="/features" element={<Features />} />
+        <Route path="/home" element={<IndexPage />} />
+        <Route path="/integrations" element={<Integrations />} />
+        <Route path="/join" element={<Join />} />
+        <Route path="/juv" element={<Juv />} />
+        <Route path="/kits" element={<KitsIndex />} />
+        <Route path="/kits/:kitId" element={<KitDetail />} />
+        <Route path="/new-homepage" element={<NewHomepage />} />
+        <Route path="/nextgen-home-v2" element={<NextGenHomeV2 />} />
+        <Route path="/nextgen-os" element={<NextGenOS />} />
+        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/resources/*" element={<Resources />} />
+        <Route path="/security" element={<Security />} />
+        <Route path="/solutions" element={<Solutions />} />
+        <Route path="/story" element={<Story />} />
+        <Route path="/watch" element={<Watch />} />
 
         {/* Auth pages — no guard */}
         <Route path="/portal/login" element={<PortalAuthProvider><PortalLogin /></PortalAuthProvider>} />
@@ -73,6 +132,8 @@ createRoot(document.getElementById("root")!).render(
           <Route index element={<AdminPracticeList />} />
           <Route path=":userId" element={<AdminPracticeDetail />} />
         </Route>
+        {/* 404 catch-all */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
