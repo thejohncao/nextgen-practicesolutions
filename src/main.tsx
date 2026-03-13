@@ -19,6 +19,7 @@ import AlmaPage from './portal/pages/AlmaPage';
 import TimelinePage from './portal/pages/TimelinePage';
 import RequestsPage from './portal/pages/RequestsPage';
 import SettingsPage from './portal/pages/SettingsPage';
+import TeamPage from './portal/pages/TeamPage';
 import AdminLayout from './admin/components/AdminLayout';
 import AdminPracticeList from './admin/pages/AdminPracticeList';
 import AdminPracticeDetail from './admin/pages/AdminPracticeDetail';
@@ -72,6 +73,7 @@ createRoot(document.getElementById("root")!).render(
           <Route path="miles" element={<MilesPage />} />
           <Route path="devon" element={<DevonPage />} />
           <Route path="alma" element={<AlmaPage />} />
+          <Route path="team" element={<TeamPage />} />
           <Route path="timeline" element={<TimelinePage />} />
           <Route path="requests" element={<RequestsPage />} />
           <Route path="settings" element={<SettingsPage />} />
