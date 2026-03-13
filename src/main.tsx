@@ -32,6 +32,7 @@ import CheckoutPage from './narrative/pages/CheckoutPage';
 import DecisionPage from './narrative/pages/DecisionPage';
 import ExportPage from './narrative/pages/ExportPage';
 import CaseAcceptanceAssessmentPage from './pages/CaseAcceptanceAssessment';
+import AssessmentsHub from './pages/AssessmentsHub';
 import './index.css';
 
 const basename = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -44,6 +45,7 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/" element={<App />} />
 
         {/* Assessments */}
+        <Route path="/assessments" element={<AssessmentsHub />} />
         <Route path="/assessments/case-acceptance" element={<CaseAcceptanceAssessmentPage />} />
 
         {/* Auth pages — no guard */}
