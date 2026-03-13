@@ -11,6 +11,7 @@ import {
   LogOut,
   Shield,
   Presentation,
+  Users,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { usePortalAuth } from '../context/PortalAuthContext';
@@ -21,6 +22,7 @@ const navItems = [
   { label: 'Miles / Management', icon: Settings2, path: '/portal/miles', accent: 'text-rose-400' },
   { label: 'Devon / Development', icon: GraduationCap, path: '/portal/devon', accent: 'text-indigo-400' },
   { label: 'Alma / Academy', icon: BookOpen, path: '/portal/alma', accent: 'text-amber-400' },
+  { label: 'Agent Team', icon: Users, path: '/portal/team', accent: 'text-cyan-400' },
   { label: 'Timeline', icon: Clock, path: '/portal/timeline' },
   { label: 'Requests', icon: MessageSquarePlus, path: '/portal/requests' },
   { label: 'Settings', icon: Settings, path: '/portal/settings' },
