@@ -26,6 +26,8 @@ export default {
         sans: ['SF Pro Display', 'Inter', 'sans-serif'],
         heading: ['SF Pro Display', 'Montserrat', 'sans-serif'],
         display: ['Cormorant Garamond', 'Georgia', 'serif'],
+        'serif-display': ['Instrument Serif', 'Georgia', 'serif'],
+        dm: ['DM Sans', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
       },
       colors: {
         border: 'hsl(var(--border))',
@@ -121,6 +123,29 @@ export default {
           'phase-1': '#E85D5D',
           'phase-2': '#B68D40',
           'phase-3': '#8B8B8B',
+        },
+        // Case Acceptance Assessment
+        'ca': {
+          steel: '#2D5A7B',
+          'steel-light': '#3A7299',
+          'steel-dim': 'rgba(45,90,123,0.08)',
+          teal: '#4EADC5',
+          'teal-dim': 'rgba(78,173,197,0.12)',
+          amber: '#C9A86A',
+          'amber-dim': 'rgba(201,168,106,0.12)',
+          red: '#C45B5B',
+          'red-dim': 'rgba(196,91,91,0.08)',
+          green: '#3A8B5C',
+          'green-dim': 'rgba(58,139,92,0.08)',
+          navy: '#0F1A24',
+          bg: '#F8FAFB',
+          'bg-deep': '#EEF2F5',
+          card: '#FFFFFF',
+          text: '#1A2B3C',
+          'text-soft': '#5A6B7C',
+          'text-muted': '#8A9BAC',
+          border: '#DDE4EA',
+          'border-light': '#EEF2F5',
         },
         // Portal dark theme
         'portal': {
