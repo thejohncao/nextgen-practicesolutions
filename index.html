@@ -31,7 +31,7 @@
           var decoded = redirect[1].split('&').map(function(s) {
             return s.replace(/~and~/g, '&');
           }).join('?');
-          var base = '/nextgen-practicesolutions/';
+          var base = '/';
           window.history.replaceState(null, null,
             base + decoded + window.location.hash
           );
