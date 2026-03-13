@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, FileText, Clock, Database } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { toast } from 'sonner';
-import { seedNarrativeData } from '../lib/seed';
+import * as demoStore from '../lib/demoStore';
 import type { NarrativePlan, NarrativePatient } from '../types';
 import '../styles/narrative.css';
 
@@ -19,16 +18,9 @@ export default function NarrativeDashboard() {
   const [loading, setLoading] = useState(true);
   const [seeding, setSeeding] = useState(false);
 
-  async function fetchPlans() {
+  function fetchPlans() {
     try {
-      const { data, error } = await supabase
-        .from('narrative_plans' as any)
-        .select('*, narrative_patients(*)')
-        .order('created_at', { ascending: false })
-        .limit(50);
-
-      if (error) throw error;
-      setPlans((data || []) as unknown as PlanWithPatient[]);
+      setPlans(demoStore.getPlansWithPatients() as PlanWithPatient[]);
     } catch (err) {
       console.error('Failed to fetch plans:', err);
     } finally {
@@ -40,14 +32,14 @@ export default function NarrativeDashboard() {
     fetchPlans();
   }, []);
 
-  async function handleSeed() {
+  function handleSeed() {
     setSeeding(true);
-    const result = await seedNarrativeData();
-    if (result.success) {
-      toast.success(result.message);
+    try {
+      demoStore.resetToSeed();
+      toast.success('Sample data reset — 5 patients with treatment plans loaded.');
       fetchPlans();
-    } else {
-      toast.error(result.message);
+    } catch (err) {
+      toast.error('Failed to seed data');
     }
     setSeeding(false);
   }

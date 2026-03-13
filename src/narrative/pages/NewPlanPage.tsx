@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import * as demoStore from '../lib/demoStore';
 import type { InsuranceStatus } from '../types';
 import '../styles/narrative.css';
 
@@ -26,7 +26,7 @@ export default function NewPlanPage() {
     { value: 'membership', label: 'Membership', description: 'Practice membership plan' },
   ];
 
-  async function handleSubmit(e: React.FormEvent) {
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     if (!form.firstName.trim() || !form.lastName.trim()) {
@@ -36,72 +36,29 @@ export default function NewPlanPage() {
 
     setSubmitting(true);
 
-    // Timeout helper to prevent hanging forever if tables don't exist
-    function withTimeout<T>(promise: PromiseLike<T>, ms: number, label: string): Promise<T> {
-      return new Promise<T>((resolve, reject) => {
-        const timer = setTimeout(
-          () => reject(new Error(`${label} timed out — narrative tables may not exist. Check Supabase migrations.`)),
-          ms
-        );
-        Promise.resolve(promise).then(
-          (val) => { clearTimeout(timer); resolve(val); },
-          (err) => { clearTimeout(timer); reject(err); },
-        );
-      });
-    }
-
     try {
-      // Get current user's practice_id
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
+      const patient = demoStore.createPatient({
+        practice_id: 'demo-practice-001',
+        first_name: form.firstName.trim(),
+        last_name: form.lastName.trim(),
+        phone: form.phone.trim() || null,
+        email: form.email.trim() || null,
+        insurance_status: form.insuranceStatus,
+        membership_tier: null,
+      });
 
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('practice_id')
-        .eq('id', user.id)
-        .single();
-
-      if (!profile?.practice_id) throw new Error('No practice found');
-
-      // Create patient
-      const { data: patient, error: patientError } = await withTimeout(
-        supabase
-          .from('narrative_patients' as any)
-          .insert({
-            practice_id: profile.practice_id,
-            first_name: form.firstName.trim(),
-            last_name: form.lastName.trim(),
-            phone: form.phone.trim() || null,
-            email: form.email.trim() || null,
-            insurance_status: form.insuranceStatus,
-          })
-          .select()
-          .single(),
-        10_000,
-        'Create patient'
-      );
-
-      if (patientError) throw patientError;
-
-      // Create plan
-      const { data: plan, error: planError } = await withTimeout(
-        supabase
-          .from('narrative_plans' as any)
-          .insert({
-            patient_id: (patient as any).id,
-            practice_id: profile.practice_id,
-            status: 'draft',
-          })
-          .select()
-          .single(),
-        10_000,
-        'Create plan'
-      );
-
-      if (planError) throw planError;
+      const plan = demoStore.createPlan({
+        patient_id: patient.id,
+        practice_id: 'demo-practice-001',
+        provider_name: 'Dr. Kansagra',
+        status: 'draft',
+        decision_at: null,
+        signature_data: null,
+        notes: null,
+      });
 
       toast.success('Plan created');
-      navigate(`/narrative/${(plan as any).id}/build`);
+      navigate(`/narrative/${plan.id}/build`);
     } catch (err: any) {
       console.error('Failed to create plan:', err);
       toast.error(err?.message || 'Failed to create plan');

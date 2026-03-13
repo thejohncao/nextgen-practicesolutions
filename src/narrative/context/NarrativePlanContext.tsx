@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
-import { supabase } from '@/integrations/supabase/client';
+import * as demoStore from '../lib/demoStore';
 import type {
   NarrativePlan,
   NarrativePlanItem,
@@ -7,7 +7,6 @@ import type {
   NarrativeMode,
   Phase,
   PhaseGroup,
-  PHASE_CONFIG,
 } from '../types';
 
 interface NarrativePlanContextValue {
@@ -43,48 +42,24 @@ export function NarrativePlanProvider({
 
   // Fetch plan + patient
   useEffect(() => {
-    async function fetchPlan() {
-      setLoading(true);
-      try {
-        const { data: planData, error: planError } = await supabase
-          .from('narrative_plans' as any)
-          .select('*')
-          .eq('id', planId)
-          .single();
-
-        if (planError) throw planError;
-        setPlan(planData as unknown as NarrativePlan);
-
-        if ((planData as any)?.patient_id) {
-          const { data: patientData } = await supabase
-            .from('narrative_patients' as any)
-            .select('*')
-            .eq('id', (planData as any).patient_id)
-            .single();
-
-          setPatient(patientData as unknown as NarrativePatient);
-        }
-      } catch (err) {
-        console.error('Failed to fetch plan:', err);
-      } finally {
-        setLoading(false);
+    setLoading(true);
+    try {
+      const planData = demoStore.getPlan(planId);
+      setPlan(planData);
+      if (planData?.patient_id) {
+        setPatient(demoStore.getPatient(planData.patient_id));
       }
+    } catch (err) {
+      console.error('Failed to fetch plan:', err);
+    } finally {
+      setLoading(false);
     }
-
-    fetchPlan();
   }, [planId]);
 
   // Fetch plan items
   const refreshItems = useCallback(async () => {
     try {
-      const { data, error } = await supabase
-        .from('narrative_plan_items' as any)
-        .select('*')
-        .eq('plan_id', planId)
-        .order('created_at', { ascending: true });
-
-      if (error) throw error;
-      setItems((data || []) as unknown as NarrativePlanItem[]);
+      setItems(demoStore.getItemsForPlan(planId));
     } catch (err) {
       console.error('Failed to fetch plan items:', err);
     }
@@ -97,11 +72,7 @@ export function NarrativePlanProvider({
   const addItem = useCallback(
     async (item: Omit<NarrativePlanItem, 'id' | 'plan_id' | 'created_at'>) => {
       try {
-        const { error } = await supabase
-          .from('narrative_plan_items' as any)
-          .insert({ ...item, plan_id: planId } as any);
-
-        if (error) throw error;
+        demoStore.addItem({ ...item, plan_id: planId });
         await refreshItems();
       } catch (err) {
         console.error('Failed to add item:', err);
@@ -114,12 +85,7 @@ export function NarrativePlanProvider({
   const updateItem = useCallback(
     async (id: string, updates: Partial<NarrativePlanItem>) => {
       try {
-        const { error } = await supabase
-          .from('narrative_plan_items' as any)
-          .update(updates as any)
-          .eq('id', id);
-
-        if (error) throw error;
+        demoStore.updateItem(id, updates);
         await refreshItems();
       } catch (err) {
         console.error('Failed to update item:', err);
@@ -132,12 +98,7 @@ export function NarrativePlanProvider({
   const removeItem = useCallback(
     async (id: string) => {
       try {
-        const { error } = await supabase
-          .from('narrative_plan_items' as any)
-          .delete()
-          .eq('id', id);
-
-        if (error) throw error;
+        demoStore.removeItem(id);
         await refreshItems();
       } catch (err) {
         console.error('Failed to remove item:', err);
@@ -150,12 +111,7 @@ export function NarrativePlanProvider({
   const updatePlan = useCallback(
     async (updates: Partial<NarrativePlan>) => {
       try {
-        const { error } = await supabase
-          .from('narrative_plans' as any)
-          .update(updates as any)
-          .eq('id', planId);
-
-        if (error) throw error;
+        demoStore.updatePlan(planId, updates);
         setPlan((prev) => (prev ? { ...prev, ...updates } : prev));
       } catch (err) {
         console.error('Failed to update plan:', err);
