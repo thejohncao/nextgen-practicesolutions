@@ -23,14 +23,14 @@ interface SeedPlanItem {
   duration_minutes: number;
 }
 
-interface SeedPlan {
+export interface SeedPlan {
   patient: SeedPatient;
   status: string;
   provider_name?: string;
   items: SeedPlanItem[];
 }
 
-const SEED_PLANS: SeedPlan[] = [
+export const SEED_PLANS: SeedPlan[] = [
   {
     patient: {
       first_name: 'Maria',
