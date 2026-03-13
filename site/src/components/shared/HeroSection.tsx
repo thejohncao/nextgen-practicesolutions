@@ -28,11 +28,11 @@ export function HeroSection({
       <div
         className={`mx-auto max-w-4xl ${centered ? "text-center" : ""}`}
       >
-        <h1 className="text-4xl font-normal tracking-tight md:text-5xl lg:text-6xl">
+        <h1 className="text-4xl font-normal tracking-tight text-[var(--color-text-primary)] md:text-5xl lg:text-6xl">
           {headline}
         </h1>
         {subheadline && (
-          <p className="mt-6 text-lg text-[var(--color-text-soft)] md:text-xl max-w-2xl mx-auto">
+          <p className="mt-6 text-lg text-[var(--color-text-secondary)] md:text-xl max-w-2xl mx-auto">
             {subheadline}
           </p>
         )}
@@ -43,7 +43,7 @@ export function HeroSection({
                 href={primaryCTA.href}
                 target={primaryCTA.external ? "_blank" : undefined}
                 rel={primaryCTA.external ? "noopener noreferrer" : undefined}
-                className="inline-flex h-12 items-center justify-center rounded-lg bg-[var(--color-primary)] px-8 text-sm font-medium text-white transition-colors hover:bg-[var(--color-primary-light)]"
+                className="inline-flex h-12 items-center justify-center rounded-lg bg-[var(--color-accent)] px-8 text-sm font-semibold text-white transition-colors hover:bg-[var(--color-accent-hover)]"
               >
                 {primaryCTA.label}
               </Link>
@@ -53,7 +53,7 @@ export function HeroSection({
                 href={secondaryCTA.href}
                 target={secondaryCTA.external ? "_blank" : undefined}
                 rel={secondaryCTA.external ? "noopener noreferrer" : undefined}
-                className="inline-flex h-12 items-center justify-center rounded-lg border border-[var(--color-border)] px-8 text-sm font-medium transition-colors hover:bg-[var(--color-background-deep)]"
+                className="inline-flex h-12 items-center justify-center rounded-lg border border-[var(--color-border-secondary)] px-8 text-sm font-medium text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-bg-tertiary)] hover:text-[var(--color-text-primary)]"
               >
                 {secondaryCTA.label}
               </Link>
