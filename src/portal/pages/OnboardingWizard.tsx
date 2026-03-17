@@ -23,8 +23,9 @@ export default function OnboardingWizard() {
   const navigate = useNavigate();
   const { onboardingState, setOnboardingStep, completeOnboarding, isDemo, createPractice } = usePractice();
 
-  // Determine the current step — for new practices (demo mode), start at 0
-  const step = onboardingState?.currentStep ?? 0;
+  // If practice already exists (not demo), skip step 0 (practice info) — start at 1
+  const minStep = isDemo ? 0 : 1;
+  const step = Math.max(onboardingState?.currentStep ?? minStep, minStep);
   const StepComponent = STEP_COMPONENTS[step] || STEP_COMPONENTS[0];
   const isLast = step === STEP_COMPONENTS.length - 1;
 
@@ -65,7 +66,7 @@ export default function OnboardingWizard() {
   };
 
   const handleBack = () => {
-    if (step > 0) setOnboardingStep(step - 1);
+    if (step > minStep) setOnboardingStep(step - 1);
   };
 
   return (
@@ -116,7 +117,7 @@ export default function OnboardingWizard() {
           <div className="border-t border-white/[0.06] px-6 md:px-12 py-4 flex items-center justify-between flex-shrink-0">
             <button
               onClick={handleBack}
-              disabled={step === 0}
+              disabled={step === minStep}
               className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-[#9CA3AF] hover:bg-white/[0.06] disabled:opacity-30 disabled:cursor-not-allowed transition"
             >
               <ArrowLeft className="w-4 h-4" />

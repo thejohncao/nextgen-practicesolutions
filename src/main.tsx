@@ -11,6 +11,7 @@ import PortalSignup from './portal/pages/PortalSignup';
 import ForgotPassword from './portal/pages/ForgotPassword';
 import ResetPassword from './portal/pages/ResetPassword';
 import OnboardingWizard from './portal/pages/OnboardingWizard';
+import CreatePractice from './portal/pages/CreatePractice';
 import PortalDashboard from './portal/pages/Dashboard';
 import GisellePage from './portal/pages/GisellePage';
 import MilesPage from './portal/pages/MilesPage';
@@ -54,6 +55,17 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/portal/signup" element={<PortalAuthProvider><PortalSignup /></PortalAuthProvider>} />
         <Route path="/portal/forgot-password" element={<ForgotPassword />} />
         <Route path="/portal/reset-password" element={<ResetPassword />} />
+
+        {/* Quick-create practice */}
+        <Route path="/portal/create" element={
+          <PortalAuthProvider>
+            <PortalAuthGuard>
+              <PracticeProvider>
+                <CreatePractice />
+              </PracticeProvider>
+            </PortalAuthGuard>
+          </PortalAuthProvider>
+        } />
 
         {/* Protected portal routes */}
         <Route path="/portal/onboard" element={
