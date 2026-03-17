@@ -11,6 +11,7 @@ import PortalSignup from './portal/pages/PortalSignup';
 import ForgotPassword from './portal/pages/ForgotPassword';
 import ResetPassword from './portal/pages/ResetPassword';
 import OnboardingWizard from './portal/pages/OnboardingWizard';
+import CreatePractice from './portal/pages/CreatePractice';
 import PortalDashboard from './portal/pages/Dashboard';
 import GisellePage from './portal/pages/GisellePage';
 import MilesPage from './portal/pages/MilesPage';
