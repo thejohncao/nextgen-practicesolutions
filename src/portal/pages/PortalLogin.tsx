@@ -14,7 +14,7 @@ export default function PortalLogin() {
     setError('');
     setLoading(true);
 
-    const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error: authError } = await supabase.auth.signInWithPassword({ email, password });
 
     if (authError) {
       setError(authError.message);
@@ -22,8 +22,7 @@ export default function PortalLogin() {
       return;
     }
 
-    // Check if user has a practice
-    const { data: { user } } = await supabase.auth.getUser();
+    const user = data?.user;
     if (user) {
       const { data: profile } = await supabase
         .from('profiles')
@@ -34,7 +33,7 @@ export default function PortalLogin() {
       if (profile?.role === 'admin' || profile?.practice_id) {
         navigate('/portal');
       } else {
-        navigate('/portal/onboard');
+        navigate('/portal/create');
       }
     }
     setLoading(false);
