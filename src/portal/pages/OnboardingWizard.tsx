@@ -66,7 +66,7 @@ export default function OnboardingWizard() {
   };
 
   const handleBack = () => {
-    if (step > 0) setOnboardingStep(step - 1);
+    if (step > minStep) setOnboardingStep(step - 1);
   };
 
   return (
