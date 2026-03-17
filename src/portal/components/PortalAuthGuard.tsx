@@ -1,8 +1,9 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { usePortalAuth } from '../context/PortalAuthContext';
 
 export default function PortalAuthGuard({ children }: { children: React.ReactNode }) {
-  const { user, isLoading } = usePortalAuth();
+  const { user, profile, isLoading, isAdmin } = usePortalAuth();
+  const location = useLocation();
 
   if (isLoading) {
     return (
@@ -17,6 +18,12 @@ export default function PortalAuthGuard({ children }: { children: React.ReactNod
 
   if (!user) {
     return <Navigate to="/portal/login" replace />;
+  }
+
+  // Redirect users without a practice to /portal/create (unless already there or admin)
+  const isOnCreatePage = location.pathname === '/portal/create';
+  if (profile && !profile.practice_id && !isAdmin && !isOnCreatePage) {
+    return <Navigate to="/portal/create" replace />;
   }
 
   return <>{children}</>;

@@ -56,6 +56,17 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/portal/forgot-password" element={<ForgotPassword />} />
         <Route path="/portal/reset-password" element={<ResetPassword />} />
 
+        {/* Quick-create practice */}
+        <Route path="/portal/create" element={
+          <PortalAuthProvider>
+            <PortalAuthGuard>
+              <PracticeProvider>
+                <CreatePractice />
+              </PracticeProvider>
+            </PortalAuthGuard>
+          </PortalAuthProvider>
+        } />
+
         {/* Protected portal routes */}
         <Route path="/portal/onboard" element={
           <PortalAuthProvider>

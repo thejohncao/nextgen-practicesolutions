@@ -23,8 +23,9 @@ export default function OnboardingWizard() {
   const navigate = useNavigate();
   const { onboardingState, setOnboardingStep, completeOnboarding, isDemo, createPractice } = usePractice();
 
-  // Determine the current step — for new practices (demo mode), start at 0
-  const step = onboardingState?.currentStep ?? 0;
+  // If practice already exists (not demo), skip step 0 (practice info) — start at 1
+  const minStep = isDemo ? 0 : 1;
+  const step = Math.max(onboardingState?.currentStep ?? minStep, minStep);
   const StepComponent = STEP_COMPONENTS[step] || STEP_COMPONENTS[0];
   const isLast = step === STEP_COMPONENTS.length - 1;
 
