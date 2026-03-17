@@ -50,11 +50,18 @@ export function PortalAuthProvider({ children }: { children: ReactNode }) {
   }, [user, fetchProfile]);
 
   useEffect(() => {
+    let mounted = true;
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      if (!mounted) return;
       const u = session?.user ?? null;
       setUser(u);
       if (u) {
-        await fetchProfile(u.id);
+        try {
+          await fetchProfile(u.id);
+        } catch (e) {
+          console.error('Failed to fetch profile:', e);
+        }
       } else {
         setProfile(null);
         setActivePracticeId(null);
@@ -63,15 +70,25 @@ export function PortalAuthProvider({ children }: { children: ReactNode }) {
     });
 
     supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (!mounted) return;
       const u = session?.user ?? null;
       setUser(u);
       if (u) {
-        await fetchProfile(u.id);
+        try {
+          await fetchProfile(u.id);
+        } catch (e) {
+          console.error('Failed to fetch profile:', e);
+        }
       }
       setIsLoading(false);
+    }).catch(() => {
+      if (mounted) setIsLoading(false);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const signOut = useCallback(async () => {
