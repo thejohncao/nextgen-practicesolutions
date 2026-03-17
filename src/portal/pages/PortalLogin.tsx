@@ -1,42 +1,46 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
+import { usePortalAuth } from '../context/PortalAuthContext';
 
 export default function PortalLogin() {
   const navigate = useNavigate();
+  const { user, profile, isLoading } = usePortalAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
+  useEffect(() => {
+    if (isLoading || !user) return;
 
-    const { data, error: authError } = await supabase.auth.signInWithPassword({ email, password });
-
-    if (authError) {
-      setError(authError.message);
-      setLoading(false);
+    if (profile?.role === 'admin' || profile?.practice_id) {
+      navigate('/portal', { replace: true });
       return;
     }
 
-    const user = data?.user;
-    if (user) {
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('practice_id, role')
-        .eq('id', user.id)
-        .single();
+    navigate('/portal/create', { replace: true });
+  }, [isLoading, navigate, profile, user]);
 
-      if (profile?.role === 'admin' || profile?.practice_id) {
-        navigate('/portal');
-      } else {
-        navigate('/portal/create');
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (loading) return;
+
+    setError('');
+    setLoading(true);
+
+    try {
+      const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
+
+      if (authError) {
+        setError(authError.message);
+        return;
       }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unable to sign in right now. Please try again.');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
