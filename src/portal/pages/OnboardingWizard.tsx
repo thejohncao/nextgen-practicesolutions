@@ -117,7 +117,7 @@ export default function OnboardingWizard() {
           <div className="border-t border-white/[0.06] px-6 md:px-12 py-4 flex items-center justify-between flex-shrink-0">
             <button
               onClick={handleBack}
-              disabled={step === 0}
+              disabled={step === minStep}
               className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-[#9CA3AF] hover:bg-white/[0.06] disabled:opacity-30 disabled:cursor-not-allowed transition"
             >
               <ArrowLeft className="w-4 h-4" />
